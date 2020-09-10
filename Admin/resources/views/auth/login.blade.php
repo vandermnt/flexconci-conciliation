@@ -202,6 +202,7 @@ $('#submitFormLogin').click(function(){
         // console.log(response[2]);
 
         if(response[1] == 'user_global'){
+          console.log(response[0]);
           bodymodal = document.getElementById("bodymodal");
           response[0].forEach(res => {
 

@@ -18,15 +18,15 @@
           <th> Dt.Venda </th>
           <th> Dt.Prevista </th>
           <th> Bandeira </th>
-          <th> Modalidade </th>
+          <th> Modalid. </th>
           <th> NSU </th>
-          <th> Autorização </th>
+          <th> Aut. </th>
           <th> Cartão</th>
-          <th> Valor Bruto </th>
+          <th> Val. Bruto </th>
           <th> Taxa % </th>
           <th> Taxa R$</th>
-          <th> Valor Líquido </th>
-          <th> Parcela</th>
+          <th> Val. Líq. </th>
+          <th> Parc.</th>
           <th> Total Parc. </th>
           <th> Hora</th>
           <th> Estabelecimento </th>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Request;
 use App\ConciliacaoBancariaModel;
 use App\ClienteModel;
+use Auth;
 
 class ConciliacaoController extends Controller{
 
@@ -40,16 +41,34 @@ class ConciliacaoController extends Controller{
 
       date_default_timezone_set('America/Sao_Paulo');
       $date = date('Y-m-d');
+      $date_historico = date('d-m-Y');
+
+      $hora_envio = date('H:i:s');
 
       //salva os dados
       $extrato->COD_CLIENTE = session('codigologin');
       $extrato->CNPJ = $dados_cliente->CPF_CNPJ;
       $extrato->DATA = $date;
+      $extrato->DATA_ENVIO = $date;
+      $extrato->HORA_ENVIO = $hora_envio;
+      $extrato->HISTORICO = Auth::user()->USUARIO . " fez a conciliação em " . $date_historico . " às " . $hora_envio;
+
+
       $extrato->COD_STATUS_BANCARIO = 1;
       $extrato->ARQUIVO = $conteudo_arq;
       $extrato->save();
     }
 
-    return json_encode(true);
+    return response()->json(200);
+  }
+
+  public function atualizarConciliacoesProcessadas(){
+
+    $conciliacoes = ConciliacaoBancariaModel::where('COD_CLIENTE', '=', session('codigologin'))
+    ->where('COD_STATUS_BANCARIO', '=', 1)
+    ->get();
+
+    return $conciliacoes;
+
   }
 }

@@ -146,7 +146,7 @@
       <div class="col-lg-12">
         <div class="card">
           <div class="card-body">
-            <h1 class="header-title mt-0" style="text-align: center">Dashboard Rececimentos Operadoras</h1>
+            <h1 class="header-title mt-0" style="text-align: center">Dashboard Recebimentos Operadoras</h1>
             <div class="row">
               <div class="col-6">
                 <div class="dropdown">
@@ -444,10 +444,16 @@
     var dados_dash_vendas_modalidade = <?php echo $dados_dash_vendas_modalidade ?>;
     var dados_dash_vendas_bandeira = <?php echo $dados_dash_vendas_bandeira ?>;
 </script>
-<script type="text/javascript" src="assets/js/autorizacao-cielo2.js">  </script>
+<!-- <script type="text/javascript" src="assets/js/autorizacao-cielo.js">  </script> -->
 <script type="text/javascript" src="assets/js/grafico-dash-vendas.js">  </script>
 
 <script>
+
+$(window).on("load", function () {
+  preCarregarGraficoVendas();
+  // página totalmente carregada (DOM, imagens etc.)
+});
+
 
 var periodo = null;
 var grafico_vendas = null;

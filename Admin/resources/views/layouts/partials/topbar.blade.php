@@ -68,7 +68,9 @@
   <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
   aria-haspopup="false" aria-expanded="false">
   <img src="{{ URL::asset('assets/images/users/user-4.jpg')}}" alt="profile-user" class="rounded-circle" />
-  <span class="ml-1 nav-user-name hidden-sm">{{Session::get('codigologin') }} <i class="mdi mdi-chevron-down"></i> </span>
+  <!-- <span class="ml-1 nav-user-name hidden-sm">{{Session::get('codigologin') }} <i class="mdi mdi-chevron-down"></i> </span> -->
+  <span class="ml-1 nav-user-name hidden-sm">{{Auth::user()->NOME }} <i class="mdi mdi-chevron-down"></i> </span>
+
 </a>
 <div class="dropdown-menu dropdown-menu-right">
   <a class="dropdown-item" href="#"><i class="dripicons-user mr-2"></i> Editar Perfil</a>
@@ -284,13 +286,23 @@ aria-haspopup="false" aria-expanded="false">
   <a style="" class="dropdown-item" href="{{ url('/recebimentos-operadora') }}"> Recebimentos Operadoras</a>
   <a style="" class="dropdown-item" href="#"> Recebimentos Antecipados </a>
   <a style="" class="dropdown-item" href="#"> Despesas Extras (DOC/TEC/Aluguel/Outras/Tarifas)</a>
-  <a style="" class="dropdown-item" href="#"> Previsão de Recebimentos Futuros</a>
+  <a style="" class="dropdown-item" href="{{ url('/previsao-recebimentos') }}"> Previsão de Recebimentos Futuros</a>
   <a style="" class="dropdown-item" href="{{ url('/antecipacao')}}"> Antecipação Trava Livre</a>
 
 
 </div>
 </li>
-@if(Auth::user()->USUARIO_GLOBAL == 'S')
+
+<li>
+  <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
+  aria-haspopup="false" aria-expanded="false">
+  <span dropzone=""class="ml-1 nav-user-name hidden-sm">Cadastros <i class="mdi mdi-chevron-down"></i> </span>
+</a>
+<div class="dropdown-menu dropdown-menu-left" style="background: white;">
+  <a style="" class="dropdown-item" href="{{ url('/historico-bancario') }}"> Histórico Bancário</a>
+</div>
+</li>
+<!-- @if(Auth::user()->USUARIO_GLOBAL == 'S')
 <li>
   <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
   aria-haspopup="false" aria-expanded="false">
@@ -300,7 +312,7 @@ aria-haspopup="false" aria-expanded="false">
   <a style="" class="dropdown-item" href="{{ url('/autorizacao-credenciadora') }}"> Autorização Cielo</a>
 </div>
 </li>
-@endif
+@endif -->
 
 <!-- <li>
 <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"

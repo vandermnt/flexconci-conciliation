@@ -514,7 +514,7 @@ $(document).ready(function(){
               </a>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <a class="dropdown-item" id="dp-item"  href="{{ action('VendasController@downloadTable') }}">  PDF</a>
-                <a class="dropdown-item" id="dp-item"  onclick="download_table_as_csv('mytable');" href="#">  CSV</a>
+                <a class="dropdown-item" id="dp-item"  onclick="download_table_as_csv('jsgrid-table');" href="#">  CSV</a>
               </div>
             </div>
           </div>
@@ -525,35 +525,35 @@ $(document).ready(function(){
         <br>
         <div style="overflow: scroll; font-size: 13px; overflow-x: scroll; height: 470px">
 
-          <table id="jsgrid-table" class="table " style="white-space: nowrap; background:white; color: #2D5275">
+          <table id="jsgrid-table" class="table " style="white-space: nowrap; background:color: #2D5275; color: #2D5275">
 
             <thead>
               <tr style="background: #2D5275; ">
-                <th style="color: white"  class=''> Empresa  </th>
-                <th style="color: white"  class=''> CNPJ   </th>
-                <th style="color: white"  class=''> Operadora </th>
-                <th style="color: white"  class=''> Dt.Venda  </th>
-                <th style="color: white"  class=''> Dt.Prevista  </th>
-                <th style="color: white"  class=''> Bandeira </th>
-                <th style="color: white"  class=""> Modalidade </th>
-                <th style="color: white"  class=""> NSU </th>
-                <th style="color: white"  class=""> Autorização </th>
-                <th style="color: white"  class=""> Cartão </th>
-                <th style="color: white"  class=""> Valor Bruto </th>
-                <th style="color: white"  class=""> Taxa %  </th>
-                <th style="color: white"  class=""> Taxa R$ </th>
-                <th style="color: white"  class=""> Outras Tarifas </th>
-                <th style="color: white"  class=""> Valor Líquido  </th>
-                <th style="color: white"  class=""> Parcela </th>
-                <th style="color: white"  class=""> Total Parc. </th>
-                <th style="color: white"  class=""> Hora </th>
-                <th style="color: white"  class=""> Estabelecimento </th>
-                <th style="color: white"  class=""> Banco </th>
-                <th style="color: white"  class=""> Agência </th>
-                <th style="color: white"  class=""> Conta </th>
-                <th style="color: white"  class=""> Observação </th>
-                <th style="color: white"  class=""> Produto </th>
-                <th style="color: white"  class=""> Ação </th>
+                <th style="color: white; background: #2D5275"  class=''> Empresa  </th>
+                <th style="color: white; background: #2D5275"  class=''> CNPJ   </th>
+                <th style="color: white; background: #2D5275"  class=''> Operadora </th>
+                <th style="color: white; background: #2D5275"  class=''> Dt.Venda  </th>
+                <th style="color: white; background: #2D5275"  class=''> Dt.Prevista  </th>
+                <th style="color: white; background: #2D5275"  class=''> Bandeira </th>
+                <th style="color: white; background: #2D5275"  class=""> Forma de Pagamento </th>
+                <th style="color: white; background: #2D5275"  class=""> NSU </th>
+                <th style="color: white; background: #2D5275"  class=""> Autorização </th>
+                <th style="color: white; background: #2D5275"  class=""> Cartão </th>
+                <th style="color: white; background: #2D5275"  class=""> Valor Bruto </th>
+                <th style="color: white; background: #2D5275"  class=""> Taxa %  </th>
+                <th style="color: white; background: #2D5275"  class=""> Taxa R$ </th>
+                <th style="color: white; background: #2D5275"  class=""> Outras Tarifas </th>
+                <th style="color: white; background: #2D5275"  class=""> Valor Líquido  </th>
+                <th style="color: white; background: #2D5275"  class=""> Parcela </th>
+                <th style="color: white; background: #2D5275"  class=""> Total Parc. </th>
+                <th style="color: white; background: #2D5275"  class=""> Hora </th>
+                <th style="color: white; background: #2D5275"  class=""> Estabelecimento </th>
+                <th style="color: white; background: #2D5275"  class=""> Banco </th>
+                <th style="color: white; background: #2D5275"  class=""> Agência </th>
+                <th style="color: white; background: #2D5275"  class=""> Conta </th>
+                <th style="color: white; background: #2D5275"  class=""> Observação </th>
+                <th style="color: white; background: #2D5275"  class=""> Produto </th>
+                <th style="color: white; background: #2D5275"  class=""> Ação </th>
               </tr>
               <!-- <tr>
               <th style="color: white" scope="col" class='handle'> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
@@ -646,7 +646,7 @@ $(document).ready(function(){
         <th scope="col"><i class="fas fa-filter"></i> <br>Dt.Venda </th>
         <th scope="col"><i class="fas fa-filter"></i><br> Dt.Prevista </th>
         <th scope="col"><i class="fas fa-filter"></i><br> Bandeira </th>
-        <th scope="col"><i class="fas fa-filter"></i> <br>Modalidade </th>
+        <th scope="col"><i class="fas fa-filter"></i> <br>Forma de Pagamento </th>
         <th scope="col"><i class="fas fa-filter"></i> <br>NSU </th>
         <th scope="col"> <i class="fas fa-filter"></i><br>Autorização </th>
         <th scope="col"> <i class="fas fa-filter"></i><br> Cartão</th>
@@ -734,9 +734,17 @@ $('#submitFormLogin').click(function(){
   if(document.getElementById("rodapeTable")){
     var node = document.getElementById("557");
     var nodee = document.getElementById("rodapeTable");
-    if (node.parentNode) {
-      node.parentNode.removeChild(node);
-      nodee.parentNode.removeChild(nodee);
+
+    if(node != null){
+      if (node.parentNode) {
+        node.parentNode.removeChild(node);
+      }
+    }
+
+    if(nodee != null){
+      if (nodee.parentNode) {
+        nodee.parentNode.removeChild(nodee);
+      }
     }
   }
 
@@ -755,10 +763,9 @@ $('#submitFormLogin').click(function(){
 
   grupo_clientes.forEach((grupo_cliente) => {
     if(document.getElementById(grupo_cliente.CODIGO).checked){
-      array.push(grupo_cliente.CODIGO);
+      array.push(grupo_cliente.CNPJ);
     }
   });
-
   adquirentes.forEach((adquirente) => {
     if(document.getElementById(adquirente.CODIGO).checked){
       arrayAdquirentes.push(adquirente.CODIGO);
@@ -772,10 +779,13 @@ $('#submitFormLogin').click(function(){
   });
 
   bandeiras.forEach((bandeira) => {
+    console.log("BANDEIRAAAAAAAAAAAAA");
     if(document.getElementById(bandeira.CODIGO).checked){
       arrayBandeira.push(bandeira.CODIGO);
     }
   });
+  console.log(array);
+
   document.getElementById("preloader").style.display = "block";
   // if(document.getElementById("557") && document.getElementById("rodapeTable")){
   //   var node = document.getElementById("557");
@@ -796,7 +806,6 @@ $('#submitFormLogin').click(function(){
       if(response){
 
         for(var i=0;i< response[0].length; i++){
-
           var data_v = new Date(response[0][i].DATA_VENDA);
           var data_venda = data_v.toLocaleDateString();
 
@@ -826,10 +835,12 @@ $('#submitFormLogin').click(function(){
           });
           const formatted_tx = formattertx.format(val_tx);
 
+          var cod = response[0][i].COD;
+
           //tira 2 casas decimais da taxa
           var a = response[0][i].PERCENTUAL_TAXA;
           var val_taxa = Number(a).toFixed(2);
-          var html = "<tr id='557'>";
+          var html = "<tr id='"+cod+"' onclick='mudaCorLinhaTable("+cod+")'>";
 
           // setTimeout(function () {
           html +="<td>"+response[0][i].EMPRESA+"</td>";
@@ -863,7 +874,7 @@ $('#submitFormLogin').click(function(){
           // var url = "{{ url('/impressao-vendas')}}"+"/"+response[0][i].COD;
           var url = "#";
 
-          html +="<td>"+"<a href='"+url+"' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+          html +="<td>"+"<a href='{{ url('/impressao-vendas')}}"+"/"+response[0][i].COD+"' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
           html +="</tr>";
           $('#jsgrid-table').append(html);
           // },100);
@@ -1219,13 +1230,18 @@ function download_table_as_csv(table_id) {
 
 var mudacor = false;
 function mudaCorLinhaTable(codigo){
+  // if(mudacor){
+  var cor = document.getElementById(codigo).style.backgroundColor;
 
-  if(mudacor){
-    document.getElementById(codigo).style = "background: white; color: #2D5275";
-    mudacor = false;
-  }else{
-    document.getElementById(codigo).style = "background: #2D5275; color: white";
-    mudacor = true;
+  if(cor == "rgb(45, 82, 117)"){
+    console.log(cor);
+    document.getElementById(codigo).style = "background: #EDF0F5; color: #2D5275";
+    // mudacor = false;
+  }
+
+  else{
+    document.getElementById(codigo).style = "background: #2D5275; color: #EDF0F5";
+    // mudacor = true;
   }
 }
 

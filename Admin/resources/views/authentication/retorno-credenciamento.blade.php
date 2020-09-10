@@ -25,7 +25,7 @@
                 </div><br>
                 <div class="text-center">
                   <!-- <label for="userpassword">E-mail</label> -->
-                  <p class="text-muted mb-0"><b><i class="far fa-check-circle"></i> Credenciamento feito com sucesso!</b></p>
+                  <p class="" id="msg"><b> </b></p>
                 </div>
                 <div class="form-group mb-0 row">
                   <div class="col-12 mt-2">
@@ -60,7 +60,7 @@ $(window).on("load", function () {
         xhr.setRequestHeader(
           "Authorization",
           "Basic " +
-          "MGQ4NzM5NDEtNGFlNi0zMzQ0LWJkNzItNjNmOWZmNDA1OGE4OmYzMzBiYWNmLTg2ZTUtM2I1Ny04YzI3LTQzNDk3MzdhMzY0YQ=="
+          "MmNkNzFmOGUtYWFmMS0zZDdhLWIxMzktODAxN2I0Y2QwMWYxOmIyNjNjYTg2LWUwMGUtMzA3My04MWIyLTRmNjk1ZWJlZGUzYQ=="
         );
       },
       data: { grant_type: "authorization_code", code: code[2] },
@@ -69,9 +69,6 @@ $(window).on("load", function () {
 
         acess_token = response["access_token"];
         refresh_token = response["refresh_token"];
-
-        // acess_token = "d20bf885-0ad1-3d5e-b505-1b7d59c6dbc6";
-        // refresh_token = "ee802773-e45a-37e4-a587-faa9fa323fa5";
 
         array = [
           "SELL",
@@ -90,7 +87,7 @@ $(window).on("load", function () {
           },
           data: JSON.stringify({
             type: array,
-            merchantEMail: "implantacao@conciflex.com.rb",
+            merchantEMail: email,
           }),
           contentType: "application/json; charset=utf-8",
           dataType: "json",
@@ -120,27 +117,40 @@ $(window).on("load", function () {
               dataType: "json",
               success: function (response) {
                 console.log(response);
+                document.getElementById("msg").style = "color: green";
+
+                document.getElementById("msg").innerHTML = "<b>Credenciamento feito com sucesso!</b>";
               },
             });
           },
+        }).fail(function () {
+          alert("Erro");
+          document.getElementById("msg").style = "color: red";
+          document.getElementById("msg").innerHTML = "<b>Erro ao fazer o credenciamento! Estabelecimento já credenciado!";
+          return;
         });
-          },
-        });
-      }
+      },
+    }).fail(function () {
+      alert("Erro");
+      document.getElementById("msg").style = "color: red";
+      document.getElementById("msg").innerHTML = "<b>Erro ao gerar o access_token. Não foi possível realizar o credenciamento. Tente novamente!";
+      return;
     });
+  }
+});
 
-    </script>
+</script>
 
-    @section('footerScript')
+@section('footerScript')
 
-    <script type="text/javascript">
+<script type="text/javascript">
 
 
-    $(document).ready(function() {
-      document.body.classList.add('account-body');
-      document.body.classList.add('accountbg');
-    });
+$(document).ready(function() {
+  document.body.classList.add('account-body');
+  document.body.classList.add('accountbg');
+});
 
-    </script>
+</script>
 
-    @stop
+@stop

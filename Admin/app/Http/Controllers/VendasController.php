@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Request;
 use DB;
+use PDF;
 use App\ModalidadesModel;
 use App\AdquirentesModel;
 use App\VendasModel;
@@ -11,6 +12,7 @@ use App\BandeiraModel;
 use App\ClienteOperadoraModel;
 use App\StatusConciliacaoModel;
 use App\GruposClientesModel;
+use App\Http\Controllers\DOMPDF;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Illuminate\Pagination\BootstrapThreePresenter;
@@ -95,7 +97,7 @@ class VendasController extends Controller{
       if(Request::only('arrayBandeira') != null){
         $bandeiras = Request::only('arrayBandeira');
         foreach ($bandeiras['arrayBandeira'] as $bandeira) {
-          $query->orWhere('BANDEIRA', '=', $bandeira);
+          $query->orWhere('COD_BANDEIRA', '=', $bandeira);
         }
       }
     })
@@ -155,7 +157,7 @@ class VendasController extends Controller{
       if(Request::only('arrayBandeira') != null){
         $bandeiras = Request::only('arrayBandeira');
         foreach ($bandeiras['arrayBandeira'] as $bandeira) {
-          $query->orWhere('BANDEIRA', '=', $bandeira);
+          $query->orWhere('COD_BANDEIRA', '=', $bandeira);
         }
       }
     })
@@ -214,7 +216,7 @@ class VendasController extends Controller{
       if(Request::only('arrayBandeira') != null){
         $bandeiras = Request::only('arrayBandeira');
         foreach ($bandeiras['arrayBandeira'] as $bandeira) {
-          $query->orWhere('BANDEIRA', '=', $bandeira);
+          $query->orWhere('COD_BANDEIRA', '=', $bandeira);
         }
       }
     })
@@ -273,7 +275,7 @@ class VendasController extends Controller{
       if(Request::only('arrayBandeira') != null){
         $bandeiras = Request::only('arrayBandeira');
         foreach ($bandeiras['arrayBandeira'] as $bandeira) {
-          $query->orWhere('BANDEIRA', '=', $bandeira);
+          $query->orWhere('COD_BANDEIRA', '=', $bandeira);
         }
       }
     })
@@ -332,7 +334,7 @@ class VendasController extends Controller{
       if(Request::only('arrayBandeira') != null){
         $bandeiras = Request::only('arrayBandeira');
         foreach ($bandeiras['arrayBandeira'] as $bandeira) {
-          $query->orWhere('BANDEIRA', '=', $bandeira);
+          $query->orWhere('COD_BANDEIRA', '=', $bandeira);
         }
       }
     })
@@ -354,7 +356,7 @@ class VendasController extends Controller{
     $qtde_registros = $vendas->count();
 
     $val_taxas = $val_bruto->val_bruto - $val_liquido->val_liquido;
-    session()->put('prev_pg_download', $todas_vendas);
+    session()->put('prev_pg_download', $vendas);
 
     $modalidades = ModalidadesModel::orderBy('DESCRICAO', 'ASC')->get();
     $adquirentes = AdquirentesModel::orderBy('ADQUIRENTE', 'ASC')->get();
@@ -403,9 +405,30 @@ class VendasController extends Controller{
   public function downloadTable(){
     $vendas = session()->get('prev_pg_download');
     set_time_limit(600);
-
-    $pdf = \PDF::loadView('tabela_vendas', compact('vendas'));
+    // dd($vendas);
+    $pdf = \PDF::loadView('vendas.tabela_vendas', compact('vendas'));
     return $pdf->setPaper('A4', 'landscape')
     ->download('prev_pag.pdf');
+  }
+
+  public function impressaoCupom($codigo){
+
+    $venda = DB::table('vendas')
+    ->join('modalidade', 'vendas.CODIGO_MODALIDADE', '=', 'modalidade.CODIGO')
+    ->join('bandeira', 'vendas.COD_BANDEIRA', '=', 'bandeira.CODIGO')
+    ->join('lista_bancos', 'vendas.BANCO', '=', 'lista_bancos.CODIGO')
+    ->leftJoin('produto_web', 'vendas.COD_PRODUTO', '=', 'produto_web.CODIGO')
+    ->select('vendas.*', 'vendas.CODIGO as COD', 'modalidade.*', 'produto_web.*', 'lista_bancos.BANCO')
+    ->where('vendas.CODIGO', '=', $codigo)
+    ->first();
+    // dd($venda);
+    $customPaper = array(0, 0, 240.53, 210.28);
+    return \PDF::loadView('vendas.vendas-impressao', compact('venda'))
+               // Se quiser que fique no formato a4 retrato: ->setPaper('a4', 'landscape')
+               ->setPaper($customPaper, 'landscape')
+               ->stream('cupom.pdf');
+
+
+    // return view('vendas.vendas-impressao')->with('venda', $venda);
   }
 }

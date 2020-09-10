@@ -70,10 +70,11 @@ class LoginController extends Controller
   }
 
   public function postLogin(Request $request){
-  
+
     $user = User::where('SENHA', '=', $request->autenticacao['password'])
     ->where('USUARIO', '=', $request->autenticacao['user'])
     ->first();
+
 
     if($user){
       if($user->USUARIO_GLOBAL == 'S'){

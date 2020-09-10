@@ -3034,6 +3034,21 @@ p {
   margin: 0 5px 8px 0;
 }
 
+#btEnviarExtrato{
+  margin-top: 5px;
+  background: #FF6B00;
+  color: white;
+  box-shadow: 0px 3px 10px 0 #e25f00;
+
+}
+
+#btEnviarExtrato:hover{
+  margin-top: 5px;
+  background: #FF6B00;
+  color: white;
+  box-shadow: none;
+}
+
 .btn {
   transition: 0.3s ease-out;
   box-shadow: 0 7px 14px 0 rgba(234, 240, 249, 0.5);

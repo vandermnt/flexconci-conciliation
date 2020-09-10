@@ -46,17 +46,26 @@ Route::group(['middleware' => 'auth'], function() {
   //AUTORIZACAO CREDENCIADORA
   Route::post('/autorizar-acesso', 'AutorizacaoAcessoController@autorizarAcesso');
 
+  //CADASTRO HISTÓRICO BANCÁRIO
+  Route::get('/historico-bancario', 'CadastroHistoricoBancarioController@cadastroHistoricoBancario');
+  Route::post('/post-historico', 'CadastroHistoricoBancarioController@newCadastroHistoricoBancario');
+  Route::get('/load-historico-bancario', 'CadastroHistoricoBancarioController@loadHistoricoBancario');
+
   //CONCILIAÇÃO
   Route::get('/conciliacao-bancaria', function() {
       return view('conciliacao.conciliacao-bancaria');
   });
-  Route::post('/conciliacao-bancaria', 'ConciliacaoController@conciliacaoBancaria');
+  Route::post('/enviar-extrato', 'ConciliacaoController@conciliacaoBancaria');
+  Route::get('/atualizar-conciliacoes-processadas', 'ConciliacaoController@atualizarConciliacoesProcessadas');
+
 
   //IMPRESSAO VENDAS
-  Route::get('/impressao-vendas/{response}', function() {
-      return view('vendas.vendas-impressao');
-  })->name('vendas-impressao');
+  Route::get('/impressao-vendas/{codigo}', 'VendasController@impressaoCupom');
   Route::post('/dados-cliente', 'ClienteController@dadosCliente');
+
+  //RECEBIMENTOS - PREVISÃO RECEBIMENTOS
+  Route::get('/previsao-recebimentos', 'PrevisaoRecebimentosController@previsaoRecebimentos');
+  Route::post('/previsaorecebimentos', 'PrevisaoRecebimentosController@loadPrevisaoRecebimentos');
 
 });
 
