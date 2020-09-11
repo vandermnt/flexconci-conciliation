@@ -70,10 +70,10 @@ class VendasController extends Controller{
       }
     })
     ->where(function($query) {
-      if(Request::only('status_conciliacao') != null){
-        $status_conciliacao = Request::only('status_conciliacao');
-        foreach($status_conciliacao as $status_conciliacaoo) {
-          $query->orWhereNotNull('COD_STATUS_CONCILIACAO')->orWhere('COD_STATUS_CONCILIACAO', '=', $status_conciliacaoo.CODIGO);
+      if(Request::only('arrayStatusConciliacao') != null){
+        $status_conciliacao = Request::only('arrayStatusConciliacao');
+        foreach($status_conciliacao['arrayStatusConciliacao'] as $status_conciliacaoo) {
+          $query->orWhere('COD_STATUS_CONCILIACAO', '=', $status_conciliacaoo);
         }
       }
     })
@@ -89,7 +89,7 @@ class VendasController extends Controller{
       if(Request::only('arrayAdquirentes') != null){
         $adquirentes = Request::only('arrayAdquirentes');
         foreach ($adquirentes['arrayAdquirentes'] as $adquirente) {
-          $query->orWhere('ADQUIRENTE', '=', $adquirente);
+          $query->orWhere('ADQID', '=', $adquirente);
         }
       }
     })
@@ -102,9 +102,9 @@ class VendasController extends Controller{
       }
     })
     ->where(function($query) {
-      if(Request::only('status_financeiro') != null){
-        $status_financeiros = Request::only('status_financeiro');
-        foreach ($status_financeiros['status_financeiro'] as $status_financeiro) {
+      if(Request::only('arrayStatusFinanceiro') != null){
+        $status_financeiros = Request::only('arrayStatusFinanceiro');
+        foreach ($status_financeiros['arrayStatusFinanceiro'] as $status_financeiro) {
           $query->orWhereNull('COD_STATUS_FINANCEIRO')->orWhere('COD_STATUS_FINANCEIRO', '=', $status_financeiro);
         }
       }
@@ -130,10 +130,10 @@ class VendasController extends Controller{
       }
     })
     ->where(function($query) {
-      if(Request::only('status_conciliacao') != null){
-        $status_conciliacao = Request::only('status_conciliacao');
-        foreach($status_conciliacao as $status_conciliacaoo) {
-          $query->orWhereNotNull('COD_STATUS_CONCILIACAO')->orWhere('COD_STATUS_CONCILIACAO', '=', $status_conciliacaoo.CODIGO);
+      if(Request::only('arrayStatusConciliacao') != null){
+        $status_conciliacao = Request::only('arrayStatusConciliacao');
+        foreach($status_conciliacao['arrayStatusConciliacao'] as $status_conciliacaoo) {
+          $query->orWhere('COD_STATUS_CONCILIACAO', '=', $status_conciliacaoo);
         }
       }
     })
@@ -149,7 +149,7 @@ class VendasController extends Controller{
       if(Request::only('arrayAdquirentes') != null){
         $adquirentes = Request::only('arrayAdquirentes');
         foreach ($adquirentes['arrayAdquirentes'] as $adquirente) {
-          $query->orWhere('ADQUIRENTE', '=', $adquirente);
+          $query->orWhere('ADQID', '=', $adquirente);
         }
       }
     })
@@ -162,9 +162,9 @@ class VendasController extends Controller{
       }
     })
     ->where(function($query) {
-      if(Request::only('status_financeiro') != null){
-        $status_financeiros = Request::only('status_financeiro');
-        foreach ($status_financeiros['status_financeiro'] as $status_financeiro) {
+      if(Request::only('arrayStatusFinanceiro') != null){
+        $status_financeiros = Request::only('arrayStatusFinanceiro');
+        foreach ($status_financeiros['arrayStatusFinanceiro'] as $status_financeiro) {
           $query->orWhereNull('COD_STATUS_FINANCEIRO')->orWhere('COD_STATUS_FINANCEIRO', '=', $status_financeiro);
         }
       }
@@ -189,10 +189,10 @@ class VendasController extends Controller{
       }
     })
     ->where(function($query) {
-      if(Request::only('status_conciliacao') != null){
-        $status_conciliacao = Request::only('status_conciliacao');
-        foreach($status_conciliacao as $status_conciliacaoo) {
-          $query->orWhereNotNull('COD_STATUS_CONCILIACAO')->orWhere('COD_STATUS_CONCILIACAO', '=', $status_conciliacaoo.CODIGO);
+      if(Request::only('arrayStatusConciliacao') != null){
+        $status_conciliacao = Request::only('arrayStatusConciliacao');
+        foreach($status_conciliacao['arrayStatusConciliacao'] as $status_conciliacaoo) {
+          $query->orWhere('COD_STATUS_CONCILIACAO', '=', $status_conciliacaoo);
         }
       }
     })
@@ -208,7 +208,7 @@ class VendasController extends Controller{
       if(Request::only('arrayAdquirentes') != null){
         $adquirentes = Request::only('arrayAdquirentes');
         foreach ($adquirentes['arrayAdquirentes'] as $adquirente) {
-          $query->orWhere('ADQUIRENTE', '=', $adquirente);
+          $query->orWhere('ADQID', '=', $adquirente);
         }
       }
     })
@@ -221,9 +221,9 @@ class VendasController extends Controller{
       }
     })
     ->where(function($query) {
-      if(Request::only('status_financeiro') != null){
-        $status_financeiros = Request::only('status_financeiro');
-        foreach ($status_financeiros['status_financeiro'] as $status_financeiro) {
+      if(Request::only('arrayStatusFinanceiro') != null){
+        $status_financeiros = Request::only('arrayStatusFinanceiro');
+        foreach ($status_financeiros['arrayStatusFinanceiro'] as $status_financeiro) {
           $query->orWhereNull('COD_STATUS_FINANCEIRO')->orWhere('COD_STATUS_FINANCEIRO', '=', $status_financeiro);
         }
       }
@@ -248,10 +248,10 @@ class VendasController extends Controller{
       }
     })
     ->where(function($query) {
-      if(Request::only('status_conciliacao') != null){
-        $status_conciliacao = Request::only('status_conciliacao');
-        foreach($status_conciliacao as $status_conciliacaoo) {
-          $query->orWhereNotNull('COD_STATUS_CONCILIACAO')->orWhere('COD_STATUS_CONCILIACAO', '=', $status_conciliacaoo.CODIGO);
+      if(Request::only('arrayStatusConciliacao') != null){
+        $status_conciliacao = Request::only('arrayStatusConciliacao');
+        foreach($status_conciliacao['arrayStatusConciliacao'] as $status_conciliacaoo) {
+          $query->orWhere('COD_STATUS_CONCILIACAO', '=', $status_conciliacaoo);
         }
       }
     })
@@ -267,7 +267,7 @@ class VendasController extends Controller{
       if(Request::only('arrayAdquirentes') != null){
         $adquirentes = Request::only('arrayAdquirentes');
         foreach ($adquirentes['arrayAdquirentes'] as $adquirente) {
-          $query->orWhere('ADQUIRENTE', '=', $adquirente);
+          $query->orWhere('ADQID', '=', $adquirente);
         }
       }
     })
@@ -280,9 +280,9 @@ class VendasController extends Controller{
       }
     })
     ->where(function($query) {
-      if(Request::only('status_financeiro') != null){
-        $status_financeiros = Request::only('status_financeiro');
-        foreach ($status_financeiros['status_financeiro'] as $status_financeiro) {
+      if(Request::only('arrayStatusFinanceiro') != null){
+        $status_financeiros = Request::only('arrayStatusFinanceiro');
+        foreach ($status_financeiros['arrayStatusFinanceiro'] as $status_financeiro) {
           $query->orWhereNull('COD_STATUS_FINANCEIRO')->orWhere('COD_STATUS_FINANCEIRO', '=', $status_financeiro);
         }
       }
@@ -307,10 +307,10 @@ class VendasController extends Controller{
       }
     })
     ->where(function($query) {
-      if(Request::only('status_conciliacao') != null){
-        $status_conciliacao = Request::only('status_conciliacao');
-        foreach($status_conciliacao as $status_conciliacaoo) {
-          $query->orWhereNotNull('COD_STATUS_CONCILIACAO')->orWhere('COD_STATUS_CONCILIACAO', '=', $status_conciliacaoo.CODIGO);
+      if(Request::only('arrayStatusConciliacao') != null){
+        $status_conciliacao = Request::only('arrayStatusConciliacao');
+        foreach($status_conciliacao['arrayStatusConciliacao'] as $status_conciliacaoo) {
+          $query->orWhere('COD_STATUS_CONCILIACAO', '=', $status_conciliacaoo);
         }
       }
     })
@@ -326,7 +326,7 @@ class VendasController extends Controller{
       if(Request::only('arrayAdquirentes') != null){
         $adquirentes = Request::only('arrayAdquirentes');
         foreach ($adquirentes['arrayAdquirentes'] as $adquirente) {
-          $query->orWhere('ADQUIRENTE', '=', $adquirente);
+          $query->orWhere('ADQID', '=', $adquirente);
         }
       }
     })
@@ -339,10 +339,10 @@ class VendasController extends Controller{
       }
     })
     ->where(function($query) {
-      if(Request::only('status_financeiro') != null){
-        $status_financeiros = Request::only('status_financeiro');
-        foreach ($status_financeiros['status_financeiro'] as $status_financeiro) {
-          $query->orWhereNull('COD_STATUS_FINANCEIRO')->orWhere('COD_STATUS_FINANCEIRO', '=', $status_financeiro);
+      if(Request::only('arrayStatusFinanceiro') != null){
+        $status_financeiro = Request::only('arrayStatusFinanceiro');
+        foreach($status_financeiro['arrayStatusFinanceiro'] as $status_financeiroo) {
+          $query->orWhere('COD_STATUS_FINANCEIRO', '=', $status_financeiroo);
         }
       }
     })
@@ -363,14 +363,15 @@ class VendasController extends Controller{
     $bandeiras = BandeiraModel::orderBy('BANDEIRA', 'ASC')->get();
     $status_conciliacao = StatusConciliacaoModel::where('CODIGO', '!=', 4)->orderBy('STATUS_CONCILIACAO', 'ASC')->get();
     $grupos_clientes = GruposClientesModel::where('COD_CLIENTE', '=', session('codigologin'))->get();
-
+    $s = Request::only('arrayStatusFinanceiro');
+    $ss = count($s['arrayStatusConciliacao']);
     $val_liquido = number_format($val_liquido->val_liquido, 2,",",".");
     $val_bruto = number_format($val_bruto->val_bruto, 2,",",".");
     $val_taxa_soma = number_format($val_taxa_soma->val_taxa, 2,",",".");
     $val_taxa_percent = number_format($val_taxa_percent->val_taxa_percent, 2, '.', '');
     $val_taxas = number_format($val_taxas, 2,",",".");
 
-    $vendas = json_encode([$vendas, $val_liquido, $val_bruto, $qtde_registros, $val_taxas, $val_taxa_soma, $val_taxa_percent]);
+    $vendas = json_encode([$vendas, $val_liquido, $val_bruto, $qtde_registros, $val_taxas, $val_taxa_soma, $val_taxa_percent, $s['arrayStatusConciliacao'][0]]);
 
     return $vendas;
 
@@ -419,9 +420,10 @@ class VendasController extends Controller{
     ->join('lista_bancos', 'vendas.BANCO', '=', 'lista_bancos.CODIGO')
     ->leftJoin('produto_web', 'vendas.COD_PRODUTO', '=', 'produto_web.CODIGO')
     ->select('vendas.*', 'vendas.CODIGO as COD', 'modalidade.*', 'produto_web.*', 'lista_bancos.BANCO')
+    ->where('vendas.COD_CLIENTE', '=', session('codigologin'))
     ->where('vendas.CODIGO', '=', $codigo)
     ->first();
-    // dd($venda);
+
     $customPaper = array(0, 0, 240.53, 210.28);
     return \PDF::loadView('vendas.vendas-impressao', compact('venda'))
                // Se quiser que fique no formato a4 retrato: ->setPaper('a4', 'landscape')

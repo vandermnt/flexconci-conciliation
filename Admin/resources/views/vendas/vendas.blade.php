@@ -146,7 +146,7 @@ $(document).ready(function(){
                   <div class="form-group">
                     <div class="row">
                       <div class="col-sm-12">
-                        <h6 style="color: #424242; font-size: 11.5px"> Modalidade: </h6>
+                        <h6 style="color: #424242; font-size: 11.5px"> Forma de Pagamento: </h6>
                         <input id="modalidade" style="margin-top: -5px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px; border-color: #2D5275" class="form-control" name="modalidade">
                       </div>
                     </div>
@@ -156,7 +156,7 @@ $(document).ready(function(){
 
               <div class="col-sm-2">
                 <button id="buttonpesquisar" type="button" class="btn btn-sm" data-toggle="modal" data-target="#staticBackdropModalidade" style="margin-top: 9px; width: 100%">
-                  <b>Selecionar Modalidades</b>
+                  <b>Selecionar Forma de Pagamento</b>
                 </button>
               </div>
 
@@ -375,7 +375,7 @@ $(document).ready(function(){
           <div class="modal-dialog" style="width: 270px">
             <div class="modal-content">
               <div class="modal-header" style="background: #2D5275;">
-                <h5 class="modal-title" id="staticBackdropLabel" style="color: white">Modalidade</h5>
+                <h5 class="modal-title" id="staticBackdropLabel" style="color: white">Forma de Pagamento</h5>
                 <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -393,7 +393,7 @@ $(document).ready(function(){
 
                 <div class="row">
                   <div class="col-sm-10">
-                    <p><b>MODALIDADE</b></p>
+                    <p><b>FORMA DE PAGAMENTO</b></p>
                   </div>
 
                   <div class="col-sm-2">
@@ -752,6 +752,8 @@ $('#submitFormLogin').click(function(){
   arrayModalidade = [];
   arrayBandeira = [];
   arrayAdquirentes = [];
+  arrayStatusConciliacao = [];
+  arrayStatusFinanceiro = [];
 
   data_inicial = document.getElementById("date_inicial").value;
   data_final = document.getElementById("date_final").value;
@@ -760,15 +762,33 @@ $('#submitFormLogin').click(function(){
   bandeiras = <?php echo $bandeiras ?>;
   adquirentes = <?php echo $adquirentes ?>;
   status_conciliacao = <?php echo $status_conciliacao ?>;
+  aberto = document.getElementById("aberto").checked;
+  liquidado = document.getElementById("liquidado").checked;
+
+  if(document.getElementById("aberto").checked){
+    arrayStatusFinanceiro.push(1);
+  }
+  if(document.getElementById("liquidado").checked){
+    arrayStatusFinanceiro.push(2);
+  }
+
+  console.log(arrayStatusFinanceiro);
 
   grupo_clientes.forEach((grupo_cliente) => {
     if(document.getElementById(grupo_cliente.CODIGO).checked){
       array.push(grupo_cliente.CNPJ);
     }
   });
+
   adquirentes.forEach((adquirente) => {
     if(document.getElementById(adquirente.CODIGO).checked){
       arrayAdquirentes.push(adquirente.CODIGO);
+    }
+  });
+
+  status_conciliacao.forEach((status) => {
+    if(document.getElementById("statusFinan"+status.CODIGO).checked){
+      arrayStatusConciliacao.push(status.CODIGO);
     }
   });
 
@@ -784,7 +804,6 @@ $('#submitFormLogin').click(function(){
       arrayBandeira.push(bandeira.CODIGO);
     }
   });
-  console.log(array);
 
   document.getElementById("preloader").style.display = "block";
   // if(document.getElementById("557") && document.getElementById("rodapeTable")){
@@ -800,9 +819,10 @@ $('#submitFormLogin').click(function(){
     url: "{{ url('vendasoperadorasfiltro') }}",
     type: "post",
     header:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-    data: ({_token: '{{csrf_token()}}' , data_inicial, data_final, array, arrayAdquirentes, arrayBandeira, arrayModalidade, status_conciliacao}),
+    data: ({_token: '{{csrf_token()}}' , data_inicial, data_final, array, arrayAdquirentes, arrayBandeira, arrayModalidade, arrayStatusConciliacao, arrayStatusFinanceiro}),
     dataType: 'json',
     success: function (response){
+      console.log(response);
       if(response){
 
         for(var i=0;i< response[0].length; i++){

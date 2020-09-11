@@ -50,6 +50,7 @@ Route::group(['middleware' => 'auth'], function() {
   Route::get('/historico-bancario', 'CadastroHistoricoBancarioController@cadastroHistoricoBancario');
   Route::post('/post-historico', 'CadastroHistoricoBancarioController@newCadastroHistoricoBancario');
   Route::get('/load-historico-bancario', 'CadastroHistoricoBancarioController@loadHistoricoBancario');
+  Route::get('/delete-historico-bancario', 'CadastroHistoricoBancarioController@deleteHistoricoBancario');
 
   //CONCILIAÇÃO
   Route::get('/conciliacao-bancaria', function() {
@@ -78,8 +79,6 @@ Route::get('/credeciamento', function() {
 });
 
 Route::post('/credenciamento-edi', 'AutorizacaoAcessoController@credenciarEdi')->name("edi");
-
-
 
 Route::post('/login', 'Auth\LoginController@postLogin')->name('loginlogin');
 Route::post('/login-comercial', 'Auth\LoginController@loginUserComercial')->name('logincomercial');

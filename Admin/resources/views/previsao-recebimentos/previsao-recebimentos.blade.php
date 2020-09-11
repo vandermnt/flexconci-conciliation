@@ -70,7 +70,7 @@ $(document).ready(function(){
                     <div class="row">
                       <div class="col-sm-4">
                         <h6 style="color: #424242; font-size: 11.5px"> Data Recebimento: </h6>
-                        <input style="margin-top: -5px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px; border-color: #2D5275" class="form-control" type="date" id="date_recebimento" value="{{  date("Y-m-01")}}" name="data_recebimento">
+                        <input style="margin-top: -5px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px; border-color: #2D5275" class="form-control" type="date" id="date_recebimento" value="{{  date("Y-m-d")}}" name="data_recebimento">
                       </div>
                     </div>
                   </div>
@@ -470,7 +470,7 @@ $(document).ready(function(){
               <th style="color: white" scope="col" class="handle">  </th>
             </tr> -->
           </thead>
-          <tbody>
+          <tbody id="conteudo_table_vendas">
             @foreach($result as $results)
             <tr id="{{$results->COD}}" onclick="mudaCorLinhaTable({{$results->COD}})">
               <td><?php echo ucfirst(strtolower($results->EMPRESA)) ?></td>
@@ -604,22 +604,31 @@ $(document).ready(function(){
 <script>
 $('#submitFormLogin').click(function(){
   // autenticacao = {
-  if(document.getElementById("rodapeTable")){
     var node = document.getElementById("557");
     var nodee = document.getElementById("rodapeTable");
+    var node_conteudo = document.getElementById("conteudo_table_vendas");
+    console.log(node_conteudo);
 
-    if(node != null){
-      if (node.parentNode) {
-        node.parentNode.removeChild(node);
-      }
-    }
+    $('#jsgrid-table tbody').empty();
 
-    if(nodee != null){
-      if (nodee.parentNode) {
-        nodee.parentNode.removeChild(nodee);
-      }
-    }
-  }
+
+    // if(node != null){
+    //   if (node.parentNode) {
+    //     node.parentNode.removeChild(node);
+    //   }
+    // }
+    //
+    // if(nodee != null){
+    //   if (nodee.parentNode) {
+    //     nodee.parentNode.removeChild(nodee);
+    //   }
+    // }
+    //
+    // if(node_conteudo!=null){
+    //   if(node_conteudo.parentNode){
+    //     node_conteudo.parentNode.removeChild(node_conteudo);
+    //   }
+    // }
 
   array = [];
   arrayModalidade = [];
@@ -628,6 +637,7 @@ $('#submitFormLogin').click(function(){
 
   data_recebimento = document.getElementById("date_recebimento").value;
   domicilio_bancario = document.getElementById("domicilio_bancario").value;
+  console.log(data_recebimento);
 
   modalidades = <?php echo $modalidades ?>;
   bandeiras = <?php echo $bandeiras ?>;
@@ -665,10 +675,14 @@ $('#submitFormLogin').click(function(){
 
         for(var i=0;i< response[0].length; i++){
           var data_v = new Date(response[0][i].DATA_VENDA);
-          var data_venda = data_v.toLocaleDateString();
+          // var data_venda = data_v.toLocaleDateString();
+          data_venda = data_v.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+
 
           var data_p = new Date(response[0][i].DATA_PREVISTA_PAGTO);
-          var data_prev_pag = data_p.toLocaleDateString();
+          data_prev_pag = data_p.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+
+          // var data_prev_pag = data_p.toLocaleDateString();
 
           const number = response[0][i].VALOR_BRUTO;
 

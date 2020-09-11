@@ -121,6 +121,8 @@
               <th style="color: white" > Histórico Banco   </th>
               <th style="color: white" > Adquirente </th>
               <th style="color: white" > Banco  </th>
+              <th style="color: white" > Opções  </th>
+
             </tr>
           </thead>
           <tbody id="conteudo_tabe">
@@ -130,6 +132,8 @@
               <td> {{ $historico->HISTORICO_BANCO }}</td>
               <td> {{ $historico->ADQUIRENTE }}</td>
               <td> {{ $historico->BANCO }}</td>
+              <td><a href="#"><i class='far fa-edit'></i></a> <a href="#"><i style="margin-left: 12px"class="far fa-trash-alt"></i></a></td>
+
             </tr>
             @endforeach
           </tbody>
@@ -192,12 +196,6 @@ function postCadastroHistoricoBancario(){
   var forma_pesquisa = $("input[name='forma_pesquisa']:checked").val();
   var historico_banco = document.getElementById("historico_banco").value;
 
-  console.log(adquirente);
-  console.log(banco);
-  console.log(forma_pesquisa);
-  console.log(historico_banco);
-
-
   $.ajax({
     url: "{{ url('post-historico') }}",
     type: "post",
@@ -242,6 +240,9 @@ function postCadastroHistoricoBancario(){
             html += "<td>"+response[i].HISTORICO_BANCO+"</td>";
             html += "<td>"+response[i].ADQUIRENTE+"</td>";
             html += "<td>"+response[i].BANCO+"</td>";
+            html += "<td>"+"<a href='#'><i class='far fa-edit'></i></a> <a href=''><i style='margin-left: 12px'class='far fa-trash-alt'></i></a>"+"</td>";
+            html += "<td>"+"<a href='#'><i class='far fa-edit'></i></a> <a href=''><i style='margin-left: 12px'class='far fa-trash-alt'></i></a>"+"</td>";
+
 
             html += "</td>";
             $("#table_historico_bancario").append(html);

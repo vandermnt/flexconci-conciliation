@@ -65,4 +65,8 @@ class CadastroHistoricoBancarioController extends Controller{
 
       return $historicos;
     }
+
+    public function deleteHistoricoBancario($codigo_historico_bancario){
+
+    }
 }
