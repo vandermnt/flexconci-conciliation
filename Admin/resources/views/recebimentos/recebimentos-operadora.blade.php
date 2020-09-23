@@ -474,42 +474,42 @@ $(document).ready(function(){
 
             <thead>
               <tr style="background: #2D5275; ">
-                <th style="color: white"  class=''> Empresa  </th>
-                <th style="color: white"  class=''> ID. Loja  </th>
-                <th style="color: white"  class=''> Adquirente  </th>
-                <th style="color: white"  class=""> Bandeira </th>
-                <th style="color: white"  class=""> NSU </th>
-                <th style="color: white"  class=''> Data Transação </th>
-                <th style="color: white"  class=''> Hora Transação </th>
-                <th style="color: white"  class=''> Valor Bruto   </th>
-                <th style="color: white"  class=''> Valor Líquido </th>
-                <th style="color: white"  class=''> Banco  </th>
-                <th style="color: white"  class=''> Agência  </th>
-                <th style="color: white"  class=''> Conta  </th>
+                <th> Empresa  </th>
+                <th> ID. Loja  </th>
+                <th> Adquirente  </th>
+                <th> Bandeira </th>
+                <th> NSU </th>
+                <th> Data Transação </th>
+                <th> Hora Transação </th>
+                <th> Valor Bruto   </th>
+                <th> Valor Líquido </th>
+                <th> Banco  </th>
+                <th> Agência  </th>
+                <th> Conta  </th>
               </tr>
               <!-- <tr>
-              <th style="color: white" scope="col" class='handle'> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class='handle'> <input id="filter_cnpj"style="max-width: 135px; margin: 0">  </th>
-              <th style="color: white" scope="col" class='handle'> <input id="filter_operadora"style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class='handle'> <input id="filter_dt_venda" style="max-width: 135px; margin: 0">  </th>
-              <th style="color: white" scope="col" class='handle'> <input id="filter_dt_prevista" style="max-width: 135px; margin: 0">  </th>
-              <th style="color: white" scope="col" class='handle'> <input id="filter_bandeira"style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class="handle"> <input id="filter_modalidade" style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class="handle"> <input id="filter_nsu" style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class="handle"> <input id="filter_autorizacao" style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class="handle"> <input id="filter_cartao" style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class="handle"> <input id="filter_vlbruto" style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class="handle"> <input id="filter_taxa_reais" style="max-width: 135px; margin: 0">  </th>
-              <th style="color: white" scope="col" class="handle"> <input id="filter_taxa_Perc" style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> > </th>
-              <th style="color: white" scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class="handle">  </th>
+              <th scope="col" class='handle'> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
+              <th scope="col" class='handle'> <input id="filter_cnpj"style="max-width: 135px; margin: 0">  </th>
+              <th scope="col" class='handle'> <input id="filter_operadora"style="max-width: 135px; margin: 0"> </th>
+              <th scope="col" class='handle'> <input id="filter_dt_venda" style="max-width: 135px; margin: 0">  </th>
+              <th scope="col" class='handle'> <input id="filter_dt_prevista" style="max-width: 135px; margin: 0">  </th>
+              <th scope="col" class='handle'> <input id="filter_bandeira"style="max-width: 135px; margin: 0"> </th>
+              <th scope="col" class="handle"> <input id="filter_modalidade" style="max-width: 135px; margin: 0"> </th>
+              <th scope="col" class="handle"> <input id="filter_nsu" style="max-width: 135px; margin: 0"> </th>
+              <th scope="col" class="handle"> <input id="filter_autorizacao" style="max-width: 135px; margin: 0"> </th>
+              <th scope="col" class="handle"> <input id="filter_cartao" style="max-width: 135px; margin: 0"> </th>
+              <th scope="col" class="handle"> <input id="filter_vlbruto" style="max-width: 135px; margin: 0"> </th>
+              <th scope="col" class="handle"> <input id="filter_taxa_reais" style="max-width: 135px; margin: 0">  </th>
+              <th scope="col" class="handle"> <input id="filter_taxa_Perc" style="max-width: 135px; margin: 0"> </th>
+              <th scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> > </th>
+              <th scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> </th>
+              <th scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> </th>
+              <th scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> </th>
+              <th scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> </th>
+              <th scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> </th>
+              <th scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> </th>
+              <th scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> </th>
+              <th scope="col" class="handle">  </th>
             </tr> -->
           </thead>
           <tbody>
@@ -611,14 +611,9 @@ $(document).ready(function(){
 <script>
 
 $('#submitFormLogin').click(function(){
-  if(document.getElementById("rodapeTable")){
-    var node = document.getElementById("557");
-    var nodee = document.getElementById("rodapeTable");
-    if (node.parentNode) {
-      node.parentNode.removeChild(node);
-      nodee.parentNode.removeChild(nodee);
-    }
-  }
+
+  $('#jsgrid-table tbody').empty();
+
   array = [];
   arrayModalidade = [];
   arrayBandeira = [];

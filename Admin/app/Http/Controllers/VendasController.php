@@ -57,7 +57,7 @@ class VendasController extends Controller{
     $vendas = DB::table('vendas')
     ->join('modalidade', 'vendas.CODIGO_MODALIDADE', '=', 'modalidade.CODIGO')
     ->join('bandeira', 'vendas.COD_BANDEIRA', '=', 'bandeira.CODIGO')
-    ->join('lista_bancos', 'vendas.BANCO', '=', 'lista_bancos.CODIGO')
+    ->leftJoin('lista_bancos', 'vendas.BANCO', '=', 'lista_bancos.CODIGO')
     ->leftJoin('produto_web', 'vendas.COD_PRODUTO', '=', 'produto_web.CODIGO')
     ->select('vendas.*', 'vendas.CODIGO as COD', 'modalidade.*', 'produto_web.*', 'lista_bancos.BANCO')
     ->where('vendas.COD_CLIENTE', '=', session('codigologin'))
@@ -111,7 +111,11 @@ class VendasController extends Controller{
     })
     ->where(function($query) {
       if(Request::only('data_inicial') != null){
-        $query->whereBetween('DATA_VENDA', [Request::only('data_inicial'), Request::only('data_final')]);
+        $data_inicial = Request::only('data_inicial');
+        $data_final = Request::only('data_final');
+        $query->whereBetween('DATA_VENDA', [$data_inicial['data_inicial'], $data_final['data_final']]);
+
+        // $query->where('DATA_VENDA', '>=', '2020-08-01')->where('DATA_VENDA', '<=', '2020-09-05');
       }
     })
     ->orderBy('DATA_VENDA')
@@ -171,8 +175,9 @@ class VendasController extends Controller{
     })
     ->where(function($query) {
       if(Request::only('data_inicial') != null){
-        $query->whereBetween('DATA_VENDA', [ Request::only('data_inicial'),  Request::only('data_final')]);
-      }
+        $data_inicial = Request::only('data_inicial');
+        $data_final = Request::only('data_final');
+        $query->whereBetween('DATA_VENDA', [$data_inicial['data_inicial'], $data_final['data_final']]);      }
     })
     ->first();
 
@@ -230,8 +235,9 @@ class VendasController extends Controller{
     })
     ->where(function($query) {
       if(Request::only('data_inicial') != null){
-        $query->whereBetween('DATA_VENDA', [ Request::only('data_inicial'),  Request::only('data_final')]);
-      }
+        $data_inicial = Request::only('data_inicial');
+        $data_final = Request::only('data_final');
+        $query->whereBetween('DATA_VENDA', [$data_inicial['data_inicial'], $data_final['data_final']]);      }
     })
     ->first();
 
@@ -289,8 +295,9 @@ class VendasController extends Controller{
     })
     ->where(function($query) {
       if(Request::only('data_inicial') != null){
-        $query->whereBetween('DATA_VENDA', [ Request::only('data_inicial'),  Request::only('data_final')]);
-      }
+        $data_inicial = Request::only('data_inicial');
+        $data_final = Request::only('data_final');
+        $query->whereBetween('DATA_VENDA', [$data_inicial['data_inicial'], $data_final['data_final']]);      }
     })
     ->first();
 
@@ -348,8 +355,9 @@ class VendasController extends Controller{
     })
     ->where(function($query) {
       if(Request::only('data_inicial') != null){
-        $query->whereBetween('DATA_VENDA', [ Request::only('data_inicial'),  Request::only('data_final')]);
-      }
+        $data_inicial = Request::only('data_inicial');
+        $data_final = Request::only('data_final');
+        $query->whereBetween('DATA_VENDA', [$data_inicial['data_inicial'], $data_final['data_final']]);      }
     })
     ->first();
 
@@ -364,14 +372,14 @@ class VendasController extends Controller{
     $status_conciliacao = StatusConciliacaoModel::where('CODIGO', '!=', 4)->orderBy('STATUS_CONCILIACAO', 'ASC')->get();
     $grupos_clientes = GruposClientesModel::where('COD_CLIENTE', '=', session('codigologin'))->get();
     $s = Request::only('arrayStatusFinanceiro');
-    $ss = count($s['arrayStatusConciliacao']);
+    $ss =  Request::only('data_inicial');
     $val_liquido = number_format($val_liquido->val_liquido, 2,",",".");
     $val_bruto = number_format($val_bruto->val_bruto, 2,",",".");
     $val_taxa_soma = number_format($val_taxa_soma->val_taxa, 2,",",".");
     $val_taxa_percent = number_format($val_taxa_percent->val_taxa_percent, 2, '.', '');
     $val_taxas = number_format($val_taxas, 2,",",".");
 
-    $vendas = json_encode([$vendas, $val_liquido, $val_bruto, $qtde_registros, $val_taxas, $val_taxa_soma, $val_taxa_percent, $s['arrayStatusConciliacao'][0]]);
+    $vendas = json_encode([$vendas, $val_liquido, $val_bruto, $qtde_registros, $val_taxas, $val_taxa_soma, $val_taxa_percent, $ss]);
 
     return $vendas;
 

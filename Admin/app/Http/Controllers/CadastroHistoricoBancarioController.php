@@ -23,6 +23,7 @@ class CadastroHistoricoBancarioController extends Controller{
       $historicos = DB::table('historico_banco')
       ->join('adquirentes', 'historico_banco.COD_ADQUIRENTE', 'adquirentes.CODIGO')
       ->join('lista_bancos', 'historico_banco.COD_BANCO', 'lista_bancos.CODIGO')
+      ->select("historico_banco.*", "lista_bancos.BANCO", "adquirentes.ADQUIRENTE")
       ->get();
 
       return view('cadastro.historico-bancario')->with('historicos', $historicos)->with('adquirentes', $adquirentes)->with('bancos', $bancos);
@@ -66,7 +67,11 @@ class CadastroHistoricoBancarioController extends Controller{
       return $historicos;
     }
 
-    public function deleteHistoricoBancario($codigo_historico_bancario){
+    public function deleteHistoricoBancario($codigo_historico){
 
+      $historico = HistoricoBancarioModel::where("CODIGO", "=", $codigo_historico)->first();
+      $historico->delete();
+
+      return response()->json(200);
     }
 }

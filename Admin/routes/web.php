@@ -50,7 +50,7 @@ Route::group(['middleware' => 'auth'], function() {
   Route::get('/historico-bancario', 'CadastroHistoricoBancarioController@cadastroHistoricoBancario');
   Route::post('/post-historico', 'CadastroHistoricoBancarioController@newCadastroHistoricoBancario');
   Route::get('/load-historico-bancario', 'CadastroHistoricoBancarioController@loadHistoricoBancario');
-  Route::get('/delete-historico-bancario', 'CadastroHistoricoBancarioController@deleteHistoricoBancario');
+  Route::get('/delete-historico-bancario/{codigo}', 'CadastroHistoricoBancarioController@deleteHistoricoBancario');
 
   //CONCILIAÇÃO
   Route::get('/conciliacao-bancaria', function() {
@@ -70,8 +70,16 @@ Route::group(['middleware' => 'auth'], function() {
 
 });
 
-Route::get('/autorizacao-credenciadora', function() {
+Route::get('/credenciamento-cielo', function() {
     return view('authentication.auth-lock-screen');
+});
+
+Route::get('/credenciamento-stone', function() {
+    return view('authentication.auth-lock-stone');
+});
+
+Route::get('/teste', function() {
+    return view('acess-stone');
 });
 
 Route::get('/credeciamento', function() {

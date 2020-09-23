@@ -35,6 +35,7 @@ class DashboardController extends Controller{
     ->groupBy('dashboard_vendas_modalidade.COD_MODALIDADE')
     ->get();
 
+    // dd($dados_dash_vendas_bandeira);
     $dados_cliente = ClienteModel::where('CODIGO', '=', session('codigologin'))->first();
 
     session()->put('periodo', 2);

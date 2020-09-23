@@ -131,7 +131,7 @@
 
   <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div  class="modal-dialog">
-      <div  style="max-height:500px" class="modal-content">
+      <div  class="modal-content">
         <div class="modal-header" style="background: #2D5275">
           <h5 class="modal-title" id="staticBackdropLabel" style="color: white">Empresas</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -209,6 +209,7 @@ $('#submitFormLogin').click(function(){
             var label_clientes = document.createElement("A");
             var div = document.createElement('div');
 
+            // div.style.overflow = "scroll";
             label_clientes.innerHTML = res.NOME_FANTASIA;
 
             // label_clientes.setAttribute('name' , "array[]");

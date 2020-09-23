@@ -65,10 +65,11 @@ class PrevisaoRecebimentosController extends Controller{
         }
       })
       ->where(function($query) {
-        if(Request::only('data_recebimento') != null){
-          $hoje = date('Y-m-d');
-          $query->whereBetween('DATA_PREVISTA_PAGTO', [$hoje, Request::only('data_recebimento')]);
-          // $query->where('DATA_PREVISTA_PAGTO', '>=', Request::only('data_recebimento'));
+        if(Request::only('data_inicial') != null){
+          $data_inicial = Request::only('data_inicial');
+          $data_final = Request::only('data_final');
+          $query->whereBetween('DATA_PREVISTA_PAGTO', [$data_inicial['data_inicial'], $data_final['data_final']]);
+          // $query->where('DATA_PREVISTA_PAGTO', '>=', Request::only('data_inicial'));
         }
       })
       ->orderBy('DATA_PREVISTA_PAGTO')
@@ -103,9 +104,10 @@ class PrevisaoRecebimentosController extends Controller{
         }
       })
       ->where(function($query) {
-        if(Request::only('data_recebimento') != null){
-          $hoje = date('Y-m-d');
-          $query->whereBetween('DATA_PREVISTA_PAGTO', [$hoje, Request::only('data_recebimento')]);        }
+        if(Request::only('data_inicial') != null){
+          $data_inicial = Request::only('data_inicial');
+          $data_final = Request::only('data_final');
+          $query->whereBetween('DATA_PREVISTA_PAGTO', [$data_inicial['data_inicial'], $data_final['data_final']]);    }
       })
       ->first();
 
@@ -138,9 +140,10 @@ class PrevisaoRecebimentosController extends Controller{
         }
       })
       ->where(function($query) {
-        if(Request::only('data_recebimento') != null){
-          $hoje = date('Y-m-d');
-          $query->whereBetween('DATA_PREVISTA_PAGTO', [$hoje, Request::only('data_recebimento')]);        }
+        if(Request::only('data_inicial') != null){
+          $data_inicial = Request::only('data_inicial');
+          $data_final = Request::only('data_final');
+          $query->whereBetween('DATA_PREVISTA_PAGTO', [$data_inicial['data_inicial'], $data_final['data_final']]);    }
       })
       ->first();
 
@@ -173,9 +176,10 @@ class PrevisaoRecebimentosController extends Controller{
         }
       })
       ->where(function($query) {
-        if(Request::only('data_recebimento') != null){
-          $hoje = date('Y-m-d');
-          $query->whereBetween('DATA_PREVISTA_PAGTO', [$hoje, Request::only('data_recebimento')]);        }
+        if(Request::only('data_inicial') != null){
+          $data_inicial = Request::only('data_inicial');
+          $data_final = Request::only('data_final');
+          $query->whereBetween('DATA_PREVISTA_PAGTO', [$data_inicial['data_inicial'], $data_final['data_final']]);    }
       })
       ->first();
 
@@ -208,9 +212,11 @@ class PrevisaoRecebimentosController extends Controller{
         }
       })
       ->where(function($query) {
-        if(Request::only('data_recebimento') != null){
-          $hoje = date('Y-m-d');
-          $query->whereBetween('DATA_PREVISTA_PAGTO', [$hoje, Request::only('data_recebimento')]);        }
+        if(Request::only('data_inicial') != null){
+          $data_inicial = Request::only('data_inicial');
+          $data_final = Request::only('data_final');
+          $query->whereBetween('DATA_PREVISTA_PAGTO', [$data_inicial['data_inicial'], $data_final['data_final']]);
+        }
       })
       ->first();
 

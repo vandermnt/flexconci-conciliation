@@ -195,31 +195,33 @@ function trocaAgrupamento(grupo) {
   if (grupo == 1) {
     dash_vendas = dados_dash_vendas;
 
-    var total_bruto = 0;
-    var total_liquido = 0;
-    var total_taxa = 0;
-    var total_ticket_medio = 0;
-    var qtde = 0;
+    $('#table_vendas tbody').empty();
 
     dash_vendas.forEach((dados_dash) => {
       if (dados_dash.COD_PERIODO == periodo) {
-        dados_grafico_total_bruto = parseFloat(bruto).toFixed(2);
-        dados_grafico_total_liquido = parseFloat(liquido).toFixed(2);
-        dados_grafico_total_taxa = parseFloat(taxa).toFixed(2);
-        dados_grafico_total_ticket = parseFloat(ticket).toFixed(2);
+        total_bruto = parseInt(dados_dash.TOTAL_BRUTO);
+        total_liquido = parseInt(dados_dash.TOTAL_LIQUIDO);
+        total_taxa = parseInt(dados_dash.TOTAL_TAXA);
+        total_ticket_medio = parseInt(dados_dash.TICKET_MEDIO);
+        qtde = parseInt(dados_dash.QUANTIDADE);
 
-        total_bruto = parseInt(total_bruto) + parseInt(dados_dash.TOTAL_BRUTO);
-        total_liquido =
-          parseInt(total_liquido) + parseInt(dados_dash.TOTAL_LIQUIDO);
-        total_taxa = parseInt(total_taxa) + parseInt(dados_dash.TOTAL_TAXA);
-        total_ticket_medio =
-          parseInt(total_ticket_medio) + parseInt(dados_dash.TICKET_MEDIO);
-        qtde = qtde + parseInt(dados_dash.QUANTIDADE);
-        // geraGraficoVendas(dados_grafico_total_bruto, dados_grafico_total_liquido, dados_grafico_total_taxa, dados_grafico_total_ticket);
+        var html = "<tr>";
+
+        html += "<td>"+dados_dash.ADQUIRENTE+"</td>";
+        html += "<td>"+dados_dash.QUANTIDADE+"</td>";
+        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto)+"</td>";
+        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa)+"</td>";
+        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido)+"</td>";
+        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio)+"</td>";
+
+        html += "</tr>";
+
+        $('#table_vendas').append(html);
+
         dados_grafico.push(dados_dash);
 
         document.getElementById("dropdownMenuButton").innerHTML =
-          dados_dash.PERIODO + " " + '<i class="mdi mdi-chevron-down"></i>';
+        dados_dash.PERIODO + " " + '<i class="mdi mdi-chevron-down"></i>';
       }
     });
 
@@ -228,66 +230,42 @@ function trocaAgrupamento(grupo) {
     } else {
       grafico_vendas.destroy();
 
-      document.getElementById(
-        "venda_total_bruto"
-      ).innerHTML = Intl.NumberFormat("pt-br", {
-        style: "currency",
-        currency: "BRL",
-      }).format(total_bruto);
-      document.getElementById("venda_total_taxa").innerHTML = Intl.NumberFormat(
-        "pt-br",
-        {
-          style: "currency",
-          currency: "BRL",
-        }
-      ).format(total_taxa);
-      document.getElementById(
-        "venda_total_liquido"
-      ).innerHTML = Intl.NumberFormat("pt-br", {
-        style: "currency",
-        currency: "BRL",
-      }).format(total_liquido);
-      document.getElementById(
-        "venda_ticket_medio"
-      ).innerHTML = Intl.NumberFormat("pt-br", {
-        style: "currency",
-        currency: "BRL",
-      }).format(total_ticket_medio);
-      document.getElementById("tipo").innerHTML = "Operadora";
-      document.getElementById("quantidade").innerHTML = qtde;
+      document.getElementById("th_tipo").innerHTML = "Operadora";
       document.getElementById("dropdownMenuButtonAgrupamento").innerHTML =
-        "Operadora" + " " + '<i class="mdi mdi-chevron-down"></i>';
+      "Operadora" + " " + '<i class="mdi mdi-chevron-down"></i>';
 
       geraGraficoVendas(dados_grafico, 1);
     }
   } else if (grupo == 2) {
     dash_vendas_bandeira = dados_dash_vendas_bandeira;
 
-    var total_bruto = 0;
-    var total_liquido = 0;
-    var total_taxa = 0;
-    var total_ticket_medio = 0;
-    var qtde = 0;
+    $('#table_vendas tbody').empty();
 
     dash_vendas_bandeira.forEach((dados_dash) => {
       if (dados_dash.COD_PERIODO == periodo) {
-        dados_grafico_total_bruto = parseFloat(bruto).toFixed(2);
-        dados_grafico_total_liquido = parseFloat(liquido).toFixed(2);
-        dados_grafico_total_taxa = parseFloat(taxa).toFixed(2);
-        dados_grafico_total_ticket = parseFloat(ticket).toFixed(2);
+        total_bruto = parseInt(dados_dash.TOTAL_BRUTO);
+        total_liquido = parseInt(dados_dash.TOTAL_LIQUIDO);
+        total_taxa = parseInt(dados_dash.TOTAL_TAXA);
+        total_ticket_medio = parseInt(dados_dash.TICKET_MEDIO);
+        qtde = parseInt(dados_dash.QUANTIDADE);
 
-        total_bruto = parseInt(total_bruto) + parseInt(dados_dash.TOTAL_BRUTO);
-        total_liquido =
-          parseInt(total_liquido) + parseInt(dados_dash.TOTAL_LIQUIDO);
-        total_taxa = parseInt(total_taxa) + parseInt(dados_dash.TOTAL_TAXA);
-        total_ticket_medio =
-          parseInt(total_ticket_medio) + parseInt(dados_dash.TICKET_MEDIO);
-        qtde = qtde + parseInt(dados_dash.QUANTIDADE);
-        // geraGraficoVendas(dados_grafico_total_bruto, dados_grafico_total_liquido, dados_grafico_total_taxa, dados_grafico_total_ticket);
+        var html = "<tr>";
+
+        html += "<td>"+dados_dash.BANDEIRA+"</td>";
+        html += "<td>"+dados_dash.QUANTIDADE+"</td>";
+        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto)+"</td>";
+        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa)+"</td>";
+        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido)+"</td>";
+        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio)+"</td>";
+
+        html += "</tr>";
+
+        $('#table_vendas').append(html);
+
         dados_grafico.push(dados_dash);
 
         document.getElementById("dropdownMenuButton").innerHTML =
-          dados_dash.PERIODO + " " + '<i class="mdi mdi-chevron-down"></i>';
+        dados_dash.PERIODO + " " + '<i class="mdi mdi-chevron-down"></i>';
       }
     });
 
@@ -296,35 +274,9 @@ function trocaAgrupamento(grupo) {
     } else {
       grafico_vendas.destroy();
 
-      document.getElementById(
-        "venda_total_bruto"
-      ).innerHTML = Intl.NumberFormat("pt-br", {
-        style: "currency",
-        currency: "BRL",
-      }).format(total_bruto);
-      document.getElementById("venda_total_taxa").innerHTML = Intl.NumberFormat(
-        "pt-br",
-        {
-          style: "currency",
-          currency: "BRL",
-        }
-      ).format(total_taxa);
-      document.getElementById(
-        "venda_total_liquido"
-      ).innerHTML = Intl.NumberFormat("pt-br", {
-        style: "currency",
-        currency: "BRL",
-      }).format(total_liquido);
-      document.getElementById(
-        "venda_ticket_medio"
-      ).innerHTML = Intl.NumberFormat("pt-br", {
-        style: "currency",
-        currency: "BRL",
-      }).format(total_ticket_medio);
-      document.getElementById("tipo").innerHTML = "Bandeira";
-      document.getElementById("quantidade").innerHTML = qtde;
+      document.getElementById("th_tipo").innerHTML = "Bandeira";
       document.getElementById("dropdownMenuButtonAgrupamento").innerHTML =
-        "Bandeira" + " " + '<i class="mdi mdi-chevron-down"></i>';
+      "Bandeira" + " " + '<i class="mdi mdi-chevron-down"></i>';
 
       geraGraficoVendas(dados_grafico, 2);
     }
@@ -333,48 +285,29 @@ function trocaAgrupamento(grupo) {
 
     dash_vendas.forEach((dados_dash) => {
       if (dados_dash.COD_PERIODO == periodo) {
-        bruto = dados_dash.TOTAL_BRUTO;
-        liquido = dados_dash.TOTAL_LIQUIDO;
-        taxa = dados_dash.TOTAL_TAXA;
-        ticket = dados_dash.TICKET_MEDIO;
+        total_bruto = parseInt(dados_dash.TOTAL_BRUTO);
+        total_liquido = parseInt(dados_dash.TOTAL_LIQUIDO);
+        total_taxa = parseInt(dados_dash.TOTAL_TAXA);
+        total_ticket_medio = parseInt(dados_dash.TICKET_MEDIO);
+        qtde = parseInt(dados_dash.QUANTIDADE);
 
-        dados_grafico_total_bruto = parseFloat(bruto).toFixed(2);
-        dados_grafico_total_liquido = parseFloat(liquido).toFixed(2);
-        dados_grafico_total_taxa = parseFloat(taxa).toFixed(2);
-        dados_grafico_total_ticket = parseFloat(ticket).toFixed(2);
+        var html = "<tr>";
 
-        const total_bruto = Intl.NumberFormat("pt-br", {
-          style: "currency",
-          currency: "BRL",
-        }).format(dados_dash.TOTAL_BRUTO);
-        const total_liquido = Intl.NumberFormat("pt-br", {
-          style: "currency",
-          currency: "BRL",
-        }).format(dados_dash.TOTAL_LIQUIDO);
-        const total_taxa = Intl.NumberFormat("pt-br", {
-          style: "currency",
-          currency: "BRL",
-        }).format(dados_dash.TOTAL_TAXA);
-        const total_ticket_medio = Intl.NumberFormat("pt-br", {
-          style: "currency",
-          currency: "BRL",
-        }).format(dados_dash.TICKET_MEDIO);
-        // geraGraficoVendas(dados_grafico_total_bruto, dados_grafico_total_liquido, dados_grafico_total_taxa, dados_grafico_total_ticket);
+        html += "<td>"+dados_dash.MODALIDADE_FIXA+"</td>";
+        html += "<td>"+dados_dash.QUANTIDADE+"</td>";
+        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto)+"</td>";
+        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa)+"</td>";
+        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido)+"</td>";
+        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio)+"</td>";
+
+        html += "</tr>";
+
+        $('#table_vendas').append(html);
+
         dados_grafico.push(dados_dash);
 
-        document.getElementById("venda_total_bruto").innerHTML = total_bruto;
-        document.getElementById("venda_total_taxa").innerHTML = total_taxa;
-        document.getElementById(
-          "venda_total_liquido"
-        ).innerHTML = total_liquido;
-        document.getElementById(
-          "venda_ticket_medio"
-        ).innerHTML = total_ticket_medio;
-        document.getElementById("quantidade").innerHTML = dados_dash.QUANTIDADE;
-        document.getElementById("tipo").innerHTML = "Modalidade";
-
         document.getElementById("dropdownMenuButtonAgrupamento").innerHTML =
-          "Modalidade" + " " + '<i class="mdi mdi-chevron-down"></i>';
+        "Modalidade" + " " + '<i class="mdi mdi-chevron-down"></i>';
       }
     });
 
@@ -382,6 +315,11 @@ function trocaAgrupamento(grupo) {
       console.log("VAZIOOOOOOOOOOOO");
     } else {
       grafico_vendas.destroy();
+
+      document.getElementById("th_tipo").innerHTML = "Modalidade";
+      document.getElementById("dropdownMenuButtonAgrupamento").innerHTML =
+      "Modalidade" + " " + '<i class="mdi mdi-chevron-down"></i>';
+
       geraGraficoVendas(dados_grafico, 3);
     }
   } else if (grupo == 4) {

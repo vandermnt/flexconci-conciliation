@@ -102,26 +102,26 @@
               </div>
               <div id="ana_dash_1" class=""></div>
               <div class="table-responsive mt-4">
-                <table class="table mb-0">
+                <table  id="table_vendas" class="table mb-0">
                   <thead>
                     <tr>
-                      <th>Tipo</th>
-                      <th>Quant.</th>
-                      <th>Val. Bruto</th>
-                      <th>Taxa</th>
-                      <th>Val. Líquido</th>
-                      <th>Tick. Médio</th>
+                      <th style="color: #231F20"  id="th_tipo">Tipo</th>
+                      <th style="color: #231F20" >Quant.</th>
+                      <th style="color: #231F20" >Val. Bruto</th>
+                      <th style="color: #231F20" >Taxa</th>
+                      <th style="color: #231F20" >Val. Líquido</th>
+                      <th style="color: #231F20" >Tick. Médio</th>
                     </tr>
                   </thead>
                   <tbody>
                     <!-- @foreach($dados_dash_vendas as $dados_vendas) -->
                     <tr>
-                      <td id="tipo"> </td>
-                      <td id="quantidade"> </td>
-                      <td id="venda_total_bruto"></td>
-                      <td id="venda_total_taxa"></td>
-                      <td id="venda_total_liquido"></td>
-                      <td id="venda_ticket_medio"></td>
+                      <td style="color: #231F20"  id="tipo"> </td>
+                      <td style="color: #231F20" id="quantidade"> </td>
+                      <td style="color: #231F20" id="venda_total_bruto"></td>
+                      <td style="color: #231F20" id="venda_total_taxa"></td>
+                      <td style="color: #231F20" id="venda_total_liquido"></td>
+                      <td style="color: #231F20" id="venda_ticket_medio"></td>
                     </tr>
                     <!-- @endforeach -->
                   </tbody>
@@ -516,12 +516,25 @@ function preCarregarGraficoVendas(){
 
       dados_grafico.push(dados_dash);
 
-      document.getElementById("venda_total_bruto").innerHTML = total_bruto;
-      document.getElementById("venda_total_taxa").innerHTML = total_taxa;
-      document.getElementById("venda_total_liquido").innerHTML = total_liquido ;
-      document.getElementById("venda_ticket_medio").innerHTML = total_ticket_medio;
-      document.getElementById("quantidade").innerHTML = dados_dash.QUANTIDADE;
-      document.getElementById("tipo").innerHTML = "Operadora";
+      var html = "<tr>";
+
+      html += "<td style='color: #231F20'>"+dados_dash.ADQUIRENTE+"</td>";
+      html += "<td style='color: #231F20'>"+dados_dash.QUANTIDADE+"</td>";
+      html += "<td style='color: #231F20'>"+total_bruto+"</td>";
+      html += "<td style='color: #231F20'>"+total_taxa+"</td>";
+      html += "<td style='color: #231F20'>"+total_liquido+"</td>";
+      html += "<td style='color: #231F20'>"+total_ticket_medio+"</td>";
+
+      html += "</tr>";
+
+      $('#table_vendas').append(html);
+
+      // document.getElementById("venda_total_bruto").innerHTML = total_bruto;
+      // document.getElementById("venda_total_taxa").innerHTML = total_taxa;
+      // document.getElementById("venda_total_liquido").innerHTML = total_liquido ;
+      // document.getElementById("venda_ticket_medio").innerHTML = total_ticket_medio;
+      // document.getElementById("quantidade").innerHTML = dados_dash.QUANTIDADE;
+      // document.getElementById("tipo").innerHTML = "Operadora";
 
       document.getElementById("dropdownMenuButton").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
       document.getElementById("dropdownMenuButtonAgrupamento").innerHTML = "Operadora" + ' ' + '<i class="mdi mdi-chevron-down"></i>';
@@ -546,7 +559,7 @@ function trocaPeriodo(cod_periodo){
     <?php session()->put('periodo', 4); ?>
   }
 
-  grupo = document.getElementById("tipo").innerHTML;
+  grupo = document.getElementById("th_tipo").innerHTML;
 
   if(grupo == "Operadora"){
     dash_vendas = <?php echo $dados_dash_vendas ?>;
@@ -594,26 +607,47 @@ function trocaPeriodo(cod_periodo){
 
   }else if(grupo == "Bandeira"){
     dash_vendas = <?php echo $dados_dash_vendas_bandeira ?>;
-
-    var total_bruto = 0;
-    var total_liquido = 0;
-    var total_taxa = 0;
-    var total_ticket_medio = 0;
-    var qtde = 0;
+    //
+    // var total_bruto = 0;
+    // var total_liquido = 0;
+    // var total_taxa = 0;
+    // var total_ticket_medio = 0;
+    // var qtde = 0;
+    $('#table_vendas tbody').empty();
 
     dash_vendas.forEach((dados_dash) => {
+
       if(dados_dash.COD_PERIODO == cod_periodo){
+        console.log("TESTEEEEEEE");
+        // bruto = dados_dash.TOTAL_BRUTO;
+        // liquido = dados_dash.TOTAL_LIQUIDO;
+        // taxa = dados_dash.TOTAL_TAXA;
+        // ticket = dados_dash.TICKET_MEDIO;
+        //
+        total_bruto = parseInt(dados_dash.TOTAL_BRUTO);
+        total_liquido = parseInt(dados_dash.TOTAL_LIQUIDO);
+        total_taxa = parseInt(dados_dash.TOTAL_TAXA);
+        total_ticket_medio = parseInt(dados_dash.TICKET_MEDIO);
+        qtde = parseInt(dados_dash.QUANTIDADE);
 
-        bruto = dados_dash.TOTAL_BRUTO;
-        liquido = dados_dash.TOTAL_LIQUIDO;
-        taxa = dados_dash.TOTAL_TAXA;
-        ticket = dados_dash.TICKET_MEDIO;
+        // document.getElementById("venda_total_bruto").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto);
+        // document.getElementById("venda_total_taxa").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa);
+        // document.getElementById("venda_total_liquido").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido);
+        // document.getElementById("venda_ticket_medio").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio);
 
-        total_bruto = parseInt(total_bruto) + parseInt(dados_dash.TOTAL_BRUTO);
-        total_liquido = parseInt(total_liquido) + parseInt(dados_dash.TOTAL_LIQUIDO);
-        total_taxa = parseInt(total_taxa) + parseInt(dados_dash.TOTAL_TAXA);
-        total_ticket_medio = parseInt(total_ticket_medio) + parseInt(dados_dash.TICKET_MEDIO);
-        qtde = qtde + parseInt(dados_dash.QUANTIDADE);
+
+        var html = "<tr>";
+
+        html += "<td>"+dados_dash.BANDEIRA+"</td>";
+        html += "<td>"+dados_dash.QUANTIDADE+"</td>";
+        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto)+"</td>";
+        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa)+"</td>";
+        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido)+"</td>";
+        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio)+"</td>";
+
+        html += "</tr>";
+
+        $('#table_vendas').append(html);
 
         dados_grafico.push(dados_dash);
 
@@ -625,12 +659,12 @@ function trocaPeriodo(cod_periodo){
       console.log("VAZIOOOOOOOOOOOO");
     }else{
       grafico_vendas.destroy();
-
-      document.getElementById("venda_total_bruto").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto);
-      document.getElementById("venda_total_taxa").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa);
-      document.getElementById("venda_total_liquido").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido);
-      document.getElementById("venda_ticket_medio").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio);
-      document.getElementById("quantidade").innerHTML = qtde;
+      //
+      // document.getElementById("venda_total_bruto").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto);
+      // document.getElementById("venda_total_taxa").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa);
+      // document.getElementById("venda_total_liquido").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido);
+      // document.getElementById("venda_ticket_medio").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio);
+      // document.getElementById("quantidade").innerHTML = qtde;
 
       periodo = cod_periodo;
       geraGraficoVendas(dados_grafico, 2);

@@ -3750,8 +3750,19 @@ border-color: #eaf0f7;
   width: 300px;
 }
 
-.table tr th  {
+.table th  {
   text-align: center !important;
+  color: #231F20;
+  background: #FFFFFF;
+
+  /* background: red; */
+
+}
+
+.table tr  {
+  text-align: center !important;
+  color: #231F20;
+  background: #FFFFFF;
 }
 
 #cartao{
@@ -3768,6 +3779,10 @@ border-color: #eaf0f7;
   border-color: #eaf0f7;*/
   padding: 0 20px;
   text-align: center;
+
+  /* color: #231F20;
+  background: #FFFFFF; */
+
 }
 /*
 .table.border-dashed th {
@@ -10334,6 +10349,12 @@ ul.steppedprogress li:first-child:after {
 
 .account-body.accountbg {
   background: #22b1e5;
+  width: 100%;
+  height: 100vh;
+}
+
+.account-body.accountbg-stone{
+  background: #1CB34B;
   width: 100%;
   height: 100vh;
 }

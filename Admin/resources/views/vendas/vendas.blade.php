@@ -99,7 +99,7 @@ $(document).ready(function(){
 
               <div class="col-sm-2">
                 <button id="buttonpesquisar" type="button" class="btn btn-sm" data-toggle="modal" data-target="#staticBackdrop" style="margin-top: 25px; width: 100%">
-                  <b>Selecionar Empresas</b>
+                  <b>Selecionar</b>
                 </button>
               </div>
 
@@ -118,7 +118,7 @@ $(document).ready(function(){
 
               <div class="col-sm-2">
                 <button id="buttonpesquisar" type="button" class="btn btn-sm" data-toggle="modal" data-target="#staticBackdropAdquirente" style="margin-top: 9px; width: 100%">
-                  <b>Selecionar Adquirentes</b>
+                  <b>Selecionar</b>
                 </button>
               </div>
 
@@ -137,7 +137,7 @@ $(document).ready(function(){
 
               <div class="col-sm-2">
                 <button id="buttonpesquisar" type="button" class="btn btn-sm" data-toggle="modal" data-target="#staticBackdropBandeira" style="margin-top: 9px; width: 100%">
-                  <b>Selecionar Bandeiras</b>
+                  <b>Selecionar</b>
                 </button>
               </div>
 
@@ -156,7 +156,7 @@ $(document).ready(function(){
 
               <div class="col-sm-2">
                 <button id="buttonpesquisar" type="button" class="btn btn-sm" data-toggle="modal" data-target="#staticBackdropModalidade" style="margin-top: 9px; width: 100%">
-                  <b>Selecionar Forma de Pagamento</b>
+                  <b>Selecionar</b>
                 </button>
               </div>
 
@@ -525,113 +525,90 @@ $(document).ready(function(){
         <br>
         <div style="overflow: scroll; font-size: 13px; overflow-x: scroll; height: 470px">
 
-          <table id="jsgrid-table" class="table " style="white-space: nowrap; background:color: #2D5275; color: #2D5275">
+          <table id="jsgrid-table" class="table " style="white-space: nowrap;">
 
             <thead>
-              <tr style="background: #2D5275; ">
-                <th style="color: white; background: #2D5275"  class=''> Empresa  </th>
-                <th style="color: white; background: #2D5275"  class=''> CNPJ   </th>
-                <th style="color: white; background: #2D5275"  class=''> Operadora </th>
-                <th style="color: white; background: #2D5275"  class=''> Dt.Venda  </th>
-                <th style="color: white; background: #2D5275"  class=''> Dt.Prevista  </th>
-                <th style="color: white; background: #2D5275"  class=''> Bandeira </th>
-                <th style="color: white; background: #2D5275"  class=""> Forma de Pagamento </th>
-                <th style="color: white; background: #2D5275"  class=""> NSU </th>
-                <th style="color: white; background: #2D5275"  class=""> Autorização </th>
-                <th style="color: white; background: #2D5275"  class=""> Cartão </th>
-                <th style="color: white; background: #2D5275"  class=""> Valor Bruto </th>
-                <th style="color: white; background: #2D5275"  class=""> Taxa %  </th>
-                <th style="color: white; background: #2D5275"  class=""> Taxa R$ </th>
-                <th style="color: white; background: #2D5275"  class=""> Outras Tarifas </th>
-                <th style="color: white; background: #2D5275"  class=""> Valor Líquido  </th>
-                <th style="color: white; background: #2D5275"  class=""> Parcela </th>
-                <th style="color: white; background: #2D5275"  class=""> Total Parc. </th>
-                <th style="color: white; background: #2D5275"  class=""> Hora </th>
-                <th style="color: white; background: #2D5275"  class=""> Estabelecimento </th>
-                <th style="color: white; background: #2D5275"  class=""> Banco </th>
-                <th style="color: white; background: #2D5275"  class=""> Agência </th>
-                <th style="color: white; background: #2D5275"  class=""> Conta </th>
-                <th style="color: white; background: #2D5275"  class=""> Observação </th>
-                <th style="color: white; background: #2D5275"  class=""> Produto </th>
-                <th style="color: white; background: #2D5275"  class=""> Ação </th>
+              <tr>
+                <th> Empresa  <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"></th>
+                <th> CNPJ  <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
+                <th> Operadora<br> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
+                <th> Dt.Venda  <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"></th>
+                <th> Dt.Prevista <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
+                <th> Bandeira<br> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
+                <th> Forma de Pagamento<br> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
+                <th> NSU <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"></th>
+                <th> Autorização <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"></th>
+                <th> Cartão<br> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
+                <th> Valor Bruto <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"></th>
+                <th> Taxa %  <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"></th>
+                <th> Taxa R$ <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"></th>
+                <th> Outras Tarifas<br> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
+                <th> Valor Líquido <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
+                <th> Parcela <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"></th>
+                <th> Total Parc. <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"></th>
+                <th> Hora <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"></th>
+                <th> Estabelecimento<br> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
+                <th> Banco<br> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
+                <th> Agência<br> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
+                <th> Conta <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"></th>
+                <th> Observação <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"></th>
+                <th> Produto<br> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
+                <th> Ação <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"></th>
               </tr>
-              <!-- <tr>
-              <th style="color: white" scope="col" class='handle'> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class='handle'> <input id="filter_cnpj"style="max-width: 135px; margin: 0">  </th>
-              <th style="color: white" scope="col" class='handle'> <input id="filter_operadora"style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class='handle'> <input id="filter_dt_venda" style="max-width: 135px; margin: 0">  </th>
-              <th style="color: white" scope="col" class='handle'> <input id="filter_dt_prevista" style="max-width: 135px; margin: 0">  </th>
-              <th style="color: white" scope="col" class='handle'> <input id="filter_bandeira"style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class="handle"> <input id="filter_modalidade" style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class="handle"> <input id="filter_nsu" style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class="handle"> <input id="filter_autorizacao" style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class="handle"> <input id="filter_cartao" style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class="handle"> <input id="filter_vlbruto" style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class="handle"> <input id="filter_taxa_reais" style="max-width: 135px; margin: 0">  </th>
-              <th style="color: white" scope="col" class="handle"> <input id="filter_taxa_Perc" style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> > </th>
-              <th style="color: white" scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> </th>
-              <th style="color: white" scope="col" class="handle">  </th>
-            </tr> -->
-          </thead>
-          <tbody>
-            @foreach($result as $results)
-            <tr id="{{$results->COD}}" onclick="mudaCorLinhaTable({{$results->COD}})">
-              <td><?php echo ucfirst(strtolower($results->EMPRESA)) ?></td>
-              <?php $newDate = date("d/m/Y", strtotime($results->DATA_VENDA));?>
-              <td>{{$results->CNPJ}}</td>
-              <td>{{$results->ADQUIRENTE}}</td>
-              <td>{{$newDate}}</td>
-              <?php $newDatePrev= date("d/m/Y", strtotime($results->DATA_PREVISTA_PAGTO));?>
-              <td>{{$newDatePrev}}</td>
-              <td>{{$results->BANDEIRA}}</td>
-              <td>{{$results->DESCRICAO}}</td>
-              <td>{{$results->NSU}}</td>
-              <td>{{$results->AUTORIZACAO}}</td>
-              <td>{{$results->CARTAO}}</td>
-              <?php $val_brt = number_format($results->VALOR_BRUTO,2,",","."); ?>
-              <td>{{$val_brt}}</td>
-              <td><?php echo number_format( $results->VALOR_TAXA,2,",","."); ?></td>
-              <td><?php echo number_format( $results->VALOR_TAXA,2,",","."); ?> </td>
-              <?php $val_liq = number_format($results->VALOR_LIQUIDO,2,",","."); ?>
-              <td>{{$val_liq}}</td>
-              <td>{{ $results->PARCELA }}</td>
-              <td>{{ $results->TOTAL_PARCELAS }}</td>
-              <td> {{ $results->HORA_TRANSACAO }} </td>
-              <td>{{ $results->ESTABELECIMENTO }}</td>
-              <td>{{ $results->BANCO }}</td>
-              <td>{{ $results->AGENCIA }}</td>
-              <td>{{ $results->CONTA }}</td>
-              <td>botoões aquii</td>
-            </tr>
-            @endforeach
-          </tbody>
 
-        </table>
+            </thead>
+            <tbody>
+              @foreach($result as $results)
+              <tr id="{{$results->COD}}" onclick="mudaCorLinhaTable({{$results->COD}})">
+                <td><?php echo ucfirst(strtolower($results->EMPRESA)) ?></td>
+                <?php $newDate = date("d/m/Y", strtotime($results->DATA_VENDA));?>
+                <td>{{$results->CNPJ}}</td>
+                <td>{{$results->ADQUIRENTE}}</td>
+                <td>{{$newDate}}</td>
+                <?php $newDatePrev= date("d/m/Y", strtotime($results->DATA_PREVISTA_PAGTO));?>
+                <td>{{$newDatePrev}}</td>
+                <td>{{$results->BANDEIRA}}</td>
+                <td>{{$results->DESCRICAO}}</td>
+                <td>{{$results->NSU}}</td>
+                <td>{{$results->AUTORIZACAO}}</td>
+                <td>{{$results->CARTAO}}</td>
+                <?php $val_brt = number_format($results->VALOR_BRUTO,2,",","."); ?>
+                <td>{{$val_brt}}</td>
+                <td><?php echo number_format( $results->VALOR_TAXA,2,",","."); ?></td>
+                <td><?php echo number_format( $results->VALOR_TAXA,2,",","."); ?> </td>
+                <?php $val_liq = number_format($results->VALOR_LIQUIDO,2,",","."); ?>
+                <td>{{$val_liq}}</td>
+                <td>{{ $results->PARCELA }}</td>
+                <td>{{ $results->TOTAL_PARCELAS }}</td>
+                <td>{{ $results->HORA_TRANSACAO }} </td>
+                <td>{{ $results->ESTABELECIMENTO }}</td>
+                <td>{{ $results->BANCO }}</td>
+                <td>{{ $results->AGENCIA }}</td>
+                <td>{{ $results->CONTA }}</td>
+                <td>botoões aquii</td>
+              </tr>
+              @endforeach
+            </tbody>
 
-        <!--
-        <div style="background: red;  width: 120px;margin-bottom: 0">
-        <h1>odwkaodpawkdp</h1>
-      </div> -->
+          </table>
 
+          <!--
+          <div style="background: red;  width: 120px;margin-bottom: 0">
+          <h1>odwkaodpawkdp</h1>
+        </div> -->
+
+      </div>
+
+      <!-- <div class="col-sm-12">
+      <div class="row" style="align-items: center;">
+      <div class="col-sm-2">
+      <h6 id="total_registros"> Total Registros: {{ $qtde_registros }} </h6>
     </div>
-
-    <!-- <div class="col-sm-12">
-    <div class="row" style="align-items: center;">
-    <div class="col-sm-2">
-    <h6 id="total_registros"> Total Registros: {{ $qtde_registros }} </h6>
+    <div style="margin-left: 10px;" class="col-sm-3">
+    <h6 id="val_bruto"><b>Total Valor Bruto</b>: </h6>
   </div>
-  <div style="margin-left: 10px;" class="col-sm-3">
-  <h6 id="val_bruto"><b>Total Valor Bruto</b>: </h6>
-</div>
-<div style="margin-left: -50px;" class="col-sm-1.9">
-<h6 id="val_liquido"><b>Total Valor Líquido</b>: </h6>
+  <div style="margin-left: -50px;" class="col-sm-1.9">
+  <h6 id="val_liquido"><b>Total Valor Líquido</b>: </h6>
 </div>
 </div>
 </div> -->
@@ -729,24 +706,46 @@ $(document).ready(function(){
 @stop
 
 <script>
+
+$(function(){
+  $("#jsgrid-table input").keyup(function(){
+    var index = $(this).parent().index();
+    var nth = "#jsgrid-table td:nth-child("+(index+1).toString()+")";
+    var valor = $(this).val().toUpperCase();
+    $("#jsgrid-table tbody tr").show();
+    $(nth).each(function(){
+      if($(this).text().toUpperCase().indexOf(valor) < 0){
+        $(this).parent().hide();
+      }
+    });
+  });
+
+  $("#jsgrid-table input").blur(function(){
+    $(this).val("");
+  });
+});
+
 $('#submitFormLogin').click(function(){
   // autenticacao = {
-  if(document.getElementById("rodapeTable")){
-    var node = document.getElementById("557");
-    var nodee = document.getElementById("rodapeTable");
+  // if(document.getElementById("rodapeTable")){
+  //   var node = document.getElementById("557");
+  //   var nodee = document.getElementById("rodapeTable");
+  //
+  //   if(node != null){
+  //     if (node.parentNode) {
+  //       node.parentNode.removeChild(node);
+  //     }
+  //   }
+  //
+  //   if(nodee != null){
+  //     if (nodee.parentNode) {
+  //       nodee.parentNode.removeChild(nodee);
+  //     }
+  //   }
+  // }
 
-    if(node != null){
-      if (node.parentNode) {
-        node.parentNode.removeChild(node);
-      }
-    }
 
-    if(nodee != null){
-      if (nodee.parentNode) {
-        nodee.parentNode.removeChild(nodee);
-      }
-    }
-  }
+  $('#jsgrid-table tbody').empty();
 
   array = [];
   arrayModalidade = [];
@@ -757,6 +756,7 @@ $('#submitFormLogin').click(function(){
 
   data_inicial = document.getElementById("date_inicial").value;
   data_final = document.getElementById("date_final").value;
+
   grupo_clientes = <?php echo $grupos_clientes ?>;
   modalidades = <?php echo $modalidades ?>;
   bandeiras = <?php echo $bandeiras ?>;
@@ -771,8 +771,6 @@ $('#submitFormLogin').click(function(){
   if(document.getElementById("liquidado").checked){
     arrayStatusFinanceiro.push(2);
   }
-
-  console.log(arrayStatusFinanceiro);
 
   grupo_clientes.forEach((grupo_cliente) => {
     if(document.getElementById(grupo_cliente.CODIGO).checked){
@@ -799,7 +797,6 @@ $('#submitFormLogin').click(function(){
   });
 
   bandeiras.forEach((bandeira) => {
-    console.log("BANDEIRAAAAAAAAAAAAA");
     if(document.getElementById(bandeira.CODIGO).checked){
       arrayBandeira.push(bandeira.CODIGO);
     }
@@ -822,15 +819,13 @@ $('#submitFormLogin').click(function(){
     data: ({_token: '{{csrf_token()}}' , data_inicial, data_final, array, arrayAdquirentes, arrayBandeira, arrayModalidade, arrayStatusConciliacao, arrayStatusFinanceiro}),
     dataType: 'json',
     success: function (response){
-      console.log(response);
       if(response){
-
         for(var i=0;i< response[0].length; i++){
           var data_v = new Date(response[0][i].DATA_VENDA);
-          var data_venda = data_v.toLocaleDateString();
+          var data_venda = data_v.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
 
           var data_p = new Date(response[0][i].DATA_PREVISTA_PAGTO);
-          var data_prev_pag = data_p.toLocaleDateString();
+          var data_prev_pag = data_p.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
 
           const number = response[0][i].VALOR_BRUTO;
 
@@ -1018,7 +1013,6 @@ function addSelecionadosBandeira(bandeiras){
 
 function addSelecionadosModalidade(modalidades){
   modalidades.forEach((modalidade) => {
-    console.log(document.getElementById(modalidade.CODIGO));
     if(document.getElementById(modalidade.CODIGO).checked){
       modalidadesSelecionados.includes(modalidade.DESCRICAO) ? '' : modalidadesSelecionados.push(modalidade.DESCRICAO);
     }else{
@@ -1115,7 +1109,6 @@ function allCheckbox(grupo_clientes){
 
   grupo_clientes.forEach((cliente) => {
     if(document.getElementById("allCheck").checked){
-      console.log(cliente.CODIGO);
 
       document.getElementById(cliente.CODIGO).checked = true;
     }else{
@@ -1251,16 +1244,30 @@ function download_table_as_csv(table_id) {
 var mudacor = false;
 function mudaCorLinhaTable(codigo){
   // if(mudacor){
-  var cor = document.getElementById(codigo).style.backgroundColor;
 
-  if(cor == "rgb(45, 82, 117)"){
-    console.log(cor);
-    document.getElementById(codigo).style = "background: #EDF0F5; color: #2D5275";
+  // var cor_background = $(codigo).css('background');
+
+  var cor = document.getElementById(codigo).style.background;
+
+  console.log(cor);
+
+  if(cor == "" || cor == "rgb(255, 255, 255)"){
+
+    var cor = document.getElementById(codigo).style.background = "#2d5275";
+    var cor = document.getElementById(codigo).style.color = "#ffffff";
+
+
+    // console.log(cor);
+    // document.getElementById(codigo).style = "background: ##2D5275; color: #2D5275";
     // mudacor = false;
+
+    // document.getElementById(codigo).style = "color: #2D5275";
+    // console.log(document.getElementById(codigo));
   }
 
   else{
-    document.getElementById(codigo).style = "background: #2D5275; color: #EDF0F5";
+    document.getElementById(codigo).style = "background: #ffffff; color: #231F20";
+
     // mudacor = true;
   }
 }

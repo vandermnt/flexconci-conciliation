@@ -68,9 +68,13 @@ $(document).ready(function(){
                 <div id="filtrodata">
                   <div class="form-group">
                     <div class="row">
-                      <div class="col-sm-4">
-                        <h6 style="color: #424242; font-size: 11.5px"> Data Recebimento: </h6>
-                        <input style="margin-top: -5px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px; border-color: #2D5275" class="form-control" type="date" id="date_recebimento" value="{{  date("Y-m-d")}}" name="data_recebimento">
+                      <div class="col-sm-6">
+                        <h6 style="color: #424242; font-size: 11.5px"> Data Inicial: </h6>
+                        <input style="margin-top: -5px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px; border-color: #2D5275" class="form-control" type="date" id="date_inicial" value="{{  date("Y-m-d")}}" name="data_inicial" disabled>
+                      </div>
+                      <div class="col-sm-6">
+                        <h6 style="color: #424242; font-size: 11.5px"> Data Final: </h6>
+                        <input style="margin-top: -5px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px; border-color: #2D5275" class="form-control" type="date" id="date_final" value="{{ date("Y-m-d") }}" name="data_final">
                       </div>
                     </div>
                   </div>
@@ -95,7 +99,7 @@ $(document).ready(function(){
 
               <div class="col-sm-2">
                 <button id="buttonpesquisar" type="button" class="btn btn-sm" data-toggle="modal" data-target="#staticBackdropAdquirente" style="margin-top: 25px; width: 100%">
-                  <b>Selecionar Adquirentes</b>
+                  <b>Selecionar</b>
                 </button>
               </div>
 
@@ -114,7 +118,7 @@ $(document).ready(function(){
 
               <div class="col-sm-2">
                 <button id="buttonpesquisar" type="button" class="btn btn-sm" data-toggle="modal" data-target="#staticBackdropBandeira" style="margin-top: 9px; width: 100%">
-                  <b>Selecionar Bandeiras</b>
+                  <b>Selecionar</b>
                 </button>
               </div>
 
@@ -123,7 +127,7 @@ $(document).ready(function(){
                   <div class="form-group">
                     <div class="row">
                       <div class="col-sm-12">
-                        <h6 style="color: #424242; font-size: 11.5px"> Modalidade: </h6>
+                        <h6 style="color: #424242; font-size: 11.5px"> Forma de Pagamento: </h6>
                         <input id="modalidade" style="margin-top: -5px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px; border-color: #2D5275" class="form-control" name="modalidade">
                       </div>
                     </div>
@@ -133,7 +137,7 @@ $(document).ready(function(){
 
               <div class="col-sm-2">
                 <button id="buttonpesquisar" type="button" class="btn btn-sm" data-toggle="modal" data-target="#staticBackdropModalidade" style="margin-top: 9px; width: 100%">
-                  <b>Selecionar Modalidades</b>
+                  <b>Selecionar</b>
                 </button>
               </div>
 
@@ -265,7 +269,7 @@ $(document).ready(function(){
           <div class="modal-dialog" style="width: 270px">
             <div class="modal-content">
               <div class="modal-header" style="background: #2D5275;">
-                <h5 class="modal-title" id="staticBackdropLabel" style="color: white">Modalidade</h5>
+                <h5 class="modal-title" id="staticBackdropLabel" style="color: white">Forma de Pagamento</h5>
                 <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -283,7 +287,7 @@ $(document).ready(function(){
 
                 <div class="row">
                   <div class="col-sm-10">
-                    <p><b>MODALIDADE</b></p>
+                    <p><b>FORMA DE PAGAMENTO</b></p>
                   </div>
 
                   <div class="col-sm-2">
@@ -419,31 +423,31 @@ $(document).ready(function(){
 
             <thead>
               <tr style="background: #2D5275; ">
-                <th style="color: white; background: #2D5275"  class=''> Empresa  </th>
-                <th style="color: white; background: #2D5275"  class=''> CNPJ   </th>
-                <th style="color: white; background: #2D5275"  class=''> Operadora </th>
-                <th style="color: white; background: #2D5275"  class=''> Dt.Venda  </th>
-                <th style="color: white; background: #2D5275"  class=''> Dt.Prevista  </th>
-                <th style="color: white; background: #2D5275"  class=''> Bandeira </th>
-                <th style="color: white; background: #2D5275"  class=""> Forma de Pagamento </th>
-                <th style="color: white; background: #2D5275"  class=""> NSU </th>
-                <th style="color: white; background: #2D5275"  class=""> Autorização </th>
-                <th style="color: white; background: #2D5275"  class=""> Cartão </th>
-                <th style="color: white; background: #2D5275"  class=""> Valor Bruto </th>
-                <th style="color: white; background: #2D5275"  class=""> Taxa %  </th>
-                <th style="color: white; background: #2D5275"  class=""> Taxa R$ </th>
-                <th style="color: white; background: #2D5275"  class=""> Outras Tarifas </th>
-                <th style="color: white; background: #2D5275"  class=""> Valor Líquido  </th>
-                <th style="color: white; background: #2D5275"  class=""> Parcela </th>
-                <th style="color: white; background: #2D5275"  class=""> Total Parc. </th>
-                <th style="color: white; background: #2D5275"  class=""> Hora </th>
-                <th style="color: white; background: #2D5275"  class=""> Estabelecimento </th>
-                <th style="color: white; background: #2D5275"  class=""> Banco </th>
-                <th style="color: white; background: #2D5275"  class=""> Agência </th>
-                <th style="color: white; background: #2D5275"  class=""> Conta </th>
-                <th style="color: white; background: #2D5275"  class=""> Observação </th>
-                <th style="color: white; background: #2D5275"  class=""> Produto </th>
-                <th style="color: white; background: #2D5275"  class=""> Ação </th>
+                <th> Empresa  </th>
+                <th> CNPJ   </th>
+                <th> Operadora </th>
+                <th> Dt.Venda  </th>
+                <th> Dt.Prevista  </th>
+                <th> Bandeira </th>
+                <th> Forma de Pagamento </th>
+                <th> NSU </th>
+                <th> Autorização </th>
+                <th> Cartão </th>
+                <th> Valor Bruto </th>
+                <th> Taxa %  </th>
+                <th> Taxa R$ </th>
+                <th> Outras Tarifas </th>
+                <th> Valor Líquido  </th>
+                <th> Parcela </th>
+                <th> Total Parc. </th>
+                <th> Hora </th>
+                <th> Estabelecimento </th>
+                <th> Banco </th>
+                <th> Agência </th>
+                <th> Conta </th>
+                <th> Observação </th>
+                <th> Produto </th>
+                <th> Ação </th>
               </tr>
               <!-- <tr>
               <th style="color: white" scope="col" class='handle'> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
@@ -635,9 +639,11 @@ $('#submitFormLogin').click(function(){
   arrayBandeira = [];
   arrayAdquirentes = [];
 
-  data_recebimento = document.getElementById("date_recebimento").value;
+  // data_recebimento = document.getElementById("date_recebimento").value;
+  data_inicial = document.getElementById("date_inicial").value;
+  data_final = document.getElementById("date_final").value;
+
   domicilio_bancario = document.getElementById("domicilio_bancario").value;
-  console.log(data_recebimento);
 
   modalidades = <?php echo $modalidades ?>;
   bandeiras = <?php echo $bandeiras ?>;
@@ -668,7 +674,7 @@ $('#submitFormLogin').click(function(){
     url: "{{ url('previsaorecebimentos') }}",
     type: "post",
     header:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-    data: ({_token: '{{csrf_token()}}', arrayAdquirentes, arrayBandeira, arrayModalidade, data_recebimento}),
+    data: ({_token: '{{csrf_token()}}', arrayAdquirentes, arrayBandeira, arrayModalidade, data_inicial, data_final}),
     dataType: 'json',
     success: function (response){
       if(response){

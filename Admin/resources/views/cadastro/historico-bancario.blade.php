@@ -113,32 +113,34 @@
           </div>
         </form>
 
-        <table id="table_historico_bancario" class="table " style="white-space: nowrap; background:white; color: #2D5275">
+        <div style="overflow: auto">
+          <table id="table_historico_bancario" class="table " style="white-space: nowrap;">
 
-          <thead>
-            <tr style="background: #2D5275; ">
-              <th style="color: white" > Data de Cadastro  </th>
-              <th style="color: white" > Histórico Banco   </th>
-              <th style="color: white" > Adquirente </th>
-              <th style="color: white" > Banco  </th>
-              <th style="color: white" > Opções  </th>
+            <thead>
+              <tr style="background: #2D5275; ">
+                <th> Data de Cadastro  </th>
+                <th> Histórico Banco   </th>
+                <th> Adquirente </th>
+                <th> Banco  </th>
+                <th> Opções  </th>
 
-            </tr>
-          </thead>
-          <tbody id="conteudo_tabe">
-            @foreach($historicos as $historico)
-            <tr>
-              <td> <?php echo date("d/m/Y", strtotime($historico->DATA_CADASTRO));?> </td>
-              <td> {{ $historico->HISTORICO_BANCO }}</td>
-              <td> {{ $historico->ADQUIRENTE }}</td>
-              <td> {{ $historico->BANCO }}</td>
-              <td><a href="#"><i class='far fa-edit'></i></a> <a href="#"><i style="margin-left: 12px"class="far fa-trash-alt"></i></a></td>
+              </tr>
+            </thead>
+            <tbody id="conteudo_tabe">
+              @foreach($historicos as $historico)
+              <tr id="{{ $historico->CODIGO }}">
+                <td id="{{ "datacad_".$historico->CODIGO}}"> <?php echo date("d/m/Y", strtotime($historico->DATA_CADASTRO));?> </td>
+                <td id="{{ "historico".$historico->CODIGO}}"> {{ $historico->HISTORICO_BANCO }}</td>
+                <td id="{{ "adq".$historico->CODIGO}}"> {{ $historico->ADQUIRENTE }}</td>
+                <td id="{{ "banco".$historico->CODIGO}}"> {{ $historico->BANCO }}</td>
+                <td class="excluir"><a href="#" onclick="editarHistorico({{$historico->CODIGO}})"><i class='far fa-edit'></i></a> <a href="#" onclick="excluirHistorico({{$historico->CODIGO}})"><i style="margin-left: 12px"class="far fa-trash-alt"></i></a></td>
+              </tr>
+              @endforeach
+            </tbody>
 
-            </tr>
-            @endforeach
-          </tbody>
+          </table>
+        </div>
 
-        </table>
       </div><!--end card-body-->
     </div><!--end card-->
   </div><!--end col-->
@@ -157,6 +159,67 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="modalExcluirHistorico" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header" style="background: #2D5275">
+          <h5 class="modal-title" style="color: white">Excluir Histórico Bancário</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Deseja excluir esse histórico bancário?</p>
+        </div>
+        <div class="modal-footer">
+          <button id="sim" type="button" class="btn btn-success" data-dismiss="modal">Sim</button>
+          <button id="nao" type="button" class="btn btn-primary" data-dismiss="modal">Não</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="modalEditarHistorico" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header" style="background: #2D5275">
+          <h5 class="modal-title" style="color: white">Editar Histórico Bancário</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h5>Dados Histórico Bancário</h5>
+          <input id="date" type="date" class="form-control" value="" disabled>
+
+          <h6 style="color: #424242; font-size: 11.5px; margin-top: 12px"> Adquirentes: </h6>
+          <select class="custom-select" id="modal_adquirente" name="adquirentes" style="border-color: #2D5275; margin-top: -7px" required>
+            <option selected disabled>Selecione o Adquirente</option>
+            @foreach($adquirentes as $adquirente)
+            <option value="{{ $adquirente->CODIGO."*".$adquirente->ADQUIRENTE }}"> {{ $adquirente->ADQUIRENTE }}</option>
+            @endforeach
+          </select>
+
+          <h6 style="color: #424242; font-size: 11.5px; margin-top: 12px"> Banco: </h6>
+          <select class="custom-select" id="modal_banco" name="bancos" style="border-color: #2D5275; margin-top: -7px" required>
+            <option selected disabled value="">Selecione o Banco</option>
+            @foreach($bancos as $banco)
+            <option value="{{ $banco->CODIGO."*".$banco->BANCO }}"> {{ $banco->BANCO }}</option>
+            @endforeach
+          </select>
+
+          <h6 style="color: #424242; font-size: 11.5px; margin-top: 12px"> Histórico Bancário: </h6>
+          <input id="modal_histbanco" value="" class="form-control" style="border-color: #2D5275; margin-top: -7px" name="">
+
+        </div>
+        <div class="modal-footer">
+          <button id="sim" onclick="salvarEdicaoHistorico()" type="button" class="btn btn-success" data-dismiss="modal">Salvar</button>
+          <button id="nao" type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
         </div>
       </div>
     </div>
@@ -203,7 +266,6 @@ function postCadastroHistoricoBancario(){
     data: ({_token: '{{csrf_token()}}', adquirente, banco, forma_pesquisa, historico_banco}),
     dataType: 'json',
     success: function(response){
-      console.log(response);
       $("#modalCadastroHistorico").modal({
         show: true
       });
@@ -220,7 +282,7 @@ function postCadastroHistoricoBancario(){
         type: "get",
         header:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         success: function(response){
-          console.log(response);
+          todos_historicos = localStorage.setItem('todos_historicos', JSON.stringify(response));
 
           var node = document.getElementById("conteudo_tabe");
 
@@ -235,14 +297,12 @@ function postCadastroHistoricoBancario(){
             // var data_cadastro = new Date(response[i].DATA_CADASTRO);
             // var data_cadastro_formatada = data_cadastro.toLocaleDateString();
 
-            html = "<tr>";
-            html += "<td>"+response[i].DATA_CADASTRO+"</td>";
-            html += "<td>"+response[i].HISTORICO_BANCO+"</td>";
-            html += "<td>"+response[i].ADQUIRENTE+"</td>";
-            html += "<td>"+response[i].BANCO+"</td>";
-            html += "<td>"+"<a href='#'><i class='far fa-edit'></i></a> <a href=''><i style='margin-left: 12px'class='far fa-trash-alt'></i></a>"+"</td>";
-            html += "<td>"+"<a href='#'><i class='far fa-edit'></i></a> <a href=''><i style='margin-left: 12px'class='far fa-trash-alt'></i></a>"+"</td>";
-
+            html = "<tr id='"+response[i].CODIGO+"'>";
+            html += "<td id='datacad_"+response[i].CODIGO+"'>"+response[i].DATA_CADASTRO+"</td>";
+            html += "<td id='historico"+response[i].CODIGO+"'>"+response[i].HISTORICO_BANCO+"</td>";
+            html += "<td id='adq"+response[i].CODIGO+"'>"+response[i].ADQUIRENTE+"</td>";
+            html += "<td id='banco"+response[i].CODIGO+"'>"+response[i].BANCO+"</td>";
+            html += "<td class='excluir'>"+"<a href='#' onclick='editarHistorico("+response[i].CODIGO+")'><i class='far fa-edit'></i></a> <a href='#'  onclick='excluirHistorico("+response[i].CODIGO+")''><i style='margin-left: 12px'class='far fa-trash-alt'></i></a>"+"</td>";
 
             html += "</td>";
             $("#table_historico_bancario").append(html);
@@ -252,6 +312,102 @@ function postCadastroHistoricoBancario(){
     }
   });
 }
+
+function excluirHistorico(codigo_historico){
+  localStorage.setItem('cod_historico', codigo_historico);
+
+  $("#modalExcluirHistorico").modal({
+    show:true
+  });
+}
+
+function editarHistorico(cod_historico){
+
+  let todos_historicos = localStorage.getItem('todos_historicos');
+  // transformar em objeto novamente
+  let histObj = JSON.parse(todos_historicos);
+
+  var historico = histObj;
+
+  localStorage.setItem('cod_historico', cod_historico);
+
+  $("#modalEditarHistorico").modal({
+    show:true
+  });
+
+  historico.forEach((hist) => {
+    if(hist.CODIGO == cod_historico){
+
+      document.getElementById("date").value = hist.DATA_CADASTRO;
+      document.getElementById("modal_histbanco").value = hist.HISTORICO_BANCO;
+    }
+
+  })
+}
+
+function salvarEdicaoHistorico(){
+
+  let todos_historicos = localStorage.getItem('todos_historicos');
+  // transformar em objeto novamente
+  let histObj = JSON.parse(todos_historicos);
+
+  var historico = histObj;
+
+  var cod = localStorage.getItem('cod_historico');
+
+  historico.forEach((hist) => {
+    if(hist.CODIGO == cod){
+      adq = $('#modal_adquirente').val();
+      banco = $('#modal_banco').val();
+
+      adq_selecionado = adq.split("*");
+      banco_selecionado = banco.split("*");
+
+      console.log(adq);
+      console.log(banco);
+      //
+      document.getElementById("historico"+cod).innerHTML = document.getElementById("modal_histbanco").value;
+      document.getElementById("adq"+cod).innerHTML = adq_selecionado[1];
+      document.getElementById("banco"+cod).innerHTML = banco_selecionado[1];
+
+    }
+  })
+}
+
+document.getElementById("sim").addEventListener('click', function() {
+
+  var teste = localStorage.getItem('cod_historico');
+
+  var url = "{{ url('delete-historico-bancario') }}" + "/" + teste;
+  $.ajax({
+    url: url,
+    type: "get",
+    header:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+    data: ({_token: '{{csrf_token()}}', teste}),
+    dataType: 'json',
+    success: function(response){
+
+      id_linha = "#"+teste;
+
+      $(id_linha).remove();
+
+    }
+
+  });
+
+}, false);
+
+document.getElementById("nao").addEventListener('click', function() {
+  console.log("naoooooooo")
+}, false);
+
+
+
+
+
+//
+//
+// }
 
 </script>
 @stop
