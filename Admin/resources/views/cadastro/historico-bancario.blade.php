@@ -54,13 +54,14 @@
                         </select>
                       </div>
                       <div class="col-sm-6">
-                        <h6 style="color: #424242; font-size: 11.5px"> Bancos: </h6>
-                        <select class="custom-select" id="bancos" name="bancos" style="border-color: #2D5275" required>
-                          <option selected disabled value="">Selecione o Banco</option>
-                          @foreach($bancos as $banco)
-                          <option value="{{ $banco->CODIGO }}"> {{ $banco->BANCO }}</option>
-                          @endforeach
-                        </select>
+                        <div id="filtroempresa">
+                          <div class="form-group">
+                            <div class="row">
+                              <h6 style="color: #424242; font-size: 11.5px"> Histório de Banco: </h6>
+                              <input id="historico_banco" style="padding-left: 7px; padding-top: 5px; padding-bottom: ; border-color: #2D5275" class="form-control" name="historico_banco">
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -68,7 +69,7 @@
               </div>
 
             </div>
-            <div class="row" style="margin-top: -16px">
+            <!-- <div class="row" style="margin-top: -16px">
               <div class="col-sm-6">
                 <div id="filtroempresa">
                   <div class="form-group">
@@ -81,8 +82,8 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="row" style="margin-top: -12px">
+            </div> -->
+            <div class="row" style="margin-top: -30px">
               <div class="col-sm-12">
                 <h6 style="color: #424242; font-size:12px"> Forma de Pesquisa: </h6>
                 <div class="row">
@@ -121,7 +122,7 @@
                 <th> Data de Cadastro  </th>
                 <th> Histórico Banco   </th>
                 <th> Adquirente </th>
-                <th> Banco  </th>
+                <!-- <th> Banco  </th> -->
                 <th> Opções  </th>
 
               </tr>
@@ -132,7 +133,7 @@
                 <td id="{{ "datacad_".$historico->CODIGO}}"> <?php echo date("d/m/Y", strtotime($historico->DATA_CADASTRO));?> </td>
                 <td id="{{ "historico".$historico->CODIGO}}"> {{ $historico->HISTORICO_BANCO }}</td>
                 <td id="{{ "adq".$historico->CODIGO}}"> {{ $historico->ADQUIRENTE }}</td>
-                <td id="{{ "banco".$historico->CODIGO}}"> {{ $historico->BANCO }}</td>
+                <!-- <td id="{{ "banco".$historico->CODIGO}}"> {{ $historico->BANCO }}</td> -->
                 <td class="excluir"><a href="#" onclick="editarHistorico({{$historico->CODIGO}})"><i class='far fa-edit'></i></a> <a href="#" onclick="excluirHistorico({{$historico->CODIGO}})"><i style="margin-left: 12px"class="far fa-trash-alt"></i></a></td>
               </tr>
               @endforeach

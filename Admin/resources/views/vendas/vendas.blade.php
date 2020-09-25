@@ -406,7 +406,7 @@ $(document).ready(function(){
                     <p>{{ $modalidade->DESCRICAO }}</p>
                   </div>
                   <div id="{{ "divCod".$modalidade->CODIGO }}" style="display:block" class="col-sm-2">
-                    <input id="{{ $modalidade->CODIGO }}" value="{{ $modalidade->CODIGO }}" name="arrayModalidade[]" type="checkbox">
+                    <input id="{{ "inputMod".$modalidade->CODIGO }}" value="{{ $modalidade->CODIGO }}" name="arrayModalidade[]" type="checkbox">
                   </div>
                   <hr>
                   @endforeach
@@ -529,31 +529,31 @@ $(document).ready(function(){
 
             <thead>
               <tr>
-                <th> Empresa  <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"></th>
-                <th> CNPJ  <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
-                <th> Operadora<br> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
-                <th> Dt.Venda  <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"></th>
-                <th> Dt.Prevista <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
-                <th> Bandeira<br> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
-                <th> Forma de Pagamento<br> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
-                <th> NSU <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"></th>
-                <th> Autorização <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"></th>
-                <th> Cartão<br> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
-                <th> Valor Bruto <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"></th>
-                <th> Taxa %  <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"></th>
-                <th> Taxa R$ <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"></th>
-                <th> Outras Tarifas<br> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
-                <th> Valor Líquido <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
-                <th> Parcela <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"></th>
-                <th> Total Parc. <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"></th>
-                <th> Hora <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"></th>
-                <th> Estabelecimento<br> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
-                <th> Banco<br> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
-                <th> Agência<br> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
-                <th> Conta <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"></th>
-                <th> Observação <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"></th>
-                <th> Produto<br> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
-                <th> Ação <br> <input id="filter_empresa" style="max-width: 135px; margin: 0"></th>
+                <th> Empresa  <br> <input style="max-width: 135px; margin: 0"></th>
+                <th> CNPJ  <br> <input style="max-width: 135px; margin: 0"> </th>
+                <th> Operadora<br> <input style="max-width: 135px; margin: 0"> </th>
+                <th> Dt.Venda  <br> <input style="max-width: 135px; margin: 0"></th>
+                <th> Dt.Prevista <br> <input style="max-width: 135px; margin: 0"> </th>
+                <th> Bandeira<br> <input style="max-width: 135px; margin: 0"> </th>
+                <th> Forma de Pagamento<br> <input style="max-width: 135px; margin: 0"> </th>
+                <th> NSU <br> <input style="max-width: 135px; margin: 0"></th>
+                <th> Autorização <br> <input style="max-width: 135px; margin: 0"></th>
+                <th> Cartão<br> <input style="max-width: 135px; margin: 0"> </th>
+                <th> Valor Bruto <br> <input style="max-width: 135px; margin: 0"></th>
+                <th> Taxa %  <br> <input style="max-width: 135px; margin: 0"></th>
+                <th> Taxa R$ <br> <input style="max-width: 135px; margin: 0"></th>
+                <th> Outras Tarifas<br> <input style="max-width: 135px; margin: 0"> </th>
+                <th> Valor Líquido <br> <input style="max-width: 135px; margin: 0"> </th>
+                <th> Parcela <br> <input style="max-width: 135px; margin: 0"></th>
+                <th> Total Parc. <br> <input style="max-width: 135px; margin: 0"></th>
+                <th> Hora <br> <input style="max-width: 135px; margin: 0"></th>
+                <th> Estabelecimento<br> <input style="max-width: 135px; margin: 0"> </th>
+                <th> Banco<br> <input style="max-width: 135px; margin: 0"> </th>
+                <th> Agência<br> <input style="max-width: 135px; margin: 0"> </th>
+                <th> Conta <br> <input style="max-width: 135px; margin: 0"></th>
+                <th> Observação <br> <input style="min-width: 135px; margin: 0"></th>
+                <th> Produto<br> <input style="max-width: 135px; margin: 0"> </th>
+                <th> Ação <br></th>
               </tr>
 
             </thead>
@@ -791,7 +791,7 @@ $('#submitFormLogin').click(function(){
   });
 
   modalidades.forEach((modalidade) => {
-    if(document.getElementById(modalidade.CODIGO).checked){
+    if(document.getElementById("inputMod"+modalidade.CODIGO).checked){
       arrayModalidade.push(modalidade.CODIGO);
     }
   });
@@ -850,6 +850,13 @@ $('#submitFormLogin').click(function(){
           });
           const formatted_tx = formattertx.format(val_tx);
 
+          const outras_despesas = response[0][i].OUTRAS_DESPESAS;
+          const outras = new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+          });
+          const outras_despesas_format = outras.format(outras_despesas);
+
           var cod = response[0][i].COD;
 
           //tira 2 casas decimais da taxa
@@ -871,7 +878,7 @@ $('#submitFormLogin').click(function(){
           html +="<td>"+formatted +"</td>";
           html +="<td>"+val_taxa+"</td>";
           html +="<td>"+formatted_tx+"</td>";
-          html +="<td>"+response[0][i].OUTRAS_DESPESAS+"</td>";
+          html +="<td>"+outras_despesas_format+"</td>";
           html +="<td>"+formatted_liq+"</td>";
           html +="<td>"+response[0][i].PARCELA+"</td>";
           html +="<td>"+response[0][i].TOTAL_PARCELAS+"</td>";
@@ -908,7 +915,7 @@ $('#submitFormLogin').click(function(){
         htmll +="<td>"+""+"</td>";
         htmll +="<td>"+response[2]+"</td>";
         htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+response[5]+"</td>";
+        htmll +="<td>"+response[4]+"</td>";
         htmll +="<td>"+response[6]+"</td>";
         htmll +="<td>"+response[1]+"</td>";
         htmll +="<td>"+""+"</td>";
@@ -1013,7 +1020,7 @@ function addSelecionadosBandeira(bandeiras){
 
 function addSelecionadosModalidade(modalidades){
   modalidades.forEach((modalidade) => {
-    if(document.getElementById(modalidade.CODIGO).checked){
+    if(document.getElementById("inputMod"+modalidade.CODIGO).checked){
       modalidadesSelecionados.includes(modalidade.DESCRICAO) ? '' : modalidadesSelecionados.push(modalidade.DESCRICAO);
     }else{
       modalidadesSelecionados.includes(modalidade.DESCRICAO) ? modalidadesSelecionados.splice(modalidadesSelecionados.indexOf(modalidade.DESCRICAO), 1) : '';
@@ -1143,9 +1150,9 @@ function allCheckboxModalidade(grupo_clientes){
 
   grupo_clientes.forEach((cliente) => {
     if(document.getElementById("allCheckModalidade").checked){
-      document.getElementById(cliente.CODIGO).checked = true;
+      document.getElementById("inputMod"+cliente.CODIGO).checked = true;
     }else{
-      document.getElementById(cliente.CODIGO).checked = false;
+      document.getElementById("inputMod"+cliente.CODIGO).checked = false;
     }
   });
 }
@@ -1267,8 +1274,6 @@ function mudaCorLinhaTable(codigo){
 
   else{
     document.getElementById(codigo).style = "background: #ffffff; color: #231F20";
-
-    // mudacor = true;
   }
 }
 

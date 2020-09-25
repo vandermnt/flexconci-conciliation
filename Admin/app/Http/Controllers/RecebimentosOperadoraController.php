@@ -36,10 +36,10 @@ class RecebimentosOperadoraController extends Controller{
 
   public function consultarRecebimentosOperadoras(){
     $vendas = DB::table('pagamentos_operadoras')
-    ->join('bandeira', 'pagamentos_operadoras.COD_BANDEIRA', '=', 'bandeira.CODIGO')
-    ->join('grupos_clientes', 'pagamentos_operadoras.COD_GRUPO_CLIENTE', '=', 'grupos_clientes.CODIGO')
-    ->join('adquirentes', 'pagamentos_operadoras.COD_ADQUIRENTE', '=', 'adquirentes.CODIGO')
-    ->join('lista_bancos', 'pagamentos_operadoras.COD_BANCO', '=', 'lista_bancos.CODIGO')
+    ->leftJoin('bandeira', 'pagamentos_operadoras.COD_BANDEIRA', '=', 'bandeira.CODIGO')
+    ->leftJoin('grupos_clientes', 'pagamentos_operadoras.COD_GRUPO_CLIENTE', '=', 'grupos_clientes.CODIGO')
+    ->leftJoin('adquirentes', 'pagamentos_operadoras.COD_ADQUIRENTE', '=', 'adquirentes.CODIGO')
+    ->leftJoin('lista_bancos', 'pagamentos_operadoras.COD_BANCO', '=', 'lista_bancos.CODIGO')
     ->select('pagamentos_operadoras.*', 'pagamentos_operadoras.CODIGO as COD', 'bandeira.*', 'adquirentes.*', 'grupos_clientes.NOME_EMPRESA', 'lista_bancos.BANCO')
     ->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'))
     ->where(function($query) {
@@ -75,7 +75,9 @@ class RecebimentosOperadoraController extends Controller{
     })
     ->where(function($query) {
       if(Request::only('data_inicial') != null){
-        $query->whereBetween('DATA_PROCESSAMENTO', [Request::only('data_inicial'), Request::only('data_final')]);
+        $data_inicial = Request::only('data_inicial');
+        $data_final = Request::only('data_final');
+        $query->whereBetween('DATA_PROCESSAMENTO', [$data_inicial['data_inicial'], $data_final['data_final']]);
       }
     })
     ->orderBy('DATA_PROCESSAMENTO')
@@ -117,7 +119,9 @@ class RecebimentosOperadoraController extends Controller{
     })
     ->where(function($query) {
       if(Request::only('data_inicial') != null){
-        $query->whereBetween('DATA_PROCESSAMENTO', [ Request::only('data_inicial'),  Request::only('data_final')]);
+        $data_inicial = Request::only('data_inicial');
+        $data_final = Request::only('data_final');
+        $query->whereBetween('DATA_PROCESSAMENTO', [$data_inicial['data_inicial'], $data_final['data_final']]);
       }
     })
     ->first();
@@ -158,7 +162,9 @@ class RecebimentosOperadoraController extends Controller{
     })
     ->where(function($query) {
       if(Request::only('data_inicial') != null){
-        $query->whereBetween('DATA_PROCESSAMENTO', [ Request::only('data_inicial'),  Request::only('data_final')]);
+        $data_inicial = Request::only('data_inicial');
+        $data_final = Request::only('data_final');
+        $query->whereBetween('DATA_PROCESSAMENTO', [$data_inicial['data_inicial'], $data_final['data_final']]);
       }
     })
     ->first();
@@ -199,7 +205,9 @@ class RecebimentosOperadoraController extends Controller{
     })
     ->where(function($query) {
       if(Request::only('data_inicial') != null){
-        $query->whereBetween('DATA_PROCESSAMENTO', [ Request::only('data_inicial'),  Request::only('data_final')]);
+        $data_inicial = Request::only('data_inicial');
+        $data_final = Request::only('data_final');
+        $query->whereBetween('DATA_PROCESSAMENTO', [$data_inicial['data_inicial'], $data_final['data_final']]);
       }
     })
     ->first();

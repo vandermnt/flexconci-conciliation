@@ -7,6 +7,123 @@
 <link href="{{ URL::asset('assets/css/teste.css')}}" rel="stylesheet" type="text/css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/table-dragger@1.0.3/dist/table-dragger.js"></script>
+<link href='lib/main.css' rel='stylesheet' />
+<script src='lib/main.js'></script>
+
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+  var calendarEl = document.getElementById('calendar');
+
+  var eventsList = [];
+  var dados = <?php echo $dados_calendario ?>;
+  var dados_pagamento = <?php echo $dados_calendario_pagamento ?>;
+
+  dados_pagamento.forEach((teste) => {
+
+    const total_liq = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(teste.val_liquido);
+
+    eventsList.push(
+      {
+        title: total_liq,
+        start: teste.DATA_PAGAMENTO,
+        color: '#257e4a'
+
+      },
+      {
+        title: 'Depositado',
+        start: teste.DATA_PAGAMENTO,
+        color: '#257e4a'
+      }
+    );
+  });
+
+  var eventos = eventsList;
+
+  // eventos.forEach((events) => {
+
+  dados.forEach((teste) => {
+    var total_liq_prev_pagt = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(teste.val_liquido);
+
+    // var hoy = new Date();
+    // var fecha =  hoy.getFullYear() + '-' + ( hoy.getMonth() + 1 ) + '-' + hoy.getDate();
+
+    var data_atual = "{{ $data }}";
+
+    if(teste.DATA_PREVISTA_PAGTO >= data_atual){
+console.log("dwakdpoakddopwakd");
+      eventsList.push(
+        {
+          title: total_liq_prev_pagt,
+          start: teste.DATA_PREVISTA_PAGTO,
+          color: '#868A08'
+
+        },
+        {
+          title: 'Previsão PGTO',
+          start: teste.DATA_PREVISTA_PAGTO,
+          color: '#868A08'
+        }
+      );
+    }
+  });
+
+  // });
+
+
+
+
+  var calendar = new FullCalendar.Calendar(calendarEl, {
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+    },
+    initialDate: '2020-09-12',
+    navLinks: true, // can click day/week names to navigate views
+    businessHours: true, // display business hours
+    editable: true,
+    selectable: true,
+    events: eventsList
+    //
+    // dados.forEach((dados_calendario) => {
+    //   {
+    //     title: 'Depositado',
+    //     start: dados_calendario.DATA_PREVISTA_PAGTO,
+    //     url: 'http://google.com/',
+    //     description: 'Lecture',
+    //     color: '#257e4a'
+    //   },
+    //   {
+    //     title: 'R$ 1.250,00',
+    //     start: '2020-09-07',
+    //     color: '#BDBDBD'
+    //   },
+    // });
+
+  });
+
+  calendar.render();
+});
+
+</script>
+<style>
+
+body {
+  margin: 40px 10px;
+  padding: 0;
+  font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+#calendar {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+</style>
+
 @stop
 
 @section('content')
@@ -65,335 +182,169 @@
 </div>
 <div class="row">
   <div class="col-lg-6">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          @if(isset($dados_dash_vendas))
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body">
+                <h1 class="header-title mt-0" style="text-align: center">Dashboard Vendas</h1>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="dropdown">
+                      <button class="btn btn-sm dropdown-toggle" style="background: #2D5275; color: white" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item"  onclick="trocaPeriodo(1)">Ontem</a>
+                        <a class="dropdown-item"  onclick="trocaPeriodo(2)">Últimos 7 dias</a>
+                        <a class="dropdown-item"  onclick="trocaPeriodo(3)">Últimos 15 dias</a>
+                        <a class="dropdown-item"  onclick="trocaPeriodo(4)">Últimos 30 dias</a>
+                        <a class="dropdown-item"  onclick="trocaPeriodo(5)">Mês Atual</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="dropdown" style="text-align: right">
+                      <button class="btn btn-sm dropdown-toggle pull-right" style="background: #2D5275; color: white; text-align: right" type="button" id="dropdownMenuButtonAgrupamento" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonAgrupamento">
+                        <a class="dropdown-item" onclick="trocaAgrupamento(1)">Operadora</a>
+                        <a class="dropdown-item" onclick="trocaAgrupamento(2)">Bandeira</a>
+                        <a class="dropdown-item" onclick="trocaAgrupamento(3)">Modalidade</a>
+                        <a class="dropdown-item" onclick="trocaAgrupamento(4)">Produto</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div id="ana_dash_1" class=""></div>
+                <div class="table-responsive mt-4">
+                  <table  id="table_vendas" class="table mb-0">
+                    <thead>
+                      <tr>
+                        <th style="color: #231F20"  id="th_tipo">Tipo</th>
+                        <th style="color: #231F20" >Quant.</th>
+                        <th style="color: #231F20" >Val. Bruto</th>
+                        <th style="color: #231F20" >Taxa</th>
+                        <th style="color: #231F20" >Val. Líquido</th>
+                        <th style="color: #231F20" >Tick. Médio</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- @foreach($dados_dash_vendas as $dados_vendas) -->
+                      <tr>
+                        <td style="color: #231F20"  id="tipo"> </td>
+                        <td style="color: #231F20" id="quantidade"> </td>
+                        <td style="color: #231F20" id="venda_total_bruto"></td>
+                        <td style="color: #231F20" id="venda_total_taxa"></td>
+                        <td style="color: #231F20" id="venda_total_liquido"></td>
+                        <td style="color: #231F20" id="venda_ticket_medio"></td>
+                      </tr>
+                      <!-- @endforeach -->
+                    </tbody>
+                  </table>
+                </div>
+              </div><!--end card-body-->
+            </div><!--end card-->
+          </div><!--end col-->
+          @endif
+
+        </div><!--end row-->
+      </div><!--end card-body-->
+    </div><!--end card-->
+  </div> <!--end col-->
+  <div class="col-lg-6">
+    <!-- <div class="col-lg-3" style="background: green; color: white; border-radius: 5px">
+    <p> Período Visível: 7 dias </p>
+  </div> -->
   <div class="card">
     <div class="card-body">
       <div class="row">
-        @if(isset($dados_dash_vendas))
         <div class="col-lg-12">
           <div class="card">
             <div class="card-body">
-              <h1 class="header-title mt-0" style="text-align: center">Dashboard Vendas</h1>
+              <h1 class="header-title mt-0" style="text-align: center">Dashboard Recebimentos Operadoras</h1>
               <div class="row">
                 <div class="col-6">
                   <div class="dropdown">
                     <button class="btn btn-sm dropdown-toggle" style="background: #2D5275; color: white" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Escolher Período <i class="mdi mdi-chevron-down"></i>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <a class="dropdown-item"  onclick="trocaPeriodo(1)">Ontem</a>
-                      <a class="dropdown-item"  onclick="trocaPeriodo(2)">Últimos 7 dias</a>
-                      <a class="dropdown-item"  onclick="trocaPeriodo(3)">Últimos 15 dias</a>
-                      <a class="dropdown-item"  onclick="trocaPeriodo(4)">Últimos 30 dias</a>
-                      <a class="dropdown-item"  onclick="trocaPeriodo(5)">Mês Atual</a>
+                      <a class="dropdown-item" onclick="">Ontem</a>
+                      <a class="dropdown-item" onclick="">Últimos 7 dias</a>
+                      <a class="dropdown-item" onclick="">Últimos 15 dias</a>
+                      <a class="dropdown-item" onclick="">Últimos 30 dias</a>
+                      <a class="dropdown-item" onclick="">Mês Atual</a>
                     </div>
                   </div>
                 </div>
                 <div class="col-6">
+
                   <div class="dropdown" style="text-align: right">
-                    <button class="btn btn-sm dropdown-toggle pull-right" style="background: #2D5275; color: white; text-align: right" type="button" id="dropdownMenuButtonAgrupamento" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn btn-sm dropdown-toggle pull-right" style="background: #2D5275; color: white; text-align: right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Escolhe Agrupamento <i class="mdi mdi-chevron-down"></i>
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonAgrupamento">
-                      <a class="dropdown-item" onclick="trocaAgrupamento(1)">Operadora</a>
-                      <a class="dropdown-item" onclick="trocaAgrupamento(2)">Bandeira</a>
-                      <a class="dropdown-item" onclick="trocaAgrupamento(3)">Modalidade</a>
-                      <a class="dropdown-item" onclick="trocaAgrupamento(4)">Produto</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" onclick="">Operadora</a>
+                      <a class="dropdown-item" onclick="">Bandeira</a>
+                      <a class="dropdown-item" onclick="">Modalide</a>
+                      <a class="dropdown-item" onclick="">Produto</a>
                     </div>
                   </div>
                 </div>
               </div>
-              <div id="ana_dash_1" class=""></div>
+              <div id="ana_devicee" class=""></div>
               <div class="table-responsive mt-4">
-                <table  id="table_vendas" class="table mb-0">
-                  <thead>
+                <table style="font-size: 12px" class="table mb-0">
+                  <thead class="thead-light" style="width: 800px">
                     <tr>
-                      <th style="color: #231F20"  id="th_tipo">Tipo</th>
-                      <th style="color: #231F20" >Quant.</th>
-                      <th style="color: #231F20" >Val. Bruto</th>
-                      <th style="color: #231F20" >Taxa</th>
-                      <th style="color: #231F20" >Val. Líquido</th>
-                      <th style="color: #231F20" >Tick. Médio</th>
+                      <th>Valor Bruto</th>
+                      <th>Taxa</th>
+                      <th>Antecipação</th>
+                      <th>Ajustes a débito</th>
+                      <th>Ajustes a crédito</th>
+                      <th>Valor Líquido</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <!-- @foreach($dados_dash_vendas as $dados_vendas) -->
                     <tr>
-                      <td style="color: #231F20"  id="tipo"> </td>
-                      <td style="color: #231F20" id="quantidade"> </td>
-                      <td style="color: #231F20" id="venda_total_bruto"></td>
-                      <td style="color: #231F20" id="venda_total_taxa"></td>
-                      <td style="color: #231F20" id="venda_total_liquido"></td>
-                      <td style="color: #231F20" id="venda_ticket_medio"></td>
+                      <!-- <th style="background: white" scope="row">Dasktops</th> -->
+                      <td>500</td>
+                      <td>500</td>
+                      <td>500</td>
+                      <td>500</td>
+                      <td>500</td>
+                      <td>500</td>
                     </tr>
-                    <!-- @endforeach -->
                   </tbody>
                 </table>
               </div>
             </div><!--end card-body-->
           </div><!--end card-->
         </div><!--end col-->
-        @endif
 
       </div><!--end row-->
     </div><!--end card-body-->
   </div><!--end card-->
 </div> <!--end col-->
-<div class="col-lg-6">
-  <!-- <div class="col-lg-3" style="background: green; color: white; border-radius: 5px">
-  <p> Período Visível: 7 dias </p>
-</div> -->
-<div class="card">
-  <div class="card-body">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="card">
-          <div class="card-body">
-            <h1 class="header-title mt-0" style="text-align: center">Dashboard Recebimentos Operadoras</h1>
-            <div class="row">
-              <div class="col-6">
-                <div class="dropdown">
-                  <button class="btn btn-sm dropdown-toggle" style="background: #2D5275; color: white" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Escolher Período <i class="mdi mdi-chevron-down"></i>
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" onclick="">Ontem</a>
-                    <a class="dropdown-item" onclick="">Últimos 7 dias</a>
-                    <a class="dropdown-item" onclick="">Últimos 15 dias</a>
-                    <a class="dropdown-item" onclick="">Últimos 30 dias</a>
-                    <a class="dropdown-item" onclick="">Mês Atual</a>
-                  </div>
-                </div>
-              </div>
-              <div class="col-6">
-
-                <div class="dropdown" style="text-align: right">
-                  <button class="btn btn-sm dropdown-toggle pull-right" style="background: #2D5275; color: white; text-align: right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Escolhe Agrupamento <i class="mdi mdi-chevron-down"></i>
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" onclick="">Operadora</a>
-                    <a class="dropdown-item" onclick="">Bandeira</a>
-                    <a class="dropdown-item" onclick="">Modalide</a>
-                    <a class="dropdown-item" onclick="">Produto</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div id="ana_devicee" class=""></div>
-            <div class="table-responsive mt-4">
-              <table style="font-size: 12px" class="table mb-0">
-                <thead class="thead-light" style="width: 800px">
-                  <tr>
-                    <th>Valor Bruto</th>
-                    <th>Taxa</th>
-                    <th>Antecipação</th>
-                    <th>Ajustes a débito</th>
-                    <th>Ajustes a crédito</th>
-                    <th>Valor Líquido</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <!-- <th style="background: white" scope="row">Dasktops</th> -->
-                    <td>500</td>
-                    <td>500</td>
-                    <td>500</td>
-                    <td>500</td>
-                    <td>500</td>
-                    <td>500</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div><!--end card-body-->
-        </div><!--end card-->
-      </div><!--end col-->
-
-    </div><!--end row-->
-  </div><!--end card-body-->
-</div><!--end card-->
-</div> <!--end col-->
 
 </div> <!--end row-->
 <div class="row justify-content-center">
-  <div class="col-md-6 col-lg-3">
-    <div class="card report-card">
-      <div class="card-body">
-        <div class="row d-flex justify-content-center">
-          <div class="col-8">
-            <p class="text-dark font-weight-semibold font-14">Sessions</p>
-            <h3 class="my-3">24k</h3>
-            <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p>
-          </div>
-          <div class="col-4 align-self-center">
-            <div class="report-main-icon bg-light-alt">
-              <i data-feather="users" class="align-self-center icon-dual-pink icon-lg"></i>
-            </div>
-          </div>
-        </div>
-      </div><!--end card-body-->
-    </div><!--end card-->
-  </div> <!--end col-->
-  <div class="col-md-6 col-lg-3">
-    <div class="card report-card">
-      <div class="card-body">
-        <div class="row d-flex justify-content-center">
-          <div class="col-8">
-            <p class="text-dark font-weight-semibold font-14">Avg.Sessions</p>
-            <h3 class="my-3">00:18</h3>
-            <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>1.5%</span> Weekly Avg.Sessions</p>
-          </div>
-          <div class="col-4 align-self-center">
-            <div class="report-main-icon bg-light-alt">
-              <i data-feather="clock" class="align-self-center icon-dual-secondary icon-lg"></i>
-            </div>
-          </div>
-        </div>
-      </div><!--end card-body-->
-    </div><!--end card-->
-  </div> <!--end col-->
-  <div class="col-md-6 col-lg-3">
-    <div class="card report-card">
-      <div class="card-body">
-        <div class="row d-flex justify-content-center">
-          <div class="col-8">
-            <p class="text-dark font-weight-semibold font-14">Bounce Rate</p>
-            <h3 class="my-3">$2400</h3>
-            <p class="mb-0 text-truncate"><span class="text-danger"><i class="mdi mdi-trending-down"></i>35%</span> Bounce Rate Weekly</p>
-          </div>
-          <div class="col-4 align-self-center">
-            <div class="report-main-icon bg-light-alt">
-              <i data-feather="pie-chart" class="align-self-center icon-dual-purple icon-lg"></i>
-            </div>
-          </div>
-        </div>
-      </div><!--end card-body-->
-    </div><!--end card-->
-  </div> <!--end col-->
-  <div class="col-md-6 col-lg-3">
-    <div class="card report-card">
-      <div class="card-body">
-        <div class="row d-flex justify-content-center">
-          <div class="col-8">
-            <p class="text-dark font-weight-semibold font-14">Goal Completions</p>
-            <h3 class="my-3">85000</h3>
-            <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>10.5%</span> Completions Weekly</p>
-          </div>
-          <div class="col-4 align-self-center">
-            <div class="report-main-icon bg-light-alt">
-              <i data-feather="briefcase" class="align-self-center icon-dual-warning icon-lg"></i>
-            </div>
-          </div>
-        </div>
-      </div><!--end card-body-->
-    </div><!--end card-->
-  </div> <!--end col-->
+
 </div><!--end row-->
 
 <div class="row">
-  <div class="col-lg-6">
+  <div class="col-lg-12">
     <div class="card">
       <div class="card-body">
-        <h4 class="header-title mt-0 mb-3">Browser Used By Users</h4>
-        <div class="table-responsive browser_users">
-          <table class="table mb-0">
-            <thead class="thead-light">
-              <tr>
-                <th class="border-top-0">Browser</th>
-                <th class="border-top-0">Sessions</th>
-                <th class="border-top-0">Bounce Rate</th>
-                <th class="border-top-0">Transactions</th>
-              </tr><!--end tr-->
-            </thead>
-            <tbody>
-              <tr>
-                <td><i class="fab fa-chrome mr-2 text-danger font-16"></i>Chrome</td>
-                <td>10853<small class="text-muted">(52%)</small></td>
-                <td> 52.80%</td>
-                <td>566<small class="text-muted">(92%)</small></td>
-              </tr><!--end tr-->
-              <tr>
-                <td><i class="fab fa-safari mr-2 text-info font-16"></i>Safari</td>
-                <td>2545<small class="text-muted">(47%)</small></td>
-                <td> 47.54%</td>
-                <td>498<small class="text-muted">(81%)</small></td>
-              </tr><!--end tr-->
-              <tr>
-                <td><i class="fab fa-internet-explorer mr-2 text-warning font-16"></i>Internet-Explorer</td>
-                <td>1836<small class="text-muted">(38%)</small></td>
-                <td> 41.12%</td>
-                <td>455<small class="text-muted">(74%)</small></td>
-              </tr><!--end tr-->
-              <tr>
-                <td><i class="fab fa-opera mr-2 text-danger font-16"></i>Opera</td>
-                <td>1958<small class="text-muted">(31%)</small></td>
-                <td> 36.82%</td>
-                <td>361<small class="text-muted">(61%)</small></td>
-              </tr><!--end tr-->
-              <tr>
-                <td><i class="fab fa-firefox mr-2 text-blue font-16"></i>Firefox</td>
-                <td>1566<small class="text-muted">(26%)</small></td>
-                <td> 29.33%</td>
-                <td>299<small class="text-muted">(49%)</small></td>
-              </tr><!--end tr-->
-            </tbody>
-          </table> <!--end table-->
-        </div><!--end /div-->
+        <div id='loading'></div>
+
+        <div id='calendar'></div>
       </div><!--end card-body-->
     </div><!--end card-->
   </div><!--end col-->
 
-  <div class="col-lg-6">
-    <div class="card">
-      <div class="card-body">
-        <h4 class="header-title mt-0 mb-3">Traffic Sources</h4>
-        <div class="table-responsive browser_users">
-          <table class="table mb-0">
-            <thead class="thead-light">
-              <tr>
-                <th class="border-top-0">Channel</th>
-                <th class="border-top-0">Sessions</th>
-                <th class="border-top-0">Prev.Period</th>
-                <th class="border-top-0">% Change</th>
-              </tr><!--end tr-->
-            </thead>
-            <tbody>
-              <tr>
-                <td><a href="" class="text-primary">Organic search</a></td>
-                <td>10853<small class="text-muted">(52%)</small></td>
-                <td>566<small class="text-muted">(92%)</small></td>
-                <td> 52.80% <i class="fas fa-caret-up text-success font-16"></i></td>
-              </tr><!--end tr-->
-              <tr>
-                <td><a href="" class="text-primary">Direct</a></td>
-                <td>2545<small class="text-muted">(47%)</small></td>
-                <td>498<small class="text-muted">(81%)</small></td>
-                <td> -17.20% <i class="fas fa-caret-down text-danger font-16"></i></td>
-
-              </tr><!--end tr-->
-              <tr>
-                <td><a href="" class="text-primary">Referal</a></td>
-                <td>1836<small class="text-muted">(38%)</small></td>
-                <td>455<small class="text-muted">(74%)</small></td>
-                <td> 41.12% <i class="fas fa-caret-up text-success font-16"></i></td>
-
-              </tr><!--end tr-->
-              <tr>
-                <td><a href="" class="text-primary">Email</a></td>
-                <td>1958<small class="text-muted">(31%)</small></td>
-                <td>361<small class="text-muted">(61%)</small></td>
-                <td> -8.24% <i class="fas fa-caret-down text-danger font-16"></i></td>
-              </tr><!--end tr-->
-              <tr>
-                <td><a href="" class="text-primary">Social</a></td>
-                <td>1566<small class="text-muted">(26%)</small></td>
-                <td>299<small class="text-muted">(49%)</small></td>
-                <td> 29.33% <i class="fas fa-caret-up text-success"></i></td>
-              </tr><!--end tr-->
-            </tbody>
-          </table> <!--end table-->
-        </div><!--end /div-->
-      </div><!--end card-body-->
-    </div><!--end card-->
-  </div><!--end col-->
 </div><!--end row-->
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -439,10 +390,10 @@
 <script src="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.min.js') }}"></script>
 <script src="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-us-aea-en.js') }}"></script>
 <script type="text/javascript">
-    var param = <?php echo $dados_cliente ?>;
-    var dados_dash_vendas = <?php echo $dados_dash_vendas ?>;
-    var dados_dash_vendas_modalidade = <?php echo $dados_dash_vendas_modalidade ?>;
-    var dados_dash_vendas_bandeira = <?php echo $dados_dash_vendas_bandeira ?>;
+var param = <?php echo $dados_cliente ?>;
+var dados_dash_vendas = <?php echo $dados_dash_vendas ?>;
+var dados_dash_vendas_modalidade = <?php echo $dados_dash_vendas_modalidade ?>;
+var dados_dash_vendas_bandeira = <?php echo $dados_dash_vendas_bandeira ?>;
 </script>
 <!-- <script type="text/javascript" src="assets/js/autorizacao-cielo.js">  </script> -->
 <script type="text/javascript" src="assets/js/grafico-dash-vendas.js">  </script>

@@ -1,0 +1,40 @@
+#calendar {
+
+    width: 600px;
+  }
+
+@media only screen and (max-width: 479px) {
+      #calendar{
+          width: 260px;
+      }
+  }
+
+@media only screen and (max-width: 400px) {
+        #calendar{
+            width: 300px;
+        }
+}
+
+@media only screen and (max-width: 414px) {
+        #calendar{
+            width: 330px;
+        }
+}
+
+@media only screen and (max-width: 370px) {
+        #calendar{
+            width: 220px;
+        }
+}
+
+@media only screen and (max-width: 411px) {
+        #calendar{
+            width: 320px;
+        }
+}
+
+@media only screen and (max-width: 320px) {
+        #calendar{
+            width: 255px;
+        }
+}

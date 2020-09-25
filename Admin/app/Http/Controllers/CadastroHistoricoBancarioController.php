@@ -33,7 +33,6 @@ class CadastroHistoricoBancarioController extends Controller{
     public function newCadastroHistoricoBancario(){
 
       $adquirente = Request::only('adquirente');
-      $banco = Request::only('banco');
       $historico_banco = Request::only('historico_banco');
       $forma_pesquisa = Request::only('forma_pesquisa');
 
@@ -47,7 +46,7 @@ class CadastroHistoricoBancarioController extends Controller{
       $historico_bancario->PARTE1_COMPLETO2 = $forma_pesquisa['forma_pesquisa'];
       $historico_bancario->HISTORICO_BANCO = $historico_banco['historico_banco'];
       $historico_bancario->COD_ADQUIRENTE = $adquirente['adquirente'];
-      $historico_bancario->COD_BANCO = $banco['banco'];
+      // $historico_bancario->COD_BANCO = $banco['banco'];
       //
       $historico_bancario->save();
       // dd($historico_bancario);

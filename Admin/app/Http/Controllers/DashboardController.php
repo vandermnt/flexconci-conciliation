@@ -35,6 +35,27 @@ class DashboardController extends Controller{
     ->groupBy('dashboard_vendas_modalidade.COD_MODALIDADE')
     ->get();
 
+    $dados_calendario = DB::table('vendas')
+    ->select('vendas.DATA_PREVISTA_PAGTO')
+    ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
+    // ->select('vendas.*', 'sum(VALOR_LIQUIDO) as val_liquido')
+    ->where('cod_cliente', '=', session('codigologin'))
+    ->groupBy('vendas.DATA_PREVISTA_PAGTO')
+    ->get();
+
+    $dados_calendario_pagamento = DB::table('pagamentos_operadoras')
+    ->select('pagamentos_operadoras.DATA_PAGAMENTO')
+    ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
+    // ->select('vendas.*', 'sum(VALOR_LIQUIDO) as val_liquido')
+    ->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'))
+    ->groupBy('pagamentos_operadoras.DATA_PAGAMENTO')
+    ->get();
+
+    $data = date('Y-m-d');
+    // dd($data);
+
+    // dd($dados_calendario_pagamento);
+
     // dd($dados_dash_vendas_bandeira);
     $dados_cliente = ClienteModel::where('CODIGO', '=', session('codigologin'))->first();
 
@@ -48,6 +69,9 @@ class DashboardController extends Controller{
     ->with('dados_dash_vendas_modalidade', $dados_dash_vendas_modalidade)
     ->with('dados_dash_vendas', $dados_dash_vendas)
     ->with('dados_cliente', $dados_cliente)
+    ->with('data', $data)
+    ->with('dados_calendario', $dados_calendario)
+    ->with('dados_calendario_pagamento', $dados_calendario_pagamento)
     ->with('periodos', $periodos);
   }
 }
