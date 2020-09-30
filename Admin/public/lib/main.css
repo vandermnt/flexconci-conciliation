@@ -284,6 +284,7 @@ When it's NOT activated, the fc-button classes won't even be in the DOM.
     display: flex;
     justify-content: space-between;
     align-items: center;
+    text-transform: capitalize !important;
   }
 .fc .fc-toolbar.fc-header-toolbar {
     margin-bottom: 1.5em;
@@ -1426,4 +1427,3 @@ A VERTICAL event
   .fc-theme-bootstrap a:not([href]) {
     color: inherit; /* natural color for navlinks */
   }
-

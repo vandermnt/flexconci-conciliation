@@ -34,9 +34,9 @@ class PrevisaoRecebimentosController extends Controller{
       $hoje = date('Y/m/d');
 
       $vendas = DB::table('vendas')
-      ->join('modalidade', 'vendas.CODIGO_MODALIDADE', '=', 'modalidade.CODIGO')
-      ->join('bandeira', 'vendas.COD_BANDEIRA', '=', 'bandeira.CODIGO')
-      ->join('lista_bancos', 'vendas.BANCO', '=', 'lista_bancos.CODIGO')
+      ->leftJoin('modalidade', 'vendas.CODIGO_MODALIDADE', '=', 'modalidade.CODIGO')
+      ->leftJoin('bandeira', 'vendas.COD_BANDEIRA', '=', 'bandeira.CODIGO')
+      ->leftJoin('lista_bancos', 'vendas.BANCO', '=', 'lista_bancos.CODIGO')
       ->leftJoin('produto_web', 'vendas.COD_PRODUTO', '=', 'produto_web.CODIGO')
       ->select('vendas.*', 'vendas.CODIGO as COD', 'modalidade.*', 'produto_web.*', 'lista_bancos.BANCO')
       ->where('vendas.COD_CLIENTE', '=', session('codigologin'))

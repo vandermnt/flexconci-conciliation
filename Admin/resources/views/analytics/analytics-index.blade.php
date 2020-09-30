@@ -28,14 +28,15 @@ document.addEventListener('DOMContentLoaded', function() {
       {
         title: total_liq,
         start: teste.DATA_PAGAMENTO,
-        color: '#257e4a'
+        color: '#257e4a',
+        background: '#FF4000'
 
       },
-      {
-        title: 'Depositado',
-        start: teste.DATA_PAGAMENTO,
-        color: '#257e4a'
-      }
+      // {
+      //   title: 'Depositado',
+      //   start: teste.DATA_PAGAMENTO,
+      //   color: '#257e4a'
+      // }
     );
   });
 
@@ -52,19 +53,17 @@ document.addEventListener('DOMContentLoaded', function() {
     var data_atual = "{{ $data }}";
 
     if(teste.DATA_PREVISTA_PAGTO >= data_atual){
-console.log("dwakdpoakddopwakd");
       eventsList.push(
         {
           title: total_liq_prev_pagt,
           start: teste.DATA_PREVISTA_PAGTO,
-          color: '#868A08'
-
+          color: '#2D93AD'
         },
-        {
-          title: 'Previsão PGTO',
-          start: teste.DATA_PREVISTA_PAGTO,
-          color: '#868A08'
-        }
+        // {
+        //   title: 'Previsão',
+        //   start: teste.DATA_PREVISTA_PAGTO,
+        //   color: '#2D93AD'
+        // }
       );
     }
   });
@@ -78,13 +77,17 @@ console.log("dwakdpoakddopwakd");
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+      // right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+      right: ''
+
     },
-    initialDate: '2020-09-12',
+    // initialDate: '2020-09-12',
+    height:515,
     navLinks: true, // can click day/week names to navigate views
     businessHours: true, // display business hours
-    editable: true,
-    selectable: true,
+    // editable: true,
+    // selectable: true,
+
     events: eventsList
     //
     // dados.forEach((dados_calendario) => {
@@ -103,6 +106,7 @@ console.log("dwakdpoakddopwakd");
     // });
 
   });
+  $(".fc-prev-button").append('<i class="glyphicon"...</i>')
 
   calendar.render();
 });
@@ -335,15 +339,164 @@ body {
 </div><!--end row-->
 
 <div class="row">
-  <div class="col-lg-12">
+  <div class="col-lg-7">
     <div class="card">
       <div class="card-body">
-        <div id='loading'></div>
+        <!-- <div id='loading'></div> -->
+
 
         <div id='calendar'></div>
+        <div class="row" style="align-items: center; margin-left: 5px;">
+          <div class="circulo" style="margin-right: 5px; background: #257E4A; text-align: right"> </div>
+          <h5> Depositado </h5>
+
+          <div class="circulo" style="margin-left: 30px; margin-right: 5px; background: #2D93AD;"> </div>
+          <h5> Previsão </h5>
+        </div>
       </div><!--end card-body-->
     </div><!--end card-->
   </div><!--end col-->
+
+  <div class="col-lg-5">
+    <div class="card">
+      <div class="card-body">
+        <div class="wallet-bal-usd">
+          <h4 class="wallet-title m-0">Total Recebido</h4>
+          <span class="text-muted font-12">26 set 2020</span>
+          <h3 class="text-center" style="color: #01DFA5">R$ 92692.00</h3>
+        </div> <br>
+        <!-- <p class="font-15 text-success text-center mb-4"> + $455.00 <span class="font-12 text-muted">(6.2% <i class="mdi mdi-trending-up text-success"></i>)</span></p> -->
+        <ul class="nav nav-pills nav-justified" role="tablist">
+          <li class="nav-item waves-effect waves-light">
+            <a class="nav-link  py-3 font-weight-semibold" data-toggle="tab" href="#" role="tab" aria-selected="true"><i data-feather="credit-card" class="align-self-center icon-md mr-2"></i>Operadora</a>
+          </li>
+          <li class="nav-item waves-effect waves-light">
+            <a class="active nav-link py-3 font-weight-semibold" data-toggle="tab" href="#" role="tab" aria-selected="false"><i data-feather="home" class="align-self-center icon-md mr-2"></i>Banco</a>
+          </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div class="tab-pane p-3 active" id="Total" role="tabpanel">
+            <div class="row">
+              <div class="col-12">
+
+
+              </div>
+            </div>
+            <ul class="list-group wallet-bal-crypto mt-3">
+              <li class="list-group-item align-items-center d-flex justify-content-between">
+                <div class="media">
+                  <img src="{{ URL::asset('assets/images/logo-itau.png')}}" class="mr-3 thumb-lg align-self-center rounded-circle" alt="...">
+                  <div class="media-body align-self-center">
+                    <div class="coin-bal">
+                      <h3 class="m-0">R$ 16.000,53</h3>
+                      <!-- <p class="text-muted mb-0">$ 33277.3660</p> -->
+                    </div>
+                  </div><!--end media body-->
+                </div>
+                <!-- <span class="badge badge-soft-pink">Bitcoin</span> -->
+              </li>
+              <li class="list-group-item align-items-center d-flex justify-content-between">
+                <div class="media">
+                  <img src="{{ URL::asset('assets/images/logo-itau.png')}}" class="mr-3 thumb-lg align-self-center rounded-circle" alt="...">
+                  <div class="media-body align-self-center">
+                    <div class="coin-bal">
+                      <h3 class="m-0">R$ 16.000,53</h3>
+                      <!-- <p class="text-muted mb-0">$ 18564.3660</p> -->
+                    </div>
+                  </div><!--end media body-->
+                </div>
+                <!-- <span class="badge badge-soft-warning">Monero</span> -->
+              </li>
+            </ul>
+          </div>
+          <div class="tab-pane p-3" id="Wallet" role="tabpanel">
+            <div class="row">
+              <div class="col-12">
+                <div class="wallet-bal-usd">
+                  <h4 class="wallet-title m-0">Total Balance</h4>
+                  <span class="text-muted font-12">30 june 2020</span>
+                  <h3 class="text-center">$85692.00</h3>
+                </div>
+                <p class="font-15 text-success text-center mb-4"> + $455.00 <span class="font-12 text-muted">(6.2% <i class="mdi mdi-trending-up text-success"></i>)</span></p>
+                <div class="text-right">
+                  <button class="btn btn-gradient-primary px-3">+ Invest</button>
+                </div>
+              </div>
+            </div>
+            <ul class="list-group wallet-bal-crypto mt-3">
+              <li class="list-group-item align-items-center d-flex justify-content-between">
+                <div class="media">
+                  <img src="{{ URL::asset('assets/images/coins/btc.png')}}" class="mr-3 thumb-sm align-self-center rounded-circle" alt="...">
+                  <div class="media-body align-self-center">
+                    <div class="coin-bal">
+                      <h3 class="m-0">6.18424000</h3>
+                      <p class="text-muted mb-0">$ 33277.3660</p>
+                    </div>
+                  </div><!--end media body-->
+                </div>
+                <span class="badge badge-soft-pink">Bitcoin</span>
+              </li>
+              <li class="list-group-item align-items-center d-flex justify-content-between">
+                <div class="media">
+                  <img src="{{ URL::asset('assets/images/coins/mon.png')}}" class="mr-3 thumb-sm align-self-center rounded-circle" alt="...">
+                  <div class="media-body align-self-center">
+                    <div class="coin-bal">
+                      <h3 class="m-0">60.1842</h3>
+                      <p class="text-muted mb-0">$ 18564.3660</p>
+                    </div>
+                  </div><!--end media body-->
+                </div>
+                <span class="badge badge-soft-warning">Monero</span>
+              </li>
+              <li class="list-group-item align-items-center d-flex justify-content-between">
+                <div class="media">
+                  <img src="{{ URL::asset('assets/images/coins/eth.png')}}" class="mr-3 thumb-sm align-self-center rounded-circle" alt="...">
+                  <div class="media-body align-self-center">
+                    <div class="coin-bal">
+                      <h3 class="m-0">32.65849212</h3>
+                      <p class="text-muted mb-0">$ 33277.3660</p>
+                    </div>
+                  </div><!--end media body-->
+                </div>
+                <span class="badge badge-soft-success">Ethereum</span>
+              </li>
+              <li class="list-group-item align-items-center d-flex justify-content-between">
+                <div class="media">
+                  <img src="{{ URL::asset('assets/images/coins/qub.png')}}" class="mr-3 thumb-sm align-self-center rounded-circle" alt="...">
+                  <div class="media-body align-self-center">
+                    <div class="coin-bal">
+                      <h3 class="m-0">32.65849212</h3>
+                      <p class="text-muted mb-0">$ 33277.3660</p>
+                    </div>
+                  </div><!--end media body-->
+                </div>
+                <span class="badge badge-soft-purple">Qubitica</span>
+              </li>
+              <li class="list-group-item align-items-center d-flex justify-content-between">
+                <div class="media">
+                  <img src="{{ URL::asset('assets/images/coins/lite.png')}}" class="mr-3 thumb-sm align-self-center rounded-circle" alt="...">
+                  <div class="media-body align-self-center">
+                    <div class="coin-bal">
+                      <h3 class="m-0">32.65849212</h3>
+                      <p class="text-muted mb-0">$ 33277.3660</p>
+                    </div>
+                  </div><!--end media body-->
+                </div>
+                <span class="badge badge-soft-secondary">Light</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div><!--end card-body-->
+    </div><!--end card-->
+  </div>
+
+
+
+
+
 
 </div><!--end row-->
 

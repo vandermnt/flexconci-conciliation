@@ -36,7 +36,7 @@ Route::group(['middleware' => 'auth'], function() {
 
   //VENDAS SISTEMA ERP
   Route::get('/vendas-sistema-erp', 'VendasErpController@vendaserp');
-  // Route::match(['get', 'post'], '/vendasoperadorasfiltro', 'VendasController@buscarVendasFiltro');
+  Route::match(['get', 'post'], '/vendaserpfiltro', 'VendasErpController@buscarVendasErp');
   // Route::match(['get', 'post'], '/vendass-operadoras', 'VendasController@itensVis');
   // Route::get('/download', 'VendasController@downloadTable');
 

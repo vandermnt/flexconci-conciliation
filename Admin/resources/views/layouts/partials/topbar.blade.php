@@ -273,7 +273,7 @@ aria-haspopup="false" aria-expanded="false">
   </a>
   <div class="dropdown-menu dropdown-menu-left" style="background: white;">
     <a style="" class="dropdown-item" href="{{ url('/vendasoperadoras') }}"> Vendas Operadoras</a>
-    <a style="" class="dropdown-item" href="#"> Vendas sistema de gestão (ERP) </a>
+    <a style="" class="dropdown-item" href="{{ url('/vendas-sistema-erp')}}"> Vendas sistema de gestão (ERP) </a>
   </div>
 </li>
 

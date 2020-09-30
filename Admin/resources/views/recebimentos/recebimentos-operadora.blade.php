@@ -487,104 +487,82 @@ $(document).ready(function(){
                 <th> Agência  </th>
                 <th> Conta  </th>
               </tr>
-              <!-- <tr>
-              <th scope="col" class='handle'> <input id="filter_empresa" style="max-width: 135px; margin: 0"> </th>
-              <th scope="col" class='handle'> <input id="filter_cnpj"style="max-width: 135px; margin: 0">  </th>
-              <th scope="col" class='handle'> <input id="filter_operadora"style="max-width: 135px; margin: 0"> </th>
-              <th scope="col" class='handle'> <input id="filter_dt_venda" style="max-width: 135px; margin: 0">  </th>
-              <th scope="col" class='handle'> <input id="filter_dt_prevista" style="max-width: 135px; margin: 0">  </th>
-              <th scope="col" class='handle'> <input id="filter_bandeira"style="max-width: 135px; margin: 0"> </th>
-              <th scope="col" class="handle"> <input id="filter_modalidade" style="max-width: 135px; margin: 0"> </th>
-              <th scope="col" class="handle"> <input id="filter_nsu" style="max-width: 135px; margin: 0"> </th>
-              <th scope="col" class="handle"> <input id="filter_autorizacao" style="max-width: 135px; margin: 0"> </th>
-              <th scope="col" class="handle"> <input id="filter_cartao" style="max-width: 135px; margin: 0"> </th>
-              <th scope="col" class="handle"> <input id="filter_vlbruto" style="max-width: 135px; margin: 0"> </th>
-              <th scope="col" class="handle"> <input id="filter_taxa_reais" style="max-width: 135px; margin: 0">  </th>
-              <th scope="col" class="handle"> <input id="filter_taxa_Perc" style="max-width: 135px; margin: 0"> </th>
-              <th scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> > </th>
-              <th scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> </th>
-              <th scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> </th>
-              <th scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> </th>
-              <th scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> </th>
-              <th scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> </th>
-              <th scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> </th>
-              <th scope="col" class="handle"> <input style="max-width: 135px; margin: 0"> </th>
-              <th scope="col" class="handle">  </th>
-            </tr> -->
+
+            </thead>
+            <tbody>
+            </tbody>
+
+          </table>
+        </div>
+      </div>
+
+      <div style="display:none">
+        <table id="mytable" class="table table-bordered" align="center" style="white-space: nowrap">
+          <thead>
+            <tr style="width: 300px">
+              <th> <i class="fas fa-filter"></i> <br>Empresa </th>
+              <th scope="col"><i class="fas fa-filter"></i><br>CNPJ </th>
+              <th> <i class="fas fa-filter"></i> <br> Operadora</th>
+              <th scope="col"><i class="fas fa-filter"></i> <br>Dt.Venda </th>
+              <th scope="col"><i class="fas fa-filter"></i><br> Dt.Prevista </th>
+              <th scope="col"><i class="fas fa-filter"></i><br> Bandeira </th>
+              <th scope="col"><i class="fas fa-filter"></i> <br>Forma de Pagamento </th>
+              <th scope="col"><i class="fas fa-filter"></i> <br>NSU </th>
+              <th scope="col"> <i class="fas fa-filter"></i><br>Autorização </th>
+              <th scope="col"> <i class="fas fa-filter"></i><br> Cartão</th>
+              <th scope="col"><i class="fas fa-filter"></i> <br>Valor Bruto </th>
+              <th scope="col"><i class="fas fa-filter"></i> <br>Taxa % </th>
+              <th scope="col" > <i class="fas fa-filter"></i> <br>Taxa R$</th>
+              <th scope="col"><i class="fas fa-filter"></i> <br>Valor Líquido </th>
+              <th scope="col"> <i class="fas fa-filter"></i> <br>Parcela</th>
+              <th scope="col"><i class="fas fa-filter"></i> <br>Total Parc. </th>
+              <th scope="col"> <i class="fas fa-filter"></i><br> Hora</th>
+              <th scope="col"><i class="fas fa-filter"></i> <br>Estabelecimento </th>
+              <th scope="col"><i class="fas fa-filter"></i><br> Banco </th>
+              <th scope="col"><i class="fas fa-filter"></i><br> Agência </th>
+              <th scope="col"><i class="fas fa-filter"></i><br> Conta </th>
+              <th scope="col"><i class="fas fa-filter"></i> <br>Ação </th>
+
+            </tr>
           </thead>
           <tbody>
-          </tbody>
-        </table>
+            <tr style="width: 500px">
+              @foreach($todas_vendas as $results)
+              <td style="text-align: center !important; width: 500px !important"> <?php echo  ucfirst(strtolower($results->EMPRESA)) ?> </td>
+              <td style="text-align: center !important"> {{ $results->CNPJ }}</td>
+              <td style="text-align: center !important">{{ $results->ADQUIRENTE }}</td>
+              <?php $newDate = date("d/m/Y", strtotime($results->DATA_VENDA));?>
+              <td style="text-align: center !important">{{ $newDate }} </td>
+              <?php $newDatePrev= date("d/m/Y", strtotime($results->DATA_PREVISTA_PAGTO));?>
+              <td style="text-align: center !important">{{ $newDatePrev }} </td>
+              <td style="text-align: center !important">{{ $results->BANDEIRA }}</td>
+              <td style="text-align: center !important">{{ $results->DESCRICAO }}</td>
+              <td style="text-align: center !important">{{ $results->NSU }}</td>
+              <td style="text-align: center !important">{{ $results->AUTORIZACAO }}</td>
+              <td style="text-align: center !important">{{ $results->CARTAO }}</td>
+              <td style="text-align: center !important">{{ $results->VALOR_BRUTO }}</td>
+              <td style="text-align: center !important">{{ $results->PERCENTUAL_TAXA }}</td>
+              <td style="text-align: center !important; padding: 0px">{{ $results->VALOR_TAXA }}</td>
+              <td style="text-align: center !important">{{ $results->VALOR_LIQUIDO }}</td>
+              <td style="text-align: center !important">{{ $results->PARCELA }}</td>
+              <td style="text-align: center !important">{{ $results->TOTAL_PARCELAS }}</td>
+
+              <td style="text-align: center !important"> {{ $results->HORA_TRANSACAO }} </td>
+              <td style="text-align: center !important">{{ $results->ESTABELECIMENTO }}</td>
+
+              <td style="text-align: center !important">{{ $results->BANCO }}</td>
+              <td style="text-align: center !important">{{ $results->AGENCIA }}</td>
+              <td style="text-align: center !important">{{ $results->CONTA }}</td>
+              <td style="text-align: center !important">botoões aquii</td>
+
+            </tr>
+            @endforeach
+          </table>
+        </tbody>
       </div>
-    </div>
 
-    <div style="display:none">
-      <table id="mytable" class="table table-bordered" align="center" style="white-space: nowrap">
-        <thead>
-          <tr style="width: 300px">
-            <th> <i class="fas fa-filter"></i> <br>Empresa </th>
-            <th scope="col"><i class="fas fa-filter"></i><br>CNPJ </th>
-            <th> <i class="fas fa-filter"></i> <br> Operadora</th>
-            <th scope="col"><i class="fas fa-filter"></i> <br>Dt.Venda </th>
-            <th scope="col"><i class="fas fa-filter"></i><br> Dt.Prevista </th>
-            <th scope="col"><i class="fas fa-filter"></i><br> Bandeira </th>
-            <th scope="col"><i class="fas fa-filter"></i> <br>Forma de Pagamento </th>
-            <th scope="col"><i class="fas fa-filter"></i> <br>NSU </th>
-            <th scope="col"> <i class="fas fa-filter"></i><br>Autorização </th>
-            <th scope="col"> <i class="fas fa-filter"></i><br> Cartão</th>
-            <th scope="col"><i class="fas fa-filter"></i> <br>Valor Bruto </th>
-            <th scope="col"><i class="fas fa-filter"></i> <br>Taxa % </th>
-            <th scope="col" > <i class="fas fa-filter"></i> <br>Taxa R$</th>
-            <th scope="col"><i class="fas fa-filter"></i> <br>Valor Líquido </th>
-            <th scope="col"> <i class="fas fa-filter"></i> <br>Parcela</th>
-            <th scope="col"><i class="fas fa-filter"></i> <br>Total Parc. </th>
-            <th scope="col"> <i class="fas fa-filter"></i><br> Hora</th>
-            <th scope="col"><i class="fas fa-filter"></i> <br>Estabelecimento </th>
-            <th scope="col"><i class="fas fa-filter"></i><br> Banco </th>
-            <th scope="col"><i class="fas fa-filter"></i><br> Agência </th>
-            <th scope="col"><i class="fas fa-filter"></i><br> Conta </th>
-            <th scope="col"><i class="fas fa-filter"></i> <br>Ação </th>
-
-          </tr>
-        </thead>
-        <tbody>
-          <tr style="width: 500px">
-            @foreach($todas_vendas as $results)
-            <td style="text-align: center !important; width: 500px !important"> <?php echo  ucfirst(strtolower($results->EMPRESA)) ?> </td>
-            <td style="text-align: center !important"> {{ $results->CNPJ }}</td>
-            <td style="text-align: center !important">{{ $results->ADQUIRENTE }}</td>
-            <?php $newDate = date("d/m/Y", strtotime($results->DATA_VENDA));?>
-            <td style="text-align: center !important">{{ $newDate }} </td>
-            <?php $newDatePrev= date("d/m/Y", strtotime($results->DATA_PREVISTA_PAGTO));?>
-            <td style="text-align: center !important">{{ $newDatePrev }} </td>
-            <td style="text-align: center !important">{{ $results->BANDEIRA }}</td>
-            <td style="text-align: center !important">{{ $results->DESCRICAO }}</td>
-            <td style="text-align: center !important">{{ $results->NSU }}</td>
-            <td style="text-align: center !important">{{ $results->AUTORIZACAO }}</td>
-            <td style="text-align: center !important">{{ $results->CARTAO }}</td>
-            <td style="text-align: center !important">{{ $results->VALOR_BRUTO }}</td>
-            <td style="text-align: center !important">{{ $results->PERCENTUAL_TAXA }}</td>
-            <td style="text-align: center !important; padding: 0px">{{ $results->VALOR_TAXA }}</td>
-            <td style="text-align: center !important">{{ $results->VALOR_LIQUIDO }}</td>
-            <td style="text-align: center !important">{{ $results->PARCELA }}</td>
-            <td style="text-align: center !important">{{ $results->TOTAL_PARCELAS }}</td>
-
-            <td style="text-align: center !important"> {{ $results->HORA_TRANSACAO }} </td>
-            <td style="text-align: center !important">{{ $results->ESTABELECIMENTO }}</td>
-
-            <td style="text-align: center !important">{{ $results->BANCO }}</td>
-            <td style="text-align: center !important">{{ $results->AGENCIA }}</td>
-            <td style="text-align: center !important">{{ $results->CONTA }}</td>
-            <td style="text-align: center !important">botoões aquii</td>
-
-          </tr>
-          @endforeach
-        </table>
-      </tbody>
-    </div>
-
-  </div><!--end card-body-->
-</div><!--end card-->
+    </div><!--end card-body-->
+  </div><!--end card-->
 </div><!--end col-->
 </div><!--end row-->
 

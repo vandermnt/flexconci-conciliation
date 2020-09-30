@@ -3739,10 +3739,16 @@ border-color: #eaf0f7;
   /* background: #2D5275; */
 }
 
+.circulo {
+width: 14px;
+height: 14px;
+border-radius: 50%;
+}
+
 #rodapeTable{
 
   /* position: sticky;
-  top: 0;
+  margin-top: -40px;
   background: #2D5275; */
 }
 
@@ -5813,7 +5819,7 @@ pre[class*=language-] {
 .fc-toolbar h2 {
   font-size: 16px;
   line-height: 40px;
-  text-transform: uppercase;
+  text-transform: capitalize !important;
 }
 
 .fc-toolbar .fc-state-active,

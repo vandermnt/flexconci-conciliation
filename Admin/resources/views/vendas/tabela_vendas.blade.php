@@ -4,7 +4,6 @@
   <meta charset="utf-8">
   <title>Conciflex - Vendas Operadoras </title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-
 </head>
 <body>
   <h6 style="text-align: center"> Previsão de Recebimentos </h6>
@@ -56,7 +55,7 @@
           <td>{{ $results->VALOR_LIQUIDO }}</td>
           <td>{{ $results->PARCELA }}</td>
           <td>{{ $results->TOTAL_PARCELAS }}</td>
-          <td> {{ $results->HORA_TRANSACAO }} </td>
+          <td>{{ $results->HORA_TRANSACAO }} </td>
           <td>{{ $results->ESTABELECIMENTO }}</td>
           <td>{{ $results->BANCO }}</td>
           <td>{{ $results->AGENCIA }}</td>
@@ -66,6 +65,5 @@
       </tbody>
       </table>
   </div>
-
 </body>
 </html>

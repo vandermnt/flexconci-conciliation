@@ -1693,7 +1693,7 @@ var FullCalendar = (function (exports) {
         fixedWeekCount: Boolean,
         validRange: identity,
         visibleRange: identity,
-        titleFormat: identity,
+        titleFormat:  identity,
         // only used by list-view, but languages define the value, so we need it in base options
         noEventsText: String
     };
@@ -7714,7 +7714,7 @@ var FullCalendar = (function (exports) {
                 var buttonName = widget.buttonName, buttonClick = widget.buttonClick, buttonText = widget.buttonText, buttonIcon = widget.buttonIcon;
                 if (buttonName === 'title') {
                     isOnlyButtons = false;
-                    children.push(createElement("h2", { className: 'fc-toolbar-title' }, props.title));
+                    children.push(createElement("h3", { className: 'fc-toolbar-title' }, "Recebimentos - " + props.title));
                 }
                 else {
                     var ariaAttrs = buttonIcon ? { 'aria-label': buttonName } : {};

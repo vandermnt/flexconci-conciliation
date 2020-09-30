@@ -1026,7 +1026,6 @@ function ad(value){
 
 function limparFiltros(){
   document.getElementById("date_final").value = "";
-  document.getElementById("date_recebimento").value = "";
   document.getElementById("adquirente").value = "";
   document.getElementById("modalidade").value = "";
   document.getElementById("bandeira").value = "";

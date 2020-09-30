@@ -119,7 +119,7 @@
 </div>
 <!--
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
-  Launch static backdrop modal
+Launch static backdrop modal
 </button> -->
 
 <!-- Modal -->
@@ -185,6 +185,12 @@
 
 var clientes = null;
 
+document.addEventListener('keypress', function (e) {
+  if (e.key === 'Enter') {
+    document.getElementById("submitFormLogin").click();
+  }
+});
+
 $('#submitFormLogin').click(function(){
   autenticacao = {
     user: document.getElementById("username").value,
@@ -199,7 +205,7 @@ $('#submitFormLogin').click(function(){
     dataType: 'json',
     success: function (response){
       if(response){
-        // console.log(response[2]);
+        console.log(response);
 
         if(response[1] == 'user_global'){
           console.log(response[0]);
@@ -268,6 +274,7 @@ $('#submitFormLogin').click(function(){
             show: true
           });
         }else if(response[1] == 'user_comum'){
+
           window.location.href = "{{ url('/ ')}}";
         }
 

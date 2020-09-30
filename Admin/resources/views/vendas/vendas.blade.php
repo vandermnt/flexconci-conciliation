@@ -71,7 +71,7 @@ $(document).ready(function(){
 
                       <div class="col-sm-6">
                         <h6 style="color: #424242; font-size: 11.5px"> Data Inicial: </h6>
-                        <input style="margin-top: -5px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px; border-color: #2D5275" class="form-control" type="date" id="date_inicial" value="{{  date("Y-m-01")}}" name="data_inicial">
+                        <input style="margin-top: -5px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px; border-color: #2D5275" class="form-control" type="date" id="date_inicial" value="{{  date("Y-m-01")}}" name="data_inicial" max="3000-12-31">
                       </div>
                       <div class="col-sm-6">
                         <h6 style="color: #424242; font-size: 11.5px"> Data Final: </h6>

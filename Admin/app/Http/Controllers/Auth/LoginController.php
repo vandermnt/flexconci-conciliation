@@ -75,7 +75,6 @@ class LoginController extends Controller
     ->where('USUARIO', '=', $request->autenticacao['user'])
     ->first();
 
-
     if($user){
       if($user->USUARIO_GLOBAL == 'S'){
         $usuario_global = ClienteModel::all();
@@ -98,8 +97,7 @@ class LoginController extends Controller
       }else if($user->USUARIO_GLOBAL == 'N' && $user->COD_ORIGEM_COMERCIAL == null){
         $aux = 'user_comum';
         Auth::login($user);
-
-        session('codigologin', $user->CODIGO);
+        session()->put('codigologin', $user->CODIGO);
 
         $clientes = json_encode([$user, $aux]);
 
