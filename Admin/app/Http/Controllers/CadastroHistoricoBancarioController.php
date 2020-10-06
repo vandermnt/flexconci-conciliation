@@ -21,8 +21,8 @@ class CadastroHistoricoBancarioController extends Controller{
       ->get();
 
       $historicos = DB::table('historico_banco')
-      ->join('adquirentes', 'historico_banco.COD_ADQUIRENTE', 'adquirentes.CODIGO')
-      ->join('lista_bancos', 'historico_banco.COD_BANCO', 'lista_bancos.CODIGO')
+      ->leftJoin('adquirentes', 'historico_banco.COD_ADQUIRENTE', 'adquirentes.CODIGO')
+      ->leftJoin('lista_bancos', 'historico_banco.COD_BANCO', 'lista_bancos.CODIGO')
       ->select("historico_banco.*", "lista_bancos.BANCO", "adquirentes.ADQUIRENTE")
       ->get();
 
@@ -44,8 +44,8 @@ class CadastroHistoricoBancarioController extends Controller{
       $historico_bancario->DATA_CADASTRO = $date;
       $historico_bancario->COD_FUNCIONARIO_RESP = 0;
       $historico_bancario->PARTE1_COMPLETO2 = $forma_pesquisa['forma_pesquisa'];
-      $historico_bancario->HISTORICO_BANCO = $historico_banco['historico_banco'];
       $historico_bancario->COD_ADQUIRENTE = $adquirente['adquirente'];
+      $historico_bancario->HISTORICO_BANCO = $historico_banco['historico_banco'];
       // $historico_bancario->COD_BANCO = $banco['banco'];
       //
       $historico_bancario->save();
@@ -58,8 +58,8 @@ class CadastroHistoricoBancarioController extends Controller{
     public function loadHistoricoBancario(){
 
       $historicos = DB::table('historico_banco')
-      ->join('adquirentes', 'historico_banco.COD_ADQUIRENTE', 'adquirentes.CODIGO')
-      ->join('lista_bancos', 'historico_banco.COD_BANCO', 'lista_bancos.CODIGO')
+      ->leftJoin('adquirentes', 'historico_banco.COD_ADQUIRENTE', 'adquirentes.CODIGO')
+      ->leftJoin('lista_bancos', 'historico_banco.COD_BANCO', 'lista_bancos.CODIGO')
       ->select('historico_banco.*', 'adquirentes.ADQUIRENTE', 'lista_bancos.BANCO')
       ->get();
 

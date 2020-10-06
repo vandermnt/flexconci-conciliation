@@ -256,7 +256,6 @@ function limparFiltros(){
 function postCadastroHistoricoBancario(){
 
   var adquirente = document.getElementById("adquirentes").value;
-  var banco = document.getElementById("bancos").value;
   var forma_pesquisa = $("input[name='forma_pesquisa']:checked").val();
   var historico_banco = document.getElementById("historico_banco").value;
 
@@ -264,7 +263,7 @@ function postCadastroHistoricoBancario(){
     url: "{{ url('post-historico') }}",
     type: "post",
     header:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-    data: ({_token: '{{csrf_token()}}', adquirente, banco, forma_pesquisa, historico_banco}),
+    data: ({_token: '{{csrf_token()}}', adquirente, forma_pesquisa, historico_banco}),
     dataType: 'json',
     success: function(response){
       $("#modalCadastroHistorico").modal({
@@ -272,7 +271,7 @@ function postCadastroHistoricoBancario(){
       });
 
       document.getElementById("historico_banco").value = "";
-      document.getElementById("parcial").checked = false;
+      document.getElementById("parcial").checked = true;
       document.getElementById("integral").checked = false;
 
       $("#adquirentes").val( $('option:contains("")').val() );
@@ -302,7 +301,6 @@ function postCadastroHistoricoBancario(){
             html += "<td id='datacad_"+response[i].CODIGO+"'>"+response[i].DATA_CADASTRO+"</td>";
             html += "<td id='historico"+response[i].CODIGO+"'>"+response[i].HISTORICO_BANCO+"</td>";
             html += "<td id='adq"+response[i].CODIGO+"'>"+response[i].ADQUIRENTE+"</td>";
-            html += "<td id='banco"+response[i].CODIGO+"'>"+response[i].BANCO+"</td>";
             html += "<td class='excluir'>"+"<a href='#' onclick='editarHistorico("+response[i].CODIGO+")'><i class='far fa-edit'></i></a> <a href='#'  onclick='excluirHistorico("+response[i].CODIGO+")''><i style='margin-left: 12px'class='far fa-trash-alt'></i></a>"+"</td>";
 
             html += "</td>";

@@ -53,8 +53,8 @@
 
           <!-- <h6 class="dropdown-item-text font-15 m-0 py-3 bg-primary text-white d-flex justify-content-between align-items-center">
           NOTIFICAÇÕES <span class="badge badge-light badge-pill">{{ $qtde_projetos }}</span>
-        </h6> -->
-        <!-- <small class="" style="color: white">Breve descrição</small> -->
+        </h6>
+        <small class="" style="color: white">Breve descrição</small> -->
       </div>
     </div>
   </a>

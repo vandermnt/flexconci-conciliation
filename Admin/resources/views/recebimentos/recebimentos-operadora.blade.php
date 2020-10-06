@@ -460,8 +460,8 @@ $(document).ready(function(){
                 <i style="font-size: 19px" class="fas fa-file-download" style="padding: 7px"></i> <b style="font-size: 12px; margin-left: ">Exportar</b>
               </a>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <a class="dropdown-item" id="dp-item"  href="{{ action('VendasController@downloadTable') }}">  PDF</a>
-                <a class="dropdown-item" id="dp-item"  onclick="download_table_as_csv('mytable');" href="#">  CSV</a>
+                <a class="dropdown-item" id="dp-item"  href="{{ action('RecebimentosOperadoraController@downloadTable') }}">  PDF</a>
+                <a class="dropdown-item" id="dp-item"  onclick="download_table_as_csv('jsgrid-table');" href="#">  CSV</a>
               </div>
             </div>
           </div>
@@ -486,12 +486,11 @@ $(document).ready(function(){
                 <th> Banco  </th>
                 <th> Agência  </th>
                 <th> Conta  </th>
+                <th> Meio de Captura  </th>
               </tr>
-
             </thead>
             <tbody>
             </tbody>
-
           </table>
         </div>
       </div>
@@ -642,7 +641,7 @@ $('#submitFormLogin').click(function(){
         console.log(response);
         for(var i=0;i< response[0].length; i++){
 
-          var data_v = new Date(response[0][i].DATA_TRANSACAO);
+          var data_v = new Date(response[0][i].DATA_VENDA);
           var data_venda = data_v.toLocaleDateString();
 
           // var data_p = new Date(response[0][i].DATA_PREVISTA_PAGTO);
@@ -683,12 +682,13 @@ $('#submitFormLogin').click(function(){
           html +="<td>"+"<img  src='assets/images/iconCart.jpeg' id='cartao'/>"+" "+response[0][i].BANDEIRA+""+"</td>";
           html +="<td>"+response[0][i].NSU+"</td>";
           html +="<td>"+data_venda+"</td>";
-          html +="<td>"+response[0][i].HORA_TRANSACAO+"</td>";
+          html +="<td>"+response[0][i].HORA_VENDA+"</td>";
           html +="<td>"+formatted +"</td>";
           html +="<td>"+formatted_liq+"</td>";
           html +="<td>"+response[0][i].BANCO+"</td>";
           html +="<td>"+response[0][i].AGENCIA+"</td>";
           html +="<td>"+response[0][i].CONTA+"</td>";
+          html +="<td>"+response[0][i].COD_MEIO_CAPTURA+"</td>";
 
           html +="</tr>";
           $('#jsgrid-table').append(html);

@@ -76,12 +76,12 @@
 
                 <div class="form-group row mt-4">
                   <div class="col-sm-6">
-                    <div class="custom-control custom-switch switch-success">
+                    <!-- <div class="custom-control custom-switch switch-success">
                       <input type="checkbox" class="custom-control-input" id="customSwitchSuccess">
                       <label class="custom-control-label text-muted" for="customSwitchSuccess">Lembra-me</label>
-                    </div>
+                    </div> -->
                   </div><!--end col-->
-                  <div class="col-sm-6 text-right">
+                  <div class="col-sm-12 ">
                     <a href="auth-recover-pw." class="text-muted font-13"><i class="dripicons-lock"></i> Esqueceu sua senha?</a>
                   </div><!--end col-->
                 </div><!--end form-group-->

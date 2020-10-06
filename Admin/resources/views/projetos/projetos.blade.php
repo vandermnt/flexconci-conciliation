@@ -229,7 +229,7 @@ $(document).ready(function(){
 
           </div>
           <div class="col-sm-12">
-            <a style="text-align: center; justify-content: center; color: white; background: #2D5275;" class="btn btn-sm"> <i class="fas fa-arrow-left"></i> <b>VISUALIZAR TODOS PROJETOS</b>  </a>
+            <a href="{{ url('/lista-projetos') }}" style="text-align: center; justify-content: center; color: white; background: #2D5275;" class="btn btn-sm"> <i class="fas fa-arrow-left"></i> <b>VISUALIZAR TODOS PROJETOS</b>  </a>
           </div>
         </div>
       </div>

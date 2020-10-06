@@ -382,6 +382,7 @@ $(document).ready(function(){
         <th> DESCRIÇÃO ERP </th>
         <th> COD. AUTORIZAÇÃO </th>
         <th> ID. VENDA CLIENTE  </th>
+        <th> MEIO DE CAPTURA  </th>
       </tr>
       <tbody>
       </tbody>
@@ -561,6 +562,7 @@ $('#submitFormLogin').click(function(){
           html +="<td>"+response[0][i].DESCRICAO_TIPO_PRODUTO +"</td>";
           html +="<td>"+response[0][i].CODIGO_AUTORIZACAO+"</td>";
           html +="<td>"+response[0][i].IDENTIFICADOR_PAGAMENTO+"</td>";
+          html +="<td>"+response[0][i].MEIOCAPTURA+"</td>";
 
           html +="</tr>";
           $('#jsgrid-table').append(html);
@@ -751,10 +753,21 @@ function ad(value){
 }
 
 function limparFiltros(){
+  var status_conciliacao = <?php echo $status_conciliacao ?>;
+
+
   document.getElementById("date_final").value = "";
   document.getElementById("date_inicial").value = "";
   document.getElementById("adquirente").value = "";
-  document.getElementById("empresa").value = "";
+  document.getElementById("cod_autorizacao").value = "";
+  document.getElementById("identificador_pagamento").value = "";
+  document.getElementById("nsu").value = "";
+
+  status_conciliacao.forEach((status) => {
+    document.getElementById("statusFinan"+status.CODIGO).checked = true;
+  })
+
+
 }
 
 function addTodos(grupos_clientes){

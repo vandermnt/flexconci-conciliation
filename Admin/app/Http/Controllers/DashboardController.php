@@ -24,14 +24,24 @@ class DashboardController extends Controller{
     ->join('periodo_dash', 'dashboard_vendas_bandeiras.COD_PERIODO', 'periodo_dash.CODIGO')
     ->join('bandeira', 'dashboard_vendas_bandeiras.COD_BANDEIRA', 'bandeira.CODIGO')
     // ->where('cod_cliente', '=', session('codigologin'))->get();
-    ->where('cod_cliente', '=', 538)->get();
+    ->where('cod_cliente', '=', session('codigologin'))->get();
+
+    // dd($dados_dash_vendas_bandeira);
 
     $dados_dash_vendas_modalidade = DB::table('dashboard_vendas_modalidade')
     ->join('periodo_dash', 'dashboard_vendas_modalidade.COD_PERIODO', 'periodo_dash.CODIGO')
     ->join('modalidade', 'dashboard_vendas_modalidade.COD_MODALIDADE', 'modalidade.CODIGO')
     // ->where('cod_cliente', '=', session('codigologin'))->get();
-    ->where('cod_cliente', '=', 538)
+    ->where('cod_cliente', '=', session('codigologin'))
     ->groupBy('dashboard_vendas_modalidade.COD_MODALIDADE')
+    ->get();
+
+    $dados_dash_vendas_produto = DB::table('dashboard_vendas_produtos')
+    ->join('periodo_dash', 'dashboard_vendas_produtos.COD_PERIODO', 'periodo_dash.CODIGO')
+    ->join('produto', 'dashboard_vendas_produtos.COD_PRODUTO', 'produto.CODIGO')
+    // ->where('cod_cliente', '=', session('codigologin'))->get();
+    ->where('cod_cliente', '=', session('codigologin'))
+    // ->groupBy('dashboard_vendas_produto.COD_MODALIDADE')
     ->get();
 
     $dados_calendario = DB::table('vendas')
@@ -49,7 +59,7 @@ class DashboardController extends Controller{
     ->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'))
     ->groupBy('pagamentos_operadoras.DATA_PAGAMENTO')
     ->get();
-
+    // dd($dados_dash_vendas_modalidade);
     $data = date('Y-m-d');
     // dd($data);
 
@@ -62,11 +72,13 @@ class DashboardController extends Controller{
     session()->put('grupo', 1);
 
     return view('analytics.analytics-index')
-    // ->with('qtde_projetos', $qtde_projetos)
+
+    ->with('qtde_projetos', $qtde_projetos)
     ->with('projetos', $projetos)
     ->with('dados_dash_vendas_bandeira', $dados_dash_vendas_bandeira)
     ->with('dados_dash_vendas_modalidade', $dados_dash_vendas_modalidade)
     ->with('dados_dash_vendas', $dados_dash_vendas)
+    ->with('dados_dash_vendas_produto', $dados_dash_vendas_produto)
     ->with('dados_cliente', $dados_cliente)
     ->with('data', $data)
     ->with('dados_calendario', $dados_calendario)

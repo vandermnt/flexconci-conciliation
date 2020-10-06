@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     // initialDate: '2020-09-12',
     height:515,
-    navLinks: true, // can click day/week names to navigate views
+    navLinks: false, // can click day/week names to navigate views
     businessHours: true, // display business hours
     // editable: true,
     // selectable: true,
@@ -191,146 +191,254 @@ body {
         <div class="row">
           @if(isset($dados_dash_vendas))
           <div class="col-lg-12">
-            <div class="card">
-              <div class="card-body">
-                <h1 class="header-title mt-0" style="text-align: center">Dashboard Vendas</h1>
-                <div class="row">
-                  <div class="col-6">
-                    <div class="dropdown">
-                      <button class="btn btn-sm dropdown-toggle" style="background: #2D5275; color: white" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      </button>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item"  onclick="trocaPeriodo(1)">Ontem</a>
-                        <a class="dropdown-item"  onclick="trocaPeriodo(2)">Últimos 7 dias</a>
-                        <a class="dropdown-item"  onclick="trocaPeriodo(3)">Últimos 15 dias</a>
-                        <a class="dropdown-item"  onclick="trocaPeriodo(4)">Últimos 30 dias</a>
-                        <a class="dropdown-item"  onclick="trocaPeriodo(5)">Mês Atual</a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="dropdown" style="text-align: right">
-                      <button class="btn btn-sm dropdown-toggle pull-right" style="background: #2D5275; color: white; text-align: right" type="button" id="dropdownMenuButtonAgrupamento" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      </button>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonAgrupamento">
-                        <a class="dropdown-item" onclick="trocaAgrupamento(1)">Operadora</a>
-                        <a class="dropdown-item" onclick="trocaAgrupamento(2)">Bandeira</a>
-                        <a class="dropdown-item" onclick="trocaAgrupamento(3)">Modalidade</a>
-                        <a class="dropdown-item" onclick="trocaAgrupamento(4)">Produto</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div id="ana_dash_1" class=""></div>
-                <div class="table-responsive mt-4">
-                  <table  id="table_vendas" class="table mb-0">
-                    <thead>
-                      <tr>
-                        <th style="color: #231F20"  id="th_tipo">Tipo</th>
-                        <th style="color: #231F20" >Quant.</th>
-                        <th style="color: #231F20" >Val. Bruto</th>
-                        <th style="color: #231F20" >Taxa</th>
-                        <th style="color: #231F20" >Val. Líquido</th>
-                        <th style="color: #231F20" >Tick. Médio</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <!-- @foreach($dados_dash_vendas as $dados_vendas) -->
-                      <tr>
-                        <td style="color: #231F20"  id="tipo"> </td>
-                        <td style="color: #231F20" id="quantidade"> </td>
-                        <td style="color: #231F20" id="venda_total_bruto"></td>
-                        <td style="color: #231F20" id="venda_total_taxa"></td>
-                        <td style="color: #231F20" id="venda_total_liquido"></td>
-                        <td style="color: #231F20" id="venda_ticket_medio"></td>
-                      </tr>
-                      <!-- @endforeach -->
-                    </tbody>
-                  </table>
-                </div>
-              </div><!--end card-body-->
-            </div><!--end card-->
-          </div><!--end col-->
-          @endif
-
-        </div><!--end row-->
-      </div><!--end card-body-->
-    </div><!--end card-->
-  </div> <!--end col-->
-  <div class="col-lg-6">
-    <!-- <div class="col-lg-3" style="background: green; color: white; border-radius: 5px">
-    <p> Período Visível: 7 dias </p>
-  </div> -->
-  <div class="card">
-    <div class="card-body">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="card">
-            <div class="card-body">
-              <h1 class="header-title mt-0" style="text-align: center">Dashboard Recebimentos Operadoras</h1>
-              <div class="row">
-                <div class="col-6">
-                  <div class="dropdown">
-                    <button class="btn btn-sm dropdown-toggle" style="background: #2D5275; color: white" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Escolher Período <i class="mdi mdi-chevron-down"></i>
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <a class="dropdown-item" onclick="">Ontem</a>
-                      <a class="dropdown-item" onclick="">Últimos 7 dias</a>
-                      <a class="dropdown-item" onclick="">Últimos 15 dias</a>
-                      <a class="dropdown-item" onclick="">Últimos 30 dias</a>
-                      <a class="dropdown-item" onclick="">Mês Atual</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-6">
-
-                  <div class="dropdown" style="text-align: right">
-                    <button class="btn btn-sm dropdown-toggle pull-right" style="background: #2D5275; color: white; text-align: right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Escolhe Agrupamento <i class="mdi mdi-chevron-down"></i>
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <a class="dropdown-item" onclick="">Operadora</a>
-                      <a class="dropdown-item" onclick="">Bandeira</a>
-                      <a class="dropdown-item" onclick="">Modalide</a>
-                      <a class="dropdown-item" onclick="">Produto</a>
-                    </div>
+            <h4 class="mt-0" style="text-align: center">Vendas Operadora</h4>
+            <div class="row">
+              <div class="col-6">
+                <div class="dropdown">
+                  <button class="btn btn-sm dropdown-toggle" style="background: #2D5275; color: white" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item"  onclick="trocaPeriodo(1)">Ontem</a>
+                    <a class="dropdown-item"  onclick="trocaPeriodo(2)">Últimos 7 dias</a>
+                    <a class="dropdown-item"  onclick="trocaPeriodo(3)">Últimos 15 dias</a>
+                    <a class="dropdown-item"  onclick="trocaPeriodo(4)">Últimos 30 dias</a>
+                    <a class="dropdown-item"  onclick="trocaPeriodo(5)">Mês Atual</a>
                   </div>
                 </div>
               </div>
-              <div id="ana_devicee" class=""></div>
-              <div class="table-responsive mt-4">
-                <table style="font-size: 12px" class="table mb-0">
-                  <thead class="thead-light" style="width: 800px">
-                    <tr>
-                      <th>Valor Bruto</th>
-                      <th>Taxa</th>
-                      <th>Antecipação</th>
-                      <th>Ajustes a débito</th>
-                      <th>Ajustes a crédito</th>
-                      <th>Valor Líquido</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <!-- <th style="background: white" scope="row">Dasktops</th> -->
-                      <td>500</td>
-                      <td>500</td>
-                      <td>500</td>
-                      <td>500</td>
-                      <td>500</td>
-                      <td>500</td>
-                    </tr>
-                  </tbody>
-                </table>
+              <!-- <div class="col-6">
+              <div class="dropdown" style="text-align: right">
+              <button class="btn btn-sm dropdown-toggle pull-right" style="background: #2D5275; color: white; text-align: right" type="button" id="dropdownMenuButtonAgrupamento" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonAgrupamento">
+            <a class="dropdown-item" onclick="trocaAgrupamento(1)">Operadora</a>
+            <a class="dropdown-item" onclick="trocaAgrupamento(2)">Bandeira</a>
+            <a class="dropdown-item" onclick="trocaAgrupamento(3)">Modalidade</a>
+            <a class="dropdown-item" onclick="trocaAgrupamento(4)">Produto</a>
+          </div>
+        </div>
+      </div> -->
+    </div>
+    <div id="apex_pie2" class="apex-charts"></div>
+    <div class="table-responsive mt-4" style="border-color: red">
+      <table  id="table_vendas_operadora" class="table table-borderless mb-0" style="font-size: 12px">
+        <thead>
+          <tr>
+            <th style="color: #231F20" >Operadora</th>
+            <th style="color: #231F20" >Qtd.</th>
+            <th style="color: #231F20" >Bruto</th>
+            <th style="color: #231F20" >Taxa</th>
+            <th style="color: #231F20" >Líquido</th>
+            <th style="color: #231F20" >Ticket Médio</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- @foreach($dados_dash_vendas as $dados_vendas) -->
+          <tr>
+            <td style="color: #231F20" id="quantidade"> </td>
+            <td style="color: #231F20" id="venda_total_bruto"></td>
+            <td style="color: #231F20" id="venda_total_taxa"></td>
+            <td style="color: #231F20" id="venda_total_liquido"></td>
+            <td style="color: #231F20" id="venda_ticket_medio"></td>
+          </tr>
+          <!-- @endforeach -->
+        </tbody>
+      </table>
+    </div>
+  </div><!--end col-->
+  @endif
+
+</div><!--end row-->
+</div><!--end card-body-->
+</div><!--end card-->
+</div> <!--end col-->
+<div class="col-lg-6">
+  <!-- <div class="col-lg-3" style="background: green; color: white; border-radius: 5px">
+  <p> Período Visível: 7 dias </p>
+</div> -->
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-lg-12">
+        <h4 class="mt-0" style="text-align: center">Vendas Bandeira</h4>
+        <div class="row">
+          <div class="col-6">
+            <div class="dropdown">
+              <button class="btn btn-sm dropdown-toggle" style="background: #2D5275; color: white" type="button" id="dropdownMenuButtonBandeira" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Escolher Período <i class="mdi mdi-chevron-down"></i>
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" onclick="trocaPeriodo(1, 'bandeira')">Ontem</a>
+                <a class="dropdown-item" onclick="trocaPeriodo(2, 'bandeira')">Últimos 7 dias</a>
+                <a class="dropdown-item" onclick="trocaPeriodo(3, 'bandeira')">Últimos 15 dias</a>
+                <a class="dropdown-item" onclick="trocaPeriodo(4, 'bandeira')">Últimos 30 dias</a>
+                <a class="dropdown-item" onclick="trocaPeriodo(5, 'bandeira')">Mês Atual</a>
               </div>
-            </div><!--end card-body-->
-          </div><!--end card-->
-        </div><!--end col-->
+            </div>
+          </div>
+        </div>
+        <div id="apex_pie7" class="apex-charts"></div>
+        <div class="table-responsive mt-4">
+          <table  id="table_vendas_bandeira" class="table table-borderless mb-0" style="font-size: 12px">
+            <thead>
+              <tr>
+                <th style="color: #231F20" >Bandeira</th>
+                <th style="color: #231F20" >Qtd.</th>
+                <th style="color: #231F20" >Bruto</th>
+                <th style="color: #231F20" >Taxa</th>
+                <th style="color: #231F20" >Líquido</th>
+                <th style="color: #231F20" >Ticket Médio</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- @foreach($dados_dash_vendas as $dados_vendas) -->
+              <tr>
+                <td style="color: #231F20" id="vendabandeira_tipo"> </td>
+                <td style="color: #231F20" id="vendabandeira_quantidade"> </td>
+                <td style="color: #231F20" id="vendabandeira_total_bruto"></td>
+                <td style="color: #231F20" id="vendabandeira_total_taxa"></td>
+                <td style="color: #231F20" id="vendabandeira_total_liquido"></td>
+                <td style="color: #231F20" id="vendabandeira_ticket_medio"></td>
+              </tr>
+              <!-- @endforeach -->
+            </tbody>
+          </table>
+        </div>
 
       </div><!--end row-->
     </div><!--end card-body-->
   </div><!--end card-->
+</div> <!--end col-->
+</div>
+
+</div> <!--end row-->
+
+<div class="row">
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          @if(isset($dados_dash_vendas))
+          <div class="col-lg-12">
+            <h4 class="mt-0" style="text-align: center">Vendas Forma de Pagamento</h4>
+            <div class="row">
+              <div class="col-6">
+                <div class="dropdown">
+                  <button class="btn btn-sm dropdown-toggle" style="background: #2D5275; color: white" type="button" id="dropdownMenuButtonModalidade" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonModalidade">
+                    <a class="dropdown-item"  onclick="trocaPeriodo(1, 'modalidade')">Ontem</a>
+                    <a class="dropdown-item"  onclick="trocaPeriodo(2, 'modalidade')">Últimos 7 dias</a>
+                    <a class="dropdown-item"  onclick="trocaPeriodo(3, 'modalidade')">Últimos 15 dias</a>
+                    <a class="dropdown-item"  onclick="trocaPeriodo(4, 'modalidade')">Últimos 30 dias</a>
+                    <a class="dropdown-item"  onclick="trocaPeriodo(5, 'modalidade')">Mês Atual</a>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="col-6">
+              <div class="dropdown" style="text-align: right">
+              <button class="btn btn-sm dropdown-toggle pull-right" style="background: #2D5275; color: white; text-align: right" type="button" id="dropdownMenuButtonAgrupamento" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonAgrupamento">
+            <a class="dropdown-item" onclick="trocaAgrupamento(1)">Operadora</a>
+            <a class="dropdown-item" onclick="trocaAgrupamento(2)">Bandeira</a>
+            <a class="dropdown-item" onclick="trocaAgrupamento(3)">Modalidade</a>
+            <a class="dropdown-item" onclick="trocaAgrupamento(4)">Produto</a>
+          </div>
+        </div>
+      </div> -->
+    </div>
+    <div id="apex_pie8" class="apex-charts"></div>
+    <div class="table-responsive mt-4">
+      <table  id="table_vendas_modalidade" class="table table-borderless mb-0" style="font-size: 12px">
+        <thead>
+          <tr>
+            <th style="color: #231F20" >Forma de Pagamento</th>
+            <th style="color: #231F20" >Qtd.</th>
+            <th style="color: #231F20" >Bruto</th>
+            <th style="color: #231F20" >Taxa</th>
+            <th style="color: #231F20" >Líquido</th>
+            <th style="color: #231F20" >Ticket Médio</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- @foreach($dados_dash_vendas as $dados_vendas) -->
+          <tr>
+            <td style="color: #231F20" id="vendamodalidade_quantidade"> </td>
+            <td style="color: #231F20" id="vendamodalidade_total_bruto"></td>
+            <td style="color: #231F20" id="vendamodalidade_total_taxa"></td>
+            <td style="color: #231F20" id="vendamodalidade_total_liquido"></td>
+            <td style="color: #231F20" id="vendamodalidade_ticket_medio"></td>
+          </tr>
+          <!-- @endforeach -->
+        </tbody>
+      </table>
+    </div>
+  </div><!--end col-->
+  @endif
+
+</div><!--end row-->
+</div><!--end card-body-->
+</div><!--end card-->
+</div> <!--end col-->
+<div class="col-lg-6">
+  <!-- <div class="col-lg-3" style="background: green; color: white; border-radius: 5px">
+  <p> Período Visível: 7 dias </p>
+</div> -->
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-lg-12">
+        <h4 class="mt-0" style="text-align: center">Vendas Produto</h4>
+        <div class="row">
+          <div class="col-6">
+            <div class="dropdown">
+              <button class="btn btn-sm dropdown-toggle" style="background: #2D5275; color: white" type="button" id="dropdownMenuButtonProduto" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Escolher Período <i class="mdi mdi-chevron-down"></i>
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonProduto">
+                <a class="dropdown-item" onclick="">Ontem</a>
+                <a class="dropdown-item" onclick="">Últimos 7 dias</a>
+                <a class="dropdown-item" onclick="">Últimos 15 dias</a>
+                <a class="dropdown-item" onclick="">Últimos 30 dias</a>
+                <a class="dropdown-item" onclick="">Mês Atual</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="apex_pie9" class="apex-charts"></div>
+        <div class="table-responsive mt-4">
+          <table  id="table_vendas_produto" class="table table-borderless mb-0">
+            <thead>
+              <tr>
+                <th style="color: #231F20" >Produto</th>
+                <th style="color: #231F20" >Qtd.</th>
+                <th style="color: #231F20" >Bruto</th>
+                <th style="color: #231F20" >Taxa</th>
+                <th style="color: #231F20" >Líquido</th>
+                <th style="color: #231F20" >Ticket Médio</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- @foreach($dados_dash_vendas as $dados_vendas) -->
+              <tr>
+                <td style="color: #231F20"  id="tipo"> </td>
+                <td style="color: #231F20" id="quantidade"> </td>
+                <td style="color: #231F20" id="venda_total_bruto"></td>
+                <td style="color: #231F20" id="venda_total_taxa"></td>
+                <td style="color: #231F20" id="venda_total_liquido"></td>
+                <td style="color: #231F20" id="venda_ticket_medio"></td>
+              </tr>
+              <!-- @endforeach -->
+            </tbody>
+          </table>
+        </div>
+
+      </div><!--end col-->
+
+    </div><!--end row-->
+  </div><!--end card-body-->
+</div><!--end card-->
 </div> <!--end col-->
 
 </div> <!--end row-->
@@ -540,6 +648,11 @@ body {
 @stop
 
 @section('footerScript')
+<script src="{{ URL::asset('plugins/moment/moment.js')}}"></script>
+<script src="{{ URL::asset('plugins/apexcharts/irregular-data-series.js')}}"></script>
+<script src="{{ URL::asset('plugins/apexcharts/ohlc.js')}}"></script>
+<!-- <script src="{{ URL::asset('assets/pages/jquery.apexcharts.init.js')}}"></script> -->
+
 <script src="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.min.js') }}"></script>
 <script src="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-us-aea-en.js') }}"></script>
 <script type="text/javascript">
@@ -555,9 +668,12 @@ var dados_dash_vendas_bandeira = <?php echo $dados_dash_vendas_bandeira ?>;
 
 $(window).on("load", function () {
   preCarregarGraficoVendas();
+  preCarregarGraficoVendasBandeira();
+  preCarregarGraficoVendasModalidade();
+  // preCarregarGraficoVendasProduto();
+
   // página totalmente carregada (DOM, imagens etc.)
 });
-
 
 var periodo = null;
 var grafico_vendas = null;
@@ -600,9 +716,9 @@ function preCarregarGraficoVendas(){
   dados_grafico = [];
 
   dash_vendas = <?php echo $dados_dash_vendas ?>;
+
   dash_vendas.forEach((dados_dash) => {
     if(dados_dash.COD_PERIODO == 2){
-
       bruto = dados_dash.TOTAL_BRUTO;
       liquido = dados_dash.TOTAL_LIQUIDO;
       taxa = dados_dash.TOTAL_TAXA;
@@ -631,7 +747,7 @@ function preCarregarGraficoVendas(){
 
       html += "</tr>";
 
-      $('#table_vendas').append(html);
+      $('#table_vendas_operadora').append(html);
 
       // document.getElementById("venda_total_bruto").innerHTML = total_bruto;
       // document.getElementById("venda_total_taxa").innerHTML = total_taxa;
@@ -641,7 +757,6 @@ function preCarregarGraficoVendas(){
       // document.getElementById("tipo").innerHTML = "Operadora";
 
       document.getElementById("dropdownMenuButton").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
-      document.getElementById("dropdownMenuButtonAgrupamento").innerHTML = "Operadora" + ' ' + '<i class="mdi mdi-chevron-down"></i>';
     }
   })
   // dropdownMenuButton
@@ -650,79 +765,287 @@ function preCarregarGraficoVendas(){
   geraGraficoVendas(dados_grafico, 1);
 }
 
-function trocaPeriodo(cod_periodo){
+function preCarregarGraficoVendasBandeira(){
+  var dados_grafico = [];
+
+  dash_vendas = <?php echo $dados_dash_vendas_bandeira ?>;
+
+  dash_vendas.forEach((dados_dash) => {
+    if(dados_dash.COD_PERIODO == 2){
+      bruto = dados_dash.TOTAL_BRUTO;
+      liquido = dados_dash.TOTAL_LIQUIDO;
+      taxa = dados_dash.TOTAL_TAXA;
+      ticket = dados_dash.TICKET_MEDIO;
+
+      dados_grafico_total_bruto = parseFloat(bruto).toFixed(2);
+      dados_grafico_total_liquido = parseFloat(liquido).toFixed(2);
+      dados_grafico_total_taxa = parseFloat(taxa).toFixed(2);
+      dados_grafico_total_ticket = parseFloat(ticket).toFixed(2);
+
+      const total_bruto = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(dados_dash.TOTAL_BRUTO);
+      const total_liquido = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(dados_dash.TOTAL_LIQUIDO);
+      const total_taxa = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(dados_dash.TOTAL_TAXA);
+      const total_ticket_medio = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(dados_dash.TICKET_MEDIO);
+
+      dados_grafico.push(dados_dash);
+      var html = "<tr>";
+
+      html += "<td style='color: #231F20'>"+dados_dash.BANDEIRA+"</td>";
+      html += "<td style='color: #231F20'>"+dados_dash.QUANTIDADE+"</td>";
+      html += "<td style='color: #231F20'>"+total_bruto+"</td>";
+      html += "<td style='color: #231F20'>"+total_taxa+"</td>";
+      html += "<td style='color: #231F20'>"+total_liquido+"</td>";
+      html += "<td style='color: #231F20'>"+total_ticket_medio+"</td>";
+
+      html += "</tr>";
+
+      $('#table_vendas_bandeira').append(html);
+
+      // document.getElementById("venda_total_bruto").innerHTML = total_bruto;
+      // document.getElementById("venda_total_taxa").innerHTML = total_taxa;
+      // document.getElementById("venda_total_liquido").innerHTML = total_liquido ;
+      // document.getElementById("venda_ticket_medio").innerHTML = total_ticket_medio;
+      // document.getElementById("quantidade").innerHTML = dados_dash.QUANTIDADE;
+      // document.getElementById("tipo").innerHTML = "Operadora";
+
+      document.getElementById("dropdownMenuButtonBandeira").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
+    }
+  })
+  // dropdownMenuButton
+  periodo = 2;
+
+  geraGraficoVendasBandeira(dados_grafico, 1);
+}
+
+function preCarregarGraficoVendasProduto(){
+  var dados_grafico = [];
+
+  dash_vendas = <?php echo $dados_dash_vendas_produto ?>;
+
+  dash_vendas.forEach((dados_dash) => {
+    if(dados_dash.COD_PERIODO == 2){
+      bruto = dados_dash.TOTAL_BRUTO;
+      liquido = dados_dash.TOTAL_LIQUIDO;
+      taxa = dados_dash.TOTAL_TAXA;
+      ticket = dados_dash.TICKET_MEDIO;
+
+      dados_grafico_total_bruto = parseFloat(bruto).toFixed(2);
+      dados_grafico_total_liquido = parseFloat(liquido).toFixed(2);
+      dados_grafico_total_taxa = parseFloat(taxa).toFixed(2);
+      dados_grafico_total_ticket = parseFloat(ticket).toFixed(2);
+
+      const total_bruto = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(dados_dash.TOTAL_BRUTO);
+      const total_liquido = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(dados_dash.TOTAL_LIQUIDO);
+      const total_taxa = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(dados_dash.TOTAL_TAXA);
+      const total_ticket_medio = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(dados_dash.TICKET_MEDIO);
+
+      dados_grafico.push(dados_dash);
+      var html = "<tr>";
+
+      html += "<td style='color: #231F20'>"+dados_dash.QUANTIDADE+"</td>";
+      html += "<td style='color: #231F20'>"+total_bruto+"</td>";
+      html += "<td style='color: #231F20'>"+total_taxa+"</td>";
+      html += "<td style='color: #231F20'>"+total_liquido+"</td>";
+      html += "<td style='color: #231F20'>"+total_ticket_medio+"</td>";
+
+      html += "</tr>";
+
+      $('#table_vendas_produto').append(html);
+
+      // document.getElementById("venda_total_bruto").innerHTML = total_bruto;
+      // document.getElementById("venda_total_taxa").innerHTML = total_taxa;
+      // document.getElementById("venda_total_liquido").innerHTML = total_liquido ;
+      // document.getElementById("venda_ticket_medio").innerHTML = total_ticket_medio;
+      // document.getElementById("quantidade").innerHTML = dados_dash.QUANTIDADE;
+      // document.getElementById("tipo").innerHTML = "Operadora";
+
+      document.getElementById("dropdownMenuButtonProduto").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
+    }
+  })
+  // dropdownMenuButton
+  periodo = 2;
+
+  geraGraficoVendasProduto(dados_grafico, 1);
+}
+
+function preCarregarGraficoVendasModalidade(){
+  var dados_grafico = [];
+
+  dashboard_vendas_modalidade = <?php echo $dados_dash_vendas_modalidade ?>;
+
+  $('#table_vendas_modalidade tbody').empty();
+  dashboard_vendas_modalidade.forEach((dados_dash) => {
+    if(dados_dash.COD_PERIODO == 3){
+      // bruto = dados_dash.TOTAL_BRUTO;
+      // liquido = dados_dash.TOTAL_LIQUIDO;
+      // taxa = dados_dash.TOTAL_TAXA;
+      // ticket = dados_dash.TICKET_MEDIO;
+
+
+      total_bruto = parseInt(dados_dash.TOTAL_BRUTO);
+      total_liquido = parseInt(dados_dash.TOTAL_LIQUIDO);
+      total_taxa = parseInt(dados_dash.TOTAL_TAXA);
+      total_ticket_medio = parseInt(dados_dash.TICKET_MEDIO);
+      qtde = parseInt(dados_dash.QUANTIDADE);
+
+      var html = "<tr>";
+
+      html += "<td>"+dados_dash.DESCRICAO+"</td>";
+      html += "<td>"+dados_dash.QUANTIDADE+"</td>";
+      html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto)+"</td>";
+      html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa)+"</td>";
+      html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido)+"</td>";
+      html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio)+"</td>";
+
+      html += "</tr>";
+
+      $('#table_vendas_modalidade').append(html);
+
+      dados_grafico.push(dados_dash);
+
+      document.getElementById("dropdownMenuButtonModalidade").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
+    }
+  })
+
+
+  // document.getElementById("venda_total_bruto").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto);
+  // document.getElementById("venda_total_taxa").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa);
+  // document.getElementById("venda_total_liquido").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido);
+  // document.getElementById("venda_ticket_medio").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio);
+  // document.getElementById("quantidade").innerHTML = qtde;
+
+  periodo = 3;
+  console.log(dados_grafico);
+  geraGraficoVendasModalidade(dados_grafico);
+
+}
+
+function trocaPeriodo(cod_periodo, tipo){
   dados_grafico = [];
 
-  if(cod_periodo == 1){
-    <?php session()->put('periodo', 1); ?>
-  }else if(cod_periodo == 2){
-    <?php session()->put('periodo', 2); ?>
-  }else if(cod_periodo == 3){
-    <?php session()->put('periodo', 3); ?>
-  }else if(cod_periodo == 4){
-    <?php session()->put('periodo', 4); ?>
-  }
+  dash_vendas = <?php echo $dados_dash_vendas ?>;
 
-  grupo = document.getElementById("th_tipo").innerHTML;
+  var total_bruto = 0;
+  var total_liquido = 0;
+  var total_taxa = 0;
+  var total_ticket_medio = 0;
+  var qtde = 0;
 
-  if(grupo == "Operadora"){
-    dash_vendas = <?php echo $dados_dash_vendas ?>;
+  if(tipo == 'bandeira'){
+    dash_vendas = <?php echo $dados_dash_vendas_bandeira ?>;
 
-    var total_bruto = 0;
-    var total_liquido = 0;
-    var total_taxa = 0;
-    var total_ticket_medio = 0;
-    var qtde = 0;
+    $('#table_vendas_bandeira tbody').empty();
 
     dash_vendas.forEach((dados_dash) => {
+
       if(dados_dash.COD_PERIODO == cod_periodo){
+        // bruto = dados_dash.TOTAL_BRUTO;
+        // liquido = dados_dash.TOTAL_LIQUIDO;
+        // taxa = dados_dash.TOTAL_TAXA;
+        // ticket = dados_dash.TICKET_MEDIO;
+        //
+        total_bruto = parseInt(dados_dash.TOTAL_BRUTO);
+        total_liquido = parseInt(dados_dash.TOTAL_LIQUIDO);
+        total_taxa = parseInt(dados_dash.TOTAL_TAXA);
+        total_ticket_medio = parseInt(dados_dash.TICKET_MEDIO);
+        qtde = parseInt(dados_dash.QUANTIDADE);
 
-        bruto = dados_dash.TOTAL_BRUTO;
-        liquido = dados_dash.TOTAL_LIQUIDO;
-        taxa = dados_dash.TOTAL_TAXA;
-        ticket = dados_dash.TICKET_MEDIO;
+        var html = "<tr>";
 
-        total_bruto = parseInt(total_bruto) + parseInt(dados_dash.TOTAL_BRUTO);
-        total_liquido = parseInt(total_liquido) + parseInt(dados_dash.TOTAL_LIQUIDO);
-        total_taxa = parseInt(total_taxa) + parseInt(dados_dash.TOTAL_TAXA);
-        total_ticket_medio = parseInt(total_ticket_medio) + parseInt(dados_dash.TICKET_MEDIO);
-        qtde = qtde + parseInt(dados_dash.QUANTIDADE);
+        html += "<td>"+dados_dash.QUANTIDADE+"</td>";
+        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto)+"</td>";
+        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa)+"</td>";
+        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido)+"</td>";
+        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio)+"</td>";
+
+        html += "</tr>";
+
+        $('#table_vendas_bandeira').append(html);
 
         dados_grafico.push(dados_dash);
 
-        document.getElementById("dropdownMenuButton").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
+        document.getElementById("dropdownMenuButtonBandeira").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
       }
     })
+
 
     if(dados_grafico.length == 0){
       console.log("VAZIOOOOOOOOOOOO");
     }else{
       grafico_vendas.destroy();
 
-      document.getElementById("venda_total_bruto").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto);
-      document.getElementById("venda_total_taxa").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa);
-      document.getElementById("venda_total_liquido").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido);
-      document.getElementById("venda_ticket_medio").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio);
-      document.getElementById("quantidade").innerHTML = qtde;
+      // document.getElementById("venda_total_bruto").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto);
+      // document.getElementById("venda_total_taxa").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa);
+      // document.getElementById("venda_total_liquido").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido);
+      // document.getElementById("venda_ticket_medio").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio);
+      // document.getElementById("quantidade").innerHTML = qtde;
 
       periodo = cod_periodo;
-      geraGraficoVendas(dados_grafico, 1);
+
+      geraGraficoVendasBandeira(dados_grafico);
     }
 
-  }else if(grupo == "Bandeira"){
-    dash_vendas = <?php echo $dados_dash_vendas_bandeira ?>;
-    //
-    // var total_bruto = 0;
-    // var total_liquido = 0;
-    // var total_taxa = 0;
-    // var total_ticket_medio = 0;
-    // var qtde = 0;
-    $('#table_vendas tbody').empty();
+  }else if(tipo == 'modalidade'){
+    console.log("TROCAAAAAAAAAAAAAAAAAAAAAAAAAA")
+    dash_vendas = <?php echo $dados_dash_vendas_modalidade ?>;
+
+    $('#table_vendas_modalidade tbody').empty();
+    dash_vendas.forEach((dados_dash) => {
+
+      if(dados_dash.COD_PERIODO == cod_periodo){
+        // bruto = dados_dash.TOTAL_BRUTO;
+        // liquido = dados_dash.TOTAL_LIQUIDO;
+        // taxa = dados_dash.TOTAL_TAXA;
+        // ticket = dados_dash.TICKET_MEDIO;
+        //
+        total_bruto = parseInt(dados_dash.TOTAL_BRUTO);
+        total_liquido = parseInt(dados_dash.TOTAL_LIQUIDO);
+        total_taxa = parseInt(dados_dash.TOTAL_TAXA);
+        total_ticket_medio = parseInt(dados_dash.TICKET_MEDIO);
+        qtde = parseInt(dados_dash.QUANTIDADE);
+
+        var html = "<tr>";
+
+        html += "<td>"+dados_dash.QUANTIDADE+"</td>";
+        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto)+"</td>";
+        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa)+"</td>";
+        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido)+"</td>";
+        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio)+"</td>";
+
+        html += "</tr>";
+
+        $('#table_vendas_modalidade').append(html);
+
+        dados_grafico.push(dados_dash);
+
+        document.getElementById("dropdownMenuButtonModalidade").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
+      }
+    })
+
+
+    if(dados_grafico.length == 0){
+      console.log("VAZIOOOOOOOOOOOO");
+    }else{
+      grafico_vendas.destroy();
+
+      // document.getElementById("venda_total_bruto").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto);
+      // document.getElementById("venda_total_taxa").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa);
+      // document.getElementById("venda_total_liquido").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido);
+      // document.getElementById("venda_ticket_medio").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio);
+      // document.getElementById("quantidade").innerHTML = qtde;
+
+      periodo = cod_periodo;
+
+      geraGraficoVendasModalidade(dados_grafico);
+    }
+
+  }else{
+
+    $('#table_vendas_operadora tbody').empty();
 
     dash_vendas.forEach((dados_dash) => {
 
       if(dados_dash.COD_PERIODO == cod_periodo){
-        console.log("TESTEEEEEEE");
         // bruto = dados_dash.TOTAL_BRUTO;
         // liquido = dados_dash.TOTAL_LIQUIDO;
         // taxa = dados_dash.TOTAL_TAXA;
@@ -742,7 +1065,6 @@ function trocaPeriodo(cod_periodo){
 
         var html = "<tr>";
 
-        html += "<td>"+dados_dash.BANDEIRA+"</td>";
         html += "<td>"+dados_dash.QUANTIDADE+"</td>";
         html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto)+"</td>";
         html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa)+"</td>";
@@ -751,7 +1073,7 @@ function trocaPeriodo(cod_periodo){
 
         html += "</tr>";
 
-        $('#table_vendas').append(html);
+        $('#table_vendas_operadora').append(html);
 
         dados_grafico.push(dados_dash);
 
@@ -759,50 +1081,6 @@ function trocaPeriodo(cod_periodo){
       }
     })
 
-    if(dados_grafico.length == 0){
-      console.log("VAZIOOOOOOOOOOOO");
-    }else{
-      grafico_vendas.destroy();
-      //
-      // document.getElementById("venda_total_bruto").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto);
-      // document.getElementById("venda_total_taxa").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa);
-      // document.getElementById("venda_total_liquido").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido);
-      // document.getElementById("venda_ticket_medio").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio);
-      // document.getElementById("quantidade").innerHTML = qtde;
-
-      periodo = cod_periodo;
-      geraGraficoVendas(dados_grafico, 2);
-    }
-  }else if(grupo == "Modalidade"){
-    dash_vendas = <?php echo $dados_dash_vendas_modalidade ?>;
-
-    var total_bruto = 0;
-    var total_liquido = 0;
-    var total_taxa = 0;
-    var total_ticket_medio = 0;
-    var qtde = 0;
-
-    dash_vendas.forEach((dados_dash) => {
-      console.log(dash_vendas);
-
-      if(dados_dash.COD_PERIODO == cod_periodo){
-
-        bruto = dados_dash.TOTAL_BRUTO;
-        liquido = dados_dash.TOTAL_LIQUIDO;
-        taxa = dados_dash.TOTAL_TAXA;
-        ticket = dados_dash.TICKET_MEDIO;
-
-        total_bruto = parseInt(total_bruto) + parseInt(dados_dash.TOTAL_BRUTO);
-        total_liquido = parseInt(total_liquido) + parseInt(dados_dash.TOTAL_LIQUIDO);
-        total_taxa = parseInt(total_taxa) + parseInt(dados_dash.TOTAL_TAXA);
-        total_ticket_medio = parseInt(total_ticket_medio) + parseInt(dados_dash.TICKET_MEDIO);
-        qtde = qtde + parseInt(dados_dash.QUANTIDADE);
-
-        dados_grafico.push(dados_dash);
-
-        document.getElementById("dropdownMenuButton").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
-      }
-    })
 
     if(dados_grafico.length == 0){
       console.log("VAZIOOOOOOOOOOOO");
@@ -814,15 +1092,127 @@ function trocaPeriodo(cod_periodo){
       document.getElementById("venda_total_liquido").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido);
       document.getElementById("venda_ticket_medio").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio);
       document.getElementById("quantidade").innerHTML = qtde;
+
       periodo = cod_periodo;
-      geraGraficoVendas(dados_grafico, 3);
+
+      geraGraficoVendas(dados_grafico);
     }
 
-  }else if(grupo = "Produto"){
-
   }
-}
 
+  // }else if(grupo == "Bandeira"){
+  //   dash_vendas = <?php echo $dados_dash_vendas_bandeira ?>;
+  //   //
+  //   // var total_bruto = 0;
+  //   // var total_liquido = 0;
+  //   // var total_taxa = 0;
+  //   // var total_ticket_medio = 0;
+  //   // var qtde = 0;
+  //   $('#table_vendas tbody').empty();
+  //
+  //   dash_vendas.forEach((dados_dash) => {
+  //
+  //     if(dados_dash.COD_PERIODO == cod_periodo){
+  //       console.log("TESTEEEEEEE");
+  //       // bruto = dados_dash.TOTAL_BRUTO;
+  //       // liquido = dados_dash.TOTAL_LIQUIDO;
+  //       // taxa = dados_dash.TOTAL_TAXA;
+  //       // ticket = dados_dash.TICKET_MEDIO;
+  //       //
+  //       total_bruto = parseInt(dados_dash.TOTAL_BRUTO);
+  //       total_liquido = parseInt(dados_dash.TOTAL_LIQUIDO);
+  //       total_taxa = parseInt(dados_dash.TOTAL_TAXA);
+  //       total_ticket_medio = parseInt(dados_dash.TICKET_MEDIO);
+  //       qtde = parseInt(dados_dash.QUANTIDADE);
+  //
+  //       // document.getElementById("venda_total_bruto").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto);
+  //       // document.getElementById("venda_total_taxa").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa);
+  //       // document.getElementById("venda_total_liquido").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido);
+  //       // document.getElementById("venda_ticket_medio").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio);
+  //
+  //
+  //       var html = "<tr>";
+  //
+  //       html += "<td>"+dados_dash.QUANTIDADE+"</td>";
+  //       html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto)+"</td>";
+  //       html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa)+"</td>";
+  //       html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido)+"</td>";
+  //       html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio)+"</td>";
+  //
+  //       html += "</tr>";
+  //
+  //       $('#table_vendas').append(html);
+  //
+  //       dados_grafico.push(dados_dash);
+  //
+  //       document.getElementById("dropdownMenuButton").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
+  //     }
+  //   })
+  //
+  //   if(dados_grafico.length == 0){
+  //     console.log("VAZIOOOOOOOOOOOO");
+  //   }else{
+  //     grafico_vendas.destroy();
+  //     //
+  //     // document.getElementById("venda_total_bruto").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto);
+  //     // document.getElementById("venda_total_taxa").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa);
+  //     // document.getElementById("venda_total_liquido").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido);
+  //     // document.getElementById("venda_ticket_medio").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio);
+  //     // document.getElementById("quantidade").innerHTML = qtde;
+  //
+  //     periodo = cod_periodo;
+  //     geraGraficoVendas(dados_grafico, 2);
+  //   }
+  // }else if(grupo == "Modalidade"){
+  //   dash_vendas = <?php echo $dados_dash_vendas_modalidade ?>;
+  //
+  //   var total_bruto = 0;
+  //   var total_liquido = 0;
+  //   var total_taxa = 0;
+  //   var total_ticket_medio = 0;
+  //   var qtde = 0;
+  //
+  //   dash_vendas.forEach((dados_dash) => {
+  //     console.log(dash_vendas);
+  //
+  //     if(dados_dash.COD_PERIODO == cod_periodo){
+  //
+  //       bruto = dados_dash.TOTAL_BRUTO;
+  //       liquido = dados_dash.TOTAL_LIQUIDO;
+  //       taxa = dados_dash.TOTAL_TAXA;
+  //       ticket = dados_dash.TICKET_MEDIO;
+  //
+  //       total_bruto = parseInt(total_bruto) + parseInt(dados_dash.TOTAL_BRUTO);
+  //       total_liquido = parseInt(total_liquido) + parseInt(dados_dash.TOTAL_LIQUIDO);
+  //       total_taxa = parseInt(total_taxa) + parseInt(dados_dash.TOTAL_TAXA);
+  //       total_ticket_medio = parseInt(total_ticket_medio) + parseInt(dados_dash.TICKET_MEDIO);
+  //       qtde = qtde + parseInt(dados_dash.QUANTIDADE);
+  //
+  //       dados_grafico.push(dados_dash);
+  //
+  //       document.getElementById("dropdownMenuButton").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
+  //     }
+  //   })
+  //
+  //   if(dados_grafico.length == 0){
+  //     console.log("VAZIOOOOOOOOOOOO");
+  //   }else{
+  //     grafico_vendas.destroy();
+  //
+  //     document.getElementById("venda_total_bruto").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto);
+  //     document.getElementById("venda_total_taxa").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa);
+  //     document.getElementById("venda_total_liquido").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido);
+  //     document.getElementById("venda_ticket_medio").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio);
+  //     document.getElementById("quantidade").innerHTML = qtde;
+  //     periodo = cod_periodo;
+  //     geraGraficoVendas(dados_grafico, 3);
+  //   }
+  //
+  // }else if(grupo = "Produto"){
+  //
+  // }
+  // }
+}
 
 </script>
 @stop

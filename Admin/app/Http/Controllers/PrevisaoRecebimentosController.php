@@ -24,7 +24,6 @@ class PrevisaoRecebimentosController extends Controller{
       ->where('clientes_bandeiras.COD_CLIENTE', '=', session('codigologin'))
       ->get();
 
-
       return view('previsao-recebimentos.previsao-recebimentos')->with('adquirentes', $adquirentes)
       ->with('modalidades', $modalidades)
       ->with('bandeiras', $bandeiras);
@@ -52,7 +51,7 @@ class PrevisaoRecebimentosController extends Controller{
         if(Request::only('arrayAdquirentes') != null){
           $adquirentes = Request::only('arrayAdquirentes');
           foreach ($adquirentes['arrayAdquirentes'] as $adquirente) {
-            $query->orWhere('ADQUIRENTE', '=', $adquirente);
+            $query->orWhere('ADQID', '=', $adquirente);
           }
         }
       })
@@ -91,7 +90,7 @@ class PrevisaoRecebimentosController extends Controller{
         if(Request::only('arrayAdquirentes') != null){
           $adquirentes = Request::only('arrayAdquirentes');
           foreach ($adquirentes['arrayAdquirentes'] as $adquirente) {
-            $query->orWhere('ADQUIRENTE', '=', $adquirente);
+            $query->orWhere('ADQID', '=', $adquirente);
           }
         }
       })
@@ -127,7 +126,7 @@ class PrevisaoRecebimentosController extends Controller{
         if(Request::only('arrayAdquirentes') != null){
           $adquirentes = Request::only('arrayAdquirentes');
           foreach ($adquirentes['arrayAdquirentes'] as $adquirente) {
-            $query->orWhere('ADQUIRENTE', '=', $adquirente);
+            $query->orWhere('ADQID', '=', $adquirente);
           }
         }
       })
@@ -163,7 +162,7 @@ class PrevisaoRecebimentosController extends Controller{
         if(Request::only('arrayAdquirentes') != null){
           $adquirentes = Request::only('arrayAdquirentes');
           foreach ($adquirentes['arrayAdquirentes'] as $adquirente) {
-            $query->orWhere('ADQUIRENTE', '=', $adquirente);
+            $query->orWhere('ADQID', '=', $adquirente);
           }
         }
       })
@@ -199,7 +198,7 @@ class PrevisaoRecebimentosController extends Controller{
         if(Request::only('arrayAdquirentes') != null){
           $adquirentes = Request::only('arrayAdquirentes');
           foreach ($adquirentes['arrayAdquirentes'] as $adquirente) {
-            $query->orWhere('ADQUIRENTE', '=', $adquirente);
+            $query->orWhere('ADQID', '=', $adquirente);
           }
         }
       })
@@ -225,8 +224,8 @@ class PrevisaoRecebimentosController extends Controller{
       $val_taxas = $val_bruto->val_bruto - $val_liquido->val_liquido;
       session()->put('prev_pg_download', $vendas);
 
-      $modalidades = ModalidadesModel::orderBy('DESCRICAO', 'ASC')->get();
       $adquirentes = AdquirentesModel::orderBy('ADQUIRENTE', 'ASC')->get();
+      $modalidades = ModalidadesModel::orderBy('DESCRICAO', 'ASC')->get();
       $bandeiras = BandeiraModel::orderBy('BANDEIRA', 'ASC')->get();
 
       $val_liquido = number_format($val_liquido->val_liquido, 2,",",".");

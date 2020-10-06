@@ -197,7 +197,7 @@ $(document).ready(function(){
                     <p>{{ $adquirente->ADQUIRENTE }}</p>
                   </div>
 
-                  <div id="{{ "divCod".$bandeira->CODIGO }}" style="display:block" class="col-sm-2">
+                  <div id="{{ "divCod".$adquirente->CODIGO }}" style="display:block" class="col-sm-2">
                     <input id="{{ $adquirente->CODIGO }}" value="{{ $adquirente->ADQUIRENTE }}" name="arrayAdquirentes[]" type="checkbox">
                   </div>
                   <hr>
@@ -608,31 +608,12 @@ $(document).ready(function(){
 <script>
 $('#submitFormLogin').click(function(){
   // autenticacao = {
-    var node = document.getElementById("557");
-    var nodee = document.getElementById("rodapeTable");
-    var node_conteudo = document.getElementById("conteudo_table_vendas");
-    console.log(node_conteudo);
+  // var node = document.getElementById("557");
+  // var nodee = document.getElementById("rodapeTable");
+  // var node_conteudo = document.getElementById("conteudo_table_vendas");
+  // console.log(node_conteudo);
 
-    $('#jsgrid-table tbody').empty();
-
-
-    // if(node != null){
-    //   if (node.parentNode) {
-    //     node.parentNode.removeChild(node);
-    //   }
-    // }
-    //
-    // if(nodee != null){
-    //   if (nodee.parentNode) {
-    //     nodee.parentNode.removeChild(nodee);
-    //   }
-    // }
-    //
-    // if(node_conteudo!=null){
-    //   if(node_conteudo.parentNode){
-    //     node_conteudo.parentNode.removeChild(node_conteudo);
-    //   }
-    // }
+  $('#jsgrid-table tbody').empty();
 
   array = [];
   arrayModalidade = [];
@@ -651,6 +632,7 @@ $('#submitFormLogin').click(function(){
 
   adquirentes.forEach((adquirente) => {
     if(document.getElementById(adquirente.CODIGO).checked){
+      console.log("dopwkapodkwaodkpowapdkpadpawk");
       arrayAdquirentes.push(adquirente.CODIGO);
     }
   });
@@ -666,7 +648,6 @@ $('#submitFormLogin').click(function(){
       arrayBandeira.push(bandeira.CODIGO);
     }
   });
-  console.log(array);
 
   document.getElementById("preloader").style.display = "block";
 
@@ -1029,6 +1010,7 @@ function limparFiltros(){
   document.getElementById("adquirente").value = "";
   document.getElementById("modalidade").value = "";
   document.getElementById("bandeira").value = "";
+  document.getElementById("domicilio_bancario").value = "";
 }
 
 function addTodos(grupos_clientes){

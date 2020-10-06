@@ -35,7 +35,8 @@ class VendasErpController extends Controller{
     $vendas = DB::table('vendas_erp')
     ->join('modalidade', 'vendas_erp.COD_MODALIDADE', '=', 'modalidade.CODIGO')
     ->leftJoin('produto_web', 'vendas_erp.COD_PRODUTO', '=', 'produto_web.CODIGO')
-    ->select('vendas_erp.*', 'vendas_erp.CODIGO as COD', 'modalidade.*', 'produto_web.*')
+    ->leftJoin('meio_captura', 'vendas_erp.COD_MEIO_CAPTURA', '=', 'meio_captura.CODIGO')
+    ->select('vendas_erp.*', 'vendas_erp.CODIGO as COD', 'modalidade.*', 'produto_web.*', 'meio_captura.DESCRICAO as MEIOCAPTURA')
     ->where('vendas_erp.COD_CLIENTE', '=', session('codigologin'))
     // ->where(function($query) {
     //   if(Request::only('array') != null){

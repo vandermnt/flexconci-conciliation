@@ -33,6 +33,8 @@ Route::group(['middleware' => 'auth'], function() {
   //VENDAS - RECEBIMENTOS OPERADORAS
   Route::get('/recebimentos-operadora', 'RecebimentosOperadoraController@recebimentosOperadora');
   Route::match(['get', 'post'], '/consultar-recebimentos-operadora', 'RecebimentosOperadoraController@consultarRecebimentosOperadoras');
+  Route::get('/download-vendas-operadora', 'RecebimentosOperadoraController@downloadTable');
+
 
   //VENDAS SISTEMA ERP
   Route::get('/vendas-sistema-erp', 'VendasErpController@vendaserp');

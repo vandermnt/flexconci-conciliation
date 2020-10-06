@@ -1,45 +1,18 @@
-function geraGraficoVendas(dados_grafico, grupo) {
+function geraGraficoVendas(dados_grafico) {
   array = [];
   arrayNomeAdq = [];
 
-  if (grupo == 1) {
-    dados_grafico.forEach((dado) => {
-      if (dado.COD_PERIODO == periodo) {
-        array.push(parseInt(dado.PERCENTUAL));
-      }
-    });
+  dados_grafico.forEach((dado) => {
+    if (dado.COD_PERIODO == periodo) {
+      array.push(parseInt(dado.PERCENTUAL));
+    }
+  });
 
-    dados_grafico.forEach((dado) => {
-      if (dado.COD_PERIODO == periodo) {
-        arrayNomeAdq.push(dado.ADQUIRENTE);
-      }
-    });
-  } else if (grupo == 2) {
-    dados_grafico.forEach((dado) => {
-      if (dado.COD_PERIODO == periodo) {
-        array.push(parseInt(dado.PERCENTUAL));
-      }
-    });
-
-    dados_grafico.forEach((dado) => {
-      if (dado.COD_PERIODO == periodo) {
-        arrayNomeAdq.push(dado.BANDEIRA);
-      }
-    });
-  } else if (grupo == 3) {
-    dados_grafico.forEach((dado) => {
-      if (dado.COD_PERIODO == periodo) {
-        array.push(parseInt(dado.PERCENTUAL));
-      }
-    });
-
-    dados_grafico.forEach((dado) => {
-      if (dado.COD_PERIODO == periodo) {
-        arrayNomeAdq.push(dado.DESCRICAO);
-      }
-    });
-  } else if (grupo == 4) {
-  }
+  dados_grafico.forEach((dado) => {
+    if (dado.COD_PERIODO == periodo) {
+      arrayNomeAdq.push(dado.ADQUIRENTE);
+    }
+  });
 
   cores = ["#119DA4", "#FFBC42", "#DA2C38", "#4CB944"];
   coresGrafico = [];
@@ -50,142 +23,300 @@ function geraGraficoVendas(dados_grafico, grupo) {
 
   var options = {
     chart: {
-      height: 270,
-      type: "donut",
-    },
-    plotOptions: {
-      pie: {
-        donut: {
-          size: "85%",
-        },
+      height: 320,
+      type: 'donut',
+      dropShadow: {
+        enabled: true,
+        top: 10,
+        left: 0,
+        bottom: 0,
+        right: 0,
+        blur: 2,
+        color: '#45404a2e',
+        opacity: 0.35
       },
     },
-    dataLabels: {
-      enabled: false,
-    },
-
     stroke: {
       show: true,
       width: 2,
-      colors: ["transparent"],
+      colors: ['transparent']
     },
-
     series: array,
     legend: {
       show: true,
-      position: "bottom",
-      horizontalAlign: "center",
-      verticalAlign: "middle",
+      position: 'bottom',
+      horizontalAlign: 'center',
+      verticalAlign: 'middle',
       floating: false,
-      fontSize: "14px",
+      fontSize: '14px',
       offsetX: 0,
-      offsetY: 5,
+      offsetY: 6
     },
     labels: arrayNomeAdq,
     colors: cores,
-
-    responsive: [
-      {
-        breakpoint: 600,
-        options: {
-          plotOptions: {
-            donut: {
-              customScale: 0.2,
-            },
-          },
-          chart: {
-            height: 240,
-          },
-          legend: {
-            show: false,
-          },
+    responsive: [{
+      breakpoint: 600,
+      options: {
+        chart: {
+          height: 240
         },
-      },
-    ],
-
-    tooltip: {
-      y: {
-        formatter: function (val) {
-          return val + " %";
+        legend: {
+          show: false
         },
-      },
-    },
+      }
+    }],
+    fill: {
+      type: 'gradient'
+    }
   };
 
-  var chart = new ApexCharts(document.querySelector("#ana_dash_1"), options);
+  var chart = new ApexCharts(document.querySelector("#apex_pie2"), options);
 
   grafico_vendas = chart;
 
   chart.render(options);
 }
 
-var options = {
-  chart: {
-    height: 270,
-    type: "donut",
-  },
-  plotOptions: {
-    pie: {
-      donut: {
-        size: "85%",
+function geraGraficoVendasBandeira(dados_grafico) {
+  array = [];
+  arrayNomeAdq = [];
+
+  dados_grafico.forEach((dado) => {
+    if (dado.COD_PERIODO == periodo) {
+      array.push(parseInt(dado.PERCENTUAL));
+    }
+  });
+
+  dados_grafico.forEach((dado) => {
+    if (dado.COD_PERIODO == periodo) {
+      arrayNomeAdq.push(dado.BANDEIRA);
+    }
+  });
+
+  cores = ["#119DA4", "#FFBC42", "#DA2C38", "#4CB944"];
+  coresGrafico = [];
+
+  for (var i = 0; i < arrayNomeAdq.length; i++) {
+    coresGrafico.push(cores[i]);
+  }
+
+  var options = {
+    chart: {
+      height: 320,
+      type: 'donut',
+      dropShadow: {
+        enabled: true,
+        top: 10,
+        left: 0,
+        bottom: 0,
+        right: 0,
+        blur: 2,
+        color: '#45404a2e',
+        opacity: 0.35
       },
     },
-  },
-  dataLabels: {
-    enabled: false,
-  },
-
-  stroke: {
-    show: true,
-    width: 2,
-    colors: ["transparent"],
-  },
-
-  series: [90, 10],
-  legend: {
-    show: true,
-    position: "bottom",
-    horizontalAlign: "center",
-    verticalAlign: "middle",
-    floating: false,
-    fontSize: "14px",
-    offsetX: 0,
-    offsetY: 5,
-  },
-  labels: ["Concluído", "Pendente"],
-  colors: ["#ff9f43", "#506ee4"],
-
-  responsive: [
-    {
+    stroke: {
+      show: true,
+      width: 2,
+      colors: ['transparent']
+    },
+    series: array,
+    legend: {
+      show: true,
+      position: 'bottom',
+      horizontalAlign: 'center',
+      verticalAlign: 'middle',
+      floating: false,
+      fontSize: '14px',
+      offsetX: 0,
+      offsetY: 6
+    },
+    labels: arrayNomeAdq,
+    colors: cores,
+    responsive: [{
       breakpoint: 600,
       options: {
-        plotOptions: {
-          donut: {
-            customScale: 0.2,
-          },
-        },
         chart: {
-          height: 240,
+          height: 240
         },
         legend: {
-          show: false,
+          show: false
         },
+      }
+    }],
+    fill: {
+      type: 'gradient'
+    }
+  };
+
+  var chart = new ApexCharts(document.querySelector("#apex_pie7"), options);
+
+  grafico_vendas = chart;
+
+  chart.render(options);
+}
+
+function geraGraficoVendasProduto(dados_grafico) {
+  array = [];
+  arrayNomeAdq = [];
+
+  dados_grafico.forEach((dado) => {
+    if (dado.COD_PERIODO == periodo) {
+      array.push(parseInt(dado.PERCENTUAL));
+    }
+  });
+
+  dados_grafico.forEach((dado) => {
+    if (dado.COD_PERIODO == periodo) {
+      arrayNomeAdq.push(dado.DESCRICAO);
+    }
+  });
+
+  cores = ["#119DA4", "#FFBC42", "#DA2C38", "#4CB944"];
+  coresGrafico = [];
+
+  for (var i = 0; i < arrayNomeAdq.length; i++) {
+    coresGrafico.push(cores[i]);
+  }
+
+  var options = {
+    chart: {
+      height: 320,
+      type: 'donut',
+      dropShadow: {
+        enabled: true,
+        top: 10,
+        left: 0,
+        bottom: 0,
+        right: 0,
+        blur: 2,
+        color: '#45404a2e',
+        opacity: 0.35
       },
     },
-  ],
+    stroke: {
+      show: true,
+      width: 2,
+      colors: ['transparent']
+    },
+    series: [50,47,14,58,22,69,45,78,10, 78, 45, 45, 47, 78, 12],
+    legend: {
+      show: true,
+      position: 'bottom',
+      horizontalAlign: 'center',
+      verticalAlign: 'middle',
+      floating: false,
+      fontSize: '14px',
+      offsetX: 0,
+      offsetY: 6
+    },
+    labels: ["teste", "teste", "teste", "teste","teste","teste","teste","teste","teste", "teste","teste","teste","teste","teste",],
+    colors: cores,
+    responsive: [{
+      breakpoint: 600,
+      options: {
+        chart: {
+          height: 240
+        },
+        legend: {
+          show: false
+        },
+      }
+    }],
+    fill: {
+      type: 'gradient'
+    }
+  };
 
-  tooltip: {
-    y: {
-      formatter: function (val) {
-        return val + " %";
+  var chart = new ApexCharts(document.querySelector("#apex_pie9"), options);
+
+  grafico_vendas = chart;
+
+  chart.render(options);
+}
+
+function geraGraficoVendasModalidade(dados_grafico) {
+  array = [];
+  arrayNomeAdq = [];
+
+  dados_grafico.forEach((dado) => {
+    if (dado.COD_PERIODO == periodo) {
+      array.push(parseInt(dado.PERCENTUAL));
+    }
+  });
+
+  dados_grafico.forEach((dado) => {
+    if (dado.COD_PERIODO == periodo) {
+      arrayNomeAdq.push(dado.DESCRICAO);
+    }
+  });
+
+
+
+  cores = ["#119DA4", "#FFBC42", "#DA2C38", "#4CB944"];
+  coresGrafico = [];
+
+  for (var i = 0; i < arrayNomeAdq.length; i++) {
+    coresGrafico.push(cores[i]);
+  }
+
+  var options = {
+    chart: {
+      height: 320,
+      type: 'donut',
+      dropShadow: {
+        enabled: true,
+        top: 10,
+        left: 0,
+        bottom: 0,
+        right: 0,
+        blur: 2,
+        color: '#45404a2e',
+        opacity: 0.35
       },
     },
-  },
-};
+    stroke: {
+      show: true,
+      width: 2,
+      colors: ['transparent']
+    },
+    series: array,
+    legend: {
+      show: true,
+      position: 'bottom',
+      horizontalAlign: 'center',
+      verticalAlign: 'middle',
+      floating: false,
+      fontSize: '14px',
+      offsetX: 0,
+      offsetY: 6
+    },
+    labels: arrayNomeAdq,
+    colors: cores,
+    responsive: [{
+      breakpoint: 600,
+      options: {
+        chart: {
+          height: 240
+        },
+        legend: {
+          show: false
+        },
+      }
+    }],
+    fill: {
+      type: 'gradient'
+    }
+  };
 
-var charte = new ApexCharts(document.querySelector("#ana_devicee"), options);
 
-charte.render();
+  var chart = new ApexCharts(document.querySelector("#apex_pie8"), options);
+
+  grafico_vendas = chart;
+
+  chart.render(options);
+}
+
 
 function trocaAgrupamento(grupo) {
   dados_grafico = [];

@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 </head>
 <body>
-  <h6 style="text-align: center"> Previsão de Recebimentos </h6>
+  <h6 style="text-align: center"> Vendas Operadoras </h6>
   <div style="margin-left: -35px !important">
     <table border="1" style="font-size: 10px;">
       <thead>

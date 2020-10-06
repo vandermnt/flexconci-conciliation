@@ -553,6 +553,8 @@ $(document).ready(function(){
                 <th> Conta <br> <input style="max-width: 135px; margin: 0"></th>
                 <th> Observação <br> <input style="min-width: 135px; margin: 0"></th>
                 <th> Produto<br> <input style="max-width: 135px; margin: 0"> </th>
+                <th> Meio de Captura<br> <input style="max-width: 135px; margin: 0"> </th>
+
                 <th> Ação <br></th>
               </tr>
 
@@ -893,6 +895,8 @@ $('#submitFormLogin').click(function(){
           }else{
             html +="<td>"+""+"</td>";
           }
+          html +="<td>"+response[0][i].MEIOCAPTURA+"</td>";
+
           // var url = "{{ url('/impressao-vendas')}}"+"/"+response[0][i].COD;
           var url = "#";
 

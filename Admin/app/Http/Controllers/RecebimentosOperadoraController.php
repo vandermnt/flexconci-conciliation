@@ -39,7 +39,8 @@ class RecebimentosOperadoraController extends Controller{
     ->leftJoin('bandeira', 'pagamentos_operadoras.COD_BANDEIRA', '=', 'bandeira.CODIGO')
     ->leftJoin('grupos_clientes', 'pagamentos_operadoras.COD_GRUPO_CLIENTE', '=', 'grupos_clientes.CODIGO')
     ->leftJoin('adquirentes', 'pagamentos_operadoras.COD_ADQUIRENTE', '=', 'adquirentes.CODIGO')
-    ->leftJoin('lista_bancos', 'pagamentos_operadoras.COD_BANCO', '=', 'lista_bancos.CODIGO')
+    ->leftJoin('lista_bancos', 'pagamentos_operadoras.COD_BANCO', '=', 'lista_bancos.CODIGO', 'banco.BANCO')
+    ->leftJoin('meio_captura', 'pagamentos_operadoras.COD_MEIO_CAPTURA', '=', 'meio_captura.CODIGO')
     ->select('pagamentos_operadoras.*', 'pagamentos_operadoras.CODIGO as COD', 'bandeira.*', 'adquirentes.*', 'grupos_clientes.NOME_EMPRESA', 'lista_bancos.BANCO')
     ->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'))
     ->where(function($query) {
@@ -215,7 +216,7 @@ class RecebimentosOperadoraController extends Controller{
     $qtde_registros = $vendas->count();
 
     $val_taxas = $val_bruto->val_bruto - $val_liquido->val_liquido;
-    session()->put('prev_pg_download', $todas_vendas);
+    session()->put('prev_pg_download', $vendas);
 
     // $modalidades = ModalidadesModel::orderBy('DESCRICAO', 'ASC')->get();
     // $adquirentes = AdquirentesModel::orderBy('ADQUIRENTE', 'ASC')->get();
@@ -229,5 +230,15 @@ class RecebimentosOperadoraController extends Controller{
 
     $vendas = json_encode([$vendas, $val_liquido, $val_bruto, $qtde_registros, $val_taxas, $val_taxa_soma, Request::only('array')]);
     return $vendas;
+  }
+
+  public function downloadTable(){
+    $vendas = session()->get('prev_pg_download');
+    // dd($vendas);
+    set_time_limit(600);
+    // dd($vendas);
+    $pdf = \PDF::loadView('recebimentos.tabela_recebimentos_operadora', compact('vendas'));
+    return $pdf->setPaper('A4', 'landscape')
+    ->download('prev_pag.pdf');
   }
 }
