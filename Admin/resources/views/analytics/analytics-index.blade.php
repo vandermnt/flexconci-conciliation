@@ -737,8 +737,7 @@ function preCarregarGraficoVendas(){
       dados_grafico.push(dados_dash);
 
       var html = "<tr>";
-
-      html += "<td style='color: #231F20'>"+dados_dash.ADQUIRENTE+"</td>";
+      html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' style='width: 60px'/>"+"</td>";
       html += "<td style='color: #231F20'>"+dados_dash.QUANTIDADE+"</td>";
       html += "<td style='color: #231F20'>"+total_bruto+"</td>";
       html += "<td style='color: #231F20'>"+total_taxa+"</td>";
@@ -788,9 +787,10 @@ function preCarregarGraficoVendasBandeira(){
       const total_ticket_medio = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(dados_dash.TICKET_MEDIO);
 
       dados_grafico.push(dados_dash);
+
       var html = "<tr>";
 
-      html += "<td style='color: #231F20'>"+dados_dash.BANDEIRA+"</td>";
+      html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' id='cartao'/>"+"</td>";
       html += "<td style='color: #231F20'>"+dados_dash.QUANTIDADE+"</td>";
       html += "<td style='color: #231F20'>"+total_bruto+"</td>";
       html += "<td style='color: #231F20'>"+total_taxa+"</td>";
@@ -813,6 +813,7 @@ function preCarregarGraficoVendasBandeira(){
   })
   // dropdownMenuButton
   periodo = 2;
+  console.log("dados do gráfico" + dados_grafico);
 
   geraGraficoVendasBandeira(dados_grafico, 1);
 }
@@ -915,7 +916,6 @@ function preCarregarGraficoVendasModalidade(){
   // document.getElementById("quantidade").innerHTML = qtde;
 
   periodo = 3;
-  console.log(dados_grafico);
   geraGraficoVendasModalidade(dados_grafico);
 
 }
@@ -981,7 +981,6 @@ function trocaPeriodo(cod_periodo, tipo){
       // document.getElementById("quantidade").innerHTML = qtde;
 
       periodo = cod_periodo;
-
       geraGraficoVendasBandeira(dados_grafico);
     }
 

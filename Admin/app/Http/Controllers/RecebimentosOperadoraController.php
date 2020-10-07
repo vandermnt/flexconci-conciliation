@@ -41,7 +41,7 @@ class RecebimentosOperadoraController extends Controller{
     ->leftJoin('adquirentes', 'pagamentos_operadoras.COD_ADQUIRENTE', '=', 'adquirentes.CODIGO')
     ->leftJoin('lista_bancos', 'pagamentos_operadoras.COD_BANCO', '=', 'lista_bancos.CODIGO', 'banco.BANCO')
     ->leftJoin('meio_captura', 'pagamentos_operadoras.COD_MEIO_CAPTURA', '=', 'meio_captura.CODIGO')
-    ->select('pagamentos_operadoras.*', 'pagamentos_operadoras.CODIGO as COD', 'bandeira.*', 'adquirentes.*', 'grupos_clientes.NOME_EMPRESA', 'lista_bancos.BANCO')
+    ->select('pagamentos_operadoras.*', 'pagamentos_operadoras.CODIGO as COD', 'bandeira.*', 'adquirentes.*', 'grupos_clientes.NOME_EMPRESA', 'lista_bancos.BANCO', 'adquirentes.IMAGEM as IMAGEMAD', 'bandeira.IMAGEM as IMAGEMBAD')
     ->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'))
     ->where(function($query) {
       if(Request::only('array') != null){

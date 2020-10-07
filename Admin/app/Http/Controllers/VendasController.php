@@ -57,10 +57,11 @@ class VendasController extends Controller{
     $vendas = DB::table('vendas')
     ->join('modalidade', 'vendas.CODIGO_MODALIDADE', '=', 'modalidade.CODIGO')
     ->leftJoin('bandeira', 'vendas.COD_BANDEIRA', '=', 'bandeira.CODIGO')
+    ->leftJoin('adquirentes', 'vendas.ADQID', '=', 'adquirentes.CODIGO')
     ->leftJoin('lista_bancos', 'vendas.BANCO', '=', 'lista_bancos.CODIGO')
     ->leftJoin('produto_web', 'vendas.COD_PRODUTO', '=', 'produto_web.CODIGO')
     ->leftJoin('meio_captura', 'vendas.COD_MEIO_CAPTURA', '=', 'meio_captura.CODIGO')
-    ->select('vendas.*', 'vendas.CODIGO as COD', 'modalidade.*', 'produto_web.*', 'lista_bancos.BANCO', 'meio_captura.DESCRICAO as MEIOCAPTURA')
+    ->select('vendas.*', 'vendas.CODIGO as COD', 'modalidade.*', 'produto_web.*', 'lista_bancos.BANCO', 'meio_captura.DESCRICAO as MEIOCAPTURA', 'adquirentes.IMAGEM as IMAGEMAD', 'bandeira.IMAGEM as IMAGEMBAD')
     ->where('vendas.COD_CLIENTE', '=', session('codigologin'))
     ->where(function($query) {
       if(Request::only('array') != null){

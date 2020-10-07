@@ -15,16 +15,18 @@ class DashboardController extends Controller{
     $qtde_projetos = count($projetos);
 
     $dados_dash_vendas = DB::table('dashboard_vendas_adquirentes')
-    ->join('periodo_dash', 'dashboard_vendas_adquirentes.COD_PERIODO', 'periodo_dash.CODIGO')
-    ->join('adquirentes', 'dashboard_vendas_adquirentes.COD_ADQUIRENTE', 'adquirentes.CODIGO')
-    // ->where('cod_cliente', '=', session('codigologin'))->get();
-    ->where('cod_cliente', '=', 538)->get();
+    ->leftJoin('periodo_dash', 'dashboard_vendas_adquirentes.COD_PERIODO', 'periodo_dash.CODIGO')
+    ->leftJoin('adquirentes', 'dashboard_vendas_adquirentes.COD_ADQUIRENTE', 'adquirentes.CODIGO')
+    ->where('cod_cliente', '=', session('codigologin'))->get();
+    // ->where('cod_cliente', '=', 538)->get();
 
     $dados_dash_vendas_bandeira = DB::table('dashboard_vendas_bandeiras')
     ->join('periodo_dash', 'dashboard_vendas_bandeiras.COD_PERIODO', 'periodo_dash.CODIGO')
     ->join('bandeira', 'dashboard_vendas_bandeiras.COD_BANDEIRA', 'bandeira.CODIGO')
-    // ->where('cod_cliente', '=', session('codigologin'))->get();
     ->where('cod_cliente', '=', session('codigologin'))->get();
+    // ->where('cod_cliente', '=', 538)->get();
+
+    // dd($dados_dash_vendas_bandeira);
 
     // dd($dados_dash_vendas_bandeira);
 

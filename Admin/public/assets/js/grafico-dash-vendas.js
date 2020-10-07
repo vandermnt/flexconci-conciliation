@@ -14,7 +14,7 @@ function geraGraficoVendas(dados_grafico) {
     }
   });
 
-  cores = ["#119DA4", "#FFBC42", "#DA2C38", "#4CB944"];
+  cores = ["#119DA4", "#FFBC42", "#DA2C38", "#4CB944", "#FF8000"];
   coresGrafico = [];
 
   for (var i = 0; i < arrayNomeAdq.length; i++) {
@@ -93,7 +93,7 @@ function geraGraficoVendasBandeira(dados_grafico) {
     }
   });
 
-  cores = ["#119DA4", "#FFBC42", "#DA2C38", "#4CB944"];
+  cores = ["#119DA4", "#FFBC42", "#DA2C38", "#4CB944", "#FF8000", "#848484", "#00FFFF", "#086A87", "#FA58F4", "#7401DF", "#8181F7", "#D0A9F5"];
   coresGrafico = [];
 
   for (var i = 0; i < arrayNomeAdq.length; i++) {
@@ -172,7 +172,7 @@ function geraGraficoVendasProduto(dados_grafico) {
     }
   });
 
-  cores = ["#119DA4", "#FFBC42", "#DA2C38", "#4CB944"];
+  cores = ["#119DA4", "#FFBC42", "#DA2C38", "#4CB944", "#FF8000"];
   coresGrafico = [];
 
   for (var i = 0; i < arrayNomeAdq.length; i++) {

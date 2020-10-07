@@ -869,10 +869,12 @@ $('#submitFormLogin').click(function(){
           // setTimeout(function () {
           html +="<td>"+response[0][i].EMPRESA+"</td>";
           html +="<td>"+response[0][i].CNPJ+"</td>";
-          html +="<td>"+"<img  src='assets/images/iconCart.jpeg' id='cartao'/>"+" "+response[0][i].ADQUIRENTE+""+"</td>";
+
+          // html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' id='cartao'/>"+"</td>";
+          html +="<td>"+"<img src='"+response[0][i].IMAGEMAD+"' style='width: 60px'/>"+"</td>";
           html +="<td>"+data_venda+"</td>";
           html +="<td>"+data_prev_pag+"</td>";
-          html +="<td>"+"<img  src='assets/images/iconCart.jpeg' id='cartao'/>"+" "+response[0][i].BANDEIRA+""+"</td>";
+          html +="<td>"+"<img src='"+response[0][i].IMAGEMBAD+"' style='width: 40px'/>"+"</td>";
           html +="<td>"+response[0][i].DESCRICAO+"</td>";
           html +="<td>"+response[0][i].NSU+"</td>";
           html +="<td>"+response[0][i].AUTORIZACAO+"</td>";
