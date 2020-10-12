@@ -3808,6 +3808,19 @@ border-radius: 50%;
   background-color: #f1f5fa;
 } */
 
+.tableDadosBanco th {
+  color: #231F20;
+  border: 1px solid;
+  border-color: #D8D8D8;
+}
+
+.tableDadosBanco td {
+  color: #231F20;
+  border: 2px solid;
+  border-color: #D8D8D8;
+}
+
+
 .table .thead-light th {
   color: #303e67;
   background-color: #f1f5fa;

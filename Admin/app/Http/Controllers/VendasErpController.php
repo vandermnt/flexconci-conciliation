@@ -18,11 +18,13 @@ class VendasErpController extends Controller{
     ->distinct('COD_ADQUIRENTE')
     ->get();
 
+    $meio_captura = DB::table('meio_captura')->get();
     $status_conciliacao = StatusConciliacaoModel::where('CODIGO', '!=', 4)->orderBy('STATUS_CONCILIACAO', 'ASC')->get();
     $grupos_clientes = GruposClientesModel::where('COD_CLIENTE', '=', session('codigologin'))->get();
 
     return view('vendas.vendaserp')->with('adquirentes', $adquirentes)
     ->with('grupos_clientes', $grupos_clientes)
+    ->with('meio_captura', $meio_captura)
     ->with('status_conciliacao', $status_conciliacao);
   }
 
@@ -59,6 +61,14 @@ class VendasErpController extends Controller{
         $adquirentes = Request::only('arrayAdquirentes');
         foreach ($adquirentes['arrayAdquirentes'] as $adquirente) {
           $query->orWhere('COD_OPERADORA', '=', $adquirente);
+        }
+      }
+    })
+    ->where(function($query) {
+      if(Request::only('arrayMeioCaptura') != null){
+        $meiocaptura = Request::only('arrayMeioCaptura');
+        foreach ($meiocaptura['arrayMeioCaptura'] as $mcaptura) {
+          $query->orWhereNull('COD_MEIO_CAPTURA')->orWhere('COD_MEIO_CAPTURA', '=', $mcaptura);
         }
       }
     })

@@ -160,6 +160,27 @@ $(document).ready(function(){
                 </button>
               </div>
 
+              <div class="col-sm-6" style="margin-top: -16px">
+                <div id="filtroempresa">
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <h6 style="color: #424242; font-size: 11.5px"> Meio de Captura: </h6>
+                        <input id="meiocaptura" style="margin-top: -5px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px; border-color: #2D5275" class="form-control" name="meiocaptura">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-2">
+                <button id="buttonpesquisar" type="button" class="btn btn-sm" data-toggle="modal" data-target="#staticBackdropMeioCaptura" style="margin-top: 9px; width: 100%">
+                  <b>Selecionar</b>
+                </button>
+              </div>
+
+
+
             </div>
 
             <div class="row" style="margin-top: -16px">
@@ -416,6 +437,56 @@ $(document).ready(function(){
               <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
                 <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addSelecionadosModalidade({{$modalidades}})"><b>Confirmar</b></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="staticBackdropMeioCaptura" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog" style="width: 270px">
+            <div class="modal-content">
+              <div class="modal-header" style="background: #2D5275;">
+                <h5 class="modal-title" id="staticBackdropLabel" style="color: white">Meio de Captura</h5>
+                <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <h6> Pesquisar </h6>
+                  </div>
+                  <div class="col-sm-12">
+                    <input id="ftMeioCaptura" style="margin-top: -6px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" onKeyDown="filtroMeioCaptura({{$meio_captura}})">
+                  </div>
+
+                </div> <br>
+
+                <div class="row">
+                  <div class="col-sm-10">
+                    <p><b>MEIO DE CAPTURA</b></p>
+                  </div>
+
+                  <div class="col-sm-2">
+                    <input id="allCheckMeioCaptura" onchange="allCheckboxMeioCaptura({{$meio_captura}})" type="checkbox">
+                  </div>
+                  @if(isset($meio_captura))
+                  @foreach($meio_captura as $meio)
+
+                  <div id="{{ $meio->DESCRICAO }}" style="display:block" class="col-sm-10">
+                    <p>{{ $meio->DESCRICAO }}</p>
+                  </div>
+                  <div id="{{ "divCod".$meio->CODIGO }}" style="display:block" class="col-sm-2">
+                    <input id="{{ "inputMeioCap".$meio->CODIGO }}" value="{{ $meio->CODIGO }}" name="arrayMeioCaptura[]" type="checkbox">
+                  </div>
+                  <hr>
+                  @endforeach
+                  @endif
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addSelecionadosMeioCaptura({{$meio_captura}})"><b>Confirmar</b></button>
               </div>
             </div>
           </div>
@@ -755,6 +826,7 @@ $('#submitFormLogin').click(function(){
   arrayAdquirentes = [];
   arrayStatusConciliacao = [];
   arrayStatusFinanceiro = [];
+  arrayMeioCaptura = [];
 
   data_inicial = document.getElementById("date_inicial").value;
   data_final = document.getElementById("date_final").value;
@@ -762,6 +834,7 @@ $('#submitFormLogin').click(function(){
   grupo_clientes = <?php echo $grupos_clientes ?>;
   modalidades = <?php echo $modalidades ?>;
   bandeiras = <?php echo $bandeiras ?>;
+  mcaptura = <?php echo $meio_captura ?>;
   adquirentes = <?php echo $adquirentes ?>;
   status_conciliacao = <?php echo $status_conciliacao ?>;
   aberto = document.getElementById("aberto").checked;
@@ -804,21 +877,19 @@ $('#submitFormLogin').click(function(){
     }
   });
 
+  mcaptura.forEach((mcaptura) => {
+    if(document.getElementById("inputMeioCap"+mcaptura.CODIGO).checked){
+      arrayMeioCaptura.push(mcaptura.CODIGO);
+    }
+  });
+
   document.getElementById("preloader").style.display = "block";
-  // if(document.getElementById("557") && document.getElementById("rodapeTable")){
-  //   var node = document.getElementById("557");
-  //   var nodee = document.getElementById("rodapeTable");
-  //   if (node.parentNode) {
-  //     node.parentNode.removeChild(node);
-  //     nodee.parentNode.removeChild(nodee);
-  //   }
-  // }
 
   $.ajax({
     url: "{{ url('vendasoperadorasfiltro') }}",
     type: "post",
     header:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-    data: ({_token: '{{csrf_token()}}' , data_inicial, data_final, array, arrayAdquirentes, arrayBandeira, arrayModalidade, arrayStatusConciliacao, arrayStatusFinanceiro}),
+    data: ({_token: '{{csrf_token()}}' , data_inicial, data_final, array, arrayAdquirentes, arrayBandeira, arrayModalidade, arrayStatusConciliacao, arrayStatusFinanceiro, arrayMeioCaptura}),
     dataType: 'json',
     success: function (response){
       if(response){
@@ -874,7 +945,11 @@ $('#submitFormLogin').click(function(){
           html +="<td>"+"<img src='"+response[0][i].IMAGEMAD+"' style='width: 60px'/>"+"</td>";
           html +="<td>"+data_venda+"</td>";
           html +="<td>"+data_prev_pag+"</td>";
-          html +="<td>"+"<img src='"+response[0][i].IMAGEMBAD+"' style='width: 40px'/>"+"</td>";
+          if(response[0][i].IMAGEMBAD == null){
+            html +="<td>"+"<img src='assets/images/iconCart.jpeg' style='width: 40px'/>"+"</td>";
+          }else{
+            html +="<td>"+"<img src='"+response[0][i].IMAGEMBAD+"' style='width: 40px'/>"+"</td>";
+          }
           html +="<td>"+response[0][i].DESCRICAO+"</td>";
           html +="<td>"+response[0][i].NSU+"</td>";
           html +="<td>"+response[0][i].AUTORIZACAO+"</td>";
@@ -954,6 +1029,7 @@ var empresasSelecionadas = [];
 var adquirentesSelecionados = [];
 var bandeirasSelecionados = [];
 var modalidadesSelecionados = [];
+var meioCapturaSelecionados = [];
 
 var el = document.getElementById('datatable');
 var dragger = tableDragger.default(el, {
@@ -1034,6 +1110,18 @@ function addSelecionadosModalidade(modalidades){
   });
 
   document.getElementById("modalidade").value = modalidadesSelecionados;
+}
+
+function addSelecionadosMeioCaptura(meiocaptura){
+  meiocaptura.forEach((meiocaptura) => {
+    if(document.getElementById("inputMeioCap"+meiocaptura.CODIGO).checked){
+      meioCapturaSelecionados.includes(meiocaptura.DESCRICAO) ? '' :  meioCapturaSelecionados.push(meiocaptura.DESCRICAO);
+    }else{
+      meioCapturaSelecionados.includes(meiocaptura.DESCRICAO) ? meioCapturaSelecionados.splice(meioCapturaSelecionados.indexOf(meiocaptura.DESCRICAO), 1) : '';
+    }
+  });
+
+  document.getElementById("meiocaptura").value = meioCapturaSelecionados;
 }
 
 function filtroCnpj(grupo_clientes){
@@ -1163,6 +1251,17 @@ function allCheckboxModalidade(grupo_clientes){
   });
 }
 
+function allCheckboxMeioCaptura(grupo_clientes){
+
+  grupo_clientes.forEach((cliente) => {
+    if(document.getElementById("allCheckMeioCaptura").checked){
+      document.getElementById("inputMeioCap"+cliente.CODIGO).checked = true;
+    }else{
+      document.getElementById("inputMeioCap"+cliente.CODIGO).checked = false;
+    }
+  });
+}
+
 var teste = 0;
 
 function ad(value){
@@ -1191,6 +1290,8 @@ function limparFiltros(){
   document.getElementById("modalidade").value = "";
   document.getElementById("bandeira").value = "";
   document.getElementById("empresa").value = "";
+  document.getElementById("meiocaptura").value = "";
+
 }
 
 function addTodos(grupos_clientes){

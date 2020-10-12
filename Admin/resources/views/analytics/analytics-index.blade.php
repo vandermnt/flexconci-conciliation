@@ -127,7 +127,6 @@ body {
 }
 
 </style>
-
 @stop
 
 @section('content')
@@ -186,7 +185,7 @@ body {
 </div>
 <div class="row">
   <div class="col-lg-6">
-    <div class="card">
+    <div class="card" style="height: 520px">
       <div class="card-body">
         <div class="row">
           @if(isset($dados_dash_vendas))
@@ -198,11 +197,11 @@ body {
                   <button class="btn btn-sm dropdown-toggle" style="background: #2D5275; color: white" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   </button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item"  onclick="trocaPeriodo(1)">Ontem</a>
-                    <a class="dropdown-item"  onclick="trocaPeriodo(2)">Últimos 7 dias</a>
-                    <a class="dropdown-item"  onclick="trocaPeriodo(3)">Últimos 15 dias</a>
-                    <a class="dropdown-item"  onclick="trocaPeriodo(4)">Últimos 30 dias</a>
-                    <a class="dropdown-item"  onclick="trocaPeriodo(5)">Mês Atual</a>
+                    <a class="dropdown-item"  onclick="trocaPeriodo(1, 'operadora')">Ontem</a>
+                    <a class="dropdown-item"  onclick="trocaPeriodo(2, 'operadora')">Últimos 7 dias</a>
+                    <a class="dropdown-item"  onclick="trocaPeriodo(3, 'operadora')">Últimos 15 dias</a>
+                    <a class="dropdown-item"  onclick="trocaPeriodo(4, 'operadora')">Últimos 30 dias</a>
+                    <a class="dropdown-item"  onclick="trocaPeriodo(5, 'operadora')">Mês Atual</a>
                   </div>
                 </div>
               </div>
@@ -256,7 +255,7 @@ body {
   <!-- <div class="col-lg-3" style="background: green; color: white; border-radius: 5px">
   <p> Período Visível: 7 dias </p>
 </div> -->
-<div class="card">
+<div class="card" style="height: 520px">
   <div class="card-body">
     <div class="row">
       <div class="col-lg-12">
@@ -278,8 +277,10 @@ body {
           </div>
         </div>
         <div id="apex_pie7" class="apex-charts"></div>
-        <div class="table-responsive mt-4">
-          <table  id="table_vendas_bandeira" class="table table-borderless mb-0" style="font-size: 12px">
+        <div class="table-responsive mt-4" style="font-size: 13px; overflow-y: auto; height: 110px">
+
+          <table id="table_vendas_bandeira"  class="table table-borderless mb-0" style="font-size: 12px">
+
             <thead>
               <tr>
                 <th style="color: #231F20" >Bandeira</th>
@@ -290,7 +291,7 @@ body {
                 <th style="color: #231F20" >Ticket Médio</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody style="">
               <!-- @foreach($dados_dash_vendas as $dados_vendas) -->
               <tr>
                 <td style="color: #231F20" id="vendabandeira_tipo"> </td>
@@ -470,22 +471,25 @@ body {
       <div class="card-body">
         <div class="wallet-bal-usd">
           <h4 class="wallet-title m-0">Total Recebido</h4>
-          <span class="text-muted font-12">26 set 2020</span>
-          <h3 class="text-center" style="color: #01DFA5">R$ 92692.00</h3>
+          <span class="text-muted font-12"><?php echo date("01/m/Y") ?> à <?php echo date("30/m/Y") ?></span>
+          <h3 class="text-center" style="color: #01DFA5">R$ <?php
+          echo number_format( $total_mes->val_liquido ,2,",",".");
+          ?> </h3>
         </div> <br>
         <!-- <p class="font-15 text-success text-center mb-4"> + $455.00 <span class="font-12 text-muted">(6.2% <i class="mdi mdi-trending-up text-success"></i>)</span></p> -->
         <ul class="nav nav-pills nav-justified" role="tablist">
           <li class="nav-item waves-effect waves-light">
-            <a class="nav-link  py-3 font-weight-semibold" data-toggle="tab" href="#" role="tab" aria-selected="true"><i data-feather="credit-card" class="align-self-center icon-md mr-2"></i>Operadora</a>
+            <a class="active nav-link  py-3 font-weight-semibold" data-toggle="tab" data-target="#Wallet" role="tab" aria-selected="false"><i data-feather="credit-card" class="align-self-center icon-md mr-2"></i>Operadora</a>
           </li>
           <li class="nav-item waves-effect waves-light">
-            <a class="active nav-link py-3 font-weight-semibold" data-toggle="tab" href="#" role="tab" aria-selected="false"><i data-feather="home" class="align-self-center icon-md mr-2"></i>Banco</a>
+            <a class=" nav-link py-3 font-weight-semibold" data-toggle="tab" data-target="#Total"  role="tab" aria-selected="true"><i data-feather="home" class="align-self-center icon-md mr-2"></i>Banco</a>
           </li>
+
         </ul>
 
         <!-- Tab panes -->
         <div class="tab-content">
-          <div class="tab-pane p-3 active" id="Total" role="tabpanel">
+          <div class="tab-pane p-3" id="Total" role="tabpanel">
             <div class="row">
               <div class="col-12">
 
@@ -493,118 +497,111 @@ body {
               </div>
             </div>
             <ul class="list-group wallet-bal-crypto mt-3">
+              @foreach($dados_bancos as $bancos)
               <li class="list-group-item align-items-center d-flex justify-content-between">
-                <div class="media">
-                  <img src="{{ URL::asset('assets/images/logo-itau.png')}}" class="mr-3 thumb-lg align-self-center rounded-circle" alt="...">
-                  <div class="media-body align-self-center">
-                    <div class="coin-bal">
-                      <h3 class="m-0">R$ 16.000,53</h3>
-                      <!-- <p class="text-muted mb-0">$ 33277.3660</p> -->
-                    </div>
+                <div class="col-12 row" style="text-align: center">
+                  <div class="col-2" style="margin: 0">
+                    <img src="{{ $bancos->IMAGEM}}" class="align-self-center" style="width: 50px; margin-left: -20px;">
+                  </div>
+                  <div class="col-4 media-body align-self-center">
+                    <h4 class="" style="font-size: 14px; margin-left: -35px"> {{ $bancos->AGENCIA}} - {{ $bancos->CONTA }} </h4>
+                  </div>
+
+                  <div class="col-5 media-body align-self-center" style="margin: 0">
+                    <h4 class="" style="text-align: right; font-size: 14px; color: #01DFA5">R$ <?php
+                    echo number_format( $bancos->val_liquido ,2,",",".");
+                    ?> </h4>
+
                   </div><!--end media body-->
+                  <?php $teste = $bancos->CODIGO ?>
+                  <div class="col-1 media-body align-self-center">
+                    <!-- <a style="margin-right: -60px" onclick="showTableBancoSelecionado({{$teste}})" data-toggle="tab" href="#div_banco_selecionado"><i class="thumb-lg mdi mdi-chevron-right"></i> </a> -->
+                    <!-- <a data-toggle="tab" href="#div_banco_selecionado" role="tab" aria-selected="true"><i class="thumb-lg mdi mdi-chevron-right"></i></a> -->
+                    <ul class="nav nav-pills nav-justified" role="tablist">
+                      <a id="{{$bancos->CODIGO}}" data-toggle="tab" data-target="#div_banco_selecionado" onclick="showTableBancoSelecionado({{$teste}})" role="tab" aria-selected="false" style="display: block"><i class="thumb-lg mdi mdi-chevron-right"></i> </a>
+
+
+                    </ul>
+
+                  </div>
                 </div>
                 <!-- <span class="badge badge-soft-pink">Bitcoin</span> -->
               </li>
-              <li class="list-group-item align-items-center d-flex justify-content-between">
-                <div class="media">
-                  <img src="{{ URL::asset('assets/images/logo-itau.png')}}" class="mr-3 thumb-lg align-self-center rounded-circle" alt="...">
-                  <div class="media-body align-self-center">
-                    <div class="coin-bal">
-                      <h3 class="m-0">R$ 16.000,53</h3>
-                      <!-- <p class="text-muted mb-0">$ 18564.3660</p> -->
-                    </div>
-                  </div><!--end media body-->
-                </div>
-                <!-- <span class="badge badge-soft-warning">Monero</span> -->
-              </li>
+              @endforeach
+
             </ul>
           </div>
-          <div class="tab-pane p-3" id="Wallet" role="tabpanel">
-            <div class="row">
-              <div class="col-12">
-                <div class="wallet-bal-usd">
-                  <h4 class="wallet-title m-0">Total Balance</h4>
-                  <span class="text-muted font-12">30 june 2020</span>
-                  <h3 class="text-center">$85692.00</h3>
-                </div>
-                <p class="font-15 text-success text-center mb-4"> + $455.00 <span class="font-12 text-muted">(6.2% <i class="mdi mdi-trending-up text-success"></i>)</span></p>
-                <div class="text-right">
-                  <button class="btn btn-gradient-primary px-3">+ Invest</button>
-                </div>
-              </div>
-            </div>
+
+          <div class="tab-pane p-3" id="div_banco_selecionado" role="tab">
+
             <ul class="list-group wallet-bal-crypto mt-3">
-              <li class="list-group-item align-items-center d-flex justify-content-between">
-                <div class="media">
-                  <img src="{{ URL::asset('assets/images/coins/btc.png')}}" class="mr-3 thumb-sm align-self-center rounded-circle" alt="...">
-                  <div class="media-body align-self-center">
-                    <div class="coin-bal">
-                      <h3 class="m-0">6.18424000</h3>
-                      <p class="text-muted mb-0">$ 33277.3660</p>
-                    </div>
-                  </div><!--end media body-->
-                </div>
-                <span class="badge badge-soft-pink">Bitcoin</span>
-              </li>
-              <li class="list-group-item align-items-center d-flex justify-content-between">
-                <div class="media">
-                  <img src="{{ URL::asset('assets/images/coins/mon.png')}}" class="mr-3 thumb-sm align-self-center rounded-circle" alt="...">
-                  <div class="media-body align-self-center">
-                    <div class="coin-bal">
-                      <h3 class="m-0">60.1842</h3>
-                      <p class="text-muted mb-0">$ 18564.3660</p>
-                    </div>
-                  </div><!--end media body-->
-                </div>
-                <span class="badge badge-soft-warning">Monero</span>
-              </li>
-              <li class="list-group-item align-items-center d-flex justify-content-between">
-                <div class="media">
-                  <img src="{{ URL::asset('assets/images/coins/eth.png')}}" class="mr-3 thumb-sm align-self-center rounded-circle" alt="...">
-                  <div class="media-body align-self-center">
-                    <div class="coin-bal">
-                      <h3 class="m-0">32.65849212</h3>
-                      <p class="text-muted mb-0">$ 33277.3660</p>
-                    </div>
-                  </div><!--end media body-->
-                </div>
-                <span class="badge badge-soft-success">Ethereum</span>
-              </li>
-              <li class="list-group-item align-items-center d-flex justify-content-between">
-                <div class="media">
-                  <img src="{{ URL::asset('assets/images/coins/qub.png')}}" class="mr-3 thumb-sm align-self-center rounded-circle" alt="...">
-                  <div class="media-body align-self-center">
-                    <div class="coin-bal">
-                      <h3 class="m-0">32.65849212</h3>
-                      <p class="text-muted mb-0">$ 33277.3660</p>
-                    </div>
-                  </div><!--end media body-->
-                </div>
-                <span class="badge badge-soft-purple">Qubitica</span>
-              </li>
-              <li class="list-group-item align-items-center d-flex justify-content-between">
-                <div class="media">
-                  <img src="{{ URL::asset('assets/images/coins/lite.png')}}" class="mr-3 thumb-sm align-self-center rounded-circle" alt="...">
-                  <div class="media-body align-self-center">
-                    <div class="coin-bal">
-                      <h3 class="m-0">32.65849212</h3>
-                      <p class="text-muted mb-0">$ 33277.3660</p>
-                    </div>
-                  </div><!--end media body-->
-                </div>
-                <span class="badge badge-soft-secondary">Light</span>
-              </li>
+
+              <table  id="table_banco_selecionado" class="tableDadosBanco" style="font-size: 12px; text-align: center;">
+                <thead>
+                  <tr>
+                    <th >Receb. Bruto</th>
+                    <th >Taxas</th>
+                    <th >Tarifas Extras</th>
+                    <th >Receb. Líquido</th>
+                    <th >Situação de Pgto</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- @foreach($dados_dash_vendas as $dados_vendas) -->
+
+                  <!-- @endforeach -->
+                </tbody>
+              </table>
+              <br>
+              <ul class="nav nav-pills nav-justified" role="tablist">
+                <a type="button" id="voltar" data-target="#Total" data-toggle="tab" aria-label="Close"> < Voltar </a>
+
+
+              </ul>
+
             </ul>
           </div>
+
+          <div class="tab-pane p-3 active" id="Wallet" role="tabpanel">
+            <!-- <div class="row">
+            <div class="col-12">
+            <div class="wallet-bal-usd">
+            <h4 class="wallet-title m-0">Total Recebido</h4>
+            <span class="text-muted font-12"><?php echo date("01/m/Y") ?> à <?php echo date("30/m/Y") ?></span>
+            <h3 class="text-center" style="color: #01DFA5">R$ <?php
+            echo number_format( $total_banco ,2,",",".");
+            ?> </h3>
+          </div>
+          <p class="font-15 text-success text-center mb-4"> + $455.00 <span class="font-12 text-muted">(6.2% <i class="mdi mdi-trending-up text-success"></i>)</span></p>
+          <div class="text-right">
+          <button class="btn btn-gradient-primary px-3">+ Invest</button>
         </div>
-      </div><!--end card-body-->
-    </div><!--end card-->
+      </div>
+    </div> -->
+    <ul class="list-group wallet-bal-crypto mt-3">
+      @foreach($dados_operadora as $operadora)
+      <li class="list-group-item align-items-center d-flex justify-content-between">
+        <div class="col-12 row">
+          <img src="{{ $bancos->IMAGEMAD}}" style="width: 70px;" class="align-self-center" alt="...">
+          <div class="col-7 media-body align-self-center">
+            <!-- <div class="coin-bal row"> -->
+            <h4 class="m-0" style="text-align: right; font-size: 14px; color: #01DFA5">R$ <?php
+            echo number_format( $operadora->val_liquido ,2,",",".");
+            ?> </h4>
+
+            <!-- </div> -->
+          </div><!--end media body-->
+          <!-- <a class="col-2 align-self-center" href="" style="align-items: center; justify-content: center"><i class="thumb-lg mdi mdi-chevron-right"></i> </a> -->
+        </div>
+        <!-- <span class="badge badge-soft-pink">Bitcoin</span> -->
+      </li>
+      @endforeach
+    </ul>
   </div>
-
-
-
-
-
+</div>
+</div><!--end card-body-->
+</div><!--end card-->
+</div>
 
 </div><!--end row-->
 
@@ -770,7 +767,7 @@ function preCarregarGraficoVendasBandeira(){
   dash_vendas = <?php echo $dados_dash_vendas_bandeira ?>;
 
   dash_vendas.forEach((dados_dash) => {
-    if(dados_dash.COD_PERIODO == 2){
+    if(dados_dash.COD_PERIODO == 2 && dados_dash.QUANTIDADE > 0){
       bruto = dados_dash.TOTAL_BRUTO;
       liquido = dados_dash.TOTAL_LIQUIDO;
       taxa = dados_dash.TOTAL_TAXA;
@@ -811,6 +808,7 @@ function preCarregarGraficoVendasBandeira(){
       document.getElementById("dropdownMenuButtonBandeira").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
     }
   })
+
   // dropdownMenuButton
   periodo = 2;
   console.log("dados do gráfico" + dados_grafico);
@@ -822,9 +820,9 @@ function preCarregarGraficoVendasProduto(){
   var dados_grafico = [];
 
   dash_vendas = <?php echo $dados_dash_vendas_produto ?>;
-
+  console.log("PRODUTOOOOOOOOO");
   dash_vendas.forEach((dados_dash) => {
-    if(dados_dash.COD_PERIODO == 2){
+    if(dados_dash.COD_PERIODO == 2 && dados_dash.QUANTIDADE > 0){
       bruto = dados_dash.TOTAL_BRUTO;
       liquido = dados_dash.TOTAL_LIQUIDO;
       taxa = dados_dash.TOTAL_TAXA;
@@ -876,7 +874,7 @@ function preCarregarGraficoVendasModalidade(){
 
   $('#table_vendas_modalidade tbody').empty();
   dashboard_vendas_modalidade.forEach((dados_dash) => {
-    if(dados_dash.COD_PERIODO == 3){
+    if(dados_dash.COD_PERIODO == 3 && dados_dash.QUANTIDADE > 0){
       // bruto = dados_dash.TOTAL_BRUTO;
       // liquido = dados_dash.TOTAL_LIQUIDO;
       // taxa = dados_dash.TOTAL_TAXA;
@@ -903,7 +901,7 @@ function preCarregarGraficoVendasModalidade(){
       $('#table_vendas_modalidade').append(html);
 
       dados_grafico.push(dados_dash);
-
+      console.log(dados_grafico);
       document.getElementById("dropdownMenuButtonModalidade").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
     }
   })
@@ -931,14 +929,14 @@ function trocaPeriodo(cod_periodo, tipo){
   var total_ticket_medio = 0;
   var qtde = 0;
 
-  if(tipo == 'bandeira'){
-    dash_vendas = <?php echo $dados_dash_vendas_bandeira ?>;
+  if(tipo == 'operadora'){
+    dash_vendas = <?php echo $dados_dash_vendas ?>;
 
-    $('#table_vendas_bandeira tbody').empty();
+    $('#table_vendas_operadora tbody').empty();
 
     dash_vendas.forEach((dados_dash) => {
 
-      if(dados_dash.COD_PERIODO == cod_periodo){
+      if(dados_dash.COD_PERIODO == cod_periodo && dados_dash.QUANTIDADE > 0){
         // bruto = dados_dash.TOTAL_BRUTO;
         // liquido = dados_dash.TOTAL_LIQUIDO;
         // taxa = dados_dash.TOTAL_TAXA;
@@ -952,11 +950,66 @@ function trocaPeriodo(cod_periodo, tipo){
 
         var html = "<tr>";
 
-        html += "<td>"+dados_dash.QUANTIDADE+"</td>";
-        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto)+"</td>";
-        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa)+"</td>";
-        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido)+"</td>";
-        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio)+"</td>";
+        html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' id='cartao'/>"+"</td>";
+        html += "<td style='color: #231F20'>"+dados_dash.QUANTIDADE+"</td>";
+        html += "<td style='color: #231F20'>"+total_bruto+"</td>";
+        html += "<td style='color: #231F20'>"+total_taxa+"</td>";
+        html += "<td style='color: #231F20'>"+total_liquido+"</td>";
+        html += "<td style='color: #231F20'>"+total_ticket_medio+"</td>";
+
+        html += "</tr>";
+
+        $('#table_vendas_operadora').append(html);
+
+        dados_grafico.push(dados_dash);
+
+        document.getElementById("dropdownMenuButton").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
+      }
+    })
+
+
+    if(dados_grafico.length == 0){
+      console.log("VAZIOOOOOOOOOOOO");
+    }else{
+      grafico_vendas.destroy();
+
+      // document.getElementById("venda_total_bruto").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto);
+      // document.getElementById("venda_total_taxa").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa);
+      // document.getElementById("venda_total_liquido").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido);
+      // document.getElementById("venda_ticket_medio").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio);
+      // document.getElementById("quantidade").innerHTML = qtde;
+
+      periodo = cod_periodo;
+      geraGraficoVendas(dados_grafico);
+    }
+
+  }else if(tipo == 'bandeira'){
+    dash_vendas = <?php echo $dados_dash_vendas_bandeira ?>;
+
+    $('#table_vendas_bandeira tbody').empty();
+
+    dash_vendas.forEach((dados_dash) => {
+
+      if(dados_dash.COD_PERIODO == cod_periodo && dados_dash.QUANTIDADE > 0){
+        // bruto = dados_dash.TOTAL_BRUTO;
+        // liquido = dados_dash.TOTAL_LIQUIDO;
+        // taxa = dados_dash.TOTAL_TAXA;
+        // ticket = dados_dash.TICKET_MEDIO;
+        //
+        total_bruto = parseInt(dados_dash.TOTAL_BRUTO);
+        total_liquido = parseInt(dados_dash.TOTAL_LIQUIDO);
+        total_taxa = parseInt(dados_dash.TOTAL_TAXA);
+        total_ticket_medio = parseInt(dados_dash.TICKET_MEDIO);
+        qtde = parseInt(dados_dash.QUANTIDADE);
+
+        var html = "<tr>";
+
+        html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' id='cartao'/>"+"</td>";
+        html += "<td style='color: #231F20'>"+dados_dash.QUANTIDADE+"</td>";
+        html += "<td style='color: #231F20'>"+total_bruto+"</td>";
+        html += "<td style='color: #231F20'>"+total_taxa+"</td>";
+        html += "<td style='color: #231F20'>"+total_liquido+"</td>";
+        html += "<td style='color: #231F20'>"+total_ticket_medio+"</td>";
 
         html += "</tr>";
 
@@ -985,13 +1038,12 @@ function trocaPeriodo(cod_periodo, tipo){
     }
 
   }else if(tipo == 'modalidade'){
-    console.log("TROCAAAAAAAAAAAAAAAAAAAAAAAAAA")
     dash_vendas = <?php echo $dados_dash_vendas_modalidade ?>;
 
     $('#table_vendas_modalidade tbody').empty();
     dash_vendas.forEach((dados_dash) => {
 
-      if(dados_dash.COD_PERIODO == cod_periodo){
+      if(dados_dash.COD_PERIODO == cod_periodo && dados_dash.QUANTIDADE > 0){
         // bruto = dados_dash.TOTAL_BRUTO;
         // liquido = dados_dash.TOTAL_LIQUIDO;
         // taxa = dados_dash.TOTAL_TAXA;
@@ -1044,7 +1096,7 @@ function trocaPeriodo(cod_periodo, tipo){
 
     dash_vendas.forEach((dados_dash) => {
 
-      if(dados_dash.COD_PERIODO == cod_periodo){
+      if(dados_dash.COD_PERIODO == cod_periodo && dados_dash.QUANTIDADE > 0){
         // bruto = dados_dash.TOTAL_BRUTO;
         // liquido = dados_dash.TOTAL_LIQUIDO;
         // taxa = dados_dash.TOTAL_TAXA;
@@ -1212,6 +1264,43 @@ function trocaPeriodo(cod_periodo, tipo){
   // }
   // }
 }
+$("voltar").click(function() {
+  $("div_banco_selecionado").removeClass('div_banco_selecionado');
+});
+
+function showTableBancoSelecionado(codigo){
+  console.log(codigo)
+  $("#table_banco_selecionado tbody").empty();
+
+  var bancos = <?php echo $dados_bancos ?>
+
+  var result = bancos.find(banco => banco.CODIGO == codigo);
+
+
+  var val_bruto = parseInt(result.val_bruto);
+  var val_liquido = parseInt(result.val_liquido);
+  var tx = parseInt(result.TAXA_PERCENTUAL);
+  var t = Number(tx).toFixed(2);
+
+  var html = "<tr>";
+
+  html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(val_bruto)+"</td>";
+  html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(tx)+"</td>";
+  html += "<td>"+"teste"+"</td>";
+  html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(val_liquido)+"</td>";
+  html += "<td>"+"teste"+"</td>";
+
+  html += "</tr>";
+
+  $('#table_banco_selecionado').append(html);
+  document.getElementById(result.CODIGO).classList.remove('active');
+  document.getElementById("voltar").classList.remove('active');
+
+
+
+  // document.getElementById("Total").style.display = "block";
+}
+
 
 </script>
 @stop

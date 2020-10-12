@@ -34,12 +34,15 @@ class VendasController extends Controller{
     ->where('clientes_bandeiras.COD_CLIENTE', '=', session('codigologin'))
     ->get();
 
+    $meio_captura = DB::table('meio_captura')->get();
+
     $grupos_clientes = GruposClientesModel::where('COD_CLIENTE', '=', session('codigologin'))->get();
     $status_conciliacao = StatusConciliacaoModel::where('CODIGO', '!=', 4)->orderBy('STATUS_CONCILIACAO', 'ASC')->get();
 
     return view('vendas.vendas')->with('adquirentes', $adquirentes)
     ->with('modalidades', $modalidades)
     ->with('bandeiras', $bandeiras)
+    ->with('meio_captura', $meio_captura)
     ->with('grupos_clientes', $grupos_clientes)
     ->with('status_conciliacao', $status_conciliacao);
   }
@@ -112,6 +115,14 @@ class VendasController extends Controller{
       }
     })
     ->where(function($query) {
+      if(Request::only('arrayMeioCaptura') != null){
+        $meiocaptura = Request::only('arrayMeioCaptura');
+        foreach ($meiocaptura['arrayMeioCaptura'] as $mcaptura) {
+          $query->orWhereNull('COD_MEIO_CAPTURA')->orWhere('COD_MEIO_CAPTURA', '=', $mcaptura);
+        }
+      }
+    })
+    ->where(function($query) {
       if(Request::only('data_inicial') != null){
         $data_inicial = Request::only('data_inicial');
         $data_final = Request::only('data_final');
@@ -176,6 +187,14 @@ class VendasController extends Controller{
       }
     })
     ->where(function($query) {
+      if(Request::only('arrayMeioCaptura') != null){
+        $meiocaptura = Request::only('arrayMeioCaptura');
+        foreach ($meiocaptura['arrayMeioCaptura'] as $mcaptura) {
+          $query->orWhereNull('COD_MEIO_CAPTURA')->orWhere('COD_MEIO_CAPTURA', '=', $mcaptura);
+        }
+      }
+    })
+    ->where(function($query) {
       if(Request::only('data_inicial') != null){
         $data_inicial = Request::only('data_inicial');
         $data_final = Request::only('data_final');
@@ -232,6 +251,14 @@ class VendasController extends Controller{
         $status_financeiros = Request::only('arrayStatusFinanceiro');
         foreach ($status_financeiros['arrayStatusFinanceiro'] as $status_financeiro) {
           $query->orWhereNull('COD_STATUS_FINANCEIRO')->orWhere('COD_STATUS_FINANCEIRO', '=', $status_financeiro);
+        }
+      }
+    })
+    ->where(function($query) {
+      if(Request::only('arrayMeioCaptura') != null){
+        $meiocaptura = Request::only('arrayMeioCaptura');
+        foreach ($meiocaptura['arrayMeioCaptura'] as $mcaptura) {
+          $query->orWhereNull('COD_MEIO_CAPTURA')->orWhere('COD_MEIO_CAPTURA', '=', $mcaptura);
         }
       }
     })
@@ -296,6 +323,14 @@ class VendasController extends Controller{
       }
     })
     ->where(function($query) {
+      if(Request::only('arrayMeioCaptura') != null){
+        $meiocaptura = Request::only('arrayMeioCaptura');
+        foreach ($meiocaptura['arrayMeioCaptura'] as $mcaptura) {
+          $query->orWhereNull('COD_MEIO_CAPTURA')->orWhere('COD_MEIO_CAPTURA', '=', $mcaptura);
+        }
+      }
+    })
+    ->where(function($query) {
       if(Request::only('data_inicial') != null){
         $data_inicial = Request::only('data_inicial');
         $data_final = Request::only('data_final');
@@ -356,6 +391,14 @@ class VendasController extends Controller{
       }
     })
     ->where(function($query) {
+      if(Request::only('arrayMeioCaptura') != null){
+        $meiocaptura = Request::only('arrayMeioCaptura');
+        foreach ($meiocaptura['arrayMeioCaptura'] as $mcaptura) {
+          $query->orWhereNull('COD_MEIO_CAPTURA')->orWhere('COD_MEIO_CAPTURA', '=', $mcaptura);
+        }
+      }
+    })
+    ->where(function($query) {
       if(Request::only('data_inicial') != null){
         $data_inicial = Request::only('data_inicial');
         $data_final = Request::only('data_final');
@@ -386,31 +429,6 @@ class VendasController extends Controller{
     return $vendas;
 
     $flag_scroll = true;
-
-    // return view('vendas')
-    // ->with('result', $vendas)
-    // ->with('todas_vendas', $todas_vendas)
-    // ->with('adquirentes', $adquirentes)
-    // ->with('modalidades', $modalidades)
-    // ->with('bandeiras', $bandeiras)
-    // ->with('status_conciliacao', $status_conciliacao)
-    // ->with('status_financeiro', $status_financeiro)
-    //
-    // ->with('grupos_clientes', $grupos_clientes)
-    // ->with('data_inicial', $data_inicial)
-    // ->with('data_final', $data_final)
-    // ->with('val_liquido', $val_liquido)
-    // ->with('val_bruto', $val_bruto)
-    // ->with('qtde_registros', $qtde_registros)
-    // ->with('flag_scroll', $flag_scroll)
-    //
-    // ->with('filtro_data_inicial', $data_inicial)
-    // ->with('filtro_data_final', $data_final)
-    // ->with('filtro_conciliacao', $conciliacao)
-    // ->with('empresa', $empresa)
-    // ->with('filtro_adquirente', $adquirente)
-    // ->with('filtro_modalidade', $modalidade)
-    // ->with('filtro_bandeira', $bandeira);
   }
 
   public function downloadTable(){

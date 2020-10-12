@@ -33,7 +33,6 @@ class DashboardController extends Controller{
     $dados_dash_vendas_modalidade = DB::table('dashboard_vendas_modalidade')
     ->join('periodo_dash', 'dashboard_vendas_modalidade.COD_PERIODO', 'periodo_dash.CODIGO')
     ->join('modalidade', 'dashboard_vendas_modalidade.COD_MODALIDADE', 'modalidade.CODIGO')
-    // ->where('cod_cliente', '=', session('codigologin'))->get();
     ->where('cod_cliente', '=', session('codigologin'))
     ->groupBy('dashboard_vendas_modalidade.COD_MODALIDADE')
     ->get();
@@ -41,9 +40,8 @@ class DashboardController extends Controller{
     $dados_dash_vendas_produto = DB::table('dashboard_vendas_produtos')
     ->join('periodo_dash', 'dashboard_vendas_produtos.COD_PERIODO', 'periodo_dash.CODIGO')
     ->join('produto', 'dashboard_vendas_produtos.COD_PRODUTO', 'produto.CODIGO')
-    // ->where('cod_cliente', '=', session('codigologin'))->get();
     ->where('cod_cliente', '=', session('codigologin'))
-    // ->groupBy('dashboard_vendas_produto.COD_MODALIDADE')
+    ->groupBy('dashboard_vendas_produtos.COD_PRODUTO')
     ->get();
 
     $dados_calendario = DB::table('vendas')
@@ -55,19 +53,53 @@ class DashboardController extends Controller{
     ->get();
 
     $dados_calendario_pagamento = DB::table('pagamentos_operadoras')
-    ->select('pagamentos_operadoras.DATA_PAGAMENTO')
+    ->select('pagamentos_operadoras.*', 'pagamentos_operadoras.DATA_PAGAMENTO')
     ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
     // ->select('vendas.*', 'sum(VALOR_LIQUIDO) as val_liquido')
     ->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'))
     ->groupBy('pagamentos_operadoras.DATA_PAGAMENTO')
     ->get();
-    // dd($dados_dash_vendas_modalidade);
+
+    $hoje1 = date('Y/m/01');
+    $hoje2 = date('Y/m/30');
+
+    $total_mes = DB::table('pagamentos_operadoras')
+    ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
+    ->whereBetween('pagamentos_operadoras.DATA_PAGAMENTO', [$hoje1, $hoje2])
+    ->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'))
+    ->first();
+
+    $dados_bancos = DB::table('pagamentos_operadoras')
+    ->leftJoin('lista_bancos', 'pagamentos_operadoras.COD_BANCO', 'lista_bancos.CODIGO')
+    ->leftJoin('adquirentes', 'pagamentos_operadoras.COD_ADQUIRENTE', 'adquirentes.CODIGO')
+    ->select('pagamentos_operadoras.*', 'pagamentos_operadoras.DATA_PAGAMENTO', 'lista_bancos.IMAGEM_LINK as IMAGEM', 'adquirentes.IMAGEM as IMAGEMAD')
+    ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
+    ->selectRaw('sum(VALOR_BRUTO) as val_bruto')
+    ->whereBetween('pagamentos_operadoras.DATA_PAGAMENTO', [$hoje1, $hoje2])
+    ->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'));
+
+    $dados_operadora = $dados_bancos->groupBy('pagamentos_operadoras.COD_ADQUIRENTE')
+    ->get();
+
+    $dados_bancos = $dados_bancos->groupBy('pagamentos_operadoras.COD_BANCO')
+    ->get();
+
+    // dd($dados_bancos);
+    $total_banco = 0;
+    foreach($dados_bancos as $bancos){
+      $total_banco += $bancos->val_liquido;
+    }
+
+    // dd($dados_bancos);
+    //
+    // $total_operadora = 0;
+    // foreach($dados_operadora as $operadora){
+    //   $total_operadora += $operadora->val_liquido;
+    // }
+    // dd($dados_bancos);
+
     $data = date('Y-m-d');
-    // dd($data);
 
-    // dd($dados_calendario_pagamento);
-
-    // dd($dados_dash_vendas_bandeira);
     $dados_cliente = ClienteModel::where('CODIGO', '=', session('codigologin'))->first();
 
     session()->put('periodo', 2);
@@ -77,6 +109,11 @@ class DashboardController extends Controller{
 
     ->with('qtde_projetos', $qtde_projetos)
     ->with('projetos', $projetos)
+    ->with('dados_bancos', $dados_bancos)
+    ->with('dados_operadora', $dados_operadora)
+    ->with('total_mes', $total_mes)
+
+    ->with('total_banco', $total_banco)
     ->with('dados_dash_vendas_bandeira', $dados_dash_vendas_bandeira)
     ->with('dados_dash_vendas_modalidade', $dados_dash_vendas_modalidade)
     ->with('dados_dash_vendas', $dados_dash_vendas)

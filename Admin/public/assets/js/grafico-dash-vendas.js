@@ -3,7 +3,7 @@ function geraGraficoVendas(dados_grafico) {
   arrayNomeAdq = [];
 
   dados_grafico.forEach((dado) => {
-    if (dado.COD_PERIODO == periodo) {
+    if (dado.COD_PERIODO == periodo && dado.QUANTIDADE > 0) {
       array.push(parseInt(dado.PERCENTUAL));
     }
   });
@@ -82,7 +82,7 @@ function geraGraficoVendasBandeira(dados_grafico) {
   arrayNomeAdq = [];
 
   dados_grafico.forEach((dado) => {
-    if (dado.COD_PERIODO == periodo) {
+    if (dado.COD_PERIODO == periodo && dado.QUANTIDADE > 0) {
       array.push(parseInt(dado.PERCENTUAL));
     }
   });
@@ -161,7 +161,7 @@ function geraGraficoVendasProduto(dados_grafico) {
   arrayNomeAdq = [];
 
   dados_grafico.forEach((dado) => {
-    if (dado.COD_PERIODO == periodo) {
+    if (dado.COD_PERIODO == periodo && dado.QUANTIDADE > 0) {
       array.push(parseInt(dado.PERCENTUAL));
     }
   });
@@ -240,7 +240,7 @@ function geraGraficoVendasModalidade(dados_grafico) {
   arrayNomeAdq = [];
 
   dados_grafico.forEach((dado) => {
-    if (dado.COD_PERIODO == periodo) {
+    if (dado.COD_PERIODO == periodo && dado.QUANTIDADE > 0) {
       array.push(parseInt(dado.PERCENTUAL));
     }
   });
@@ -329,7 +329,7 @@ function trocaAgrupamento(grupo) {
     $('#table_vendas tbody').empty();
 
     dash_vendas.forEach((dados_dash) => {
-      if (dados_dash.COD_PERIODO == periodo) {
+      if (dados_dash.COD_PERIODO == periodo && dados_dash.QUANTIDADE > 0) {
         total_bruto = parseInt(dados_dash.TOTAL_BRUTO);
         total_liquido = parseInt(dados_dash.TOTAL_LIQUIDO);
         total_taxa = parseInt(dados_dash.TOTAL_TAXA);
@@ -337,8 +337,8 @@ function trocaAgrupamento(grupo) {
         qtde = parseInt(dados_dash.QUANTIDADE);
 
         var html = "<tr>";
-
-        html += "<td>"+dados_dash.ADQUIRENTE+"</td>";
+        console.log(dados_dash)
+        html += "<td>"+dados_dash.IMAGEM+"</td>";
         html += "<td>"+dados_dash.QUANTIDADE+"</td>";
         html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto)+"</td>";
         html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa)+"</td>";
@@ -370,10 +370,10 @@ function trocaAgrupamento(grupo) {
   } else if (grupo == 2) {
     dash_vendas_bandeira = dados_dash_vendas_bandeira;
 
-    $('#table_vendas tbody').empty();
+    $('#table_vendas_bandeira tbody').empty();
 
     dash_vendas_bandeira.forEach((dados_dash) => {
-      if (dados_dash.COD_PERIODO == periodo) {
+      if (dados_dash.COD_PERIODO == periodo && dados_dash.QUANTIDADE > 0) {
         total_bruto = parseInt(dados_dash.TOTAL_BRUTO);
         total_liquido = parseInt(dados_dash.TOTAL_LIQUIDO);
         total_taxa = parseInt(dados_dash.TOTAL_TAXA);
@@ -382,7 +382,7 @@ function trocaAgrupamento(grupo) {
 
         var html = "<tr>";
 
-        html += "<td>"+dados_dash.BANDEIRA+"</td>";
+        html += "<td>"+dados_dash.IMAGEM+"</td>";
         html += "<td>"+dados_dash.QUANTIDADE+"</td>";
         html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto)+"</td>";
         html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa)+"</td>";
@@ -415,7 +415,7 @@ function trocaAgrupamento(grupo) {
     dash_vendas = dados_dash_vendas_modalidade;
 
     dash_vendas.forEach((dados_dash) => {
-      if (dados_dash.COD_PERIODO == periodo) {
+      if (dados_dash.COD_PERIODO == periodo && dados_dash.QUANTIDADE > 0) {
         total_bruto = parseInt(dados_dash.TOTAL_BRUTO);
         total_liquido = parseInt(dados_dash.TOTAL_LIQUIDO);
         total_taxa = parseInt(dados_dash.TOTAL_TAXA);
