@@ -30,6 +30,10 @@ Route::group(['middleware' => 'auth'], function() {
   Route::match(['get', 'post'], '/vendasoperadorasfiltro', 'VendasController@buscarVendasFiltro');
   Route::get('/download', 'VendasController@downloadTable');
 
+  //VENDAS
+  Route::get('/conciliacao-automatica', 'ConciliacaoAutomaticaVendasController@conciliacaoAutomatica');
+  Route::match(['get', 'post'], '/conciliacao-manual', 'ConciliacaoAutomaticaVendasController@conciliarManualmente');
+
   //VENDAS - RECEBIMENTOS OPERADORAS
   Route::get('/recebimentos-operadora', 'RecebimentosOperadoraController@recebimentosOperadora');
   Route::match(['get', 'post'], '/consultar-recebimentos-operadora', 'RecebimentosOperadoraController@consultarRecebimentosOperadoras');

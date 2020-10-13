@@ -240,6 +240,10 @@ function geraGraficoVendasModalidade(dados_grafico) {
   arrayNomeAdq = [];
 
   dados_grafico.forEach((dado) => {
+    console.log(dado)
+    console.log(periodo)
+
+
     if (dado.COD_PERIODO == periodo && dado.QUANTIDADE > 0) {
       array.push(parseInt(dado.PERCENTUAL));
     }

@@ -257,7 +257,7 @@ aria-haspopup="false" aria-expanded="false">
     </a>
     <div class="dropdown-menu dropdown-menu-left" style="background: white;">
       <a style="" class="dropdown-item" href="#"> Conferência Manual de Vendas</a>
-      <a style="" class="dropdown-item" href="#"> Conciliação Automática de Vendas </a>
+      <a style="" class="dropdown-item" href="{{ url('/conciliacao-automatica') }}"> Conciliação Automática de Vendas </a>
       <a style="" class="dropdown-item" href="#"> Conciliação de Pagamentos </a>
       <a style="" class="dropdown-item" href="{{ url('/conciliacao-bancaria') }}"> Conciliação Bancária </a>
       <a style="" class="dropdown-item" href="#"> Conciliação de Taxas </a>

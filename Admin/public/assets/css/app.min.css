@@ -3820,6 +3820,16 @@ border-radius: 50%;
   border-color: #D8D8D8;
 }
 
+.tableDadosDash td {
+  color: #231F20;
+  border: 1px solid;
+  /* border-left: none;
+  border-right: none; */
+  /* border-top: none; */
+  border-color: #D8D8D8;
+}
+
+
 
 .table .thead-light th {
   color: #303e67;

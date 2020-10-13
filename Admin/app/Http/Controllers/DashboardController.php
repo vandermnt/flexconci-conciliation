@@ -36,7 +36,7 @@ class DashboardController extends Controller{
     ->where('cod_cliente', '=', session('codigologin'))
     ->groupBy('dashboard_vendas_modalidade.COD_MODALIDADE')
     ->get();
-
+    
     $dados_dash_vendas_produto = DB::table('dashboard_vendas_produtos')
     ->join('periodo_dash', 'dashboard_vendas_produtos.COD_PERIODO', 'periodo_dash.CODIGO')
     ->join('produto', 'dashboard_vendas_produtos.COD_PRODUTO', 'produto.CODIGO')

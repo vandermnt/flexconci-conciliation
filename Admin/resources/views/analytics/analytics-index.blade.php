@@ -220,7 +220,7 @@ body {
     </div>
     <div id="apex_pie2" class="apex-charts"></div>
     <div class="table-responsive mt-4" style="border-color: red">
-      <table  id="table_vendas_operadora" class="table table-borderless mb-0" style="font-size: 12px">
+      <table  id="table_vendas_operadora" class="table table-borderless tableDadosDash" style="font-size: 12px">
         <thead>
           <tr>
             <th style="color: #231F20" >Operadora</th>
@@ -232,15 +232,7 @@ body {
           </tr>
         </thead>
         <tbody>
-          <!-- @foreach($dados_dash_vendas as $dados_vendas) -->
-          <tr>
-            <td style="color: #231F20" id="quantidade"> </td>
-            <td style="color: #231F20" id="venda_total_bruto"></td>
-            <td style="color: #231F20" id="venda_total_taxa"></td>
-            <td style="color: #231F20" id="venda_total_liquido"></td>
-            <td style="color: #231F20" id="venda_ticket_medio"></td>
-          </tr>
-          <!-- @endforeach -->
+
         </tbody>
       </table>
     </div>
@@ -279,7 +271,7 @@ body {
         <div id="apex_pie7" class="apex-charts"></div>
         <div class="table-responsive mt-4" style="font-size: 13px; overflow-y: auto; height: 110px">
 
-          <table id="table_vendas_bandeira"  class="table table-borderless mb-0" style="font-size: 12px">
+          <table id="table_vendas_bandeira"  class="table table-borderless tableDadosDash" style="font-size: 12px">
 
             <thead>
               <tr>
@@ -292,16 +284,6 @@ body {
               </tr>
             </thead>
             <tbody style="">
-              <!-- @foreach($dados_dash_vendas as $dados_vendas) -->
-              <tr>
-                <td style="color: #231F20" id="vendabandeira_tipo"> </td>
-                <td style="color: #231F20" id="vendabandeira_quantidade"> </td>
-                <td style="color: #231F20" id="vendabandeira_total_bruto"></td>
-                <td style="color: #231F20" id="vendabandeira_total_taxa"></td>
-                <td style="color: #231F20" id="vendabandeira_total_liquido"></td>
-                <td style="color: #231F20" id="vendabandeira_ticket_medio"></td>
-              </tr>
-              <!-- @endforeach -->
             </tbody>
           </table>
         </div>
@@ -351,7 +333,7 @@ body {
     </div>
     <div id="apex_pie8" class="apex-charts"></div>
     <div class="table-responsive mt-4">
-      <table  id="table_vendas_modalidade" class="table table-borderless mb-0" style="font-size: 12px">
+      <table  id="table_vendas_modalidade" class="table table-borderless tableDadosDash" style="font-size: 12px">
         <thead>
           <tr>
             <th style="color: #231F20" >Forma de Pagamento</th>
@@ -363,15 +345,7 @@ body {
           </tr>
         </thead>
         <tbody>
-          <!-- @foreach($dados_dash_vendas as $dados_vendas) -->
-          <tr>
-            <td style="color: #231F20" id="vendamodalidade_quantidade"> </td>
-            <td style="color: #231F20" id="vendamodalidade_total_bruto"></td>
-            <td style="color: #231F20" id="vendamodalidade_total_taxa"></td>
-            <td style="color: #231F20" id="vendamodalidade_total_liquido"></td>
-            <td style="color: #231F20" id="vendamodalidade_ticket_medio"></td>
-          </tr>
-          <!-- @endforeach -->
+
         </tbody>
       </table>
     </div>
@@ -504,7 +478,7 @@ body {
                     <img src="{{ $bancos->IMAGEM}}" class="align-self-center" style="width: 50px; margin-left: -20px;">
                   </div>
                   <div class="col-4 media-body align-self-center">
-                    <h4 class="" style="font-size: 14px; margin-left: -35px"> {{ $bancos->AGENCIA}} - {{ $bancos->CONTA }} </h4>
+                    <h4 class="" style="font-size: 13px; margin-left: -30px"> AG: {{ $bancos->AGENCIA}} - C/C: {{ $bancos->CONTA }} </h4>
                   </div>
 
                   <div class="col-5 media-body align-self-center" style="margin: 0">
@@ -517,11 +491,9 @@ body {
                   <div class="col-1 media-body align-self-center">
                     <!-- <a style="margin-right: -60px" onclick="showTableBancoSelecionado({{$teste}})" data-toggle="tab" href="#div_banco_selecionado"><i class="thumb-lg mdi mdi-chevron-right"></i> </a> -->
                     <!-- <a data-toggle="tab" href="#div_banco_selecionado" role="tab" aria-selected="true"><i class="thumb-lg mdi mdi-chevron-right"></i></a> -->
-                    <ul class="nav nav-pills nav-justified" role="tablist">
-                      <a id="{{$bancos->CODIGO}}" data-toggle="tab" data-target="#div_banco_selecionado" onclick="showTableBancoSelecionado({{$teste}})" role="tab" aria-selected="false" style="display: block"><i class="thumb-lg mdi mdi-chevron-right"></i> </a>
+                    <a id="{{$bancos->CODIGO}}" data-toggle="tab" data-target="#div_banco_selecionado" onclick="showTableBancoSelecionado({{$teste}})" role="tab" aria-selected="false" style="display: block"><i class="thumb-lg mdi mdi-chevron-right"></i> </a>
 
 
-                    </ul>
 
                   </div>
                 </div>
@@ -562,6 +534,36 @@ body {
             </ul>
           </div>
 
+          <div class="tab-pane p-3" id="div_operadora_selecionada" role="tab">
+
+            <ul class="list-group wallet-bal-crypto mt-3">
+
+              <table  id="table_operadora_selecionado" class="tableDadosOperadora" style="font-size: 12px; text-align: center;">
+                <thead>
+                  <tr>
+                    <th >Receb. Bruto</th>
+                    <th >Taxas</th>
+                    <th >Tarifas Extras</th>
+                    <th >Receb. Líquido</th>
+                    <th >Situação de Pgto</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- @foreach($dados_dash_vendas as $dados_vendas) -->
+
+                  <!-- @endforeach -->
+                </tbody>
+              </table>
+              <br>
+              <ul class="nav nav-pills nav-justified" role="tablist">
+                <a type="button" id="voltar_operadora" data-target="#Wallet" data-toggle="tab" aria-label="Close"> < Voltar </a>
+
+
+              </ul>
+
+            </ul>
+          </div>
+
           <div class="tab-pane p-3 active" id="Wallet" role="tabpanel">
             <!-- <div class="row">
             <div class="col-12">
@@ -591,8 +593,14 @@ body {
 
             <!-- </div> -->
           </div><!--end media body-->
-          <!-- <a class="col-2 align-self-center" href="" style="align-items: center; justify-content: center"><i class="thumb-lg mdi mdi-chevron-right"></i> </a> -->
-        </div>
+          <div class="col-1 media-body align-self-center">
+            <!-- <a style="margin-right: -60px" onclick="showTableBancoSelecionado({{$teste}})" data-toggle="tab" href="#div_banco_selecionado"><i class="thumb-lg mdi mdi-chevron-right"></i> </a> -->
+            <!-- <a data-toggle="tab" href="#div_banco_selecionado" role="tab" aria-selected="true"><i class="thumb-lg mdi mdi-chevron-right"></i></a> -->
+            <?php $ad = $operadora->CODIGO ?>
+
+            <a id="{{ "operadora".$operadora->CODIGO}}" data-toggle="tab" data-target="#div_operadora_selecionada" onclick="showTableOperadoraSelecionada({{$ad}})" role="tab" aria-selected="false" style="display: block"><i class="thumb-lg mdi mdi-chevron-right"></i> </a>
+
+          </div>        </div>
         <!-- <span class="badge badge-soft-pink">Bitcoin</span> -->
       </li>
       @endforeach
@@ -734,7 +742,7 @@ function preCarregarGraficoVendas(){
       dados_grafico.push(dados_dash);
 
       var html = "<tr>";
-      html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' style='width: 60px'/>"+"</td>";
+      html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' style='width: 50px'/>"+"</td>";
       html += "<td style='color: #231F20'>"+dados_dash.QUANTIDADE+"</td>";
       html += "<td style='color: #231F20'>"+total_bruto+"</td>";
       html += "<td style='color: #231F20'>"+total_taxa+"</td>";
@@ -869,17 +877,17 @@ function preCarregarGraficoVendasProduto(){
 
 function preCarregarGraficoVendasModalidade(){
   var dados_grafico = [];
-
   dashboard_vendas_modalidade = <?php echo $dados_dash_vendas_modalidade ?>;
-
   $('#table_vendas_modalidade tbody').empty();
+
+  console.log(dashboard_vendas_modalidade);
+
   dashboard_vendas_modalidade.forEach((dados_dash) => {
     if(dados_dash.COD_PERIODO == 3 && dados_dash.QUANTIDADE > 0){
       // bruto = dados_dash.TOTAL_BRUTO;
       // liquido = dados_dash.TOTAL_LIQUIDO;
       // taxa = dados_dash.TOTAL_TAXA;
       // ticket = dados_dash.TICKET_MEDIO;
-
 
       total_bruto = parseInt(dados_dash.TOTAL_BRUTO);
       total_liquido = parseInt(dados_dash.TOTAL_LIQUIDO);
@@ -897,11 +905,9 @@ function preCarregarGraficoVendasModalidade(){
       html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio)+"</td>";
 
       html += "</tr>";
-
       $('#table_vendas_modalidade').append(html);
 
       dados_grafico.push(dados_dash);
-      console.log(dados_grafico);
       document.getElementById("dropdownMenuButtonModalidade").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
     }
   })
@@ -914,6 +920,7 @@ function preCarregarGraficoVendasModalidade(){
   // document.getElementById("quantidade").innerHTML = qtde;
 
   periodo = 3;
+
   geraGraficoVendasModalidade(dados_grafico);
 
 }
@@ -952,10 +959,10 @@ function trocaPeriodo(cod_periodo, tipo){
 
         html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' id='cartao'/>"+"</td>";
         html += "<td style='color: #231F20'>"+dados_dash.QUANTIDADE+"</td>";
-        html += "<td style='color: #231F20'>"+total_bruto+"</td>";
-        html += "<td style='color: #231F20'>"+total_taxa+"</td>";
-        html += "<td style='color: #231F20'>"+total_liquido+"</td>";
-        html += "<td style='color: #231F20'>"+total_ticket_medio+"</td>";
+        html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto)+"</td>";
+        html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_taxa)+"</td>";
+        html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido)+"</td>";
+        html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_ticket_medio)+"</td>";
 
         html += "</tr>";
 
@@ -1006,10 +1013,10 @@ function trocaPeriodo(cod_periodo, tipo){
 
         html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' id='cartao'/>"+"</td>";
         html += "<td style='color: #231F20'>"+dados_dash.QUANTIDADE+"</td>";
-        html += "<td style='color: #231F20'>"+total_bruto+"</td>";
-        html += "<td style='color: #231F20'>"+total_taxa+"</td>";
-        html += "<td style='color: #231F20'>"+total_liquido+"</td>";
-        html += "<td style='color: #231F20'>"+total_ticket_medio+"</td>";
+        html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto)+"</td>";
+        html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_taxa)+"</td>";
+        html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido)+"</td>";
+        html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_ticket_medio)+"</td>";
 
         html += "</tr>";
 
@@ -1057,6 +1064,7 @@ function trocaPeriodo(cod_periodo, tipo){
 
         var html = "<tr>";
 
+        html += "<td>"+dados_dash.DESCRICAO+"</td>";
         html += "<td>"+dados_dash.QUANTIDADE+"</td>";
         html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto)+"</td>";
         html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa)+"</td>";
@@ -1300,6 +1308,44 @@ function showTableBancoSelecionado(codigo){
 
   // document.getElementById("Total").style.display = "block";
 }
+
+function showTableOperadoraSelecionada(codigo){
+  console.log(codigo)
+  $("#table_operadora_selecionado tbody").empty();
+
+  var bancos = <?php echo $dados_bancos ?>
+
+  var result = bancos.find(banco => banco.CODIGO == codigo);
+
+
+  var val_bruto = parseInt(result.val_bruto);
+  var val_liquido = parseInt(result.val_liquido);
+  var tx = parseInt(result.TAXA_PERCENTUAL);
+  var t = Number(tx).toFixed(2);
+
+  var html = "<tr>";
+
+  html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(val_bruto)+"</td>";
+  html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(tx)+"</td>";
+  html += "<td>"+"teste"+"</td>";
+  html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(val_liquido)+"</td>";
+  html += "<td>"+"teste"+"</td>";
+
+  html += "</tr>";
+
+  $('#table_operadora_selecionado').append(html);
+  document.getElementById("operadora"+result.CODIGO).classList.remove('active');
+  document.getElementById("voltar_operadora").classList.remove('active');
+
+
+
+  // document.getElementById("Total").style.display = "block";
+}
+
+
+
+
+
 
 
 </script>
