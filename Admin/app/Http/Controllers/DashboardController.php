@@ -28,15 +28,15 @@ class DashboardController extends Controller{
 
     // dd($dados_dash_vendas_bandeira);
 
-    // dd($dados_dash_vendas_bandeira);
 
     $dados_dash_vendas_modalidade = DB::table('dashboard_vendas_modalidade')
     ->join('periodo_dash', 'dashboard_vendas_modalidade.COD_PERIODO', 'periodo_dash.CODIGO')
     ->join('modalidade', 'dashboard_vendas_modalidade.COD_MODALIDADE', 'modalidade.CODIGO')
     ->where('cod_cliente', '=', session('codigologin'))
-    ->groupBy('dashboard_vendas_modalidade.COD_MODALIDADE')
+    // ->groupBy('dashboard_vendas_modalidade.COD_PERIODO')
     ->get();
-    
+
+    // dd($dados_dash_vendas_modalidade);
     $dados_dash_vendas_produto = DB::table('dashboard_vendas_produtos')
     ->join('periodo_dash', 'dashboard_vendas_produtos.COD_PERIODO', 'periodo_dash.CODIGO')
     ->join('produto', 'dashboard_vendas_produtos.COD_PRODUTO', 'produto.CODIGO')

@@ -4,7 +4,8 @@ function geraGraficoVendas(dados_grafico) {
 
   dados_grafico.forEach((dado) => {
     if (dado.COD_PERIODO == periodo && dado.QUANTIDADE > 0) {
-      array.push(parseInt(dado.PERCENTUAL));
+      var percentualFloat = parseFloat(dado.PERCENTUAL);
+      array.push(percentualFloat);
     }
   });
 
@@ -83,7 +84,8 @@ function geraGraficoVendasBandeira(dados_grafico) {
 
   dados_grafico.forEach((dado) => {
     if (dado.COD_PERIODO == periodo && dado.QUANTIDADE > 0) {
-      array.push(parseInt(dado.PERCENTUAL));
+      var percentualFloat = parseFloat(dado.PERCENTUAL);
+      array.push(percentualFloat);
     }
   });
 
@@ -245,8 +247,8 @@ function geraGraficoVendasModalidade(dados_grafico) {
 
 
     if (dado.COD_PERIODO == periodo && dado.QUANTIDADE > 0) {
-      array.push(parseInt(dado.PERCENTUAL));
-    }
+      var percentualFloat = parseFloat(dado.PERCENTUAL);
+      array.push(percentualFloat);    }
   });
 
   dados_grafico.forEach((dado) => {
