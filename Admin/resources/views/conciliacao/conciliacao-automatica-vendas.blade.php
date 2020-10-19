@@ -90,7 +90,7 @@ $(document).ready(function(){
                   <div class="form-group">
                     <div class="row">
                       <div class="col-sm-12">
-                        <h6 style="color: #424242; font-size: 11.5px"> Adquirente: </h6>
+                        <h6 style="color: #424242; font-size: 11.5px"> Empresa: </h6>
                         <input id="adquirente" style="margin-top: -5px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px; border-color: #2D5275" class="form-control" name="adquirente">
                       </div>
                     </div>
@@ -99,45 +99,7 @@ $(document).ready(function(){
               </div>
 
               <div class="col-sm-2">
-                <button id="buttonpesquisar" type="button" class="btn btn-sm" data-toggle="modal" data-target="#staticBackdropAdquirente" style="margin-top: 15px; width: 100%">
-                  <b>Selecionar</b>
-                </button>
-              </div>
-
-              <div class="col-sm-6" style="margin-top: -16px">
-                <div>
-                  <div class="form-group">
-                    <div class="row">
-                      <div class="col-sm-12">
-                        <h6 style="color: #424242; font-size: 11.5px"> Bandeira: </h6>
-                        <input id="bandeira" style="margin-top: -5px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px; border-color: #2D5275" class="form-control" name="bandeira">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-sm-2">
-                <button id="buttonpesquisar" type="button" class="btn btn-sm" data-toggle="modal" data-target="#staticBackdropBandeira" style="margin-top: 9px; width: 100%">
-                  <b>Selecionar</b>
-                </button>
-              </div>
-
-              <div class="col-sm-6" style="margin-top: -16px">
-                <div>
-                  <div class="form-group">
-                    <div class="row">
-                      <div class="col-sm-12">
-                        <h6 style="color: #424242; font-size: 11.5px"> Forma de Pagamento: </h6>
-                        <input id="modalidade" style="margin-top: -5px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px; border-color: #2D5275" class="form-control" name="modalidade">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-sm-2">
-                <button id="buttonpesquisar" type="button" class="btn btn-sm" data-toggle="modal" data-target="#staticBackdropModalidade" style="margin-top: 9px; width: 100%">
+                <button id="buttonpesquisar" type="button" class="btn btn-sm" data-toggle="modal" data-target="#staticBackdrop" style="margin-top: 15px; width: 100%">
                   <b>Selecionar</b>
                 </button>
               </div>
@@ -175,11 +137,11 @@ $(document).ready(function(){
           </div>
         </div>
 
-        <div class="modal fade" id="staticBackdropAdquirente" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-          <div class="modal-dialog" style="width: 250px;">
+        <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog" style="max-width: 400px;">
             <div class="modal-content">
               <div class="modal-header" style="background: #2D5275;">
-                <h5 class="modal-title" id="staticBackdropLabel" style="color: white">Adquirente</h5>
+                <h5 class="modal-title" id="staticBackdropLabel" style="color: white">Empresas</h5>
                 <button style="color: white" type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -190,129 +152,32 @@ $(document).ready(function(){
                     <h6> Pesquisar </h6>
                   </div>
                   <div class="col-sm-12">
-                    <input id="ft" style="margin-top: -6px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" onKeyDown="filtroNomeAdquirente({{$adquirentes}})">
-                  </div>
-
-                </div><br>
-
-                <div class="row">
-                  <div class="col-sm-10">
-                    <p><b>Adquirente</b></p>
-                  </div>
-
-                  <div class="col-sm-2">
-                    <input id="allCheckAd" onchange="allCheckboxAd({{$adquirentes}})" type="checkbox">
-                  </div>
-                  @if(isset($adquirentes))
-                  @foreach($adquirentes as $adquirente)
-                  <div id="{{ $adquirente->ADQUIRENTE }}" style="display:block; " class="col-sm-10">
-                    <p>{{ $adquirente->ADQUIRENTE }}</p>
-                  </div>
-
-                  <div id="{{ "divCod".$bandeira->CODIGO }}" style="display:block" class="col-sm-2">
-                    <input id="{{ $adquirente->CODIGO }}" value="{{ $adquirente->ADQUIRENTE }}" name="arrayAdquirentes[]" type="checkbox">
-                  </div>
-                  <hr>
-                  @endforeach
-                  @endif
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
-                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addSelecionadosAdquirentes({{$adquirentes}})"><b>Confirmar</b></button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="modal fade" id="staticBackdropBandeira" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-          <div class="modal-dialog" style="width: 250px;">
-            <div class="modal-content">
-              <div class="modal-header" style="background: #2D5275;">
-                <h5 class="modal-title" id="staticBackdropLabel" style="color: white">Bandeira</h5>
-                <button style="color: white" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col-sm-12">
-                    <h6> Pesquisar </h6>
-                  </div>
-                  <div class="col-sm-12">
-                    <input id="ft" style="margin-top: -6px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" onKeyDown="filtroNomeBandeira({{$bandeiras}})">
-                  </div>
-
-                </div><br>
-
-                <div class="row">
-                  <div class="col-sm-10">
-                    <p><b>BANDEIRA</b></p>
-                  </div>
-
-                  <div class="col-sm-2">
-                    <input id="allCheckBandeira" onchange="allCheckboxBandeira({{$bandeiras}})" type="checkbox">
-                  </div>
-                  @if(isset($bandeiras))
-                  @foreach($bandeiras as $bandeira)
-
-                  <div id="{{ $bandeira->BANDEIRA }}" style="display:block; " class="col-sm-10">
-                    <p>{{ $bandeira->BANDEIRA }}</p>
-                  </div>
-
-                  <div id="{{ "divCod".$bandeira->CODIGO }}" style="display:block" class="col-sm-2">
-                    <input id="{{ $bandeira->CODIGO }}" value="{{ $bandeira->CODIGO }}" name="arrayBandeira[]" type="checkbox">
-                  </div>
-                  <hr>
-                  @endforeach
-                  @endif
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
-                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addSelecionadosBandeira({{$bandeiras}})"><b>Confirmar</b></button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        <div class="modal fade" id="staticBackdropModalidade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-          <div class="modal-dialog" style="width: 270px">
-            <div class="modal-content">
-              <div class="modal-header" style="background: #2D5275;">
-                <h5 class="modal-title" id="staticBackdropLabel" style="color: white">Forma de Pagamento</h5>
-                <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col-sm-12">
-                    <h6> Pesquisar </h6>
-                  </div>
-                  <div class="col-sm-12">
-                    <input id="ftModalidade" style="margin-top: -6px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" onKeyDown="filtroNomeModalidade({{$modalidades}})">
+                    <input id="ft" style="margin-top: -6px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" name="valor_venda" onKeyDown="filtroCnpj({{$grupos_clientes}})">
                   </div>
 
                 </div> <br>
 
                 <div class="row">
-                  <div class="col-sm-10">
-                    <p><b>FORMA DE PAGAMENTO</b></p>
+                  <div class="col-sm-7">
+                    <p><b>EMPRESA</b></p>
                   </div>
+                  <div class="col-sm-4">
+                    <p><b>CNPJ</b></p>
+                  </div>
+                  <div class="col-sm-1">
+                    <input id="allCheck" onchange="allCheckbox({{$grupos_clientes}})" type="checkbox">
+                  </div>
+                  @if(isset($grupos_clientes))
+                  @foreach($grupos_clientes as $cliente)
 
-                  <div class="col-sm-2">
-                    <input id="allCheckModalidade" onchange="allCheckboxModalidade({{$modalidades}})" type="checkbox">
+                  <div id="{{ $cliente->NOME_EMPRESA }}" style="display:block" class="col-sm-7">
+                    <p>{{ $cliente->NOME_EMPRESA }}</p>
                   </div>
-                  @if(isset($modalidades))
-                  @foreach($modalidades as $modalidade)
-
-                  <div id="{{ $modalidade->DESCRICAO }}" style="display:block" class="col-sm-10">
-                    <p>{{ $modalidade->DESCRICAO }}</p>
+                  <div id="{{ $cliente->CNPJ }}" style="display:block" class="col-sm-4">
+                    <p>{{ $cliente->CNPJ }}</p>
                   </div>
-                  <div id="{{ "divCod".$modalidade->CODIGO }}" style="display:block" class="col-sm-2">
-                    <input id="{{ "inputMod".$modalidade->CODIGO }}" value="{{ $modalidade->CODIGO }}" name="arrayModalidade[]" type="checkbox">
+                  <div id="{{ "divCod".$cliente->CODIGO }}" style="display:block" class="col-sm-1">
+                    <input id="{{ $cliente->CODIGO }}" value="{{ $cliente->CNPJ }}" name="array[]" type="checkbox">
                   </div>
                   <hr>
                   @endforeach
@@ -321,175 +186,227 @@ $(document).ready(function(){
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
-                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addSelecionadosModalidade({{$modalidades}})"><b>Confirmar</b></button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addSelecionados({{$grupos_clientes}})"><b>Confirmar</b></button>
               </div>
             </div>
           </div>
         </div>
+
       </form>
+
 
       <div id="resultadosPesquisa" style="display: none">
 
-        <br>
-        <div style="overflow: scroll; font-size: 13px; overflow-x: scroll; height: 470px">
+        <div class="row">
+          <div class="col-md-6 col-lg-3">
+            <div class="card report-card">
+              <div class="card-body">
+                <div class="row d-flex justify-content-center">
+                  <div class="col-8">
+                    <p class="text-dark font-weight-semibold font-12">VENDAS ERP</p>
+                    <h4 id="total_registros" class="my-3">0</h4>
+                    <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
+                  </div>
+                  <div class="col-4 align-self-center">
+                    <div class="report-main-icon bg-light-alt">
+                      <img style="width: 40px" src="{{ url('assets/images/conciliacao/vendaserp.png')}}" alt="">
+                    </div>
+                  </div>
+                </div>
+              </div><!--end card-body-->
+            </div><!--end card-->
+          </div> <!--end col-->
+          <div class="col-md-6 col-lg-3">
+            <div class="card report-card">
+              <div class="card-body">
+                <div class="row d-flex justify-content-center">
+                  <div class="col-8">
+                    <p class="text-dark font-weight-semibold font-12">CONCILIADO</p>
+                    <h4 id="total_bruto_vendas" class="my-3">0</h4>
+                    <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
+                  </div>
+                  <div class="col-4 align-self-center">
+                    <div class="report-main-icon bg-light-alt">
+                      <img style="width: 40px" src="{{ url('assets/images/conciliacao/conciliado.png')}}" alt="">
+                    </div>
+                  </div>
+                </div>
+              </div><!--end card-body-->
+            </div><!--end card-->
+          </div> <!--end col-->
+          <div class="col-md-6 col-lg-3">
+            <div class="card report-card">
+              <div class="card-body">
+                <div class="row d-flex justify-content-center">
+                  <div class="col-8">
+                    <p class="text-dark font-weight-semibold font-12">DIVERGENTE</p>
+                    <h4 id="total_taxa_cobrada" class="my-3">0</h4>
+                    <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
+                  </div>
+                  <div class="col-4 align-self-center">
+                    <div class="report-main-icon bg-light-alt">
+                      <img style="width: 40px" src="{{ url('assets/images/conciliacao/conciliadodiv.png')}}" alt="">
+                    </div>
+                  </div>
+                </div>
+              </div><!--end card-body-->
+            </div><!--end card-->
+          </div> <!--end col-->
+          <div class="col-md-6 col-lg-3">
+            <div class="card report-card">
+              <div class="card-body">
+                <div class="row d-flex justify-content-center">
+                  <div class="col-8">
+                    <p class="text-dark font-weight-semibold font-12">CONCILIADO MANUALMENTE</p>
+                    <h4 id="total_liquido_vendas" class="my-3">0</h4>
+                    <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
+                  </div>
+                  <div class="col-4 align-self-center">
+                    <div class="report-main-icon bg-light-alt">
+                      <img style="width: 40px" src="{{ url('assets/images/conciliacao/conciliadomanualmente.png')}}" alt="">
+                    </div>
+                  </div>
+                </div>
+              </div><!--end card-body-->
+            </div><!--end card-->
+          </div> <!--end col-->
+          <div class="col-md-6 col-lg-4">
+            <div class="card report-card">
+              <div class="card-body">
+                <div class="row d-flex justify-content-center">
+                  <div class="col-8">
+                    <p class="text-dark font-weight-semibold font-12">JUSTIFICADO</p>
+                    <h4 id="total_liquido_vendas" class="my-3">0</h4>
+                    <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
+                  </div>
+                  <div class="col-4 align-self-center">
+                    <div class="report-main-icon bg-light-alt">
+                      <img style="width: 40px" src="{{ url('assets/images/conciliacao/justificado.png')}}" alt="">
+                    </div>
+                  </div>
+                </div>
+              </div><!--end card-body-->
+            </div><!--end card-->
+          </div> <!--end col-->
+          <div class="col-md-6 col-lg-4">
+            <div class="card report-card">
+              <div class="card-body">
+                <div class="row d-flex justify-content-center">
+                  <div class="col-8">
+                    <p class="text-dark font-weight-semibold font-12">VENDAS ERP NÃO CONCILIADAS</p>
+                    <h4 id="total_liquido_vendas" class="my-3">0</h4>
+                    <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
+                  </div>
+                  <div class="col-4 align-self-center">
+                    <div class="report-main-icon bg-light-alt">
+                      <img style="width: 40px" src="{{ url('assets/images/conciliacao/vendaserpnotconc.png')}}" alt="">
+                    </div>
+                  </div>
+                </div>
+              </div><!--end card-body-->
+            </div><!--end card-->
+          </div> <!--end col-->
+          <div class="col-md-6 col-lg-4">
+            <div class="card report-card">
+              <div class="card-body">
+                <div class="row d-flex justify-content-center">
+                  <div class="col-8">
+                    <p class="text-dark font-weight-semibold font-12">VENDAS OPERADORA NÃO CONCILIADAS</p>
+                    <h4 id="total_liquido_vendas" class="my-3">0</h4>
+                    <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
+                  </div>
+                  <div class="col-4 align-self-center">
+                    <div class="report-main-icon bg-light-alt">
+                      <img style="width: 40px" src="{{ url('assets/images/conciliacao/vendasoperadoranotconc.png')}}" alt="">
+                    </div>
+                  </div>
+                </div>
+              </div><!--end card-body-->
+            </div><!--end card-->
+          </div> <!--end col-->
+
+        </div>
+
+        <h4> Vendas </h4>
+        <div style="overflow: scroll; font-size: 13px; overflow-x: scroll; height: 270px">
 
           <table id="jsgrid-table" class="table " style="white-space: nowrap;">
 
             <thead>
               <tr>
-                <th> Empresa  <br> <input style="max-width: 135px; margin: 0"></th>
-                <th> CNPJ  <br> <input style="max-width: 135px; margin: 0"> </th>
-                <th> Operadora<br> <input style="max-width: 135px; margin: 0"> </th>
-                <th> Dt.Venda  <br> <input style="max-width: 135px; margin: 0"></th>
-                <th> Dt.Prevista <br> <input style="max-width: 135px; margin: 0"> </th>
-                <th> Bandeira<br> <input style="max-width: 135px; margin: 0"> </th>
-                <th> Forma de Pagamento<br> <input style="max-width: 135px; margin: 0"> </th>
-                <th> NSU <br> <input style="max-width: 135px; margin: 0"></th>
-                <th> Autorização <br> <input style="max-width: 135px; margin: 0"></th>
-                <th> Cartão<br> <input style="max-width: 135px; margin: 0"> </th>
-                <th> Valor Bruto <br> <input style="max-width: 135px; margin: 0"></th>
-                <th> Taxa %  <br> <input style="max-width: 135px; margin: 0"></th>
-                <th> Taxa R$ <br> <input style="max-width: 135px; margin: 0"></th>
-                <th> Outras Tarifas<br> <input style="max-width: 135px; margin: 0"> </th>
-                <th> Valor Líquido <br> <input style="max-width: 135px; margin: 0"> </th>
-                <th> Parcela <br> <input style="max-width: 135px; margin: 0"></th>
-                <th> Total Parc. <br> <input style="max-width: 135px; margin: 0"></th>
-                <th> Hora <br> <input style="max-width: 135px; margin: 0"></th>
-                <th> Estabelecimento<br> <input style="max-width: 135px; margin: 0"> </th>
-                <th> Banco<br> <input style="max-width: 135px; margin: 0"> </th>
-                <th> Agência<br> <input style="max-width: 135px; margin: 0"> </th>
-                <th> Conta <br> <input style="max-width: 135px; margin: 0"></th>
-                <th> Observação <br> <input style="min-width: 135px; margin: 0"></th>
-                <th> Produto<br> <input style="max-width: 135px; margin: 0"> </th>
-                <th> Meio de Captura<br> <input style="max-width: 135px; margin: 0"> </th>
+                <th>  </th>
+                <th> Empresa </th>
+                <th> CNPJ  </th>
+                <th> Operador </th>
+                <th> Dt.Venda </th>
+                <th> Dt.Prevista </th>
+                <th> Bandeir </th>
+                <th> Forma de Pagament </th>
+                <th> NSU</th>
+                <th> Autorização</th>
+                <th> Cartã </th>
+                <th> Valor Bruto</th>
+                <th> Taxa % </th>
+                <th> Taxa R$</th>
+                <th> Outras Tarifa </th>
+                <th> Valor Líquido </th>
+                <th> Parcela</th>
+                <th> Total Parc.</th>
+                <th> Hora</th>
+                <th> Estabeleciment </th>
+                <th> Banc </th>
+                <th> Agênci </th>
+                <th> Conta</th>
+                <th> Observação <input style="min-width: 135px; margin: 0"></th>
+                <th> Produt </th>
+                <th> Meio de Captur </th>
               </tr>
-
             </thead>
             <tbody>
-              @foreach($result as $results)
-              <tr id="{{$results->COD}}" onclick="mudaCorLinhaTable({{$results->COD}})">
-                <td><?php echo ucfirst(strtolower($results->EMPRESA)) ?></td>
-                <?php $newDate = date("d/m/Y", strtotime($results->DATA_VENDA));?>
-                <td>{{$results->CNPJ}}</td>
-                <td>{{$results->ADQUIRENTE}}</td>
-                <td>{{$newDate}}</td>
-                <?php $newDatePrev= date("d/m/Y", strtotime($results->DATA_PREVISTA_PAGTO));?>
-                <td>{{$newDatePrev}}</td>
-                <td>{{$results->BANDEIRA}}</td>
-                <td>{{$results->DESCRICAO}}</td>
-                <td>{{$results->NSU}}</td>
-                <td>{{$results->AUTORIZACAO}}</td>
-                <td>{{$results->CARTAO}}</td>
-                <?php $val_brt = number_format($results->VALOR_BRUTO,2,",","."); ?>
-                <td>{{$val_brt}}</td>
-                <td><?php echo number_format( $results->VALOR_TAXA,2,",","."); ?></td>
-                <td><?php echo number_format( $results->VALOR_TAXA,2,",","."); ?> </td>
-                <?php $val_liq = number_format($results->VALOR_LIQUIDO,2,",","."); ?>
-                <td>{{$val_liq}}</td>
-                <td>{{ $results->PARCELA }}</td>
-                <td>{{ $results->TOTAL_PARCELAS }}</td>
-                <td>{{ $results->HORA_TRANSACAO }} </td>
-                <td>{{ $results->ESTABELECIMENTO }}</td>
-                <td>{{ $results->BANCO }}</td>
-                <td>{{ $results->AGENCIA }}</td>
-                <td>{{ $results->CONTA }}</td>
-              </tr>
-              @endforeach
+
             </tbody>
 
           </table>
 
-          <!--
-          <div style="background: red;  width: 120px;margin-bottom: 0">
-          <h1>odwkaodpawkdp</h1>
-        </div> -->
+
+        </div>
 
       </div>
 
-      <!-- <div class="col-sm-12">
-      <div class="row" style="align-items: center;">
-      <div class="col-sm-2">
-      <h6 id="total_registros"> Total Registros: {{ $qtde_registros }} </h6>
+      <div id="resultadosPesquisaErp" style="display: none">
+
+        <br>
+
+        <h4> Vendas ERP</h4>
+
+        <div style="overflow: scroll; font-size: 13px; overflow-x: scroll; max-height: 270px">
+          <table id="jsgrid-table-erp" class="table " style="white-space: nowrap; background:white; color: #2D5275">
+
+            <thead>
+              <tr style="background: #2D5275;">
+                <th>  </th>
+                <th> DATA VENDA  </th>
+                <th> PREVIS. PGT  </th>
+                <th> NSU  </th>
+                <th> TOTAL VENDA </th>
+                <th> Nº PARCELA </th>
+                <th> TOTAL PARCELA </th>
+                <th> LIQ. PARCELA </th>
+                <th> DESCRIÇÃO ERP </th>
+                <th> COD. AUTORIZAÇÃO </th>
+                <th> ID. VENDA CLIENTE  </th>
+                <th> MEIO DE CAPTURA  </th>
+              </tr>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+          <br>
+          <button type="button" onclick="conciliar()" style="background: #2D5275; box-shadow: none" class="btn btn-primary btn-lg btn-block"><b>Conciliar</b></button>
+        </div>
+      </div>
     </div>
-    <div style="margin-left: 10px;" class="col-sm-3">
-    <h6 id="val_bruto"><b>Total Valor Bruto</b>: </h6>
   </div>
-  <div style="margin-left: -50px;" class="col-sm-1.9">
-  <h6 id="val_liquido"><b>Total Valor Líquido</b>: </h6>
-</div>
-</div>
-</div> -->
-</div>
-<div style="display:none">
-  <table id="mytable" class="table table-bordered" align="center" style="white-space: nowrap">
-    <thead>
-      <tr style="width: 300px">
-        <th> <i class="fas fa-filter"></i> <br>Empresa </th>
-        <th scope="col"><i class="fas fa-filter"></i><br>CNPJ </th>
-        <th> <i class="fas fa-filter"></i> <br> Operadora</th>
-        <th scope="col"><i class="fas fa-filter"></i> <br>Dt.Venda </th>
-        <th scope="col"><i class="fas fa-filter"></i><br> Dt.Prevista </th>
-        <th scope="col"><i class="fas fa-filter"></i><br> Bandeira </th>
-        <th scope="col"><i class="fas fa-filter"></i> <br>Forma de Pagamento </th>
-        <th scope="col"><i class="fas fa-filter"></i> <br>NSU </th>
-        <th scope="col"> <i class="fas fa-filter"></i><br>Autorização </th>
-        <th scope="col"> <i class="fas fa-filter"></i><br> Cartão</th>
-        <th scope="col"><i class="fas fa-filter"></i> <br>Valor Bruto </th>
-        <th scope="col"><i class="fas fa-filter"></i> <br>Taxa % </th>
-        <th scope="col" > <i class="fas fa-filter"></i> <br>Taxa R$</th>
-        <th scope="col"><i class="fas fa-filter"></i> <br>Valor Líquido </th>
-        <th scope="col"> <i class="fas fa-filter"></i> <br>Parcela</th>
-        <th scope="col"><i class="fas fa-filter"></i> <br>Total Parc. </th>
-        <th scope="col"> <i class="fas fa-filter"></i><br> Hora</th>
-        <th scope="col"><i class="fas fa-filter"></i> <br>Estabelecimento </th>
-        <th scope="col"><i class="fas fa-filter"></i><br> Banco </th>
-        <th scope="col"><i class="fas fa-filter"></i><br> Agência </th>
-        <th scope="col"><i class="fas fa-filter"></i><br> Conta </th>
-        <th scope="col"><i class="fas fa-filter"></i> <br>Ação </th>
-
-      </tr>
-    </thead>
-    <tbody>
-      <tr style="width: 500px">
-        @foreach($todas_vendas as $results)
-        <td style="text-align: center !important; width: 500px !important"> <?php echo  ucfirst(strtolower($results->EMPRESA)) ?> </td>
-        <td style="text-align: center !important"> {{ $results->CNPJ }}</td>
-        <td style="text-align: center !important">{{ $results->ADQUIRENTE }}</td>
-        <?php $newDate = date("d/m/Y", strtotime($results->DATA_VENDA));?>
-        <td style="text-align: center !important">{{ $newDate }} </td>
-        <?php $newDatePrev= date("d/m/Y", strtotime($results->DATA_PREVISTA_PAGTO));?>
-        <td style="text-align: center !important">{{ $newDatePrev }} </td>
-        <td style="text-align: center !important">{{ $results->BANDEIRA }}</td>
-        <td style="text-align: center !important">{{ $results->DESCRICAO }}</td>
-        <td style="text-align: center !important">{{ $results->NSU }}</td>
-        <td style="text-align: center !important">{{ $results->AUTORIZACAO }}</td>
-        <td style="text-align: center !important">{{ $results->CARTAO }}</td>
-        <td style="text-align: center !important">{{ $results->VALOR_BRUTO }}</td>
-        <td style="text-align: center !important">{{ $results->PERCENTUAL_TAXA }}</td>
-        <td style="text-align: center !important; padding: 0px">{{ $results->VALOR_TAXA }}</td>
-        <td style="text-align: center !important">{{ $results->VALOR_LIQUIDO }}</td>
-        <td style="text-align: center !important">{{ $results->PARCELA }}</td>
-        <td style="text-align: center !important">{{ $results->TOTAL_PARCELAS }}</td>
-        <td style="text-align: center !important"> {{ $results->HORA_TRANSACAO }} </td>
-        <td style="text-align: center !important">{{ $results->ESTABELECIMENTO }}</td>
-        <td style="text-align: center !important">{{ $results->BANCO }}</td>
-        <td style="text-align: center !important">{{ $results->AGENCIA }}</td>
-        <td style="text-align: center !important">{{ $results->CONTA }}</td>
-        <td style="text-align: center !important">botoões aquii</td>
-      </tr>
-      @endforeach
-    </table>
-  </tbody>
-</div>
-
-<br>
-<div style="font-size: 15px; color: red">
-
-</div>
-
-</div>
-</div>
-</div>
 </div>
 
 </div>
@@ -538,7 +455,6 @@ $('#submitFormLogin').click(function(){
 
   arrayModalidade = [];
   arrayBandeira = [];
-  arrayAdquirentes = [];
   arrayStatusConciliacao = [];
 
   data_inicial = document.getElementById("date_inicial").value;
@@ -546,14 +462,7 @@ $('#submitFormLogin').click(function(){
 
   modalidades = <?php echo $modalidades ?>;
   bandeiras = <?php echo $bandeiras ?>;
-  adquirentes = <?php echo $adquirentes ?>;
   status_conciliacao = <?php echo $status_conciliacao ?>;
-
-  adquirentes.forEach((adquirente) => {
-    if(document.getElementById(adquirente.CODIGO).checked){
-      arrayAdquirentes.push(adquirente.CODIGO);
-    }
-  });
 
   modalidades.forEach((modalidade) => {
     if(document.getElementById("inputMod"+modalidade.CODIGO).checked){
@@ -568,21 +477,18 @@ $('#submitFormLogin').click(function(){
   });
 
   document.getElementById("preloader").style.display = "block";
-  console.log(data_inicial);
-  console.log(data_final);
-  console.log(arrayAdquirentes);
-  console.log(arrayBandeira);
-  console.log(arrayModalidade);
-  console.log(arrayStatusConciliacao);
-
 
   $.ajax({
     url: "{{ url('conciliacao-manual') }}",
     type: "post",
     header:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-    data: ({_token: '{{csrf_token()}}' , data_inicial, data_final, arrayAdquirentes, arrayBandeira, arrayModalidade, arrayStatusConciliacao}),
+    data: ({_token: '{{csrf_token()}}' , data_inicial, data_final, arrayBandeira, arrayModalidade, arrayStatusConciliacao}),
     dataType: 'json',
     success: function (response){
+
+      var jsonVendas = JSON.stringify(response[0]);
+      var jsonVendasERP = JSON.stringify(response[1]);
+
       if(response){
         for(var i=0;i< response[0].length; i++){
           var data_v = new Date(response[0][i].DATA_VENDA);
@@ -626,9 +532,11 @@ $('#submitFormLogin').click(function(){
           //tira 2 casas decimais da taxa
           var a = response[0][i].PERCENTUAL_TAXA;
           var val_taxa = Number(a).toFixed(2);
-          var html = "<tr id='"+cod+"' onclick='mudaCorLinhaTable("+cod+")'>";
+          var html = "<tr>";
 
           // setTimeout(function () {
+          html +="<td>"+"<input type='checkbox'"+"</td>";
+
           html +="<td>"+response[0][i].EMPRESA+"</td>";
           html +="<td>"+response[0][i].CNPJ+"</td>";
 
@@ -700,6 +608,54 @@ $('#submitFormLogin').click(function(){
         htmll +="</tr>";
         $('#jsgrid-table').append(htmll);
         document.getElementById("resultadosPesquisa").style.display = "block";
+
+        // var data_v = new Date(response[1][i].DATA_VENDA);
+        // var data_venda = data_v.toLocaleDateString();
+        for(var i=0;i< response[1].length; i++){
+
+          var data_p = new Date(response[1][i].DATA_VENCIMENTO);
+          var data_prev_pag = data_p.toLocaleDateString();
+
+          const total_venda = response[1][i].TOTAL_VENDA;
+          const formatter_total_venda = new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+          });
+          const total_venda_formato = formatter_total_venda.format(total_venda);
+
+          const val_liq = response[1][i].VALOR_LIQUIDO_PARCELA;
+          const formatter_liq_parcela = new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+          });
+          const valor_liquido_formato = formatter_liq_parcela.format(val_liq);
+
+          var html = "<tr>";
+
+          // setTimeout(function () {
+          html +="<td>"+"<input type='checkbox'"+"</td>";
+          html +="<td>"+data_venda+"</td>";
+          html +="<td>"+data_prev_pag+"</td>";
+          if(response[1][i].NSU != null){
+            html +="<td>"+response[1][i].NSU+"</td>";
+          }else{
+            html +="<td>"+""+"</td>";
+          }
+          html +="<td>"+total_venda_formato+"</td>";
+          html +="<td>"+response[1][i].PARCELA+"</td>";
+          html +="<td>"+response[1][i].TOTAL_PARCELAS+"</td>";
+          html +="<td>"+valor_liquido_formato+"</td>";
+          html +="<td>"+response[1][i].DESCRICAO_TIPO_PRODUTO +"</td>";
+          html +="<td>"+response[1][i].CODIGO_AUTORIZACAO+"</td>";
+          html +="<td>"+response[1][i].IDENTIFICADOR_PAGAMENTO+"</td>";
+          html +="<td>"+response[1][i].MEIOCAPTURA+"</td>";
+
+          html +="</tr>";
+          $('#jsgrid-table-erp').append(html);
+        }
+
+        document.getElementById("resultadosPesquisaErp").style.display = "block";
+
 
         window.scrollTo(0, 550);
 
@@ -876,17 +832,6 @@ function allCheckbox(grupo_clientes){
   });
 }
 
-function allCheckboxAd(grupo_clientes){
-
-  grupo_clientes.forEach((cliente) => {
-    if(document.getElementById("allCheckAd").checked){
-      document.getElementById(cliente.CODIGO).checked = true;
-    }else{
-      document.getElementById(cliente.CODIGO).checked = false;
-    }
-  });
-}
-
 function allCheckboxBandeira(grupo_clientes){
 
   grupo_clientes.forEach((cliente) => {
@@ -933,31 +878,11 @@ function ad(value){
 function limparFiltros(){
   modalmodalidade = <?php echo $modalidades ?>;
   modalband = <?php echo $bandeiras ?>;
-  modaladq = <?php echo $adquirentes ?>;
 
   document.getElementById("date_final").value = "";
   document.getElementById("date_inicial").value = "";
-  document.getElementById("adquirente").value = "";
   document.getElementById("modalidade").value = "";
   document.getElementById("bandeira").value = "";
-
-  modalmodalidade.forEach((modalidade) => {
-    document.getElementById("inputMod"+modalidade.CODIGO).checked = false;
-    document.getElementById("allCheckModalidade").checked = false;
-
-  });
-
-  modalband.forEach((bandeira) => {
-    document.getElementById(bandeira.CODIGO).checked = false;
-    document.getElementById("allCheckBandeira").checked = false;
-
-  });
-
-  modaladq.forEach((adquirente) => {
-    document.getElementById(adquirente.CODIGO).checked = false;
-    document.getElementById("allCheckAd").checked = false;
-
-  });
 
 }
 
@@ -992,36 +917,6 @@ function removeCnpjs(){
   flag = true;
 }
 
-function download_table_as_csv(table_id) {
-  // Select rows from table_id
-  var rows = document.querySelectorAll('table#' + table_id + ' tr');
-  // Construct csv
-  var csv = [];
-  for (var i = 0; i < rows.length; i++) {
-    var row = [], cols = rows[i].querySelectorAll('td, th');
-    for (var j = 0; j < cols.length; j++) {
-      // Clean innertext to remove multiple spaces and jumpline (break csv)
-      var data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ')
-      // Escape double-quote with double-double-quote (see https://stackoverflow.com/questions/17808511/properly-escape-a-double-quote-in-csv)
-      data = data.replace(/"/g, '""');
-      // Push escaped string
-      row.push('"' + data + '"');
-    }
-    csv.push(row.join(';'));
-  }
-  var csv_string = csv.join('\n');
-  // Download it
-  var filename = 'export_' + 'conciflex' + '_' + new Date().toLocaleDateString() + '.csv';
-  var link = document.createElement('a');
-  link.style.display = 'none';
-  link.setAttribute('target', '_blank');
-  link.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv_string));
-  link.setAttribute('download', filename);
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-}
-
 var mudacor = false;
 function mudaCorLinhaTable(codigo){
   // if(mudacor){
@@ -1049,6 +944,16 @@ function mudaCorLinhaTable(codigo){
   else{
     document.getElementById(codigo).style = "background: #ffffff; color: #231F20";
   }
+}
+
+function conciliar(){
+  var vendas = localStorage.getItem("vendas");
+
+  console.log(vendas);
+
+  vendas.forEach((venda) => {
+    oonsole.log(venda.DATA_VENDA);
+  })
 }
 
 </script>
