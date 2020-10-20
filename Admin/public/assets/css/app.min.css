@@ -2769,6 +2769,27 @@ p {
   outline: none !important;
 }
 
+#mainav a:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  bottom: 10px;
+  left: 0;
+  background-color: #2D5275;
+  visibility: hidden;
+  -webkit-transform: scaleX(0);
+  transform: scaleX(0);
+  -webkit-transition: all 0.3s ease-in-out 0s;
+  transition: all 0.3s ease-in-out 0s;
+}
+
+#mainav a:hover:before {
+  visibility: visible;
+  -webkit-transform: scaleX(1);
+  transform: scaleX(1);
+}
+
 .font-weight-semibold {
   font-weight: 600;
 }
@@ -3783,7 +3804,7 @@ border-radius: 50%;
   font-weight: 400;
   vertical-align: middle;
   border-color: #eaf0f7;*/
-  padding: 7px 20px;
+  padding: 7px 15px;
   text-align: center;
 
   /* color: #231F20;
@@ -7113,8 +7134,8 @@ pre[class*=language-] {
 .chart-report-card .report-main-icon,
 .report-card .report-main-icon {
   font-size: 28px;
-  width: 64px;
-  height: 64px;
+  width: 30px;
+  height: 30px;
   align-items: center;
   justify-content: center;
   display: flex;

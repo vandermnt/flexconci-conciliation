@@ -36,13 +36,14 @@ class DashboardController extends Controller{
     // ->groupBy('dashboard_vendas_modalidade.COD_PERIODO')
     ->get();
 
-    // dd($dados_dash_vendas_modalidade);
     $dados_dash_vendas_produto = DB::table('dashboard_vendas_produtos')
     ->join('periodo_dash', 'dashboard_vendas_produtos.COD_PERIODO', 'periodo_dash.CODIGO')
-    ->join('produto', 'dashboard_vendas_produtos.COD_PRODUTO', 'produto.CODIGO')
+    ->join('produto_web', 'dashboard_vendas_produtos.COD_PRODUTO', 'produto_web.CODIGO')
     ->where('cod_cliente', '=', session('codigologin'))
-    ->groupBy('dashboard_vendas_produtos.COD_PRODUTO')
+    // ->groupBy('dashboard_vendas_produtos.COD_PRODUTO')
     ->get();
+
+    // dd($dados_dash_vendas_produto);
 
     $dados_calendario = DB::table('vendas')
     ->select('vendas.DATA_PREVISTA_PAGTO')
@@ -84,7 +85,6 @@ class DashboardController extends Controller{
     $dados_bancos = $dados_bancos->groupBy('pagamentos_operadoras.COD_BANCO')
     ->get();
 
-    // dd($dados_bancos);
     $total_banco = 0;
     foreach($dados_bancos as $bancos){
       $total_banco += $bancos->val_liquido;

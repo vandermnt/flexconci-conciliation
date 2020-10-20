@@ -504,13 +504,13 @@ $(document).ready(function(){
               <div class="card-body">
                 <div class="row d-flex justify-content-center">
                   <div class="col-8">
-                    <p class="text-dark font-weight-semibold font-12">TOTAL DE VENDAS</p>
+                    <p class="text-dark font-weight-semibold font-12">QTDE DE VENDAS</p>
                     <h4 id="total_registros" class="my-3">378</h4>
                     <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
                   </div>
                   <div class="col-4 align-self-center">
                     <div class="report-main-icon bg-light-alt">
-                      <i data-feather="check-circle" class="align-self-center icon-dual icon-lg"></i>
+                      <img style="width: 40px" src="{{ url('assets/images/vendasoperadora/quantidade.png')}}" alt="">
                     </div>
                   </div>
                 </div>
@@ -528,7 +528,7 @@ $(document).ready(function(){
                   </div>
                   <div class="col-4 align-self-center">
                     <div class="report-main-icon bg-light-alt">
-                      <i data-feather="dollar-sign" class="align-self-center icon-dual icon-lg"></i>
+                      <img style="width: 40px" src="{{ url('assets/images/vendasoperadora/bruto.png')}}" alt="">
                     </div>
                   </div>
                 </div>
@@ -546,7 +546,7 @@ $(document).ready(function(){
                   </div>
                   <div class="col-4 align-self-center">
                     <div class="report-main-icon bg-light-alt">
-                      <i data-feather="dollar-sign" class="align-self-center icon-dual icon-lg"></i>
+                      <img style="width: 40px" src="{{ url('assets/images/vendasoperadora/percentagem.png')}}" alt="">
                     </div>
                   </div>
                 </div>
@@ -564,7 +564,7 @@ $(document).ready(function(){
                   </div>
                   <div class="col-4 align-self-center">
                     <div class="report-main-icon bg-light-alt">
-                      <i data-feather="dollar-sign" class="align-self-center icon-dual icon-lg"></i>
+                      <img style="width: 40px" src="{{ url('assets/images/vendasoperadora/liquido.png')}}" alt="">
                     </div>
                   </div>
                 </div>

@@ -8,17 +8,14 @@ use App\ModalidadesModel;
 use App\AdquirentesModel;
 use App\BandeiraModel;
 use App\StatusConciliacaoModel;
+use App\GruposClientesModel;
 
 class ConciliacaoAutomaticaVendasController extends Controller{
 
   public function conciliacaoAutomatica(){
     $modalidades = ModalidadesModel::orderBy('DESCRICAO', 'ASC')->get();
-    $adquirentes = DB::table('cliente_operadora')
-    ->join('adquirentes', 'cliente_operadora.COD_ADQUIRENTE', 'adquirentes.CODIGO')
-    ->select('adquirentes.*')
-    ->where('cliente_operadora.COD_CLIENTE', '=', session('codigologin'))
-    ->distinct('COD_ADQUIRENTE')
-    ->get();
+
+    $grupos_clientes = GruposClientesModel::where('COD_CLIENTE', '=', session('codigologin'))->get();
 
     $bandeiras = DB::table('clientes_bandeiras')
     ->join('bandeira', 'clientes_bandeiras.COD_BANDEIRA', 'bandeira.CODIGO')
@@ -31,6 +28,7 @@ class ConciliacaoAutomaticaVendasController extends Controller{
     return view('conciliacao.conciliacao-automatica-vendas')->with('adquirentes', $adquirentes)
     ->with('modalidades', $modalidades)
     ->with('bandeiras', $bandeiras)
+    ->with('grupos_clientes', $grupos_clientes)
     ->with('status_conciliacao', $status_conciliacao);
   }
 
@@ -85,7 +83,7 @@ class ConciliacaoAutomaticaVendasController extends Controller{
     })
     ->orderBy('DATA_VENDA')
     ->get();
-    
+
     $vendaserp = DB::table('vendas_erp')
     ->join('modalidade', 'vendas_erp.COD_MODALIDADE', '=', 'modalidade.CODIGO')
     ->leftJoin('produto_web', 'vendas_erp.COD_PRODUTO', '=', 'produto_web.CODIGO')
@@ -126,6 +124,6 @@ class ConciliacaoAutomaticaVendasController extends Controller{
     ->orderBy('DATA_VENDA')
     ->get();
 
-    return json_encode([$vendas]);
+    return json_encode([$vendas, $vendaserp]);
   }
 }
