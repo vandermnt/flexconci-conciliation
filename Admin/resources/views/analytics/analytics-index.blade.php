@@ -95,7 +95,8 @@ document.addEventListener('DOMContentLoaded', function() {
     events: eventsList,
     eventClick: function(calEvent, jsEvent, view) {
       if(calEvent.event._def.extendedProps.publicId){
-        showRecebíveis(calEvent.event._def.extendedProps.publicId);
+        console.log(calEvent)
+        showRecebiveis(calEvent.event._def.extendedProps.publicId);
       }
     }
 
@@ -141,45 +142,45 @@ body {
 
 @section('content')
 <div class="container-fluid">
-  <div class="row" style="align-items: center; justify-content: center;">
+  <div class="row" style="margin-bottom: 20px">
     <div class="col-lg-6">
       <div class="row" style="align-items: center; justify-content: center;">
         <div class="col-sm-2">
           <img src="{{ url('assets/images/user.png')}}"style="width: 120px;"/>
         </div>
-        <div class="col-sm-9" style="padding: 0 25px">
+        <div class="col-sm-9" style="padding: 0 25px; ">
           <?php $primeiro_nome = explode(' ', Auth::user()->NOME); ?>
           <h3> Bem vindo de volta, {{$primeiro_nome[0]}}! </h3>
           <h6 style="color: #6E6E6E"> Comece o seu dia analisando os dados da sua empresa.  </h6>
         </div>
       </div>
 
-    </div> <!--end col-->
-    <div class="col-lg-6" style="align-items: center; justify-content: center; text-align: center">
-      <div class="row" style="padding: 30px">
-        <div class="col-sm-4" >
-          <img src="{{ url('assets/images/economia.svg')}}"style="width: 75px;"  data-toggle="tooltip" data-placement="bottom" title="Economia: R$ 377,00"/>
-          <h6 style="font-size: 12px"> Economia: R$ 377,00 </h6>
-
-        </div>
-        <div class="col-sm-4">
-          <!-- <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">
-          Tooltip on bottom
-        </button> -->
-        <img src="{{ url('assets/images/vendas.png')}}"style="width: 75px;" data-toggle="tooltip" data-placement="bottom" title="Vendas sem conciliar: 341"/>
-        <h6 style="font-size: 12px"> Vendas s/ conciliar: 341 </h6>
-
-      </div>
-      <div class="col-sm-4">
-        <!-- <h5> Vendas s/ conciliar: 341 </h5> -->
-        <!-- <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">
-        Tooltip on bottom
-      </button> -->
-      <img src="{{ url('assets/images/banco.svg')}}"style="width: 75px;" data-toggle="tooltip" data-placement="bottom" title="Mensagem sobre extrato não enviado"/>
-      <h6 style="font-size: 12px"> Extratos não enviados </h6>
     </div>
+    <!-- <div class="col-lg-6" style="align-items: center; justify-content: center; text-align: center">
+    <div class="row" style="padding: 30px">
+    <div class="col-sm-4" >
+    <img src="{{ url('assets/images/economia.svg')}}"style="width: 75px;"  data-toggle="tooltip" data-placement="bottom" title="Economia: R$ 377,00"/>
+    <h6 style="font-size: 12px"> Economia: R$ 377,00 </h6>
+
   </div>
-</div> <!--end col-->
+  <div class="col-sm-4">
+  <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">
+  Tooltip on bottom
+</button>
+<img src="{{ url('assets/images/vendas.png')}}"style="width: 75px;" data-toggle="tooltip" data-placement="bottom" title="Vendas sem conciliar: 341"/>
+<h6 style="font-size: 12px"> Vendas s/ conciliar: 341 </h6>
+
+</div>
+<div class="col-sm-4">
+<h5> Vendas s/ conciliar: 341 </h5>
+<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">
+Tooltip on bottom
+</button>
+<img src="{{ url('assets/images/banco.svg')}}"style="width: 75px;" data-toggle="tooltip" data-placement="bottom" title="Mensagem sobre extrato não enviado"/>
+<h6 style="font-size: 12px"> Extratos não enviados </h6>
+</div>
+</div>
+</div>  -->
 </div>
 
 
@@ -187,7 +188,7 @@ body {
   <div class="col-sm-12" style="margin-top: -30px">
 
     @component('common-components.breadcrumb')
-    @slot('title') Home @endslot
+    @slot('title') Gerencial @endslot
     @slot('item1') Dashboard @endslot
     @endcomponent
 
@@ -216,49 +217,51 @@ body {
                 </div>
               </div>
               <div class="col-6">
-              <div class="dropdown" style="text-align: right">
-              <button class="btn btn-sm dropdown-toggle pull-right" style="background: #2D5275; color: white; text-align: right" type="button" id="dropdownMenuButtonAgrupamento" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i style="font-size: 15px" class="fas fa-file-download"> </i> Exportar
-            </button>
-            <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonAgrupamento">
-            <a class="dropdown-item" onclick="trocaAgrupamento(1)">Operadora</a>
-            <a class="dropdown-item" onclick="trocaAgrupamento(2)">Bandeira</a>
-            <a class="dropdown-item" onclick="trocaAgrupamento(3)">Modalidade</a>
-            <a class="dropdown-item" onclick="trocaAgrupamento(4)">Produto</a>
-          </div> -->
-        </div>
-      </div>
-    </div>
-    <div id="apex_pie2" class="apex-charts"></div>
-    <div class="table-responsive mt-4" style="border-color: red">
-      <table  id="table_vendas_operadora" class="table table-borderless tableDadosDash" style="font-size: 12px; max-height: 155px">
-        <thead>
-          <tr>
-            <th style="color: #231F20" >Operadora</th>
-            <th style="color: #231F20" >Qtd.</th>
-            <th style="color: #231F20" >Bruto</th>
-            <th style="color: #231F20" >Taxa</th>
-            <th style="color: #231F20" >Líquido</th>
-            <th style="color: #231F20" >Ticket Médio</th>
-          </tr>
-        </thead>
-        <tbody>
+                <div class="dropdown" style="text-align: right">
+                  <a class="dropdown-toggle pull-right" onclick="gerarPdfVendasOperadora()" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="{{ url('/assets/images/export.png')}}" style="width: 45px" alt="">
+                  </a>
+                  <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonAgrupamento">
+                  <a class="dropdown-item" oncli        <link href="{{ URL::asset('assets/css/app.min.css')}}" rel="stylesheet" type="text/css" />
+                  ck="trocaAgrupamento(1)">Operadora</a>
+                  <a class="dropdown-item" onclick="trocaAgrupamento(2)">Bandeira</a>
+                  <a class="dropdown-item" onc        <link href="{{ URL::asset('assets/css/app.min.css')}}" rel="stylesheet" type="text/css" />
+                  lick="trocaAgrupamento(3)">Modalidade</a>
+                  <a class="dropdown-item" onclick="trocaAgrupamento(4)">Produto</a>
+                </div> -->
+              </div>
+            </div>
+          </div>
+          <div id="apex_pie2" class="apex-charts"></div>
+          <div class="table-responsive mt-4" style="border-color: red">
+            <table  id="table_vendas_operadora" class="table table-borderless tableDadosDash" style="font-size: 12px; max-height: 150px">
+              <thead>
+                <tr>
+                  <th style="color: #231F20" >Operadora</th>
+                  <th style="color: #231F20" >Qtd.</th>
+                  <th style="color: #231F20" >Bruto</th>
+                  <th style="color: #231F20" >Taxa</th>
+                  <th style="color: #231F20" >Líquido</th>
+                  <th style="color: #231F20" >Ticket Médio</th>
+                </tr>
+              </thead>
+              <tbody>
 
-        </tbody>
-      </table>
-    </div>
-  </div><!--end col-->
-  @endif
+              </tbody>
+            </table>
+          </div>
+        </div><!--end col-->
+        @endif
 
-</div><!--end row-->
-</div><!--end card-body-->
-</div><!--end card-->
+      </div><!--end row-->
+    </div><!--end card-body-->
+  </div><!--end card-->
 </div> <!--end col-->
 <div class="col-lg-6">
   <!-- <div class="col-lg-3" style="background: green; color: white; border-radius: 5px">
   <p> Período Visível: 7 dias </p>
 </div> -->
-<div class="card" style="height: 575px">
+<div class="card" style="height: 570px">
   <div class="card-body">
     <div class="row">
       <div class="col-lg-12">
@@ -279,42 +282,42 @@ body {
             </div>
           </div>
           <div class="col-6">
-          <div class="dropdown" style="text-align: right">
-          <button class="btn btn-sm dropdown-toggle pull-right" style="background: #2D5275; color: white; text-align: right" type="button" id="dropdownMenuButtonAgrupamento" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i style="font-size: 15px" class="fas fa-file-download"> </i> Exportar
-        </button>
-        <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonAgrupamento">
-        <a class="dropdown-item" onclick="trocaAgrupamento(1)">Operadora</a>
-        <a class="dropdown-item" onclick="trocaAgrupamento(2)">Bandeira</a>
-        <a class="dropdown-item" onclick="trocaAgrupamento(3)">Modalidade</a>
-        <a class="dropdown-item" onclick="trocaAgrupamento(4)">Produto</a>
-      </div> -->
-    </div>
-  </div>
+            <div class="dropdown" style="text-align: right">
+              <a class="dropdown-toggle pull-right" onclick="gerarPdfVendasBandeira()" type="button" id="dropdownMenuButtonAgrupamento" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="{{ url('/assets/images/export.png')}}" style="width: 45px" alt="">
+              </a>
+              <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonAgrupamento">
+              <a class="dropdown-item" onclick="trocaAgrupamento(1)">Operadora</a>
+              <a class="dropdown-item" onclick="trocaAgrupamento(2)">Bandeira</a>
+              <a class="dropdown-item" onclick="trocaAgrupamento(3)">Modalidade</a>
+              <a class="dropdown-item" onclick="trocaAgrupamento(4)">Produto</a>
+            </div> -->
+          </div>
         </div>
-        <div id="apex_pie7" class="apex-charts"></div>
-        <div class="table-responsive mt-4" style="font-size: 13px; overflow-y: auto; max-height: 155px">
+      </div>
+      <div id="apex_pie7" class="apex-charts"></div>
+      <div class="table-responsive mt-4" style="font-size: 13px; overflow-y: auto; max-height: 150px">
 
-          <table id="table_vendas_bandeira"  class="table table-borderless tableDadosDash" style="font-size: 12px">
+        <table id="table_vendas_bandeira"  class="table table-borderless tableDadosDash" style="font-size: 12px">
 
-            <thead>
-              <tr>
-                <th style="color: #231F20" >Bandeira</th>
-                <th style="color: #231F20" >Qtd.</th>
-                <th style="color: #231F20" >Bruto</th>
-                <th style="color: #231F20" >Taxa</th>
-                <th style="color: #231F20" >Líquido</th>
-                <th style="color: #231F20" >Ticket Médio</th>
-              </tr>
-            </thead>
-            <tbody style="">
-            </tbody>
-          </table>
-        </div>
+          <thead>
+            <tr>
+              <th style="color: #231F20" >Bandeira</th>
+              <th style="color: #231F20" >Qtd.</th>
+              <th style="color: #231F20" >Bruto</th>
+              <th style="color: #231F20" >Taxa</th>
+              <th style="color: #231F20" >Líquido</th>
+              <th style="color: #231F20" >Ticket Médio</th>
+            </tr>
+          </thead>
+          <tbody style="">
+          </tbody>
+        </table>
+      </div>
 
-      </div><!--end row-->
-    </div><!--end card-body-->
-  </div><!--end card-->
+    </div><!--end row-->
+  </div><!--end card-body-->
+</div><!--end card-->
 </div> <!--end col-->
 </div>
 
@@ -343,44 +346,44 @@ body {
                 </div>
               </div>
               <div class="col-6">
-              <div class="dropdown" style="text-align: right">
-              <button class="btn btn-sm dropdown-toggle pull-right" style="background: #2D5275; color: white; text-align: right" type="button" id="dropdownMenuButtonAgrupamento" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i style="font-size: 15px" class="fas fa-file-download"> </i> Exportar
-            </button>
-            <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonAgrupamento">
-            <a class="dropdown-item" onclick="trocaAgrupamento(1)">Operadora</a>
-            <a class="dropdown-item" onclick="trocaAgrupamento(2)">Bandeira</a>
-            <a class="dropdown-item" onclick="trocaAgrupamento(3)">Modalidade</a>
-            <a class="dropdown-item" onclick="trocaAgrupamento(4)">Produto</a>
-          </div> -->
-        </div>
-      </div>
-    </div>
-    <div id="apex_pie8" class="apex-charts"></div>
-    <div class="table-responsive mt-4" style="font-size: 13px; overflow-y: auto; max-height: 160px">
+                <div class="dropdown" style="text-align: right">
+                  <a class="dropdown-toggle pull-right" onclick="gerarPdfVendasModalidade()" type="button" id="dropdownMenuButtonAgrupamento" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="{{ url('/assets/images/export.png')}}" style="width: 45px" alt="">
+                  </a>
+                  <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonAgrupamento">
+                  <a class="dropdown-item" onclick="trocaAgrupamento(1)">Operadora</a>
+                  <a class="dropdown-item" onclick="trocaAgrupamento(2)">Bandeira</a>
+                  <a class="dropdown-item" onclick="trocaAgrupamento(3)">Modalidade</a>
+                  <a class="dropdown-item" onclick="trocaAgrupamento(4)">Produto</a>
+                </div> -->
+              </div>
+            </div>
+          </div>
+          <div id="apex_pie8" class="apex-charts"></div>
+          <div class="table-responsive mt-4" style="font-size: 13px; overflow-y: auto; max-height: 160px">
 
-      <table id="table_vendas_modalidade"  class="table table-borderless tableDadosDash" style="font-size: 12px">
-        <thead>
-          <tr>
-            <th style="color: #231F20" >Forma de Pagamento</th>
-            <th style="color: #231F20" >Qtd.</th>
-            <th style="color: #231F20" >Bruto</th>
-            <th style="color: #231F20" >Taxa</th>
-            <th style="color: #231F20" >Líquido</th>
-            <th style="color: #231F20" >Ticket Médio</th>
-          </tr>
-        </thead>
-        <tbody>
+            <table id="table_vendas_modalidade"  class="table table-borderless tableDadosDash" style="font-size: 12px">
+              <thead>
+                <tr>
+                  <th style="color: #231F20" >Forma de Pagamento</th>
+                  <th style="color: #231F20" >Qtd.</th>
+                  <th style="color: #231F20" >Bruto</th>
+                  <th style="color: #231F20" >Taxa</th>
+                  <th style="color: #231F20" >Líquido</th>
+                  <th style="color: #231F20" >Ticket Médio</th>
+                </tr>
+              </thead>
+              <tbody>
 
-        </tbody>
-      </table>
-    </div>
-  </div><!--end col-->
-  @endif
+              </tbody>
+            </table>
+          </div>
+        </div><!--end col-->
+        @endif
 
-</div><!--end row-->
-</div><!--end card-body-->
-</div><!--end card-->
+      </div><!--end row-->
+    </div><!--end card-body-->
+  </div><!--end card-->
 </div> <!--end col-->
 <div class="col-lg-6">
   <!-- <div class="col-lg-3" style="background: green; color: white; border-radius: 5px">
@@ -407,44 +410,44 @@ body {
             </div>
           </div>
           <div class="col-6">
-          <div class="dropdown" style="text-align: right">
-          <button class="btn btn-sm dropdown-toggle pull-right" style="background: #2D5275; color: white; text-align: right" type="button" id="dropdownMenuButtonAgrupamento" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i style="font-size: 15px" class="fas fa-file-download"> </i> Exportar
-        </button>
-        <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonAgrupamento">
-        <a class="dropdown-item" onclick="trocaAgrupamento(1)">Operadora</a>
-        <a class="dropdown-item" onclick="trocaAgrupamento(2)">Bandeira</a>
-        <a class="dropdown-item" onclick="trocaAgrupamento(3)">Modalidade</a>
-        <a class="dropdown-item" onclick="trocaAgrupamento(4)">Produto</a>
-      </div> -->
-    </div>
-  </div>
+            <div class="dropdown" style="text-align: right">
+              <a class="dropdown-toggle pull-right" onclick="gerarPdfVendasProduto()" type="button" id="dropdownMenuButtonAgrupamento" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="{{ url('/assets/images/export.png')}}" style="width: 45px" alt="">
+              </a>
+              <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonAgrupamento">
+              <a class="dropdown-item" onclick="trocaAgrupamento(1)">Operadora</a>
+              <a class="dropdown-item" onclick="trocaAgrupamento(2)">Bandeira</a>
+              <a class="dropdown-item" onclick="trocaAgrupamento(3)">Modalidade</a>
+              <a class="dropdown-item" onclick="trocaAgrupamento(4)">Produto</a>
+            </div> -->
+          </div>
         </div>
-        <div id="apex_pie9" class="apex-charts"></div>
-        <div class="table-responsive mt-4" style="font-size: 13px; overflow-y: auto; max-height: 160px">
+      </div>
+      <div id="apex_pie9" class="apex-charts"></div>
+      <div class="table-responsive mt-4" style="font-size: 13px; overflow-y: auto; max-height: 160px">
 
-          <table id="table_vendas_produto"  class="table table-borderless tableDadosDash" style="font-size: 12px">
+        <table id="table_vendas_produto"  class="table table-borderless tableDadosDash" style="font-size: 12px">
 
 
-            <thead>
-              <tr>
-                <th style="color: #231F20" >Produto</th>
-                <th style="color: #231F20" >Qtd.</th>
-                <th style="color: #231F20" >Bruto</th>
-                <th style="color: #231F20" >Taxa</th>
-                <th style="color: #231F20" >Líquido</th>
-                <th style="color: #231F20" >Ticket Médio</th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
-        </div>
+          <thead>
+            <tr>
+              <th style="color: #231F20" >Produto</th>
+              <th style="color: #231F20" >Qtd.</th>
+              <th style="color: #231F20" >Bruto</th>
+              <th style="color: #231F20" >Taxa</th>
+              <th style="color: #231F20" >Líquido</th>
+              <th style="color: #231F20" >Ticket Médio</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
 
-      </div><!--end col-->
+    </div><!--end col-->
 
-    </div><!--end row-->
-  </div><!--end card-body-->
+  </div><!--end row-->
+</div><!--end card-body-->
 </div><!--end card-->
 </div> <!--end col-->
 
@@ -466,7 +469,7 @@ body {
           <h5> Depositado </h5>
 
           <div class="circulo" style="margin-left: 30px; margin-right: 5px; background: #2D93AD;"> </div>
-          <h5> Previsão </h5>
+          <h5> Previsto </h5>
         </div>
       </div><!--end card-body-->
     </div><!--end card-->
@@ -477,8 +480,8 @@ body {
       <div class="card-body">
         <div class="wallet-bal-usd">
           <h4 class="wallet-title m-0">Recebimentos</h4>
-          <span class="text-muted font-12"><?php echo date("01/m/Y") ?> à <?php echo date("30/m/Y") ?></span>
-          <h3 class="text-center" style="color: #257E4A">R$ <?php
+          <span id="label_data_recebimento" class="text-muted font-12"><?php echo date("01/m/Y") ?> à <?php echo date("30/m/Y") ?></span>
+          <h3 id="label_recebimentos" class="text-center" style="color: #257E4A">R$ <?php
           echo number_format( $total_mes->val_liquido ,2,",",".");
           ?> </h3>
         </div> <br>
@@ -507,7 +510,7 @@ body {
               <li class="list-group-item align-items-center d-flex justify-content-between">
                 <div class="col-12 row" style="text-align: center">
                   <div class="col-2" style="margin: 0">
-                    <img src="{{ $bancos->IMAGEM}}" class="align-self-center" style="width: 50px; margin-left: -20px;">
+                    <img src="{{ $bancos->IMAGEM}}" class="align-self-center" style="width: 45px; margin-left: -20px;">
                   </div>
                   <div class="col-4 media-body align-self-center">
                     <h4 class="" style="font-size: 13px; margin-left: -30px"> AG: {{ $bancos->AGENCIA}} - C/C: {{ $bancos->CONTA }} </h4>
@@ -540,7 +543,7 @@ body {
 
             <ul class="list-group wallet-bal-crypto mt-3" style="align-items: center; justify-content: center">
 
-              <table  id="table_banco_selecionado" class="table table-striped" style="font-size: 14px;">
+              <table  id="table_banco_selecionado" class="table" style="font-size: 14px;">
                 <thead>
                 </thead>
                 <tbody>
@@ -563,7 +566,7 @@ body {
 
             <ul class="list-group wallet-bal-crypto mt-3" style="align-items: center; justify-content: center">
 
-              <table  id="table_operadora_selecionado" class="table table-striped" style="font-size: 14px; text-align: center;">
+              <table  id="table_operadora_selecionado" class="table" style="font-size: 14px; text-align: center;">
                 <thead>
                 </thead>
                 <tbody>
@@ -598,7 +601,7 @@ body {
         </div>
       </div>
     </div> -->
-    <ul class="list-group wallet-bal-crypto mt-3">
+    <ul  id="ul_teste" class="list-group wallet-bal-crypto mt-3">
       @foreach($dados_operadora as $operadora)
       <li class="list-group-item align-items-center d-flex justify-content-between">
         <div class="col-12 row">
@@ -755,7 +758,7 @@ function preCarregarGraficoVendas(){
       dados_grafico.push(dados_dash);
 
       var html = "<tr>";
-      html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' style='width: 50px'/>"+"</td>";
+      html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' style='width: 45px'/>"+"</td>";
       html += "<td style='color: #231F20'>"+dados_dash.QUANTIDADE+"</td>";
       html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_BRUTO)+"</td>";
       html += "<td style='color: red'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_TAXA)+"</td>";
@@ -788,6 +791,8 @@ function preCarregarGraficoVendas(){
 
   $('#table_vendas_operadora').append(htmlSubTotal);  periodo = 2;
 
+  localStorage.setItem('periodo_venda_operadora', 2);
+
   geraGraficoVendas(dados_grafico, 1);
 }
 
@@ -809,7 +814,7 @@ function preCarregarGraficoVendasBandeira(){
 
       var html = "<tr>";
 
-      html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' style='width:40px'/>"+"</td>";
+      html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' style='width: 28px'/>"+"</td>";
       html += "<td style='color: #231F20'>"+dados_dash.QUANTIDADE+"</td>";
       html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_BRUTO)+"</td>";
       html += "<td style='color: red'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_TAXA)+"</td>";
@@ -844,6 +849,9 @@ function preCarregarGraficoVendasBandeira(){
 
   // dropdownMenuButton
   periodo = 2;
+
+  localStorage.setItem('periodo_venda_bandeira', 2);
+
 
   geraGraficoVendasBandeira(dados_grafico, 1);
 }
@@ -902,6 +910,9 @@ function preCarregarGraficoVendasProduto(){
   // dropdownMenuButton
   periodo = 2;
 
+  localStorage.setItem('periodo_venda_produto', 2);
+
+
   geraGraficoVendasProduto(dados_grafico, 1);
 }
 
@@ -959,6 +970,9 @@ function preCarregarGraficoVendasModalidade(){
 
   periodo = 2;
 
+  localStorage.setItem('periodo_venda_modalidade', 2);
+
+
   geraGraficoVendasModalidade(dados_grafico);
 
 }
@@ -985,7 +999,7 @@ function trocaPeriodo(cod_periodo, tipo){
 
         var html = "<tr>";
 
-        html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' style='width: 50px'/>"+"</td>";
+        html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' style='width: 45px'/>"+"</td>";
         html += "<td style='color: #231F20'>"+dados_dash.QUANTIDADE+"</td>";
         html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_BRUTO)+"</td>";
         html += "<td style='color: red'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_TAXA)+"</td>";
@@ -1026,6 +1040,9 @@ function trocaPeriodo(cod_periodo, tipo){
       grafico_vendas_operadora.destroy();
 
       periodo = cod_periodo;
+
+      localStorage.setItem('periodo_venda_operadora', cod_periodo);
+
       geraGraficoVendas(dados_grafico);
     }
 
@@ -1040,7 +1057,7 @@ function trocaPeriodo(cod_periodo, tipo){
 
         var html = "<tr>";
 
-        html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' id='cartao'/>"+"</td>";
+        html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' style='width: 28px'/>"+"</td>";
         html += "<td style='color: #231F20'>"+dados_dash.QUANTIDADE+"</td>";
         html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_BRUTO)+"</td>";
         html += "<td style='color: red'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_TAXA)+"</td>";
@@ -1083,6 +1100,9 @@ function trocaPeriodo(cod_periodo, tipo){
       grafico_vendas_bandeira.destroy();
 
       periodo = cod_periodo;
+
+      localStorage.setItem('periodo_venda_bandeira', 2);
+
       geraGraficoVendasBandeira(dados_grafico);
     }
 
@@ -1139,6 +1159,8 @@ function trocaPeriodo(cod_periodo, tipo){
       grafico_vendas_modalidade.destroy();
 
       periodo = cod_periodo;
+
+      localStorage.setItem('periodo_venda_modalidade', cod_periodo);
 
       geraGraficoVendasModalidade(dados_grafico);
     }
@@ -1349,7 +1371,7 @@ function showTableBancoSelecionado(codigo){
   html += "<tr>";
 
 
-  html += "<td>"+"<b>Situação de Pagamento: "+"</td>";
+  html += "<td style='background: #BDBDBD '>"+"<b>Situação de Pagamento: "+"</td>";
 
   html += "</tr>";
 
@@ -1407,7 +1429,7 @@ function showTableOperadoraSelecionada(codigo){
   html += "<tr>";
 
 
-  html += "<td>"+"<b>Situação de Pagamento: "+"</td>";
+  html += "<td style='background: #BDBDBD '>"+"<b>Situação de Pagamento: "+"</td>";
 
   html += "</tr>";
 
@@ -1416,22 +1438,67 @@ function showTableOperadoraSelecionada(codigo){
   document.getElementById("voltar_operadora").classList.remove('active');
 }
 
-function showRecebíveis(codigo){
-  console.log("shooooooooooow: "+codigo)
+function showRecebiveis(codigo){
+  var arrayBancos = [];
 
-  var dados_banco = <?php echo $dados_bancos ?>
+  var pagamentos = <?php echo $dados_calendario_pagamento ?>;
 
-  var result = dados_banco.find(banco => banco.CODIGO == codigo);
+  var bancos = <?php echo $dados_bancos ?>;
 
-  if(result){
-  }
+  var result = pagamentos.find(pagamento => pagamento.CODIGO == codigo);
+  //
+  var data_v = new Date(result.DATA_PAGAMENTO);
+  var data_venda = data_v.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+
+
+  document.getElementById("label_recebimentos").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(result.val_liquido);
+  document.getElementById("label_data_recebimento").innerHTML = data_venda;
+
+  pagamentos.forEach((banco) => {
+    if(banco.DATA_PAGAMENTO == result.DATA_PAGAMENTO){
+      arrayBancos.push(banco)
+    }
+  });
+
+
+  // console.log(arrayBancos);
+  // $('#ul_teste').load('/');
+
+  //
+  //
+  // console.log(result);
+  //
+  // if(result){
+  // }
 }
 
+function gerarPdfVendasOperadora(){
+  var codigo_periodo = localStorage.getItem('periodo_venda_operadora');
+  var url = "{{ url('export-vendasoperadora')}}" + "/" + codigo_periodo;
 
+  window.location.href = url;
+}
 
+function gerarPdfVendasBandeira(){
+  var codigo_periodo = localStorage.getItem('periodo_venda_bandeira');
+  var url = "{{ url('export-vendasbandeira')}}" + "/" + codigo_periodo;
 
+  window.location.href = url;
+}
 
+function gerarPdfVendasModalidade(){
+  var codigo_periodo = localStorage.getItem('periodo_venda_modalidade');
+  var url = "{{ url('export-vendasmodalidade')}}" + "/" + codigo_periodo;
 
+  window.location.href = url;
+}
+
+function gerarPdfVendasProduto(){
+  var codigo_periodo = localStorage.getItem('periodo_venda_produto');
+  var url = "{{ url('export-vendasproduto')}}" + "/" + codigo_periodo;
+
+  window.location.href = url;
+}
 
 </script>
 @stop

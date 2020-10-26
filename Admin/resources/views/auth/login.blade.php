@@ -139,7 +139,7 @@ Launch static backdrop modal
         </div>
         <div id="bodymodal" class="modal-body">
           <h6> Pesquisa CNPJ: </h6>
-          <input id="buscaEmpresa" placeholder="Pesquise a empresa desejada pelo CNPJ"  onKeyDown="escolherCnpj()" style="margin-top: -5px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" name="cnpj">
+          <input id="buscaEmpresa" onkeypress='return somenteNumero(event)'placeholder="Pesquise a empresa desejada pelo CNPJ"  onKeyDown="escolherCnpj()" style="margin-top: -5px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" name="cnpj">
           <h6> Pesquisa Nome: </h6>
           <input id="buscaEmpresaNome" placeholder="Pesquise a empresa desejada pelo NOME"  onKeyDown="escolherNome()" style="margin-top: -5px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" name="nome">
         </div>
@@ -350,6 +350,15 @@ function escolherNome(){
       });
     }
   }, 300);
+}
+
+function somenteNumero(e){
+  var tecla=(window.event)?event.keyCode:e.which;
+  if((tecla>47 && tecla<58)) return true;
+  else{
+    if (tecla==8 || tecla==0) return true;
+     else  return false;
+  }
 }
 
 </script>

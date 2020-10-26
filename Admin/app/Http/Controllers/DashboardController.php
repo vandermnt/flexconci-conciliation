@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use DB;
 use App\DashboardVendasModel;
 use App\ClienteModel;
+use App\Http\Controllers\DOMPDF;
+
 
 class DashboardController extends Controller{
 
@@ -84,6 +86,7 @@ class DashboardController extends Controller{
 
     $dados_bancos = $dados_bancos->groupBy('pagamentos_operadoras.COD_BANCO')
     ->get();
+    // dd($dados_bancos);
 
     $total_banco = 0;
     foreach($dados_bancos as $bancos){
@@ -110,6 +113,7 @@ class DashboardController extends Controller{
     ->with('qtde_projetos', $qtde_projetos)
     ->with('projetos', $projetos)
     ->with('dados_bancos', $dados_bancos)
+    ->with('dados_bancos_inicial', $dados_bancos_inicial)
     ->with('dados_operadora', $dados_operadora)
     ->with('total_mes', $total_mes)
 
@@ -124,4 +128,65 @@ class DashboardController extends Controller{
     ->with('dados_calendario_pagamento', $dados_calendario_pagamento)
     ->with('periodos', $periodos);
   }
+
+  public function exportarPdfVendasOperadoras($codigo_periodo){
+
+    $dados_vendas = DB::table('dashboard_vendas_adquirentes')
+    ->leftJoin('periodo_dash', 'dashboard_vendas_adquirentes.COD_PERIODO', 'periodo_dash.CODIGO')
+    ->leftJoin('adquirentes', 'dashboard_vendas_adquirentes.COD_ADQUIRENTE', 'adquirentes.CODIGO')
+    ->where('cod_cliente', '=', session('codigologin'))
+    ->where('COD_PERIODO', '=', $codigo_periodo)
+    ->get();
+
+    $pdf = \PDF::loadView('analytics.table-vendas-operadora', compact('dados_vendas'));
+    return $pdf->setPaper('A4', 'landscape')
+    ->download('dados-vendas-por-operadora.pdf');
+  }
+
+  public function exportarPdfVendasBandeiras($codigo_periodo){
+
+    $dados_vendas = DB::table('dashboard_vendas_bandeiras')
+    ->leftJoin('periodo_dash', 'dashboard_vendas_bandeiras.COD_PERIODO', 'periodo_dash.CODIGO')
+    ->leftJoin('bandeira', 'dashboard_vendas_bandeiras.COD_BANDEIRA', 'bandeira.CODIGO')
+    ->where('cod_cliente', '=', session('codigologin'))
+    ->where('COD_PERIODO', '=', $codigo_periodo)
+    ->where('dashboard_vendas_bandeiras.QUANTIDADE', '>', 0)
+    ->get();
+
+    $pdf = \PDF::loadView('analytics.table-vendas-bandeira', compact('dados_vendas'));
+    return $pdf->setPaper('A4', 'landscape')
+    ->download('dados-vendas-por-bandeira.pdf');
+  }
+
+  public function exportarPdfVendasModalidade($codigo_periodo){
+
+    $dados_vendas = DB::table('dashboard_vendas_modalidade')
+    ->leftJoin('periodo_dash', 'dashboard_vendas_modalidade.COD_PERIODO', 'periodo_dash.CODIGO')
+    ->leftJoin('modalidade', 'dashboard_vendas_modalidade.COD_MODALIDADE', 'modalidade.CODIGO')
+    ->where('cod_cliente', '=', session('codigologin'))
+    ->where('COD_PERIODO', '=', $codigo_periodo)
+    ->where('dashboard_vendas_modalidade.QUANTIDADE', '>', 0)
+    ->get();
+
+    $pdf = \PDF::loadView('analytics.table-vendas-modalidade', compact('dados_vendas'));
+    return $pdf->setPaper('A4', 'landscape')
+    ->download('dados-vendas-por-modalidade.pdf');
+  }
+
+  public function exportarPdfVendasProduto($codigo_periodo){
+
+    $dados_vendas = DB::table('dashboard_vendas_produtos')
+    ->leftJoin('periodo_dash', 'dashboard_vendas_produtos.COD_PERIODO', 'periodo_dash.CODIGO')
+    ->join('produto_web', 'dashboard_vendas_produtos.COD_PRODUTO', 'produto_web.CODIGO')
+    ->where('cod_cliente', '=', session('codigologin'))
+    ->where('COD_PERIODO', '=', $codigo_periodo)
+    ->where('dashboard_vendas_produtos.QUANTIDADE', '>', 0)
+    ->get();
+
+    $pdf = \PDF::loadView('analytics.table-vendas-produto', compact('dados_vendas'));
+    return $pdf->setPaper('A4', 'landscape')
+    ->download('dados-vendas-por-produto.pdf');
+  }
+
+
 }

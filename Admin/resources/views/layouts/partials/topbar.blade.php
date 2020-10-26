@@ -301,6 +301,8 @@ aria-haspopup="false" aria-expanded="false">
 </a>
 <div class="dropdown-menu dropdown-menu-left" style="background: white;">
   <a style="" class="dropdown-item" href="{{ url('/historico-bancario') }}"> Histórico Bancário</a>
+  <a style="" class="dropdown-item" href="{{ url('/justificativas') }}"> Justificativas</a>
+
 </div>
 </li>
 <!-- @if(Auth::user()->USUARIO_GLOBAL == 'S')

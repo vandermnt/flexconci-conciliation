@@ -5,7 +5,7 @@ function geraGraficoVendas(dados_grafico) {
   dados_grafico.forEach((dado) => {
     if (dado.COD_PERIODO == periodo && dado.QUANTIDADE > 0) {
       var percentualFloat = parseFloat(dado.PERCENTUAL);
-      percentualFloat = percentualFloat.toFixed(2)
+      percentualFloat = percentualFloat.toFixed(1)
       array.push(parseFloat(percentualFloat));
     }
   });
@@ -88,7 +88,7 @@ function geraGraficoVendasBandeira(dados_grafico) {
       dado.PERCENTUAL.toLocaleString(undefined, { maximumFractionDigits: 2, minimumFractionDigits: 2 });
 
       var percentualFloat = parseFloat(dado.PERCENTUAL);
-      percentualFloat = percentualFloat.toFixed(2)
+      percentualFloat = percentualFloat.toFixed(1)
       array.push(parseFloat(percentualFloat));
     }
   });
@@ -169,7 +169,7 @@ function geraGraficoVendasProduto(dados_grafico) {
   dados_grafico.forEach((dado) => {
     if (dado.COD_PERIODO == periodo && dado.QUANTIDADE > 0) {
       var percentualFloat = parseFloat(dado.PERCENTUAL);
-      percentualFloat = percentualFloat.toFixed(2)
+      percentualFloat = percentualFloat.toFixed(1)
       array.push(parseFloat(percentualFloat));    }
   });
 
@@ -249,7 +249,7 @@ function geraGraficoVendasModalidade(dados_grafico) {
 
     if (dado.COD_PERIODO == periodo && dado.QUANTIDADE > 0) {
       var percentualFloat = parseFloat(dado.PERCENTUAL);
-      percentualFloat = percentualFloat.toFixed(2)
+      percentualFloat = percentualFloat.toFixed(1)
       array.push(parseFloat(percentualFloat));
     }
   });

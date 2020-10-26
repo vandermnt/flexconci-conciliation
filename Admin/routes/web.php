@@ -11,6 +11,11 @@ Route::group(['middleware' => 'auth'], function() {
 
   //DAHSBOARD
   Route::get('/', 'DashboardController@dashboard');
+  Route::get('/export-vendasoperadora/{periodo}', 'DashboardController@exportarPdfVendasOperadoras');
+  Route::get('/export-vendasbandeira/{periodo}', 'DashboardController@exportarPdfVendasBandeiras');
+  Route::get('/export-vendasmodalidade/{periodo}', 'DashboardController@exportarPdfVendasModalidade');
+  Route::get('/export-vendasproduto/{periodo}', 'DashboardController@exportarPdfVendasProduto');
+
 
   // Route::get('/', function () {
   //     return redirect('/analytics/analytics-index');
@@ -30,9 +35,12 @@ Route::group(['middleware' => 'auth'], function() {
   Route::match(['get', 'post'], '/vendasoperadorasfiltro', 'VendasController@buscarVendasFiltro');
   Route::get('/download', 'VendasController@downloadTable');
 
-  //VENDAS
+  //CONCILIAÇÃO AUTOMÁTICA
   Route::get('/conciliacao-automatica', 'ConciliacaoAutomaticaVendasController@conciliacaoAutomatica');
   Route::match(['get', 'post'], '/conciliacao-manual', 'ConciliacaoAutomaticaVendasController@conciliarManualmente');
+  Route::match(['get', 'post'], '/conciliacao-justificada-venda', 'ConciliacaoAutomaticaVendasController@conciliacaoJustificadaVenda');
+  Route::match(['get', 'post'], '/conciliacao-justificada-vendaerp', 'ConciliacaoAutomaticaVendasController@conciliacaoJustificadaVendaErp');
+
 
   //VENDAS - RECEBIMENTOS OPERADORAS
   Route::get('/recebimentos-operadora', 'RecebimentosOperadoraController@recebimentosOperadora');
@@ -57,6 +65,12 @@ Route::group(['middleware' => 'auth'], function() {
   Route::post('/post-historico', 'CadastroHistoricoBancarioController@newCadastroHistoricoBancario');
   Route::get('/load-historico-bancario', 'CadastroHistoricoBancarioController@loadHistoricoBancario');
   Route::get('/delete-historico-bancario/{codigo}', 'CadastroHistoricoBancarioController@deleteHistoricoBancario');
+
+  //CADASTRO JUSTIFICATIVA
+  Route::get('/justificativas', 'CadastroJustificativaController@justificativas');
+  Route::post('/post-justificativa', 'CadastroJustificativaController@saveJustificativa');
+  Route::get('/load-justificativas', 'CadastroJustificativaController@loadJustificativas');
+  Route::get('/delete-justificativa/{codigo}', 'CadastroJustificativaController@deleteJustificativa');
 
   //CONCILIAÇÃO
   Route::get('/conciliacao-bancaria', function() {
