@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
         start: teste.DATA_PAGAMENTO,
         color: '#257e4a',
         background: '#FF4000',
-        publicId: teste.CODIGO
+        publicId: teste.DATA_PAGAMENTO
 
       },
       // {
@@ -95,8 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
     events: eventsList,
     eventClick: function(calEvent, jsEvent, view) {
       if(calEvent.event._def.extendedProps.publicId){
-        console.log(calEvent)
-        showRecebiveis(calEvent.event._def.extendedProps.publicId);
+        showRecebiveis(calEvent.event._def.extendedProps.publicId, calEvent.event._def.title);
       }
     }
 
@@ -145,10 +144,10 @@ body {
   <div class="row" style="margin-bottom: 20px">
     <div class="col-lg-6">
       <div class="row" style="align-items: center; justify-content: center;">
-        <div class="col-sm-2">
-          <img src="{{ url('assets/images/user.png')}}"style="width: 120px;"/>
+        <div class="col-sm-3">
+          <img src="{{ url('assets/images/user.png')}}"style="width: 120px; "/>
         </div>
-        <div class="col-sm-9" style="padding: 0 25px; ">
+        <div class="col-sm-9">
           <?php $primeiro_nome = explode(' ', Auth::user()->NOME); ?>
           <h3> Bem vindo de volta, {{$primeiro_nome[0]}}! </h3>
           <h6 style="color: #6E6E6E"> Comece o seu dia analisando os dados da sua empresa.  </h6>
@@ -505,7 +504,7 @@ Tooltip on bottom
 
               </div>
             </div>
-            <ul class="list-group wallet-bal-crypto mt-3">
+            <ul class="list-group wallet-bal-crypto mt-3" id="ul_bancos">
               @foreach($dados_bancos as $bancos)
               <li class="list-group-item align-items-center d-flex justify-content-between">
                 <div class="col-12 row" style="text-align: center">
@@ -527,9 +526,6 @@ Tooltip on bottom
                     <!-- <a style="margin-right: -60px" onclick="showTableBancoSelecionado({{$teste}})" data-toggle="tab" href="#div_banco_selecionado"><i class="thumb-lg mdi mdi-chevron-right"></i> </a> -->
                     <!-- <a data-toggle="tab" href="#div_banco_selecionado" role="tab" aria-selected="true"><i class="thumb-lg mdi mdi-chevron-right"></i></a> -->
                     <a id="{{$bancos->CODIGO}}" data-toggle="tab" data-target="#div_banco_selecionado" onclick="showTableBancoSelecionado({{$teste}})" role="tab" aria-selected="false" style="display: block"><i class="thumb-lg mdi mdi-chevron-right"></i> </a>
-
-
-
                   </div>
                 </div>
                 <!-- <span class="badge badge-soft-pink">Bitcoin</span> -->
@@ -601,7 +597,7 @@ Tooltip on bottom
         </div>
       </div>
     </div> -->
-    <ul  id="ul_teste" class="list-group wallet-bal-crypto mt-3">
+    <ul  id="ul_operadora" class="list-group wallet-bal-crypto mt-3">
       @foreach($dados_operadora as $operadora)
       <li class="list-group-item align-items-center d-flex justify-content-between">
         <div class="col-12 row">
@@ -1438,38 +1434,99 @@ function showTableOperadoraSelecionada(codigo){
   document.getElementById("voltar_operadora").classList.remove('active');
 }
 
-function showRecebiveis(codigo){
-  var arrayBancos = [];
-
-  var pagamentos = <?php echo $dados_calendario_pagamento ?>;
-
-  var bancos = <?php echo $dados_bancos ?>;
-
-  var result = pagamentos.find(pagamento => pagamento.CODIGO == codigo);
+function showRecebiveis(data, title){
+  // var arrayBancos = [];
   //
-  var data_v = new Date(result.DATA_PAGAMENTO);
+  // var pagamentos = <?php echo $dados_calendario_pagamento ?>;
+  //
+  // var bancos = <?php echo $dados_bancos ?>;
+  //
+  // var result = pagamentos.find(pagamento => pagamento.CODIGO == codigo);
+  // //
+  var data_v = new Date(data);
+  //
+  //
   var data_venda = data_v.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
 
-
-  document.getElementById("label_recebimentos").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(result.val_liquido);
+  document.getElementById("label_recebimentos").innerHTML = title;
   document.getElementById("label_data_recebimento").innerHTML = data_venda;
-
-  pagamentos.forEach((banco) => {
-    if(banco.DATA_PAGAMENTO == result.DATA_PAGAMENTO){
-      arrayBancos.push(banco)
-    }
-  });
+  $("#ul_bancos li").remove();
+  $("#ul_operadora li").remove();
 
 
-  // console.log(arrayBancos);
-  // $('#ul_teste').load('/');
+  var url = "{{ url('detalhe-calendario') }}" + "/" + data;
 
-  //
-  //
-  // console.log(result);
-  //
-  // if(result){
-  // }
+  $.ajax({
+    url: url,
+    type: "GET",
+    dataType: 'json',
+    success: function(response){
+      console.log(response);
+
+      // $('#ul_bancos').empty();
+
+
+      response[0].forEach((bancos) => {
+        var html = "<li class='list-group-item align-items-center d-flex justify-content-between'>"
+
+        html += "<div class='col-12 row' style='text-align: center'>"
+        html += "<div class='col-2' style='margin: 0'>"
+        html += "<img src='" + bancos.IMAGEM + "' class='align-self-center' style='width: 45px; margin-left: -20px;'>"
+        html += "</div>"
+        html += "<div class='col-4 media-body align-self-center'>"
+        html += "<h4 style='font-size: 13px; margin-left: -30px'>" + "AG: " + bancos.AGENCIA + "- C/C: " + bancos.CONTA + "</h4>"
+        html += "</div>"
+        html += "<div class='col-5 media-body align-self-center' style='margin: 0'>"
+        html += "<h4 style='text-align: right; font-size: 14px; color: #257E4A'>" + Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(bancos.val_liquido) + "</h4>"
+        html += "</div>"
+        <?php $teste = $bancos->CODIGO ?>
+        html += "<div class='col-1 media-body align-self-center'>"
+        html += "<a id='{{$bancos->CODIGO}}' data-toggle='tab' data-target='#div_banco_selecionado' onclick='showTableBancoSelecionado({{$teste}})' role='tab' aria-selected='false' style='display: block'><i class='thumb-lg mdi mdi-chevron-right'></i> </a>"
+        html += "</div>"
+        html += "</div>"
+        html += "</li>"
+
+        $('#ul_bancos').append(html);
+      })
+
+      response[1].forEach((bancos) => {
+        var html = "<li class='list-group-item align-items-center d-flex justify-content-between'>"
+
+        html += "<div class='col-12 row'>"
+        html += "<img src='" + bancos.IMAGEMAD + "' class='align-self-center' style='width: 70px;'>"
+        html += "<div class='col-7 media-body align-self-center'>"
+        html += "<h4 class='m-0' style='font-size: 14px; text-align:right; color: #257E4A'>" + Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(bancos.val_liquido)  + "</h4>"
+        html += "</div>"
+        <?php $teste = $bancos->CODIGO ?>
+        html += "<div class='col-1 media-body align-self-center'>"
+        html += "<a id='{{$bancos->CODIGO}}' data-toggle='tab' data-target='#div_banco_selecionado' onclick='showTableBancoSelecionado({{$teste}})' role='tab' aria-selected='false' style='display: block'><i class='thumb-lg mdi mdi-chevron-right'></i> </a>"
+        html += "</div>"
+        html += "</div>"
+        html += "</li>"
+
+        $('#ul_operadora').append(html);
+      })
+
+    // })
+  }
+})
+
+// pagamentos.forEach((banco) => {
+//   if(banco.DATA_PAGAMENTO == result.DATA_PAGAMENTO){
+//     arrayBancos.push(banco)
+//   }
+// });
+
+
+// console.log(arrayBancos);
+// $('#ul_teste').load('/');
+
+//
+//
+// console.log(result);
+//
+// if(result){
+// }
 }
 
 function gerarPdfVendasOperadora(){

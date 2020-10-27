@@ -281,7 +281,7 @@ $(document).ready(function(){
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">
+              <div class="modal-body" style="max-height: 350px; overflow: auto">
                 <div class="row">
                   <div class="col-sm-12">
                     <h6> Pesquisar </h6>
@@ -332,7 +332,7 @@ $(document).ready(function(){
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">
+              <div class="modal-body" style="max-height: 350px; overflow: auto">
                 <div class="row">
                   <div class="col-sm-12">
                     <h6> Pesquisar </h6>

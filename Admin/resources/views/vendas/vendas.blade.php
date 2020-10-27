@@ -341,7 +341,7 @@ $(document).ready(function(){
         </div>
 
         <div class="modal fade" id="staticBackdropBandeira" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-          <div class="modal-dialog" style="width: 250px;">
+          <div class="modal-dialog" style="width: 250px; ">
             <div class="modal-content">
               <div class="modal-header" style="background: #2D5275;">
                 <h5 class="modal-title" id="staticBackdropLabel" style="color: white">Bandeira</h5>
@@ -349,7 +349,7 @@ $(document).ready(function(){
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">
+              <div class="modal-body" style="max-height: 350px; overflow: auto">
                 <div class="row">
                   <div class="col-sm-12">
                     <h6> Pesquisar </h6>
@@ -401,7 +401,7 @@ $(document).ready(function(){
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">
+              <div class="modal-body" style="max-height: 350px; overflow: auto">
                 <div class="row">
                   <div class="col-sm-12">
                     <h6> Pesquisar </h6>
@@ -451,7 +451,7 @@ $(document).ready(function(){
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">
+              <div class="modal-body" style="max-height: 350px; overflow: auto">
                 <div class="row">
                   <div class="col-sm-12">
                     <h6> Pesquisar </h6>
@@ -600,6 +600,7 @@ $(document).ready(function(){
 
             <thead>
               <tr>
+                <th> Detalhes </th>
                 <th> Empresa  <br> <input style="max-width: 135px; margin: 0"></th>
                 <th> CNPJ  <br> <input style="max-width: 135px; margin: 0"> </th>
                 <th> Operadora<br> <input style="max-width: 135px; margin: 0"> </th>
@@ -625,8 +626,9 @@ $(document).ready(function(){
                 <th> Observação <br> <input style="min-width: 135px; margin: 0"></th>
                 <th> Produto<br> <input style="max-width: 135px; margin: 0"> </th>
                 <th> Meio de Captura<br> <input style="max-width: 135px; margin: 0"> </th>
+                <th> Status Conciliação<br> <input style="max-width: 135px; margin: 0"> </th>
+                <th> Status Financeiro<br> <input style="max-width: 135px; margin: 0"> </th>
 
-                <th> Ação <br></th>
               </tr>
 
             </thead>
@@ -893,6 +895,7 @@ $('#submitFormLogin').click(function(){
     dataType: 'json',
     success: function (response){
       if(response){
+        console.log(response);
         for(var i=0;i< response[0].length; i++){
           var data_v = new Date(response[0][i].DATA_VENDA);
           var data_venda = data_v.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
@@ -938,6 +941,7 @@ $('#submitFormLogin').click(function(){
           var html = "<tr id='"+cod+"' onclick='mudaCorLinhaTable("+cod+")'>";
 
           // setTimeout(function () {
+          html +="<td>"+"<a href='{{ url('/impressao-vendas')}}"+"/"+response[0][i].COD+"' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
           html +="<td>"+response[0][i].EMPRESA+"</td>";
           html +="<td>"+response[0][i].CNPJ+"</td>";
 
@@ -973,11 +977,13 @@ $('#submitFormLogin').click(function(){
             html +="<td>"+""+"</td>";
           }
           html +="<td>"+response[0][i].MEIOCAPTURA+"</td>";
+          html +="<td>"+""+"</td>";
+          html +="<td>"+""+"</td>";
+
 
           // var url = "{{ url('/impressao-vendas')}}"+"/"+response[0][i].COD;
           var url = "#";
 
-          html +="<td>"+"<a href='{{ url('/impressao-vendas')}}"+"/"+response[0][i].COD+"' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
           html +="</tr>";
           $('#jsgrid-table').append(html);
           // },100);
@@ -994,19 +1000,26 @@ $('#submitFormLogin').click(function(){
         htmll +="<td>"+""+"</td>";
         htmll +="<td>"+""+"</td>";
         htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+response[2]+"</td>";
         htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+response[4]+"</td>";
-        htmll +="<td>"+response[6]+"</td>";
-        htmll +="<td>"+response[1]+"</td>";
+        htmll +="<td style='color:#6E6E6E'> <b>"+response[2]+"</b></td>";
         htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+""+"</td>";
+        htmll +="<td style='color:#6E6E6E'><b>"+response[4]+"</b></td>";
+        htmll +="<td style='color:#6E6E6E'><b>"+response[6]+"</b></td>";
+        htmll +="<td style='color:#6E6E6E'><b>"+response[1]+"</b></td>";
         htmll +="<td>"+""+"</td>";
         htmll +="<td>"+""+"</td>";
         htmll +="<td>"+""+"</td>";
         htmll +="<td>"+""+"</td>";
         htmll +="<td>"+""+"</td>";
+        htmll +="<td>"+""+"</td>";
+        htmll +="<td>"+""+"</td>";
+        htmll +="<td>"+""+"</td>";
+        htmll +="<td>"+""+"</td>";
+        htmll +="<td>"+""+"</td>";
+        htmll +="<td>"+""+"</td>";
+        htmll +="<td>"+""+"</td>";
+
+
 
         htmll +="</tr>";
         $('#jsgrid-table').append(htmll);
@@ -1403,7 +1416,7 @@ function mudaCorLinhaTable(codigo){
 
   if(cor == "" || cor == "rgb(255, 255, 255)"){
 
-    var cor = document.getElementById(codigo).style.background = "#2d5275";
+    var cor = document.getElementById(codigo).style.background = "#A4A4A4";
     var cor = document.getElementById(codigo).style.color = "#ffffff";
 
 

@@ -373,6 +373,7 @@ $(document).ready(function(){
 
         <br>
 
+
         <h4> Vendas {{$erp}}</h4>
         <div style="overflow: scroll; font-size: 13px; overflow-x: scroll; max-height: 270px">
 

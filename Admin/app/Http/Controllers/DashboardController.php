@@ -63,6 +63,7 @@ class DashboardController extends Controller{
     ->groupBy('pagamentos_operadoras.DATA_PAGAMENTO')
     ->get();
 
+
     $hoje1 = date('Y/m/01');
     $hoje2 = date('Y/m/30');
 
@@ -186,6 +187,35 @@ class DashboardController extends Controller{
     $pdf = \PDF::loadView('analytics.table-vendas-produto', compact('dados_vendas'));
     return $pdf->setPaper('A4', 'landscape')
     ->download('dados-vendas-por-produto.pdf');
+  }
+
+  public function detalheCalendario($data){
+
+    $bancos = DB::table('pagamentos_operadoras')
+    ->leftJoin('lista_bancos', 'pagamentos_operadoras.COD_BANCO', 'lista_bancos.CODIGO')
+    ->select('pagamentos_operadoras.*', 'pagamentos_operadoras.DATA_PAGAMENTO', 'lista_bancos.IMAGEM_LINK as IMAGEM')
+    ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
+    // ->select('vendas.*', 'sum(VALOR_LIQUIDO) as val_liquido')
+    ->where('pagamentos_operadoras.DATA_PAGAMENTO', $data)
+    ->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'))
+    ->groupBy('pagamentos_operadoras.COD_BANCO')
+    ->get();
+
+    $operadoras = DB::table('pagamentos_operadoras')
+    ->leftJoin('adquirentes', 'pagamentos_operadoras.COD_ADQUIRENTE', 'adquirentes.CODIGO')
+    ->select('pagamentos_operadoras.*', 'pagamentos_operadoras.DATA_PAGAMENTO', 'adquirentes.IMAGEM as IMAGEMAD')
+    ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
+    // ->select('vendas.*', 'sum(VALOR_LIQUIDO) as val_liquido')
+    ->where('pagamentos_operadoras.DATA_PAGAMENTO', $data)
+    ->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'))
+    ->groupBy('pagamentos_operadoras.COD_ADQUIRENTE')
+    ->get();
+
+    $dados = json_encode([$bancos, $operadoras]);
+
+    return $dados;
+
+
   }
 
 

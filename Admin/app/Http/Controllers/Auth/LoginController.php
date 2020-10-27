@@ -51,6 +51,12 @@ class LoginController extends Controller
     session()->put('codigologin', $cod_buscas);
 
     $user = User::where('CODIGO', '=', $cod_cliente)->first();
+    date_default_timezone_set('America/Sao_Paulo');
+
+    $user->DATA_ULTIMO_LOGIN =  date('Y/m/d');
+    $user->HORA_ULTIMO_LOGIN =  date('H:i');
+
+    $user->save();
 
     Auth::login($user);
 
@@ -89,6 +95,7 @@ class LoginController extends Controller
       }else if($user->COD_ORIGEM_COMERCIAL != null){
         $aux = 'user_comercial';
         $clientes_codcomercial = ClienteModel::where('COD_COMERCIAL', '=', $user->COD_ORIGEM_COMERCIAL)->get();
+
 
         $clientes = json_encode([$clientes_codcomercial, $aux, $user]);
 

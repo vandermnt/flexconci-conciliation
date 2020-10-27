@@ -137,7 +137,7 @@ Launch static backdrop modal
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           </button>
         </div>
-        <div id="bodymodal" class="modal-body">
+        <div id="bodymodal" class="modal-body" style="max-height: 370px; overflow: auto">
           <h6> Pesquisa CNPJ: </h6>
           <input id="buscaEmpresa" onkeypress='return somenteNumero(event)'placeholder="Pesquise a empresa desejada pelo CNPJ"  onKeyDown="escolherCnpj()" style="margin-top: -5px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" name="cnpj">
           <h6> Pesquisa Nome: </h6>
@@ -165,7 +165,7 @@ Launch static backdrop modal
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           </button>
         </div>
-        <div id="bodymodalcliente" class="modal-body">
+        <div id="bodymodalcliente" class="modal-body" >
           <h6> Escolha o cliente: </h6>
           <select style="margin-top: -5px; padding-left: 7px; padding-top: 2px; padding-bottom: 5px; height: 30px" id="combo_cliente" name="combo_cliente" class="custom-select" required>
             <option selected value=""> Selecione um cliente </option>
@@ -205,10 +205,8 @@ $('#submitFormLogin').click(function(){
     dataType: 'json',
     success: function (response){
       if(response){
-        console.log(response);
 
         if(response[1] == 'user_global'){
-          console.log(response[0]);
           bodymodal = document.getElementById("bodymodal");
           response[0].forEach(res => {
 
@@ -247,7 +245,6 @@ $('#submitFormLogin').click(function(){
             function mouseOut(){
               teste.style = "background: white; color: #2D5275";
             }
-
           });
 
           clientes = response[0];
