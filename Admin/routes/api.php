@@ -19,6 +19,3 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/autenticacao/{user}/{password}', 'Auth\LoginController@postLogin');
-
-Route::put('justificativa/{codigo}', 'CadastroJustificativaController@update');
-

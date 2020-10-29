@@ -72,10 +72,8 @@ Route::group(['middleware' => 'auth'], function() {
   Route::post('/post-justificativa', 'CadastroJustificativaController@saveJustificativa');
   Route::get('/load-justificativas', 'CadastroJustificativaController@loadJustificativas');
   Route::get('/delete-justificativa/{codigo}', 'CadastroJustificativaController@deleteJustificativa');
-  Route::get('/justificativa/{codigo}', 'CadastroJustificativaController@show');
 
-
-    //CONCILIAÇÃO
+  //CONCILIAÇÃO
   Route::get('/conciliacao-bancaria', function() {
       return view('conciliacao.conciliacao-bancaria');
   });
