@@ -62,9 +62,14 @@ class VendasController extends Controller{
     ->leftJoin('bandeira', 'vendas.COD_BANDEIRA', '=', 'bandeira.CODIGO')
     ->leftJoin('adquirentes', 'vendas.ADQID', '=', 'adquirentes.CODIGO')
     ->leftJoin('lista_bancos', 'vendas.BANCO', '=', 'lista_bancos.CODIGO')
+    ->leftJoin('status_conciliacao', 'vendas.COD_STATUS_CONCILIACAO', '=', 'status_conciliacao.CODIGO')
+    ->leftJoin('status_financeiro', 'vendas.COD_STATUS_FINANCEIRO', '=', 'status_financeiro.CODIGO')
     ->leftJoin('produto_web', 'vendas.COD_PRODUTO', '=', 'produto_web.CODIGO')
     ->leftJoin('meio_captura', 'vendas.COD_MEIO_CAPTURA', '=', 'meio_captura.CODIGO')
-    ->select('vendas.*', 'vendas.CODIGO as COD', 'modalidade.*', 'produto_web.*', 'lista_bancos.BANCO', 'meio_captura.DESCRICAO as MEIOCAPTURA', 'adquirentes.IMAGEM as IMAGEMAD', 'bandeira.IMAGEM as IMAGEMBAD')
+    ->select('vendas.*', 'vendas.CODIGO as COD', 'modalidade.*', 'produto_web.*',
+    'lista_bancos.BANCO', 'meio_captura.DESCRICAO as MEIOCAPTURA',
+     'adquirentes.IMAGEM as IMAGEMAD', 'bandeira.IMAGEM as IMAGEMBAD',
+     'status_conciliacao.STATUS_CONCILIACAO as status_conc', 'status_financeiro.STATUS_FINANCEIRO as status_finan')
     ->where('vendas.COD_CLIENTE', '=', session('codigologin'))
     ->where(function($query) {
       if(Request::only('array') != null){

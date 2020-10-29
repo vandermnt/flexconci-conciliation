@@ -594,12 +594,12 @@ $(document).ready(function(){
 
 
         <br>
-        <div style="overflow: scroll; font-size: 13px; overflow-x: scroll; height: 470px">
+        <div style="font-size: 13px; overflow: scroll; height: 470px">
 
-          <table id="jsgrid-table" class="table " style="white-space: nowrap;">
+          <table id="jsgrid-table" class="table" style="white-space: nowrap; border: none">
 
             <thead>
-              <tr>
+              <tr style="border-top: none">
                 <th> Detalhes </th>
                 <th> Empresa  <br> <input style="max-width: 135px; margin: 0"></th>
                 <th> CNPJ  <br> <input style="max-width: 135px; margin: 0"> </th>
@@ -977,8 +977,8 @@ $('#submitFormLogin').click(function(){
             html +="<td>"+""+"</td>";
           }
           html +="<td>"+response[0][i].MEIOCAPTURA+"</td>";
-          html +="<td>"+""+"</td>";
-          html +="<td>"+""+"</td>";
+          html +="<td>"+response[0][i].status_conc+"</td>";
+          html +="<td>"+response[0][i].status_finan+"</td>";
 
 
           // var url = "{{ url('/impressao-vendas')}}"+"/"+response[0][i].COD;

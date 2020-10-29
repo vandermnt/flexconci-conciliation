@@ -58,7 +58,7 @@
                   <label for="username">Usuário</label>
                   <div class="input-group mb-3">
                     <span class="auth-form-icon">
-                      <i data-feather="user" class="icon-sm"></i>
+                        <i class="dripicons-user"></i>
                     </span>
                     <input type="text" class="form-control" name="user" id="username" placeholder="Usuário">
                   </div>
@@ -68,7 +68,7 @@
                   <label for="userpassword">Senha</label>
                   <div class="input-group mb-3">
                     <span class="auth-form-icon">
-                      <i data-feather="key" class="icon-sm"></i>
+                        <i class="dripicons-lock"></i>
                     </span>
                     <input type="password" class="form-control" name="password" id="userpassword" placeholder="Senha">
                   </div>

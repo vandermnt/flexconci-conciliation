@@ -462,7 +462,7 @@ Tooltip on bottom
         <!-- <div id='loading'></div> -->
 
 
-        <div id='calendar'></div>
+        <div id='calendar' class="calendario"></div>
         <div class="row" style="align-items: center; margin-left: 5px;">
           <div class="circulo" style="margin-right: 5px; background: #257E4A; text-align: right"> </div>
           <h5> Depositado </h5>
@@ -479,7 +479,7 @@ Tooltip on bottom
       <div class="card-body">
         <div class="wallet-bal-usd">
           <h4 class="wallet-title m-0">Recebimentos</h4>
-          <span id="label_data_recebimento" class="text-muted font-12"><?php echo date("01/m/Y") ?> à <?php echo date("30/m/Y") ?></span>
+          <span id="label_data_recebimento" class="text-muted font-12"><b style="color: #6E6E6E"><?php echo date("01/m/Y") ?> à <?php echo date("30/m/Y") ?></b></span>
           <h3 id="label_recebimentos" class="text-center" style="color: #257E4A">R$ <?php
           echo number_format( $total_mes->val_liquido ,2,",",".");
           ?> </h3>
@@ -1449,7 +1449,7 @@ function showRecebiveis(data, title){
   var data_venda = data_v.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
 
   document.getElementById("label_recebimentos").innerHTML = title;
-  document.getElementById("label_data_recebimento").innerHTML = data_venda;
+  document.getElementById("label_data_recebimento").innerHTML = '<b style="color: #6E6E6E">' + data_venda + '</b>';
   $("#ul_bancos li").remove();
   $("#ul_operadora li").remove();
 

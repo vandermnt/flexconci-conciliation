@@ -206,7 +206,7 @@ $(document).ready(function(){
                     <p class="text-dark font-weight-semibold font-12">VENDAS ERP</p>
                     <div class="row">
                       <div class="col-6">
-                        <h4 id="total_registros">0</h4>
+                        <h4 id="total_registros_vendaserp">0</h4>
 
                       </div>
                       <div class="col-6">
@@ -230,7 +230,7 @@ $(document).ready(function(){
                     <p class="text-dark font-weight-semibold font-12">CONCILIADO</p>
                     <div class="row">
                       <div class="col-6">
-                        <h4 id="total_registros">0</h4>
+                        <h4 id="total_registros_conciliado">0</h4>
 
                       </div>
                       <div class="col-6">
@@ -254,7 +254,7 @@ $(document).ready(function(){
                     <p class="text-dark font-weight-semibold font-12">DIVERGENTE</p>
                     <div class="row">
                       <div class="col-9">
-                        <h6 style="font-size: 12px" id="total_registros">R$ 12.500.000,15</h6>
+                        <h6 style="font-size: 12px" id="total_registros_divergente">R$ 12.500.000,15</h6>
 
                       </div>
                       <div class="col-3">
@@ -282,7 +282,7 @@ $(document).ready(function(){
                     <p class="text-dark font-weight-semibold font-12">CONC. MANUAL</p>
                     <div class="row">
                       <div class="col-8">
-                        <h6 id="total_registros">R$ 15.000,15</h6>
+                        <h6 id="total_registros_conciliado_manual">R$ 15.000,15</h6>
 
                       </div>
                       <div class="col-4">
@@ -306,7 +306,7 @@ $(document).ready(function(){
                     <p class="text-dark font-weight-semibold font-12">JUSTIFICADO</p>
                     <div class="row">
                       <div class="col-6">
-                        <h6 id="total_registros">R$ 15.000,15</h6>
+                        <h6 id="total_registros_justificado">R$ 15.000,15</h6>
 
                       </div>
                       <div class="col-6">
@@ -373,8 +373,22 @@ $(document).ready(function(){
 
         <br>
 
+        <div class="row">
+          <div class="col-sm-4">
+            <h4> Vendas {{$erp}}</h4>
 
-        <h4> Vendas {{$erp}}</h4>
+          </div>
+          <div class="col-sm-8">
+            <div id="btfiltro" style="margin-top: -4px; display:block; text-align: right">
+              <a id="" onclick="conciliar()" style="align-items: right; background: #2D5275; color: white; border-color: #2D5275" class="btn btn-sm"> <b>Conciliar</b>  </a>
+              <a id="" onclick="justificar()" style="align-items: right; background: #2D5275; color: white; border-color: #2D5275" class="btn btn-sm"> <b>Justificar</b>  </a>
+              <a id="" onclick="" style="align-items: right; background: #2D5275; color: white; border-color: #2D5275" class="btn btn-sm"> <b>Desfazer Conciliação</b>  </a>
+              <a id="" onclick="" style="align-items: right; background: #2D5275; color: white; border-color: #2D5275" class="btn btn-sm"> <b>Desfazer Justificativa</b>  </a>
+              <a id="" onclick="" style="align-items: right; background: #2D5275; color: white; border-color: #2D5275" class="btn btn-sm"> <b>Exportar</b>  </a>
+            </div>
+          </div>
+        </div>
+
         <div style="overflow: scroll; font-size: 13px; overflow-x: scroll; max-height: 270px">
 
           <!-- <div style="font-size: 13px; overflow-y: auto; max-height: 270px"> -->
@@ -392,7 +406,6 @@ $(document).ready(function(){
               <th> Cod. Autorização </th>
               <th> ID. Venda Cliente  </th>
               <th> Meio de Captura  </th>
-              <th> Ação </th>
             </tr>
             <tbody>
             </tbody>
@@ -400,7 +413,18 @@ $(document).ready(function(){
         </div>
         <br>
 
-        <h4> Vendas </h4>
+
+        <div class="row">
+          <div class="col-sm-8">
+            <h4> Vendas </h4>
+          </div>
+
+          <div class="col-sm-4">
+            <div id="btfiltro" style="margin-top: -4px; display:block; text-align: right">
+              <a id="" onclick="" style="align-items: right; background: #2D5275; color: white; border-color: #2D5275" class="btn btn-sm"> <b>Exportar</b>  </a>
+            </div>
+          </div>
+        </div>
         <div style="overflow: scroll; font-size: 13px; overflow-x: scroll; max-height: 270px">
           <table id="jsgrid-table" class="table " style="white-space: nowrap; background:white; color: #2D5275">
 
@@ -432,7 +456,6 @@ $(document).ready(function(){
                 <th> Observação</th>
                 <th> Produto </th>
                 <th> Meio de Captura </th>
-                <th> Ação </th>
               </tr>
               <tbody>
               </tbody>
@@ -442,8 +465,6 @@ $(document).ready(function(){
           <button type="button" onclick="conciliar()" style="background: #2D5275; box-shadow: none" class="btn btn-primary btn-lg btn-block"><b>Conciliar</b></button>
 
         </div>
-
-
 
         <div id="modal_conciliacao_manual" class="modal" tabindex="-1" role="dialog">
           <div class="modal-dialog" role="document">
@@ -686,7 +707,7 @@ $('#submitFormLogin').click(function(){
           var html = "<tr>";
 
           // setTimeout(function () {
-          html +="<td>"+"<input id='vendas-"+response[0][i].CODIGO+"' type='checkbox'"+"</td>";
+          html +="<td>"+"<input id='vendas-"+response[0][i].CODIGO+"' name='vendasoperadora[]' type='checkbox'"+"</td>";
 
           html +="<td>"+response[0][i].EMPRESA+"</td>";
           html +="<td>"+response[0][i].CNPJ+"</td>";
@@ -723,7 +744,7 @@ $('#submitFormLogin').click(function(){
             html +="<td>"+""+"</td>";
           }
           html +="<td>"+response[0][i].MEIOCAPTURA+"</td>";
-          html +="<td>"+"<a type='button' onclick='saveIdVenda("+response[0][i].CODIGO+")' class='btn btn-success' data-toggle='modal' data-target='#modal_justificativas'>" + "<b>"+'Justificar'+"</b>" +"</a>"+"</td>";
+          // html +="<td>"+"<a type='button' onclick='saveIdVenda("+response[0][i].CODIGO+")' class='btn btn-success' data-toggle='modal' data-target='#modal_justificativas'>" + "<b>"+'Justificar'+"</b>" +"</a>"+"</td>";
 
           // var url = "{{ url('/impressao-vendas')}}"+"/"+response[0][i].COD;
           var url = "#";
@@ -758,7 +779,7 @@ $('#submitFormLogin').click(function(){
           var html_erp = "<tr>";
 
           // setTimeout(function () {
-          html_erp +="<td>"+"<input id='vendaserp-"+response[1][i].CODIGO+"' type='checkbox'"+"</td>";
+          html_erp +="<td>"+"<input id='vendaserp-"+response[1][i].CODIGO+"' name='vendaserp' type='checkbox'"+"</td>";
           html_erp +="<td>"+data_venda+"</td>";
           html_erp +="<td>"+data_prev_pag+"</td>";
           if(response[1][i].NSU != null){
@@ -774,16 +795,27 @@ $('#submitFormLogin').click(function(){
           html_erp +="<td>"+response[1][i].CODIGO_AUTORIZACAO+"</td>";
           html_erp +="<td>"+response[1][i].IDENTIFICADOR_PAGAMENTO+"</td>";
           html_erp +="<td>"+response[1][i].MEIOCAPTURA+"</td>";
-          html_erp +="<td>"+"<a type='button' onclick='saveIdVendaErp("+response[1][i].CODIGO+")' class='btn btn-success' data-toggle='modal' data-target='#modal_justificativas_erp'>" + "<b>"+'Justificar'+"</b>" +"</a>"+"</td>";
+          // html_erp +="<td>"+"<a type='button' onclick='saveIdVendaErp("+response[1][i].CODIGO+")' class='btn btn-success' data-toggle='modal' data-target='#modal_justificativas_erp'>" + "<b>"+'Justificar'+"</b>" +"</a>"+"</td>";
 
 
           html_erp +="</tr>";
           $('#jsgrid-table-erp').append(html_erp);
         }
 
+        document.getElementById("total_registros_vendaserp").innerHTML = response[2];
         document.getElementById("resultadosPesquisa").style.display = "block";
 
-        window.scrollTo(0, 550);
+        // response[3].forEach((status_concliacao) => {
+        //
+        //   if(status_conciliacao.COD_STATUS_CONCILIACAO == 1){
+        //     console.log(status_concliacao)
+        //
+        //     document.getElementById("total_registros_conciliado").innerHTML = response[3].TOTAL_VENDA;
+        //   }
+        // })
+
+
+        window.scrollTo(0, 500);
 
         document.getElementById("preloader").style.display = "none";
       }
@@ -1063,32 +1095,52 @@ function conciliar(){
     });
   }else if(count_vendaserp > 1){
     alert("Selecione apenas uma Venda ERP!");
+    return;
   }else if(count_vendaserp < 1){
     alert("Selecione uma Venda ERP!");
+    return;
   }
 
   $("#modal_conciliacao_manual").modal({
     show:true
   });
 
-  var result_venda = vendas.find(venda => venda.CODIGO == venda_conciliada);
-  var result_vendaerp = vendaserp.find(vendaerp => vendaerp.CODIGO == vendaerp_conciliada)
+  let result_venda = vendas.find(venda => venda.CODIGO == venda_conciliada);
+  let result_vendaerp = vendaserp.find(vendaerp => vendaerp.CODIGO == vendaerp_conciliada)
 
-  var data_venda = new Date(result_venda.DATA_VENDA);
-  var data_venda_formatada = data_venda.toLocaleDateString();
+  let data_venda = new Date(result_venda.DATA_VENDA);
+  let data_venda_formatada = data_venda.toLocaleDateString();
 
-  var data_venda_erp = new Date(result_vendaerp.DATA_VENDA);
-  var data_venda_erp_formatada = data_venda_erp.toLocaleDateString();
+  let data_venda_erp = new Date(result_vendaerp.DATA_VENDA);
+  let data_venda_erp_formatada = data_venda_erp.toLocaleDateString();
+
+  let codigo_venda = result_venda.CODIGO;
+  let codigo_vendaerp = result_vendaerp.CODIGO;
 
 
-  document.getElementById("success_venda").innerHTML = "Venda Operadora com código " + result_venda.CODIGO + ", com data da venda = " + data_venda_formatada + " foi conciliada manualmente com sucesso!";
-  document.getElementById("success_venda_erp").innerHTML = "Venda ERP com código " + result_vendaerp.CODIGO + ", com data da venda = " + data_venda_erp_formatada + " foi conciliada manualmente com sucesso!";
+  console.log("CODIGO VENDA " + result_venda.CODIGO);
+  console.log("CODIGO VENDA ERP " + result_vendaerp.CODIGO);
+  $.ajax({
+    url: "{{ url('conciliar') }}",
+    type: "POST",
+    header:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+    data: ({_token: '{{csrf_token()}}', codigo_venda, codigo_vendaerp}),
+    dataType: 'json',
+    success: function(response){
+      console.log(response);
+    }
+
+  })
+
+
+  document.getElementById("success_venda").innerHTML = "Venda Operadora com código " + result_venda.CODIGO + ", com data da venda = " + result_venda.DATA_VENDA + " foi conciliada manualmente com sucesso!";
+  document.getElementById("success_venda_erp").innerHTML = "Venda ERP com código " + result_vendaerp.CODIGO + ", com data da venda = " + result_vendaerp.DATA_VENDA + " foi conciliada manualmente com sucesso!";
 
 
   // $("#modal_conciliacao_manual").show();
 
 
-  console.log(venda_conciliada);
+  // console.log(venda_conciliada);
 }
 
 function saveIdVenda(codigo_venda){
@@ -1127,34 +1179,80 @@ function justificar(codigo_justificativa){
   }
 }
 
-function justificarErp(codigo_justificativa){
-  var cod_venda_erp = localStorage.getItem("codigo_venda_erp");
-  var count_venda = 0
-  var justificativas = <?php echo $justificativas ?>;
+// function justificarErp(codigo_justificativa){
+//   var cod_venda_erp = localStorage.getItem("codigo_venda_erp");
+//   var count_venda = 0
+//   var justificativas = <?php echo $justificativas ?>;
+//
+//   justificativas.forEach((justificativa) => {
+//     if(document.getElementById("justErp"+justificativa.CODIGO).checked){
+//       count_venda++;
+//     }
+//   });
+//
+//   if(count_venda > 1){
+//     alert("Escolha apenas uma justificativa!");
+//   }else{
+//
+//     $.ajax({
+//       url:  "{{ url('/conciliacao-justificada-vendaerp')}}",
+//       type: "post",
+//       header:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+//       data: ({_token: '{{csrf_token()}}', cod_venda_erp}),
+//       dataType: 'json',
+//       success: function(response){
+//         console.log(response);
+//         alert("Venda Justificada!");
+//       }
+//     })
+//   }
+// }
+// function conciliar(){
+//   let count_vendasoperadora = 0;
+//   let count_vendaserp = 0;
+//   let vendasoperadora = document.getElementsByName("vendasoperadora[]");
+//   let vendaserp = document.getElementsByName("vendaserp[]");
+//
+//   for(i=0; i<vendasoperadora.length; i++){
+//     if(vendasoperadora < 1){
+//       if(vendasoperadora[i].checked == true){
+//         console.log(vendasoperadora[i])
+//           vendasoperadora++;
+//       }
+//     }
+//   }
+// }
 
-  justificativas.forEach((justificativa) => {
-    if(document.getElementById("justErp"+justificativa.CODIGO).checked){
-      count_venda++;
+function justificar(){
+
+  let vendasoperadora = document.getElementsByName("vendasoperadora[]");
+
+  for(i=0; i<vendasoperadora.length; i++){
+    if(vendasoperadora[i].checked == true){
+      console.log(vendasoperadora[i])
+
     }
-  });
-
-  if(count_venda > 1){
-    alert("Escolha apenas uma justificativa!");
-  }else{
-
-    $.ajax({
-      url:  "{{ url('/conciliacao-justificada-vendaerp')}}",
-      type: "post",
-      header:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-      data: ({_token: '{{csrf_token()}}', cod_venda_erp}),
-      dataType: 'json',
-      success: function(response){
-        console.log(response);
-        alert("Venda Justificada!");
-      }
-    })
   }
-}
 
+  // console.log(vendasoperadora[1]);
+
+
+  // if(count_venda > 1){
+  //   alert("Escolha apenas uma justificativa!");
+  // }else{
+  //
+  //   $.ajax({
+  //     url:  "{{ url('/conciliacao-justificada-vendaerp')}}",
+  //     type: "post",
+  //     header:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+  //     data: ({_token: '{{csrf_token()}}', cod_venda_erp}),
+  //     dataType: 'json',
+  //     success: function(response){
+  //       console.log(response);
+  //       alert("Venda Justificada!");
+  //     }
+  //   })
+  // }
+}
 </script>
 @stop

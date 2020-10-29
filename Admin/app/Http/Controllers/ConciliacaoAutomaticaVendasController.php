@@ -99,10 +99,12 @@ class ConciliacaoAutomaticaVendasController extends Controller{
         $query->whereBetween('DATA_VENDA', [$data_inicial['data_inicial'], $data_final['data_final']]);
       }
     })
-    ->orderBy('DATA_VENDA')
-    ->get();
+    ->orderBy('DATA_VENDA');
 
-    return json_encode([$vendas, $vendaserp]);
+    $count_vendaserp = $vendaserp->count();
+    $vendaserpp = $vendaserp->get();
+
+    return json_encode([$vendas, $vendaserpp, $count_vendaserp]);
   }
 
   public function conciliacaoJustificadaVenda(){
@@ -131,5 +133,27 @@ class ConciliacaoAutomaticaVendasController extends Controller{
     $venda->save();
 
     return json_encode("CERTO");
+  }
+
+  public function saveConciliacao(){
+    $codigo_venda = Request::only('codigo_venda');
+    $codigo_vendaerp = Request::only('codigo_vendaerp');
+
+    $venda = VendasModel::where('CODIGO', '=', $codigo_venda['codigo_venda'])
+    ->where('COD_CLIENTE', '=', session('codigologin'))
+    ->update(['COD_STATUS_CONCILIACAO' => 6]);
+
+    $vendaerp = VendasErpModel::where('CODIGO', '=', $codigo_vendaerp['codigo_vendaerp'])
+    ->where('COD_CLIENTE', '=', session('codigologin'))
+    ->update(['COD_STATUS_CONCILIACAO' => 6]);
+    //
+    // $venda->COD_STATUS_CONCILIACAO = 6;
+    // $vendaerp->COD_STATUS_CONCILIACAO = 6;
+    //
+    // $venda->save();
+    // $vendaerp->save();
+
+    // return response()->json(200);
+    return json_encode($venda);
   }
 }
