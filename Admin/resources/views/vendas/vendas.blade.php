@@ -23,17 +23,10 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-  var success = "<?php echo session('success') ?>";
-
-  if(success){
-    $("#exampleModal").modal({
-      show: true
-    });
-  }
-
-  $(window).on('load', function(){
-    $('#preloader').fadeOut('slow');
-  });
+  //
+  // $(window).on('load', function(){
+  //   $('#preloader').fadeOut('slow');
+  // });
 });
 
 </script>
@@ -594,8 +587,7 @@ $(document).ready(function(){
 
 
         <br>
-        <div style="font-size: 13px; overflow: scroll; height: 470px">
-
+        <div style="overflow: scroll; font-size: 13px; overflow-x: scroll; height: 470px">
           <table id="jsgrid-table" class="table" style="white-space: nowrap; border: none">
 
             <thead>
@@ -941,7 +933,19 @@ $('#submitFormLogin').click(function(){
           var html = "<tr id='"+cod+"' onclick='mudaCorLinhaTable("+cod+")'>";
 
           // setTimeout(function () {
-          html +="<td>"+"<a href='{{ url('/impressao-vendas')}}"+"/"+response[0][i].COD+"' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+          // html +="<td>";
+          if(response[0][i].COD_STATUS_CONCILIACAO == 6) {
+            html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Conciliação' onclick='desfazerConciliacao(" + response[0][i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-undo-alt'></i></a>"+" "+
+            "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0][i].COD+"' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+
+          }else if(response[0][i].COD_STATUS_CONCILIACAO == 3){
+            html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Justificativa' onclick='desfazerJustificativa(" + response[0][i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-history'></i></a>"+" "+
+            "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0][i].COD+"' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+          }else{
+            html += "<td>" + "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0][i].COD+"' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+          }
+
+
           html +="<td>"+response[0][i].EMPRESA+"</td>";
           html +="<td>"+response[0][i].CNPJ+"</td>";
 
@@ -1431,6 +1435,26 @@ function mudaCorLinhaTable(codigo){
   else{
     document.getElementById(codigo).style = "background: #ffffff; color: #231F20";
   }
+}
+
+function desfazerConciliacao(codigo){
+  console.log(codigo);
+}
+
+function desfazerJustificativa(codigo){
+  console.log(codigo);
+
+  let url = "/desfazer-justificativa/" + codigo;
+
+  $.ajax({
+    url: url,
+    type: "GET",
+    dataType: "json",
+    success: function(response){
+      console.log(response);
+    }
+
+  })
 }
 
 </script>

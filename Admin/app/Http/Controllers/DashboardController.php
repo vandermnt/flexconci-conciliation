@@ -16,6 +16,10 @@ class DashboardController extends Controller{
     $projetos = DB::select($sql);
     $qtde_projetos = count($projetos);
 
+    $frase = DB::table('config_cliente')
+    ->whereNotNull('AVISO_GERAL')
+    ->first();
+
     $dados_dash_vendas = DB::table('dashboard_vendas_adquirentes')
     ->leftJoin('periodo_dash', 'dashboard_vendas_adquirentes.COD_PERIODO', 'periodo_dash.CODIGO')
     ->leftJoin('adquirentes', 'dashboard_vendas_adquirentes.COD_ADQUIRENTE', 'adquirentes.CODIGO')
@@ -116,6 +120,7 @@ class DashboardController extends Controller{
     ->with('dados_bancos', $dados_bancos)
     ->with('dados_bancos_inicial', $dados_bancos_inicial)
     ->with('dados_operadora', $dados_operadora)
+    ->with('frase', $frase)
     ->with('total_mes', $total_mes)
 
     ->with('total_banco', $total_banco)
@@ -195,7 +200,7 @@ class DashboardController extends Controller{
     ->leftJoin('lista_bancos', 'pagamentos_operadoras.COD_BANCO', 'lista_bancos.CODIGO')
     ->select('pagamentos_operadoras.*', 'pagamentos_operadoras.DATA_PAGAMENTO', 'lista_bancos.IMAGEM_LINK as IMAGEM')
     ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
-    // ->select('vendas.*', 'sum(VALOR_LIQUIDO) as val_liquido')
+    ->selectRaw('sum(VALOR_BRUTO) as val_bruto')
     ->where('pagamentos_operadoras.DATA_PAGAMENTO', $data)
     ->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'))
     ->groupBy('pagamentos_operadoras.COD_BANCO')
@@ -205,15 +210,16 @@ class DashboardController extends Controller{
     ->leftJoin('adquirentes', 'pagamentos_operadoras.COD_ADQUIRENTE', 'adquirentes.CODIGO')
     ->select('pagamentos_operadoras.*', 'pagamentos_operadoras.DATA_PAGAMENTO', 'adquirentes.IMAGEM as IMAGEMAD')
     ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
-    // ->select('vendas.*', 'sum(VALOR_LIQUIDO) as val_liquido')
+    ->selectRaw('sum(VALOR_BRUTO) as val_bruto')
     ->where('pagamentos_operadoras.DATA_PAGAMENTO', $data)
     ->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'))
     ->groupBy('pagamentos_operadoras.COD_ADQUIRENTE')
     ->get();
 
-    $dados = json_encode([$bancos, $operadoras]);
+    // echo json_encode($operadoras);
+    // $dados =
 
-    return $dados;
+    return json_encode([$bancos, $operadoras]);;
 
 
   }

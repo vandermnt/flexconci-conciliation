@@ -35,6 +35,8 @@ Route::group(['middleware' => 'auth'], function() {
   Route::get('/vendasoperadoras', 'VendasController@vendas');
   Route::match(['get', 'post'], '/vendasoperadorasfiltro', 'VendasController@buscarVendasFiltro');
   Route::get('/download', 'VendasController@downloadTable');
+  Route::get('/desfazer-justificativa/{codigo}', 'VendasController@desfazerJustificativa');
+
 
   //CONCILIAÇÃO AUTOMÁTICA
   Route::get('/conciliacao-automatica', 'ConciliacaoAutomaticaVendasController@conciliacaoAutomatica');

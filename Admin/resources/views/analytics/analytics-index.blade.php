@@ -95,7 +95,9 @@ document.addEventListener('DOMContentLoaded', function() {
     events: eventsList,
     eventClick: function(calEvent, jsEvent, view) {
       if(calEvent.event._def.extendedProps.publicId){
+        document.getElementById("preloader").style.display = "block";
         showRecebiveis(calEvent.event._def.extendedProps.publicId, calEvent.event._def.title);
+
       }
     }
 
@@ -119,6 +121,16 @@ document.addEventListener('DOMContentLoaded', function() {
   $(".fc-prev-button").append('<i class="glyphicon"...</i>')
 
   calendar.render();
+});
+
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+  $(window).on('load', function(){
+    $('#preloader').fadeOut('slow');
+  });
 });
 
 </script>
@@ -150,7 +162,13 @@ body {
         <div class="col-sm-9">
           <?php $primeiro_nome = explode(' ', Auth::user()->NOME); ?>
           <h3> Bem vindo de volta, {{$primeiro_nome[0]}}! </h3>
+          @if($frase)
+          <h6 style="color: #6E6E6E"> {{$frase->AVISO_GERAL}}  </h6>
+
+          @else
           <h6 style="color: #6E6E6E"> Comece o seu dia analisando os dados da sua empresa.  </h6>
+
+          @endif
         </div>
       </div>
 
@@ -477,6 +495,8 @@ Tooltip on bottom
   <div class="col-lg-5">
     <div class="card">
       <div class="card-body">
+        <div id="preloader" style="display: none" class="loaderDash"></div>
+
         <div class="wallet-bal-usd">
           <h4 class="wallet-title m-0">Recebimentos</h4>
           <span id="label_data_recebimento" class="text-muted font-12"><b style="color: #6E6E6E"><?php echo date("01/m/Y") ?> à <?php echo date("30/m/Y") ?></b></span>
@@ -525,7 +545,7 @@ Tooltip on bottom
                   <div class="col-1 media-body align-self-center">
                     <!-- <a style="margin-right: -60px" onclick="showTableBancoSelecionado({{$teste}})" data-toggle="tab" href="#div_banco_selecionado"><i class="thumb-lg mdi mdi-chevron-right"></i> </a> -->
                     <!-- <a data-toggle="tab" href="#div_banco_selecionado" role="tab" aria-selected="true"><i class="thumb-lg mdi mdi-chevron-right"></i></a> -->
-                    <a id="{{$bancos->CODIGO}}" data-toggle="tab" data-target="#div_banco_selecionado" onclick="showTableBancoSelecionado({{$teste}})" role="tab" aria-selected="false" style="display: block"><i class="thumb-lg mdi mdi-chevron-right"></i> </a>
+                    <a id="{{$bancos->CODIGO}}" data-toggle="tab" data-target="#div_banco_selecionado" onclick="showTableBancoSelecionadoInicial({{$teste}})" role="tab" aria-selected="false" style="display: block"><i class="thumb-lg mdi mdi-chevron-right"></i> </a>
                   </div>
                 </div>
                 <!-- <span class="badge badge-soft-pink">Bitcoin</span> -->
@@ -615,7 +635,7 @@ Tooltip on bottom
             <!-- <a data-toggle="tab" href="#div_banco_selecionado" role="tab" aria-selected="true"><i class="thumb-lg mdi mdi-chevron-right"></i></a> -->
             <?php $ad = $operadora->CODIGO ?>
 
-            <a id="{{ "operadora".$operadora->CODIGO}}" data-toggle="tab" data-target="#div_operadora_selecionada" onclick="showTableOperadoraSelecionada({{$ad}})" role="tab" aria-selected="false" style="display: block"><i class="thumb-lg mdi mdi-chevron-right"></i> </a>
+            <a id="{{ "operadora".$operadora->CODIGO}}" data-toggle="tab" data-target="#div_operadora_selecionada" onclick="showTableOperadoraSelecionadaInicial({{$ad}})" role="tab" aria-selected="false" style="display: block"><i class="thumb-lg mdi mdi-chevron-right"></i> </a>
 
           </div>        </div>
           <!-- <span class="badge badge-soft-pink">Bitcoin</span> -->
@@ -701,6 +721,8 @@ var periodo = null;
 var grafico_vendas_operadora = null;
 var grafico_vendas_modalidade = null;
 var grafico_vendas_bandeira = null;
+var bancos_dados = null
+var operadoras_dados = null;
 
 var iteration = 11
 
@@ -1323,13 +1345,16 @@ $("voltar").click(function() {
   $("div_banco_selecionado").removeClass('div_banco_selecionado');
 });
 
+$("voltar_operadora").click(function() {
+  $("div_operadora_selecionada").removeClass('div_operadora_selecionada');
+});
+
 function showTableBancoSelecionado(codigo){
   $("#table_banco_selecionado tbody").empty();
 
-  var bancos = <?php echo $dados_bancos ?>
+  var bancos = bancos_dados;
 
   var result = bancos.find(banco => banco.CODIGO == codigo);
-
 
   var val_bruto = parseInt(result.val_bruto);
   var val_liquido = parseInt(result.val_liquido);
@@ -1383,9 +1408,9 @@ function showTableBancoSelecionado(codigo){
 function showTableOperadoraSelecionada(codigo){
   $("#table_operadora_selecionado tbody").empty();
 
-  var bancos = <?php echo $dados_bancos ?>
+  var operadoras = operadoras_dados;
 
-  var result = bancos.find(banco => banco.CODIGO == codigo);
+  var result = operadoras.find(operadora => operadora.CODIGO == codigo);
 
 
   var val_bruto = parseInt(result.val_bruto);
@@ -1393,7 +1418,7 @@ function showTableOperadoraSelecionada(codigo){
   var tx = parseInt(result.TAXA_PERCENTUAL);
   var t = Number(tx).toFixed(2);
 
-
+  console.log(result);
   var html = "<tr>";
 
   html += "<td>"+"<b text-align='left'>Recebíveis Bruto:  </b>" +Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(val_bruto)+"</td>";
@@ -1461,11 +1486,11 @@ function showRecebiveis(data, title){
     type: "GET",
     dataType: 'json',
     success: function(response){
-      console.log(response);
+      console.log(response)
 
+      bancos_dados = response[0];
+      operadoras_dados = response[1];
       // $('#ul_bancos').empty();
-
-
       response[0].forEach((bancos) => {
         var html = "<li class='list-group-item align-items-center d-flex justify-content-between'>"
 
@@ -1479,9 +1504,8 @@ function showRecebiveis(data, title){
         html += "<div class='col-5 media-body align-self-center' style='margin: 0'>"
         html += "<h4 style='text-align: right; font-size: 14px; color: #257E4A'>" + Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(bancos.val_liquido) + "</h4>"
         html += "</div>"
-        <?php $teste = $bancos->CODIGO ?>
         html += "<div class='col-1 media-body align-self-center'>"
-        html += "<a id='{{$bancos->CODIGO}}' data-toggle='tab' data-target='#div_banco_selecionado' onclick='showTableBancoSelecionado({{$teste}})' role='tab' aria-selected='false' style='display: block'><i class='thumb-lg mdi mdi-chevron-right'></i> </a>"
+        html += "<a id='" + bancos.CODIGO + "' data-toggle='tab' data-target='#div_banco_selecionado' onclick='showTableBancoSelecionado(" + bancos.CODIGO + ")' role='tab' aria-selected='false' style='display: block'><i class='thumb-lg mdi mdi-chevron-right'></i> </a>"
         html += "</div>"
         html += "</div>"
         html += "</li>"
@@ -1497,9 +1521,8 @@ function showRecebiveis(data, title){
         html += "<div class='col-7 media-body align-self-center'>"
         html += "<h4 class='m-0' style='font-size: 14px; text-align:right; color: #257E4A'>" + Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(bancos.val_liquido)  + "</h4>"
         html += "</div>"
-        <?php $teste = $bancos->CODIGO ?>
         html += "<div class='col-1 media-body align-self-center'>"
-        html += "<a id='{{$bancos->CODIGO}}' data-toggle='tab' data-target='#div_banco_selecionado' onclick='showTableBancoSelecionado({{$teste}})' role='tab' aria-selected='false' style='display: block'><i class='thumb-lg mdi mdi-chevron-right'></i> </a>"
+        html += "<a id='operadora" + bancos.CODIGO + "' data-toggle='tab' data-target='#div_banco_selecionado' onclick='showTableOperadoraSelecionada(" + bancos.CODIGO + ")' role='tab' aria-selected='false' style='display: block'><i class='thumb-lg mdi mdi-chevron-right'></i> </a>"
         html += "</div>"
         html += "</div>"
         html += "</li>"
@@ -1507,26 +1530,15 @@ function showRecebiveis(data, title){
         $('#ul_operadora').append(html);
       })
 
-    // })
-  }
-})
+      // })
+    }
+  }).fail(function () {
+    alert("ErroOOOOOOOOO");
+    return;
+  });
 
-// pagamentos.forEach((banco) => {
-//   if(banco.DATA_PAGAMENTO == result.DATA_PAGAMENTO){
-//     arrayBancos.push(banco)
-//   }
-// });
+  document.getElementById("preloader").style.display = "none";
 
-
-// console.log(arrayBancos);
-// $('#ul_teste').load('/');
-
-//
-//
-// console.log(result);
-//
-// if(result){
-// }
 }
 
 function gerarPdfVendasOperadora(){
@@ -1555,6 +1567,117 @@ function gerarPdfVendasProduto(){
   var url = "{{ url('export-vendasproduto')}}" + "/" + codigo_periodo;
 
   window.location.href = url;
+}
+
+
+function showTableBancoSelecionadoInicial(codigo){
+  $("#table_banco_selecionado tbody").empty();
+
+  var bancos = <?php echo $dados_bancos ?>;
+
+  var result = bancos.find(banco => banco.CODIGO == codigo);
+
+  var val_bruto = parseInt(result.val_bruto);
+  var val_liquido = parseInt(result.val_liquido);
+  var tx = parseInt(result.TAXA_PERCENTUAL);
+  var t = Number(tx).toFixed(2);
+
+  var html = "<tr>";
+
+  html += "<td>"+"<b text-align='left'>Recebíveis Bruto:  </b>" +Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(val_bruto)+"</td>";
+
+
+  html += "</tr>";
+
+  html += "<tr>";
+
+  html += "<td style='color: red'>"+"<b style='color: black'>Taxas: </b> "+ Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(tx)+"</b>"+"</td>";
+
+
+  html += "</tr>";
+
+  html += "<tr>";
+
+  html += "<td>"+"<b> Tarifas Extras: </b>"+"</td>";
+
+
+  html += "</tr>";
+
+  html += "<tr>";
+
+
+  html += "<td>"+"<b>Valor Líquido: </b>"+ Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(val_liquido)+"</td>";
+
+  html += "</tr>";
+
+  html += "<tr>";
+
+
+  html += "<td style='background: #BDBDBD '>"+"<b>Situação de Pagamento: "+"</td>";
+
+  html += "</tr>";
+
+  $('#table_banco_selecionado').append(html);
+  document.getElementById(result.CODIGO).classList.remove('active');
+  document.getElementById("voltar").classList.remove('active');
+
+
+
+  // document.getElementById("Total").style.display = "block";
+}
+
+function showTableOperadoraSelecionadaInicial(codigo){
+  $("#table_operadora_selecionado tbody").empty();
+
+  var operadoras = <?php echo $dados_operadora ?>;
+
+  var result = operadoras.find(operadora => operadora.CODIGO == codigo);
+
+
+  var val_bruto = parseInt(result.val_bruto);
+  var val_liquido = parseInt(result.val_liquido);
+  var tx = parseInt(result.TAXA_PERCENTUAL);
+  var t = Number(tx).toFixed(2);
+
+  console.log(result);
+  var html = "<tr>";
+
+  html += "<td>"+"<b text-align='left'>Recebíveis Bruto:  </b>" +Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(val_bruto)+"</td>";
+
+
+  html += "</tr>";
+
+  html += "<tr>";
+
+  html += "<td style='color: red'>"+"<b style='color: black'>Taxas: </b> "+ Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(tx)+"</b>"+"</td>";
+
+
+  html += "</tr>";
+
+  html += "<tr>";
+
+  html += "<td>"+"<b> Tarifas Extras: </b>"+"</td>";
+
+
+  html += "</tr>";
+
+  html += "<tr>";
+
+
+  html += "<td>"+"<b>Valor Líquido: </b>"+ Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(val_liquido)+"</td>";
+
+  html += "</tr>";
+
+  html += "<tr>";
+
+
+  html += "<td style='background: #BDBDBD '>"+"<b>Situação de Pagamento: "+"</td>";
+
+  html += "</tr>";
+
+  $('#table_operadora_selecionado').append(html);
+  document.getElementById("operadora"+result.CODIGO).classList.remove('active');
+  document.getElementById("voltar_operadora").classList.remove('active');
 }
 
 </script>

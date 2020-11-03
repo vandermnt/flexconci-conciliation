@@ -73,8 +73,9 @@ class ConciliacaoAutomaticaVendasController extends Controller{
     $vendaserp = DB::table('vendas_erp')
     ->join('modalidade', 'vendas_erp.COD_MODALIDADE', '=', 'modalidade.CODIGO')
     ->leftJoin('produto_web', 'vendas_erp.COD_PRODUTO', '=', 'produto_web.CODIGO')
+    ->leftJoin('status_conciliacao', 'vendas_erp.COD_STATUS_CONCILIACAO', '=', 'status_conciliacao.CODIGO')
     ->leftJoin('meio_captura', 'vendas_erp.COD_MEIO_CAPTURA', '=', 'meio_captura.CODIGO')
-    ->select('vendas_erp.*', 'vendas_erp.CODIGO as COD', 'modalidade.DESCRICAO', 'produto_web.PRODUTO_WEB', 'meio_captura.DESCRICAO as MEIOCAPTURA')
+    ->select('vendas_erp.*', 'vendas_erp.CODIGO as COD', 'status_conciliacao.STATUS_CONCILIACAO', 'modalidade.DESCRICAO', 'produto_web.PRODUTO_WEB', 'meio_captura.DESCRICAO as MEIOCAPTURA')
     ->where('vendas_erp.COD_CLIENTE', '=', session('codigologin'))
     ->where(function($query) {
       if(Request::only('arrayStatusConciliacao') != null){
@@ -156,4 +157,5 @@ class ConciliacaoAutomaticaVendasController extends Controller{
     // return response()->json(200);
     return json_encode($venda);
   }
+
 }

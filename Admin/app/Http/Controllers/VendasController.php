@@ -66,7 +66,7 @@ class VendasController extends Controller{
     ->leftJoin('status_financeiro', 'vendas.COD_STATUS_FINANCEIRO', '=', 'status_financeiro.CODIGO')
     ->leftJoin('produto_web', 'vendas.COD_PRODUTO', '=', 'produto_web.CODIGO')
     ->leftJoin('meio_captura', 'vendas.COD_MEIO_CAPTURA', '=', 'meio_captura.CODIGO')
-    ->select('vendas.*', 'vendas.CODIGO as COD', 'modalidade.*', 'produto_web.*',
+    ->select('vendas.*', 'vendas.CODIGO as COD', 'modalidade.DESCRICAO as DESCRICAO', 'produto_web.PRODUTO_WEB',
     'lista_bancos.BANCO', 'meio_captura.DESCRICAO as MEIOCAPTURA',
      'adquirentes.IMAGEM as IMAGEMAD', 'bandeira.IMAGEM as IMAGEMBAD',
      'status_conciliacao.STATUS_CONCILIACAO as status_conc', 'status_financeiro.STATUS_FINANCEIRO as status_finan')
@@ -465,5 +465,16 @@ class VendasController extends Controller{
 
 
     // return view('vendas.vendas-impressao')->with('venda', $venda);
+  }
+
+  public function desfazerJustificativa($codigo){
+
+    $justificativa = VendasModel::find($codigo);
+
+    $justificativa->COD_STATUS_CONCILIACAO = 2;
+
+    $justificativa->save();
+
+    return json_encode($justificativa);
   }
 }

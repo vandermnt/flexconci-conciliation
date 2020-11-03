@@ -199,18 +199,18 @@ $(document).ready(function(){
 
         <div class="row">
           <div class="col-sm-2">
-            <div class="card report-card"  style="width: 180px">
-              <div class="card-body">
+            <div class="card report-card"  style="width: 180px; height: 70px;">
+              <div class="card-body" style="padding: 10px 10px">
                 <div class="row d-flex justify-content-center">
                   <div class="col-12" style="text-align: center">
-                    <p class="text-dark font-weight-semibold font-12">VENDAS ERP</p>
+                    <p class="text-dark font-weight-semibold font-12" style="margin-bottom: 5px">VENDAS ERP</p>
                     <div class="row">
-                      <div class="col-6">
-                        <h4 id="total_registros_vendaserp">0</h4>
+                      <div class="col-7">
+                        <h4 style="font-size: 12px" id="total_registros_vendaserp">0</h4>
 
                       </div>
-                      <div class="col-6">
-                        <img style="width: 40px;" src="{{ url('assets/images/conciliacao/vendaserp.png')}}" alt="">
+                      <div class="col-3">
+                        <img style="width: 25px;" src="{{ url('assets/images/conciliacao/vendaserp.png')}}" alt="">
 
                       </div>
 
@@ -223,18 +223,18 @@ $(document).ready(function(){
             </div><!--end card-->
           </div> <!--end col-->
           <div class="col-sm-2">
-            <div class="card report-card"  style="width: 180px">
-              <div class="card-body">
+            <div class="card report-card"  style="width: 180px; height: 70px;">
+              <div class="card-body" style="padding: 10px 10px">
                 <div class="row d-flex justify-content-center">
                   <div class="col-12" style="text-align: center">
-                    <p class="text-dark font-weight-semibold font-12">CONCILIADO</p>
+                    <p class="text-dark font-weight-semibold font-12" style="margin-bottom: 5px">CONCILIADO</p>
                     <div class="row">
-                      <div class="col-6">
-                        <h4 id="total_registros_conciliado">0</h4>
+                      <div class="col-9">
+                        <h4 style="font-size: 12px" id="total_registros_conciliado">0</h4>
 
                       </div>
-                      <div class="col-6">
-                        <img style="width: 40px;" src="{{ url('assets/images/conciliacao/conciliado.png')}}" alt="">
+                      <div class="col-3">
+                        <img style="width: 25px;" src="{{ url('assets/images/conciliacao/conciliado.png')}}" alt="">
 
                       </div>
 
@@ -247,18 +247,18 @@ $(document).ready(function(){
             </div><!--end card-->
           </div> <!--end col-->
           <div class="col-1">
-            <div class="card report-card"  style="width: 180px">
-              <div class="card-body">
+            <div class="card report-card"  style="width: 180px; height: 70px">
+              <div class="card-body" style="padding: 10px 10px">
                 <div class="row d-flex justify-content-center">
                   <div class="col-12" style="text-align: center">
-                    <p class="text-dark font-weight-semibold font-12">DIVERGENTE</p>
+                    <p class="text-dark font-weight-semibold font-12" style="margin-bottom: 5px">DIVERGENTE</p>
                     <div class="row">
                       <div class="col-9">
                         <h6 style="font-size: 12px" id="total_registros_divergente">R$ 12.500.000,15</h6>
 
                       </div>
                       <div class="col-3">
-                        <img style="width: 30px;" src="{{ url('assets/images/conciliacao/conciliadodiv.png')}}" alt="">
+                        <img style="width: 25px;" src="{{ url('assets/images/conciliacao/conciliadodiv.png')}}" alt="">
 
                       </div>
 
@@ -275,18 +275,18 @@ $(document).ready(function(){
             </div><!--end card-->
           </div> <!--end col-->
           <div class="col-1">
-            <div class="card report-card"  style="width: 180px">
-              <div class="card-body">
+            <div class="card report-card"  style="width: 180px; height: 70px">
+              <div class="card-body" style="padding: 10px 10px">
                 <div class="row d-flex justify-content-center">
                   <div class="col-12" style="text-align: center">
-                    <p class="text-dark font-weight-semibold font-12">CONC. MANUAL</p>
+                    <p class="text-dark font-weight-semibold font-12" style="margin-bottom: 5px">CONC. MANUAL</p>
                     <div class="row">
-                      <div class="col-8">
-                        <h6 id="total_registros_conciliado_manual">R$ 15.000,15</h6>
+                      <div class="col-9">
+                        <h6 style="font-size: 12px" id="total_registros_conciliado_manual">R$ 15.000,15</h6>
 
                       </div>
-                      <div class="col-4">
-                        <img style="width: 30px;" src="{{ url('assets/images/conciliacao/conciliadomanualmente.png')}}" alt="">
+                      <div class="col-3">
+                        <img style="width: 25px;" src="{{ url('assets/images/conciliacao/conciliadomanualmente.png')}}" alt="">
 
                       </div>
 
@@ -299,18 +299,18 @@ $(document).ready(function(){
             </div><!--end card-->
           </div> <!--end col-->
           <div class="col-1">
-            <div class="card report-card" style="width: 180px">
-              <div class="card-body">
+            <div class="card report-card" style="width: 180px; height: 70px">
+              <div class="card-body" style="padding: 10px 10px">
                 <div class="row d-flex justify-content-center">
                   <div class="col-12" style="text-align: center">
-                    <p class="text-dark font-weight-semibold font-12">JUSTIFICADO</p>
+                    <p class="text-dark font-weight-semibold font-12" style="margin-bottom: 5px">JUSTIFICADO</p>
                     <div class="row">
-                      <div class="col-6">
-                        <h6 id="total_registros_justificado">R$ 15.000,15</h6>
+                      <div class="col-9">
+                        <h6 style="font-size: 12px" id="total_registros_justificado">R$ 15.000,15</h6>
 
                       </div>
-                      <div class="col-6">
-                        <img style="width: 30px;" src="{{ url('assets/images/conciliacao/justificado.png')}}" alt="">
+                      <div class="col-3">
+                        <img style="width: 25px;" src="{{ url('assets/images/conciliacao/justificado.png')}}" alt="">
 
                       </div>
 
@@ -322,18 +322,18 @@ $(document).ready(function(){
             </div><!--end card-->
           </div> <!--end col-->
           <div class="col-1">
-            <div class="card report-card" style="width: 180px">
-              <div class="card-body">
+            <div class="card report-card" style="width: 180px; height: 70px;">
+              <div class="card-body" style="padding: 10px 10px">
                 <div class="row d-flex justify-content-center">
                   <div class="col-12" style="text-align: center">
-                    <p class="text-dark font-weight-semibold font-12">PENDÊNCIAS ERP</p>
+                    <p class="text-dark font-weight-semibold font-12" style="margin-bottom: 5px">PENDÊNCIAS ERP</p>
                     <div class="row">
-                      <div class="col-6">
-                        <h6 id="total_registros">R$ 15.000,15</h6>
+                      <div class="col-9">
+                        <h6 style="font-size: 12px" id="total_registros">R$ 15.000,15</h6>
 
                       </div>
-                      <div class="col-6">
-                        <img style="width: 30px;" src="{{ url('assets/images/conciliacao/vendaserpnotconc.png')}}" alt="">
+                      <div class="col-3">
+                        <img style="width: 25px;" src="{{ url('assets/images/conciliacao/vendaserpnotconc.png')}}" alt="">
 
                       </div>
 
@@ -345,18 +345,18 @@ $(document).ready(function(){
             </div><!--end card-->
           </div> <!--end col-->
           <div class="col-1">
-            <div class="card report-card" style="width: 180px">
-              <div class="card-body">
+            <div class="card report-card" style="width: 180px; height: 70px;">
+              <div class="card-body" style="padding: 10px 10px">
                 <div class="row d-flex justify-content-center">
                   <div class="col-12" style="text-align: center">
-                    <p class="text-dark font-weight-semibold font-12">PENDÊNCIAS OPER.</p>
+                    <p class="text-dark font-weight-semibold font-12" style="margin-bottom: 5px">PENDÊNCIAS OPER.</p>
                     <div class="row">
-                      <div class="col-6">
-                        <h6 id="total_registros">R$ 15.000,15</h6>
+                      <div class="col-9">
+                        <h6 style="font-size: 12px" id="total_registros">R$ 15.000,15</h6>
 
                       </div>
-                      <div class="col-6">
-                        <img style="width: 30px;" src="{{ url('assets/images/conciliacao/vendasoperadoranotconc.png')}}" alt="">
+                      <div class="col-3">
+                        <img style="width: 25px;" src="{{ url('assets/images/conciliacao/vendasoperadoranotconc.png')}}" alt="">
 
                       </div>
 
@@ -370,8 +370,6 @@ $(document).ready(function(){
 
         </div>
 
-
-        <br>
 
         <div class="row">
           <div class="col-sm-4">
@@ -380,16 +378,16 @@ $(document).ready(function(){
           </div>
           <div class="col-sm-8">
             <div id="btfiltro" style="margin-top: -4px; display:block; text-align: right">
-              <a id="" onclick="conciliar()" style="align-items: right; background: #2D5275; color: white; border-color: #2D5275" class="btn btn-sm"> <b>Conciliar</b>  </a>
-              <a id="" onclick="justificar()" style="align-items: right; background: #2D5275; color: white; border-color: #2D5275" class="btn btn-sm"> <b>Justificar</b>  </a>
-              <a id="" onclick="" style="align-items: right; background: #2D5275; color: white; border-color: #2D5275" class="btn btn-sm"> <b>Desfazer Conciliação</b>  </a>
-              <a id="" onclick="" style="align-items: right; background: #2D5275; color: white; border-color: #2D5275" class="btn btn-sm"> <b>Desfazer Justificativa</b>  </a>
-              <a id="" onclick="" style="align-items: right; background: #2D5275; color: white; border-color: #2D5275" class="btn btn-sm"> <b>Exportar</b>  </a>
+              <a id="" onclick="conciliar()" style="align-items: right; background: white; color: #2D5275; border-color: #2D5275" class="btn btn-sm"> <b>Conciliar</b>  </a>
+              <a id="" onclick="justificar()" style="align-items: right; background: white; color: #2D5275; border-color: #2D5275" class="btn btn-sm"> <b>Justificar</b>  </a>
+              <!-- <a id="" onclick="" style="align-items: right; background: #2D5275; color: white; border-color: #2D5275" class="btn btn-sm"> <b>Desfazer Conciliação</b>  </a> -->
+              <!-- <a id="" onclick="" style="align-items: right; background: #2D5275; color: white; border-color: #2D5275" class="btn btn-sm"> <b>Desfazer Justificativa</b>  </a> -->
+              <a id="" onclick="exportTableXls('jsgrid-table-erp')" style="align-items: right; background: white; color: #2D5275; border-color: #2D5275" class="btn btn-sm"> <b>Exportar</b>  </a>
             </div>
           </div>
         </div>
 
-        <div style="overflow: scroll; font-size: 13px; overflow-x: scroll; max-height: 270px">
+        <div style="overflow: scroll; font-size: 13px; overflow-x: scroll; max-height: 200px">
 
           <!-- <div style="font-size: 13px; overflow-y: auto; max-height: 270px"> -->
           <table id="jsgrid-table-erp" class="table " style="white-space: nowrap; background:white; color: #2D5275">
@@ -404,8 +402,9 @@ $(document).ready(function(){
               <th> Líq. Parcela </th>
               <th> Descrição ERP </th>
               <th> Cod. Autorização </th>
-              <th> ID. Venda Cliente  </th>
+              <th> ID. ERP  </th>
               <th> Meio de Captura  </th>
+              <th> Status Conciliação  </th>
             </tr>
             <tbody>
             </tbody>
@@ -421,11 +420,11 @@ $(document).ready(function(){
 
           <div class="col-sm-4">
             <div id="btfiltro" style="margin-top: -4px; display:block; text-align: right">
-              <a id="" onclick="" style="align-items: right; background: #2D5275; color: white; border-color: #2D5275" class="btn btn-sm"> <b>Exportar</b>  </a>
+              <a id="" onclick="exportTableXls('jsgrid-table')"  style="align-items: right; background: white; color: #2D5275; border-color: #2D5275" class="btn btn-sm"> <b>Exportar</b>  </a>
             </div>
           </div>
         </div>
-        <div style="overflow: scroll; font-size: 13px; overflow-x: scroll; max-height: 270px">
+        <div style="overflow: scroll; font-size: 13px; overflow-x: scroll; max-height: 200px">
           <table id="jsgrid-table" class="table " style="white-space: nowrap; background:white; color: #2D5275">
 
             <thead>
@@ -462,7 +461,7 @@ $(document).ready(function(){
             </table>
           </div>
           <br>
-          <button type="button" onclick="conciliar()" style="background: #2D5275; box-shadow: none" class="btn btn-primary btn-lg btn-block"><b>Conciliar</b></button>
+          <!-- <button type="button" onclick="conciliar()" style="background: #2D5275; box-shadow: none" class="btn btn-primary btn-lg btn-block"><b>Conciliar</b></button> -->
 
         </div>
 
@@ -795,6 +794,8 @@ $('#submitFormLogin').click(function(){
           html_erp +="<td>"+response[1][i].CODIGO_AUTORIZACAO+"</td>";
           html_erp +="<td>"+response[1][i].IDENTIFICADOR_PAGAMENTO+"</td>";
           html_erp +="<td>"+response[1][i].MEIOCAPTURA+"</td>";
+          html_erp +="<td>"+response[1][i].STATUS_CONCILIACAO+"</td>";
+
           // html_erp +="<td>"+"<a type='button' onclick='saveIdVendaErp("+response[1][i].CODIGO+")' class='btn btn-success' data-toggle='modal' data-target='#modal_justificativas_erp'>" + "<b>"+'Justificar'+"</b>" +"</a>"+"</td>";
 
 
@@ -1233,26 +1234,36 @@ function justificar(){
 
     }
   }
+}
 
-  // console.log(vendasoperadora[1]);
 
-
-  // if(count_venda > 1){
-  //   alert("Escolha apenas uma justificativa!");
-  // }else{
-  //
-  //   $.ajax({
-  //     url:  "{{ url('/conciliacao-justificada-vendaerp')}}",
-  //     type: "post",
-  //     header:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-  //     data: ({_token: '{{csrf_token()}}', cod_venda_erp}),
-  //     dataType: 'json',
-  //     success: function(response){
-  //       console.log(response);
-  //       alert("Venda Justificada!");
-  //     }
-  //   })
-  // }
+  function exportTableXls(table_id) {
+    // Select rows from table_id
+    var rows = document.querySelectorAll('table#' + table_id + ' tr');
+    // Construct csv
+    var csv = [];
+    for (var i = 0; i < rows.length; i++) {
+      var row = [], cols = rows[i].querySelectorAll('td, th');
+      for (var j = 0; j < cols.length; j++) {
+        // Clean innertext to remove multiple spaces and jumpline (break csv)
+        var data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ')
+        // Escape double-quote with double-double-quote (see https://stackoverflow.com/questions/17808511/properly-escape-a-double-quote-in-csv)
+        data = data.replace(/"/g, '""');
+        // Push escaped string
+        row.push('"' + data + '"');
+      }
+      csv.push(row.join(';'));
+    }
+    var csv_string = csv.join('\n');
+    // Download it
+    var filename = 'export_' + 'conciflex' + '_' + new Date().toLocaleDateString() + '.xls';
+    var link = document.createElement('a');
+    link.style.display = 'none';
+    link.setAttribute('target', '_blank');
+    link.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv_string));
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
 }
 </script>
 @stop
