@@ -1034,7 +1034,6 @@ function trocaPeriodo(cod_periodo, tipo){
         totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
         totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
         dados_grafico.push(dados_dash);
-
         document.getElementById("dropdownMenuButton").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
       }
     })
@@ -1356,11 +1355,11 @@ function showTableBancoSelecionado(codigo){
 
   var result = bancos.find(banco => banco.CODIGO == codigo);
 
-  var val_bruto = parseInt(result.val_bruto);
-  var val_liquido = parseInt(result.val_liquido);
+  var val_bruto = parseFloat(result.val_bruto);
+  var val_liquido = parseFloat(result.val_liquido);
   var tx = parseInt(result.TAXA_PERCENTUAL);
   var t = Number(tx).toFixed(2);
-
+  console.log(result);
   var html = "<tr>";
 
   html += "<td>"+"<b text-align='left'>Recebíveis Bruto:  </b>" +Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(val_bruto)+"</td>";
@@ -1576,11 +1575,11 @@ function showTableBancoSelecionadoInicial(codigo){
   var bancos = <?php echo $dados_bancos ?>;
 
   var result = bancos.find(banco => banco.CODIGO == codigo);
-
   var val_bruto = parseInt(result.val_bruto);
   var val_liquido = parseInt(result.val_liquido);
   var tx = parseInt(result.TAXA_PERCENTUAL);
   var t = Number(tx).toFixed(2);
+  console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
 
   var html = "<tr>";
 

@@ -382,29 +382,29 @@ $(document).ready(function(){
               <a id="" onclick="justificar()" style="align-items: right; background: white; color: #2D5275; border-color: #2D5275" class="btn btn-sm"> <b>Justificar</b>  </a>
               <!-- <a id="" onclick="" style="align-items: right; background: #2D5275; color: white; border-color: #2D5275" class="btn btn-sm"> <b>Desfazer Conciliação</b>  </a> -->
               <!-- <a id="" onclick="" style="align-items: right; background: #2D5275; color: white; border-color: #2D5275" class="btn btn-sm"> <b>Desfazer Justificativa</b>  </a> -->
-              <a id="" onclick="exportTableXls('jsgrid-table-erp')" style="align-items: right; background: white; color: #2D5275; border-color: #2D5275" class="btn btn-sm"> <b>Exportar</b>  </a>
+              <a id="btnExport" onclick="fnExcelReport(this)" style="align-items: right; background: white; color: #2D5275; border-color: #2D5275" class="btn btn-sm"> <b>Exportar</b>  </a>
             </div>
           </div>
         </div>
 
-        <div style="overflow: scroll; font-size: 13px; overflow-x: scroll; max-height: 200px">
+        <div id="erp" style="overflow: scroll; font-size: 13px; overflow-x: scroll; max-height: 200px">
 
           <!-- <div style="font-size: 13px; overflow-y: auto; max-height: 270px"> -->
           <table id="jsgrid-table-erp" class="table " style="white-space: nowrap; background:white; color: #2D5275">
             <tr style="background: #2D5275;">
               <th>  </th>
-              <th> Data Venda  </th>
-              <th> Previs. PGT  </th>
-              <th> NSU  </th>
-              <th> Total Venda </th>
-              <th> Nº Parcela </th>
-              <th> Total Parcela </th>
-              <th> Líq. Parcela </th>
-              <th> Descrição ERP </th>
-              <th> Cod. Autorização </th>
-              <th> ID. ERP  </th>
-              <th> Meio de Captura  </th>
-              <th> Status Conciliação  </th>
+              <th> Data Venda  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"> </th>
+              <th> Previs. PGT  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"> </th>
+              <th> NSU  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"> </th>
+              <th> Total Venda <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"> </th>
+              <th> Nº Parcela <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"> </th>
+              <th> Total Parcela <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"> </th>
+              <th> Líq. Parcela <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"> </th>
+              <th> Descrição ERP <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"> </th>
+              <th> Cod. Autorização <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"> </th>
+              <th> ID. ERP  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"> </th>
+              <th> Meio de Captura  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"> </th>
+              <th> Status Conciliação  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"> </th>
             </tr>
             <tbody>
             </tbody>
@@ -415,7 +415,7 @@ $(document).ready(function(){
 
         <div class="row">
           <div class="col-sm-8">
-            <h4> Vendas </h4>
+            <h4> Pendências Operadoras </h4>
           </div>
 
           <div class="col-sm-4">
@@ -430,31 +430,31 @@ $(document).ready(function(){
             <thead>
               <tr style="background: #2D5275;">
                 <th>  </th>
-                <th> Empresa </th>
-                <th> CNPJ  </th>
-                <th> Operadora </th>
-                <th> Dt.Venda </th>
-                <th> Dt.Prevista </th>
-                <th> Bandeira </th>
-                <th> Forma de Pagamento </th>
-                <th> NSU</th>
-                <th> Autorização</th>
-                <th> Cartão </th>
-                <th> Valor Bruto</th>
-                <th> Taxa % </th>
-                <th> Taxa R$</th>
-                <th> Outras Tarifas </th>
-                <th> Valor Líquido </th>
-                <th> Parcela</th>
-                <th> Total Parc.</th>
-                <th> Hora</th>
-                <th> Estabelecimento </th>
-                <th> Banco </th>
-                <th> Agência </th>
-                <th> Conta</th>
-                <th> Observação</th>
-                <th> Produto </th>
-                <th> Meio de Captura </th>
+                <th> Empresa  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
+                <th> CNPJ   <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
+                <th> Operadora  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
+                <th> Dt.Venda  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
+                <th> Dt.Prevista  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
+                <th> Bandeira  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
+                <th> Forma de Pagamento  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
+                <th> NSU <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
+                <th> Autorização <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
+                <th> Cartão  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
+                <th> Valor Bruto <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
+                <th> Taxa %  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
+                <th> Taxa R$ <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
+                <th> Outras Tarifas  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
+                <th> Valor Líquido  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
+                <th> Parcela <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
+                <th> Total Parc. <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
+                <th> Hora <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
+                <th> Estabelecimento  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
+                <th> Banco  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
+                <th> Agência  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
+                <th> Conta <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
+                <th> Observação <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
+                <th> Produto  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
+                <th> Meio de Captura  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
               </tr>
               <tbody>
               </tbody>
@@ -1237,33 +1237,12 @@ function justificar(){
 }
 
 
-  function exportTableXls(table_id) {
-    // Select rows from table_id
-    var rows = document.querySelectorAll('table#' + table_id + ' tr');
-    // Construct csv
-    var csv = [];
-    for (var i = 0; i < rows.length; i++) {
-      var row = [], cols = rows[i].querySelectorAll('td, th');
-      for (var j = 0; j < cols.length; j++) {
-        // Clean innertext to remove multiple spaces and jumpline (break csv)
-        var data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ')
-        // Escape double-quote with double-double-quote (see https://stackoverflow.com/questions/17808511/properly-escape-a-double-quote-in-csv)
-        data = data.replace(/"/g, '""');
-        // Push escaped string
-        row.push('"' + data + '"');
-      }
-      csv.push(row.join(';'));
-    }
-    var csv_string = csv.join('\n');
-    // Download it
-    var filename = 'export_' + 'conciflex' + '_' + new Date().toLocaleDateString() + '.xls';
-    var link = document.createElement('a');
-    link.style.display = 'none';
-    link.setAttribute('target', '_blank');
-    link.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv_string));
-    link.setAttribute('download', filename);
-    document.body.appendChild(link);
-    link.click();
-}
+$("#btnExport").click(function () {
+           $("#jsgrid-table-erp").btechco_excelexport({
+               containerid: "jsgrid-table-erp",
+               datatype: $datatype.Table,
+               filename: 'sample',
+           });
+       });
 </script>
 @stop

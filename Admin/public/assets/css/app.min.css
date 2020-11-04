@@ -3754,10 +3754,10 @@ border-color: #eaf0f7;
   /* position: sticky; */
 
   /* text-align: center; */
-  box-shadow: 0 -8px 0 0px ; /* Aqui seria branco */
-
+  box-shadow: 0 -8px 0 0px ;
   position: sticky;
   top: 0;
+  border: none;
   /* background: #2D5275; */
 }
 

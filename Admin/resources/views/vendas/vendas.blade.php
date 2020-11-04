@@ -298,7 +298,7 @@ $(document).ready(function(){
                     <h6> Pesquisar </h6>
                   </div>
                   <div class="col-sm-12">
-                    <input id="ft" style="margin-top: -6px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" onKeyDown="filtroNomeAdquirente({{$adquirentes}})">
+                    <input id="inputAdq" style="margin-top: -6px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" onKeyDown="filtroNomeAdquirente({{$adquirentes}})">
                   </div>
 
                 </div><br>
@@ -317,7 +317,7 @@ $(document).ready(function(){
                     <p>{{ $adquirente->ADQUIRENTE }}</p>
                   </div>
 
-                  <div id="{{ "divCod".$bandeira->CODIGO }}" style="display:block" class="col-sm-2">
+                  <div id="{{ "divAdq".$adquirente->CODIGO }}" style="display:block" class="col-sm-2">
                     <input id="{{ $adquirente->CODIGO }}" value="{{ $adquirente->ADQUIRENTE }}" name="arrayAdquirentes[]" type="checkbox">
                   </div>
                   <hr>
@@ -348,7 +348,7 @@ $(document).ready(function(){
                     <h6> Pesquisar </h6>
                   </div>
                   <div class="col-sm-12">
-                    <input id="ft" style="margin-top: -6px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" onKeyDown="filtroNomeBandeira({{$bandeiras}})">
+                    <input id="inputBad" style="margin-top: -6px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" onKeyDown="filtroNomeBandeira({{$bandeiras}})">
                   </div>
 
                 </div><br>
@@ -368,7 +368,7 @@ $(document).ready(function(){
                     <p>{{ $bandeira->BANDEIRA }}</p>
                   </div>
 
-                  <div id="{{ "divCod".$bandeira->CODIGO }}" style="display:block" class="col-sm-2">
+                  <div id="{{ "divBad".$bandeira->CODIGO }}" style="display:block" class="col-sm-2">
                     <input id="{{ $bandeira->CODIGO }}" value="{{ $bandeira->CODIGO }}" name="arrayBandeira[]" type="checkbox">
                   </div>
                   <hr>
@@ -450,7 +450,7 @@ $(document).ready(function(){
                     <h6> Pesquisar </h6>
                   </div>
                   <div class="col-sm-12">
-                    <input id="ftMeioCaptura" style="margin-top: -6px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" onKeyDown="filtroMeioCaptura({{$meio_captura}})">
+                    <input id="inputMeioCaptura" style="margin-top: -6px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" onKeyDown="filtroMeioCaptura({{$meio_captura}})">
                   </div>
 
                 </div> <br>
@@ -469,7 +469,7 @@ $(document).ready(function(){
                   <div id="{{ $meio->DESCRICAO }}" style="display:block" class="col-sm-10">
                     <p>{{ $meio->DESCRICAO }}</p>
                   </div>
-                  <div id="{{ "divCod".$meio->CODIGO }}" style="display:block" class="col-sm-2">
+                  <div id="{{ "divMCap".$meio->CODIGO }}" style="display:block" class="col-sm-2">
                     <input id="{{ "inputMeioCap".$meio->CODIGO }}" value="{{ $meio->CODIGO }}" name="arrayMeioCaptura[]" type="checkbox">
                   </div>
                   <hr>
@@ -593,33 +593,33 @@ $(document).ready(function(){
             <thead>
               <tr style="border-top: none">
                 <th> Detalhes </th>
-                <th> Empresa  <br> <input style="max-width: 135px; margin: 0"></th>
-                <th> CNPJ  <br> <input style="max-width: 135px; margin: 0"> </th>
-                <th> Operadora<br> <input style="max-width: 135px; margin: 0"> </th>
-                <th> Dt.Venda  <br> <input style="max-width: 135px; margin: 0"></th>
-                <th> Dt.Prevista <br> <input style="max-width: 135px; margin: 0"> </th>
-                <th> Bandeira<br> <input style="max-width: 135px; margin: 0"> </th>
-                <th> Forma de Pagamento<br> <input style="max-width: 135px; margin: 0"> </th>
-                <th> NSU <br> <input style="max-width: 135px; margin: 0"></th>
-                <th> Autorização <br> <input style="max-width: 135px; margin: 0"></th>
-                <th> Cartão<br> <input style="max-width: 135px; margin: 0"> </th>
-                <th> Valor Bruto <br> <input style="max-width: 135px; margin: 0"></th>
-                <th> Taxa %  <br> <input style="max-width: 135px; margin: 0"></th>
-                <th> Taxa R$ <br> <input style="max-width: 135px; margin: 0"></th>
-                <th> Outras Tarifas<br> <input style="max-width: 135px; margin: 0"> </th>
-                <th> Valor Líquido <br> <input style="max-width: 135px; margin: 0"> </th>
-                <th> Parcela <br> <input style="max-width: 135px; margin: 0"></th>
-                <th> Total Parc. <br> <input style="max-width: 135px; margin: 0"></th>
-                <th> Hora <br> <input style="max-width: 135px; margin: 0"></th>
-                <th> Estabelecimento<br> <input style="max-width: 135px; margin: 0"> </th>
-                <th> Banco<br> <input style="max-width: 135px; margin: 0"> </th>
-                <th> Agência<br> <input style="max-width: 135px; margin: 0"> </th>
-                <th> Conta <br> <input style="max-width: 135px; margin: 0"></th>
-                <th> Observação <br> <input style="min-width: 135px; margin: 0"></th>
-                <th> Produto<br> <input style="max-width: 135px; margin: 0"> </th>
-                <th> Meio de Captura<br> <input style="max-width: 135px; margin: 0"> </th>
-                <th> Status Conciliação<br> <input style="max-width: 135px; margin: 0"> </th>
-                <th> Status Financeiro<br> <input style="max-width: 135px; margin: 0"> </th>
+                <th> Empresa  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
+                <th> CNPJ  <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
+                <th> Operadora<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
+                <th> Dt.Venda  <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"></th>
+                <th> Dt.Prevista <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
+                <th> Bandeira<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
+                <th> Forma de Pagamento<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
+                <th> NSU <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"></th>
+                <th> Autorização <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"></th>
+                <th> Cartão<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
+                <th> Valor Bruto <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"></th>
+                <th> Taxa %  <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"></th>
+                <th> Taxa R$ <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"></th>
+                <th> Outras Tarifas<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
+                <th> Valor Líquido <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
+                <th> Parcela <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"></th>
+                <th> Total Parc. <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"></th>
+                <th> Hora <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"></th>
+                <th> Estabelecimento<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
+                <th> Banco<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
+                <th> Agência<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
+                <th> Conta <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"></th>
+                <th> Observação <br> <input style="min-width: 135px;height: 30px; margin-top: 12px;"></th>
+                <th> Produto<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
+                <th> Meio de Captura<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
+                <th> Status Conciliação<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
+                <th> Status Financeiro<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
 
               </tr>
 
@@ -936,13 +936,13 @@ $('#submitFormLogin').click(function(){
           // html +="<td>";
           if(response[0][i].COD_STATUS_CONCILIACAO == 6) {
             html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Conciliação' onclick='desfazerConciliacao(" + response[0][i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-undo-alt'></i></a>"+" "+
-            "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0][i].COD+"' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+            "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0][i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
 
           }else if(response[0][i].COD_STATUS_CONCILIACAO == 3){
             html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Justificativa' onclick='desfazerJustificativa(" + response[0][i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-history'></i></a>"+" "+
-            "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0][i].COD+"' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+            "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0][i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
           }else{
-            html += "<td>" + "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0][i].COD+"' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+            html += "<td>" + "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0][i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
           }
 
 
@@ -950,13 +950,13 @@ $('#submitFormLogin').click(function(){
           html +="<td>"+response[0][i].CNPJ+"</td>";
 
           // html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' id='cartao'/>"+"</td>";
-          html +="<td>"+"<img src='"+response[0][i].IMAGEMAD+"' style='width: 60px'/>"+"</td>";
+          html +="<td>"+"<img src='"+response[0][i].IMAGEMAD+"' style='width: 30px'/>"+ " " + response[0][i].ADQUIRENTE + "</td>";
           html +="<td>"+data_venda+"</td>";
           html +="<td>"+data_prev_pag+"</td>";
           if(response[0][i].IMAGEMBAD == null){
-            html +="<td>"+"<img src='assets/images/iconCart.jpeg' style='width: 40px'/>"+"</td>";
+            html +="<td>"+"<img src='assets/images/iconCart.jpeg' style='width: 30px'/>"+"</td>";
           }else{
-            html +="<td>"+"<img src='"+response[0][i].IMAGEMBAD+"' style='width: 40px'/>"+"</td>";
+            html +="<td>"+"<img src='"+response[0][i].IMAGEMBAD+"' style='width: 30px'/>"+ " " + response[0][i].BANDEIRA + "</td>";
           }
           html +="<td>"+response[0][i].DESCRICAO+"</td>";
           html +="<td>"+response[0][i].NSU+"</td>";
@@ -1173,13 +1173,76 @@ function filtroCnpj(grupo_clientes){
       });
     }
   },300)
+}
 
+function filtroNomeAdquirente(adquirentes){
+
+  setTimeout(function () {
+    var val_input = document.getElementById("inputAdq").value;
+
+    if(val_input == ""){
+      adquirentes.forEach((adq) => {
+        document.getElementById(adq.ADQUIRENTE).style.display = "block";
+        document.getElementById("divAdq"+adq.CODIGO).style.display = "block";
+
+      });
+    }else{
+
+
+      adquirentes.forEach((adq) => {
+
+        var regex = new RegExp(val_input, 'gi');
+
+        resultado = adq.ADQUIRENTE.match(regex);
+
+        if(resultado) {
+          document.getElementById(adq.ADQUIRENTE).style.display = "block";
+          document.getElementById("divAdq"+adq.CODIGO).style.display = "block";
+        }else{
+          document.getElementById(adq.ADQUIRENTE).style.display = "none";
+          document.getElementById("divAdq"+adq.CODIGO).style.display = "none";
+        }
+      });
+    }
+  },300)
+}
+
+function filtroNomeBandeira(bandeiras){
+
+  setTimeout(function () {
+    var val_input = document.getElementById("inputBad").value;
+
+    if(val_input == ""){
+      bandeiras.forEach((bandeira) => {
+        document.getElementById(bandeira.BANDEIRA).style.display = "block";
+        document.getElementById("divBad"+bandeira.CODIGO).style.display = "block";
+
+      });
+    }else{
+
+
+      bandeiras.forEach((bandeira) => {
+
+        var regex = new RegExp(val_input, 'gi');
+
+        resultado = bandeira.BANDEIRA.match(regex);
+
+        if(resultado) {
+          document.getElementById(bandeira.BANDEIRA).style.display = "block";
+          document.getElementById("divBad"+bandeira.CODIGO).style.display = "block";
+        }else{
+          document.getElementById(bandeira.BANDEIRA).style.display = "none";
+          document.getElementById("divBad"+bandeira.CODIGO).style.display = "none";
+        }
+      });
+    }
+  },300)
 }
 
 function filtroNomeModalidade(modalidades){
 
   setTimeout(function () {
-    var val_input = document.getElementById("ftModalidade").value.toUpperCase();
+    var val_input = document.getElementById("ftModalidade").value;
 
     if(val_input == ""){
       modalidades.forEach((cliente) => {
@@ -1191,7 +1254,7 @@ function filtroNomeModalidade(modalidades){
     }else{
       modalidades.forEach((cliente) => {
 
-        var regex = new RegExp(val_input);
+        var regex = new RegExp(val_input, 'gi');
 
         resultado = cliente.DESCRICAO.match(regex);
 
@@ -1201,6 +1264,36 @@ function filtroNomeModalidade(modalidades){
         }else{
           document.getElementById(cliente.DESCRICAO).style.display = "none";
           document.getElementById("divCod"+cliente.CODIGO).style.display = "none";
+        }
+      });
+
+    }
+  },200)
+}
+
+function filtroMeioCaptura(meios_captura){
+
+  setTimeout(function () {
+    var val_input = document.getElementById("inputMeioCaptura").value.toUpperCase();;
+
+    if(val_input == ""){
+      meios_captura.forEach((meio_captura) => {
+        document.getElementById(meio_captura.DESCRICAO).style.display = "block";
+        document.getElementById("divMCap"+meio_captura.CODIGO).style.display = "block";
+
+      });
+    }else{
+      meios_captura.forEach((meio_captura) => {
+
+        var regex = new RegExp(val_input);
+        resultado = meio_captura.DESCRICAO.match(regex);
+
+        if(resultado) {
+          document.getElementById(meio_captura.DESCRICAO).style.display = "block";
+          document.getElementById("divMCap"+meio_captura.CODIGO).style.display = "block";
+        }else{
+          document.getElementById(meio_captura.DESCRICAO).style.display = "none";
+          document.getElementById("divMCap"+meio_captura.CODIGO).style.display = "none";
         }
       });
 

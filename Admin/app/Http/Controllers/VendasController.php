@@ -68,7 +68,8 @@ class VendasController extends Controller{
     ->leftJoin('meio_captura', 'vendas.COD_MEIO_CAPTURA', '=', 'meio_captura.CODIGO')
     ->select('vendas.*', 'vendas.CODIGO as COD', 'modalidade.DESCRICAO as DESCRICAO', 'produto_web.PRODUTO_WEB',
     'lista_bancos.BANCO', 'meio_captura.DESCRICAO as MEIOCAPTURA',
-     'adquirentes.IMAGEM as IMAGEMAD', 'bandeira.IMAGEM as IMAGEMBAD',
+     'adquirentes.IMAGEM as IMAGEMAD', 'bandeira.IMAGEM as IMAGEMBAD', 'bandeira.BANDEIRA as BANDEIRA',
+     'adquirentes.ADQUIRENTE as ADQUIRENTE',
      'status_conciliacao.STATUS_CONCILIACAO as status_conc', 'status_financeiro.STATUS_FINANCEIRO as status_finan')
     ->where('vendas.COD_CLIENTE', '=', session('codigologin'))
     ->where(function($query) {
@@ -136,6 +137,7 @@ class VendasController extends Controller{
         // $query->where('DATA_VENDA', '>=', '2020-08-01')->where('DATA_VENDA', '<=', '2020-09-05');
       }
     })
+    ->orderBy('NSU')
     ->orderBy('DATA_VENDA')
     ->get();
 
