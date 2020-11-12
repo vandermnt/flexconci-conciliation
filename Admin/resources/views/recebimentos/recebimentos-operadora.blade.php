@@ -91,7 +91,7 @@ $(document).ready(function(){
 
               <div class="col-sm-2">
                 <button id="buttonpesquisar" type="button" class="btn btn-sm" data-toggle="modal" data-target="#staticBackdrop" style="margin-top: 25px; width: 100%">
-                  <b>Selecionar Empresas</b>
+                  <b>Selecionar </b>
                 </button>
               </div>
 
@@ -110,7 +110,7 @@ $(document).ready(function(){
 
               <div class="col-sm-2">
                 <button id="buttonpesquisar" type="button" class="btn btn-sm" data-toggle="modal" data-target="#staticBackdropAdquirente" style="margin-top: 9px; width: 100%">
-                  <b>Selecionar Adquirentes</b>
+                  <b>Selecionar </b>
                 </button>
               </div>
 
@@ -129,7 +129,7 @@ $(document).ready(function(){
 
               <div class="col-sm-2">
                 <button id="buttonpesquisar" type="button" class="btn btn-sm" data-toggle="modal" data-target="#staticBackdropBandeira" style="margin-top: 9px; width: 100%">
-                  <b>Selecionar Bandeiras</b>
+                  <b>Selecionar </b>
                 </button>
               </div>
 
@@ -138,7 +138,7 @@ $(document).ready(function(){
                   <div class="form-group">
                     <div class="row">
                       <div class="col-sm-12">
-                        <h6 style="color: #424242; font-size: 11.5px"> Modalidade: </h6>
+                        <h6 style="color: #424242; font-size: 11.5px"> Forma de Pagamento: </h6>
                         <input id="modalidade" style="margin-top: -5px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px; border-color: #2D5275" class="form-control" name="modalidade">
                       </div>
                     </div>
@@ -148,10 +148,73 @@ $(document).ready(function(){
 
               <div class="col-sm-2">
                 <button id="buttonpesquisar" type="button" class="btn btn-sm" data-toggle="modal" data-target="#staticBackdropModalidade" style="margin-top: 9px; width: 100%">
-                  <b>Selecionar Modalidades</b>
+                  <b>Selecionar </b>
                 </button>
               </div>
 
+              <div class="col-sm-6" style="margin-top: -16px">
+                <div id="filtrobanco">
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <h6 style="color: #424242; font-size: 11.5px"> Banco: </h6>
+                        <input id="banco" style="margin-top: -5px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px; border-color: #2D5275" class="form-control" name="banco">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-2">
+                <button id="buttonpesquisar" type="button" class="btn btn-sm" data-toggle="modal" data-target="#staticBackdropBanco" style="margin-top: 9px; width: 100%">
+                  <b>Selecionar </b>
+                </button>
+              </div>
+
+            </div>
+
+            <div class="row" style="margin-top: -12px">
+
+              <div class="col-sm-12">
+                <h6 style="color: #424242; font-size:12px"> Tipo de Recebimento: </h6>
+                <div class="row">
+                  <div class="col-sm-1">
+                    <div style="margin-top: -10px">
+                      <input type="checkbox" checked value="1" name="tipo_recebimento[]" id="normal">
+                      <label style="font-size: 12px; color: #424242; margin-top: 5px" for="aberto">Normal</label>
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div style="margin-top: -10px">
+                      <input type="checkbox" checked value="1" name="tipo_recebimento[]" id="antecipado">
+                      <label style="font-size: 12px; color: #424242; margin-top: 5px" for="antecipado">Antecipado</label>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: -12px">
+
+              <div class="col-sm-12">
+                <h6 style="color: #424242; font-size:12px"> Tipo de Lançamento: </h6>
+                <div class="row">
+                  <div class="col-sm-1">
+                    <div style="margin-top: -10px">
+                      <input type="checkbox" checked value="1" name="tipo_lancamento[]" id="credito">
+                      <label style="font-size: 12px; color: #424242; margin-top: 5px" for="credito">Crédito</label>
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div style="margin-top: -10px">
+                      <input type="checkbox" checked value="1" name="tipo_lancamento[]" id="debito">
+                      <label style="font-size: 12px; color: #424242; margin-top: 5px" for="debito">Débito</label>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
             </div>
 
             <div class="row">
@@ -237,7 +300,7 @@ $(document).ready(function(){
                     <h6> Pesquisar </h6>
                   </div>
                   <div class="col-sm-12">
-                    <input id="ft" style="margin-top: -6px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" onKeyDown="filtroNomeAdquirente({{$adquirentes}})">
+                    <input id="inputAdq" style="margin-top: -6px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" onKeyDown="filtroNomeAdquirente({{$adquirentes}})">
                   </div>
 
                 </div><br>
@@ -256,7 +319,7 @@ $(document).ready(function(){
                     <p>{{ $adquirente->ADQUIRENTE }}</p>
                   </div>
 
-                  <div id="{{ "divCod".$bandeira->CODIGO }}" style="display:block" class="col-sm-2">
+                  <div id="{{ "divAdq".$adquirente->CODIGO }}" style="display:block" class="col-sm-2">
                     <input id="{{ $adquirente->CODIGO }}" value="{{ $adquirente->ADQUIRENTE }}" name="arrayAdquirentes[]" type="checkbox">
                   </div>
                   <hr>
@@ -287,7 +350,7 @@ $(document).ready(function(){
                     <h6> Pesquisar </h6>
                   </div>
                   <div class="col-sm-12">
-                    <input id="ft" style="margin-top: -6px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" onKeyDown="filtroNomeBandeira({{$bandeiras}})">
+                    <input id="inputBad" style="margin-top: -6px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" onKeyDown="filtroNomeBandeira({{$bandeiras}})">
                   </div>
 
                 </div><br>
@@ -307,7 +370,7 @@ $(document).ready(function(){
                     <p>{{ $bandeira->BANDEIRA }}</p>
                   </div>
 
-                  <div id="{{ "divCod".$bandeira->CODIGO }}" style="display:block" class="col-sm-2">
+                  <div id="{{ "divBad".$bandeira->CODIGO }}" style="display:block" class="col-sm-2">
                     <input id="{{ $bandeira->CODIGO }}" value="{{ $bandeira->CODIGO }}" name="arrayBandeira[]" type="checkbox">
                   </div>
                   <hr>
@@ -327,7 +390,7 @@ $(document).ready(function(){
           <div class="modal-dialog" style="width: 270px">
             <div class="modal-content">
               <div class="modal-header" style="background: #2D5275;">
-                <h5 class="modal-title" id="staticBackdropLabel" style="color: white">Modalidade</h5>
+                <h5 class="modal-title" id="staticBackdropLabel" style="color: white">Forma de Pagamento</h5>
                 <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -338,13 +401,13 @@ $(document).ready(function(){
                     <h6> Pesquisar </h6>
                   </div>
                   <div class="col-sm-12">
-                    <input id="ftModalidade" style="margin-top: -6px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" onKeyDown="filtroNomeModalidade({{$modalidades}})">
+                    <input id="inputMod" style="margin-top: -6px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" onKeyDown="filtroNomeModalidade({{$modalidades}})">
                   </div>
                 </div> <br>
 
                 <div class="row">
                   <div class="col-sm-10">
-                    <p><b>MODALIDADE</b></p>
+                    <p><b>Forma de Pagamento</b></p>
                   </div>
 
                   <div class="col-sm-2">
@@ -371,77 +434,165 @@ $(document).ready(function(){
             </div>
           </div>
         </div>
+
+        <div class="modal fade" id="staticBackdropBanco" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog" style="width: 250px;">
+            <div class="modal-content">
+              <div class="modal-header" style="background: #2D5275;">
+                <h5 class="modal-title" id="staticBackdropLabel" style="color: white">Banco</h5>
+                <button style="color: white" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" style="max-height: 350px; overflow: auto">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <h6> Pesquisar </h6>
+                  </div>
+                  <div class="col-sm-12">
+                    <input id="inputBanco" style="margin-top: -6px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" onKeyDown="filtroNomeBanco({{$bancos}})">
+                  </div>
+
+                </div><br>
+
+                <div class="row">
+                  <div class="col-sm-10">
+                    <p><b>Banco</b></p>
+                  </div>
+
+                  <div class="col-sm-2">
+                    <input id="allCheckBanco" onchange="allCheckboxBanco({{$bancos}})" type="checkbox">
+                  </div>
+                  @if(isset($bancos))
+                  @foreach($bancos as $banco)
+                  <div id="{{ $banco->BANCO }}" style="display:block; " class="col-sm-10">
+                    <p>{{ $banco->BANCO }}</p>
+                  </div>
+
+                  <div id="{{ "divBanco".$banco->CODIGO }}" style="display:block" class="col-sm-2">
+                    <input id="{{ $banco->CODIGO }}" value="{{ $banco->BANCO }}" name="arrayBancos[]" type="checkbox">
+                  </div>
+                  <hr>
+                  @endforeach
+                  @endif
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addSelecionadosBanco({{$bancos}})"><b>Confirmar</b></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </form>
 
 
       <div id="resultadosPesquisa" style="display: none">
         <div class="row">
-          <div class="col-md-6 col-lg-3">
+          <div class="col-md-6 col-lg-2">
             <div class="card report-card">
               <div class="card-body">
                 <div class="row d-flex justify-content-center">
                   <div class="col-8">
-                    <p class="text-dark font-weight-semibold font-12">TOTAL DE RECEBIMENTOS</p>
-                    <h4 id="total_registros" class="my-3">378</h4>
+                    <p class="text-dark font-weight-semibold font-12">QTDE</p>
+                    <h6 style="font-size: 12px" id="total_registros" class="my-3">378</h6>
                     <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
                   </div>
                   <div class="col-4 align-self-center">
                     <div class="report-main-icon bg-light-alt">
-                      <i data-feather="check-circle" class="align-self-center icon-dual icon-lg"></i>
+                      <img style="width: 30px" src="{{ url('assets/images/recebimentos-operadoras/qtd.png')}}" alt="">
                     </div>
                   </div>
                 </div>
               </div><!--end card-body-->
             </div><!--end card-->
           </div> <!--end col-->
-          <div class="col-md-6 col-lg-3">
+          <div class="col-md-6 col-lg-2">
             <div class="card report-card">
               <div class="card-body">
                 <div class="row d-flex justify-content-center">
                   <div class="col-8">
-                    <p class="text-dark font-weight-semibold font-12">VALOR BRUTO DE RECEB.</p>
-                    <h4 id="total_bruto_recebimentos" class="my-3">R$ 240,000,00</h4>
+                    <p class="text-dark font-weight-semibold font-12">BRUTO</p>
+                    <h6 style="font-size: 12px" id="total_bruto_recebimentos" class="my-3">R$ 240,000,00</h6>
                     <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
                   </div>
                   <div class="col-4 align-self-center">
                     <div class="report-main-icon bg-light-alt">
-                      <i data-feather="dollar-sign" class="align-self-center icon-dual icon-lg"></i>
+                      <img style="width: 30px" src="{{ url('assets/images/vendasoperadora/bruto.png')}}" alt="">
                     </div>
                   </div>
                 </div>
               </div><!--end card-body-->
             </div><!--end card-->
           </div> <!--end col-->
-          <div class="col-md-6 col-lg-3">
+          <div class="col-md-6 col-lg-2">
             <div class="card report-card">
               <div class="card-body">
                 <div class="row d-flex justify-content-center">
                   <div class="col-8">
-                    <p class="text-dark font-weight-semibold font-12">VAL. DE TAXAS COBRADAS</p>
-                    <h4 id="total_taxa_cobrada" class="my-3">R$ 240,000,00</h4>
+                    <p class="text-dark font-weight-semibold font-12">TAXAS</p>
+                    <h6 style="font-size: 12px" id="total_taxa_cobrada" class="my-3">R$ 240,000,00</h6>
                     <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
                   </div>
                   <div class="col-4 align-self-center">
                     <div class="report-main-icon bg-light-alt">
-                      <i data-feather="dollar-sign" class="align-self-center icon-dual icon-lg"></i>
+                      <img style="width: 30px" src="{{ url('assets/images/vendasoperadora/percentagem.png')}}" alt="">
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-md-6 col-lg-3">
+          <div class="col-md-6 col-lg-2">
             <div class="card report-card">
               <div class="card-body">
                 <div class="row d-flex justify-content-center">
                   <div class="col-8">
-                    <p class="text-dark font-weight-semibold font-12">VALOR LÍQUIDO DE RECEB.</p>
-                    <h4 id="total_liquido_recebimentos" class="my-3">R$ 240,000,00</h4>
+                    <p class="text-dark font-weight-semibold font-12">DÉBITOS</p>
+                    <h6 style="font-size: 12px" id="total_debitos_recebimentos" class="my-3">R$ 240,000,00</h6>
                     <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
                   </div>
                   <div class="col-4 align-self-center">
                     <div class="report-main-icon bg-light-alt">
-                      <i data-feather="dollar-sign" class="align-self-center icon-dual icon-lg"></i>
+                      <img style="width: 30px" src="{{ url('assets/images/recebimentos-operadoras/debitos.png')}}" alt="">
+                    </div>
+                  </div>
+                </div>
+              </div><!--end card-body-->
+            </div><!--end card-->
+          </div> <!--end col-->
+          <div class="col-md-6 col-lg-2">
+            <div class="card report-card">
+              <div class="card-body">
+                <div class="row d-flex justify-content-center">
+                  <div class="col-8">
+                    <p class="text-dark font-weight-semibold font-12">CRÉDITOS</p>
+                    <h6 style="font-size: 12px" id="total_bruto_recebimentos" class="my-3">R$ 240,000,00</h6>
+                    <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
+                  </div>
+                  <div class="col-4 align-self-center">
+                    <div class="report-main-icon bg-light-alt">
+                      <img style="width: 30px" src="{{ url('assets/images/recebimentos-operadoras/creditos.png')}}" alt="">
+                    </div>
+                  </div>
+                </div>
+              </div><!--end card-body-->
+            </div><!--end card-->
+          </div> <!--end col-->
+
+          <div class="col-md-6 col-lg-2">
+            <div class="card report-card">
+              <div class="card-body">
+                <div class="row d-flex justify-content-center">
+                  <div class="col-8">
+                    <p class="text-dark font-weight-semibold font-12">LÍQUIDO</p>
+                    <h6 style="font-size: 12px" id="total_liquido_recebimentos" class="my-3">R$ 240,000,00</h6>
+                    <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
+                  </div>
+                  <div class="col-4 align-self-center">
+                    <div class="report-main-icon bg-light-alt">
+                      <img style="width: 30px" src="{{ url('assets/images/vendasoperadora/liquido.png')}}" alt="">
                     </div>
                   </div>
                 </div>
@@ -468,25 +619,25 @@ $(document).ready(function(){
         </div>
 
         <br>
-        <div style="overflow: scroll; font-size: 13px; overflow-x: scroll; height: 470px">
+        <div style="overflow: scroll; font-size: 13px; overflow-x: scroll; height: 450px">
 
           <table id="jsgrid-table" class="table " style="white-space: nowrap; background:white; color: #2D5275">
 
             <thead>
               <tr style="background: #2D5275; ">
-                <th> Empresa  </th>
-                <th> ID. Loja  </th>
-                <th> Adquirente  </th>
-                <th> Bandeira </th>
-                <th> NSU </th>
-                <th> Data Transação </th>
-                <th> Hora Transação </th>
-                <th> Valor Bruto   </th>
-                <th> Valor Líquido </th>
-                <th> Banco  </th>
-                <th> Agência  </th>
-                <th> Conta  </th>
-                <th> Meio de Captura  </th>
+                <th> Empresa <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"> </th>
+                <th> ID. Loja <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"> </th>
+                <th> Adquirente <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"> </th>
+                <th> Bandeira<br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"> </th>
+                <th> NSU<br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"> </th>
+                <th> Data Transação<br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"> </th>
+                <th> Hora Transação<br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"> </th>
+                <th> Valor Bruto  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"> </th>
+                <th> Valor Líquido<br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"> </th>
+                <th> Banco <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"> </th>
+                <th> Agência <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"> </th>
+                <th> Conta <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"> </th>
+                <th> Meio de Captura <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"> </th>
               </tr>
             </thead>
             <tbody>
@@ -587,6 +738,24 @@ $(document).ready(function(){
 
 <script>
 
+$(function(){
+  $("#jsgrid-table input").keyup(function(){
+    var index = $(this).parent().index();
+    var nth = "#jsgrid-table td:nth-child("+(index+1).toString()+")";
+    var valor = $(this).val().toUpperCase();
+    $("#jsgrid-table tbody tr").show();
+    $(nth).each(function(){
+      if($(this).text().toUpperCase().indexOf(valor) < 0){
+        $(this).parent().hide();
+      }
+    });
+  });
+
+  $("#jsgrid-table input").blur(function(){
+    $(this).val("");
+  });
+});
+
 $('#submitFormLogin').click(function(){
 
   $('#jsgrid-table tbody').empty();
@@ -595,6 +764,9 @@ $('#submitFormLogin').click(function(){
   arrayModalidade = [];
   arrayBandeira = [];
   arrayAdquirentes = [];
+  arrayTipoLancamento = [];
+  arrayTipoRecebimento = [];
+
 
   data_inicial = document.getElementById("date_inicial").value;
   data_final = document.getElementById("date_final").value;
@@ -602,6 +774,21 @@ $('#submitFormLogin').click(function(){
   modalidades = <?php echo $modalidades ?>;
   bandeiras = <?php echo $bandeiras ?>;
   adquirentes = <?php echo $adquirentes ?>;
+
+
+  if(document.getElementById("normal").checked){
+    arrayTipoRecebimento.push(1);
+  }
+  if(document.getElementById("antecipado").checked){
+    arrayTipoRecebimento.push(2);
+  }
+
+  if(document.getElementById("credito").checked){
+    arrayTipoLancamento.push(1);
+  }
+  if(document.getElementById("debito").checked){
+    arrayTipoLancamento.push(2);
+  }
 
   grupo_clientes.forEach((grupo_cliente) => {
     if(document.getElementById(grupo_cliente.CODIGO).checked){
@@ -678,11 +865,11 @@ $('#submitFormLogin').click(function(){
           // setTimeout(function () {
           html +="<td>"+response[0][i].NOME_EMPRESA+"</td>";
           html +="<td>"+response[0][i].ID_LOJA+"</td>";
-          html +="<td>"+"<img src='"+response[0][i].IMAGEMAD+"' style='width: 60px'/>"+"</td>";
+          html +="<td>"+"<img src='"+response[0][i].IMAGEMAD+"' style='width: 30px'/>"+"</td>";
           if(response[0][i].IMAGEMBAD == null){
-            html +="<td>"+"<img src='assets/images/iconCart.jpeg' style='width: 40px'/>"+"</td>";
+            html +="<td>"+"<img src='assets/images/iconCart.jpeg' style='width: 20px'/>"+"</td>";
           }else{
-            html +="<td>"+"<img src='"+response[0][i].IMAGEMBAD+"' style='width: 40px'/>"+"</td>";
+            html +="<td>"+"<img src='"+response[0][i].IMAGEMBAD+"' style='width: 30px'/>"+ " " + response[0][i].BANDEIRA + "</td>";
           }          html +="<td>"+response[0][i].NSU+"</td>";
           html +="<td>"+data_venda+"</td>";
           html +="<td>"+response[0][i].HORA_VENDA+"</td>";
@@ -706,8 +893,8 @@ $('#submitFormLogin').click(function(){
         htmll +="<td>"+""+"</td>";
         htmll +="<td>"+""+"</td>";
         htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+response[2]+"</td>";
-        htmll +="<td>"+response[1]+"</td>";
+        htmll +="<td style='color:#6E6E6E'> <b>"+response[2]+"</b></td>";
+        htmll +="<td style='color:#6E6E6E'> <b>"+response[1]+"</b></td>";
         htmll +="<td>"+""+"</td>";
         htmll +="<td>"+""+"</td>";
         htmll +="<td>"+""+"</td>";
@@ -736,6 +923,7 @@ var empresasSelecionadas = [];
 var adquirentesSelecionados = [];
 var bandeirasSelecionados = [];
 var modalidadesSelecionados = [];
+var bancosSelecionados = [];
 
 var el = document.getElementById('datatable');
 var dragger = tableDragger.default(el, {
@@ -807,7 +995,6 @@ function addSelecionadosBandeira(bandeiras){
 
 function addSelecionadosModalidade(modalidades){
   modalidades.forEach((modalidade) => {
-    console.log(document.getElementById(modalidade.CODIGO));
     if(document.getElementById(modalidade.CODIGO).checked){
 
       modalidadesSelecionados.includes(modalidade.DESCRICAO) ? '' : modalidadesSelecionados.push(modalidade.DESCRICAO);
@@ -818,6 +1005,20 @@ function addSelecionadosModalidade(modalidades){
 
   document.getElementById("modalidade").value = modalidadesSelecionados;
 }
+
+function addSelecionadosBanco(bancos){
+  bancos.forEach((banco) => {
+    if(document.getElementById(banco.CODIGO).checked){
+      console.log("DENTRO DO IF");
+      bancosSelecionados.includes(banco.BANCO) ? '' : bancosSelecionados.push(banco.BANCO);
+    }else{
+      bancosSelecionados.includes(banco.BANCO) ? bancosSelecionados.splice(bancosSelecionados.indexOf(banco.BANCO), 1) : '';
+    }
+  });
+
+  document.getElementById("banco").value = bancosSelecionados;
+}
+
 
 function filtroCnpj(grupo_clientes){
 
@@ -853,21 +1054,86 @@ function filtroCnpj(grupo_clientes){
   },300)
 }
 
+function filtroNomeAdquirente(adquirentes){
+
+  setTimeout(function () {
+    var val_input = document.getElementById("inputAdq").value;
+
+    if(val_input == ""){
+      adquirentes.forEach((adq) => {
+        document.getElementById(adq.ADQUIRENTE).style.display = "block";
+        document.getElementById("divAdq"+adq.CODIGO).style.display = "block";
+
+      });
+    }else{
+
+
+      adquirentes.forEach((adq) => {
+
+        var regex = new RegExp(val_input, 'gi');
+
+        resultado = adq.ADQUIRENTE.match(regex);
+
+        if(resultado) {
+          document.getElementById(adq.ADQUIRENTE).style.display = "block";
+          document.getElementById("divAdq"+adq.CODIGO).style.display = "block";
+        }else{
+          document.getElementById(adq.ADQUIRENTE).style.display = "none";
+          document.getElementById("divAdq"+adq.CODIGO).style.display = "none";
+        }
+      });
+    }
+  },300)
+}
+
+function filtroNomeBandeira(bandeiras){
+
+  setTimeout(function () {
+    var val_input = document.getElementById("inputBad").value;
+
+    if(val_input == ""){
+      bandeiras.forEach((bandeira) => {
+        document.getElementById(bandeira.BANDEIRA).style.display = "block";
+        document.getElementById("divBad"+bandeira.CODIGO).style.display = "block";
+
+      });
+    }else{
+
+
+      bandeiras.forEach((bandeira) => {
+
+        var regex = new RegExp(val_input, 'gi');
+
+        resultado = bandeira.BANDEIRA.match(regex);
+
+        if(resultado) {
+          document.getElementById(bandeira.BANDEIRA).style.display = "block";
+          document.getElementById("divBad"+bandeira.CODIGO).style.display = "block";
+        }else{
+          document.getElementById(bandeira.BANDEIRA).style.display = "none";
+          document.getElementById("divBad"+bandeira.CODIGO).style.display = "none";
+        }
+      });
+    }
+  },300)
+}
+
 function filtroNomeModalidade(modalidades){
 
   setTimeout(function () {
-    var val_input = document.getElementById("ftModalidade").value.toUpperCase();
+    var val_input = document.getElementById("inputMod").value;
 
     if(val_input == ""){
       modalidades.forEach((cliente) => {
         document.getElementById(cliente.DESCRICAO).style.display = "block";
+        // document.getElementById(cliente.CNPJ).style.display = "block";
         document.getElementById("divCod"+cliente.CODIGO).style.display = "block";
 
       });
     }else{
       modalidades.forEach((cliente) => {
 
-        var regex = new RegExp(val_input);
+        var regex = new RegExp(val_input, 'gi');
 
         resultado = cliente.DESCRICAO.match(regex);
 
@@ -884,6 +1150,37 @@ function filtroNomeModalidade(modalidades){
   },200)
 }
 
+function filtroNomeBanco(bancos){
+
+    setTimeout(function () {
+      var val_input = document.getElementById("inputBanco").value;
+
+      if(val_input == ""){
+        bancos.forEach((banco) => {
+          document.getElementById(banco.BANCO).style.display = "block";
+          // document.getElementById(banco.CNPJ).style.display = "block";
+          document.getElementById("divBanco"+banco.CODIGO).style.display = "block";
+
+        });
+      }else{
+        bancos.forEach((banco) => {
+
+          var regex = new RegExp(val_input, 'gi');
+
+          resultado = banco.BANCO.match(regex);
+
+          if(resultado) {
+            document.getElementById(banco.BANCO).style.display = "block";
+            document.getElementById("divBanco"+banco.CODIGO).style.display = "block";
+          }else{
+            document.getElementById(banco.BANCO).style.display = "none";
+            document.getElementById("divBanco"+banco.CODIGO).style.display = "none";
+          }
+        });
+
+      }
+    },200)
+}
 
 function submitTrava(){
   document.getElementById("preloader").style.display = "block";
@@ -946,6 +1243,17 @@ function allCheckboxModalidade(grupo_clientes){
   });
 }
 
+function allCheckboxBanco(bancos){
+
+  bancos.forEach((banco) => {
+    if(document.getElementById("allCheckBanco").checked){
+      document.getElementById(banco.CODIGO).checked = true;
+    }else{
+      document.getElementById(banco.CODIGO).checked = false;
+    }
+  });
+}
+
 var teste = 0;
 
 function ad(value){
@@ -970,6 +1278,7 @@ function limparFiltros(){
   document.getElementById("modalidade").value = "";
   document.getElementById("bandeira").value = "";
   document.getElementById("empresa").value = "";
+  document.getElementById("banco").value = "";
 }
 
 function addTodos(grupos_clientes){

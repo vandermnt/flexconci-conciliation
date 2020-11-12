@@ -405,6 +405,7 @@ $(document).ready(function(){
               <th> ID. ERP  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"> </th>
               <th> Meio de Captura  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"> </th>
               <th> Status Conciliação  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"> </th>
+              <th> Justificava  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
             </tr>
             <tbody>
             </tbody>
@@ -439,11 +440,9 @@ $(document).ready(function(){
                 <th> Forma de Pagamento  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
                 <th> NSU <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
                 <th> Autorização <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
-                <th> Cartão  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
                 <th> Valor Bruto <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
                 <th> Taxa %  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
                 <th> Taxa R$ <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
-                <th> Outras Tarifas  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
                 <th> Valor Líquido  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
                 <th> Parcela <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
                 <th> Total Parc. <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
@@ -609,21 +608,21 @@ $(document).ready(function(){
 <script>
 
 $(function(){
-  // $("#jsgrid-table input").keyup(function(){
-  //   var index = $(this).parent().index();
-  //   var nth = "#jsgrid-table td:nth-child("+(index+1).toString()+")";
-  //   var valor = $(this).val().toUpperCase();
-  //   $("#jsgrid-table tbody tr").show();
-  //   $(nth).each(function(){
-  //     if($(this).text().toUpperCase().indexOf(valor) < 0){
-  //       $(this).parent().hide();
-  //     }
-  //   });
-  // });
+  $("#jsgrid-table-erp input").keyup(function(){
+    var index = $(this).parent().index();
+    var nth = "#jsgrid-table-erp td:nth-child("+(index+1).toString()+")";
+    var valor = $(this).val().toUpperCase();
+    $("#jsgrid-table-erp tbody tr").show();
+    $(nth).each(function(){
+      if($(this).text().toUpperCase().indexOf(valor) < 0){
+        $(this).parent().hide();
+      }
+    });
+  });
 
-  // $("#jsgrid-table input").blur(function(){
-  //   $(this).val("");
-  // });
+  $("#jsgrid-table-erp input").blur(function(){
+    $(this).val("");
+  });
 });
 
 $('#submitFormLogin').click(function(){
@@ -723,11 +722,9 @@ $('#submitFormLogin').click(function(){
           html +="<td>"+response[0][i].DESCRICAO+"</td>";
           html +="<td>"+response[0][i].NSU+"</td>";
           html +="<td>"+response[0][i].AUTORIZACAO+"</td>";
-          html +="<td>"+response[0][i].CARTAO+"</td>";
           html +="<td>"+formatted +"</td>";
           html +="<td>"+val_taxa+"</td>";
           html +="<td>"+formatted_tx+"</td>";
-          html +="<td>"+response[0][i].OUTRAS_DESPESAS+"</td>";
           html +="<td>"+formatted_liq+"</td>";
           html +="<td>"+response[0][i].PARCELA+"</td>";
           html +="<td>"+response[0][i].TOTAL_PARCELAS+"</td>";
@@ -795,6 +792,7 @@ $('#submitFormLogin').click(function(){
           html_erp +="<td>"+response[1][i].IDENTIFICADOR_PAGAMENTO+"</td>";
           html_erp +="<td>"+response[1][i].MEIOCAPTURA+"</td>";
           html_erp +="<td>"+response[1][i].STATUS_CONCILIACAO+"</td>";
+          html_erp +="<td>"+""+"</td>";
 
           // html_erp +="<td>"+"<a type='button' onclick='saveIdVendaErp("+response[1][i].CODIGO+")' class='btn btn-success' data-toggle='modal' data-target='#modal_justificativas_erp'>" + "<b>"+'Justificar'+"</b>" +"</a>"+"</td>";
 
@@ -1236,13 +1234,5 @@ function justificar(){
   }
 }
 
-
-$("#btnExport").click(function () {
-           $("#jsgrid-table-erp").btechco_excelexport({
-               containerid: "jsgrid-table-erp",
-               datatype: $datatype.Table,
-               filename: 'sample',
-           });
-       });
 </script>
 @stop

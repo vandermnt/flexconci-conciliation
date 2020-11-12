@@ -139,7 +139,7 @@ class VendasController extends Controller{
     })
     ->orderBy('NSU')
     ->orderBy('DATA_VENDA')
-    ->get();
+    ->paginate(20);
 
     $val_bruto = DB::table('vendas')
     ->join('modalidade', 'vendas.CODIGO_MODALIDADE', '=', 'modalidade.CODIGO')
@@ -413,7 +413,75 @@ class VendasController extends Controller{
     })
     ->first();
 
-    $qtde_registros = $vendas->count();
+
+    $qtde_registros = DB::table('vendas')
+    ->where('vendas.COD_CLIENTE', '=', session('codigologin'))
+    ->where(function($query) {
+      if(Request::only('array') != null){
+        $empresas = Request::only('array');
+        foreach ($empresas['array'] as $cnpj) {
+          $query->orWhere('CNPJ', '=', $cnpj);
+        }
+      }
+    })
+    ->where(function($query) {
+      if(Request::only('arrayStatusConciliacao') != null){
+        $status_conciliacao = Request::only('arrayStatusConciliacao');
+        foreach($status_conciliacao['arrayStatusConciliacao'] as $status_conciliacaoo) {
+          $query->orWhere('COD_STATUS_CONCILIACAO', '=', $status_conciliacaoo);
+        }
+      }
+    })
+    ->where(function($query) {
+      if(Request::only('arrayModalidade') != null){
+        $modalidades = Request::only('arrayModalidade');
+        foreach($modalidades['arrayModalidade'] as $modalidade) {
+          $query->orWhere('CODIGO_MODALIDADE', '=', $modalidade);
+        }
+      }
+    })
+    ->where(function($query) {
+      if(Request::only('arrayAdquirentes') != null){
+        $adquirentes = Request::only('arrayAdquirentes');
+        foreach ($adquirentes['arrayAdquirentes'] as $adquirente) {
+          $query->orWhere('ADQID', '=', $adquirente);
+        }
+      }
+    })
+    ->where(function($query) {
+      if(Request::only('arrayBandeira') != null){
+        $bandeiras = Request::only('arrayBandeira');
+        foreach ($bandeiras['arrayBandeira'] as $bandeira) {
+          $query->orWhere('COD_BANDEIRA', '=', $bandeira);
+        }
+      }
+    })
+    ->where(function($query) {
+      if(Request::only('arrayStatusFinanceiro') != null){
+        $status_financeiros = Request::only('arrayStatusFinanceiro');
+        foreach ($status_financeiros['arrayStatusFinanceiro'] as $status_financeiro) {
+          $query->orWhereNull('COD_STATUS_FINANCEIRO')->orWhere('COD_STATUS_FINANCEIRO', '=', $status_financeiro);
+        }
+      }
+    })
+    ->where(function($query) {
+      if(Request::only('arrayMeioCaptura') != null){
+        $meiocaptura = Request::only('arrayMeioCaptura');
+        foreach ($meiocaptura['arrayMeioCaptura'] as $mcaptura) {
+          $query->orWhereNull('COD_MEIO_CAPTURA')->orWhere('COD_MEIO_CAPTURA', '=', $mcaptura);
+        }
+      }
+    })
+    ->where(function($query) {
+      if(Request::only('data_inicial') != null){
+        $data_inicial = Request::only('data_inicial');
+        $data_final = Request::only('data_final');
+        $query->whereBetween('DATA_VENDA', [$data_inicial['data_inicial'], $data_final['data_final']]);
+
+        // $query->where('DATA_VENDA', '>=', '2020-08-01')->where('DATA_VENDA', '<=', '2020-09-05');
+      }
+    })
+    ->count();
 
     $val_taxas = $val_bruto->val_bruto - $val_liquido->val_liquido;
     session()->put('prev_pg_download', $vendas);

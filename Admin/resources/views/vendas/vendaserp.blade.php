@@ -441,17 +441,20 @@ $(document).ready(function(){
 
     <thead>
       <tr style="background: #2D5275;">
-        <th> DATA VENDA  </th>
-        <th> PREVIS. PGT  </th>
+        <th> Data Venda  </th>
+        <th> Previs. PGT  </th>
         <th> NSU  </th>
-        <th> TOTAL VENDA </th>
-        <th> Nº PARCELA </th>
-        <th> TOTAL PARCELA </th>
-        <th> LIQ. PARCELA </th>
-        <th> DESCRIÇÃO ERP </th>
-        <th> COD. AUTORIZAÇÃO </th>
-        <th> ID. VENDA CLIENTE  </th>
-        <th> MEIO DE CAPTURA  </th>
+        <th> Total Venda </th>
+        <th> Nº Parcela </th>
+        <th> Total Parcela </th>
+        <th> Liq. Parcela </th>
+        <th> Descrição ERP </th>
+        <th> Cod. Autorização </th>
+        <th> ID. Venda Cliente  </th>
+        <th> Meio de Captura  </th>
+        <th> Status Conciliação  </th>
+        <th> Justificativa  </th>
+
       </tr>
       <tbody>
       </tbody>
@@ -640,6 +643,9 @@ $('#submitFormLogin').click(function(){
           html +="<td>"+response[0][i].CODIGO_AUTORIZACAO+"</td>";
           html +="<td>"+response[0][i].IDENTIFICADOR_PAGAMENTO+"</td>";
           html +="<td>"+response[0][i].MEIOCAPTURA+"</td>";
+          html +="<td>"+response[0][i].STATUS_CONCILIACAO+"</td>";
+          html +="<td>"+""+"</td>";
+
 
           html +="</tr>";
           $('#jsgrid-table').append(html);

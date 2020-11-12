@@ -587,7 +587,7 @@ $(document).ready(function(){
 
 
         <br>
-        <div style="overflow: scroll; font-size: 13px; overflow-x: scroll; height: 470px">
+        <div style="overflow: scroll; font-size: 13px; overflow-x: scroll; height: 450px">
           <table id="jsgrid-table" class="table" style="white-space: nowrap; border: none">
 
             <thead>
@@ -620,6 +620,7 @@ $(document).ready(function(){
                 <th> Meio de Captura<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
                 <th> Status Conciliação<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
                 <th> Status Financeiro<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
+                <th> Justificava <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
 
               </tr>
 
@@ -663,6 +664,28 @@ $(document).ready(function(){
           <div style="background: red;  width: 120px;margin-bottom: 0">
           <h1>odwkaodpawkdp</h1>
         </div> -->
+
+      </div>
+
+      <nav aria-label="Page navigation example">
+        <ul id="ul_pagination" class="pagination">
+          <!-- <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li> -->
+          <!-- <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li> -->
+          <!-- <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li> -->
+        </ul>
+      </nav>
+
+      <div id="pagination" style="font-size:10px">
 
       </div>
 
@@ -926,7 +949,7 @@ $('#submitFormLogin').click(function(){
           const outras_despesas_format = outras.format(outras_despesas);
 
           var cod = response[0][i].COD;
-
+          console.log(response[0][i].COD)
           //tira 2 casas decimais da taxa
           var a = response[0][i].PERCENTUAL_TAXA;
           var val_taxa = Number(a).toFixed(2);
@@ -983,9 +1006,11 @@ $('#submitFormLogin').click(function(){
           html +="<td>"+response[0][i].MEIOCAPTURA+"</td>";
           html +="<td>"+response[0][i].status_conc+"</td>";
           html +="<td>"+response[0][i].status_finan+"</td>";
+          html +="<td>"+""+"</td>";
 
 
-          // var url = "{{ url('/impressao-vendas')}}"+"/"+response[0][i].COD;
+
+          // var url = "{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD;
           var url = "#";
 
           html +="</tr>";
@@ -1023,10 +1048,18 @@ $('#submitFormLogin').click(function(){
         htmll +="<td>"+""+"</td>";
         htmll +="<td>"+""+"</td>";
 
-
-
         htmll +="</tr>";
         $('#jsgrid-table').append(htmll);
+
+        let li_html;
+        for(let i=0; i<response[0].last_page; i++){
+           li_html += "<li class='page-item'><a class='page-link' href='/page="+i+"'>" + i + "</a></li>"
+
+          console.log("TESTE");
+        }
+
+        $('#ul_pagination').append(li_html);
+
         document.getElementById("resultadosPesquisa").style.display = "block";
 
         document.getElementById("total_liquido_vendas").innerHTML = "R$ "+response[1];
@@ -1490,11 +1523,11 @@ function download_table_as_csv(table_id) {
   }
   var csv_string = csv.join('\n');
   // Download it
-  var filename = 'export_' + 'conciflex' + '_' + new Date().toLocaleDateString() + '.csv';
+  var filename = 'export_' + 'conciflex' + '_' + new Date().toLocaleDateString() + '.xls';
   var link = document.createElement('a');
   link.style.display = 'none';
   link.setAttribute('target', '_blank');
-  link.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv_string));
+  link.setAttribute('href', 'data:text/xls;charset=utf-8,' + encodeURIComponent(csv_string));
   link.setAttribute('download', filename);
   document.body.appendChild(link);
   link.click();

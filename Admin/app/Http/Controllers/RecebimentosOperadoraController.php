@@ -20,6 +20,10 @@ class RecebimentosOperadoraController extends Controller{
     ->distinct('COD_ADQUIRENTE')
     ->get();
 
+    $bancos = DB::table('domicilio_cliente')
+    ->where('COD_CLIENTE', '=', session('codigologin'))
+    ->get();
+
     $bandeiras = DB::table('clientes_bandeiras')
     ->join('bandeira', 'clientes_bandeiras.COD_BANDEIRA', 'bandeira.CODIGO')
     ->select('bandeira.*')
@@ -31,6 +35,7 @@ class RecebimentosOperadoraController extends Controller{
     return view('recebimentos.recebimentos-operadora')->with('adquirentes', $adquirentes)
     ->with('modalidades', $modalidades)
     ->with('bandeiras', $bandeiras)
+    ->with('bancos', $bancos)
     ->with('grupos_clientes', $grupos_clientes);
   }
 
