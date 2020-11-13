@@ -1,0 +1,22 @@
+#preloader {
+    display: none;
+}
+
+#tudo_page .form-group h6 {
+    color: #424242;
+    font-size: 11.5px;
+}
+
+#tudo_page .form-group .form-control {
+    margin-top: -5px;
+    padding-left: 7px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    height: 30px;
+    border-color: #2D5275;
+}
+
+#tudo_page #buttonpesquisar {
+    margin-top: 25px;
+    width: 100%;
+}
