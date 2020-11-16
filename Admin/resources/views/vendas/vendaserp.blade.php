@@ -110,7 +110,7 @@
                 </div>
 
                 <div class="col-sm-8">
-                  <div id="filtroempresa">
+                  <div id="grupo-filtros">
                     <div class="form-group">
                       <div class="row">
                         <div class="col-sm-4">
@@ -128,12 +128,12 @@
                       </div>
                       <div class="row">
                         <div class="col-sm-12">
-                          <h6 style="color: #424242; font-size:12px"> Status Conciliação: </h6>
-                          <div class="row" style="">
+                          <h6>Status Conciliação:</h6>
+                          <div class="row">
                             @foreach($status_conciliacao as $status)
-                              <div style="margin-top: -10px; margin-left: 12px">
+                              <div class="check-group">
                                 <input type="checkbox" checked  value="{{ $status->CODIGO }}" name="status_conciliacao[]" id="{{ "statusFinan".$status->CODIGO }}"required>
-                                <label style="font-size: 12px; color: #424242; margin-top: 5px"  for="{{ "statusFinan".$status->CODIGO }}">{{ $status->STATUS_CONCILIACAO}}</label>
+                                <label for="{{ "statusFinan".$status->CODIGO }}">{{ $status->STATUS_CONCILIACAO}}</label>
                               </div>
                             @endforeach
                           </div>
@@ -146,22 +146,22 @@
 
               <div class="row">
                 <div class="col-sm-12">
-                  <div id="btfiltro" style="margin-top: -4px; display:block; text-align: right">
-                    <a id="" onclick="limparFiltros()" style="align-items: right; background: white; color: #2D5275; border-color: #2D5275" class="btn btn-sm"> <i class="far fa-trash-alt"></i> <b>Limpar Campos</b>  </a>
+                  <div id="btfiltro">
+                    <a id="" onclick="limparFiltros()" class="btn btn-sm"> <i class="far fa-trash-alt"></i> <b>Limpar Campos</b>  </a>
 
-                    <a id="submitFormLogin" style="align-items: right; background: white; color: #2D5275; border-color: #2D5275" class="btn btn-sm"> <i class="fas fa-search"></i> <b>Pesquisar</b>  </a>
+                    <a id="submitFormLogin" class="btn btn-sm"> <i class="fas fa-search"></i> <b>Pesquisar</b>  </a>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog" style="width: 100%;">
+          <div class="modal fade modal-filtro" id="staticBackdropAdquirente" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
               <div class="modal-content">
-                <div class="modal-header" style="background: #2D5275;">
-                  <h5 class="modal-title" id="staticBackdropLabel" style="color: white">Empresa</h5>
-                  <button style="color: white" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdropLabel">Adquirente</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
@@ -171,62 +171,7 @@
                       <h6> Pesquisar </h6>
                     </div>
                     <div class="col-sm-12">
-                      <input id="ft" style="margin-top: -6px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" name="valor_venda" onKeyDown="filtroCnpj({{$grupos_clientes}})">
-                    </div>
-                  </div>
-                  <br>
-
-                  <div class="row">
-                    <div class="col-sm-7">
-                      <p><b>EMPRESA</b></p>
-                    </div>
-                    <div class="col-sm-4">
-                      <p><b>CNPJ</b></p>
-                    </div>
-                    <div class="col-sm-1">
-                      <input id="allCheck" onchange="allCheckbox({{$grupos_clientes}})" type="checkbox">
-                    </div>
-
-                    @if(isset($grupos_clientes))
-                      @foreach($grupos_clientes as $cliente)
-                        <div id="{{ $cliente->NOME_EMPRESA }}" style="display:block" class="col-sm-7">
-                          <p>{{ $cliente->NOME_EMPRESA }}</p>
-                        </div>
-                        <div id="{{ $cliente->CNPJ }}" style="display:block" class="col-sm-4">
-                          <p>{{ $cliente->CNPJ }}</p>
-                        </div>
-                        <div id="{{ "divCod".$cliente->CODIGO }}" style="display:block" class="col-sm-1">
-                          <input id="{{ $cliente->CODIGO }}" value="{{ $cliente->CNPJ }}" name="array[]" type="checkbox">
-                        </div>
-                        <hr>
-                      @endforeach
-                    @endif
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
-                  <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addSelecionados({{$grupos_clientes}})"><b>Confirmar</b></button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="modal fade" id="staticBackdropAdquirente" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog" style="width: 250px;">
-              <div class="modal-content">
-                <div class="modal-header" style="background: #2D5275;">
-                  <h5 class="modal-title" id="staticBackdropLabel" style="color: white">Adquirente</h5>
-                  <button style="color: white" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <div class="row">
-                    <div class="col-sm-12">
-                      <h6> Pesquisar </h6>
-                    </div>
-                    <div class="col-sm-12">
-                      <input id="ft" style="margin-top: -6px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" onKeyDown="filtroNomeAdquirente({{$adquirentes}})">
+                      <input id="ft" class="form-control" onKeyDown="filtroNomeAdquirente({{$adquirentes}})">
                     </div>
                   </div>
                   <br>
@@ -240,11 +185,11 @@
                     </div>
                     @if(isset($adquirentes))
                       @foreach($adquirentes as $adquirente)
-                        <div id="{{ $adquirente->ADQUIRENTE }}" style="display:block; " class="col-sm-10">
+                        <div id="{{ $adquirente->ADQUIRENTE }}" class="col-sm-10 opcao-check">
                           <p>{{ $adquirente->ADQUIRENTE }}</p>
                         </div>
 
-                        <div id="{{ "divCod".$bandeira->CODIGO }}" style="display:block" class="col-sm-2">
+                        <div id="{{ "divCod".$bandeira->CODIGO }}" class="col-sm-2 opcao-check">
                           <input id="{{ $adquirente->CODIGO }}" value="{{ $adquirente->ADQUIRENTE }}" name="arrayAdquirentes[]" type="checkbox">
                         </div>
                         <hr>
@@ -260,12 +205,12 @@
             </div>
           </div>
 
-          <div class="modal fade" id="staticBackdropMeioCaptura" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog" style="width: 270px">
+          <div class="modal fade modal-filtro" id="staticBackdropMeioCaptura" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
               <div class="modal-content">
-                <div class="modal-header" style="background: #2D5275;">
-                  <h5 class="modal-title" id="staticBackdropLabel" style="color: white">Meio de Captura</h5>
-                  <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdropLabel">Meio de Captura</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
@@ -275,7 +220,7 @@
                       <h6> Pesquisar </h6>
                     </div>
                     <div class="col-sm-12">
-                      <input id="ftMeioCaptura" style="margin-top: -6px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" onKeyDown="filtroMeioCaptura({{$meio_captura}})">
+                      <input id="ftMeioCaptura" class="form-control" onKeyDown="filtroMeioCaptura({{$meio_captura}})">
                     </div>
                   </div>
                   <br>
@@ -289,10 +234,10 @@
                     </div>
                     @if(isset($meio_captura))
                       @foreach($meio_captura as $meio)
-                        <div id="{{ $meio->DESCRICAO }}" style="display:block" class="col-sm-10">
+                        <div id="{{ $meio->DESCRICAO }}" class="col-sm-10 opcao-checkk">
                           <p>{{ $meio->DESCRICAO }}</p>
                         </div>
-                        <div id="{{ "divCod".$meio->CODIGO }}" style="display:block" class="col-sm-2">
+                        <div id="{{ "divCod".$meio->CODIGO }}" class="col-sm-2 opcao-checkk">
                           <input id="{{ "inputMeioCap".$meio->CODIGO }}" value="{{ $meio->CODIGO }}" name="arrayMeioCaptura[]" type="checkbox">
                         </div>
                         <hr>
@@ -312,13 +257,14 @@
     </form>
 
 
-    <div id="resultadosPesquisa" style="display: none">
+    <div id="resultadosPesquisa" class="hidden">
       <div class="row" id="foo">
         <div  class="col-sm-2"></div>
-        <div class="col-sm-10" align="right">
+        <div class="col-sm-10">
           <div class="dropdown">
-            <a class="btn btn-sm dropdown-toggle" style="width: 160px; background: white; color: #2D5275; border-color: #2D5275" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i style="font-size: 19px" class="fas fa-file-download" style="padding: 7px"></i> <b style="font-size: 12px; margin-left: ">Exportar</b>
+            <a class="btn btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-file-download"></i>
+              <b>Exportar</b>
             </a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
               <a class="dropdown-item" id="dp-item"  href="{{ action('VendasController@downloadTable') }}">  PDF</a>
@@ -329,10 +275,10 @@
       </div>
       <br>
       
-      <div style="overflow: scroll; font-size: 13px; overflow-x: scroll; height: 470px">
-        <table id="jsgrid-table" class="table " style="white-space: nowrap; background:white; color: #2D5275">
+      <div class="table-wrapper">
+        <table id="jsgrid-table" class="table">
           <thead>
-            <tr style="background: #2D5275;">
+            <tr>
               <th>Data Venda</th>
               <th>Previs. PGT</th>
               <th>NSU</th>
