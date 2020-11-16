@@ -129,10 +129,10 @@
                       <div class="row">
                         <div class="col-sm-12">
                           <h6>Status Conciliação:</h6>
-                          <div class="row">
+                          <div class="row status-conciliacao">
                             @foreach($status_conciliacao as $status)
                               <div class="check-group">
-                                <input type="checkbox" checked  value="{{ $status->CODIGO }}" name="status_conciliacao[]" id="{{ "statusFinan".$status->CODIGO }}"required>
+                                <input id="{{ "statusFinan".$status->CODIGO }}" type="checkbox" value="{{ $status->CODIGO }}" name="status_conciliacao[]" class="status-conciliacao-checkbox" data-codigo="{{ $status->CODIGO }}" checked required>
                                 <label for="{{ "statusFinan".$status->CODIGO }}">{{ $status->STATUS_CONCILIACAO}}</label>
                               </div>
                             @endforeach
@@ -156,7 +156,7 @@
             </div>
           </div>
 
-          <div class="modal fade modal-filtro" id="staticBackdropAdquirente" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal fade modal-filtro modal-adquirentes" id="staticBackdropAdquirente" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
@@ -190,7 +190,7 @@
                         </div>
 
                         <div id="{{ "divCod".$bandeira->CODIGO }}" class="col-sm-2 opcao-check">
-                          <input id="{{ $adquirente->CODIGO }}" value="{{ $adquirente->ADQUIRENTE }}" name="arrayAdquirentes[]" type="checkbox">
+                          <input id="{{ $adquirente->CODIGO }}" value="{{ $adquirente->ADQUIRENTE }}" class="adquirente"  data-codigo="{{ $adquirente->CODIGO }}" data-adquirente="{{ $adquirente->ADQUIRENTE }}" name="arrayAdquirentes[]" type="checkbox">
                         </div>
                         <hr>
                       @endforeach
@@ -205,7 +205,7 @@
             </div>
           </div>
 
-          <div class="modal fade modal-filtro" id="staticBackdropMeioCaptura" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal fade modal-filtro modal-meio-captura" id="staticBackdropMeioCaptura" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
@@ -234,11 +234,11 @@
                     </div>
                     @if(isset($meio_captura))
                       @foreach($meio_captura as $meio)
-                        <div id="{{ $meio->DESCRICAO }}" class="col-sm-10 opcao-checkk">
+                        <div class="col-sm-10 opcao-check">
                           <p>{{ $meio->DESCRICAO }}</p>
                         </div>
-                        <div id="{{ "divCod".$meio->CODIGO }}" class="col-sm-2 opcao-checkk">
-                          <input id="{{ "inputMeioCap".$meio->CODIGO }}" value="{{ $meio->CODIGO }}" name="arrayMeioCaptura[]" type="checkbox">
+                        <div class="col-sm-2 opcao-check">
+                          <input class="meio-captura" data-codigo="{{ $meio->CODIGO }}" data-descricao="{{ $meio->DESCRICAO }}" value="{{ $meio->CODIGO }}" name="arrayMeioCaptura[]" type="checkbox">
                         </div>
                         <hr>
                       @endforeach
@@ -307,6 +307,8 @@
 @stop
 
 @section('footerScript')
+  <script src="{{ URL::asset('assets/js/vendas/vendaserp.js') }}"></script>
+  
   <!-- Required datatable js -->
   <script src="{{ URL::asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
   <script src="{{ URL::asset('plugins/datatables/dataTables.bootstrap4.min.js')}}"></script>
@@ -325,7 +327,6 @@
   <script src="{{ URL::asset('plugins/datatables/dataTables.responsive.min.js')}}"></script>
   <script src="{{ URL::asset('plugins/datatables/responsive.bootstrap4.min.js')}}"></script>
   <script src="{{ URL::asset('assets/pages/jquery.datatable.init.js')}}"></script>
-
 
   <script>
     $('#submitFormLogin').click(function() {
