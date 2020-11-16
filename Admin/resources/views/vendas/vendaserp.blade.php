@@ -149,7 +149,7 @@
                   <div id="btfiltro">
                     <a id="" onclick="limparFiltros()" class="btn btn-sm"> <i class="far fa-trash-alt"></i> <b>Limpar Campos</b>  </a>
 
-                    <a id="submitFormLogin" class="btn btn-sm"> <i class="fas fa-search"></i> <b>Pesquisar</b>  </a>
+                    <a id="bt-pesquisar" class="btn btn-sm"> <i class="fas fa-search"></i> <b>Pesquisar</b>  </a>
                   </div>
                 </div>
               </div>
@@ -181,7 +181,7 @@
                       <p><b>Adquirente</b></p>
                     </div>
                     <div class="col-sm-2">
-                      <input id="allCheckAd" onchange="allCheckboxAd({{$adquirentes}})" type="checkbox">
+                      <input class="selecionar-tudo" data-seletor="adquirente" type="checkbox">
                     </div>
                     @if(isset($adquirentes))
                       @foreach($adquirentes as $adquirente)
@@ -190,7 +190,7 @@
                         </div>
 
                         <div id="{{ "divCod".$bandeira->CODIGO }}" class="col-sm-2 opcao-check">
-                          <input id="{{ $adquirente->CODIGO }}" value="{{ $adquirente->ADQUIRENTE }}" class="adquirente"  data-codigo="{{ $adquirente->CODIGO }}" data-adquirente="{{ $adquirente->ADQUIRENTE }}" name="arrayAdquirentes[]" type="checkbox">
+                          <input id="{{ $adquirente->CODIGO }}" value="{{ $adquirente->ADQUIRENTE }}" class="adquirente" data-codigo="{{ $adquirente->CODIGO }}" data-adquirente="{{ $adquirente->ADQUIRENTE }}" name="arrayAdquirentes[]" type="checkbox">
                         </div>
                         <hr>
                       @endforeach
@@ -230,7 +230,7 @@
                       <p><b>MEIO DE CAPTURA</b></p>
                     </div>
                     <div class="col-sm-2">
-                      <input id="allCheckMeioCaptura" onchange="allCheckboxMeioCaptura({{$meio_captura}})" type="checkbox">
+                      <input class="selecionar-tudo" data-seletor="meio-captura" type="checkbox">
                     </div>
                     @if(isset($meio_captura))
                       @foreach($meio_captura as $meio)
