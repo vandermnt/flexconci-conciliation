@@ -28,11 +28,15 @@ class VendasErpController extends Controller{
     ->with('status_conciliacao', $status_conciliacao);
   }
 
-  public function buscarVendasErp(){
+  public function buscarVendasErp() {
+    $quantidadesPermitidas = [10, 20, 50, 100, 200];
+
     $data_final = Request::input('data_final');
     $data_inicial = Request::input('data_inicial');
     $adquirente = Request::input('arrayAdquirentes');
     $conciliacao = Request::input('status_conciliacao');
+    $quantidadePorPagina = Request::input('por_pagina', 10);
+    $quantidadePorPagina = in_array($quantidadePorPagina, $quantidadesPermitidas) ? $quantidadePorPagina : 10;
 
     $vendas = DB::table('vendas_erp')
     ->join('modalidade', 'vendas_erp.COD_MODALIDADE', '=', 'modalidade.CODIGO')
@@ -83,7 +87,7 @@ class VendasErpController extends Controller{
       }
     })
     ->orderBy('DATA_VENDA')
-    ->get();
+    ->paginate($quantidadePorPagina);
 
     // $val_bruto = DB::table('vendas_erp')
     // ->join('modalidade', 'vendas_erp.CODIGO_MODALIDADE', '=', 'modalidade.CODIGO')
