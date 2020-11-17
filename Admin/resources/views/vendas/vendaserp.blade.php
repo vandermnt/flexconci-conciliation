@@ -13,27 +13,11 @@
   <link href="{{ URL::asset('plugins/datatables/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
   <!-- Responsive datatable examples -->
   <link href="{{ URL::asset('plugins/datatables/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
-
-  <script type="text/javascript">
-    $(document).ready(function() {
-      var success = "<?php echo session('success') ?>";
-
-      if(success) {
-        $("#exampleModal").modal({
-          show: true
-        });
-      }
-
-      $(window).on('load', function() {
-        $('#preloader').fadeOut('slow');
-      });
-    });
-  </script>
 @stop
 
 @section('content')
-  <div id="preloader" class="loader"></div>
-  
+  <div id="preloader" class="loader hidden"></div>
+
   <div id="tudo_page" class="container-fluid">
     <div class="row">
       <div class="col-sm-12">
@@ -44,7 +28,7 @@
         @endcomponent
       </div>
     </div>
-    <form id="myform" action="{{ action('VendasController@buscarVendasFiltro') }}" method="post">
+    <form id="myform" action="{{ action('VendasErpController@buscarVendasErp') }}" method="post">
       <input type ="hidden" name="_token" value="{{{ csrf_token() }}}">
 
       <div class="row">
@@ -77,7 +61,7 @@
                       <div class="row">
                         <div class="col-sm-12">
                           <h6> Adquirente: </h6>
-                          <input id="adquirente" class="form-control" name="adquirente">
+                          <input id="adquirente" class="adquirente form-control" name="adquirente">
                         </div>
                       </div>
                     </div>
@@ -85,7 +69,7 @@
                 </div>
 
                 <div class="col-sm-2">
-                  <button id="buttonpesquisar" type="button" class="btn btn-sm" data-toggle="modal" data-target="#staticBackdropAdquirente">
+                  <button id="bt-selecionar-adquirentes" type="button" class="btn btn-sm bt-filtro-selecao" data-toggle="modal" data-target="#staticBackdropAdquirente">
                     <b>Selecionar</b>
                   </button>
                 </div>
@@ -96,7 +80,7 @@
                       <div class="row">
                         <div class="col-sm-12">
                           <h6> Meio de Captura: </h6>
-                          <input id="meiocaptura" class="form-control" name="meiocaptura">
+                          <input id="meiocaptura" class="meio-captura form-control" name="meiocaptura">
                         </div>
                       </div>
                     </div>
@@ -104,7 +88,7 @@
                 </div>
 
                 <div class="col-sm-2">
-                  <button id="buttonpesquisar" type="button" class="btn btn-sm" data-toggle="modal" data-target="#staticBackdropMeioCaptura">
+                  <button id="bt-selecionar-meios-captura" type="button" class="btn btn-sm bt-filtro-selecao" data-toggle="modal" data-target="#staticBackdropMeioCaptura">
                     <b>Selecionar</b>
                   </button>
                 </div>
@@ -147,7 +131,7 @@
               <div class="row">
                 <div class="col-sm-12">
                   <div id="btfiltro">
-                    <a id="" onclick="limparFiltros()" class="btn btn-sm"> <i class="far fa-trash-alt"></i> <b>Limpar Campos</b>  </a>
+                    <a form="myform" type="reset" class="btn btn-sm bt-limpar-form"> <i class="far fa-trash-alt"></i> <b>Limpar Campos</b>  </a>
 
                     <a id="bt-pesquisar" class="btn btn-sm"> <i class="fas fa-search"></i> <b>Pesquisar</b>  </a>
                   </div>
@@ -190,7 +174,7 @@
                         </div>
 
                         <div id="{{ "divCod".$bandeira->CODIGO }}" class="col-sm-2 opcao-check">
-                          <input id="{{ $adquirente->CODIGO }}" value="{{ $adquirente->ADQUIRENTE }}" class="adquirente" data-codigo="{{ $adquirente->CODIGO }}" data-adquirente="{{ $adquirente->ADQUIRENTE }}" name="arrayAdquirentes[]" type="checkbox">
+                          <input id="{{ $adquirente->CODIGO }}" value="{{ $adquirente->ADQUIRENTE }}" class="adquirente" data-codigo="{{ $adquirente->CODIGO }}" data-descricao="{{ $adquirente->ADQUIRENTE }}" name="arrayAdquirentes[]" type="checkbox">
                         </div>
                         <hr>
                       @endforeach
@@ -199,7 +183,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
-                  <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addSelecionadosAdquirentes({{$adquirentes}})"><b>Confirmar</b></button>
+                  <button type="button" class="btn btn-success bt-confirmar-selecao" data-dismiss="modal"><b>Confirmar</b></button>
                 </div>
               </div>
             </div>
@@ -247,7 +231,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
-                  <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addSelecionadosMeioCaptura({{$meio_captura}})"><b>Confirmar</b></button>
+                  <button type="button" class="btn btn-success bt-confirmar-selecao" data-dismiss="modal"><b>Confirmar</b></button>
                 </div>
               </div>
             </div>
@@ -274,7 +258,7 @@
         </div>
       </div>
       <br>
-      
+
       <div class="table-wrapper">
         <table id="jsgrid-table" class="table">
           <thead>
@@ -308,7 +292,7 @@
 
 @section('footerScript')
   <script src="{{ URL::asset('assets/js/vendas/vendaserp.js') }}"></script>
-  
+
   <!-- Required datatable js -->
   <script src="{{ URL::asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
   <script src="{{ URL::asset('plugins/datatables/dataTables.bootstrap4.min.js')}}"></script>
@@ -322,387 +306,10 @@
   <script src="{{ URL::asset('plugins/datatables/buttons.html5.min.js')}}"></script>
   <script src="{{ URL::asset('plugins/datatables/buttons.print.min.js')}}"></script>
   <script src="{{ URL::asset('plugins/datatables/buttons.colVis.min.js')}}"></script>
-  
+
   <!-- Responsive examples -->
   <script src="{{ URL::asset('plugins/datatables/dataTables.responsive.min.js')}}"></script>
   <script src="{{ URL::asset('plugins/datatables/responsive.bootstrap4.min.js')}}"></script>
   <script src="{{ URL::asset('assets/pages/jquery.datatable.init.js')}}"></script>
-
-  <script>
-    $('#submitFormLogin').click(function() {
-      $('#jsgrid-table tbody').empty();
-
-      array = [];
-      arrayAdquirentes = [];
-      arrayMeioCaptura = [];
-
-      data_inicial = document.getElementById("date_inicial").value;
-      data_final = document.getElementById("date_final").value;
-      adquirentes = <?php echo $adquirentes ?>;
-      cod_autorizacao = document.getElementById("cod_autorizacao").value;
-      identificador_pagamento = document.getElementById("identificador_pagamento").value;
-      nsu = document.getElementById("nsu").value;
-      mcaptura = <?php echo $meio_captura ?>
-
-      mcaptura.forEach((mcaptura) => {
-        if(document.getElementById("inputMeioCap"+mcaptura.CODIGO).checked) {
-          arrayMeioCaptura.push(mcaptura.CODIGO);
-        }
-      });
-
-      adquirentes.forEach((adquirente) => {
-        if(document.getElementById(adquirente.CODIGO).checked) {
-          arrayAdquirentes.push(adquirente.CODIGO);
-        }
-      }) ;
-
-      document.getElementById("preloader").style.display = "block";
-
-      $.ajax({
-        url: "{{ url('vendaserpfiltro') }}",
-        type: "post",
-        header: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        data: ({_token: '{{csrf_token()}}' , data_inicial, data_final, array, arrayAdquirentes, cod_autorizacao, identificador_pagamento, nsu, arrayMeioCaptura}),
-        dataType: 'json',
-        success: function (response) {
-          if(response) {
-            console.log(response);
-
-            for(var i=0;i< response[0].length; i++) {
-
-              var data_v = new Date(response[0][i].DATA_VENDA);
-              var data_venda = data_v.toLocaleDateString();
-
-              var data_p = new Date(response[0][i].DATA_VENCIMENTO);
-              var data_prev_pag = data_p.toLocaleDateString();
-
-              const total_venda = response[0][i].TOTAL_VENDA;
-              const formatter_total_venda = new Intl.NumberFormat('pt-BR', {
-                style: 'currency',
-                currency: 'BRL'
-              });
-              const total_venda_formato = formatter_total_venda.format(total_venda);
-
-              const val_liq = response[0][i].VALOR_LIQUIDO_PARCELA;
-              const formatter_liq_parcela = new Intl.NumberFormat('pt-BR', {
-                style: 'currency',
-                currency: 'BRL'
-              });
-              const valor_liquido_formato = formatter_liq_parcela.format(val_liq);
-
-              var html = "<tr>";
-
-              html +="<td>"+data_venda+"</td>";
-              html +="<td>"+data_prev_pag+"</td>";
-              if(response[0][i].NSU != null) {
-                html +="<td>"+response[0][i].NSU+"</td>";
-              } 
-              else {
-                html +="<td>"+""+"</td>";
-              }
-              html +="<td>"+total_venda_formato+"</td>";
-              html +="<td>"+response[0][i].PARCELA+"</td>";
-              html +="<td>"+response[0][i].TOTAL_PARCELAS+"</td>";
-              html +="<td>"+valor_liquido_formato+"</td>";
-              html +="<td>"+response[0][i].DESCRICAO_TIPO_PRODUTO +"</td>";
-              html +="<td>"+response[0][i].CODIGO_AUTORIZACAO+"</td>";
-              html +="<td>"+response[0][i].IDENTIFICADOR_PAGAMENTO+"</td>";
-              html +="<td>"+response[0][i].MEIOCAPTURA+"</td>";
-              html +="<td>"+response[0][i].STATUS_CONCILIACAO+"</td>";
-              html +="<td>"+""+"</td>";
-
-
-              html +="</tr>";
-              $('#jsgrid-table').append(html);
-            }
-
-            document.getElementById("resultadosPesquisa").style.display = "block";
-
-            window.scrollTo(0, 550);
-
-            document.getElementById("preloader").style.display = "none";
-
-          }
-        }
-      });
-    });
-
-    var empresasSelecionadas = [];
-    var adquirentesSelecionados = [];
-    var meioCapturaSelecionados = [];
-
-    var el = document.getElementById('datatable');
-    var dragger = tableDragger.default(el, {
-      dragHandler: ".handle"
-    });
-
-    dragger.on('drop',function(from, to) {
-      console.log(from);
-      console.log(to);
-    });
-
-    var flag = true;
-
-    function submit() {
-      document.getElementById("preloader").style.display = "block";
-      document.getElementById("preloader").style.opacity = 0.9;
-
-      setTimeout(function () {
-        document.getElementById("myform").submit();
-      },200)
-    }
-
-    function limparCampo(grupo_clientes) {
-      document.getElementById("empresa").value = "";
-
-      document.getElementById("allCheck").checked = false;
-      grupo_clientes.forEach((cliente) => {
-        document.getElementById(cliente.CODIGO).checked = false;
-      });
-    }
-
-    function addSelecionados(grupo_clientes) {
-      grupo_clientes.forEach((cliente) => {
-        if(document.getElementById(cliente.CODIGO).checked) {
-          empresasSelecionadas.includes(cliente.NOME_EMPRESA) ? '' : empresasSelecionadas.push(cliente.NOME_EMPRESA);
-        } 
-        else {
-          empresasSelecionadas.includes(cliente.NOME_EMPRESA) ? empresasSelecionadas.splice(empresasSelecionadas.indexOf(cliente.NOME_EMPRESA), 1) : '';
-        }
-      });
-
-      document.getElementById("empresa").value = empresasSelecionadas;
-    }
-
-    function addSelecionadosAdquirentes(adquirentes) {
-      adquirentes.forEach((adquirente) => {
-        if(document.getElementById(adquirente.CODIGO).checked) {
-          adquirentesSelecionados.includes(adquirente.ADQUIRENTE) ? '' : adquirentesSelecionados.push(adquirente.ADQUIRENTE);
-        }
-        else {
-          adquirentesSelecionados.includes(adquirente.ADQUIRENTE) ? adquirentesSelecionados.splice(adquirentesSelecionados.indexOf(adquirente.ADQUIRENTE), 1) : '';
-        }
-      });
-
-      document.getElementById("adquirente").value = adquirentesSelecionados;
-    }
-
-    function addSelecionadosMeioCaptura(meiocaptura) {
-      meiocaptura.forEach((meiocaptura) => {
-        if(document.getElementById("inputMeioCap"+meiocaptura.CODIGO).checked) {
-          meioCapturaSelecionados.includes(meiocaptura.DESCRICAO) ? '' :  meioCapturaSelecionados.push(meiocaptura.DESCRICAO);
-        }
-        else {
-          meioCapturaSelecionados.includes(meiocaptura.DESCRICAO) ? meioCapturaSelecionados.splice(meioCapturaSelecionados.indexOf(meiocaptura.DESCRICAO), 1) : '';
-        }
-      });
-
-      document.getElementById("meiocaptura").value = meioCapturaSelecionados;
-    }
-
-    function filtroCnpj(grupo_clientes) {
-      setTimeout(function () {
-        var val_input = document.getElementById("ft").value.toUpperCase();
-
-        if(val_input == "") {
-          grupo_clientes.forEach((cliente) => {
-            document.getElementById(cliente.NOME_EMPRESA).style.display = "block";
-            document.getElementById(cliente.CNPJ).style.display = "block";
-            document.getElementById("divCod"+cliente.CODIGO).style.display = "block";
-
-          });
-        }
-        else {
-          grupo_clientes.forEach((cliente) => {
-
-            var regex = new RegExp(val_input);
-
-            resultado_cnpj = cliente.CNPJ.match(regex);
-            resultado = cliente.NOME_EMPRESA.match(regex);
-
-            if(resultado || resultado_cnpj) {
-              document.getElementById(cliente.NOME_EMPRESA).style.display = "block";
-              document.getElementById(cliente.CNPJ).style.display = "block";
-              document.getElementById("divCod"+cliente.CODIGO).style.display = "block";
-            }
-            else {
-              document.getElementById(cliente.NOME_EMPRESA).style.display = "none";
-              document.getElementById(cliente.CNPJ).style.display = "none";
-              document.getElementById("divCod"+cliente.CODIGO).style.display = "none";
-            }
-          });
-        }
-      }, 300);
-    }
-
-    function submitTrava() {
-      document.getElementById("preloader").style.display = "block";
-      document.getElementById("preloader").style.opacity = 0.2;
-
-      setTimeout(function () {
-        document.getElementById("myformTrava").submit();
-      }, 900);
-    }
-
-    function checkDate() {
-      var inicio = document.getElementById("date_inicial").value;
-      var final = document.getElementById("date_final").value;
-      submit();
-    }
-
-    function allCheckbox(grupo_clientes) {
-      grupo_clientes.forEach((cliente) => {
-        if(document.getElementById("allCheck").checked) {
-          console.log(cliente.CODIGO);
-
-          document.getElementById(cliente.CODIGO).checked = true;
-        }
-        else {
-          document.getElementById(cliente.CODIGO).checked = false;
-        }
-      });
-    }
-
-    function allCheckboxAd(grupo_clientes) {
-      grupo_clientes.forEach((cliente) => {
-        if(document.getElementById("allCheckAd").checked) {
-          document.getElementById(cliente.CODIGO).checked = true;
-        }
-        else {
-          document.getElementById(cliente.CODIGO).checked = false;
-        }
-      });
-    }
-
-    function allCheckboxMeioCaptura(grupo_clientes) {
-      grupo_clientes.forEach((cliente) => {
-        if(document.getElementById("allCheckMeioCaptura").checked) {
-          document.getElementById("inputMeioCap"+cliente.CODIGO).checked = true;
-        }
-        else {
-          document.getElementById("inputMeioCap"+cliente.CODIGO).checked = false;
-        }
-      });
-    }
-
-    var teste = 0;
-
-    function ad(value) {
-      var bt = document.createElement("INPUT");
-      var div_cnpjs = document.getElementById("cont");
-
-      bt.innerHTML = value[1];
-
-      bt.setAttribute('name' , "array[]");
-      bt.setAttribute('value' , value);
-
-      bt.setAttribute('readonly', "");
-      bt.style = "margin-left: 5px; margin-top:5px; margin-bottom: 3px; width: 270px;";
-
-      // Insert text
-      div_cnpjs.appendChild(bt);
-    }
-
-    function limparFiltros() {
-      var status_conciliacao = <?php echo $status_conciliacao ?>;
-
-      document.getElementById("date_final").value = "";
-      document.getElementById("date_inicial").value = "";
-      document.getElementById("adquirente").value = "";
-      document.getElementById("cod_autorizacao").value = "";
-      document.getElementById("identificador_pagamento").value = "";
-      document.getElementById("nsu").value = "";
-      document.getElementById("meiocaptura").value = "";
-
-      status_conciliacao.forEach((status) => {
-        document.getElementById("statusFinan"+status.CODIGO).checked = true;
-      });
-    }
-
-    function addTodos(grupos_clientes) {
-      if(flag) {
-        grupos_clientes.forEach((cliente) => {
-          var bt = document.createElement("INPUT");
-          var div_cnpjs = document.getElementById("cont");
-
-          bt.setAttribute('name' , "array[]");
-          bt.setAttribute('value' , cliente.NOME_EMPRESA + "-" +cliente.CNPJ);
-
-          bt.style = "margin-left: 5px; margin-top:5px; width: 130px;";
-          bt.setAttribute('readonly', "");
-          bt.style = "margin-left: 5px; margin-top:5px; margin-bottom: 3px; width: 270px;";
-          div_cnpjs.appendChild(bt);
-
-          flag = false;
-        });
-      }
-    }
-
-    function removeCnpjs() {
-      var array = document.getElementsByName('array[]');
-      
-      while(array[0]) {
-        array[0].parentNode.removeChild(array[0]);
-      }
-
-      flag = true;
-    }
-    
-    function remover() {
-      var div_cnpjs = document.getElementById("cont");
-    }
-
-    function download_table_as_csv(table_id) {
-      // Select rows from table_id
-      var rows = document.querySelectorAll('table#' + table_id + ' tr');
-      
-      // Construct csv
-      var csv = [];
-      for (var i = 0; i < rows.length; i++) {
-        var row = [], cols = rows[i].querySelectorAll('td, th');
-        for (var j = 0; j < cols.length; j++) {
-
-          // Clean innertext to remove multiple spaces and jumpline (break csv)
-          var data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ')
-          
-          // Escape double-quote with double-double-quote (see https://stackoverflow.com/questions/17808511/properly-escape-a-double-quote-in-csv)
-          data = data.replace(/"/g, '""');
-          
-          // Push escaped string
-          row.push('"' + data + '"');
-        }
-        
-        csv.push(row.join(';'));
-      }
-
-      var csv_string = csv.join('\n');
-
-      // Download it
-      var filename = 'export_' + 'conciflex' + '_' + new Date().toLocaleDateString() + '.csv';
-      var link = document.createElement('a');
-      
-      link.style.display = 'none';
-      link.setAttribute('target', '_blank');
-      link.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv_string));
-      link.setAttribute('download', filename);
-      
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-
-    var mudacor = false;
-
-    function mudaCorLinhaTable(codigo) {
-      if(mudacor) {
-        document.getElementById(codigo).style = "background: white; color: #2D5275";
-        mudacor = false;
-      }
-      else {
-        document.getElementById(codigo).style = "background: #2D5275; color: white";
-        mudacor = true;
-      }
-    }
-  </script>
 @stop
 
