@@ -1,5 +1,5 @@
 #preloader {
-    display: none;
+    display: block;
 }
 
 #tudo_page .form-group h6 {
@@ -11,13 +11,17 @@
     padding-left: 7px;
     padding-top: 5px;
     padding-bottom: 5px;
-    border-color: #2D5275;
+    border-color: #2d5275;
     height: 30px;
 }
 
-#tudo_page #buttonpesquisar {
-    margin-top: 25px;
+#tudo_page .bt-filtro-selecao {
     width: 100%;
+    background: white;
+    color: #2d5275;
+    border-color: #2d5275;
+    transition: 0.6s;
+    margin-top: 25px;
 }
 
 #tudo_page .check-group {
@@ -40,15 +44,15 @@
 }
 
 #tudo_page #btfiltro {
-    display:block;
+    display: block;
     text-align: right;
 }
 
 #tudo_page #btfiltro a {
     align-items: right;
     background: white;
-    color: #2D5275;
-    border-color: #2D5275;
+    color: #2d5275;
+    border-color: #2d5275;
 }
 
 #tudo_page .modal-filtro .modal-dialog {
@@ -60,7 +64,7 @@
 }
 
 #tudo_page .modal-filtro .modal-header {
-    background: #2D5275;
+    background: #2d5275;
 }
 
 #tudo_page .modal-filtro .modal-header h5,
@@ -81,10 +85,6 @@
     display: block;
 }
 
-#tudo_page .hidden {
-    display: none;
-}
-
 #tudo_page #resultadosPesquisa .dropdown {
     display: flex;
     justify-content: flex-end;
@@ -93,8 +93,8 @@
 #tudo_page #resultadosPesquisa .dropdown a {
     width: 160px;
     background: white;
-    color: #2D5275;
-    border-color: #2D5275;
+    color: #2d5275;
+    border-color: #2d5275;
     padding: 7px;
 }
 
@@ -103,7 +103,7 @@
 }
 
 #tudo_page #resultadosPesquisa .dropdown b {
-    font-size: 12px
+    font-size: 12px;
 }
 
 #tudo_page #resultadosPesquisa .table-wrapper {
@@ -115,12 +115,16 @@
 
 #tudo_page #resultadosPesquisa .table {
     white-space: nowrap;
-    background:white;
-    color: #2D5275;
+    background: white;
+    color: #2d5275;
 }
 
 #tudo_page #resultadosPesquisa thead tr:first-of-type {
-    background: #2D5275;
+    background: #2d5275;
+}
+
+.hidden {
+    display: none !important;
 }
 
 @media screen and (max-width: 332px) {
@@ -128,12 +132,12 @@
         display: flex;
         flex-direction: column;
     }
-    
+
     #tudo_page #btfiltro a + a {
         margin-top: 8px;
     }
 
-    #tudo_page #buttonpesquisar {
+    #tudo_page .bt-filtro-selecao {
         margin-top: 0;
         margin-bottom: 25px;
     }
