@@ -25,7 +25,6 @@ function selecionarTudo(event) {
 
     Array.from(naoSelecionados).forEach(naoSelecionado => {
         naoSelecionado.checked = estaSelecionado;
-        naoSelecionado.dispatchEvent(new Event('change'));
     });
 }
 
@@ -36,16 +35,17 @@ function atualizaFiltroSelecao(seletor) {
     inputFiltroSelecao.value = valoresSelecionados.join(', ');
 }
 
-function alternaCarregamento() {
-    carregamentoModal.classList.toggle('hidden');
+function alternaVisibilidade(elemento) {
+    elemento.classList.toggle('hidden');
 }
 
 function serializarDadosFiltros() {
     const adquirentesSelecionados = document.querySelectorAll('input[type=checkbox]:checked.adquirente');
     const meiosCapturaSelecionados = document.querySelectorAll('input[type=checkbox]:checked.meio-captura');
+    const [dataInicialDOM, dataFinalDOM] = dataInputs;
 
-    const data_inicial = dataInputs[0].value;
-    const data_final = dataInputs[dataInputs.length - 1].value;
+    const data_inicial = dataInicialDOM.value;
+    const data_final = dataFinalDOM.value;
     const arrayAdquirentes = Array.from(adquirentesSelecionados).map(selecionado => selecionado.dataset.codigo);
     const arrayMeioCaptura = Array.from(meiosCapturaSelecionados).map(selecionado => selecionado.dataset.codigo);
     const cod_autorizacao = document.querySelector('#cod_autorizacao').value;
@@ -67,11 +67,58 @@ function serializarDadosFiltros() {
     return dados;
 }
 
-function enviarFiltrosForm(form) {
-    const url = form.action;
+function renderizaTabela(vendas) {
+    let tabelaVendasHTML = '';
+    
+    vendas.forEach(venda => {
+        const vendaFormatada = {
+            ...venda,
+            DATA_VENDA: new Date(venda.DATA_VENDA).toLocaleDateString(),
+            DATA_VENCIMENTO: new Date(venda.DATA_VENCIMENTO).toLocaleDateString(),
+            TOTAL_VENDA: new Intl.NumberFormat('pt-br', {
+                style: 'currency',
+                currency: 'BRL',
+            }).format(venda.TOTAL_VENDA),
+            VALOR_LIQUIDO_PARCELA: new Intl.NumberFormat('pt-br', {
+                style: 'currency',
+                currency: 'BRL',
+            }).format(venda.VALOR_LIQUIDO_PARCELA),
+        }
+
+        tabelaVendasHTML += `
+            <tr>
+                <td>
+                    <a class="link-impressao">
+                        <i class="fas fa-print"></i>
+                    </a>
+                </td>
+                <td>${vendaFormatada.DATA_VENDA}</td>
+                <td>${vendaFormatada.DATA_VENCIMENTO}</td>
+                <td>${vendaFormatada.NSU || ''}</td>
+                <td>${vendaFormatada.TOTAL_VENDA}</td>
+                <td>${vendaFormatada.PARCELA}</td>
+                <td>${vendaFormatada.TOTAL_PARCELAS}</td>
+                <td>${vendaFormatada.VALOR_LIQUIDO_PARCELA}</td>
+                <td>${vendaFormatada.DESCRICAO_TIPO_PRODUTO}</td>
+                <td>${vendaFormatada.CODIGO_AUTORIZACAO}</td>
+                <td>${vendaFormatada.IDENTIFICADOR_PAGAMENTO}</td>
+                <td>${vendaFormatada.MEIOCAPTURA}</td>
+                <td>${vendaFormatada.STATUS_CONCILIACAO}</td>
+                <td></td>
+            </tr>
+        `;
+    });
+
+    resultadosPesquisa.querySelector('#jsgrid-table tbody').innerHTML = tabelaVendasHTML;
+}
+
+function enviarFiltrosForm(event) {
+    event.preventDefault();
+
+    const url = event.target.action;
 
     const dados = serializarDadosFiltros();
-    alternaCarregamento();
+    alternaVisibilidade(carregamentoModal);
 
     fetch(url, {
         method: 'POST',
@@ -80,17 +127,22 @@ function enviarFiltrosForm(form) {
     }).then(response => {
         return response.json();
     }).then(json => {
-        // TODO
+        renderizaTabela(json.flat(2));
+        if(resultadosPesquisa.classList.contains('hidden')) {
+            alternaVisibilidade(resultadosPesquisa);
+        }
+        
+        window.scrollTo(0, 550);
     }).finally(() => {
-        alternaCarregamento();
-    })
+        alternaVisibilidade(carregamentoModal);
+    });
 }
 
 btLimparForm.addEventListener('click', limparCampos);
 
 Array.from(btsSelecionarTudo).forEach(btSelecionarTudo => {
     btSelecionarTudo.addEventListener('change', selecionarTudo);
-})
+});
 
 btConfirmarAdquirentes.addEventListener('click', () => {
     atualizaFiltroSelecao('adquirente');
@@ -100,11 +152,8 @@ btConfirmarMeiosCaptura.addEventListener('click', () => {
     atualizaFiltroSelecao('meio-captura');
 });
 
-myform.addEventListener('submit', event => {
-    event.preventDefault();
-    enviarFiltrosForm(myform);
-});
+formFiltros.addEventListener('submit', enviarFiltrosForm);
 
 btPesquisar.addEventListener('click', (event) => {
-    enviarFiltrosForm(myform);
+    formFiltros.dispatchEvent(new Event('submit'));
 });
