@@ -283,6 +283,24 @@
           </tbody>
         </table>
       </div>
+
+      <footer class="d-flex justify-content-between align-items-end flex-wrap">
+        <nav class="nav-paginacao">
+          <ul class="pagination">
+          </ul>
+        </nav>
+
+        <div class="form-group">
+          <label for="quantidadePorPagina">Quantidade por página</label>
+          <select name="porPagina" id="quantidadePorPagina" class="form-control">
+            <option value="10" selected>10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="200">200</option>
+          </select>
+        </div>
+      </footer>
     </div>
   </div>
 @stop

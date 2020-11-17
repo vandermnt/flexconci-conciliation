@@ -9,6 +9,8 @@ const btConfirmarAdquirentes = document.querySelector('.modal-adquirentes .bt-co
 const btConfirmarMeiosCaptura = document.querySelector('.modal-meio-captura .bt-confirmar-selecao');
 const btLimparForm = document.querySelector('.bt-limpar-form');
 const resultadosPesquisa = document.querySelector('#resultadosPesquisa');
+const paginacaoDOM = document.querySelector('#resultadosPesquisa ul.pagination');
+const selectPorPagina = document.querySelector('.form-control[name="porPagina"]');
 
 function limparCampos(event) {
     formFiltros.reset();
@@ -68,8 +70,10 @@ function serializarDadosFiltros() {
 }
 
 function renderizaTabela(vendas) {
+    const tabelaVendas = resultadosPesquisa.querySelector('#jsgrid-table tbody');
     let tabelaVendasHTML = '';
     
+    tabelaVendas.innerHTML = ''
     vendas.forEach(venda => {
         const vendaFormatada = {
             ...venda,
@@ -109,25 +113,126 @@ function renderizaTabela(vendas) {
         `;
     });
 
-    resultadosPesquisa.querySelector('#jsgrid-table tbody').innerHTML = tabelaVendasHTML;
+    tabelaVendas.innerHTML = tabelaVendasHTML;
 }
 
-function enviarFiltrosForm(event) {
-    event.preventDefault();
+function dividirPaginacao(paginaAtual, paginaFinal) {
+    let inicio = [];
+    let meio = [];
+    let fim = [];
 
-    const url = event.target.action;
+    if(paginaAtual < 5) {
+        inicio = Array.from({ length: 5 }, (valor, index) => index + 1);
+        meio = ['...'];
+        fim = [(paginaFinal - 2), (paginaFinal - 1), paginaFinal];
+    } else if(paginaAtual > 4 && paginaAtual < (paginaFinal - 3)) {
+        inicio = Array.from({ length: 2 }, (valor, index) => index + 1);
+        meio = ['...', (paginaAtual - 1), paginaAtual, (paginaAtual + 1)];
+        fim = ['...', (paginaFinal - 2), (paginaFinal - 1), paginaFinal];
+    } else {
+        inicio = Array.from({ length: 2 }, (valor, index) => index + 1);
+        meio = ['...'];
+        fim = [(paginaFinal - 2), (paginaFinal - 1), paginaFinal];
+        if(paginaAtual === (paginaFinal - 3)) {
+            fim.unshift(paginaAtual);
+        }
+    }
 
+    return [inicio, meio, fim];
+}
+
+function renderizaItemPaginacao(itemPaginacao, descricao = itemPaginacao.pagina) {
+    const li = document.createElement('li');
+    li.classList.add('page-item');
+
+    const link = document.createElement('a');
+    link.classList.add('page-link');
+    link.textContent = descricao;
+
+    if(Number.isInteger(itemPaginacao.pagina)) {
+        if(itemPaginacao.pagina === itemPaginacao.paginaAtual) li.classList.add('active');
+
+        link.dataset.pagina = itemPaginacao.pagina;
+        link.dataset.url = `${itemPaginacao.urlBase}?page=${itemPaginacao.pagina}`;
+        link.addEventListener('click', irParaPagina);
+    }
+
+    li.appendChild(link);
+    paginacaoDOM.appendChild(li);
+}
+
+function renderizaPaginacao(paginacao) {
+    const totalPaginas = paginacao.last_page;
+    const paginaAtual = paginacao.current_page;
+    const urlBase = paginacao.path;
+    const secoes = dividirPaginacao(paginaAtual, totalPaginas);
+    
+    paginacaoDOM.innerHTML = '';
+
+    const itemPaginacao = {
+        paginaAtual,
+        urlBase,
+    }
+
+    if(totalPaginas < 9) {
+        const paginas = Array.from({ length: totalPaginas }, (valor, index) => index + 1);
+        paginas.forEach(pagina => {
+            renderizaItemPaginacao({
+                ...itemPaginacao,
+                pagina,
+            });
+        });
+
+        return;
+    }
+
+    secoes.forEach(secao => {
+        secao.forEach(pagina => {
+            renderizaItemPaginacao({
+                ...itemPaginacao,
+                pagina,
+            });
+        });
+    });
+}
+
+async function requisitaVendas(url, dadosRequisicao) {
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'X-CSRF-TOKEN': dadosRequisicao.csrfToken, 'Content-Type': 'application/json' },
+        body: JSON.stringify(dadosRequisicao),
+    });
+    
+    const [json] = await response.json();
+
+    return json;
+}
+
+function irParaPagina(event) {
+    const url = event.target.dataset.url;
+    const quantidadePorPagina = selectPorPagina.value;
+
+    enviarFiltros(`${url}&por_pagina=${quantidadePorPagina}`);
+}
+
+function selecionaQuantidadePorPagina(event) {
+    const url = formFiltros.action;
+    const quantidade = event.target.value;
+    enviarFiltros(`${url}?por_pagina=${quantidade}`);
+}
+
+function enviarFiltros(url) {
     const dados = serializarDadosFiltros();
     alternaVisibilidade(carregamentoModal);
 
-    fetch(url, {
-        method: 'POST',
-        headers: { 'X-CSRF-TOKEN': dados.csrfToken, 'Content-Type': 'application/json' },
-        body: JSON.stringify(dados),
-    }).then(response => {
-        return response.json();
-    }).then(json => {
-        renderizaTabela(json.flat(2));
+    requisitaVendas(url, dados).then(resposta => {
+        renderizaTabela(resposta.data.flat(1));
+        renderizaPaginacao({
+            last_page: resposta.last_page, 
+            current_page: resposta.current_page,
+            path: resposta.path 
+        });
+        
         if(resultadosPesquisa.classList.contains('hidden')) {
             alternaVisibilidade(resultadosPesquisa);
         }
@@ -152,7 +257,14 @@ btConfirmarMeiosCaptura.addEventListener('click', () => {
     atualizaFiltroSelecao('meio-captura');
 });
 
-formFiltros.addEventListener('submit', enviarFiltrosForm);
+selectPorPagina.addEventListener('change', selecionaQuantidadePorPagina);
+
+formFiltros.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const url = event.target.action;
+
+    enviarFiltros(url);
+});
 
 btPesquisar.addEventListener('click', (event) => {
     formFiltros.dispatchEvent(new Event('submit'));

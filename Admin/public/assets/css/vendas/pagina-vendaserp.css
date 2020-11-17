@@ -110,7 +110,7 @@
     overflow: scroll;
     font-size: 13px;
     overflow-x: scroll;
-    height: 470px;
+    max-height: 496px;
 }
 
 #tudo_page #resultadosPesquisa .table {
@@ -123,14 +123,28 @@
     background: #2d5275;
 }
 
+#tudo_page #resultadosPesquisa ul.pagination {
+    flex-wrap: wrap;
+}
+
 #tudo_page #resultadosPesquisa a.link-impressao {
     font-family: Poppins, sans-serif;
     color: #2d5275;
     text-decoration: none;
+    pointer-events: none;
+}
+
+
+#tudo_page #resultadosPesquisa .page-item {
+    cursor: pointer;
 }
 
 #tudo_page #resultadosPesquisa a.link-impressao i {
     font-size: 17px;
+}
+
+#tudo_page #resultadosPesquisa footer {
+    margin: 16px 0;
 }
 
 .hidden {
