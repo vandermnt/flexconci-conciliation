@@ -263,6 +263,7 @@
         <table id="jsgrid-table" class="table">
           <thead>
             <tr>
+              <th>Detalhes</th>
               <th>Data Venda</th>
               <th>Previs. PGT</th>
               <th>NSU</th>
@@ -283,10 +284,6 @@
         </table>
       </div>
     </div>
-    @foreach($todas_vendas as $results)
-      <?php $newDate = date("d/m/Y", strtotime($results->DATA_VENDA));?>
-      <?php $newDatePrev= date("d/m/Y", strtotime($results->DATA_PREVISTA_PAGTO));?>
-    @endforeach
   </div>
 @stop
 
