@@ -123,6 +123,16 @@
     background: #2d5275;
 }
 
+#tudo_page #resultadosPesquisa a.link-impressao {
+    font-family: Poppins, sans-serif;
+    color: #2d5275;
+    text-decoration: none;
+}
+
+#tudo_page #resultadosPesquisa a.link-impressao i {
+    font-size: 17px;
+}
+
 .hidden {
     display: none !important;
 }
