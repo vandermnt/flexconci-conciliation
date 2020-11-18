@@ -222,7 +222,7 @@ function selecionaQuantidadePorPagina(event) {
     enviarFiltros(`${url}?por_pagina=${quantidade}`);
 }
 
-function enviarFiltros(url) {
+function enviarFiltros(url, callback = () => {}) {
     const dados = serializarDadosFiltros();
     alternaVisibilidade(carregamentoModal);
 
@@ -238,7 +238,7 @@ function enviarFiltros(url) {
             alternaVisibilidade(resultadosPesquisa);
         }
 
-        window.scrollTo(0, 550);
+        callback();
     }).finally(() => {
         alternaVisibilidade(carregamentoModal);
     });
@@ -265,7 +265,9 @@ formFiltros.addEventListener('submit', (event) => {
     const url = event.target.action;
     const quantidade = selectPorPagina.value;
 
-    enviarFiltros(`${url}?por_pagina=${quantidade}`);
+    enviarFiltros(`${url}?por_pagina=${quantidade}`, () => {
+        window.scrollTo(0, 550);
+    });
 });
 
 btPesquisar.addEventListener('click', (event) => {
