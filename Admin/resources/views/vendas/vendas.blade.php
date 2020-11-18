@@ -670,35 +670,35 @@ $(document).ready(function(){
       <nav aria-label="Page navigation example">
         <ul id="ul_pagination" class="pagination">
           <!-- <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li> -->
-          <!-- <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li> -->
-          <!-- <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li> -->
-        </ul>
-      </nav>
+          <a class="page-link" href="#" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li> -->
+      <!-- <li class="page-item"><a class="page-link" href="#">1</a></li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li> -->
+      <!-- <li class="page-item">
+      <a class="page-link" href="#" aria-label="Next">
+      <span aria-hidden="true">&raquo;</span>
+    </a>
+  </li> -->
+</ul>
+</nav>
 
-      <div id="pagination" style="font-size:10px">
+<div id="pagination" style="font-size:10px">
 
-      </div>
+</div>
 
-      <!-- <div class="col-sm-12">
-      <div class="row" style="align-items: center;">
-      <div class="col-sm-2">
-      <h6 id="total_registros"> Total Registros: {{ $qtde_registros }} </h6>
-    </div>
-    <div style="margin-left: 10px;" class="col-sm-3">
-    <h6 id="val_bruto"><b>Total Valor Bruto</b>: </h6>
-  </div>
-  <div style="margin-left: -50px;" class="col-sm-1.9">
-  <h6 id="val_liquido"><b>Total Valor Líquido</b>: </h6>
+<!-- <div class="col-sm-12">
+<div class="row" style="align-items: center;">
+<div class="col-sm-2">
+<h6 id="total_registros"> Total Registros: {{ $qtde_registros }} </h6>
+</div>
+<div style="margin-left: 10px;" class="col-sm-3">
+<h6 id="val_bruto"><b>Total Valor Bruto</b>: </h6>
+</div>
+<div style="margin-left: -50px;" class="col-sm-1.9">
+<h6 id="val_liquido"><b>Total Valor Líquido</b>: </h6>
 </div>
 </div>
 </div> -->
@@ -904,21 +904,21 @@ $('#submitFormLogin').click(function(){
 
   $.ajax({
     url: "{{ url('vendasoperadorasfiltro') }}",
-    type: "post",
+    type: "get",
     header:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
     data: ({_token: '{{csrf_token()}}' , data_inicial, data_final, array, arrayAdquirentes, arrayBandeira, arrayModalidade, arrayStatusConciliacao, arrayStatusFinanceiro, arrayMeioCaptura}),
     dataType: 'json',
     success: function (response){
       if(response){
         console.log(response);
-        for(var i=0;i< response[0].length; i++){
-          var data_v = new Date(response[0][i].DATA_VENDA);
+        for(var i=0;i< response[0].data.length; i++){
+          var data_v = new Date(response[0].data[i].DATA_VENDA);
           var data_venda = data_v.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
 
-          var data_p = new Date(response[0][i].DATA_PREVISTA_PAGTO);
+          var data_p = new Date(response[0].data[i].DATA_PREVISTA_PAGTO);
           var data_prev_pag = data_p.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
 
-          const number = response[0][i].VALOR_BRUTO;
+          const number = response[0].data[i].VALOR_BRUTO;
 
           const formatter = new Intl.NumberFormat('pt-BR', {
             style: 'currency',
@@ -927,95 +927,89 @@ $('#submitFormLogin').click(function(){
 
           const formatted = formatter.format(number);
 
-          const val_liq = response[0][i].VALOR_LIQUIDO;
+          const val_liq = response[0].data[i].VALOR_LIQUIDO;
           const formatterliq = new Intl.NumberFormat('pt-BR', {
             style: 'currency',
             currency: 'BRL'
           });
           const formatted_liq = formatterliq.format(val_liq);
 
-          const val_tx = response[0][i].VALOR_TAXA;
+          const val_tx = response[0].data[i].VALOR_TAXA;
           const formattertx = new Intl.NumberFormat('pt-BR', {
             style: 'currency',
             currency: 'BRL'
           });
           const formatted_tx = formattertx.format(val_tx);
 
-          const outras_despesas = response[0][i].OUTRAS_DESPESAS;
+          const outras_despesas = response[0].data[i].OUTRAS_DESPESAS;
           const outras = new Intl.NumberFormat('pt-BR', {
             style: 'currency',
             currency: 'BRL'
           });
           const outras_despesas_format = outras.format(outras_despesas);
 
-          var cod = response[0][i].COD;
-          console.log(response[0][i].COD)
+          var cod = response[0].data[i].COD;
+          console.log(response[0].data[i].COD)
           //tira 2 casas decimais da taxa
-          var a = response[0][i].PERCENTUAL_TAXA;
+          var a = response[0].data[i].PERCENTUAL_TAXA;
           var val_taxa = Number(a).toFixed(2);
           var html = "<tr id='"+cod+"' onclick='mudaCorLinhaTable("+cod+")'>";
 
           // setTimeout(function () {
           // html +="<td>";
-          if(response[0][i].COD_STATUS_CONCILIACAO == 6) {
-            html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Conciliação' onclick='desfazerConciliacao(" + response[0][i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-undo-alt'></i></a>"+" "+
-            "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0][i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+          if(response[0].data[i].COD_STATUS_CONCILIACAO == 6) {
+            html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Conciliação' onclick='desfazerConciliacao(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-undo-alt'></i></a>"+" "+
+            "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
 
-          }else if(response[0][i].COD_STATUS_CONCILIACAO == 3){
-            html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Justificativa' onclick='desfazerJustificativa(" + response[0][i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-history'></i></a>"+" "+
-            "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0][i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+          }else if(response[0].data[i].COD_STATUS_CONCILIACAO == 3){
+            html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Justificativa' onclick='desfazerJustificativa(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-history'></i></a>"+" "+
+            "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
           }else{
-            html += "<td>" + "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0][i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+            html += "<td>" + "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
           }
 
 
-          html +="<td>"+response[0][i].EMPRESA+"</td>";
-          html +="<td>"+response[0][i].CNPJ+"</td>";
+          html +="<td>"+response[0].data[i].EMPRESA+"</td>";
+          html +="<td>"+response[0].data[i].CNPJ+"</td>";
 
           // html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' id='cartao'/>"+"</td>";
-          html +="<td>"+"<img src='"+response[0][i].IMAGEMAD+"' style='width: 30px'/>"+ " " + response[0][i].ADQUIRENTE + "</td>";
+          html +="<td>"+"<img src='"+response[0].data[i].IMAGEMAD+"' style='width: 30px'/>"+ " " + response[0].data[i].ADQUIRENTE + "</td>";
           html +="<td>"+data_venda+"</td>";
           html +="<td>"+data_prev_pag+"</td>";
-          if(response[0][i].IMAGEMBAD == null){
+          if(response[0].data[i].IMAGEMBAD == null){
             html +="<td>"+"<img src='assets/images/iconCart.jpeg' style='width: 30px'/>"+"</td>";
           }else{
-            html +="<td>"+"<img src='"+response[0][i].IMAGEMBAD+"' style='width: 30px'/>"+ " " + response[0][i].BANDEIRA + "</td>";
+            html +="<td>"+"<img src='"+response[0].data[i].IMAGEMBAD+"' style='width: 30px'/>"+ " " + response[0].data[i].BANDEIRA + "</td>";
           }
-          html +="<td>"+response[0][i].DESCRICAO+"</td>";
-          html +="<td>"+response[0][i].NSU+"</td>";
-          html +="<td>"+response[0][i].AUTORIZACAO+"</td>";
-          html +="<td>"+response[0][i].CARTAO+"</td>";
+          html +="<td>"+response[0].data[i].DESCRICAO+"</td>";
+          html +="<td>"+response[0].data[i].NSU+"</td>";
+          html +="<td>"+response[0].data[i].AUTORIZACAO+"</td>";
+          html +="<td>"+response[0].data[i].CARTAO+"</td>";
           html +="<td>"+formatted +"</td>";
           html +="<td>"+val_taxa+"</td>";
           html +="<td>"+formatted_tx+"</td>";
           html +="<td>"+outras_despesas_format+"</td>";
           html +="<td>"+formatted_liq+"</td>";
-          html +="<td>"+response[0][i].PARCELA+"</td>";
-          html +="<td>"+response[0][i].TOTAL_PARCELAS+"</td>";
-          html +="<td>"+response[0][i].HORA_TRANSACAO+"</td>";
-          html +="<td>"+response[0][i].ESTABELECIMENTO+"</td>";
-          html +="<td>"+response[0][i].BANCO+"</td>";
-          html +="<td>"+response[0][i].AGENCIA+"</td>";
-          html +="<td>"+response[0][i].CONTA+"</td>";
-          html +="<td>"+response[0][i].OBSERVACOES+"</td>";
-          if(response[0][i].COD_PRODUTO !=  null){
-            html +="<td>"+response[0][i].PRODUTO_WEB+"</td>";
+          html +="<td>"+response[0].data[i].PARCELA+"</td>";
+          html +="<td>"+response[0].data[i].TOTAL_PARCELAS+"</td>";
+          html +="<td>"+response[0].data[i].HORA_TRANSACAO+"</td>";
+          html +="<td>"+response[0].data[i].ESTABELECIMENTO+"</td>";
+          html +="<td>"+response[0].data[i].BANCO+"</td>";
+          html +="<td>"+response[0].data[i].AGENCIA+"</td>";
+          html +="<td>"+response[0].data[i].CONTA+"</td>";
+          html +="<td>"+response[0].data[i].OBSERVACOES+"</td>";
+          if(response[0].data[i].COD_PRODUTO !=  null){
+            html +="<td>"+response[0].data[i].PRODUTO_WEB+"</td>";
           }else{
             html +="<td>"+""+"</td>";
           }
-          html +="<td>"+response[0][i].MEIOCAPTURA+"</td>";
-          html +="<td>"+response[0][i].status_conc+"</td>";
-          html +="<td>"+response[0][i].status_finan+"</td>";
+          html +="<td>"+response[0].data[i].MEIOCAPTURA+"</td>";
+          html +="<td>"+response[0].data[i].status_conc+"</td>";
+          html +="<td>"+response[0].data[i].status_finan+"</td>";
           html +="<td>"+""+"</td>";
-
-
-
-          // var url = "{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD;
-          var url = "#";
-
           html +="</tr>";
+
           $('#jsgrid-table').append(html);
-          // },100);
         }
 
         var htmll = "<tr id='rodapeTable'>";
@@ -1051,537 +1045,774 @@ $('#submitFormLogin').click(function(){
         htmll +="</tr>";
         $('#jsgrid-table').append(htmll);
 
-        let li_html;
-        for(let i=0; i<response[0].last_page; i++){
-           li_html += "<li class='page-item'><a class='page-link' href='/page="+i+"'>" + i + "</a></li>"
+        let li_html = "<li><a>" + "" + "</a></li>"
 
-          console.log("TESTE");
+        if(response[0].last_page < 10){
+          for(let i=1; i<=response[0].last_page; i++){
+            // li_html += "<li class='page-item'><a class='page-link' href='/page="+i+"'>" + i + "</a></li>"
+            if(i == response[0].current_page){
+              li_html += "<li class='page-item active'><a class='page-link' onclick='paginate(" + i + ", " + 'data_inicial' + ", "+ 'data_final' + ")'>" + i + "</a></li>"
+            }else{
+              li_html += "<li class='page-item'><a class='page-link' onclick='paginate(" + i + ", " + 'data_inicial' + ", "+ 'data_final' + ")'>" + i + "</a></li>"
+            }
+          }
+        }else{
+          for(let i=1; i<=5; i++){
+            if(i == response[0].current_page){
+              li_html += "<li class='page-item active'><a class='page-link' onclick='paginate(" + i + ", " + 'data_inicial' + ", "+ 'data_final' + ")'>" + i + "</a></li>"
+            }else{
+              li_html += "<li class='page-item'><a class='page-link' onclick='paginate(" + i + ", " + 'data_inicial' + ", "+ 'data_final' + ")'>" + i + "</a></li>"
+            }           }
+            li_html += "<li class='page-item'><a class='page-link'>" + "..." + "</a></li>"
+            for(let i=response[0].last_page-2; i<=response[0].last_page; i++){
+              li_html += "<li class='page-item'><a class='page-link' onclick='paginate(" + i + ", " + 'data_inicial' + ", "+ 'data_final' + ")'>" + i + "</a></li>"
+            }
+          }
+
+          $('#ul_pagination').append(li_html);
+
+          document.getElementById("resultadosPesquisa").style.display = "block";
+
+          document.getElementById("total_liquido_vendas").innerHTML = "R$ "+response[1];
+          document.getElementById("total_registros").innerHTML = response[3];
+          document.getElementById("total_taxa_cobrada").innerHTML = "R$ "+response[4];
+          document.getElementById("total_bruto_vendas").innerHTML = "R$ "+response[2];
+
+          window.scrollTo(0, 550);
+
+          document.getElementById("preloader").style.display = "none";
         }
-
-        $('#ul_pagination').append(li_html);
-
-        document.getElementById("resultadosPesquisa").style.display = "block";
-
-        document.getElementById("total_liquido_vendas").innerHTML = "R$ "+response[1];
-        document.getElementById("total_registros").innerHTML = response[3];
-        document.getElementById("total_taxa_cobrada").innerHTML = "R$ "+response[4];
-        document.getElementById("total_bruto_vendas").innerHTML = "R$ "+response[2];
-
-        window.scrollTo(0, 550);
-
-        document.getElementById("preloader").style.display = "none";
       }
-    }
-  });
-});
-
-var empresasSelecionadas = [];
-var adquirentesSelecionados = [];
-var bandeirasSelecionados = [];
-var modalidadesSelecionados = [];
-var meioCapturaSelecionados = [];
-
-var el = document.getElementById('datatable');
-var dragger = tableDragger.default(el, {
-  dragHandler: ".handle",
-  // animation: 300
-  // onlyBody: false,
-
-})
-dragger.on('drop',function(from, to){
-  console.log(from);
-  console.log(to);
-});
-
-
-var flag = true;
-
-function submit(){
-  document.getElementById("preloader").style.display = "block";
-  document.getElementById("preloader").style.opacity = 0.9;
-
-  setTimeout(function () {
-    document.getElementById("myform").submit();
-  },200)
-}
-
-function limparCampo(grupo_clientes){
-  document.getElementById("empresa").value = "";
-
-  document.getElementById("allCheck").checked = false;
-  grupo_clientes.forEach((cliente) => {
-    document.getElementById(cliente.CODIGO).checked = false;
-  });
-}
-
-function addSelecionados(grupo_clientes){
-  grupo_clientes.forEach((cliente) => {
-    if(document.getElementById(cliente.CODIGO).checked){
-      empresasSelecionadas.includes(cliente.NOME_EMPRESA) ? '' : empresasSelecionadas.push(cliente.NOME_EMPRESA);
-    }else{
-      empresasSelecionadas.includes(cliente.NOME_EMPRESA) ? empresasSelecionadas.splice(empresasSelecionadas.indexOf(cliente.NOME_EMPRESA), 1) : '';
-    }
+    });
   });
 
-  document.getElementById("empresa").value = empresasSelecionadas;
-}
+  function paginate(pagina_desejada, data_inicial, data_final){
+    document.getElementById("preloader").style.display = "block";
 
-function addSelecionadosAdquirentes(adquirentes){
-  adquirentes.forEach((adquirente) => {
-    if(document.getElementById(adquirente.CODIGO).checked){
-      adquirentesSelecionados.includes(adquirente.ADQUIRENTE) ? '' : adquirentesSelecionados.push(adquirente.ADQUIRENTE);
-    }else{
-      adquirentesSelecionados.includes(adquirente.ADQUIRENTE) ? adquirentesSelecionados.splice(adquirentesSelecionados.indexOf(adquirente.ADQUIRENTE), 1) : '';
-    }
+    $.ajax({
+      url: "{{ url('vendasoperadorasfiltro') }}" + "?data_inicial=" + "&page=" + pagina_desejada,
+      type: "post",
+      header:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+      data: ({_token: '{{csrf_token()}}',  data_inicial, data_final}),
+      dataType: 'json',
+      success: function (response){
+        if(response){
+          console.log(response)
+          $('#jsgrid-table tbody').empty();
+          $('#ul_pagination li').empty();
+
+
+          for(var i=0;i< response[0].data.length; i++){
+            var data_v = new Date(response[0].data[i].DATA_VENDA);
+            var data_venda = data_v.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+
+            var data_p = new Date(response[0].data[i].DATA_PREVISTA_PAGTO);
+            var data_prev_pag = data_p.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+
+            const number = response[0].data[i].VALOR_BRUTO;
+
+            const formatter = new Intl.NumberFormat('pt-BR', {
+              style: 'currency',
+              currency: 'BRL'
+            });
+
+            const formatted = formatter.format(number);
+
+            const val_liq = response[0].data[i].VALOR_LIQUIDO;
+            const formatterliq = new Intl.NumberFormat('pt-BR', {
+              style: 'currency',
+              currency: 'BRL'
+            });
+            const formatted_liq = formatterliq.format(val_liq);
+
+            const val_tx = response[0].data[i].VALOR_TAXA;
+            const formattertx = new Intl.NumberFormat('pt-BR', {
+              style: 'currency',
+              currency: 'BRL'
+            });
+            const formatted_tx = formattertx.format(val_tx);
+
+            const outras_despesas = response[0].data[i].OUTRAS_DESPESAS;
+            const outras = new Intl.NumberFormat('pt-BR', {
+              style: 'currency',
+              currency: 'BRL'
+            });
+            const outras_despesas_format = outras.format(outras_despesas);
+
+            var cod = response[0].data[i].COD;
+            console.log(response[0].data[i].COD)
+            //tira 2 casas decimais da taxa
+            var a = response[0].data[i].PERCENTUAL_TAXA;
+            var val_taxa = Number(a).toFixed(2);
+            var html = "<tr id='"+cod+"' onclick='mudaCorLinhaTable("+cod+")'>";
+
+            // setTimeout(function () {
+            // html +="<td>";
+            if(response[0].data[i].COD_STATUS_CONCILIACAO == 6) {
+              html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Conciliação' onclick='desfazerConciliacao(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-undo-alt'></i></a>"+" "+
+              "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+
+            }else if(response[0].data[i].COD_STATUS_CONCILIACAO == 3){
+              html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Justificativa' onclick='desfazerJustificativa(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-history'></i></a>"+" "+
+              "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+            }else{
+              html += "<td>" + "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+            }
+
+
+            html +="<td>"+response[0].data[i].EMPRESA+"</td>";
+            html +="<td>"+response[0].data[i].CNPJ+"</td>";
+
+            // html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' id='cartao'/>"+"</td>";
+            html +="<td>"+"<img src='"+response[0].data[i].IMAGEMAD+"' style='width: 30px'/>"+ " " + response[0].data[i].ADQUIRENTE + "</td>";
+            html +="<td>"+data_venda+"</td>";
+            html +="<td>"+data_prev_pag+"</td>";
+            if(response[0].data[i].IMAGEMBAD == null){
+              html +="<td>"+"<img src='assets/images/iconCart.jpeg' style='width: 30px'/>"+"</td>";
+            }else{
+              html +="<td>"+"<img src='"+response[0].data[i].IMAGEMBAD+"' style='width: 30px'/>"+ " " + response[0].data[i].BANDEIRA + "</td>";
+            }
+            html +="<td>"+response[0].data[i].DESCRICAO+"</td>";
+            html +="<td>"+response[0].data[i].NSU+"</td>";
+            html +="<td>"+response[0].data[i].AUTORIZACAO+"</td>";
+            html +="<td>"+response[0].data[i].CARTAO+"</td>";
+            html +="<td>"+formatted +"</td>";
+            html +="<td>"+val_taxa+"</td>";
+            html +="<td>"+formatted_tx+"</td>";
+            html +="<td>"+outras_despesas_format+"</td>";
+            html +="<td>"+formatted_liq+"</td>";
+            html +="<td>"+response[0].data[i].PARCELA+"</td>";
+            html +="<td>"+response[0].data[i].TOTAL_PARCELAS+"</td>";
+            html +="<td>"+response[0].data[i].HORA_TRANSACAO+"</td>";
+            html +="<td>"+response[0].data[i].ESTABELECIMENTO+"</td>";
+            html +="<td>"+response[0].data[i].BANCO+"</td>";
+            html +="<td>"+response[0].data[i].AGENCIA+"</td>";
+            html +="<td>"+response[0].data[i].CONTA+"</td>";
+            html +="<td>"+response[0].data[i].OBSERVACOES+"</td>";
+            if(response[0].data[i].COD_PRODUTO !=  null){
+              html +="<td>"+response[0].data[i].PRODUTO_WEB+"</td>";
+            }else{
+              html +="<td>"+""+"</td>";
+            }
+            html +="<td>"+response[0].data[i].MEIOCAPTURA+"</td>";
+            html +="<td>"+response[0].data[i].status_conc+"</td>";
+            html +="<td>"+response[0].data[i].status_finan+"</td>";
+            html +="<td>"+""+"</td>";
+
+            var url = "#";
+
+            html +="</tr>";
+            $('#jsgrid-table').append(html);
+            // },100);
+          }
+
+          var htmll = "<tr id='rodapeTable'>";
+          htmll +="<td>"+""+"</td>";
+          htmll +="<td>"+""+"</td>";
+          htmll +="<td>"+""+"</td>";
+          htmll +="<td>"+""+"</td>";
+          htmll +="<td>"+""+"</td>";
+          htmll +="<td>"+""+"</td>";
+          htmll +="<td>"+""+"</td>";
+          htmll +="<td>"+""+"</td>";
+          htmll +="<td>"+""+"</td>";
+          htmll +="<td>"+""+"</td>";
+          htmll +="<td>"+""+"</td>";
+          htmll +="<td style='color:#6E6E6E'> <b>"+response[2]+"</b></td>";
+          htmll +="<td>"+""+"</td>";
+          htmll +="<td style='color:#6E6E6E'><b>"+response[4]+"</b></td>";
+          htmll +="<td style='color:#6E6E6E'><b>"+response[6]+"</b></td>";
+          htmll +="<td style='color:#6E6E6E'><b>"+response[1]+"</b></td>";
+          htmll +="<td>"+""+"</td>";
+          htmll +="<td>"+""+"</td>";
+          htmll +="<td>"+""+"</td>";
+          htmll +="<td>"+""+"</td>";
+          htmll +="<td>"+""+"</td>";
+          htmll +="<td>"+""+"</td>";
+          htmll +="<td>"+""+"</td>";
+          htmll +="<td>"+""+"</td>";
+          htmll +="<td>"+""+"</td>";
+          htmll +="<td>"+""+"</td>";
+          htmll +="<td>"+""+"</td>";
+          htmll +="<td>"+""+"</td>";
+
+          htmll +="</tr>";
+          $('#jsgrid-table').append(htmll);
+
+          let li_html = "<li><a>" + "" + "</a></li>"
+          console.log(response[0].current_page);
+          console.log(response[0].last_page-2);
+
+          if(response[0].last_page < 10){
+            for(let i=1; i<=response[0].last_page; i++){
+              // li_html += "<li class='page-item'><a class='page-link' href='/page="+i+"'>" + i + "</a></li>"
+              if(i == response[0].current_page){
+                li_html += "<li class='page-item active'><a class='page-link' onclick='paginate(" + i + ", " + 'data_inicial' + ", "+ 'data_final' + ")'>" + i + "</a></li>"
+              }else{
+                li_html += "<li class='page-item'><a class='page-link' onclick='paginate(" + i + ", " + 'data_inicial' + ", "+ 'data_final' + ")'>" + i + "</a></li>"
+              }
+            }
+          }else if(response[0].current_page >=5 && response[0].current_page < response[0].last_page-2){
+            for(let i=1; i<3; i++){
+              li_html += "<li class='page-item'><a class='page-link' onclick='paginate(" + i + ", " + 'data_inicial' + ", "+ 'data_final' + ")'>" + i + "</a></li>"
+            }
+            li_html += "<li class='page-item'><a class='page-link'>" + "..." + "</a></li>"
+            for(let i=response[0].current_page-1; i<response[0].current_page+2; i++){
+              if(i == response[0].current_page){
+                li_html += "<li class='page-item active'><a class='page-link' onclick='paginate(" + i + ", " + 'data_inicial' + ", "+ 'data_final' + ")'>" + i + "</a></li>"
+              }else{
+                li_html += "<li class='page-item'><a class='page-link' onclick='paginate(" + i + ", " + 'data_inicial' + ", "+ 'data_final' + ")'>" + i + "</a></li>"
+              }
+            }
+            li_html += "<li class='page-item'><a class='page-link'>" + "..." + "</a></li>"
+            for(let i=response[0].last_page-2; i<=response[0].last_page; i++){
+              li_html += "<li class='page-item'><a class='page-link' onclick='paginate(" + i + ", " + 'data_inicial' + ", "+ 'data_final' + ")'>" + i + "</a></li>"
+
+            }
+          }else if(response[0].current_page >= response[0].last_page-2){
+            console.log("TESTEEEEEEEEEEE");
+            for(let i=1; i<3; i++){
+              li_html += "<li class='page-item'><a class='page-link' onclick='paginate(" + i + ", " + 'data_inicial' + ", "+ 'data_final' + ")'>" + i + "</a></li>"
+            }
+            li_html += "<li class='page-item'><a class='page-link'>" + "..." + "</a></li>"
+            for(let i=response[0].last_page-2; i<=response[0].last_page; i++){
+              if(i == response[0].current_page){
+                li_html += "<li class='page-item active'><a class='page-link' onclick='paginate(" + i + ", " + 'data_inicial' + ", "+ 'data_final' + ")'>" + i + "</a></li>"
+              }else{
+                li_html += "<li class='page-item'><a class='page-link' onclick='paginate(" + i + ", " + 'data_inicial' + ", "+ 'data_final' + ")'>" + i + "</a></li>"
+              }
+            }
+          }else{
+            for(let i=1; i<=5; i++){
+              if(i == response[0].current_page){
+                li_html += "<li class='page-item active'><a class='page-link' onclick='paginate(" + i + ", " + 'data_inicial' + ", "+ 'data_final' + ")'>" + i + "</a></li>"
+              }else{
+                li_html += "<li class='page-item'><a class='page-link' onclick='paginate(" + i + ", " + 'data_inicial' + ", "+ 'data_final' + ")'>" + i + "</a></li>"
+              }
+            }
+            li_html += "<li class='page-item'><a class='page-link'>" + "..." + "</a></li>"
+            for(let i =response[0].last_page-2; i<=response[0].last_page; i++){
+              li_html += "<li class='page-item'><a class='page-link' onclick='paginate(" + i + ", " + 'data_inicial' + ", "+ 'data_final' + ")'>" + i + "</a></li>"
+            }
+          }
+
+          $('#ul_pagination').append(li_html);
+
+          document.getElementById("preloader").style.display = "none";
+
+        }
+      }
+    });
+
+  }
+
+  var empresasSelecionadas = [];
+  var adquirentesSelecionados = [];
+  var bandeirasSelecionados = [];
+  var modalidadesSelecionados = [];
+  var meioCapturaSelecionados = [];
+
+  var el = document.getElementById('datatable');
+  var dragger = tableDragger.default(el, {
+    dragHandler: ".handle",
+    // animation: 300
+    // onlyBody: false,
+
+  })
+  dragger.on('drop',function(from, to){
+    console.log(from);
+    console.log(to);
   });
 
-  document.getElementById("adquirente").value = adquirentesSelecionados;
-}
 
-function addSelecionadosBandeira(bandeiras){
-  bandeiras.forEach((bandeira) => {
-    if(document.getElementById(bandeira.CODIGO).checked){
-      bandeirasSelecionados.includes(bandeira.BANDEIRA) ? '' : bandeirasSelecionados.push(bandeira.BANDEIRA);
-    }else{
-      bandeirasSelecionados.includes(bandeira.BANDEIRA) ? bandeirasSelecionados.splice(bandeirasSelecionados.indexOf(bandeira.BANDEIRA), 1) : '';
-    }
-  });
+  var flag = true;
 
-  document.getElementById("bandeira").value = bandeirasSelecionados;
-}
+  function submit(){
+    document.getElementById("preloader").style.display = "block";
+    document.getElementById("preloader").style.opacity = 0.9;
 
-function addSelecionadosModalidade(modalidades){
-  modalidades.forEach((modalidade) => {
-    if(document.getElementById("inputMod"+modalidade.CODIGO).checked){
-      modalidadesSelecionados.includes(modalidade.DESCRICAO) ? '' : modalidadesSelecionados.push(modalidade.DESCRICAO);
-    }else{
-      modalidadesSelecionados.includes(modalidade.DESCRICAO) ? modalidadesSelecionados.splice(modalidadesSelecionados.indexOf(modalidade.DESCRICAO), 1) : '';
-    }
-  });
+    setTimeout(function () {
+      document.getElementById("myform").submit();
+    },200)
+  }
 
-  document.getElementById("modalidade").value = modalidadesSelecionados;
-}
+  function limparCampo(grupo_clientes){
+    document.getElementById("empresa").value = "";
 
-function addSelecionadosMeioCaptura(meiocaptura){
-  meiocaptura.forEach((meiocaptura) => {
-    if(document.getElementById("inputMeioCap"+meiocaptura.CODIGO).checked){
-      meioCapturaSelecionados.includes(meiocaptura.DESCRICAO) ? '' :  meioCapturaSelecionados.push(meiocaptura.DESCRICAO);
-    }else{
-      meioCapturaSelecionados.includes(meiocaptura.DESCRICAO) ? meioCapturaSelecionados.splice(meioCapturaSelecionados.indexOf(meiocaptura.DESCRICAO), 1) : '';
-    }
-  });
+    document.getElementById("allCheck").checked = false;
+    grupo_clientes.forEach((cliente) => {
+      document.getElementById(cliente.CODIGO).checked = false;
+    });
+  }
 
-  document.getElementById("meiocaptura").value = meioCapturaSelecionados;
-}
+  function addSelecionados(grupo_clientes){
+    grupo_clientes.forEach((cliente) => {
+      if(document.getElementById(cliente.CODIGO).checked){
+        empresasSelecionadas.includes(cliente.NOME_EMPRESA) ? '' : empresasSelecionadas.push(cliente.NOME_EMPRESA);
+      }else{
+        empresasSelecionadas.includes(cliente.NOME_EMPRESA) ? empresasSelecionadas.splice(empresasSelecionadas.indexOf(cliente.NOME_EMPRESA), 1) : '';
+      }
+    });
 
-function filtroCnpj(grupo_clientes){
+    document.getElementById("empresa").value = empresasSelecionadas;
+  }
 
-  setTimeout(function () {
-    var val_input = document.getElementById("ft").value.toUpperCase();
+  function addSelecionadosAdquirentes(adquirentes){
+    adquirentes.forEach((adquirente) => {
+      if(document.getElementById(adquirente.CODIGO).checked){
+        adquirentesSelecionados.includes(adquirente.ADQUIRENTE) ? '' : adquirentesSelecionados.push(adquirente.ADQUIRENTE);
+      }else{
+        adquirentesSelecionados.includes(adquirente.ADQUIRENTE) ? adquirentesSelecionados.splice(adquirentesSelecionados.indexOf(adquirente.ADQUIRENTE), 1) : '';
+      }
+    });
 
-    if(val_input == ""){
-      grupo_clientes.forEach((cliente) => {
-        document.getElementById(cliente.NOME_EMPRESA).style.display = "block";
-        document.getElementById(cliente.CNPJ).style.display = "block";
-        document.getElementById("divCod"+cliente.CODIGO).style.display = "block";
+    document.getElementById("adquirente").value = adquirentesSelecionados;
+  }
 
-      });
-    }else{
-      grupo_clientes.forEach((cliente) => {
+  function addSelecionadosBandeira(bandeiras){
+    bandeiras.forEach((bandeira) => {
+      if(document.getElementById(bandeira.CODIGO).checked){
+        bandeirasSelecionados.includes(bandeira.BANDEIRA) ? '' : bandeirasSelecionados.push(bandeira.BANDEIRA);
+      }else{
+        bandeirasSelecionados.includes(bandeira.BANDEIRA) ? bandeirasSelecionados.splice(bandeirasSelecionados.indexOf(bandeira.BANDEIRA), 1) : '';
+      }
+    });
 
-        var regex = new RegExp(val_input);
+    document.getElementById("bandeira").value = bandeirasSelecionados;
+  }
 
-        resultado_cnpj = cliente.CNPJ.match(regex);
-        resultado = cliente.NOME_EMPRESA.match(regex);
+  function addSelecionadosModalidade(modalidades){
+    modalidades.forEach((modalidade) => {
+      if(document.getElementById("inputMod"+modalidade.CODIGO).checked){
+        modalidadesSelecionados.includes(modalidade.DESCRICAO) ? '' : modalidadesSelecionados.push(modalidade.DESCRICAO);
+      }else{
+        modalidadesSelecionados.includes(modalidade.DESCRICAO) ? modalidadesSelecionados.splice(modalidadesSelecionados.indexOf(modalidade.DESCRICAO), 1) : '';
+      }
+    });
 
-        if(resultado || resultado_cnpj) {
+    document.getElementById("modalidade").value = modalidadesSelecionados;
+  }
+
+  function addSelecionadosMeioCaptura(meiocaptura){
+    meiocaptura.forEach((meiocaptura) => {
+      if(document.getElementById("inputMeioCap"+meiocaptura.CODIGO).checked){
+        meioCapturaSelecionados.includes(meiocaptura.DESCRICAO) ? '' :  meioCapturaSelecionados.push(meiocaptura.DESCRICAO);
+      }else{
+        meioCapturaSelecionados.includes(meiocaptura.DESCRICAO) ? meioCapturaSelecionados.splice(meioCapturaSelecionados.indexOf(meiocaptura.DESCRICAO), 1) : '';
+      }
+    });
+
+    document.getElementById("meiocaptura").value = meioCapturaSelecionados;
+  }
+
+  function filtroCnpj(grupo_clientes){
+
+    setTimeout(function () {
+      var val_input = document.getElementById("ft").value.toUpperCase();
+
+      if(val_input == ""){
+        grupo_clientes.forEach((cliente) => {
           document.getElementById(cliente.NOME_EMPRESA).style.display = "block";
           document.getElementById(cliente.CNPJ).style.display = "block";
           document.getElementById("divCod"+cliente.CODIGO).style.display = "block";
-        }else{
-          document.getElementById(cliente.NOME_EMPRESA).style.display = "none";
-          document.getElementById(cliente.CNPJ).style.display = "none";
-          document.getElementById("divCod"+cliente.CODIGO).style.display = "none";
-        }
-      });
-    }
-  },300)
-}
 
-function filtroNomeAdquirente(adquirentes){
+        });
+      }else{
+        grupo_clientes.forEach((cliente) => {
 
-  setTimeout(function () {
-    var val_input = document.getElementById("inputAdq").value;
+          var regex = new RegExp(val_input);
 
-    if(val_input == ""){
-      adquirentes.forEach((adq) => {
-        document.getElementById(adq.ADQUIRENTE).style.display = "block";
-        document.getElementById("divAdq"+adq.CODIGO).style.display = "block";
+          resultado_cnpj = cliente.CNPJ.match(regex);
+          resultado = cliente.NOME_EMPRESA.match(regex);
 
-      });
-    }else{
+          if(resultado || resultado_cnpj) {
+            document.getElementById(cliente.NOME_EMPRESA).style.display = "block";
+            document.getElementById(cliente.CNPJ).style.display = "block";
+            document.getElementById("divCod"+cliente.CODIGO).style.display = "block";
+          }else{
+            document.getElementById(cliente.NOME_EMPRESA).style.display = "none";
+            document.getElementById(cliente.CNPJ).style.display = "none";
+            document.getElementById("divCod"+cliente.CODIGO).style.display = "none";
+          }
+        });
+      }
+    },300)
+  }
 
+  function filtroNomeAdquirente(adquirentes){
 
-      adquirentes.forEach((adq) => {
+    setTimeout(function () {
+      var val_input = document.getElementById("inputAdq").value;
 
-        var regex = new RegExp(val_input, 'gi');
-
-        resultado = adq.ADQUIRENTE.match(regex);
-
-        if(resultado) {
+      if(val_input == ""){
+        adquirentes.forEach((adq) => {
           document.getElementById(adq.ADQUIRENTE).style.display = "block";
           document.getElementById("divAdq"+adq.CODIGO).style.display = "block";
-        }else{
-          document.getElementById(adq.ADQUIRENTE).style.display = "none";
-          document.getElementById("divAdq"+adq.CODIGO).style.display = "none";
-        }
-      });
-    }
-  },300)
-}
 
-function filtroNomeBandeira(bandeiras){
-
-  setTimeout(function () {
-    var val_input = document.getElementById("inputBad").value;
-
-    if(val_input == ""){
-      bandeiras.forEach((bandeira) => {
-        document.getElementById(bandeira.BANDEIRA).style.display = "block";
-        document.getElementById("divBad"+bandeira.CODIGO).style.display = "block";
-
-      });
-    }else{
+        });
+      }else{
 
 
-      bandeiras.forEach((bandeira) => {
+        adquirentes.forEach((adq) => {
 
-        var regex = new RegExp(val_input, 'gi');
+          var regex = new RegExp(val_input, 'gi');
 
-        resultado = bandeira.BANDEIRA.match(regex);
+          resultado = adq.ADQUIRENTE.match(regex);
 
-        if(resultado) {
+          if(resultado) {
+            document.getElementById(adq.ADQUIRENTE).style.display = "block";
+            document.getElementById("divAdq"+adq.CODIGO).style.display = "block";
+          }else{
+            document.getElementById(adq.ADQUIRENTE).style.display = "none";
+            document.getElementById("divAdq"+adq.CODIGO).style.display = "none";
+          }
+        });
+      }
+    },300)
+  }
+
+  function filtroNomeBandeira(bandeiras){
+
+    setTimeout(function () {
+      var val_input = document.getElementById("inputBad").value;
+
+      if(val_input == ""){
+        bandeiras.forEach((bandeira) => {
           document.getElementById(bandeira.BANDEIRA).style.display = "block";
           document.getElementById("divBad"+bandeira.CODIGO).style.display = "block";
-        }else{
-          document.getElementById(bandeira.BANDEIRA).style.display = "none";
-          document.getElementById("divBad"+bandeira.CODIGO).style.display = "none";
-        }
-      });
-    }
-  },300)
-}
 
-function filtroNomeModalidade(modalidades){
+        });
+      }else{
 
-  setTimeout(function () {
-    var val_input = document.getElementById("ftModalidade").value;
 
-    if(val_input == ""){
-      modalidades.forEach((cliente) => {
-        document.getElementById(cliente.DESCRICAO).style.display = "block";
-        // document.getElementById(cliente.CNPJ).style.display = "block";
-        document.getElementById("divCod"+cliente.CODIGO).style.display = "block";
+        bandeiras.forEach((bandeira) => {
 
-      });
-    }else{
-      modalidades.forEach((cliente) => {
+          var regex = new RegExp(val_input, 'gi');
 
-        var regex = new RegExp(val_input, 'gi');
+          resultado = bandeira.BANDEIRA.match(regex);
 
-        resultado = cliente.DESCRICAO.match(regex);
+          if(resultado) {
+            document.getElementById(bandeira.BANDEIRA).style.display = "block";
+            document.getElementById("divBad"+bandeira.CODIGO).style.display = "block";
+          }else{
+            document.getElementById(bandeira.BANDEIRA).style.display = "none";
+            document.getElementById("divBad"+bandeira.CODIGO).style.display = "none";
+          }
+        });
+      }
+    },300)
+  }
 
-        if(resultado) {
+  function filtroNomeModalidade(modalidades){
+
+    setTimeout(function () {
+      var val_input = document.getElementById("ftModalidade").value;
+
+      if(val_input == ""){
+        modalidades.forEach((cliente) => {
           document.getElementById(cliente.DESCRICAO).style.display = "block";
+          // document.getElementById(cliente.CNPJ).style.display = "block";
           document.getElementById("divCod"+cliente.CODIGO).style.display = "block";
-        }else{
-          document.getElementById(cliente.DESCRICAO).style.display = "none";
-          document.getElementById("divCod"+cliente.CODIGO).style.display = "none";
-        }
-      });
 
-    }
-  },200)
-}
+        });
+      }else{
+        modalidades.forEach((cliente) => {
 
-function filtroMeioCaptura(meios_captura){
+          var regex = new RegExp(val_input, 'gi');
 
-  setTimeout(function () {
-    var val_input = document.getElementById("inputMeioCaptura").value.toUpperCase();;
+          resultado = cliente.DESCRICAO.match(regex);
 
-    if(val_input == ""){
-      meios_captura.forEach((meio_captura) => {
-        document.getElementById(meio_captura.DESCRICAO).style.display = "block";
-        document.getElementById("divMCap"+meio_captura.CODIGO).style.display = "block";
+          if(resultado) {
+            document.getElementById(cliente.DESCRICAO).style.display = "block";
+            document.getElementById("divCod"+cliente.CODIGO).style.display = "block";
+          }else{
+            document.getElementById(cliente.DESCRICAO).style.display = "none";
+            document.getElementById("divCod"+cliente.CODIGO).style.display = "none";
+          }
+        });
 
-      });
-    }else{
-      meios_captura.forEach((meio_captura) => {
+      }
+    },200)
+  }
 
-        var regex = new RegExp(val_input);
-        resultado = meio_captura.DESCRICAO.match(regex);
+  function filtroMeioCaptura(meios_captura){
 
-        if(resultado) {
+    setTimeout(function () {
+      var val_input = document.getElementById("inputMeioCaptura").value.toUpperCase();;
+
+      if(val_input == ""){
+        meios_captura.forEach((meio_captura) => {
           document.getElementById(meio_captura.DESCRICAO).style.display = "block";
           document.getElementById("divMCap"+meio_captura.CODIGO).style.display = "block";
-        }else{
-          document.getElementById(meio_captura.DESCRICAO).style.display = "none";
-          document.getElementById("divMCap"+meio_captura.CODIGO).style.display = "none";
-        }
-      });
 
-    }
-  },200)
-}
+        });
+      }else{
+        meios_captura.forEach((meio_captura) => {
 
-function submitTrava(){
-  document.getElementById("preloader").style.display = "block";
-  document.getElementById("preloader").style.opacity = 0.2;
+          var regex = new RegExp(val_input);
+          resultado = meio_captura.DESCRICAO.match(regex);
 
-  setTimeout(function () {
-    document.getElementById("myformTrava").submit();
-  },900)
-}
+          if(resultado) {
+            document.getElementById(meio_captura.DESCRICAO).style.display = "block";
+            document.getElementById("divMCap"+meio_captura.CODIGO).style.display = "block";
+          }else{
+            document.getElementById(meio_captura.DESCRICAO).style.display = "none";
+            document.getElementById("divMCap"+meio_captura.CODIGO).style.display = "none";
+          }
+        });
 
-function checkDate(){
-  var inicio = document.getElementById("date_inicial").value;
-  var final = document.getElementById("date_final").value;
-  submit();
-}
+      }
+    },200)
+  }
 
-function allCheckbox(grupo_clientes){
+  function submitTrava(){
+    document.getElementById("preloader").style.display = "block";
+    document.getElementById("preloader").style.opacity = 0.2;
 
-  grupo_clientes.forEach((cliente) => {
-    if(document.getElementById("allCheck").checked){
+    setTimeout(function () {
+      document.getElementById("myformTrava").submit();
+    },900)
+  }
 
-      document.getElementById(cliente.CODIGO).checked = true;
-    }else{
-      document.getElementById(cliente.CODIGO).checked = false;
-    }
-  });
-}
+  function checkDate(){
+    var inicio = document.getElementById("date_inicial").value;
+    var final = document.getElementById("date_final").value;
+    submit();
+  }
 
-function allCheckboxAd(grupo_clientes){
+  function allCheckbox(grupo_clientes){
 
-  grupo_clientes.forEach((cliente) => {
-    if(document.getElementById("allCheckAd").checked){
-      document.getElementById(cliente.CODIGO).checked = true;
-    }else{
-      document.getElementById(cliente.CODIGO).checked = false;
-    }
-  });
-}
+    grupo_clientes.forEach((cliente) => {
+      if(document.getElementById("allCheck").checked){
 
-function allCheckboxBandeira(grupo_clientes){
-
-  grupo_clientes.forEach((cliente) => {
-    if(document.getElementById("allCheckBandeira").checked){
-      document.getElementById(cliente.CODIGO).checked = true;
-    }else{
-      document.getElementById(cliente.CODIGO).checked = false;
-    }
-  });
-}
-
-function allCheckboxModalidade(grupo_clientes){
-
-  grupo_clientes.forEach((cliente) => {
-    if(document.getElementById("allCheckModalidade").checked){
-      document.getElementById("inputMod"+cliente.CODIGO).checked = true;
-    }else{
-      document.getElementById("inputMod"+cliente.CODIGO).checked = false;
-    }
-  });
-}
-
-function allCheckboxMeioCaptura(grupo_clientes){
-
-  grupo_clientes.forEach((cliente) => {
-    if(document.getElementById("allCheckMeioCaptura").checked){
-      document.getElementById("inputMeioCap"+cliente.CODIGO).checked = true;
-    }else{
-      document.getElementById("inputMeioCap"+cliente.CODIGO).checked = false;
-    }
-  });
-}
-
-var teste = 0;
-
-function ad(value){
-  var bt = document.createElement("INPUT");
-  var div_cnpjs = document.getElementById("cont");
-
-  bt.innerHTML = value[1];
-
-  // value = value.split("-");
-
-  bt.setAttribute('name' , "array[]");
-  bt.setAttribute('value' , value);
-
-  // bt.style = "margin-left: 5px; margin-top:5px; width: 300px;";                   // Insert text
-
-  bt.setAttribute('readonly', "");
-  bt.style = "margin-left: 5px; margin-top:5px; margin-bottom: 3px; width: 270px;";
-  // Insert text
-  div_cnpjs.appendChild(bt);
-}
-
-function limparFiltros(){
-  modalempresa = <?php echo $grupos_clientes ?>;
-  modalmodalidade = <?php echo $modalidades ?>;
-  modalband = <?php echo $bandeiras ?>;
-  modalmcaptura = <?php echo $meio_captura ?>;
-  modaladq = <?php echo $adquirentes ?>;
-
-  document.getElementById("date_final").value = "";
-  document.getElementById("date_inicial").value = "";
-  document.getElementById("adquirente").value = "";
-  document.getElementById("modalidade").value = "";
-  document.getElementById("bandeira").value = "";
-  document.getElementById("empresa").value = "";
-  document.getElementById("meiocaptura").value = "";
-
-  modalempresa.forEach((grupo_cliente) => {
-    document.getElementById(grupo_cliente.CODIGO).checked = false;
-    document.getElementById("allCheck").checked = false;
-
-  });
-
-  modalmodalidade.forEach((modalidade) => {
-    document.getElementById("inputMod"+modalidade.CODIGO).checked = false;
-    document.getElementById("allCheckModalidade").checked = false;
-
-  });
-
-  modalband.forEach((bandeira) => {
-    document.getElementById(bandeira.CODIGO).checked = false;
-    document.getElementById("allCheckBandeira").checked = false;
-
-  });
-
-  modalmcaptura.forEach((meiocaptura) => {
-    document.getElementById("inputMeioCap"+meiocaptura.CODIGO).checked = false;
-    document.getElementById("allCheckMeioCaptura").checked = false;
-
-  });
-
-  modaladq.forEach((adquirente) => {
-    document.getElementById(adquirente.CODIGO).checked = false;
-    document.getElementById("allCheckAd").checked = false;
-
-  });
-
-}
-
-function addTodos(grupos_clientes){
-  if(flag){
-    grupos_clientes.forEach((cliente) => {
-      var bt = document.createElement("INPUT");
-      var div_cnpjs = document.getElementById("cont");
-
-      // value = value.split("-");
-
-      bt.setAttribute('name' , "array[]");
-      bt.setAttribute('value' , cliente.NOME_EMPRESA + "-" +cliente.CNPJ);
-
-      bt.style = "margin-left: 5px; margin-top:5px; width: 130px;";                   // Insert text
-
-      bt.setAttribute('readonly', "");
-      bt.style = "margin-left: 5px; margin-top:5px; margin-bottom: 3px; width: 270px;";
-      // Insert text
-      div_cnpjs.appendChild(bt);
-
-      flag = false;
+        document.getElementById(cliente.CODIGO).checked = true;
+      }else{
+        document.getElementById(cliente.CODIGO).checked = false;
+      }
     });
   }
-}
 
-function removeCnpjs(){
-  var array = document.getElementsByName('array[]');
-  while(array[0]) {
-    array[0].parentNode.removeChild(array[0]);
+  function allCheckboxAd(grupo_clientes){
+
+    grupo_clientes.forEach((cliente) => {
+      if(document.getElementById("allCheckAd").checked){
+        document.getElementById(cliente.CODIGO).checked = true;
+      }else{
+        document.getElementById(cliente.CODIGO).checked = false;
+      }
+    });
   }
-  flag = true;
-}
 
-function download_table_as_csv(table_id) {
-  // Select rows from table_id
-  var rows = document.querySelectorAll('table#' + table_id + ' tr');
-  // Construct csv
-  var csv = [];
-  for (var i = 0; i < rows.length; i++) {
-    var row = [], cols = rows[i].querySelectorAll('td, th');
-    for (var j = 0; j < cols.length; j++) {
-      // Clean innertext to remove multiple spaces and jumpline (break csv)
-      var data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ')
-      // Escape double-quote with double-double-quote (see https://stackoverflow.com/questions/17808511/properly-escape-a-double-quote-in-csv)
-      data = data.replace(/"/g, '""');
-      // Push escaped string
-      row.push('"' + data + '"');
+  function allCheckboxBandeira(grupo_clientes){
+
+    grupo_clientes.forEach((cliente) => {
+      if(document.getElementById("allCheckBandeira").checked){
+        document.getElementById(cliente.CODIGO).checked = true;
+      }else{
+        document.getElementById(cliente.CODIGO).checked = false;
+      }
+    });
+  }
+
+  function allCheckboxModalidade(grupo_clientes){
+
+    grupo_clientes.forEach((cliente) => {
+      if(document.getElementById("allCheckModalidade").checked){
+        document.getElementById("inputMod"+cliente.CODIGO).checked = true;
+      }else{
+        document.getElementById("inputMod"+cliente.CODIGO).checked = false;
+      }
+    });
+  }
+
+  function allCheckboxMeioCaptura(grupo_clientes){
+
+    grupo_clientes.forEach((cliente) => {
+      if(document.getElementById("allCheckMeioCaptura").checked){
+        document.getElementById("inputMeioCap"+cliente.CODIGO).checked = true;
+      }else{
+        document.getElementById("inputMeioCap"+cliente.CODIGO).checked = false;
+      }
+    });
+  }
+
+  var teste = 0;
+
+  function ad(value){
+    var bt = document.createElement("INPUT");
+    var div_cnpjs = document.getElementById("cont");
+
+    bt.innerHTML = value[1];
+
+    // value = value.split("-");
+
+    bt.setAttribute('name' , "array[]");
+    bt.setAttribute('value' , value);
+
+    // bt.style = "margin-left: 5px; margin-top:5px; width: 300px;";                   // Insert text
+
+    bt.setAttribute('readonly', "");
+    bt.style = "margin-left: 5px; margin-top:5px; margin-bottom: 3px; width: 270px;";
+    // Insert text
+    div_cnpjs.appendChild(bt);
+  }
+
+  function limparFiltros(){
+    modalempresa = <?php echo $grupos_clientes ?>;
+    modalmodalidade = <?php echo $modalidades ?>;
+    modalband = <?php echo $bandeiras ?>;
+    modalmcaptura = <?php echo $meio_captura ?>;
+    modaladq = <?php echo $adquirentes ?>;
+
+    document.getElementById("date_final").value = "";
+    document.getElementById("date_inicial").value = "";
+    document.getElementById("adquirente").value = "";
+    document.getElementById("modalidade").value = "";
+    document.getElementById("bandeira").value = "";
+    document.getElementById("empresa").value = "";
+    document.getElementById("meiocaptura").value = "";
+
+    modalempresa.forEach((grupo_cliente) => {
+      document.getElementById(grupo_cliente.CODIGO).checked = false;
+      document.getElementById("allCheck").checked = false;
+
+    });
+
+    modalmodalidade.forEach((modalidade) => {
+      document.getElementById("inputMod"+modalidade.CODIGO).checked = false;
+      document.getElementById("allCheckModalidade").checked = false;
+
+    });
+
+    modalband.forEach((bandeira) => {
+      document.getElementById(bandeira.CODIGO).checked = false;
+      document.getElementById("allCheckBandeira").checked = false;
+
+    });
+
+    modalmcaptura.forEach((meiocaptura) => {
+      document.getElementById("inputMeioCap"+meiocaptura.CODIGO).checked = false;
+      document.getElementById("allCheckMeioCaptura").checked = false;
+
+    });
+
+    modaladq.forEach((adquirente) => {
+      document.getElementById(adquirente.CODIGO).checked = false;
+      document.getElementById("allCheckAd").checked = false;
+
+    });
+
+  }
+
+  function addTodos(grupos_clientes){
+    if(flag){
+      grupos_clientes.forEach((cliente) => {
+        var bt = document.createElement("INPUT");
+        var div_cnpjs = document.getElementById("cont");
+
+        // value = value.split("-");
+
+        bt.setAttribute('name' , "array[]");
+        bt.setAttribute('value' , cliente.NOME_EMPRESA + "-" +cliente.CNPJ);
+
+        bt.style = "margin-left: 5px; margin-top:5px; width: 130px;";                   // Insert text
+
+        bt.setAttribute('readonly', "");
+        bt.style = "margin-left: 5px; margin-top:5px; margin-bottom: 3px; width: 270px;";
+        // Insert text
+        div_cnpjs.appendChild(bt);
+
+        flag = false;
+      });
     }
-    csv.push(row.join(';'));
-  }
-  var csv_string = csv.join('\n');
-  // Download it
-  var filename = 'export_' + 'conciflex' + '_' + new Date().toLocaleDateString() + '.xls';
-  var link = document.createElement('a');
-  link.style.display = 'none';
-  link.setAttribute('target', '_blank');
-  link.setAttribute('href', 'data:text/xls;charset=utf-8,' + encodeURIComponent(csv_string));
-  link.setAttribute('download', filename);
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-}
-
-var mudacor = false;
-function mudaCorLinhaTable(codigo){
-  // if(mudacor){
-
-  // var cor_background = $(codigo).css('background');
-
-  var cor = document.getElementById(codigo).style.background;
-
-  console.log(cor);
-
-  if(cor == "" || cor == "rgb(255, 255, 255)"){
-
-    var cor = document.getElementById(codigo).style.background = "#A4A4A4";
-    var cor = document.getElementById(codigo).style.color = "#ffffff";
-
-
-    // console.log(cor);
-    // document.getElementById(codigo).style = "background: ##2D5275; color: #2D5275";
-    // mudacor = false;
-
-    // document.getElementById(codigo).style = "color: #2D5275";
-    // console.log(document.getElementById(codigo));
   }
 
-  else{
-    document.getElementById(codigo).style = "background: #ffffff; color: #231F20";
+  function removeCnpjs(){
+    var array = document.getElementsByName('array[]');
+    while(array[0]) {
+      array[0].parentNode.removeChild(array[0]);
+    }
+    flag = true;
   }
-}
 
-function desfazerConciliacao(codigo){
-  console.log(codigo);
-}
+  function download_table_as_csv(table_id) {
+    // Select rows from table_id
+    var rows = document.querySelectorAll('table#' + table_id + ' tr');
+    // Construct csv
+    var csv = [];
+    for (var i = 0; i < rows.length; i++) {
+      var row = [], cols = rows[i].querySelectorAll('td, th');
+      for (var j = 0; j < cols.length; j++) {
+        // Clean innertext to remove multiple spaces and jumpline (break csv)
+        var data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ')
+        // Escape double-quote with double-double-quote (see https://stackoverflow.com/questions/17808511/properly-escape-a-double-quote-in-csv)
+        data = data.replace(/"/g, '""');
+        // Push escaped string
+        row.push('"' + data + '"');
+      }
+      csv.push(row.join(';'));
+    }
+    var csv_string = csv.join('\n');
+    // Download it
+    var filename = 'export_' + 'conciflex' + '_' + new Date().toLocaleDateString() + '.xls';
+    var link = document.createElement('a');
+    link.style.display = 'none';
+    link.setAttribute('target', '_blank');
+    link.setAttribute('href', 'data:text/xls;charset=utf-8,' + encodeURIComponent(csv_string));
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
 
-function desfazerJustificativa(codigo){
-  console.log(codigo);
+  var mudacor = false;
+  function mudaCorLinhaTable(codigo){
+    // if(mudacor){
 
-  let url = "/desfazer-justificativa/" + codigo;
+    // var cor_background = $(codigo).css('background');
 
-  $.ajax({
-    url: url,
-    type: "GET",
-    dataType: "json",
-    success: function(response){
-      console.log(response);
+    var cor = document.getElementById(codigo).style.background;
+
+    console.log(cor);
+
+    if(cor == "" || cor == "rgb(255, 255, 255)"){
+
+      var cor = document.getElementById(codigo).style.background = "#A4A4A4";
+      var cor = document.getElementById(codigo).style.color = "#ffffff";
+
+
+      // console.log(cor);
+      // document.getElementById(codigo).style = "background: ##2D5275; color: #2D5275";
+      // mudacor = false;
+
+      // document.getElementById(codigo).style = "color: #2D5275";
+      // console.log(document.getElementById(codigo));
     }
 
-  })
-}
+    else{
+      document.getElementById(codigo).style = "background: #ffffff; color: #231F20";
+    }
+  }
+
+  function desfazerConciliacao(codigo){
+    console.log(codigo);
+  }
+
+  function desfazerJustificativa(codigo){
+    console.log(codigo);
+
+    let url = "/desfazer-justificativa/" + codigo;
+
+    $.ajax({
+      url: url,
+      type: "GET",
+      dataType: "json",
+      success: function(response){
+        console.log(response);
+      }
+
+    })
+  }
 
 </script>
 @stop

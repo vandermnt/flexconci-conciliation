@@ -382,7 +382,7 @@ $(document).ready(function(){
               <a id="" onclick="justificar()" style="align-items: right; background: white; color: #2D5275; border-color: #2D5275" class="btn btn-sm"> <b>Justificar</b>  </a>
               <!-- <a id="" onclick="" style="align-items: right; background: #2D5275; color: white; border-color: #2D5275" class="btn btn-sm"> <b>Desfazer Conciliação</b>  </a> -->
               <!-- <a id="" onclick="" style="align-items: right; background: #2D5275; color: white; border-color: #2D5275" class="btn btn-sm"> <b>Desfazer Justificativa</b>  </a> -->
-              <a id="btnExport" onclick="fnExcelReport(this)" style="align-items: right; background: white; color: #2D5275; border-color: #2D5275" class="btn btn-sm"> <b>Exportar</b>  </a>
+              <a id="exportVendasErp" onclick="exportTableToExcel('#jsgrid-table-erp', '#exportVendasErp')" style="align-items: right; background: white; color: #2D5275; border-color: #2D5275" class="btn btn-sm"> <b>Exportar</b>  </a>
             </div>
           </div>
         </div>
@@ -408,6 +408,7 @@ $(document).ready(function(){
               <th> Justificava  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
             </tr>
             <tbody>
+
             </tbody>
           </table>
         </div>
@@ -421,7 +422,7 @@ $(document).ready(function(){
 
           <div class="col-sm-4">
             <div id="btfiltro" style="margin-top: -4px; display:block; text-align: right">
-              <a id="" onclick="exportTableXls('jsgrid-table')"  style="align-items: right; background: white; color: #2D5275; border-color: #2D5275" class="btn btn-sm"> <b>Exportar</b>  </a>
+              <a id="exportVendasOp" onclick="exportTableToExcel('#jsgrid-table', '#exportVendasOp')" style="align-items: right; background: white; color: #2D5275; border-color: #2D5275" class="btn btn-sm"> <b>Exportar</b>  </a>
             </div>
           </div>
         </div>
@@ -774,7 +775,6 @@ $('#submitFormLogin').click(function(){
 
           var html_erp = "<tr>";
 
-          // setTimeout(function () {
           html_erp +="<td>"+"<input id='vendaserp-"+response[1][i].CODIGO+"' name='vendaserp' type='checkbox'"+"</td>";
           html_erp +="<td>"+data_venda+"</td>";
           html_erp +="<td>"+data_prev_pag+"</td>";
@@ -847,7 +847,6 @@ function limparCampo(grupo_clientes){
 }
 
 function filtroCnpj(grupo_clientes){
-
   setTimeout(function () {
     var val_input = document.getElementById("ft").value.toUpperCase();
 
@@ -878,7 +877,6 @@ function filtroCnpj(grupo_clientes){
       });
     }
   },300)
-
 }
 
 function filtroNomeModalidade(modalidades){
@@ -889,9 +887,7 @@ function filtroNomeModalidade(modalidades){
     if(val_input == ""){
       modalidades.forEach((cliente) => {
         document.getElementById(cliente.DESCRICAO).style.display = "block";
-        // document.getElementById(cliente.CNPJ).style.display = "block";
         document.getElementById("divCod"+cliente.CODIGO).style.display = "block";
-
       });
     }else{
       modalidades.forEach((cliente) => {
@@ -929,10 +925,8 @@ function checkDate(){
 }
 
 function allCheckbox(grupo_clientes){
-
   grupo_clientes.forEach((cliente) => {
     if(document.getElementById("allCheck").checked){
-
       document.getElementById(cliente.CODIGO).checked = true;
     }else{
       document.getElementById(cliente.CODIGO).checked = false;
@@ -941,7 +935,6 @@ function allCheckbox(grupo_clientes){
 }
 
 function allCheckboxBandeira(grupo_clientes){
-
   grupo_clientes.forEach((cliente) => {
     if(document.getElementById("allCheckBandeira").checked){
       document.getElementById(cliente.CODIGO).checked = true;
@@ -952,7 +945,6 @@ function allCheckboxBandeira(grupo_clientes){
 }
 
 function allCheckboxModalidade(grupo_clientes){
-
   grupo_clientes.forEach((cliente) => {
     if(document.getElementById("allCheckModalidade").checked){
       document.getElementById("inputMod"+cliente.CODIGO).checked = true;
@@ -984,11 +976,9 @@ function ad(value){
 }
 
 function limparFiltros(){
-
   document.getElementById("date_final").value = "";
   document.getElementById("date_inicial").value = "";
   document.getElementById("empresa").value = "";
-
 }
 
 function addTodos(grupos_clientes){
@@ -997,8 +987,6 @@ function addTodos(grupos_clientes){
       var bt = document.createElement("INPUT");
       var div_cnpjs = document.getElementById("cont");
 
-      // value = value.split("-");
-
       bt.setAttribute('name' , "array[]");
       bt.setAttribute('value' , cliente.NOME_EMPRESA + "-" +cliente.CNPJ);
 
@@ -1006,6 +994,7 @@ function addTodos(grupos_clientes){
 
       bt.setAttribute('readonly', "");
       bt.style = "margin-left: 5px; margin-top:5px; margin-bottom: 3px; width: 270px;";
+
       // Insert text
       div_cnpjs.appendChild(bt);
 
@@ -1023,27 +1012,13 @@ function removeCnpjs(){
 }
 
 var mudacor = false;
+
 function mudaCorLinhaTable(codigo){
-  // if(mudacor){
-
-  // var cor_background = $(codigo).css('background');
-
   var cor = document.getElementById(codigo).style.background;
 
-  console.log(cor);
-
   if(cor == "" || cor == "rgb(255, 255, 255)"){
-
     var cor = document.getElementById(codigo).style.background = "#2d5275";
     var cor = document.getElementById(codigo).style.color = "#ffffff";
-
-
-    // console.log(cor);
-    // document.getElementById(codigo).style = "background: ##2D5275; color: #2D5275";
-    // mudacor = false;
-
-    // document.getElementById(codigo).style = "color: #2D5275";
-    // console.log(document.getElementById(codigo));
   }
 
   else{
@@ -1116,9 +1091,6 @@ function conciliar(){
   let codigo_venda = result_venda.CODIGO;
   let codigo_vendaerp = result_vendaerp.CODIGO;
 
-
-  console.log("CODIGO VENDA " + result_venda.CODIGO);
-  console.log("CODIGO VENDA ERP " + result_vendaerp.CODIGO);
   $.ajax({
     url: "{{ url('conciliar') }}",
     type: "POST",
@@ -1130,7 +1102,6 @@ function conciliar(){
     }
 
   })
-
 
   document.getElementById("success_venda").innerHTML = "Venda Operadora com código " + result_venda.CODIGO + ", com data da venda = " + result_venda.DATA_VENDA + " foi conciliada manualmente com sucesso!";
   document.getElementById("success_venda_erp").innerHTML = "Venda ERP com código " + result_vendaerp.CODIGO + ", com data da venda = " + result_vendaerp.DATA_VENDA + " foi conciliada manualmente com sucesso!";
@@ -1222,16 +1193,42 @@ function justificar(codigo_justificativa){
 //   }
 // }
 
-function justificar(){
+// function justificar()
+// {
+//
+//   let vendasoperadora = document.getElementsByName("vendasoperadora[]");
+//
+//   for(i=0; i<vendasoperadora.length; i++){
+//     if(vendasoperadora[i].checked == true){
+//       console.log(vendasoperadora[i])
+//
+//     }
+//   }
+// }
 
-  let vendasoperadora = document.getElementsByName("vendasoperadora[]");
+function exportTableToExcel(idTable, idButton){
+  var tab_text = '<html xmlns:x="urn:schemas-microsoft-com:office:excel">';
 
-  for(i=0; i<vendasoperadora.length; i++){
-    if(vendasoperadora[i].checked == true){
-      console.log(vendasoperadora[i])
+   tab_text = tab_text + "<table border='1px'>";
+   tab_text = tab_text + $(idTable).html();
+   tab_text = tab_text + '</table></body></html>';
 
-    }
-  }
+   var data_type = 'data:application/vnd.ms-excel';
+
+   var ua = window.navigator.userAgent;
+   var msie = ua.indexOf("MSIE ");
+
+   if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+       if (window.navigator.msSaveBlob) {
+           var blob = new Blob([tab_text], {
+               type: "application/csv;charset=utf-8;"
+           });
+           navigator.msSaveBlob(blob, 'Test file.xls');
+       }
+   } else {
+       $(idButton).attr('href', data_type + ', ' + encodeURIComponent(tab_text));
+       $(idButton).attr('download', 'vendas.xls');
+   }
 }
 
 </script>
