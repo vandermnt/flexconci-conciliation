@@ -119,6 +119,16 @@
     color: #2d5275;
 }
 
+#tudo_page #resultadosPesquisa th input {
+    max-width: 136px;
+    min-height: 32px;
+    max-height: 32px;
+}
+
+#tudo_page #resultadosPesquisa th p {
+    margin-bottom: 8px;
+}
+
 #tudo_page #resultadosPesquisa thead tr:first-of-type {
     background: #2d5275;
 }
