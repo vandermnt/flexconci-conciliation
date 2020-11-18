@@ -53,6 +53,7 @@ function serializarDadosFiltros() {
     const cod_autorizacao = document.querySelector('#cod_autorizacao').value;
     const identificador_pagamento = document.querySelector('#identificador_pagamento').value;
     const nsu = document.getElementById("nsu").value;
+    const quantidadePorPagina = selectPorPagina.value;
     const csrfToken = document.querySelector('input[name=_token]').value;
 
     const dados = {
@@ -72,7 +73,7 @@ function serializarDadosFiltros() {
 function renderizaTabela(vendas) {
     const tabelaVendas = resultadosPesquisa.querySelector('#jsgrid-table tbody');
     let tabelaVendasHTML = '';
-    
+
     tabelaVendas.innerHTML = ''
     vendas.forEach(venda => {
         const vendaFormatada = {
@@ -166,7 +167,7 @@ function renderizaPaginacao(paginacao) {
     const paginaAtual = paginacao.current_page;
     const urlBase = paginacao.path;
     const secoes = dividirPaginacao(paginaAtual, totalPaginas);
-    
+
     paginacaoDOM.innerHTML = '';
 
     const itemPaginacao = {
@@ -202,7 +203,7 @@ async function requisitaVendas(url, dadosRequisicao) {
         headers: { 'X-CSRF-TOKEN': dadosRequisicao.csrfToken, 'Content-Type': 'application/json' },
         body: JSON.stringify(dadosRequisicao),
     });
-    
+
     const [json] = await response.json();
 
     return json;
@@ -228,15 +229,15 @@ function enviarFiltros(url) {
     requisitaVendas(url, dados).then(resposta => {
         renderizaTabela(resposta.data.flat(1));
         renderizaPaginacao({
-            last_page: resposta.last_page, 
+            last_page: resposta.last_page,
             current_page: resposta.current_page,
-            path: resposta.path 
+            path: resposta.path
         });
-        
+
         if(resultadosPesquisa.classList.contains('hidden')) {
             alternaVisibilidade(resultadosPesquisa);
         }
-        
+
         window.scrollTo(0, 550);
     }).finally(() => {
         alternaVisibilidade(carregamentoModal);
@@ -262,8 +263,9 @@ selectPorPagina.addEventListener('change', selecionaQuantidadePorPagina);
 formFiltros.addEventListener('submit', (event) => {
     event.preventDefault();
     const url = event.target.action;
+    const quantidade = selectPorPagina.value;
 
-    enviarFiltros(url);
+    enviarFiltros(`${url}?por_pagina=${quantidade}`);
 });
 
 btPesquisar.addEventListener('click', (event) => {
