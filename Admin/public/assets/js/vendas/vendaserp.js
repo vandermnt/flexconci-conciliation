@@ -168,6 +168,7 @@ function renderizaPaginacao(paginacao) {
     const urlBase = paginacao.path;
     const secoes = dividirPaginacao(paginaAtual, totalPaginas);
 
+    paginacaoDOM.dataset.url = urlBase;
     paginacaoDOM.innerHTML = '';
 
     const itemPaginacao = {
@@ -197,7 +198,24 @@ function renderizaPaginacao(paginacao) {
     });
 }
 
-async function requisitaVendas(url, dadosRequisicao) {
+function montarUrl(urlBase, parametros) {
+    const url = Object.keys(parametros).reduce((url, parametro) => {
+        const valor = parametros[parametro];
+        return `${url}${parametro}=${valor}&`
+    }, `${urlBase}?`);
+
+    /** Remoção do '&' restante no final da string montada */
+    const urlFormatada = url.replace(/\&$/g, '');
+
+    return urlFormatada;
+}
+
+async function requisitaVendas(urlBase, parametros = {}, dadosRequisicao) {
+    const quantidade = selectPorPagina.value;
+    parametros.por_pagina = quantidade;
+    
+    const url = montarUrl(urlBase, parametros);
+
     const response = await fetch(url, {
         method: 'POST',
         headers: { 'X-CSRF-TOKEN': dadosRequisicao.csrfToken, 'Content-Type': 'application/json' },
@@ -210,23 +228,22 @@ async function requisitaVendas(url, dadosRequisicao) {
 }
 
 function irParaPagina(event) {
-    const url = event.target.dataset.url;
-    const quantidadePorPagina = selectPorPagina.value;
+    const pagina = event.target.dataset.pagina;
+    const url = paginacaoDOM.dataset.url;
 
-    enviarFiltros(`${url}&por_pagina=${quantidadePorPagina}`);
+    enviarFiltros({ url, parametros: { page: pagina } });
 }
 
 function selecionaQuantidadePorPagina(event) {
-    const url = formFiltros.action;
-    const quantidade = event.target.value;
-    enviarFiltros(`${url}?por_pagina=${quantidade}`);
+    const url = paginacaoDOM.dataset.url;
+    enviarFiltros({ url });
 }
 
-function enviarFiltros(url, callback = () => {}) {
+function enviarFiltros({ url, parametros }, callback = () => {}) {
     const dados = serializarDadosFiltros();
     alternaVisibilidade(carregamentoModal);
 
-    requisitaVendas(url, dados).then(resposta => {
+    requisitaVendas(url, parametros, dados).then(resposta => {
         renderizaTabela(resposta.data.flat(1));
         renderizaPaginacao({
             last_page: resposta.last_page,
@@ -263,9 +280,8 @@ selectPorPagina.addEventListener('change', selecionaQuantidadePorPagina);
 formFiltros.addEventListener('submit', (event) => {
     event.preventDefault();
     const url = event.target.action;
-    const quantidade = selectPorPagina.value;
 
-    enviarFiltros(`${url}?por_pagina=${quantidade}`, () => {
+    enviarFiltros({ url }, () => {
         window.scrollTo(0, 550);
     });
 });
