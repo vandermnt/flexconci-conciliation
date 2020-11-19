@@ -110,7 +110,7 @@
     overflow: scroll;
     font-size: 13px;
     overflow-x: scroll;
-    max-height: 496px;
+    max-height: 512px;
 }
 
 #tudo_page #resultadosPesquisa .table {
@@ -131,6 +131,12 @@
 
 #tudo_page #resultadosPesquisa thead tr:first-of-type {
     background: #2d5275;
+}
+
+#tudo_page #resultadosPesquisa .table td.bolder {
+    font-weight: bolder;
+    color: #6E6E6E;
+    text-align: center;
 }
 
 #tudo_page #resultadosPesquisa ul.pagination {
