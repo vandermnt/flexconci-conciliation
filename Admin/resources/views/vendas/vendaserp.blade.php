@@ -263,20 +263,89 @@
         <table id="jsgrid-table" class="table">
           <thead>
             <tr>
-              <th>Detalhes</th>
-              <th>Data Venda</th>
-              <th>Previs. PGT</th>
-              <th>NSU</th>
-              <th>Total Venda</th>
-              <th>Nº Parcela</th>
-              <th>Total Parcela</th>
-              <th>Liq. Parcela</th>
-              <th>Descrição ERP</th>
-              <th>Cod. Autorização</th>
-              <th>ID. Venda Cliente</th>
-              <th>Meio de Captura</th>
-              <th>Status Conciliação</th>
-              <th>Justificativa</th>
+              <th>
+                <div class="d-flex flex-column justify-content-end">
+                  <p class="mb-0">Detalhes</p>
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Data Venda</p>
+                  <input type="text" name="DATA_VENDA">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Previs. PGT</p>
+                  <input type="text" name="DATA_VENCIMENTO">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>NSU</p>
+                  <input type="text" name="NSU">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Total Venda</p>
+                  <input type="text" name="TOTAL_VENDA">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Nº Parcela</p>
+                  <input type="text" name="PARCELA">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Total Parcela</p>
+                  <input type="text" name="TOTAL_PARCELAS">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Liq. Parcela</p>
+                  <input type="text" name="VALOR_LIQUIDO_PARCELA">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Descrição ERP</p>
+                  <input type="text" name="DESCRICAO_TIPO_PRODUTO">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Cod. Autorização</p>
+                  <input type="text" name="CODIGO_AUTORIZACAO">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>ID. Venda Cliente</p>
+                  <input type="text" name="IDENTIFICADOR_PAGAMENTO">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Meio de Captura</p>
+                  <input type="text" name="MEIOCAPTURA">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Status Conciliação</p>
+                  <input type="text" name="STATUS_CONCILIACAO">
+                </div>
+               </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Justificativa</p>
+                  <input type="text" name="JUSTIFICATIVA">
+                </div>
+              </th>
             </tr>
           </thead>
           <tbody>

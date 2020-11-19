@@ -11,6 +11,14 @@ const btLimparForm = document.querySelector('.bt-limpar-form');
 const resultadosPesquisa = document.querySelector('#resultadosPesquisa');
 const paginacaoDOM = document.querySelector('#resultadosPesquisa ul.pagination');
 const selectPorPagina = document.querySelector('.form-control[name="porPagina"]');
+const tbFiltrosDOM = document.querySelectorAll('#resultadosPesquisa th input');
+let tabelaFiltros = {};
+
+let vendas = [];
+let vendasPaginaAtual = [];
+let dadosPaginacao = {
+    paginaAtual: 1
+};
 
 function limparCampos(event) {
     formFiltros.reset();
@@ -70,25 +78,28 @@ function serializarDadosFiltros() {
     return dados;
 }
 
+function formatarDadosVenda(venda) {
+    const formatadorMoeda = new Intl.NumberFormat('pt-br', {
+        style: 'currency',
+        currency: 'BRL',
+    });
+
+    return {
+        ...venda,
+        DATA_VENDA: new Date(venda.DATA_VENDA).toLocaleDateString(),
+        DATA_VENCIMENTO: new Date(venda.DATA_VENCIMENTO).toLocaleDateString(),
+        TOTAL_VENDA: formatadorMoeda.format(venda.TOTAL_VENDA),
+        VALOR_LIQUIDO_PARCELA: formatadorMoeda.format(venda.VALOR_LIQUIDO_PARCELA),
+    }
+}
+
 function renderizaTabela(vendas) {
     const tabelaVendas = resultadosPesquisa.querySelector('#jsgrid-table tbody');
     let tabelaVendasHTML = '';
 
     tabelaVendas.innerHTML = ''
     vendas.forEach(venda => {
-        const vendaFormatada = {
-            ...venda,
-            DATA_VENDA: new Date(venda.DATA_VENDA).toLocaleDateString(),
-            DATA_VENCIMENTO: new Date(venda.DATA_VENCIMENTO).toLocaleDateString(),
-            TOTAL_VENDA: new Intl.NumberFormat('pt-br', {
-                style: 'currency',
-                currency: 'BRL',
-            }).format(venda.TOTAL_VENDA),
-            VALOR_LIQUIDO_PARCELA: new Intl.NumberFormat('pt-br', {
-                style: 'currency',
-                currency: 'BRL',
-            }).format(venda.VALOR_LIQUIDO_PARCELA),
-        }
+        const vendaFormatada = formatarDadosVenda(venda);
 
         tabelaVendasHTML += `
             <tr>
@@ -212,8 +223,10 @@ function montarUrl(urlBase, parametros) {
 
 async function requisitaVendas(urlBase, parametros = {}, dadosRequisicao) {
     const quantidade = selectPorPagina.value;
-    parametros.por_pagina = quantidade;
-    
+
+    if(!parametros.por_pagina)
+        parametros.por_pagina = quantidade;
+
     const url = montarUrl(urlBase, parametros);
 
     const response = await fetch(url, {
@@ -227,9 +240,24 @@ async function requisitaVendas(urlBase, parametros = {}, dadosRequisicao) {
     return json;
 }
 
+async function requisitaTodasAsVendas(urlBase, total, quantidadePorPagina) {
+    const totalPaginas = Math.ceil(total / quantidadePorPagina);
+    const dados = serializarDadosFiltros();
+
+    return Promise.all(
+        Array.from({ length: totalPaginas }, pagina => {
+            return requisitaVendas(urlBase, {
+                page: pagina,
+                por_pagina: quantidadePorPagina
+            }, dados);
+        })
+    );
+}
+
 function irParaPagina(event) {
     const pagina = event.target.dataset.pagina;
     const url = paginacaoDOM.dataset.url;
+    paginaAtual = pagina;
 
     enviarFiltros({ url, parametros: { page: pagina } });
 }
@@ -239,26 +267,53 @@ function selecionaQuantidadePorPagina(event) {
     enviarFiltros({ url });
 }
 
-function enviarFiltros({ url, parametros }, callback = () => {}) {
+async function enviarFiltros({ url, parametros }) {
     const dados = serializarDadosFiltros();
+
     alternaVisibilidade(carregamentoModal);
 
-    requisitaVendas(url, parametros, dados).then(resposta => {
-        renderizaTabela(resposta.data.flat(1));
-        renderizaPaginacao({
-            last_page: resposta.last_page,
-            current_page: resposta.current_page,
-            path: resposta.path
+    const resposta = await requisitaVendas(url, parametros, dados);
+
+    dadosPaginacao = {
+        last_page: resposta.last_page,
+        current_page: resposta.current_page,
+        path: resposta.path,
+        total: resposta.total
+    };
+    vendasPaginaAtual = resposta.data.flat(1);
+
+    if(resultadosPesquisa.classList.contains('hidden')) {
+        alternaVisibilidade(resultadosPesquisa);
+    }
+
+    alternaVisibilidade(carregamentoModal);
+
+    renderizaTabela(vendasPaginaAtual);
+    renderizaPaginacao(dadosPaginacao);
+
+
+    return resposta;
+}
+
+function filtrarTabela(filtros, paginas) {
+    let filtrados = [];
+
+    paginas.forEach(pagina => {
+        const vendas = pagina.data.flat(1);
+        const filtradosPagina = vendas.filter(venda => {
+            venda = formatarDadosVenda(venda);
+
+            return Object.keys(filtros).map(filtro => {
+                const filtroFormatado = filtros[filtro].replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+                const valor = new String(venda[filtro]);
+                return (new RegExp(filtroFormatado, 'gi').test(valor));
+            }).some((valor) => valor === true);
         });
 
-        if(resultadosPesquisa.classList.contains('hidden')) {
-            alternaVisibilidade(resultadosPesquisa);
-        }
-
-        callback();
-    }).finally(() => {
-        alternaVisibilidade(carregamentoModal);
+        filtrados = [...filtrados, filtradosPagina].flat(1);
     });
+
+    return filtrados;
 }
 
 btLimparForm.addEventListener('click', limparCampos);
@@ -266,6 +321,31 @@ btLimparForm.addEventListener('click', limparCampos);
 Array.from(btsSelecionarTudo).forEach(btSelecionarTudo => {
     btSelecionarTudo.addEventListener('change', selecionarTudo);
 });
+
+Array.from(tbFiltrosDOM).forEach(filtroInput => {
+    filtroInput.addEventListener('keydown', event => {
+        const chave = filtroInput.name;
+        const valor = filtroInput.value.trim();
+
+        if(valor !== '') {
+            tabelaFiltros = { ...tabelaFiltros, [chave]: valor };
+        } else {
+            delete tabelaFiltros[chave];
+        }
+
+        if(event.key === 'Enter') {
+            alternaVisibilidade(carregamentoModal);
+            const filtrados = filtrarTabela(tabelaFiltros, vendas);
+            alternaVisibilidade(carregamentoModal);
+            if(Object.keys(tabelaFiltros).length === 0) {
+                renderizaTabela(vendasPaginaAtual);
+                return;
+            }
+
+            renderizaTabela(filtrados);
+        }
+    })
+})
 
 btConfirmarAdquirentes.addEventListener('click', () => {
     atualizaFiltroSelecao('adquirente');
@@ -281,8 +361,16 @@ formFiltros.addEventListener('submit', (event) => {
     event.preventDefault();
     const url = event.target.action;
 
-    enviarFiltros({ url }, () => {
+    enviarFiltros({ url }).then(() => {
         window.scrollTo(0, 550);
+
+        vendas = [];
+
+        requisitaTodasAsVendas(dadosPaginacao.path, dadosPaginacao.total, 200)
+            .then((resposta) => {
+                vendas = resposta;
+            }
+        );
     });
 });
 
