@@ -19,6 +19,7 @@ let vendasPaginaAtual = [];
 let dadosPaginacao = {
     paginaAtual: 1
 };
+let totais = {};
 
 function limparCampos(event) {
     formFiltros.reset();
@@ -95,6 +96,11 @@ function formatarDadosVenda(venda) {
 
 function renderizaTabela(vendas) {
     const tabelaVendas = resultadosPesquisa.querySelector('#jsgrid-table tbody');
+    const formatadorMoeda = new Intl.NumberFormat('pt-br', {
+        style: 'currency',
+        currency: 'BRL',
+    });
+
     let tabelaVendasHTML = '';
 
     tabelaVendas.innerHTML = ''
@@ -124,6 +130,22 @@ function renderizaTabela(vendas) {
             </tr>
         `;
     });
+    
+    tabelaVendasHTML += `
+        <td class="bolder">Totais</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="bolder">${formatadorMoeda.format(totais.TOTAL_VENDAS)}</td>
+        <td></td>
+        <td></td>
+        <td class="bolder">${formatadorMoeda.format(totais.LIQUIDEZ_TOTAL_PARCELA)}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    `;
 
     tabelaVendas.innerHTML = tabelaVendasHTML;
 }
@@ -235,7 +257,7 @@ async function requisitaVendas(urlBase, parametros = {}, dadosRequisicao) {
         body: JSON.stringify(dadosRequisicao),
     });
 
-    const [json] = await response.json();
+    const json = await response.json();
 
     return json;
 }
@@ -274,13 +296,16 @@ async function enviarFiltros({ url, parametros }) {
 
     const resposta = await requisitaVendas(url, parametros, dados);
 
+    const vendasPagina = resposta.vendas;
+
     dadosPaginacao = {
-        last_page: resposta.last_page,
-        current_page: resposta.current_page,
-        path: resposta.path,
-        total: resposta.total
+        last_page: vendasPagina.last_page,
+        current_page: vendasPagina.current_page,
+        path: vendasPagina.path,
+        total: vendasPagina.total
     };
-    vendasPaginaAtual = resposta.data.flat(1);
+    vendasPaginaAtual = vendasPagina.data.flat(1);
+    totais = resposta.totais;
 
     if(resultadosPesquisa.classList.contains('hidden')) {
         alternaVisibilidade(resultadosPesquisa);
@@ -368,7 +393,7 @@ formFiltros.addEventListener('submit', (event) => {
 
         requisitaTodasAsVendas(dadosPaginacao.path, dadosPaginacao.total, 200)
             .then((resposta) => {
-                vendas = resposta;
+                vendas = resposta.map(dados => dados.vendas);
             }
         );
     });
