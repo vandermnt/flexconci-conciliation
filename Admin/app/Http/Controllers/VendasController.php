@@ -56,6 +56,7 @@ class VendasController extends Controller{
     $modalidade = Request::input('arrayModalidade');
     $conciliacao = Request::input('status_conciliacao');
     $status_financeiro = Request::input('status_financeiro');
+    $qtd = Request::input('qtdeVisivelInicial');
 
     try {
       $vendas = DB::table('vendas')
@@ -140,7 +141,7 @@ class VendasController extends Controller{
       })
       ->orderBy('NSU')
       ->orderBy('DATA_VENDA')
-      ->paginate(20);
+      ->paginate($qtd);
 
       $val_bruto = DB::table('vendas')
       ->join('modalidade', 'vendas.CODIGO_MODALIDADE', '=', 'modalidade.CODIGO')
@@ -498,7 +499,7 @@ class VendasController extends Controller{
       $val_taxa_percent = number_format($val_taxa_percent->val_taxa_percent, 2, '.', '');
       $val_taxas = number_format($val_taxas, 2,",",".");
 
-      $vendas = json_encode([$vendas, $val_liquido, $val_bruto, $qtde_registros, $val_taxas, $val_taxa_soma, $val_taxa_percent]);
+      $vendas = json_encode([$vendas, $val_liquido, $val_bruto, $qtde_registros, $val_taxas, $val_taxa_soma, $val_taxa_percent, $data_final]);
 
       return $vendas;
     } catch (\Exception $e) {
