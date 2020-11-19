@@ -78,25 +78,28 @@ function serializarDadosFiltros() {
     return dados;
 }
 
+function formatarDadosVenda(venda) {
+    const formatadorMoeda = new Intl.NumberFormat('pt-br', {
+        style: 'currency',
+        currency: 'BRL',
+    });
+
+    return {
+        ...venda,
+        DATA_VENDA: new Date(venda.DATA_VENDA).toLocaleDateString(),
+        DATA_VENCIMENTO: new Date(venda.DATA_VENCIMENTO).toLocaleDateString(),
+        TOTAL_VENDA: formatadorMoeda.format(venda.TOTAL_VENDA),
+        VALOR_LIQUIDO_PARCELA: formatadorMoeda.format(venda.VALOR_LIQUIDO_PARCELA),
+    }
+}
+
 function renderizaTabela(vendas) {
     const tabelaVendas = resultadosPesquisa.querySelector('#jsgrid-table tbody');
     let tabelaVendasHTML = '';
 
     tabelaVendas.innerHTML = ''
     vendas.forEach(venda => {
-        const vendaFormatada = {
-            ...venda,
-            DATA_VENDA: new Date(venda.DATA_VENDA).toLocaleDateString(),
-            DATA_VENCIMENTO: new Date(venda.DATA_VENCIMENTO).toLocaleDateString(),
-            TOTAL_VENDA: new Intl.NumberFormat('pt-br', {
-                style: 'currency',
-                currency: 'BRL',
-            }).format(venda.TOTAL_VENDA),
-            VALOR_LIQUIDO_PARCELA: new Intl.NumberFormat('pt-br', {
-                style: 'currency',
-                currency: 'BRL',
-            }).format(venda.VALOR_LIQUIDO_PARCELA),
-        }
+        const vendaFormatada = formatarDadosVenda(venda);
 
         tabelaVendasHTML += `
             <tr>
@@ -223,7 +226,7 @@ async function requisitaVendas(urlBase, parametros = {}, dadosRequisicao) {
 
     if(!parametros.por_pagina)
         parametros.por_pagina = quantidade;
-    
+
     const url = montarUrl(urlBase, parametros);
 
     const response = await fetch(url, {
@@ -239,7 +242,7 @@ async function requisitaVendas(urlBase, parametros = {}, dadosRequisicao) {
 
 async function requisitaTodasAsVendas(urlBase, total, quantidadePorPagina) {
     const totalPaginas = Math.ceil(total / quantidadePorPagina);
-    const dados = serializarDadosFiltros(); 
+    const dados = serializarDadosFiltros();
 
     return Promise.all(
         Array.from({ length: totalPaginas }, pagina => {
@@ -298,8 +301,12 @@ function filtrarTabela(filtros, paginas) {
     paginas.forEach(pagina => {
         const vendas = pagina.data.flat(1);
         const filtradosPagina = vendas.filter(venda => {
+            venda = formatarDadosVenda(venda);
+
             return Object.keys(filtros).map(filtro => {
-                return (new RegExp(filtros[filtro], 'gi').test(venda[filtro]));
+                const filtroFormatado = filtros[filtro].replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+                const valor = new String(venda[filtro]);
+                return (new RegExp(filtroFormatado, 'gi').test(valor));
             }).some((valor) => valor === true);
         });
 
@@ -316,19 +323,21 @@ Array.from(btsSelecionarTudo).forEach(btSelecionarTudo => {
 });
 
 Array.from(tbFiltrosDOM).forEach(filtroInput => {
-    filtroInput.addEventListener('keypress', event => {
+    filtroInput.addEventListener('keydown', event => {
         const chave = filtroInput.name;
-        const valor = filtroInput.value;
+        const valor = filtroInput.value.trim();
 
-        if(valor) {
+        if(valor !== '') {
             tabelaFiltros = { ...tabelaFiltros, [chave]: valor };
         } else {
             delete tabelaFiltros[chave];
         }
 
         if(event.key === 'Enter') {
+            alternaVisibilidade(carregamentoModal);
             const filtrados = filtrarTabela(tabelaFiltros, vendas);
-            if(filtrados.length === 0) {
+            alternaVisibilidade(carregamentoModal);
+            if(Object.keys(tabelaFiltros).length === 0) {
                 renderizaTabela(vendasPaginaAtual);
                 return;
             }
