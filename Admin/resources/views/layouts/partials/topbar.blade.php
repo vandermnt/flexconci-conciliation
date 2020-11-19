@@ -238,7 +238,7 @@ aria-haspopup="false" aria-expanded="false">
 </div>
 
 <div class="topbarr" style="margin-top: 70px;">
-  <nav class="navbar-custom" style="background: white; min-height: 50px !important;">
+  <nav class="navbar-custom" style="background: white; min-height: 50px !important; border-bottom: 4px solid #2d5275">
     <ul class="list-unstyled topbar-nav mb-0" style="margin-left: 30px">
       <li>
         <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user"  data-toggle="dropdown" href="#" role="button"
@@ -330,10 +330,6 @@ aria-haspopup="false" aria-expanded="false">
 </ul>
 
 </nav>
-<hr style="border-color: #2D5275; margin: 0;
-color: #fff;
-background-color: #2D5275;
-height: 2px;">
 
 </div>
 

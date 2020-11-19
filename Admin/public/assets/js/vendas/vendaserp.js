@@ -375,5 +375,5 @@ formFiltros.addEventListener('submit', (event) => {
 });
 
 btPesquisar.addEventListener('click', (event) => {
-    formFiltros.dispatchEvent(new Event('submit'));
+    formFiltros.dispatchEvent(new Event('submit', { cancelable: true }));
 });
