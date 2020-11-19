@@ -471,7 +471,7 @@
               <div class="card-body">
                 <div class="row d-flex justify-content-center">
                   <div class="col-8">
-                    <p class="text-dark font-weight-semibold font-12">QTDE DE VENDAS</p>
+                    <p class="text-dark font-weight-semibold font-12">QTD</p>
                     <h4 id="total_registros" class="my-3">378</h4>
                   </div>
                   <div class="col-4 align-self-center">
@@ -488,7 +488,7 @@
               <div class="card-body">
                 <div class="row d-flex justify-content-center">
                   <div class="col-8">
-                    <p class="text-dark font-weight-semibold font-12">VALOR BRUTO DE VENDAS</p>
+                    <p class="text-dark font-weight-semibold font-12">BRUTO</p>
                     <h4 id="total_bruto_vendas" class="my-3">R$ 240,000,00</h4>
                   </div>
                   <div class="col-4 align-self-center">
@@ -505,8 +505,8 @@
               <div class="card-body">
                 <div class="row d-flex justify-content-center">
                   <div class="col-8">
-                    <p class="text-dark font-weight-semibold font-12">VALOR DE TAXAS COBRADAS</p>
-                    <h4 id="total_taxa_cobrada" class="my-3">R$ 240,000,00</h4>
+                    <p class="text-dark font-weight-semibold font-12">TAXA</p>
+                    <h4 id="total_taxa_cobrada" class="my-3 text-danger">R$ 240,000,00</h4>
                   </div>
                   <div class="col-4 align-self-center">
                     <div class="report-main-icon bg-light-alt">
@@ -547,7 +547,7 @@
               </a>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <a class="dropdown-item" id="dp-item"  href="{{ action('VendasController@downloadTable') }}">  PDF</a>
-                <a class="dropdown-item" id="dp-item"  onclick="download_table_as_csv('jsgrid-table');" href="#">  CSV</a>
+                <a class="dropdown-item" id="dp-item"  onclick="download_table_as_csv('jsgrid-table');" href="#">  XLS (EXCEL)</a>
               </div>
             </div>
           </div>
@@ -561,8 +561,8 @@
                 <th> Empresa  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
                 <th> CNPJ  <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
                 <th> Operadora<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
-                <th> Dt.Venda  <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"></th>
-                <th> Dt.Prevista <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
+                <th> Venda  <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"></th>
+                <th> Previsão <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
                 <th> Bandeira<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
                 <th> Forma de Pagamento<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
                 <th> NSU <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"></th>
@@ -585,7 +585,7 @@
                 <th> Meio de Captura<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
                 <th> Status Conciliação<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
                 <th> Status Financeiro<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
-                <th> Justificava <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
+                <th> Justificativa <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
               </tr>
             </thead>
             <tbody>
@@ -913,7 +913,7 @@ $('#submitFormLogin').click(function(){
 
           document.getElementById("total_liquido_vendas").innerHTML = "R$ "+response[1];
           document.getElementById("total_registros").innerHTML = response[3];
-          document.getElementById("total_taxa_cobrada").innerHTML = "R$ "+response[4];
+          document.getElementById("total_taxa_cobrada").innerHTML = "R$ -"+response[4];
           document.getElementById("total_bruto_vendas").innerHTML = "R$ "+response[2];
 
           window.scrollTo(0, 550);
