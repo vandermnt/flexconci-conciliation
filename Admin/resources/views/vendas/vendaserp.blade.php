@@ -350,6 +350,24 @@
           </thead>
           <tbody>
           </tbody>
+          <tfoot>
+            <tr>
+              <td class="bolder">Totais</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="bolder" data-chave="TOTAL_VENDAS"></td>
+              <td></td>
+              <td></td>
+              <td class="bolder" data-chave="LIQUIDEZ_TOTAL_PARCELA"></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tfoot>
         </table>
       </div>
 

@@ -107,9 +107,8 @@
 }
 
 #tudo_page #resultadosPesquisa .table-wrapper {
-    overflow: scroll;
-    font-size: 13px;
-    overflow-x: scroll;
+    position: relative;
+    overflow: auto;
     max-height: 512px;
 }
 
@@ -131,6 +130,14 @@
 
 #tudo_page #resultadosPesquisa thead tr:first-of-type {
     background: #2d5275;
+}
+
+#tudo_page #resultadosPesquisa .table-wrapper tfoot,
+#tudo_page #resultadosPesquisa .table-wrapper tfoot td {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0;
+  background: #E6E6E6;
 }
 
 #tudo_page #resultadosPesquisa .table td.bolder {

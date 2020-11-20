@@ -130,22 +130,12 @@ function renderizaTabela(vendas) {
             </tr>
         `;
     });
-    
-    tabelaVendasHTML += `
-        <td class="bolder">Totais</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td class="bolder">${formatadorMoeda.format(totais.TOTAL_VENDAS)}</td>
-        <td></td>
-        <td></td>
-        <td class="bolder">${formatadorMoeda.format(totais.LIQUIDEZ_TOTAL_PARCELA)}</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    `;
+
+    Object.keys(totais).forEach(chave => {
+        const valor = totais[chave];
+        const colunaDOM = resultadosPesquisa.querySelector(`tfoot td[data-chave="${chave}"]`);
+        colunaDOM.textContent = formatadorMoeda.format(valor);
+    });
 
     tabelaVendas.innerHTML = tabelaVendasHTML;
 }
