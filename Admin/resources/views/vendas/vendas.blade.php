@@ -18,6 +18,7 @@
 <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
 <script src="http://tablesorter.com/__jquery.tablesorter.min.js" type="text/javascript"></script>
 
+<script src="{{ URL::asset('assets/js/vendas/vendas-operadora-sort.js')}}"></script>
 
 <link href="{{ URL::asset('plugins/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ URL::asset('plugins/datatables/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
@@ -553,8 +554,8 @@
           </div>
         </div><br>
 
-        <div style="overflow: scroll; font-size: 13px; overflow-x: scroll; height: 450px">
-          <table id="jsgrid-table" class="table" style="white-space: nowrap; border: none">
+        <div class="table-scroll" style="height: 450px">
+          <table id="jsgrid-table" class="table sortable" style="white-space: nowrap; border: none">
             <thead>
               <tr style="border-top: none">
                 <th> Detalhes </th>
@@ -590,6 +591,8 @@
             </thead>
             <tbody>
             </tbody>
+            <tfoot>
+            </tfoot>
           </table>
         </div>
 
@@ -644,9 +647,10 @@ $(function(){
     var index = $(this).parent().index();
     var nth = "#jsgrid-table td:nth-child("+(index+1).toString()+")";
     var valor = $(this).val().toUpperCase();
+
     $("#jsgrid-table tbody tr").show();
     $(nth).each(function(){
-      if($(this).text().toUpperCase().indexOf(valor) < 0){
+      if($(this).text().toUpperCase().indexOf(valor) < 0) {
         $(this).parent().hide();
       }
     });
@@ -812,13 +816,13 @@ $('#submitFormLogin').click(function(){
           html +="<td>"+response[0].data[i].CNPJ+"</td>";
 
           // html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' id='cartao'/>"+"</td>";
-          html +="<td>"+"<img src='"+response[0].data[i].IMAGEMAD+"' style='width: 30px'/>"+ " " + response[0].data[i].ADQUIRENTE + "</td>";
+          html +="<td style='display: transparent'>"+"<img src='"+response[0].data[i].IMAGEMAD+"' style='width: 30px;'/>"+ " " + response[0].data[i].ADQUIRENTE + "</td>";
           html +="<td>"+data_venda+"</td>";
           html +="<td>"+data_prev_pag+"</td>";
           if(response[0].data[i].IMAGEMBAD == null){
             html +="<td>"+"<img src='assets/images/iconCart.jpeg' style='width: 30px'/>"+"</td>";
           }else{
-            html +="<td>"+"<img src='"+response[0].data[i].IMAGEMBAD+"' style='width: 30px'/>"+ " " + response[0].data[i].BANDEIRA + "</td>";
+            html +="<td>"+"<img class='imagebandeira "+ response[0].data[i].BANDEIRA +"' src='"+response[0].data[i].IMAGEMBAD+"' style='width: 30px'/>"+ " " + response[0].data[i].BANDEIRA +  "</td>";
           }
           html +="<td>"+response[0].data[i].DESCRICAO+"</td>";
           html +="<td>"+response[0].data[i].NSU+"</td>";
@@ -882,7 +886,7 @@ $('#submitFormLogin').click(function(){
         htmll +="<td>"+""+"</td>";
 
         htmll +="</tr>";
-        $('#jsgrid-table').append(htmll);
+        $('#jsgrid-table tfoot').append(htmll);
 
         let li_html = "<li><a>" + "" + "</a></li>"
         if(response[0].last_page < 10){
@@ -941,6 +945,7 @@ $('#submitFormLogin').click(function(){
       success: function (response){
         if(response){
           $('#jsgrid-table tbody').empty();
+          $('#jsgrid-table tfoot').empty();
           $('#ul_pagination li').empty();
 
           for(var i=0;i< response[0].data.length; i++){
@@ -1077,8 +1082,7 @@ $('#submitFormLogin').click(function(){
           htmll +="<td>"+""+"</td>";
 
           htmll +="</tr>";
-          $('#jsgrid-table').append(htmll);
-
+          $('#jsgrid-table tfoot').append(htmll);
 
           let li_html = "<li><a>" + "" + "</a></li>"
 

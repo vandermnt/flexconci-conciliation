@@ -3736,14 +3736,6 @@ a.ui-button:active,
   margin: 0;
 }
 
-/* .t th{
-width: 500px !important;
-color: #303e67;
-font-weight: 500;
-vertical-align: middle;
-border-color: #eaf0f7;
-} */
-
 .table th {
   /* width: 500px !important; */
   max-width: 250px !important;
@@ -3761,17 +3753,44 @@ border-color: #eaf0f7;
   /* background: #2D5275; */
 }
 
+.table-scroll {
+  position: relative;
+  width:100%;
+  z-index: 1;
+  margin: auto;
+  overflow: auto;
+  height: 350px;
+}
+
+.table-wrap {
+  position: relative;
+}
+.table-scroll th,
+.table-scroll td {
+  padding: 5px 10px;
+  vertical-align: top;
+}
+.table-scroll thead th {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+
+.table-scroll tfoot,
+.table-scroll tfoot th,
+.table-scroll tfoot td {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0;
+  background: #E6E6E6;
+  color: #fff;
+  z-index:4;
+}
+
 .circulo {
 width: 14px;
 height: 14px;
 border-radius: 50%;
-}
-
-#rodapeTable{
-
-  /* position: sticky;
-  margin-top: -40px;
-  background: #2D5275; */
 }
 
 #ana_devicee tr{
@@ -3782,9 +3801,6 @@ border-radius: 50%;
   text-align: center !important;
   color: #231F20;
   background: #FFFFFF;
-
-  /* background: red; */
-
 }
 
 .table tr  {
@@ -3812,23 +3828,7 @@ border-radius: 50%;
   background: #FFFFFF; */
 
 }
-/*
-.table.border-dashed th {
-  font-weight: 500;
-  border-top: 1px dashed #eaf0f7;
-}
 
-.table.border-dashed td {
-  border-top: 1px dashed #eaf0f7;
-}
-
-.table.border-dashed thead th {
-  border-bottom: 2px dashed #eaf0f7;
-}
-
-.table.table-bordered thead {
-  background-color: #f1f5fa;
-} */
 
 .tableDadosBanco th {
   color: #231F20;
@@ -3850,7 +3850,6 @@ border-radius: 50%;
   /* border-top: none; */
   border-color: #D8D8D8;
 }
-
 
 
 .table .thead-light th {

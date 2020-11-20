@@ -51,7 +51,7 @@ $(window).on("load", function () {
   if (url.indexOf("code") != -1) {
     code = url.split("=");
     email = localStorage.getItem("email");
-
+    console.log(code[2])
     $.ajax({
       url: "https://api2.cielo.com.br/consent/v1/oauth/access-token",
       // url: "https://apihom-cielo.sensedia.com/consent/v1/oauth/access-token",
@@ -124,6 +124,7 @@ $(window).on("load", function () {
             });
           },
         }).fail(function () {
+
           alert("Erro");
           document.getElementById("msg").style = "color: red";
           document.getElementById("msg").innerHTML = "<b>Erro ao fazer o credenciamento! Estabelecimento já credenciado!";
