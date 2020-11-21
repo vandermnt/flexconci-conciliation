@@ -1,5 +1,3 @@
-const adquirentesDOM = document.querySelectorAll('input[type=checkbox].adquirente');
-const meiosCapturaDOM = document.querySelectorAll('input[type=checkbox].meio-captura');
 const carregamentoModal = document.querySelector("#preloader");
 const formFiltros = document.querySelector('form#myform');
 const dataInputs = document.querySelectorAll('form#myform input[type=date]');
@@ -20,30 +18,18 @@ let dadosPaginacao = {
     paginaAtual: 1
 };
 let totais = {};
+const checker = new Checker();
+
+function inicializar() {
+    checker.addGroup('adquirente');
+    checker.addGroup('meio-captura');
+}
 
 function limparCampos(event) {
     formFiltros.reset();
     Array.from(dataInputs).forEach(dataInput => {
         dataInput.value = "";
     });
-}
-
-function selecionarTudo(event) {
-    const seletor = event.target.dataset.seletor;
-    const estaSelecionado = event.target.checked;
-
-    const naoSelecionados = document.querySelectorAll(`input.${seletor}:${estaSelecionado ? 'not(:checked)' : 'checked'}`);
-
-    Array.from(naoSelecionados).forEach(naoSelecionado => {
-        naoSelecionado.checked = estaSelecionado;
-    });
-}
-
-function atualizaFiltroSelecao(seletor) {
-    const inputFiltroSelecao = document.querySelector(`input:not([type=checkbox]).${seletor}`);
-    const selecionados = document.querySelectorAll(`input.${seletor}:checked`);
-    const valoresSelecionados = Array.from(selecionados).map(selecionado => selecionado.dataset.descricao);
-    inputFiltroSelecao.value = valoresSelecionados.join(', ');
 }
 
 function alternaVisibilidade(elemento) {
@@ -331,10 +317,13 @@ function filtrarTabela(filtros, paginas) {
     return filtrados;
 }
 
+window.addEventListener('load', (event) => {
+    inicializar();
+})
+
 btLimparForm.addEventListener('click', limparCampos);
 
 Array.from(btsSelecionarTudo).forEach(btSelecionarTudo => {
-    btSelecionarTudo.addEventListener('change', selecionarTudo);
 });
 
 Array.from(tbFiltrosDOM).forEach(filtroInput => {
@@ -362,12 +351,12 @@ Array.from(tbFiltrosDOM).forEach(filtroInput => {
     })
 })
 
-btConfirmarAdquirentes.addEventListener('click', () => {
-    atualizaFiltroSelecao('adquirente');
+btConfirmarAdquirentes.addEventListener('click', (e) => {
+    checker.setValuesToTextElement(e.target.dataset.group);
 });
 
-btConfirmarMeiosCaptura.addEventListener('click', () => {
-    atualizaFiltroSelecao('meio-captura');
+btConfirmarMeiosCaptura.addEventListener('click', (e) => {
+    checker.setValuesToTextElement(e.target.dataset.group);
 });
 
 selectPorPagina.addEventListener('change', selecionaQuantidadePorPagina);

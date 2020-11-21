@@ -61,7 +61,10 @@
                       <div class="row">
                         <div class="col-sm-12">
                           <h6> Adquirente: </h6>
-                          <input id="adquirente" class="adquirente form-control" name="adquirente">
+                          <input
+                            data-group="adquirente"
+                            data-checker="to-text-element" 
+                            id="adquirente" class="adquirente form-control" name="adquirente">
                         </div>
                       </div>
                     </div>
@@ -80,7 +83,13 @@
                       <div class="row">
                         <div class="col-sm-12">
                           <h6> Meio de Captura: </h6>
-                          <input id="meiocaptura" class="meio-captura form-control" name="meiocaptura">
+                          <input
+                            id="meiocaptura"
+                            class="meio-captura form-control"
+                            name="meiocaptura"
+                            data-checker="to-text-element"
+                            data-group="meio-captura"
+                          >
                         </div>
                       </div>
                     </div>
@@ -116,7 +125,16 @@
                           <div class="row status-conciliacao">
                             @foreach($status_conciliacao as $status)
                               <div class="check-group">
-                                <input id="{{ "statusFinan".$status->CODIGO }}" type="checkbox" value="{{ $status->CODIGO }}" name="status_conciliacao[]" class="status-conciliacao-checkbox" data-codigo="{{ $status->CODIGO }}" checked required>
+                                <input 
+                                  id="{{ "statusFinan".$status->CODIGO }}"
+                                  type="checkbox"
+                                  value="{{ $status->CODIGO }}"
+                                  name="status_conciliacao[]"
+                                  class="status-conciliacao-checkbox"
+                                  data-codigo="{{ $status->CODIGO }}"
+                                  checked
+                                  required
+                                >
                                 <label for="{{ "statusFinan".$status->CODIGO }}">{{ $status->STATUS_CONCILIACAO}}</label>
                               </div>
                             @endforeach
@@ -165,7 +183,12 @@
                       <p><b>Adquirente</b></p>
                     </div>
                     <div class="col-sm-2">
-                      <input class="selecionar-tudo" data-seletor="adquirente" type="checkbox">
+                      <input
+                        type="checkbox"
+                        class="selecionar-tudo"
+                        data-checker="global"
+                        data-group="adquirente"
+                      >
                     </div>
                     @if(isset($adquirentes))
                       @foreach($adquirentes as $adquirente)
@@ -174,7 +197,18 @@
                         </div>
 
                         <div id="{{ "divCod".$bandeira->CODIGO }}" class="col-sm-2 opcao-check">
-                          <input id="{{ $adquirente->CODIGO }}" value="{{ $adquirente->ADQUIRENTE }}" class="adquirente" data-codigo="{{ $adquirente->CODIGO }}" data-descricao="{{ $adquirente->ADQUIRENTE }}" name="arrayAdquirentes[]" type="checkbox">
+                          <input 
+                            id="{{ $adquirente->CODIGO }}"
+                            type="checkbox"
+                            class="adquirente"
+                            name="arrayAdquirentes[]"
+                            value="{{ $adquirente->ADQUIRENTE }}"
+                            data-checker="checkbox"
+                            data-group="adquirente"
+                            data-checked-description="{{ $adquirente->ADQUIRENTE }}"
+                            data-codigo="{{ $adquirente->CODIGO }}"
+                            data-descricao="{{ $adquirente->ADQUIRENTE }}"
+                          >
                         </div>
                         <hr>
                       @endforeach
@@ -183,7 +217,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
-                  <button type="button" class="btn btn-success bt-confirmar-selecao" data-dismiss="modal"><b>Confirmar</b></button>
+                  <button type="button" class="btn btn-success bt-confirmar-selecao" data-group="adquirente" data-dismiss="modal"><b>Confirmar</b></button>
                 </div>
               </div>
             </div>
@@ -214,7 +248,12 @@
                       <p><b>MEIO DE CAPTURA</b></p>
                     </div>
                     <div class="col-sm-2">
-                      <input class="selecionar-tudo" data-seletor="meio-captura" type="checkbox">
+                      <input 
+                        type="checkbox"
+                        data-checker="global"
+                        data-group="meio-captura"
+                        data-seletor="meio-captura"
+                      >
                     </div>
                     @if(isset($meio_captura))
                       @foreach($meio_captura as $meio)
@@ -222,7 +261,17 @@
                           <p>{{ $meio->DESCRICAO }}</p>
                         </div>
                         <div class="col-sm-2 opcao-check">
-                          <input class="meio-captura" data-codigo="{{ $meio->CODIGO }}" data-descricao="{{ $meio->DESCRICAO }}" value="{{ $meio->CODIGO }}" name="arrayMeioCaptura[]" type="checkbox">
+                          <input
+                            type="checkbox"
+                            name="arrayMeioCaptura[]"
+                            value="{{ $meio->CODIGO }}"
+                            class="meio-captura"
+                            data-checker="checkbox"
+                            data-group="meio-captura"
+                            data-checked-description="{{ $meio->DESCRICAO }}"
+                            data-codigo="{{ $meio->CODIGO }}"
+                            data-descricao="{{ $meio->DESCRICAO }}"
+                          >
                         </div>
                         <hr>
                       @endforeach
@@ -231,7 +280,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
-                  <button type="button" class="btn btn-success bt-confirmar-selecao" data-dismiss="modal"><b>Confirmar</b></button>
+                  <button type="button" data-group="meio-captura" class="btn btn-success bt-confirmar-selecao" data-dismiss="modal"><b>Confirmar</b></button>
                 </div>
               </div>
             </div>
@@ -393,6 +442,7 @@
 @stop
 
 @section('footerScript')
+<script src="{{ URL::asset('assets/js/lib/checker.js') }}"></script>
   <script src="{{ URL::asset('assets/js/vendas/vendaserp.js') }}"></script>
 
   <!-- Required datatable js -->
