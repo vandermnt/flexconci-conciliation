@@ -840,7 +840,7 @@ $('#submitFormLogin').click(function(){
           html +="<td>"+response[0].data[i].BANCO+"</td>";
           html +="<td>"+response[0].data[i].AGENCIA+"</td>";
           html +="<td>"+response[0].data[i].CONTA+"</td>";
-          html +="<td>"+response[0].data[i].OBSERVACOES+"</td>";
+          html +="<td>"+(response[0].data[i].OBSERVACOES || '')+"</td>";
           if(response[0].data[i].COD_PRODUTO !=  null){
             html +="<td>"+response[0].data[i].PRODUTO_WEB+"</td>";
           }else{
@@ -872,6 +872,7 @@ $('#submitFormLogin').click(function(){
         htmll +="<td style='color:#6E6E6E'><b>"+response[4]+"</b></td>";
         htmll +="<td style='color:#6E6E6E'><b>"+response[6]+"</b></td>";
         htmll +="<td style='color:#6E6E6E'><b>"+response[1]+"</b></td>";
+        htmll +="<td>"+""+"</td>";
         htmll +="<td>"+""+"</td>";
         htmll +="<td>"+""+"</td>";
         htmll +="<td>"+""+"</td>";
@@ -1033,7 +1034,7 @@ $('#submitFormLogin').click(function(){
             html +="<td>"+response[0].data[i].BANCO+"</td>";
             html +="<td>"+response[0].data[i].AGENCIA+"</td>";
             html +="<td>"+response[0].data[i].CONTA+"</td>";
-            html +="<td>"+response[0].data[i].OBSERVACOES+"</td>";
+            html +="<td>"+(response[0].data[i].OBSERVACOES || '')+"</td>";
             if(response[0].data[i].COD_PRODUTO !=  null){
               html +="<td>"+response[0].data[i].PRODUTO_WEB+"</td>";
             }else{

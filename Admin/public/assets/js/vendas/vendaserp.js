@@ -143,19 +143,19 @@ function renderizaTabela(vendas, totais) {
                         <i class="fas fa-print"></i>
                     </a>
                 </td>
-                <td>${vendaFormatada.DATA_VENDA}</td>
-                <td>${vendaFormatada.DATA_VENCIMENTO}</td>
+                <td>${vendaFormatada.DATA_VENDA || ''}</td>
+                <td>${vendaFormatada.DATA_VENCIMENTO || ''}</td>
                 <td>${vendaFormatada.NSU || ''}</td>
-                <td>${vendaFormatada.TOTAL_VENDA}</td>
-                <td>${vendaFormatada.PARCELA}</td>
-                <td>${vendaFormatada.TOTAL_PARCELAS}</td>
-                <td>${vendaFormatada.VALOR_LIQUIDO_PARCELA}</td>
-                <td>${vendaFormatada.DESCRICAO_TIPO_PRODUTO}</td>
-                <td>${vendaFormatada.CODIGO_AUTORIZACAO}</td>
-                <td>${vendaFormatada.IDENTIFICADOR_PAGAMENTO}</td>
-                <td>${vendaFormatada.MEIOCAPTURA}</td>
-                <td>${vendaFormatada.STATUS_CONCILIACAO}</td>
-                <td></td>
+                <td>${vendaFormatada.TOTAL_VENDA || ''}</td>
+                <td>${vendaFormatada.PARCELA || ''}</td>
+                <td>${vendaFormatada.TOTAL_PARCELAS || ''}</td>
+                <td>${vendaFormatada.VALOR_LIQUIDO_PARCELA || ''}</td>
+                <td>${vendaFormatada.DESCRICAO_TIPO_PRODUTO || ''}</td>
+                <td>${vendaFormatada.CODIGO_AUTORIZACAO || ''}</td>
+                <td>${vendaFormatada.IDENTIFICADOR_PAGAMENTO || ''}</td>
+                <td>${vendaFormatada.MEIOCAPTURA || ''}</td>
+                <td>${vendaFormatada.STATUS_CONCILIACAO || ''}</td>
+                <td>${vendaFormatada.JUSTIFICATIVA || ''}</td>
             </tr>
         `;
     });
