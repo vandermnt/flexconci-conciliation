@@ -169,29 +169,32 @@ function renderizaTabela(vendas, totais) {
     tabelaVendas.innerHTML = tabelaVendasHTML;
 }
 
-function dividirPaginacao(paginaAtual, paginaFinal) {
-    let inicio = [];
-    let meio = [];
-    let fim = [];
+function dividirPaginacao(paginacao) {
+    const paginaAtual = paginacao.current_page;
+    const paginaFinal = paginacao.last_page;
+    const paginas = Array.from({ length: paginaFinal }, (valor, index) => index + 1);
+
+    if(paginaFinal < 9) {
+        return paginas;
+    }
+
+    let inicio = paginas.slice(0, 2);
+    let meio = ['...'];
+    let fim = paginas.slice(-3);
 
     if(paginaAtual < 5) {
-        inicio = Array.from({ length: 5 }, (valor, index) => index + 1);
-        meio = ['...'];
-        fim = [(paginaFinal - 2), (paginaFinal - 1), paginaFinal];
+        inicio = paginas.slice(0, 5);
     } else if(paginaAtual > 4 && paginaAtual < (paginaFinal - 3)) {
-        inicio = Array.from({ length: 2 }, (valor, index) => index + 1);
-        meio = ['...', (paginaAtual - 1), paginaAtual, (paginaAtual + 1)];
-        fim = ['...', (paginaFinal - 2), (paginaFinal - 1), paginaFinal];
+        meio = paginas.slice(paginaAtual - 2, paginaAtual + 1);
+        meio = ['...', ...meio]
+        fim = ['...', ...fim];
     } else {
-        inicio = Array.from({ length: 2 }, (valor, index) => index + 1);
-        meio = ['...'];
-        fim = [(paginaFinal - 2), (paginaFinal - 1), paginaFinal];
         if(paginaAtual === (paginaFinal - 3)) {
-            fim.unshift(paginaAtual);
+            fim = [paginaAtual, ...fim]
         }
     }
 
-    return [inicio, meio, fim];
+    return [...inicio, ...meio, ...fim];
 }
 
 function renderizaItemPaginacao(itemPaginacao = {}, descricao = itemPaginacao.pagina) {
@@ -217,10 +220,10 @@ function renderizaItemPaginacao(itemPaginacao = {}, descricao = itemPaginacao.pa
 
 function renderizaPaginacao(paginacao) {
     const paginacaoDOM = document.querySelector('#resultadosPesquisa ul.pagination');
-    const totalPaginas = paginacao.last_page;
     const paginaAtual = paginacao.current_page;
     const urlBase = paginacao.path;
-    const secoes = dividirPaginacao(paginaAtual, totalPaginas);
+    const paginas = dividirPaginacao(paginacao);
+
 
     paginacaoDOM.dataset.url = urlBase;
     paginacaoDOM.innerHTML = '';
@@ -230,25 +233,11 @@ function renderizaPaginacao(paginacao) {
         urlBase,
     }
 
-    if(totalPaginas < 9) {
-        const paginas = Array.from({ length: totalPaginas }, (valor, index) => index + 1);
-        paginas.forEach(pagina => {
-            renderizaItemPaginacao({
-                ...itemPaginacao,
-                pagina,
-            });
-        });
-
-        return;
-    }
-
-    secoes.forEach(secao => {
-        secao.forEach(pagina => {
-            renderizaItemPaginacao({
-                ...itemPaginacao,
-                pagina,
-            });
-        });
+    paginas.forEach(pagina => {
+        renderizaItemPaginacao({
+            ...itemPaginacao,
+            pagina
+        })
     });
 }
 
