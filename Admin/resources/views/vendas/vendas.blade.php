@@ -554,7 +554,7 @@
           </div>
         </div><br>
 
-        <div class="table-scroll" style="height: 450px">
+        <div class="table-scroll">
           <table id="jsgrid-table" class="table sortable" style="white-space: nowrap; border: none">
             <thead>
               <tr style="border-top: none">
