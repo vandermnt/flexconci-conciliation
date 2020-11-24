@@ -50,19 +50,15 @@ Checker.prototype._handleGlobalClick = function(event, onChangeCallback) {
  * Return the checked values of a group as a string format
  * 
  * @param {Object} group
+ * @param {String} attributeValueName - The attribute name that has the value @default value
+ * 
  * @returns {String}
  */
-Checker.prototype._valuesToString = function(group) {
+Checker.prototype._valuesToString = function(group, attributeValueName = 'value') {
     const selectedCheckboxes = document
         .querySelectorAll(`input[type="checkbox"][data-checker="checkbox"][data-group="${group.name}"]:checked`);
 
-    const selectedValues = [...selectedCheckboxes]
-        .reduce((values, checkbox) => {
-            const value = checkbox.dataset.checkedDescription || '';
-
-            values.push(value);
-            return values;
-        }, []);
+    const selectedValues = this.getCheckedValues(group.name, attributeValueName);
 
     return selectedValues.join(group.valuesTextSeparator);
 }
@@ -81,10 +77,22 @@ Checker.prototype._registerGroup = function (group, onChangeCallback) {
     });
 }
 
+/**
+ * @function checkAll
+ * Check all checkboxes from a group invoking the _toggleCheck method
+ * 
+ * @param {String} name - The group name
+ */
 Checker.prototype.checkAll = function (name) {
     this._toggleCheck(name, true);
 }
 
+/**
+ * @function uncheckAll
+ * Uncheck all checkboxes from a group invoking the _toggleCheck method
+ * 
+ * @param {String} name - The group name
+ */
 Checker.prototype.uncheckAll = function (name) {
     this._toggleCheck(name, false);
 }
@@ -127,20 +135,60 @@ Checker.prototype.addGroup = function(name, options = {}, onChangeCallback = () 
     this._registerGroup(this.groups[name], onChangeCallback);
 }
 
-Checker.prototype.setValuesToTextElement = function (name) {
+/**
+ * @function getCheckedValues
+ * Return an array with all checked values
+ * 
+ * @param {String} name - The group name
+ * @param {String} attributeValueName - The attribute name that has the value @default value
+ */
+Checker.prototype.getCheckedValues = function(name, attributeValueName = 'value') {
+    const { checkboxes } = this.groups[name];
+
+    return [...checkboxes].reduce((values, checkbox) => {
+        if(checkbox.checked) {
+            const value = checkbox[attributeValueName] ||
+                checkbox.dataset[attributeValueName] ||
+                checkbox.getAttribute(`data-${attributeValueName}`);
+
+            return [...values, value];
+        }
+
+        return values;
+    }, []);
+}
+
+/**
+ * @function setValuesToTextElement
+ * Convert all checkboxes that are checked to a string invoking the _valuesToString Method
+ * and set the returned string to the text element
+ * 
+ * @param {String} name - The group name
+ * @param {String} attributeValueName - The attribute name that has the value @default value
+ * 
+ * @returns
+ */
+Checker.prototype.setValuesToTextElement = function (name, attributeValueName = 'value') {
     const group = this.groups[name];
-    
+    let toTextAttribute = 'textContent';
+
     if(!group.toTextElement) return;
     
     const textElementTagName = group.toTextElement.tagName.toLowerCase();
     if(['input', 'select'].includes(textElementTagName)) {
-        group.toTextElement.value = this._valuesToString(group);
-        return;
+        toTextAttribute = 'value';
     }
 
-    group.toTextElement.textContent = this._valuesToString(group);
+    group.toTextElement[toTextAttribute] = this._valuesToString(group, attributeValueName);
 }
 
+/**
+ * @function removeGroup
+ * Remove a group from the groups array and remove all event listeners related
+ * 
+ * @param {String} name - The group name
+ * @returns
+ */
 Checker.prototype.removeGroup = function(name) {
     const { globalCheckbox } = this.groups[name];
     globalCheckbox.removeEventListener('change', this._handleGlobalClick);
