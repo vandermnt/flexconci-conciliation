@@ -46,8 +46,7 @@ function submeterFormularioPesquisa(event) {
 
 function pesquisar(event) {
     const formPesquisa = document.querySelector('form#form-pesquisa');
-    // formPesquisa.dispatchEvent(new Event('submit', { cancelable: true }));
-    formPesquisa.dispatchEvent(new Event('submit'));
+    formPesquisa.dispatchEvent(new Event('submit', { cancelable: true }));
 }
 
 function limparCampos(event) {
@@ -117,8 +116,8 @@ function formatarDadosVenda(venda) {
 
     return {
         ...venda,
-        DATA_VENDA: new Date(venda.DATA_VENDA).toLocaleDateString(),
-        DATA_VENCIMENTO: new Date(venda.DATA_VENCIMENTO).toLocaleDateString(),
+        DATA_VENDA: new Date(`${venda.DATA_VENDA} 00:00:00`).toLocaleDateString(),
+        DATA_VENCIMENTO: new Date(`${venda.DATA_VENCIMENTO} 00:00:00`).toLocaleDateString(),
         TOTAL_VENDA: formatadorMoeda.format(venda.TOTAL_VENDA),
         VALOR_LIQUIDO_PARCELA: formatadorMoeda.format(venda.VALOR_LIQUIDO_PARCELA),
     }
