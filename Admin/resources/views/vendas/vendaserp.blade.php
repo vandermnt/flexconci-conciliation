@@ -18,7 +18,7 @@
 @section('content')
   <div id="preloader" class="loader hidden"></div>
 
-  <div id="tudo_page" class="container-fluid">
+  <div id="tudo_page" class="container-fluid hidden">
     <div class="row">
       <div class="col-sm-12">
         @component('common-components.breadcrumb')
@@ -28,7 +28,7 @@
         @endcomponent
       </div>
     </div>
-    <form id="myform" action="{{ action('VendasErpController@buscarVendasErp') }}" method="post">
+    <form id="form-pesquisa" action="{{ action('VendasErpController@buscarVendasErp') }}" method="post">
       <input type ="hidden" name="_token" value="{{{ csrf_token() }}}">
 
       <div class="row">
@@ -108,15 +108,15 @@
                       <div class="row">
                         <div class="col-sm-4">
                           <h6> Código Autorização: </h6>
-                          <input id="cod_autorizacao" class="form-control" name="modalidade">
+                          <input id="cod_autorizacao" class="form-control" name="codigo_autorizacao">
                         </div>
                         <div class="col-sm-4">
                           <h6> Identificador Pagamento: </h6>
-                          <input id="identificador_pagamento" class="form-control" name="modalidade">
+                          <input id="identificador_pagamento" class="form-control" name="identificador_pagamento">
                         </div>
                         <div class="col-sm-4">
                           <h6> NSU: </h6>
-                          <input id="nsu" class="form-control" name="modalidade">
+                          <input id="nsu" class="form-control" name="nsu">
                         </div>
                       </div>
                       <div class="row">
@@ -131,6 +131,8 @@
                                   value="{{ $status->CODIGO }}"
                                   name="status_conciliacao[]"
                                   class="status-conciliacao-checkbox"
+                                  data-group="status-conciliacao"
+                                  data-checker="checkbox"
                                   data-codigo="{{ $status->CODIGO }}"
                                   checked
                                   required
@@ -202,10 +204,9 @@
                             type="checkbox"
                             class="adquirente"
                             name="arrayAdquirentes[]"
-                            value="{{ $adquirente->ADQUIRENTE }}"
+                            value="{{ $adquirente->CODIGO }}"
                             data-checker="checkbox"
                             data-group="adquirente"
-                            data-checked-description="{{ $adquirente->ADQUIRENTE }}"
                             data-codigo="{{ $adquirente->CODIGO }}"
                             data-descricao="{{ $adquirente->ADQUIRENTE }}"
                           >
@@ -216,8 +217,12 @@
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
-                  <button type="button" class="btn btn-success bt-confirmar-selecao" data-group="adquirente" data-dismiss="modal"><b>Confirmar</b></button>
+                  <button type="button" data-acao="cancelar" class="btn btn-danger" data-group="adquirente" data-dismiss="modal">
+                    Cancelar
+                  </button>
+                  <button type="button" data-acao="confirmar" class="btn btn-success" data-group="adquirente" data-dismiss="modal">
+                    Confirmar
+                  </button>
                 </div>
               </div>
             </div>
@@ -268,7 +273,6 @@
                             class="meio-captura"
                             data-checker="checkbox"
                             data-group="meio-captura"
-                            data-checked-description="{{ $meio->DESCRICAO }}"
                             data-codigo="{{ $meio->CODIGO }}"
                             data-descricao="{{ $meio->DESCRICAO }}"
                           >
@@ -279,8 +283,12 @@
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
-                  <button type="button" data-group="meio-captura" class="btn btn-success bt-confirmar-selecao" data-dismiss="modal"><b>Confirmar</b></button>
+                  <button type="button" data-acao="cancelar" class="btn btn-danger" data-group="meio-captura" data-dismiss="modal">
+                    Cancelar
+                  </button>
+                  <button type="button" data-acao="confirmar" data-group="meio-captura" class="btn btn-success bt-confirmar-selecao" data-dismiss="modal">
+                    Confirmar
+                  </button>
                 </div>
               </div>
             </div>
@@ -442,8 +450,9 @@
 @stop
 
 @section('footerScript')
-<script src="{{ URL::asset('assets/js/lib/checker.js') }}"></script>
-  <script src="{{ URL::asset('assets/js/vendas/vendaserp.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/api.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/checker.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/vendas/vendaserp.js') }}"></script>
 
   <!-- Required datatable js -->
   <script src="{{ URL::asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
