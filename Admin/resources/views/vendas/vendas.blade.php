@@ -886,7 +886,7 @@ $('#submitFormLogin').click(function(){
         htmll +="<td>"+""+"</td>";
 
         htmll +="</tr>";
-        $('#jsgrid-table tfoot').append(htmll);
+        $('#jsgrid-table tfoot').html(htmll);
 
         let li_html = "<li><a>" + "" + "</a></li>"
         if(response[0].last_page < 10){
