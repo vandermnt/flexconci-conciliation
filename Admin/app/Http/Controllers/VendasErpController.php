@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Request;
+use Illuminate\Support\Arr;
+use Illuminate\Http\Request;
 use DB;
+
+use App\VendasErpModel;
 use App\MeioCaptura;
 use App\StatusConciliacaoModel;
 use App\GruposClientesModel;
 use App\AdquirentesModel;
 
-class VendasErpController extends Controller{
+class VendasErpController extends Controller {
 
   public function vendaserp(){
     $adquirentes = DB::table('cliente_operadora')
@@ -33,77 +36,88 @@ class VendasErpController extends Controller{
       ->with('status_conciliacao', $status_conciliacao);
   }
 
-  public function buscarVendasErp() {
-    $quantidadesPermitidas = [10, 20, 50, 100, 200];
-
-    $data_final = Request::input('data_final');
-    $data_inicial = Request::input('data_inicial');
-    $adquirente = Request::input('arrayAdquirentes');
-    $conciliacao = Request::input('status_conciliacao');
-    $quantidadePorPagina = Request::input('por_pagina', 10);
-    $quantidadePorPagina = in_array($quantidadePorPagina, $quantidadesPermitidas) ? $quantidadePorPagina : 10;
-    
-    $query = DB::table('vendas_erp')
-      ->join('modalidade', 'vendas_erp.COD_MODALIDADE', '=', 'modalidade.CODIGO')
-      ->leftJoin('produto_web', 'vendas_erp.COD_PRODUTO', '=', 'produto_web.CODIGO')
-      ->leftJoin('meio_captura', 'vendas_erp.COD_MEIO_CAPTURA', '=', 'meio_captura.CODIGO')
-      ->leftJoin('status_conciliacao', 'vendas_erp.COD_STATUS_CONCILIACAO', '=', 'status_conciliacao.CODIGO')
-      ->select('vendas_erp.*', 'vendas_erp.CODIGO as COD', 'modalidade.*', 'produto_web.*', 'meio_captura.DESCRICAO as MEIOCAPTURA', 'status_conciliacao.STATUS_CONCILIACAO')
-      ->where('vendas_erp.COD_CLIENTE', '=', session('codigologin'))
-      ->where(function($query) {
-        if(Request::only('arrayStatusConciliacao') != null){
-          $status_conciliacao = Request::only('arrayStatusConciliacao');
-          foreach($status_conciliacao['arrayStatusConciliacao'] as $status_conciliacaoo) {
-            $query->orWhere('COD_STATUS_CONCILIACAO', '=', $status_conciliacaoo);
-          }
-        }
-      })
-      ->where(function($query) {
-        if(Request::only('arrayAdquirentes') != null){
-          $adquirentes = Request::only('arrayAdquirentes');
-          foreach ($adquirentes['arrayAdquirentes'] as $adquirente) {
-            $query->orWhere('COD_OPERADORA', '=', $adquirente);
-          }
-        }
-      })
-      ->where(function($query) {
-        if(Request::only('arrayMeioCaptura') != null){
-          $meiocaptura = Request::only('arrayMeioCaptura');
-          foreach ($meiocaptura['arrayMeioCaptura'] as $mcaptura) {
-            $query->orWhereNull('COD_MEIO_CAPTURA')->orWhere('COD_MEIO_CAPTURA', '=', $mcaptura);
-          }
-        }
-      })
-      ->where(function($query) {
-        if(Request::only('data_inicial') != null){
-          $data_inicial = Request::only('data_inicial');
-          $data_final = Request::only('data_final');
-          $query->whereBetween('DATA_VENDA', [$data_inicial['data_inicial'], $data_final['data_final']]);
-        }
-      })
-      ->orderBy('DATA_VENDA');
-
-    $liquidezTotalPacela = $query->get()->sum('VALOR_LIQUIDO_PARCELA');
-    $totalVendas = $query->get()->sum('TOTAL_VENDA');
-    $paginaVendas = $query->paginate($quantidadePorPagina);
-
-    $dados = [
-        'vendas' => $paginaVendas,
-        'totais' => [
-          'TOTAL_VENDAS' => $totalVendas,
-          'LIQUIDEZ_TOTAL_PARCELA' => $liquidezTotalPacela,
-        ]
+  public function buscarVendasErp(Request $request) {
+    $quantidadesPermitidas = [10, 20, 50, 100, 200, '*'];
+    $inputs = [
+      'arrayMeioCaptura',
+      'arrayAdquirentes',
+      'status_conciliacao',
+      'identificador_pagamento',
+      'cod_autorizacao',
+      'nsu'
+    ];
+    $dicionarioInput = [
+      'arrayMeioCaptura' => 'meio_captura.CODIGO',
+      'arrayAdquirentes' => 'vendas_erp.COD_OPERADORA',
+      'status_conciliacao' => 'status_conciliacao.CODIGO',
+      'identificador_pagamento' => 'vendas_erp.IDENTIFICADOR_PAGAMENTO',
+      'cod_autorizacao' => 'vendas_erp.CODIGO_AUTORIZACAO',
+      'nsu' => 'vendas_erp.NSU'
     ];
 
-    
-    $adquirentes = AdquirentesModel::orderBy('ADQUIRENTE', 'ASC')->get();
-    $status_conciliacao = StatusConciliacaoModel::where('CODIGO', '!=', 4)->orderBy('STATUS_CONCILIACAO', 'ASC')->get();
-    $grupos_clientes = GruposClientesModel::where('COD_CLIENTE', '=', session('codigologin'))->get();
-    
-    session()->put('vendas_erp', $paginaVendas);
-    $dados = json_encode($dados);
+    $dados = array_filter($request->only($inputs));
+    $datas = [
+      $request->input('data_inicial') ?? '2020-11-01',
+      $request->input('data_final') ?? date('Y-m-d')
+    ];
+    $quantidadePorPagina = $request->input('por_pagina', 10);
+    $quantidadePorPagina = in_array($quantidadePorPagina, $quantidadesPermitidas) ? $quantidadePorPagina : 10;
 
-    return $dados;
+
+    $query = VendasErpModel::select(
+        [
+          'vendas_erp.CODIGO AS COD',
+          'vendas_erp.DATA_VENDA',
+          'vendas_erp.DATA_VENCIMENTO',
+          'vendas_erp.NSU',
+          'vendas_erp.TOTAL_VENDA',
+          'vendas_erp.NSU',
+          'vendas_erp.PARCELA',
+          'vendas_erp.TOTAL_PARCELAS',
+          'vendas_erp.VALOR_LIQUIDO_PARCELA',
+          'vendas_erp.DESCRICAO_TIPO_PRODUTO',
+          'vendas_erp.CODIGO_AUTORIZACAO',
+          'vendas_erp.IDENTIFICADOR_PAGAMENTO',
+          'vendas_erp.JUSTIFICATIVA',
+          'meio_captura.DESCRICAO AS MEIOCAPTURA',
+          'status_conciliacao.STATUS_CONCILIACAO',
+        ]
+      )
+      ->leftJoin('meio_captura', 'vendas_erp.COD_MEIO_CAPTURA', '=', 'meio_captura.CODIGO')
+      ->leftJoin('status_conciliacao', 'vendas_erp.COD_STATUS_CONCILIACAO', '=', 'status_conciliacao.CODIGO')
+      ->where('vendas_erp.COD_CLIENTE', session('codigologin'))
+      ->whereBetween('vendas_erp.DATA_VENDA', $datas)
+      ->orderBy('vendas_erp.DATA_VENDA');
+
+    foreach($dados as $chave => $valor) {
+      if(is_array($valor)) {
+        $query->whereIn($dicionarioInput[$chave], $valor);
+      } else {
+        $query->where($dicionarioInput[$chave], $valor);
+      }
+    }
+
+    $vendas = $query->get();
+    $liquidezTotalPacela = $vendas->sum('VALOR_LIQUIDO_PARCELA');
+    $totalVendas = $vendas->sum('TOTAL_VENDA');
+    
+    $quantidadePorPagina = $quantidadePorPagina === '*' ? $vendas->count() : $quantidadePorPagina;
+    $paginacaoVendas = $query->paginate($quantidadePorPagina);
+    $vendas = $paginacaoVendas->getCollection(); 
+    $paginacao = $paginacaoVendas->toArray();
+    unset($paginacao['data']);
+    
+    $json = [];
+    $json['vendas'] = $vendas;
+    $json['paginacao'] = $paginacao;
+    $json['totais'] = [
+      'TOTAL_VENDAS' => $totalVendas,
+      'LIQUIDEZ_TOTAL_PARCELA' => $liquidezTotalPacela,
+    ];
+
+    session()->put('vendas_erp', $vendas);
+
+    return response()->json($json);
   }
 
   public function downloadTable(){
