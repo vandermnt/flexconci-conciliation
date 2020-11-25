@@ -18,8 +18,6 @@
 <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
 <script src="http://tablesorter.com/__jquery.tablesorter.min.js" type="text/javascript"></script>
 
-<script src="{{ URL::asset('assets/js/vendas/vendas-operadora-sort.js')}}"></script>
-
 <link href="{{ URL::asset('plugins/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ URL::asset('plugins/datatables/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
 <!-- Responsive datatable examples -->
@@ -188,14 +186,20 @@
                 <div class="row">
                   <div class="col-sm-1">
                     <div style="margin-top: -10px">
-                      <input type="checkbox" checked value="1" name="status_financeiro[]" id="aberto">
-                      <label style="font-size: 12px; color: #424242; margin-top: 5px" for="aberto">Em Aberto</label>
+                      <input type="checkbox" checked value="1" name="status_financeiro[]" id="pendente">
+                      <label style="font-size: 12px; color: #424242; margin-top: 5px" for="aberto">Pendente</label>
                     </div>
                   </div>
                   <div class="col-sm-1">
                     <div style="margin-top: -10px">
                       <input type="checkbox" checked value="2" name="status_financeiro[]" id="liquidado">
                       <label style="font-size: 12px; color: #424242; margin-top: 5px" for="liquidado">Liquidado</label>
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div style="margin-top: -10px">
+                      <input type="checkbox" checked value="2" name="status_financeiro[]" id="cancelada">
+                      <label style="font-size: 12px; color: #424242; margin-top: 5px" for="cancelada">Cancelada</label>
                     </div>
                   </div>
                 </div>
@@ -465,6 +469,8 @@
         </div>
       </form>
 
+
+
       <div id="resultadosPesquisa" style="display: none">
         <div class="row">
           <div class="col-md-6 col-lg-3">
@@ -548,11 +554,51 @@
               </a>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <a class="dropdown-item" id="dp-item"  href="{{ action('VendasController@downloadTable') }}">  PDF</a>
-                <a class="dropdown-item" id="dp-item"  onclick="download_table_as_csv('jsgrid-table');" href="#">  XLS (EXCEL)</a>
+                <a class="dropdown-item" id="btExportXls"  onclick="exportTableToExcel('#jsgrid-table', '#btExportXls')" href="#">  XLS (EXCEL)</a>
               </div>
             </div>
           </div>
         </div><br>
+
+        <div class="modal fade" id="modal-cupom" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="modalCupom" aria-hidden="true">
+          <div class="modal-dialog" style="width: 320px">
+            <div class="modal-content">
+              <div class="modal-header" style="background: #2D5275;">
+                <h5 class="modal-title" id="modalCupom" style="color: white">Cupom para Comprovante</h5>
+                <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" style="max-height: 350px; overflow: auto; background-color: #F3F781">
+                <table>
+                  <tbody>
+                    <thead>
+                      <h4 id="moda_titulo" align="center" >  </h4>
+                      <h6 id="modal_cnpj" align="center" style="margin-top: -15px"> CNPJ: {{ $venda->CNPJ}}</h6>
+                      <h6 id="modal_empresa" align="center" style="margin-top: -15px"> CNPJ: {{ $venda->CNPJ}}</h6>
+
+                      <h6 style="margin-top: -15px">-----------------------------------</h6>
+                      <div style="text-align: center">
+                        <h6 id="modal_data">  </h6>
+                        <h6 id="modal_operadora">  </h6>
+                        <h6 id="modal_bandeira">  </h6>
+                        <h6 id="modal_forma_pagamento">  </h6>
+                        <h6 id="modal_estabelecimento">  </h6>
+                        <h6 id="modal_cartao">  </h6>
+                        <h6 id="modal_valor_bruto" style="font-weight: bold"> <b></b> </h6>
+                        <h6 id="modal_data_previsao"></h6>
+                      </div>
+                    </thead>
+                  </tbody>
+                </table>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Fechar</b></button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="imprimeCupom()"><b>Imprimir</b></button>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div class="table-scroll" style="height: 450px">
           <table id="jsgrid-table" class="table sortable" style="white-space: nowrap; border: none">
@@ -587,6 +633,8 @@
                 <th> Status Conciliação<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
                 <th> Status Financeiro<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
                 <th> Justificativa <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
+                <th> RO <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"></th>
+                <th> RO Único <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"></th>
               </tr>
             </thead>
             <tbody>
@@ -632,6 +680,8 @@
 <script src="{{ URL::asset('plugins/datatables/buttons.html5.min.js')}}"></script>
 <script src="{{ URL::asset('plugins/datatables/buttons.print.min.js')}}"></script>
 <script src="{{ URL::asset('plugins/datatables/buttons.colVis.min.js')}}"></script>
+<script src="{{ URL::asset('assets/js/vendas/export-excel-vendas.js')}}"></script>
+<script src="{{ URL::asset('assets/js/vendas/vendas-operadora-sort.js')}}"></script>
 <!-- Responsive examples -->
 <script src="{{ URL::asset('plugins/datatables/dataTables.responsive.min.js')}}"></script>
 <script src="{{ URL::asset('plugins/datatables/responsive.bootstrap4.min.js')}}"></script>
@@ -681,12 +731,11 @@ $('#submitFormLogin').click(function(){
   mcaptura = <?php echo $meio_captura ?>;
   adquirentes = <?php echo $adquirentes ?>;
   status_conciliacao = <?php echo $status_conciliacao ?>;
-  aberto = document.getElementById("aberto").checked;
-  liquidado = document.getElementById("liquidado").checked;
   let qtdeVisivel = 10;
 
-  if(document.getElementById("aberto").checked) { arrayStatusFinanceiro.push(1); }
+  if(document.getElementById("pendente").checked) { arrayStatusFinanceiro.push(1); }
   if(document.getElementById("liquidado").checked){ arrayStatusFinanceiro.push(2); }
+  if(document.getElementById("cancelada").checked){ arrayStatusFinanceiro.push(3); }
 
   grupo_clientes.forEach((grupo_cliente) => {
     if(document.getElementById(grupo_cliente.CODIGO).checked){
@@ -755,9 +804,12 @@ $('#submitFormLogin').click(function(){
     dataType: 'json',
     success: function (response){
       if(response){
+        console.log(response);
         for(var i=0;i< response[0].data.length; i++){
           var data_v = new Date(response[0].data[i].DATA_VENDA);
           var data_venda = data_v.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+
+          let dados_cupom = JSON.stringify(response[0].data[i]);
 
           var data_p = new Date(response[0].data[i].DATA_PREVISTA_PAGTO);
           var data_prev_pag = data_p.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
@@ -809,7 +861,7 @@ $('#submitFormLogin').click(function(){
             html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Justificativa' onclick='desfazerJustificativa(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-history'></i></a>"+" "+
             "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
           }else{
-            html += "<td>" + "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+            html += "<td>" + "<a onclick='exibeModal("+dados_cupom+")'  data-target='#staticBackdrop' data-placement='bottom' title='Visualiza Comprovante'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
           }
 
           html +="<td>"+response[0].data[i].EMPRESA+"</td>";
@@ -830,14 +882,14 @@ $('#submitFormLogin').click(function(){
           html +="<td>"+response[0].data[i].CARTAO+"</td>";
           html +="<td>"+formatted +"</td>";
           html +="<td>"+val_taxa+"</td>";
-          html +="<td>"+formatted_tx+"</td>";
+          html +="<td style='color:red'>"+formatted_tx+"</td>";
           html +="<td>"+outras_despesas_format+"</td>";
           html +="<td>"+formatted_liq+"</td>";
           html +="<td>"+response[0].data[i].PARCELA+"</td>";
           html +="<td>"+response[0].data[i].TOTAL_PARCELAS+"</td>";
           html +="<td>"+response[0].data[i].HORA_TRANSACAO+"</td>";
           html +="<td>"+response[0].data[i].ESTABELECIMENTO+"</td>";
-          html +="<td>"+response[0].data[i].BANCO+"</td>";
+          html +="<td>"+"<img src='" + response[0].data[i].IMAGEM_LINK +"'' style='width: 30px'/>"+"</td>";
           html +="<td>"+response[0].data[i].AGENCIA+"</td>";
           html +="<td>"+response[0].data[i].CONTA+"</td>";
           html +="<td>"+response[0].data[i].OBSERVACOES+"</td>";
@@ -850,13 +902,16 @@ $('#submitFormLogin').click(function(){
           html +="<td>"+response[0].data[i].status_conc+"</td>";
           html +="<td>"+response[0].data[i].status_finan+"</td>";
           html +="<td>"+""+"</td>";
+          html +="<td>"+""+"</td>";
+          html +="<td>"+""+"</td>";
+
           html +="</tr>";
 
           $('#jsgrid-table').append(html);
         }
 
         var htmll = "<tr id='rodapeTable'>";
-        htmll +="<td>"+""+"</td>";
+        htmll +="<td style='color:#6E6E6E'>"+"Totais"+"</td>";
         htmll +="<td>"+""+"</td>";
         htmll +="<td>"+""+"</td>";
         htmll +="<td>"+""+"</td>";
@@ -869,7 +924,7 @@ $('#submitFormLogin').click(function(){
         htmll +="<td>"+""+"</td>";
         htmll +="<td style='color:#6E6E6E'> <b>"+response[2]+"</b></td>";
         htmll +="<td>"+""+"</td>";
-        htmll +="<td style='color:#6E6E6E'><b>"+response[4]+"</b></td>";
+        htmll +="<td style='color:red'><b>"+response[4]+"</b></td>";
         htmll +="<td style='color:#6E6E6E'><b>"+response[6]+"</b></td>";
         htmll +="<td style='color:#6E6E6E'><b>"+response[1]+"</b></td>";
         htmll +="<td>"+""+"</td>";
@@ -884,6 +939,11 @@ $('#submitFormLogin').click(function(){
         htmll +="<td>"+""+"</td>";
         htmll +="<td>"+""+"</td>";
         htmll +="<td>"+""+"</td>";
+        htmll +="<td>"+""+"</td>";
+        htmll +="<td>"+""+"</td>";
+        htmll +="<td>"+""+"</td>";
+
+
 
         htmll +="</tr>";
         $('#jsgrid-table tfoot').append(htmll);
@@ -995,13 +1055,13 @@ $('#submitFormLogin').click(function(){
             // html +="<td>";
             if(response[0].data[i].COD_STATUS_CONCILIACAO == 6) {
               html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Conciliação' onclick='desfazerConciliacao(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-undo-alt'></i></a>"+" "+
-              "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+              "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' onclick='exibeModal("+response[0].data[i].COD+")' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
 
             }else if(response[0].data[i].COD_STATUS_CONCILIACAO == 3){
               html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Justificativa' onclick='desfazerJustificativa(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-history'></i></a>"+" "+
-              "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+              "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"'  onclick='exibeModal("+response[0].data[i].COD+")' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
             }else{
-              html += "<td>" + "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+              html += "<td>" + "<a onclick='exibeModal("+response[0].data[i]+")' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
             }
 
 
@@ -1030,7 +1090,7 @@ $('#submitFormLogin').click(function(){
             html +="<td>"+response[0].data[i].TOTAL_PARCELAS+"</td>";
             html +="<td>"+response[0].data[i].HORA_TRANSACAO+"</td>";
             html +="<td>"+response[0].data[i].ESTABELECIMENTO+"</td>";
-            html +="<td>"+response[0].data[i].BANCO+"</td>";
+            html +="<td>"+"<img src='" + response[0].data[i].IMAGEM_LINK +"'' style='width: 30px'/>"+"</td>";
             html +="<td>"+response[0].data[i].AGENCIA+"</td>";
             html +="<td>"+response[0].data[i].CONTA+"</td>";
             html +="<td>"+response[0].data[i].OBSERVACOES+"</td>";
@@ -1052,7 +1112,7 @@ $('#submitFormLogin').click(function(){
           }
 
           var htmll = "<tr id='rodapeTable'>";
-          htmll +="<td>"+""+"</td>";
+          htmll +="<td style='color:#6E6E6E'>"+"Totais"+"</td>";
           htmll +="<td>"+""+"</td>";
           htmll +="<td>"+""+"</td>";
           htmll +="<td>"+""+"</td>";
@@ -1556,8 +1616,9 @@ $('#submitFormLogin').click(function(){
     const data_inicial = document.getElementById("date_inicial").value;
     const data_final = document.getElementById("date_final").value;
 
-    if(document.getElementById("aberto").checked) { arrayStatusFinanceiro.push(1); }
+    if(document.getElementById("pendente").checked) { arrayStatusFinanceiro.push(1); }
     if(document.getElementById("liquidado").checked){ arrayStatusFinanceiro.push(2); }
+    if(document.getElementById("cancelada").checked){ arrayStatusFinanceiro.push(3); }
 
     checkboxEmpresa.forEach((checkEmpresa) => { array.push(checkEmpresa.id) });
     checkboxAdquirentes.forEach((checkAdquirente) => { arrayAdquirentes.push(checkAdquirente.id) });
@@ -1591,6 +1652,41 @@ $('#submitFormLogin').click(function(){
     paginate(1, dados)
   }
 
-</script>
+  function exibeModal(venda){
+    localStorage.setItem('codigo_cupom_venda', venda.CODIGO);
 
-@stop
+    let data_v = new Date(venda.DATA_VENDA);
+    const data_venda = data_v.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+    let data_p = new Date(venda.DATA_PREVISTA_PAGTO);
+    const data_prev_pag = data_p.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+
+    const val_brt = venda.VALOR_BRUTO;
+    const formatter = new Intl.NumberFormat('pt-BR', {style: 'currency',currency: 'BRL'});
+    const valor_bruto = formatter.format(val_brt);
+
+    document.getElementById("modal_data").innerHTML = "DATA VENDA " + data_venda;
+    document.getElementById("modal_cnpj").innerHTML = "CNPJ " + venda.CNPJ;
+    document.getElementById("modal_empresa").innerHTML = "EMPRESA " + venda.EMPRESA;
+    document.getElementById("modal_cartao").innerHTML = "CARTÃO " + venda.CARTAO
+    document.getElementById("modal_bandeira").innerHTML = "BANDEIRA " + venda.BANDEIRA;
+    document.getElementById("modal_operadora").innerHTML = "OPERADORA " + venda.ADQUIRENTE;
+    document.getElementById("modal_operadora").innerHTML = "FORMA DE PAGAMENTO " + venda.DESCRICAO;
+    document.getElementById("modal_valor_bruto").innerHTML = "VALOR: " + valor_bruto;
+    document.getElementById("modal_data_previsao").innerHTML = "PREVISÂO DE PAGAMENTO " + data_prev_pag;
+
+    $("#modal-cupom").modal({
+      show: true
+    });
+  }
+
+  function imprimeCupom(){
+    let btn = document.createElement('a');
+    btn.href = "{{ url('/impressao-vendas')}}"+"/"+localStorage.getItem('codigo_cupom_venda');
+    btn.target = `_blank`
+
+    btn.click();
+  }
+
+  </script>
+
+  @stop

@@ -64,7 +64,7 @@ function autorizacaoCielo(){
 
     //window.location.href = 'https://minhaconta2.cielo.com.br/oauth/?mode=redirect&client_id=0d873941-4ae6-3344-bd72-63f9ff4058a8&redirect_uri=http:%2F%2F200.98.160.111/flexconci/credeciamento&state=STATE_INFO&scope=profile_read,profile_write,transaction_read,transaction_write';
 
-    window.location.href = 'https://minhaconta2.cielo.com.br/oauth/?mode=redirect&client_id=2cd71f8e-aaf1-3d7a-b139-8017b4cd01f1&redirect_uri=http:%2F%2Fhttp://34.95.255.189/flexconci/credeciamento&state=STATE_INFO&scope=profile_read,transaction_read';
+    window.location.href = 'https://minhaconta2.cielo.com.br/oauth/?mode=redirect&client_id=2cd71f8e-aaf1-3d7a-b139-8017b4cd01f1&redirect_uri=http:%2F%2Flocalhost:8000/credeciamento&state=STATE_INFO&scope=profile_read,transaction_read';
   }
 }
 

@@ -1,6 +1,8 @@
 @extends('layouts.authLayout')
 @section('headerStyle')
 <link href="{{ URL::asset('assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ URL::asset('assets/css/teste.css')}}" rel="stylesheet" type="text/css" />
+
 @stop
 
 @section('content')
@@ -24,6 +26,8 @@
                   <!-- <h5>{{Auth::user()->NOME }}</h5> -->
                 </div><br>
                 <div class="text-center">
+                  <div id="preloader" style="display: none" class="loadercielo"></div>
+
                   <!-- <label for="userpassword">E-mail</label> -->
                   <p class="" id="msg"><b> </b></p>
                 </div>
@@ -51,22 +55,24 @@ $(window).on("load", function () {
   if (url.indexOf("code") != -1) {
     code = url.split("=");
     email = localStorage.getItem("email");
-    console.log(code[2])
+
+    document.getElementById("preloader").style.display = "block";
+
     $.ajax({
       url: "https://api2.cielo.com.br/consent/v1/oauth/access-token",
-      // url: "https://apihom-cielo.sensedia.com/consent/v1/oauth/access-token",
       type: "post",
       beforeSend: function (xhr) {
+        xhr.setRequestHeader("Content-Type", "application/json");
         xhr.setRequestHeader(
           "Authorization",
           "Basic " +
           "MmNkNzFmOGUtYWFmMS0zZDdhLWIxMzktODAxN2I0Y2QwMWYxOmIyNjNjYTg2LWUwMGUtMzA3My04MWIyLTRmNjk1ZWJlZGUzYQ=="
         );
       },
-      data: { grant_type: "authorization_code", code: code[2] },
+      data: JSON.stringify({"grant_type":"authorization_code","code":code[2]}),
       dataType: "json",
       success: function (response) {
-
+        console.log(response)
         acess_token = response["access_token"];
         refresh_token = response["refresh_token"];
 
@@ -92,7 +98,6 @@ $(window).on("load", function () {
           contentType: "application/json; charset=utf-8",
           dataType: "json",
           success: function (response) {
-            console.log(response.status);
             registerID = response["registerID"];
             merchants = response["merchants"];
             mainMerchantId = response["mainMerchantId"];
@@ -118,25 +123,22 @@ $(window).on("load", function () {
               success: function (response) {
                 console.log(response);
                 document.getElementById("msg").style = "color: green";
-
                 document.getElementById("msg").innerHTML = "<b>Credenciamento feito com sucesso!</b>";
               },
             });
           },
-        }).fail(function () {
-
-          alert("Erro");
-          document.getElementById("msg").style = "color: red";
-          document.getElementById("msg").innerHTML = "<b>Erro ao fazer o credenciamento! Estabelecimento já credenciado!";
-          return;
+          error: function(response){
+            console.log(response);
+            document.getElementById("preloader").style.display = "none";
+            document.getElementById("msg").style = "color: red";
+            document.getElementById("msg").innerHTML = "<b>"+response.responseJSON.message+"</b>";
+          }
         });
       },
-    }).fail(function () {
-      alert("Erro");
-      document.getElementById("msg").style = "color: red";
-      document.getElementById("msg").innerHTML = "<b>Erro ao gerar o access_token. Não foi possível realizar o credenciamento. Tente novamente!";
-      return;
-    });
+      error: function (response) {
+        console.log(response);
+      }
+    })
   }
 });
 
@@ -145,7 +147,6 @@ $(window).on("load", function () {
 @section('footerScript')
 
 <script type="text/javascript">
-
 
 $(document).ready(function() {
   document.body.classList.add('account-body');

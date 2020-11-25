@@ -5854,6 +5854,15 @@ pre[class*=language-] {
 .calendar {
   float: left;
   margin-bottom: 0;
+  background-color: red;
+}
+
+#calendar:hover{
+  cursor: url(https://i.gifer.com/origin/72/720f2dc2a296f65bc27385e83cdd9628_w200.gif), auto;
+
+}
+body{
+
 }
 
 .none-border .modal-footer {

@@ -545,45 +545,9 @@ $(document).ready(function(){
             </div>
           </div>
         </div>
-
-        <!-- <div class="modal fade" id="modal_justificativas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-        <div class="modal-dialog" role="document">
-        <div class="modal-content">
-        <div class="modal-header" style="background: #2D5275;">
-        <h5 class="modal-title" style="color: white">Justificativas</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
+      </div>
     </div>
-    <div class="modal-body">
-    <table>
-    <tr>
-    <th></th>
-    <th>Data Cadastro</th>
-    <th>Justificativa</th>
-  </tr>
-  <tbody>
-  @foreach($justificativas as $justificativa)
-  <td> <input type="checkbox"> </td>
-  <td> {{ $justificativa->DATA_CADASTRO }} </td>
-  <td> {{ $justificativa->JUSTIFICATIVA }}</td>
-  @endforeach
-</tbody>
-</table>
-
-</div>
-<div class="modal-footer">
-<button type="button" class="btn" style="background: #2D5275; color: white" data-dismiss="modal">Fechar</button>
-</div>
-</div>
-</div>
-</div> -->
-
-
-</div>
-</div>
-</div>
+  </div>
 </div>
 
 </div>
@@ -600,6 +564,8 @@ $(document).ready(function(){
 <script src="{{ URL::asset('plugins/datatables/buttons.html5.min.js')}}"></script>
 <script src="{{ URL::asset('plugins/datatables/buttons.print.min.js')}}"></script>
 <script src="{{ URL::asset('plugins/datatables/buttons.colVis.min.js')}}"></script>
+<script src="{{ URL::asset('assets/js/vendas/export-excel-vendas.js')}}"></script>
+
 <!-- Responsive examples -->
 <script src="{{ URL::asset('plugins/datatables/dataTables.responsive.min.js')}}"></script>
 <script src="{{ URL::asset('plugins/datatables/responsive.bootstrap4.min.js')}}"></script>
@@ -803,16 +769,6 @@ $('#submitFormLogin').click(function(){
 
         document.getElementById("total_registros_vendaserp").innerHTML = response[2];
         document.getElementById("resultadosPesquisa").style.display = "block";
-
-        // response[3].forEach((status_concliacao) => {
-        //
-        //   if(status_conciliacao.COD_STATUS_CONCILIACAO == 1){
-        //     console.log(status_concliacao)
-        //
-        //     document.getElementById("total_registros_conciliado").innerHTML = response[3].TOTAL_VENDA;
-        //   }
-        // })
-
 
         window.scrollTo(0, 500);
 
@@ -1149,87 +1105,6 @@ function justificar(codigo_justificativa){
   }
 }
 
-// function justificarErp(codigo_justificativa){
-//   var cod_venda_erp = localStorage.getItem("codigo_venda_erp");
-//   var count_venda = 0
-//   var justificativas = <?php echo $justificativas ?>;
-//
-//   justificativas.forEach((justificativa) => {
-//     if(document.getElementById("justErp"+justificativa.CODIGO).checked){
-//       count_venda++;
-//     }
-//   });
-//
-//   if(count_venda > 1){
-//     alert("Escolha apenas uma justificativa!");
-//   }else{
-//
-//     $.ajax({
-//       url:  "{{ url('/conciliacao-justificada-vendaerp')}}",
-//       type: "post",
-//       header:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-//       data: ({_token: '{{csrf_token()}}', cod_venda_erp}),
-//       dataType: 'json',
-//       success: function(response){
-//         console.log(response);
-//         alert("Venda Justificada!");
-//       }
-//     })
-//   }
-// }
-// function conciliar(){
-//   let count_vendasoperadora = 0;
-//   let count_vendaserp = 0;
-//   let vendasoperadora = document.getElementsByName("vendasoperadora[]");
-//   let vendaserp = document.getElementsByName("vendaserp[]");
-//
-//   for(i=0; i<vendasoperadora.length; i++){
-//     if(vendasoperadora < 1){
-//       if(vendasoperadora[i].checked == true){
-//         console.log(vendasoperadora[i])
-//           vendasoperadora++;
-//       }
-//     }
-//   }
-// }
-
-// function justificar()
-// {
-//
-//   let vendasoperadora = document.getElementsByName("vendasoperadora[]");
-//
-//   for(i=0; i<vendasoperadora.length; i++){
-//     if(vendasoperadora[i].checked == true){
-//       console.log(vendasoperadora[i])
-//
-//     }
-//   }
-// }
-
-function exportTableToExcel(idTable, idButton){
-  var tab_text = '<html xmlns:x="urn:schemas-microsoft-com:office:excel">';
-
-   tab_text = tab_text + "<table border='1px'>";
-   tab_text = tab_text + $(idTable).html();
-   tab_text = tab_text + '</table></body></html>';
-
-   var data_type = 'data:application/vnd.ms-excel';
-
-   var ua = window.navigator.userAgent;
-   var msie = ua.indexOf("MSIE ");
-
-   if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
-       if (window.navigator.msSaveBlob) {
-           var blob = new Blob([tab_text], {
-               type: "application/csv;charset=utf-8;"
-           });
-           navigator.msSaveBlob(blob, 'Test file.xls');
-       }
-   } else {
-       $(idButton).attr('href', data_type + ', ' + encodeURIComponent(tab_text));
-       $(idButton).attr('download', 'vendas.xls');
-   }
-}
 
 </script>
 @stop
