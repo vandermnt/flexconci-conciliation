@@ -89,25 +89,8 @@
     display: block;
 }
 
-#tudo_page #resultadosPesquisa .dropdown {
-    display: flex;
-    justify-content: flex-end;
-}
-
-#tudo_page #resultadosPesquisa .dropdown a {
-    width: 160px;
-    background: white;
-    color: #2d5275;
-    border-color: #2d5275;
-    padding: 7px;
-}
-
-#tudo_page #resultadosPesquisa .dropdown i {
-    font-size: 19px;
-}
-
-#tudo_page #resultadosPesquisa .dropdown b {
-    font-size: 12px;
+#tudo_page #resultadosPesquisa {
+    margin-top: 24px;
 }
 
 #tudo_page #resultadosPesquisa .table-wrapper {

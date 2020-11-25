@@ -299,23 +299,6 @@
 
 
     <div id="resultadosPesquisa" class="hidden">
-      <div class="row" id="foo">
-        <div  class="col-sm-2"></div>
-        <div class="col-sm-10">
-          <div class="dropdown">
-            <a class="btn btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fas fa-file-download"></i>
-              <b>Exportar</b>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <a class="dropdown-item" id="dp-item"  href="{{ action('VendasController@downloadTable') }}">  PDF</a>
-              <a class="dropdown-item" id="dp-item"  onclick="download_table_as_csv('mytable');" href="#">  CSV</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <br>
-
       <div class="table-wrapper">
         <table id="jsgrid-table" class="table">
           <thead>
