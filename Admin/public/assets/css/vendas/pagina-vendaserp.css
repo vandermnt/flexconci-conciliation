@@ -126,6 +126,7 @@
     max-width: 136px;
     min-height: 32px;
     max-height: 32px;
+    text-align: center;
 }
 
 #tudo_page #resultadosPesquisa th p {
