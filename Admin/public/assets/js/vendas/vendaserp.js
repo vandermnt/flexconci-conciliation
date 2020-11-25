@@ -1,9 +1,13 @@
 const checker = new Checker();
+const paginacao = new Pagination([], { from: 'api' });
+const paginacaoFiltros = new Pagination([], { from: 'cache' });
 let vendas = [];
-let vendasPaginaAtual = [];
-let paginacao = {};
 let totais = {};
 let tabelaFiltros = {};
+
+const observadores = {
+    'vendas': () => {}
+}
 
 function inicializar() {
     checker.addGroup('adquirente');
@@ -36,9 +40,10 @@ function submeterFormularioPesquisa(event) {
 
         vendas = [];
 
-        requisitaTodasAsVendas(paginacao.path)
+        requisitaTodasAsVendas(url)
             .then((resposta) => {
                 vendas = resposta.vendas;
+                observadores.vendas();
             }
         );
     });
@@ -169,31 +174,6 @@ function renderizaTabela(vendas, totais) {
     tabelaVendas.innerHTML = tabelaVendasHTML;
 }
 
-function dividirPaginacao(paginaAtual, paginaFinal) {
-    let inicio = [];
-    let meio = [];
-    let fim = [];
-
-    if(paginaAtual < 5) {
-        inicio = Array.from({ length: 5 }, (valor, index) => index + 1);
-        meio = ['...'];
-        fim = [(paginaFinal - 2), (paginaFinal - 1), paginaFinal];
-    } else if(paginaAtual > 4 && paginaAtual < (paginaFinal - 3)) {
-        inicio = Array.from({ length: 2 }, (valor, index) => index + 1);
-        meio = ['...', (paginaAtual - 1), paginaAtual, (paginaAtual + 1)];
-        fim = ['...', (paginaFinal - 2), (paginaFinal - 1), paginaFinal];
-    } else {
-        inicio = Array.from({ length: 2 }, (valor, index) => index + 1);
-        meio = ['...'];
-        fim = [(paginaFinal - 2), (paginaFinal - 1), paginaFinal];
-        if(paginaAtual === (paginaFinal - 3)) {
-            fim.unshift(paginaAtual);
-        }
-    }
-
-    return [inicio, meio, fim];
-}
-
 function renderizaItemPaginacao(itemPaginacao = {}, descricao = itemPaginacao.pagina) {
     const paginacaoDOM = document.querySelector('#resultadosPesquisa ul.pagination');
     const li = document.createElement('li');
@@ -208,6 +188,7 @@ function renderizaItemPaginacao(itemPaginacao = {}, descricao = itemPaginacao.pa
 
         link.dataset.pagina = itemPaginacao.pagina;
         link.dataset.url = `${itemPaginacao.urlBase}?page=${itemPaginacao.pagina}`;
+        link.dataset.origem = `${itemPaginacao.origem}`
         link.addEventListener('click', irParaPagina);
     }
 
@@ -217,38 +198,21 @@ function renderizaItemPaginacao(itemPaginacao = {}, descricao = itemPaginacao.pa
 
 function renderizaPaginacao(paginacao) {
     const paginacaoDOM = document.querySelector('#resultadosPesquisa ul.pagination');
-    const totalPaginas = paginacao.last_page;
-    const paginaAtual = paginacao.current_page;
-    const urlBase = paginacao.path;
-    const secoes = dividirPaginacao(paginaAtual, totalPaginas);
+    const paginaAtual = paginacao.options.currentPage;
+    const urlBase = document.querySelector('form#form-pesquisa').action;
+    const origem = paginacao.options.from;
+    const paginas = paginacao.toArray(true, 8);
 
     paginacaoDOM.dataset.url = urlBase;
     paginacaoDOM.innerHTML = '';
 
-    const itemPaginacao = {
-        paginaAtual,
-        urlBase,
-    }
-
-    if(totalPaginas < 9) {
-        const paginas = Array.from({ length: totalPaginas }, (valor, index) => index + 1);
-        paginas.forEach(pagina => {
-            renderizaItemPaginacao({
-                ...itemPaginacao,
-                pagina,
-            });
-        });
-
-        return;
-    }
-
-    secoes.forEach(secao => {
-        secao.forEach(pagina => {
-            renderizaItemPaginacao({
-                ...itemPaginacao,
-                pagina,
-            });
-        });
+    paginas.forEach(pagina => {
+        renderizaItemPaginacao({
+            paginaAtual,
+            urlBase,
+            pagina,
+            origem,
+        })
     });
 }
 
@@ -283,17 +247,35 @@ async function requisitaTodasAsVendas(urlBase, quantidadePorPagina = '*') {
 }
 
 function irParaPagina(event) {
-    const paginacaoDOM = document.querySelector('#resultadosPesquisa ul.pagination');
     const pagina = event.target.dataset.pagina;
-    const url = paginacaoDOM.dataset.url;
+    const origem = event.target.dataset.origem;
+    const url = document.querySelector('form#form-pesquisa').action;
+
     paginaAtual = pagina;
+    
+    if(origem === 'cache') {
+        paginacaoFiltros.goToPage(pagina);
+        renderizaTabela(paginacaoFiltros.getPageData(), totais);
+        renderizaPaginacao(paginacaoFiltros);
+        return;
+    }
 
     enviarFiltros({ url, parametros: { page: pagina } });
 }
 
 function selecionaQuantidadePorPagina(event) {
-    const paginacaoDOM = document.querySelector('#resultadosPesquisa ul.pagination');
-    const url = paginacaoDOM.dataset.url;
+    const quantidadePorPagina = event.target.value;
+    const url = document.querySelector('form#form-pesquisa').action;
+
+    paginacaoFiltros.setOptions({ perPage: Number(quantidadePorPagina) });
+
+    if(Object.keys(tabelaFiltros).length > 0) {
+        paginacaoFiltros.goToPage(1).paginate();
+        renderizaTabela(paginacaoFiltros.getPageData(1), totais);
+        renderizaPaginacao(paginacaoFiltros);
+        return;
+    }
+
     enviarFiltros({ url });
 }
 
@@ -306,8 +288,15 @@ async function enviarFiltros({ url, parametros }) {
 
     const resposta = await requisitaVendas(url, parametros, dados);
 
-    paginacao = resposta.paginacao;
-    vendasPaginaAtual = resposta.vendas;
+    paginacao.setData(resposta.vendas);
+    paginacao.setOptions({
+        currentPage: resposta.paginacao.current_page,
+        lastPage: resposta.paginacao.last_page,
+        path: resposta.paginacao.path,
+        total: resposta.paginacao.total,
+        perPage: resposta.paginacao.per_page
+    });
+
     totais = resposta.totais;
 
     if(resultadosPesquisa.classList.contains('hidden')) {
@@ -316,19 +305,29 @@ async function enviarFiltros({ url, parametros }) {
 
     alternaVisibilidade(carregamentoModal);
 
-    renderizaTabela(vendasPaginaAtual, totais);
+    renderizaTabela(paginacao.data, totais);
     renderizaPaginacao(paginacao);
 
 
     return resposta;
 }
 
+function executarFiltrosTabela() {
+    const filtrados = filtrarTabela(tabelaFiltros, vendas);
+    paginacaoFiltros.setData(filtrados);
+    paginacaoFiltros.setOptions({ total: filtrados.length });
+    
+    renderizaTabela(paginacaoFiltros.getPageData(1), totais);
+    renderizaPaginacao(paginacaoFiltros.paginate());
+}
+
 function atualizaFiltrosTabela (event) {
-    const carregamentoModal = document.querySelector("#preloader");
-    const camposMoedas = ['TOTAL_VENDA', 'VALOR_LIQUIDO_PARCELA'];
     const filtroInput = event.target;
     const chave = filtroInput.name;
     const valor = filtroInput.value.trim();
+
+    const carregamentoModal = document.querySelector("#preloader");
+    const camposMoedas = ['TOTAL_VENDA', 'VALOR_LIQUIDO_PARCELA'];
 
     tabelaFiltros = { ...tabelaFiltros, [chave]: valor };
 
@@ -341,19 +340,28 @@ function atualizaFiltrosTabela (event) {
         delete tabelaFiltros[chave];
     }
 
-    if(event.key === 'Enter') {
-        let filtrados;
-        alternaVisibilidade(carregamentoModal);
+    if(event.key !== 'Enter') return;
+    alternaVisibilidade(carregamentoModal);
 
-        if(Object.keys(tabelaFiltros).length === 0) {
-            filtrados = vendasPaginaAtual;
-        } else {
-            filtrados = filtrarTabela(tabelaFiltros, vendas);
+    if(Object.keys(tabelaFiltros).length === 0) {
+        renderizaTabela(paginacao.data, totais);
+        renderizaPaginacao(paginacao);
+        alternaVisibilidade(carregamentoModal);
+        return;
+    }
+
+    if(vendas.length === 0) {
+        observadores.vendas = () => {
+            executarFiltrosTabela();
+            alternaVisibilidade(carregamentoModal);
         }
 
-        renderizaTabela(filtrados, totais);
-        alternaVisibilidade(carregamentoModal);
+        return;
     }
+
+    executarFiltrosTabela();
+
+    alternaVisibilidade(carregamentoModal);
 }
 
 function filtrarTabela(filtros, vendas) {
@@ -363,7 +371,7 @@ function filtrarTabela(filtros, vendas) {
         return Object.keys(filtros).map(filtro => {
             const filtroFormatado = filtros[filtro].replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
             const valor = new String(venda[filtro]);
-            console.log(new RegExp(filtroFormatado, 'gi'));
+
             return (new RegExp(filtroFormatado, 'gi').test(valor));
         }).every((valor) => valor === true);
     });
@@ -372,6 +380,7 @@ function filtrarTabela(filtros, vendas) {
 }
 
 window.addEventListener('load', (event) => {
+    window.scrollTo(0, 0);
     alternaVisibilidade(document.querySelector('#tudo_page'));
     inicializar();
 });
