@@ -3759,7 +3759,7 @@ a.ui-button:active,
   z-index: 1;
   margin: auto;
   overflow: auto;
-  height: 350px;
+  max-height: 450px;
 }
 
 .table-wrap {

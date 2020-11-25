@@ -575,7 +575,7 @@
                     <thead>
                       <h4 id="moda_titulo" align="center" >  </h4>
                       <h6 id="modal_cnpj" align="center" style="margin-top: -15px"> CNPJ: {{ $venda->CNPJ}}</h6>
-                      <h6 id="modal_empresa" align="center" style="margin-top: -15px"> CNPJ: {{ $venda->CNPJ}}</h6>
+                      <h6 id="modal_empresa" align="center"> CNPJ: {{ $venda->CNPJ}}</h6>
 
                       <h6 style="margin-top: -15px">-----------------------------------</h6>
                       <div style="text-align: center">
@@ -731,6 +731,9 @@ $('#submitFormLogin').click(function(){
   mcaptura = <?php echo $meio_captura ?>;
   adquirentes = <?php echo $adquirentes ?>;
   status_conciliacao = <?php echo $status_conciliacao ?>;
+  aberto = document.getElementById("pendente").checked;
+  liquidado = document.getElementById("liquidado").checked;
+  cancelada = document.getElementById("cancelada").checked;
   let qtdeVisivel = 10;
 
   if(document.getElementById("pendente").checked) { arrayStatusFinanceiro.push(1); }
@@ -946,7 +949,7 @@ $('#submitFormLogin').click(function(){
 
 
         htmll +="</tr>";
-        $('#jsgrid-table tfoot').append(htmll);
+        $('#jsgrid-table tfoot').html(htmll);
 
         let li_html = "<li><a>" + "" + "</a></li>"
         if(response[0].last_page < 10){
@@ -1015,6 +1018,9 @@ $('#submitFormLogin').click(function(){
             var data_p = new Date(response[0].data[i].DATA_PREVISTA_PAGTO);
             var data_prev_pag = data_p.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
 
+            let dados_cupom = JSON.stringify(response[0].data[i]);
+
+
             const number = response[0].data[i].VALOR_BRUTO;
 
             const formatter = new Intl.NumberFormat('pt-BR', {
@@ -1061,7 +1067,7 @@ $('#submitFormLogin').click(function(){
               html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Justificativa' onclick='desfazerJustificativa(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-history'></i></a>"+" "+
               "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"'  onclick='exibeModal("+response[0].data[i].COD+")' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
             }else{
-              html += "<td>" + "<a onclick='exibeModal("+response[0].data[i]+")' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+              html += "<td>" + "<a onclick='exibeModal("+dados_cupom+")'  data-target='#staticBackdrop' data-placement='bottom' title='Visualiza Comprovante'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
             }
 
 
@@ -1653,6 +1659,8 @@ $('#submitFormLogin').click(function(){
   }
 
   function exibeModal(venda){
+    console.log(venda);
+
     localStorage.setItem('codigo_cupom_venda', venda.CODIGO);
 
     let data_v = new Date(venda.DATA_VENDA);
@@ -1682,11 +1690,15 @@ $('#submitFormLogin').click(function(){
   function imprimeCupom(){
     let btn = document.createElement('a');
     btn.href = "{{ url('/impressao-vendas')}}"+"/"+localStorage.getItem('codigo_cupom_venda');
-    btn.target = `_blank`
-
+    btn.target = "_blank"
     btn.click();
+
+    // const url = "/impressao-vendas/" + localStorage.getItem('codigo_cupom_venda');
+
   }
 
-  </script>
 
-  @stop
+
+    </script>
+
+    @stop

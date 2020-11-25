@@ -1,49 +1,72 @@
-const adquirentesDOM = document.querySelectorAll('input[type=checkbox].adquirente');
-const meiosCapturaDOM = document.querySelectorAll('input[type=checkbox].meio-captura');
-const carregamentoModal = document.querySelector("#preloader");
-const formFiltros = document.querySelector('form#myform');
-const dataInputs = document.querySelectorAll('form#myform input[type=date]');
-const btPesquisar = document.querySelector('#bt-pesquisar');
-const btsSelecionarTudo = document.querySelectorAll('.selecionar-tudo');
-const btConfirmarAdquirentes = document.querySelector('.modal-adquirentes .bt-confirmar-selecao');
-const btConfirmarMeiosCaptura = document.querySelector('.modal-meio-captura .bt-confirmar-selecao');
-const btLimparForm = document.querySelector('.bt-limpar-form');
-const resultadosPesquisa = document.querySelector('#resultadosPesquisa');
-const paginacaoDOM = document.querySelector('#resultadosPesquisa ul.pagination');
-const selectPorPagina = document.querySelector('.form-control[name="porPagina"]');
-const tbFiltrosDOM = document.querySelectorAll('#resultadosPesquisa th input');
-let tabelaFiltros = {};
-
+const checker = new Checker();
 let vendas = [];
 let vendasPaginaAtual = [];
-let dadosPaginacao = {
-    paginaAtual: 1
-};
+let paginacao = {};
 let totais = {};
+let tabelaFiltros = {};
+
+function inicializar() {
+    checker.addGroup('adquirente');
+    checker.addGroup('meio-captura');
+    checker.addGroup('status-conciliacao');
+
+    const formPesquisa = document.querySelector('form#form-pesquisa');
+    const btPesquisar = document.querySelector('#bt-pesquisar');
+    const btLimparForm = document.querySelector('.bt-limpar-form');
+    const selectPorPagina = document.querySelector('.form-control[name="porPagina"]');
+    const btAcoesModal = document.querySelectorAll('.modal-footer button[data-acao]');
+    const tbFiltrosDOM = document.querySelectorAll('#resultadosPesquisa th input');
+
+    formPesquisa.addEventListener('submit', submeterFormularioPesquisa);
+    btPesquisar.addEventListener('click', pesquisar);
+    btLimparForm.addEventListener('click', limparCampos);
+    selectPorPagina.addEventListener('change', selecionaQuantidadePorPagina);
+    [...btAcoesModal]
+        .forEach(btAcaoModal => btAcaoModal.addEventListener('click', confirmarCancelarSelecao));
+    [...tbFiltrosDOM]
+        .forEach(filtroInput => filtroInput.addEventListener('keyup', atualizaFiltrosTabela));
+}
+
+function submeterFormularioPesquisa(event) {
+    event.preventDefault();
+    const url = event.target.action;
+
+    enviarFiltros({ url }).then(() => {
+        window.scrollTo(0, 550);
+
+        vendas = [];
+
+        requisitaTodasAsVendas(paginacao.path)
+            .then((resposta) => {
+                vendas = resposta.vendas;
+            }
+        );
+    });
+}
+
+function pesquisar(event) {
+    const formPesquisa = document.querySelector('form#form-pesquisa');
+    formPesquisa.dispatchEvent(new Event('submit', { cancelable: true }));
+}
 
 function limparCampos(event) {
-    formFiltros.reset();
+    const form = document.querySelector('form#form-pesquisa');
+    const dataInputs = document.querySelectorAll('form#form-pesquisa input[type=date]');
+    
+    form.reset();
     Array.from(dataInputs).forEach(dataInput => {
         dataInput.value = "";
     });
 }
 
-function selecionarTudo(event) {
-    const seletor = event.target.dataset.seletor;
-    const estaSelecionado = event.target.checked;
+function confirmarCancelarSelecao(event) {
+    const { acao, group } = event.target.dataset;
 
-    const naoSelecionados = document.querySelectorAll(`input.${seletor}:${estaSelecionado ? 'not(:checked)' : 'checked'}`);
+    if(acao === 'cancelar') {
+        checker.uncheckAll(group);
+    }
 
-    Array.from(naoSelecionados).forEach(naoSelecionado => {
-        naoSelecionado.checked = estaSelecionado;
-    });
-}
-
-function atualizaFiltroSelecao(seletor) {
-    const inputFiltroSelecao = document.querySelector(`input:not([type=checkbox]).${seletor}`);
-    const selecionados = document.querySelectorAll(`input.${seletor}:checked`);
-    const valoresSelecionados = Array.from(selecionados).map(selecionado => selecionado.dataset.descricao);
-    inputFiltroSelecao.value = valoresSelecionados.join(', ');
+    checker.setValuesToTextElement(group, 'descricao');
 }
 
 function alternaVisibilidade(elemento) {
@@ -51,18 +74,23 @@ function alternaVisibilidade(elemento) {
 }
 
 function serializarDadosFiltros() {
-    const adquirentesSelecionados = document.querySelectorAll('input[type=checkbox]:checked.adquirente');
-    const meiosCapturaSelecionados = document.querySelectorAll('input[type=checkbox]:checked.meio-captura');
-    const [dataInicialDOM, dataFinalDOM] = dataInputs;
+    const adquirentesSelecionados = checker.getCheckedValues('adquirente');
+    const meiosCapturaSelecionados = checker.getCheckedValues('meio-captura');
+    const statusConciliacaoSelecionados = checker.getCheckedValues('status-conciliacao');
+
+    const [
+        dataInicialDOM,
+        dataFinalDOM
+    ] = document.querySelectorAll('form#form-pesquisa input[type=date]');
+
 
     const data_inicial = dataInicialDOM.value;
     const data_final = dataFinalDOM.value;
-    const arrayAdquirentes = Array.from(adquirentesSelecionados).map(selecionado => selecionado.dataset.codigo);
-    const arrayMeioCaptura = Array.from(meiosCapturaSelecionados).map(selecionado => selecionado.dataset.codigo);
+    const arrayAdquirentes = adquirentesSelecionados;
+    const arrayMeioCaptura = meiosCapturaSelecionados;
     const cod_autorizacao = document.querySelector('#cod_autorizacao').value;
     const identificador_pagamento = document.querySelector('#identificador_pagamento').value;
     const nsu = document.getElementById("nsu").value;
-    const quantidadePorPagina = selectPorPagina.value;
     const csrfToken = document.querySelector('input[name=_token]').value;
 
     const dados = {
@@ -70,6 +98,7 @@ function serializarDadosFiltros() {
         data_final,
         arrayAdquirentes,
         arrayMeioCaptura,
+        status_conciliacao: statusConciliacaoSelecionados,
         cod_autorizacao,
         identificador_pagamento,
         nsu,
@@ -87,15 +116,15 @@ function formatarDadosVenda(venda) {
 
     return {
         ...venda,
-        DATA_VENDA: new Date(venda.DATA_VENDA).toLocaleDateString(),
-        DATA_VENCIMENTO: new Date(venda.DATA_VENCIMENTO).toLocaleDateString(),
+        DATA_VENDA: new Date(`${venda.DATA_VENDA} 00:00:00`).toLocaleDateString(),
+        DATA_VENCIMENTO: new Date(`${venda.DATA_VENCIMENTO} 00:00:00`).toLocaleDateString(),
         TOTAL_VENDA: formatadorMoeda.format(venda.TOTAL_VENDA),
         VALOR_LIQUIDO_PARCELA: formatadorMoeda.format(venda.VALOR_LIQUIDO_PARCELA),
     }
 }
 
-function renderizaTabela(vendas) {
-    const tabelaVendas = resultadosPesquisa.querySelector('#jsgrid-table tbody');
+function renderizaTabela(vendas, totais) {
+    const tabelaVendas = document.querySelector('#resultadosPesquisa #jsgrid-table tbody');
     const formatadorMoeda = new Intl.NumberFormat('pt-br', {
         style: 'currency',
         currency: 'BRL',
@@ -114,38 +143,28 @@ function renderizaTabela(vendas) {
                         <i class="fas fa-print"></i>
                     </a>
                 </td>
-                <td>${vendaFormatada.DATA_VENDA}</td>
-                <td>${vendaFormatada.DATA_VENCIMENTO}</td>
+                <td>${vendaFormatada.DATA_VENDA || ''}</td>
+                <td>${vendaFormatada.DATA_VENCIMENTO || ''}</td>
                 <td>${vendaFormatada.NSU || ''}</td>
-                <td>${vendaFormatada.TOTAL_VENDA}</td>
-                <td>${vendaFormatada.PARCELA}</td>
-                <td>${vendaFormatada.TOTAL_PARCELAS}</td>
-                <td>${vendaFormatada.VALOR_LIQUIDO_PARCELA}</td>
-                <td>${vendaFormatada.DESCRICAO_TIPO_PRODUTO}</td>
-                <td>${vendaFormatada.CODIGO_AUTORIZACAO}</td>
-                <td>${vendaFormatada.IDENTIFICADOR_PAGAMENTO}</td>
-                <td>${vendaFormatada.MEIOCAPTURA}</td>
-                <td>${vendaFormatada.STATUS_CONCILIACAO}</td>
-                <td></td>
+                <td>${vendaFormatada.TOTAL_VENDA || ''}</td>
+                <td>${vendaFormatada.PARCELA || ''}</td>
+                <td>${vendaFormatada.TOTAL_PARCELAS || ''}</td>
+                <td>${vendaFormatada.VALOR_LIQUIDO_PARCELA || ''}</td>
+                <td>${vendaFormatada.DESCRICAO_TIPO_PRODUTO || ''}</td>
+                <td>${vendaFormatada.CODIGO_AUTORIZACAO || ''}</td>
+                <td>${vendaFormatada.IDENTIFICADOR_PAGAMENTO || ''}</td>
+                <td>${vendaFormatada.MEIOCAPTURA || ''}</td>
+                <td>${vendaFormatada.STATUS_CONCILIACAO || ''}</td>
+                <td>${vendaFormatada.JUSTIFICATIVA || ''}</td>
             </tr>
         `;
     });
-    
-    tabelaVendasHTML += `
-        <td class="bolder">Totais</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td class="bolder">${formatadorMoeda.format(totais.TOTAL_VENDAS)}</td>
-        <td></td>
-        <td></td>
-        <td class="bolder">${formatadorMoeda.format(totais.LIQUIDEZ_TOTAL_PARCELA)}</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    `;
+
+    Object.keys(totais).forEach(chave => {
+        const valor = totais[chave];
+        const colunaDOM = document.querySelector(`#resultadosPesquisa tfoot td[data-chave="${chave}"]`);
+        colunaDOM.textContent = formatadorMoeda.format(valor);
+    });
 
     tabelaVendas.innerHTML = tabelaVendasHTML;
 }
@@ -175,7 +194,8 @@ function dividirPaginacao(paginaAtual, paginaFinal) {
     return [inicio, meio, fim];
 }
 
-function renderizaItemPaginacao(itemPaginacao, descricao = itemPaginacao.pagina) {
+function renderizaItemPaginacao(itemPaginacao = {}, descricao = itemPaginacao.pagina) {
+    const paginacaoDOM = document.querySelector('#resultadosPesquisa ul.pagination');
     const li = document.createElement('li');
     li.classList.add('page-item');
 
@@ -196,6 +216,7 @@ function renderizaItemPaginacao(itemPaginacao, descricao = itemPaginacao.pagina)
 }
 
 function renderizaPaginacao(paginacao) {
+    const paginacaoDOM = document.querySelector('#resultadosPesquisa ul.pagination');
     const totalPaginas = paginacao.last_page;
     const paginaAtual = paginacao.current_page;
     const urlBase = paginacao.path;
@@ -231,52 +252,38 @@ function renderizaPaginacao(paginacao) {
     });
 }
 
-function montarUrl(urlBase, parametros) {
-    const url = Object.keys(parametros).reduce((url, parametro) => {
-        const valor = parametros[parametro];
-        return `${url}${parametro}=${valor}&`
-    }, `${urlBase}?`);
-
-    /** Remoção do '&' restante no final da string montada */
-    const urlFormatada = url.replace(/\&$/g, '');
-
-    return urlFormatada;
-}
-
 async function requisitaVendas(urlBase, parametros = {}, dadosRequisicao) {
-    const quantidade = selectPorPagina.value;
+    const quantidadePorPagina = document.querySelector('.form-control[name="porPagina"]').value;
 
     if(!parametros.por_pagina)
-        parametros.por_pagina = quantidade;
-
-    const url = montarUrl(urlBase, parametros);
-
-    const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'X-CSRF-TOKEN': dadosRequisicao.csrfToken, 'Content-Type': 'application/json' },
+        parametros.por_pagina = quantidadePorPagina;
+    
+    const resposta = await api.post(urlBase, {
+        headers: {
+            'X-CSRF-TOKEN': dadosRequisicao.csrfToken,
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify(dadosRequisicao),
+        params: {
+            ...parametros
+        }
     });
-
-    const json = await response.json();
-
-    return json;
+    
+    return resposta;
 }
 
-async function requisitaTodasAsVendas(urlBase, total, quantidadePorPagina) {
-    const totalPaginas = Math.ceil(total / quantidadePorPagina);
+async function requisitaTodasAsVendas(urlBase, quantidadePorPagina = '*') {
     const dados = serializarDadosFiltros();
+    
+    const resposta = await requisitaVendas(urlBase, {
+        por_pagina: quantidadePorPagina
+    }, dados);
 
-    return Promise.all(
-        Array.from({ length: totalPaginas }, pagina => {
-            return requisitaVendas(urlBase, {
-                page: pagina,
-                por_pagina: quantidadePorPagina
-            }, dados);
-        })
-    );
+    return resposta;
 }
 
 function irParaPagina(event) {
+    const paginacaoDOM = document.querySelector('#resultadosPesquisa ul.pagination');
     const pagina = event.target.dataset.pagina;
     const url = paginacaoDOM.dataset.url;
     paginaAtual = pagina;
@@ -285,26 +292,22 @@ function irParaPagina(event) {
 }
 
 function selecionaQuantidadePorPagina(event) {
+    const paginacaoDOM = document.querySelector('#resultadosPesquisa ul.pagination');
     const url = paginacaoDOM.dataset.url;
     enviarFiltros({ url });
 }
 
 async function enviarFiltros({ url, parametros }) {
+    const resultadosPesquisa = document.querySelector('#resultadosPesquisa');
+    const carregamentoModal = document.querySelector("#preloader");
     const dados = serializarDadosFiltros();
 
     alternaVisibilidade(carregamentoModal);
 
     const resposta = await requisitaVendas(url, parametros, dados);
 
-    const vendasPagina = resposta.vendas;
-
-    dadosPaginacao = {
-        last_page: vendasPagina.last_page,
-        current_page: vendasPagina.current_page,
-        path: vendasPagina.path,
-        total: vendasPagina.total
-    };
-    vendasPaginaAtual = vendasPagina.data.flat(1);
+    paginacao = resposta.paginacao;
+    vendasPaginaAtual = resposta.vendas;
     totais = resposta.totais;
 
     if(resultadosPesquisa.classList.contains('hidden')) {
@@ -313,92 +316,62 @@ async function enviarFiltros({ url, parametros }) {
 
     alternaVisibilidade(carregamentoModal);
 
-    renderizaTabela(vendasPaginaAtual);
-    renderizaPaginacao(dadosPaginacao);
+    renderizaTabela(vendasPaginaAtual, totais);
+    renderizaPaginacao(paginacao);
 
 
     return resposta;
 }
 
-function filtrarTabela(filtros, paginas) {
-    let filtrados = [];
+function atualizaFiltrosTabela (event) {
+    const carregamentoModal = document.querySelector("#preloader");
+    const camposMoedas = ['TOTAL_VENDA', 'VALOR_LIQUIDO_PARCELA'];
+    const filtroInput = event.target;
+    const chave = filtroInput.name;
+    const valor = filtroInput.value.trim();
 
-    paginas.forEach(pagina => {
-        const vendas = pagina.data.flat(1);
-        const filtradosPagina = vendas.filter(venda => {
-            venda = formatarDadosVenda(venda);
+    tabelaFiltros = { ...tabelaFiltros, [chave]: valor };
 
-            return Object.keys(filtros).map(filtro => {
-                const filtroFormatado = filtros[filtro].replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
-                const valor = new String(venda[filtro]);
-                return (new RegExp(filtroFormatado, 'gi').test(valor));
-            }).some((valor) => valor === true);
-        });
+    if(camposMoedas.includes(chave)) {
+        const valorNumerico = valor.replace(/[^0-9-,-\.]/gi, '');
+        tabelaFiltros = { ...tabelaFiltros, [chave]: valorNumerico };
+    }
+    
+    if(!valor) {
+        delete tabelaFiltros[chave];
+    }
 
-        filtrados = [...filtrados, filtradosPagina].flat(1);
+    if(event.key === 'Enter') {
+        let filtrados;
+        alternaVisibilidade(carregamentoModal);
+
+        if(Object.keys(tabelaFiltros).length === 0) {
+            filtrados = vendasPaginaAtual;
+        } else {
+            filtrados = filtrarTabela(tabelaFiltros, vendas);
+        }
+
+        renderizaTabela(filtrados, totais);
+        alternaVisibilidade(carregamentoModal);
+    }
+}
+
+function filtrarTabela(filtros, vendas) {
+    const filtrados = vendas.filter(venda => {
+        venda = formatarDadosVenda(venda);
+
+        return Object.keys(filtros).map(filtro => {
+            const filtroFormatado = filtros[filtro].replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+            const valor = new String(venda[filtro]);
+            console.log(new RegExp(filtroFormatado, 'gi'));
+            return (new RegExp(filtroFormatado, 'gi').test(valor));
+        }).every((valor) => valor === true);
     });
 
     return filtrados;
 }
 
-btLimparForm.addEventListener('click', limparCampos);
-
-Array.from(btsSelecionarTudo).forEach(btSelecionarTudo => {
-    btSelecionarTudo.addEventListener('change', selecionarTudo);
-});
-
-Array.from(tbFiltrosDOM).forEach(filtroInput => {
-    filtroInput.addEventListener('keydown', event => {
-        const chave = filtroInput.name;
-        const valor = filtroInput.value.trim();
-
-        if(valor !== '') {
-            tabelaFiltros = { ...tabelaFiltros, [chave]: valor };
-        } else {
-            delete tabelaFiltros[chave];
-        }
-
-        if(event.key === 'Enter') {
-            alternaVisibilidade(carregamentoModal);
-            const filtrados = filtrarTabela(tabelaFiltros, vendas);
-            alternaVisibilidade(carregamentoModal);
-            if(Object.keys(tabelaFiltros).length === 0) {
-                renderizaTabela(vendasPaginaAtual);
-                return;
-            }
-
-            renderizaTabela(filtrados);
-        }
-    })
-})
-
-btConfirmarAdquirentes.addEventListener('click', () => {
-    atualizaFiltroSelecao('adquirente');
-});
-
-btConfirmarMeiosCaptura.addEventListener('click', () => {
-    atualizaFiltroSelecao('meio-captura');
-});
-
-selectPorPagina.addEventListener('change', selecionaQuantidadePorPagina);
-
-formFiltros.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const url = event.target.action;
-
-    enviarFiltros({ url }).then(() => {
-        window.scrollTo(0, 550);
-
-        vendas = [];
-
-        requisitaTodasAsVendas(dadosPaginacao.path, dadosPaginacao.total, 200)
-            .then((resposta) => {
-                vendas = resposta.map(dados => dados.vendas);
-            }
-        );
-    });
-});
-
-btPesquisar.addEventListener('click', (event) => {
-    formFiltros.dispatchEvent(new Event('submit', { cancelable: true }));
+window.addEventListener('load', (event) => {
+    alternaVisibilidade(document.querySelector('#tudo_page'));
+    inicializar();
 });

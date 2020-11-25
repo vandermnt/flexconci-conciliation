@@ -18,7 +18,7 @@
 @section('content')
   <div id="preloader" class="loader hidden"></div>
 
-  <div id="tudo_page" class="container-fluid">
+  <div id="tudo_page" class="container-fluid hidden">
     <div class="row">
       <div class="col-sm-12">
         @component('common-components.breadcrumb')
@@ -28,7 +28,7 @@
         @endcomponent
       </div>
     </div>
-    <form id="myform" action="{{ action('VendasErpController@buscarVendasErp') }}" method="post">
+    <form id="form-pesquisa" action="{{ action('VendasErpController@buscarVendasErp') }}" method="post">
       <input type ="hidden" name="_token" value="{{{ csrf_token() }}}">
 
       <div class="row">
@@ -61,7 +61,10 @@
                       <div class="row">
                         <div class="col-sm-12">
                           <h6> Adquirente: </h6>
-                          <input id="adquirente" class="adquirente form-control" name="adquirente">
+                          <input
+                            data-group="adquirente"
+                            data-checker="to-text-element" 
+                            id="adquirente" class="adquirente form-control" name="adquirente">
                         </div>
                       </div>
                     </div>
@@ -80,7 +83,13 @@
                       <div class="row">
                         <div class="col-sm-12">
                           <h6> Meio de Captura: </h6>
-                          <input id="meiocaptura" class="meio-captura form-control" name="meiocaptura">
+                          <input
+                            id="meiocaptura"
+                            class="meio-captura form-control"
+                            name="meiocaptura"
+                            data-checker="to-text-element"
+                            data-group="meio-captura"
+                          >
                         </div>
                       </div>
                     </div>
@@ -99,15 +108,15 @@
                       <div class="row">
                         <div class="col-sm-4">
                           <h6> Código Autorização: </h6>
-                          <input id="cod_autorizacao" class="form-control" name="modalidade">
+                          <input id="cod_autorizacao" class="form-control" name="codigo_autorizacao">
                         </div>
                         <div class="col-sm-4">
                           <h6> Identificador Pagamento: </h6>
-                          <input id="identificador_pagamento" class="form-control" name="modalidade">
+                          <input id="identificador_pagamento" class="form-control" name="identificador_pagamento">
                         </div>
                         <div class="col-sm-4">
                           <h6> NSU: </h6>
-                          <input id="nsu" class="form-control" name="modalidade">
+                          <input id="nsu" class="form-control" name="nsu">
                         </div>
                       </div>
                       <div class="row">
@@ -116,7 +125,18 @@
                           <div class="row status-conciliacao">
                             @foreach($status_conciliacao as $status)
                               <div class="check-group">
-                                <input id="{{ "statusFinan".$status->CODIGO }}" type="checkbox" value="{{ $status->CODIGO }}" name="status_conciliacao[]" class="status-conciliacao-checkbox" data-codigo="{{ $status->CODIGO }}" checked required>
+                                <input 
+                                  id="{{ "statusFinan".$status->CODIGO }}"
+                                  type="checkbox"
+                                  value="{{ $status->CODIGO }}"
+                                  name="status_conciliacao[]"
+                                  class="status-conciliacao-checkbox"
+                                  data-group="status-conciliacao"
+                                  data-checker="checkbox"
+                                  data-codigo="{{ $status->CODIGO }}"
+                                  checked
+                                  required
+                                >
                                 <label for="{{ "statusFinan".$status->CODIGO }}">{{ $status->STATUS_CONCILIACAO}}</label>
                               </div>
                             @endforeach
@@ -165,7 +185,12 @@
                       <p><b>Adquirente</b></p>
                     </div>
                     <div class="col-sm-2">
-                      <input class="selecionar-tudo" data-seletor="adquirente" type="checkbox">
+                      <input
+                        type="checkbox"
+                        class="selecionar-tudo"
+                        data-checker="global"
+                        data-group="adquirente"
+                      >
                     </div>
                     @if(isset($adquirentes))
                       @foreach($adquirentes as $adquirente)
@@ -174,7 +199,17 @@
                         </div>
 
                         <div id="{{ "divCod".$bandeira->CODIGO }}" class="col-sm-2 opcao-check">
-                          <input id="{{ $adquirente->CODIGO }}" value="{{ $adquirente->ADQUIRENTE }}" class="adquirente" data-codigo="{{ $adquirente->CODIGO }}" data-descricao="{{ $adquirente->ADQUIRENTE }}" name="arrayAdquirentes[]" type="checkbox">
+                          <input 
+                            id="{{ $adquirente->CODIGO }}"
+                            type="checkbox"
+                            class="adquirente"
+                            name="arrayAdquirentes[]"
+                            value="{{ $adquirente->CODIGO }}"
+                            data-checker="checkbox"
+                            data-group="adquirente"
+                            data-codigo="{{ $adquirente->CODIGO }}"
+                            data-descricao="{{ $adquirente->ADQUIRENTE }}"
+                          >
                         </div>
                         <hr>
                       @endforeach
@@ -182,8 +217,12 @@
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
-                  <button type="button" class="btn btn-success bt-confirmar-selecao" data-dismiss="modal"><b>Confirmar</b></button>
+                  <button type="button" data-acao="cancelar" class="btn btn-danger" data-group="adquirente" data-dismiss="modal">
+                    Cancelar
+                  </button>
+                  <button type="button" data-acao="confirmar" class="btn btn-success" data-group="adquirente" data-dismiss="modal">
+                    Confirmar
+                  </button>
                 </div>
               </div>
             </div>
@@ -214,7 +253,12 @@
                       <p><b>MEIO DE CAPTURA</b></p>
                     </div>
                     <div class="col-sm-2">
-                      <input class="selecionar-tudo" data-seletor="meio-captura" type="checkbox">
+                      <input 
+                        type="checkbox"
+                        data-checker="global"
+                        data-group="meio-captura"
+                        data-seletor="meio-captura"
+                      >
                     </div>
                     @if(isset($meio_captura))
                       @foreach($meio_captura as $meio)
@@ -222,7 +266,16 @@
                           <p>{{ $meio->DESCRICAO }}</p>
                         </div>
                         <div class="col-sm-2 opcao-check">
-                          <input class="meio-captura" data-codigo="{{ $meio->CODIGO }}" data-descricao="{{ $meio->DESCRICAO }}" value="{{ $meio->CODIGO }}" name="arrayMeioCaptura[]" type="checkbox">
+                          <input
+                            type="checkbox"
+                            name="arrayMeioCaptura[]"
+                            value="{{ $meio->CODIGO }}"
+                            class="meio-captura"
+                            data-checker="checkbox"
+                            data-group="meio-captura"
+                            data-codigo="{{ $meio->CODIGO }}"
+                            data-descricao="{{ $meio->DESCRICAO }}"
+                          >
                         </div>
                         <hr>
                       @endforeach
@@ -230,8 +283,12 @@
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
-                  <button type="button" class="btn btn-success bt-confirmar-selecao" data-dismiss="modal"><b>Confirmar</b></button>
+                  <button type="button" data-acao="cancelar" class="btn btn-danger" data-group="meio-captura" data-dismiss="modal">
+                    Cancelar
+                  </button>
+                  <button type="button" data-acao="confirmar" data-group="meio-captura" class="btn btn-success bt-confirmar-selecao" data-dismiss="modal">
+                    Confirmar
+                  </button>
                 </div>
               </div>
             </div>
@@ -350,6 +407,24 @@
           </thead>
           <tbody>
           </tbody>
+          <tfoot>
+            <tr>
+              <td class="bolder">Totais</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="bolder" data-chave="TOTAL_VENDAS"></td>
+              <td></td>
+              <td></td>
+              <td class="bolder" data-chave="LIQUIDEZ_TOTAL_PARCELA"></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tfoot>
         </table>
       </div>
 
@@ -375,7 +450,9 @@
 @stop
 
 @section('footerScript')
-  <script src="{{ URL::asset('assets/js/vendas/vendaserp.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/api.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/checker.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/vendas/vendaserp.js') }}"></script>
 
   <!-- Required datatable js -->
   <script src="{{ URL::asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
