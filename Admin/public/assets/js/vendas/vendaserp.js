@@ -267,16 +267,18 @@ function selecionaQuantidadePorPagina(event) {
     const quantidadePorPagina = event.target.value;
     const url = document.querySelector('form#form-pesquisa').action;
 
-    paginacaoFiltros.setOptions({ perPage: Number(quantidadePorPagina) });
-
+    paginacao.setOptions({ perPage: Number(quantidadePorPagina) }).paginate();
+    
     if(Object.keys(tabelaFiltros).length > 0) {
+        paginacaoFiltros.setOptions({ perPage: Number(quantidadePorPagina) });
         paginacaoFiltros.goToPage(1).paginate();
         renderizaTabela(paginacaoFiltros.getPageData(1), totais);
         renderizaPaginacao(paginacaoFiltros);
+        paginacao.setData(vendas);
         return;
     }
 
-    enviarFiltros({ url });
+    enviarFiltros({ url, parametros: { page: paginacao.options.currentPage }});
 }
 
 async function enviarFiltros({ url, parametros }) {
@@ -344,7 +346,7 @@ function atualizaFiltrosTabela (event) {
     alternaVisibilidade(carregamentoModal);
 
     if(Object.keys(tabelaFiltros).length === 0) {
-        renderizaTabela(paginacao.data, totais);
+        renderizaTabela(paginacao.getPageData(), totais);
         renderizaPaginacao(paginacao);
         alternaVisibilidade(carregamentoModal);
         return;

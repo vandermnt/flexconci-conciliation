@@ -76,6 +76,10 @@ Pagination.prototype.getPageData = function(page = this.options.currentPage) {
   if(!page) {
     return data;
   }
+  
+  if(this.options.total > this.data.length) {
+    return this.data;
+  }
 
   page = page.toFixed(0);
   page = Math.abs(page);
