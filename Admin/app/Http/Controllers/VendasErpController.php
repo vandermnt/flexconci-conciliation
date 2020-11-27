@@ -9,50 +9,89 @@ use DB;
 use App\VendasErpModel;
 use App\MeioCaptura;
 use App\StatusConciliacaoModel;
+use App\StatusFinanceiroModel;
 use App\GruposClientesModel;
 use App\AdquirentesModel;
+use App\ClienteOperadoraModel;
 
 class VendasErpController extends Controller {
 
   public function vendaserp(){
-    $adquirentes = DB::table('cliente_operadora')
-      ->join('adquirentes', 'cliente_operadora.COD_ADQUIRENTE', 'adquirentes.CODIGO')
-      ->select('adquirentes.*')
-      ->where('cliente_operadora.COD_CLIENTE', '=', session('codigologin'))
-      ->distinct('COD_ADQUIRENTE')
+    $meio_captura = MeioCaptura::all();
+    
+    $status_conciliacao = StatusConciliacaoModel::orderBy('STATUS_CONCILIACAO')
       ->get();
 
-    $meio_captura = MeioCaptura::all();
-    $status_conciliacao = StatusConciliacaoModel::where('CODIGO', '!=', 4)
-      ->orderBy('STATUS_CONCILIACAO', 'ASC')
+    $status_financeiro = StatusFinanceiroModel::orderBy('STATUS_FINANCEIRO')
       ->get();
-    $grupos_clientes = GruposClientesModel::where('COD_CLIENTE', '=', session('codigologin'))
+    
+    $empresas = GruposClientesModel::select(['CODIGO', 'NOME_EMPRESA'])
+      ->where('COD_CLIENTE', session('codigologin'))
+      ->get();
+    
+    $adquirentes = ClienteOperadoraModel::select([
+        'adquirentes.CODIGO',
+        'adquirentes.ADQUIRENTE',
+        'adquirentes.IMAGEM'
+      ])
+      ->join('adquirentes', 'COD_ADQUIRENTE', 'adquirentes.CODIGO')
+      ->where('COD_CLIENTE', '=', session('codigologin'))
+      ->distinct()
+      ->get();
+    
+    $bandeiras = VendasErpModel::select([
+        'bandeira.CODIGO',
+        'bandeira.BANDEIRA',
+        'bandeira.IMAGEM'
+      ])
+      ->leftJoin('bandeira', 'COD_BANDEIRA', 'bandeira.CODIGO')
+      ->where('COD_CLIENTE', session('codigologin'))
+      ->whereNotNull('bandeira.BANDEIRA')
+      ->distinct()
+      ->get();
+    
+    $modalidades = VendasErpModel::select([
+        'modalidade.CODIGO',
+        'modalidade.DESCRICAO'
+      ])
+      ->leftJoin('modalidade', 'modalidade.CODIGO', 'COD_MODALIDADE')
+      ->where('COD_CLIENTE', session('codigologin'))
+      ->whereNotNull('modalidade.DESCRICAO')
+      ->distinct()
       ->get();
 
     return view('vendas.vendaserp')
-      ->with('adquirentes', $adquirentes)
-      ->with('grupos_clientes', $grupos_clientes)
-      ->with('meio_captura', $meio_captura)
-      ->with('status_conciliacao', $status_conciliacao);
+      ->with([
+        'meio_captura' => $meio_captura,
+        'status_conciliacao' => $status_conciliacao,
+        'status_financeiro' => $status_financeiro,
+        'empresas' => $empresas,
+        'adquirentes' => $adquirentes,
+        'bandeiras' => $bandeiras,
+        'modalidades' => $modalidades,
+      ]);
   }
 
   public function buscarVendasErp(Request $request) {
     $quantidadesPermitidas = [10, 20, 50, 100, 200, '*'];
     $inputs = [
-      'arrayMeioCaptura',
+      'empresas',
       'arrayAdquirentes',
+      'bandeiras',
+      'modalidades',
+      'arrayMeioCaptura',
+      'id_erp',
       'status_conciliacao',
-      'identificador_pagamento',
-      'cod_autorizacao',
-      'nsu'
     ];
     $dicionarioInput = [
-      'arrayMeioCaptura' => 'meio_captura.CODIGO',
+      'empresas' => 'grupos_clientes.CODIGO',
       'arrayAdquirentes' => 'vendas_erp.COD_OPERADORA',
+      'bandeiras' => 'bandeira.CODIGO',
+      'modalidades' => 'modalidade.CODIGO',
+      'arrayMeioCaptura' => 'meio_captura.CODIGO',
+      'id_erp' => 'vendas_erp.CODIGO',
       'status_conciliacao' => 'status_conciliacao.CODIGO',
-      'identificador_pagamento' => 'vendas_erp.IDENTIFICADOR_PAGAMENTO',
-      'cod_autorizacao' => 'vendas_erp.CODIGO_AUTORIZACAO',
-      'nsu' => 'vendas_erp.NSU'
+      'status_financeiro' => 'status_financeiro.CODIGO',
     ];
 
     $dados = array_filter($request->only($inputs));
@@ -63,31 +102,52 @@ class VendasErpController extends Controller {
     $quantidadePorPagina = $request->input('por_pagina', 10);
     $quantidadePorPagina = in_array($quantidadePorPagina, $quantidadesPermitidas) ? $quantidadePorPagina : 10;
 
-
     $query = VendasErpModel::select(
         [
-          'vendas_erp.CODIGO AS COD',
+          'vendas_erp.CODIGO AS ID_ERP',
+          'grupos_clientes.NOME_EMPRESA',
+          'grupos_clientes.CNPJ',
           'vendas_erp.DATA_VENDA',
           'vendas_erp.DATA_VENCIMENTO',
+          'adquirentes.ADQUIRENTE',
+          'bandeira.BANDEIRA',
+          'bandeira.IMAGEM',
+          'modalidade.DESCRICAO AS MODALIDADE',
           'vendas_erp.NSU',
+          'vendas_erp.CODIGO_AUTORIZACAO',
           'vendas_erp.TOTAL_VENDA',
-          'vendas_erp.NSU',
+          'vendas_erp.TAXA',
+          DB::raw('(`vendas_erp`.`TOTAL_VENDA` * (`vendas_erp`.`TAXA` / 100)) as `VALOR_TAXA`'),
+          'vendas_erp.VALOR_LIQUIDO_PARCELA',
           'vendas_erp.PARCELA',
           'vendas_erp.TOTAL_PARCELAS',
-          'vendas_erp.VALOR_LIQUIDO_PARCELA',
-          'vendas_erp.DESCRICAO_TIPO_PRODUTO',
-          'vendas_erp.CODIGO_AUTORIZACAO',
-          'vendas_erp.IDENTIFICADOR_PAGAMENTO',
-          'vendas_erp.JUSTIFICATIVA',
+          'vendas_erp.BANCO',
+          'vendas_erp.AGENCIA',
+          'vendas_erp.CONTA_CORRENTE',
+          'produto_web.PRODUTO_WEB as PRODUTO',
           'meio_captura.DESCRICAO AS MEIOCAPTURA',
           'status_conciliacao.STATUS_CONCILIACAO',
+          'status_financeiro.STATUS_FINANCEIRO',
+          'vendas_erp.JUSTIFICATIVA',
+          'vendas_erp.CAMPO_ADICIONAL1 AS CAMPO1',
+          'vendas_erp.CAMPO_ADICIONAL2 AS CAMPO2',
+          'vendas_erp.CAMPO_ADICIONAL3 AS CAMPO3',
         ]
       )
-      ->leftJoin('meio_captura', 'vendas_erp.COD_MEIO_CAPTURA', '=', 'meio_captura.CODIGO')
-      ->leftJoin('status_conciliacao', 'vendas_erp.COD_STATUS_CONCILIACAO', '=', 'status_conciliacao.CODIGO')
+      ->leftJoinSub(GruposClientesModel::groupBy('COD_CLIENTE'), 'grupos_clientes', function($join) {
+        $join->on('grupos_clientes.COD_CLIENTE', 'vendas_erp.COD_CLIENTE');
+      })
+      ->leftJoin('adquirentes', 'adquirentes.CODIGO', 'vendas_erp.COD_OPERADORA')
+      ->leftJoin('bandeira', 'bandeira.CODIGO', 'vendas_erp.COD_BANDEIRA')
+      ->leftJoin('modalidade', 'modalidade.CODIGO', 'vendas_erp.COD_MODALIDADE')
+      ->leftJoin('produto_web', 'produto_web.CODIGO', 'vendas_erp.COD_PRODUTO')
+      ->leftJoin('meio_captura', 'vendas_erp.COD_MEIO_CAPTURA', 'meio_captura.CODIGO')
+      ->leftJoin('status_conciliacao', 'vendas_erp.COD_STATUS_CONCILIACAO', 'status_conciliacao.CODIGO')
+      ->leftJoin('status_financeiro', 'vendas_erp.COD_STATUS_FINANCEIRO', 'status_financeiro.CODIGO')
       ->where('vendas_erp.COD_CLIENTE', session('codigologin'))
       ->whereBetween('vendas_erp.DATA_VENDA', $datas)
-      ->orderBy('vendas_erp.DATA_VENDA');
+      ->orderBy('vendas_erp.DATA_VENDA')
+      ->distinct();
 
     foreach($dados as $chave => $valor) {
       if(is_array($valor)) {
@@ -97,22 +157,25 @@ class VendasErpController extends Controller {
       }
     }
 
-    $vendas = $query->get();
-    $liquidezTotalPacela = $vendas->sum('VALOR_LIQUIDO_PARCELA');
-    $totalVendas = $vendas->sum('TOTAL_VENDA');
+    dd($query->paginate(10));
+
+    $liquidezTotalPacela = $query->sum('VALOR_LIQUIDO_PARCELA');
+    $totalVendas = $query->sum('TOTAL_VENDA');
     
-    $quantidadePorPagina = $quantidadePorPagina === '*' ? $vendas->count() : $quantidadePorPagina;
+    $quantidadePorPagina = $quantidadePorPagina === '*' ? $query->count() : $quantidadePorPagina;
     $paginacaoVendas = $query->paginate($quantidadePorPagina);
     $vendas = $paginacaoVendas->getCollection(); 
     $paginacao = $paginacaoVendas->toArray();
     unset($paginacao['data']);
+    dd(DB::getQueryLog());
     
-    $json = [];
-    $json['vendas'] = $vendas;
-    $json['paginacao'] = $paginacao;
-    $json['totais'] = [
-      'TOTAL_VENDAS' => $totalVendas,
-      'LIQUIDEZ_TOTAL_PARCELA' => $liquidezTotalPacela,
+    $json = [
+      'vendas' => $vendas,
+      'paginacao' => $paginacao,
+      'totais' => [
+        'TOTAL_VENDAS' => $totalVendas,
+        'LIQUIDEZ_TOTAL_PARCELA' => $liquidezTotalPacela,
+      ]
     ];
 
     session()->put('vendas_erp', $vendas);
