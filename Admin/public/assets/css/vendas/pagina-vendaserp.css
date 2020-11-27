@@ -120,6 +120,11 @@
     background: #2d5275;
 }
 
+#tudo_page #resultadosPesquisa table img {
+    width: 32px;
+    max-width: 100%;
+}
+
 #tudo_page #resultadosPesquisa .table-wrapper tfoot,
 #tudo_page #resultadosPesquisa .table-wrapper tfoot td {
   position: -webkit-sticky;
