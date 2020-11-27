@@ -895,7 +895,7 @@ $('#submitFormLogin').click(function(){
           html +="<td>"+"<img src='" + response[0].data[i].IMAGEM_LINK +"'' style='width: 30px'/>"+"</td>";
           html +="<td>"+response[0].data[i].AGENCIA+"</td>";
           html +="<td>"+response[0].data[i].CONTA+"</td>";
-          html +="<td>"+response[0].data[i].OBSERVACOES+"</td>";
+          html +="<td>"+(response[0].data[i].OBSERVACOES || '')+"</td>";
           if(response[0].data[i].COD_PRODUTO !=  null){
             html +="<td>"+response[0].data[i].PRODUTO_WEB+"</td>";
           }else{
@@ -1099,7 +1099,7 @@ $('#submitFormLogin').click(function(){
             html +="<td>"+"<img src='" + response[0].data[i].IMAGEM_LINK +"'' style='width: 30px'/>"+"</td>";
             html +="<td>"+response[0].data[i].AGENCIA+"</td>";
             html +="<td>"+response[0].data[i].CONTA+"</td>";
-            html +="<td>"+response[0].data[i].OBSERVACOES+"</td>";
+            html +="<td>"+(response[0].data[i].OBSERVACOES || '')+"</td>";
             if(response[0].data[i].COD_PRODUTO !=  null){
               html +="<td>"+response[0].data[i].PRODUTO_WEB+"</td>";
             }else{
