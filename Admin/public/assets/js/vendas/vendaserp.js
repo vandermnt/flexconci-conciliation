@@ -10,9 +10,13 @@ const observadores = {
 }
 
 function inicializar() {
+    checker.addGroup('empresa');
     checker.addGroup('adquirente');
+    checker.addGroup('bandeira');
+    checker.addGroup('modalidade');
     checker.addGroup('meio-captura');
     checker.addGroup('status-conciliacao');
+    checker.addGroup('status-financeiro');
 
     const formPesquisa = document.querySelector('form#form-pesquisa');
     const btPesquisar = document.querySelector('#bt-pesquisar');
@@ -79,9 +83,13 @@ function alternaVisibilidade(elemento) {
 }
 
 function serializarDadosFiltros() {
-    const adquirentesSelecionados = checker.getCheckedValues('adquirente');
-    const meiosCapturaSelecionados = checker.getCheckedValues('meio-captura');
+    const empresas = checker.getCheckedValues('empresa');
+    const arrayAdquirentes = checker.getCheckedValues('adquirente');
+    const bandeiras = checker.getCheckedValues('bandeira');
+    const modalidades = checker.getCheckedValues('modalidade');
+    const arrayMeioCaptura = checker.getCheckedValues('meio-captura');
     const statusConciliacaoSelecionados = checker.getCheckedValues('status-conciliacao');
+    const statusFinanceiroSelecionados = checker.getCheckedValues('status-financeiro');
 
     const [
         dataInicialDOM,
@@ -91,22 +99,20 @@ function serializarDadosFiltros() {
 
     const data_inicial = dataInicialDOM.value;
     const data_final = dataFinalDOM.value;
-    const arrayAdquirentes = adquirentesSelecionados;
-    const arrayMeioCaptura = meiosCapturaSelecionados;
-    const cod_autorizacao = document.querySelector('#cod_autorizacao').value;
-    const identificador_pagamento = document.querySelector('#identificador_pagamento').value;
-    const nsu = document.getElementById("nsu").value;
+    const id_erp = document.querySelector('#id_erp').value;
     const csrfToken = document.querySelector('input[name=_token]').value;
 
     const dados = {
         data_inicial,
         data_final,
+        empresas,
         arrayAdquirentes,
+        bandeiras,
+        modalidades,
         arrayMeioCaptura,
+        id_erp,
         status_conciliacao: statusConciliacaoSelecionados,
-        cod_autorizacao,
-        identificador_pagamento,
-        nsu,
+        status_financeiro: statusFinanceiroSelecionados,
         csrfToken,
     };
 
@@ -119,12 +125,17 @@ function formatarDadosVenda(venda) {
         currency: 'BRL',
     });
 
+    const taxa = Number(venda.TAXA) || 0;
+    const valorTaxa = ((Number(venda.VALOR_TAXA) || 0) * taxa) / 100;
+
     return {
         ...venda,
         DATA_VENDA: new Date(`${venda.DATA_VENDA} 00:00:00`).toLocaleDateString(),
         DATA_VENCIMENTO: new Date(`${venda.DATA_VENCIMENTO} 00:00:00`).toLocaleDateString(),
         TOTAL_VENDA: formatadorMoeda.format(venda.TOTAL_VENDA),
         VALOR_LIQUIDO_PARCELA: formatadorMoeda.format(venda.VALOR_LIQUIDO_PARCELA),
+        TAXA: taxa.toFixed(2),
+        VALOR_TAXA: formatadorMoeda.format(valorTaxa)
     }
 }
 
@@ -148,19 +159,40 @@ function renderizaTabela(vendas, totais) {
                         <i class="fas fa-print"></i>
                     </a>
                 </td>
+                <td>${vendaFormatada.ID_ERP || ''}</td>
+                <td>${vendaFormatada.NOME_EMPRESA || ''}</td>
+                <td>${vendaFormatada.CNPJ || ''}</td>
                 <td>${vendaFormatada.DATA_VENDA || ''}</td>
                 <td>${vendaFormatada.DATA_VENCIMENTO || ''}</td>
+                <td>${vendaFormatada.ADQUIRENTE || ''}</td>
+                <td>
+                    <img class="img-fluid" 
+                        src="${vendaFormatada.IMAGEM || '/assets/images/iconCart.jpeg'}
+                    ">
+                </td>
+                <td>${vendaFormatada.MODALIDADE || ''}</td>
                 <td>${vendaFormatada.NSU || ''}</td>
+                <td>${vendaFormatada.CODIGO_AUTORIZACAO || ''}</td>
+                <td></td>
                 <td>${vendaFormatada.TOTAL_VENDA || ''}</td>
+                <td>${vendaFormatada.TAXA || '0.00'}</td>
+                <td>${vendaFormatada.VALOR_TAXA || ''}</td>
+                <td>${vendaFormatada.VALOR_LIQUIDO_PARCELA || ''}</td>
                 <td>${vendaFormatada.PARCELA || ''}</td>
                 <td>${vendaFormatada.TOTAL_PARCELAS || ''}</td>
-                <td>${vendaFormatada.VALOR_LIQUIDO_PARCELA || ''}</td>
-                <td>${vendaFormatada.DESCRICAO_TIPO_PRODUTO || ''}</td>
-                <td>${vendaFormatada.CODIGO_AUTORIZACAO || ''}</td>
-                <td>${vendaFormatada.IDENTIFICADOR_PAGAMENTO || ''}</td>
+                <td></td>
+                <td></td>
+                <td>${vendaFormatada.BANCO || ''}</td>
+                <td>${vendaFormatada.AGENCIA || ''}</td>
+                <td>${vendaFormatada.CONTA_CORRENTE || ''}</td>
+                <td>${vendaFormatada.PRODUTO || ''}</td>
                 <td>${vendaFormatada.MEIOCAPTURA || ''}</td>
                 <td>${vendaFormatada.STATUS_CONCILIACAO || ''}</td>
+                <td>${vendaFormatada.STATUS_FINANCEIRO || ''}</td>
                 <td>${vendaFormatada.JUSTIFICATIVA || ''}</td>
+                <td>${vendaFormatada.CAMPO1 || ''}</td>
+                <td>${vendaFormatada.CAMPO2 || ''}</td>
+                <td>${vendaFormatada.CAMPO3 || ''}</td>
             </tr>
         `;
     });
