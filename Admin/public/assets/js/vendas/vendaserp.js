@@ -178,14 +178,14 @@ function renderizaTabela(vendas, totais) {
                             `<img
                                 class="img-fluid"
                                 src="${vendaFormatada.ADQUIRENTE_IMAGEM
-                                    || '/assets/images/iconCart.jpeg'}"
+                                    || 'assets/images/iconCart.jpeg'}"
                             >` :
                             `${(vendaFormatada.ADQUIRENTE || '')}`
                     }
                 </td>
                 <td>
                     <img class="img-fluid"
-                        src="${vendaFormatada.BANDEIRA_IMAGEM || '/assets/images/iconCart.jpeg'}"
+                        src="${vendaFormatada.BANDEIRA_IMAGEM || 'assets/images/iconCart.jpeg'}"
                     >
                 </td>
                 <td>${vendaFormatada.MODALIDADE || ''}</td>
