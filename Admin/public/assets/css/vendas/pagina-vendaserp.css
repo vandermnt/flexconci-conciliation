@@ -1,3 +1,27 @@
+@keyframes deslizar {
+    0% {
+        right: -10000px;
+    }
+    10% {
+        right: 16px;
+    }
+    25% {
+        right: 24px;
+    }
+    50% {
+        right: 32px;
+    }
+    75% {
+        right: 24px;
+    }
+    90% {
+        right: 16px;
+    }
+    100% {
+        right: -10000px;
+    }
+}
+
 #preloader {
     display: block;
 }
@@ -96,7 +120,7 @@
 #tudo_page #resultadosPesquisa .table-wrapper {
     position: relative;
     overflow: auto;
-    max-height: 512px;
+    max-height: 624px;
 }
 
 #tudo_page #resultadosPesquisa .table {
@@ -161,6 +185,18 @@
 
 #tudo_page #resultadosPesquisa footer {
     margin: 16px 0;
+}
+
+.alerta-quantidade-resultados {
+    position: fixed !important;
+    bottom: 8px;
+    right: -10000px;
+    background-color: rgba(45, 218, 181, 1) !important;
+    z-index: 4;
+}
+
+.deslizar-alerta {
+    animation: deslizar 4s ease-in-out 0s 1 forwards;
 }
 
 .hidden {
