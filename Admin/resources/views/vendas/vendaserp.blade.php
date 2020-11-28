@@ -788,10 +788,9 @@
               <td></td>
               <td></td>
               <td></td>
-              <td></td>
               <td class="bolder" data-chave="TOTAL_VENDAS"></td>
               <td></td>
-              <td></td>
+              <td class="bolder text-danger" data-chave="TOTAL_TAXA"></td>
               <td class="bolder" data-chave="LIQUIDEZ_TOTAL_PARCELA"></td>
               <td></td>
               <td></td>
@@ -830,6 +829,10 @@
           </select>
         </div>
       </footer>
+    </div>
+
+    <div class="alert alert-success font-weight-bold alerta-quantidade-resultados hidden">
+      <span>0</span> resultados encontrados.
     </div>
   </div>
 @stop
