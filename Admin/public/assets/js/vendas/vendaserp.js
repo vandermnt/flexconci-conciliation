@@ -38,9 +38,10 @@ function inicializar() {
 function submeterFormularioPesquisa(event) {
     event.preventDefault();
     const url = event.target.action;
-
+    
     enviarFiltros({ url }).then(() => {
-        window.scrollTo(0, 550);
+        limparFiltrosTabela();
+        window.scrollTo(0, 880);
 
         vendas = [];
 
@@ -66,6 +67,14 @@ function limparCampos(event) {
     Array.from(dataInputs).forEach(dataInput => {
         dataInput.value = "";
     });
+}
+
+function limparFiltrosTabela() {
+    const tbFiltrosDOM = document.querySelectorAll('#resultadosPesquisa th input');
+    [...tbFiltrosDOM].forEach(input => {
+        input.value = "";
+    });
+    tabelaFiltros = {};
 }
 
 function confirmarCancelarSelecao(event) {
@@ -126,7 +135,6 @@ function formatarDadosVenda(venda) {
     });
 
     const taxa = Number(venda.TAXA) || 0;
-    const valorTaxa = ((Number(venda.VALOR_TAXA) || 0) * taxa) / 100;
 
     return {
         ...venda,
@@ -135,7 +143,7 @@ function formatarDadosVenda(venda) {
         TOTAL_VENDA: formatadorMoeda.format(venda.TOTAL_VENDA),
         VALOR_LIQUIDO_PARCELA: formatadorMoeda.format(venda.VALOR_LIQUIDO_PARCELA),
         TAXA: taxa.toFixed(2),
-        VALOR_TAXA: formatadorMoeda.format(valorTaxa)
+        VALOR_TAXA: formatadorMoeda.format(venda.VALOR_TAXA || 0)
     }
 }
 
@@ -164,20 +172,30 @@ function renderizaTabela(vendas, totais) {
                 <td>${vendaFormatada.CNPJ || ''}</td>
                 <td>${vendaFormatada.DATA_VENDA || ''}</td>
                 <td>${vendaFormatada.DATA_VENCIMENTO || ''}</td>
-                <td>${vendaFormatada.ADQUIRENTE || ''}</td>
                 <td>
-                    <img class="img-fluid" 
-                        src="${vendaFormatada.IMAGEM || '/assets/images/iconCart.jpeg'}
-                    ">
+                    ${
+                        vendaFormatada.ADQUIRENTE_IMAGEM ?
+                            `<img
+                                class="img-fluid"
+                                src="${vendaFormatada.ADQUIRENTE_IMAGEM
+                                    || '/assets/images/iconCart.jpeg'}"
+                            >` :
+                            `${(vendaFormatada.ADQUIRENTE || '')}`
+                    }
+                </td>
+                <td>
+                    <img class="img-fluid"
+                        src="${vendaFormatada.BANDEIRA_IMAGEM || '/assets/images/iconCart.jpeg'}"
+                    >
                 </td>
                 <td>${vendaFormatada.MODALIDADE || ''}</td>
                 <td>${vendaFormatada.NSU || ''}</td>
                 <td>${vendaFormatada.CODIGO_AUTORIZACAO || ''}</td>
                 <td></td>
-                <td>${vendaFormatada.TOTAL_VENDA || ''}</td>
-                <td>${vendaFormatada.TAXA || '0.00'}</td>
-                <td>${vendaFormatada.VALOR_TAXA || ''}</td>
-                <td>${vendaFormatada.VALOR_LIQUIDO_PARCELA || ''}</td>
+                <td>${vendaFormatada.TOTAL_VENDA || '0,00'}</td>
+                <td>${vendaFormatada.TAXA || '0,00'}</td>
+                <td class="text-danger">${vendaFormatada.VALOR_TAXA || '0,00'}</td>
+                <td>${vendaFormatada.VALOR_LIQUIDO_PARCELA || '0,00'}</td>
                 <td>${vendaFormatada.PARCELA || ''}</td>
                 <td>${vendaFormatada.TOTAL_PARCELAS || ''}</td>
                 <td></td>
@@ -346,13 +364,27 @@ async function enviarFiltros({ url, parametros }) {
     return resposta;
 }
 
+function exibeAlertaQuantidadeResultados(quantidade = 0) {
+    const quantidadeResultadosAlerta = document.querySelector('.alerta-quantidade-resultados');
+    const quantidadeResultadosSpan = document.querySelector('.alerta-quantidade-resultados span');
+
+    quantidadeResultadosSpan.textContent = quantidade;
+    quantidadeResultadosAlerta.classList.remove('hidden');
+    quantidadeResultadosAlerta.classList.add('deslizar-alerta');
+    setTimeout(() => {
+        quantidadeResultadosAlerta.classList.remove('deslizar-alerta');
+    }, 4000);
+}
+
 function executarFiltrosTabela() {
     const filtrados = filtrarTabela(tabelaFiltros, vendas);
     paginacaoFiltros.setData(filtrados);
     paginacaoFiltros.setOptions({ total: filtrados.length });
     
+    exibeAlertaQuantidadeResultados(filtrados.length);
     renderizaTabela(paginacaoFiltros.getPageData(1), totais);
     renderizaPaginacao(paginacaoFiltros.paginate());
+    
 }
 
 function atualizaFiltrosTabela (event) {
