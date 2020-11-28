@@ -480,7 +480,7 @@ Tooltip on bottom
         <!-- <div id='loading'></div> -->
 
 
-        <div id='calendar' class="calendario"></div>
+        <div id='calendar' class=""></div>
         <div class="row" style="align-items: center; margin-left: 5px;">
           <div class="circulo" style="margin-right: 5px; background: #257E4A; text-align: right"> </div>
           <h5> Depositado </h5>

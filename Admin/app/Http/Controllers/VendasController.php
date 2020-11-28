@@ -69,7 +69,7 @@ class VendasController extends Controller{
       ->leftJoin('produto_web', 'vendas.COD_PRODUTO', '=', 'produto_web.CODIGO')
       ->leftJoin('meio_captura', 'vendas.COD_MEIO_CAPTURA', '=', 'meio_captura.CODIGO')
       ->select('vendas.*', 'vendas.CODIGO as COD', 'modalidade.DESCRICAO as DESCRICAO', 'produto_web.PRODUTO_WEB',
-      'lista_bancos.BANCO', 'meio_captura.DESCRICAO as MEIOCAPTURA',
+      'lista_bancos.IMAGEM_LINK', 'meio_captura.DESCRICAO as MEIOCAPTURA',
        'adquirentes.IMAGEM as IMAGEMAD', 'bandeira.IMAGEM as IMAGEMBAD', 'bandeira.BANDEIRA as BANDEIRA',
        'adquirentes.ADQUIRENTE as ADQUIRENTE',
        'status_conciliacao.STATUS_CONCILIACAO as status_conc', 'status_financeiro.STATUS_FINANCEIRO as status_finan')
