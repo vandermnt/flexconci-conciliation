@@ -104,20 +104,23 @@ class VendasErpController extends Controller {
 
     $query = VendasErpModel::select(
         [
-          'vendas_erp.CODIGO AS ID_ERP',
+          'vendas_erp.CODIGO as ID_ERP',
           'grupos_clientes.NOME_EMPRESA',
           'grupos_clientes.CNPJ',
           'vendas_erp.DATA_VENDA',
           'vendas_erp.DATA_VENCIMENTO',
           'adquirentes.ADQUIRENTE',
+          'adquirentes.IMAGEM as ADQUIRENTE_IMAGEM',
           'bandeira.BANDEIRA',
-          'bandeira.IMAGEM',
-          'modalidade.DESCRICAO AS MODALIDADE',
+          'bandeira.IMAGEM as BANDEIRA_IMAGEM',
+          'modalidade.DESCRICAO as MODALIDADE',
           'vendas_erp.NSU',
           'vendas_erp.CODIGO_AUTORIZACAO',
           'vendas_erp.TOTAL_VENDA',
           'vendas_erp.TAXA',
-          DB::raw('(`vendas_erp`.`TOTAL_VENDA` * (`vendas_erp`.`TAXA` / 100)) as `VALOR_TAXA`'),
+          DB::raw('round(
+            (`vendas_erp`.`TOTAL_VENDA` * (`vendas_erp`.`TAXA` / 100)), 2
+          ) as `VALOR_TAXA`'),
           'vendas_erp.VALOR_LIQUIDO_PARCELA',
           'vendas_erp.PARCELA',
           'vendas_erp.TOTAL_PARCELAS',
@@ -125,13 +128,13 @@ class VendasErpController extends Controller {
           'vendas_erp.AGENCIA',
           'vendas_erp.CONTA_CORRENTE',
           'produto_web.PRODUTO_WEB as PRODUTO',
-          'meio_captura.DESCRICAO AS MEIOCAPTURA',
+          'meio_captura.DESCRICAO as MEIOCAPTURA',
           'status_conciliacao.STATUS_CONCILIACAO',
           'status_financeiro.STATUS_FINANCEIRO',
           'vendas_erp.JUSTIFICATIVA',
-          'vendas_erp.CAMPO_ADICIONAL1 AS CAMPO1',
-          'vendas_erp.CAMPO_ADICIONAL2 AS CAMPO2',
-          'vendas_erp.CAMPO_ADICIONAL3 AS CAMPO3',
+          'vendas_erp.CAMPO_ADICIONAL1 as CAMPO1',
+          'vendas_erp.CAMPO_ADICIONAL2 as CAMPO2',
+          'vendas_erp.CAMPO_ADICIONAL3 as CAMPO3',
         ]
       )
       ->leftJoinSub(GruposClientesModel::groupBy('COD_CLIENTE'), 'grupos_clientes', function($join) {
@@ -146,8 +149,7 @@ class VendasErpController extends Controller {
       ->leftJoin('status_financeiro', 'vendas_erp.COD_STATUS_FINANCEIRO', 'status_financeiro.CODIGO')
       ->where('vendas_erp.COD_CLIENTE', session('codigologin'))
       ->whereBetween('vendas_erp.DATA_VENDA', $datas)
-      ->orderBy('vendas_erp.DATA_VENDA')
-      ->distinct();
+      ->orderBy('vendas_erp.DATA_VENDA');
 
     foreach($dados as $chave => $valor) {
       if(is_array($valor)) {
@@ -157,24 +159,27 @@ class VendasErpController extends Controller {
       }
     }
 
-    dd($query->paginate(10));
-
     $liquidezTotalPacela = $query->sum('VALOR_LIQUIDO_PARCELA');
     $totalVendas = $query->sum('TOTAL_VENDA');
-    
+    $totalTaxa = DB::table('vendas_erp_sub')
+      ->selectRaw('VALOR_TAXA')
+      ->from(DB::raw('('.$query->toSql().') as vendas_erp_sub'))
+      ->mergeBindings($query->getQuery())
+      ->sum('VALOR_TAXA');
+   
     $quantidadePorPagina = $quantidadePorPagina === '*' ? $query->count() : $quantidadePorPagina;
     $paginacaoVendas = $query->paginate($quantidadePorPagina);
     $vendas = $paginacaoVendas->getCollection(); 
     $paginacao = $paginacaoVendas->toArray();
     unset($paginacao['data']);
-    dd(DB::getQueryLog());
-    
+
     $json = [
       'vendas' => $vendas,
       'paginacao' => $paginacao,
       'totais' => [
         'TOTAL_VENDAS' => $totalVendas,
         'LIQUIDEZ_TOTAL_PARCELA' => $liquidezTotalPacela,
+        'TOTAL_TAXA' => $totalTaxa,
       ]
     ];
 
