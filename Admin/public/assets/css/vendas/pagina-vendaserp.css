@@ -79,12 +79,13 @@
     border-color: #2d5275;
 }
 
-#tudo_page .modal-filtro .modal-dialog {
-    width: 270px;
+#tudo_page .modal-dialog-lg {
+    width: 400px  !important;
 }
 
-#tudo_page #staticBackdropAdquirente .modal-dialog {
-    width: 250px;
+#tudo_page .modal-filtro .modal-dialog {
+    width: 270px;
+    max-width: 100%;
 }
 
 #tudo_page .modal-filtro .modal-header {
@@ -94,6 +95,12 @@
 #tudo_page .modal-filtro .modal-header h5,
 #tudo_page .modal-filtro .modal-header button {
     color: white;
+}
+
+#tudo_page .modal-filtro .modal-body > .row + .row {
+    max-height: 368px;
+    overflow-y: auto;
+    margin-top: 16px;
 }
 
 #tudo_page .modal-filtro .modal-body input#ft,

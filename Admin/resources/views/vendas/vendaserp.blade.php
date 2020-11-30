@@ -233,7 +233,7 @@
               <div class="row">
                 <div class="col-sm-12">
                   <div id="btfiltro">
-                    <a form="myform" type="reset" class="btn btn-sm bt-limpar-form"> <i class="far fa-trash-alt"></i> <b>Limpar Campos</b>  </a>
+                    <a form="form-pesquisa" type="reset" class="btn btn-sm bt-limpar-form"> <i class="far fa-trash-alt"></i> <b>Limpar Campos</b>  </a>
 
                     <a id="bt-pesquisar" class="btn btn-sm"> <i class="fas fa-search"></i> <b>Pesquisar</b>  </a>
                   </div>
@@ -243,7 +243,7 @@
           </div>
 
           <div class="modal fade modal-filtro modal-empresas" id="empresaModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-lg">
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="staticBackdropLabel">Empresa</h5>
@@ -260,11 +260,13 @@
                       <input class="form-control">
                     </div>
                   </div>
-                  <br>
 
                   <div class="row">
-                    <div class="col-sm-10">
-                      <p><b>EMPRESSA</b></p>
+                    <div class="col-sm-5">
+                      <p><b>EMPRESA</b></p>
+                    </div>
+                    <div class="col-sm-5">
+                      <p><b>CNPJ</b></p>
                     </div>
                     <div class="col-sm-2">
                       <input
@@ -276,8 +278,11 @@
                     </div>
                     @if(isset($empresas))
                       @foreach($empresas as $empresa)
-                        <div id="{{ $empresa->NOME_EMPRESA }}" class="col-sm-10 opcao-check">
+                        <div class="col-sm-5 opcao-check">
                           <p>{{ $empresa->NOME_EMPRESA }}</p>
+                        </div>
+                        <div class="col-sm-5 opcao-check">
+                          <p>{{ $empresa->CNPJ }}</p>
                         </div>
 
                         <div class="col-sm-2 opcao-check">
@@ -328,7 +333,6 @@
                       <input class="form-control">
                     </div>
                   </div>
-                  <br>
 
                   <div class="row">
                     <div class="col-sm-10">
@@ -396,7 +400,6 @@
                       <input class="form-control">
                     </div>
                   </div>
-                  <br>
 
                   <div class="row">
                     <div class="col-sm-10">
@@ -462,7 +465,6 @@
                       <input class="form-control">
                     </div>
                   </div>
-                  <br>
 
                   <div class="row">
                     <div class="col-sm-10">
@@ -528,7 +530,6 @@
                       <input id="ftMeioCaptura" class="form-control">
                     </div>
                   </div>
-                  <br>
 
                   <div class="row">
                     <div class="col-sm-10">
