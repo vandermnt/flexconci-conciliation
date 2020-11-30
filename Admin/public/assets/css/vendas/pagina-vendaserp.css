@@ -124,6 +124,34 @@
     margin-top: 24px;
 }
 
+#tudo_page #resultadosPesquisa .acoes {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-bottom: 16px;
+}
+
+#tudo_page #resultadosPesquisa .acoes button {
+    display: flex;
+    width: 160px;
+    max-width: 100%;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    background-color: white;
+    color: #2d5275;
+    border: 1px solid #2d5275;
+}
+
+#tudo_page #resultadosPesquisa .acoes button i {
+    font-size: 19px;
+    margin-right: 4px;
+}
+
+#tudo_page #resultadosPesquisa .acoes button > * {
+    pointer-events: none;
+}
+
 #tudo_page #resultadosPesquisa .table-wrapper {
     position: relative;
     overflow: auto;

@@ -582,6 +582,13 @@
 
 
     <div id="resultadosPesquisa" class="hidden">
+      <div class="acoes">
+        <button id="js-exportar" class="btn font-weight-bold">
+          <i class="fas fa-file-download"></i>
+          Exportar
+        </button>
+      </div>
+
       <div class="table-wrapper">
         <table id="jsgrid-table" class="table">
           <thead>
