@@ -127,6 +127,7 @@
 #tudo_page #resultadosPesquisa .table-wrapper {
     position: relative;
     overflow: auto;
+    height: 624px;
     max-height: 624px;
 }
 
