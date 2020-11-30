@@ -79,12 +79,13 @@
     border-color: #2d5275;
 }
 
-#tudo_page .modal-filtro .modal-dialog {
-    width: 270px;
+#tudo_page .modal-dialog-lg {
+    width: 400px  !important;
 }
 
-#tudo_page #staticBackdropAdquirente .modal-dialog {
-    width: 250px;
+#tudo_page .modal-filtro .modal-dialog {
+    width: 270px;
+    max-width: 100%;
 }
 
 #tudo_page .modal-filtro .modal-header {
@@ -94,6 +95,12 @@
 #tudo_page .modal-filtro .modal-header h5,
 #tudo_page .modal-filtro .modal-header button {
     color: white;
+}
+
+#tudo_page .modal-filtro .modal-body > .row + .row {
+    max-height: 368px;
+    overflow-y: auto;
+    margin-top: 16px;
 }
 
 #tudo_page .modal-filtro .modal-body input#ft,
@@ -117,9 +124,38 @@
     margin-top: 24px;
 }
 
+#tudo_page #resultadosPesquisa .acoes {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-bottom: 16px;
+}
+
+#tudo_page #resultadosPesquisa .acoes button {
+    display: flex;
+    width: 160px;
+    max-width: 100%;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    background-color: white;
+    color: #2d5275;
+    border: 1px solid #2d5275;
+}
+
+#tudo_page #resultadosPesquisa .acoes button i {
+    font-size: 19px;
+    margin-right: 4px;
+}
+
+#tudo_page #resultadosPesquisa .acoes button > * {
+    pointer-events: none;
+}
+
 #tudo_page #resultadosPesquisa .table-wrapper {
     position: relative;
     overflow: auto;
+    height: 624px;
     max-height: 624px;
 }
 

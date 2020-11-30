@@ -25,7 +25,7 @@ class VendasErpController extends Controller {
     $status_financeiro = StatusFinanceiroModel::orderBy('STATUS_FINANCEIRO')
       ->get();
     
-    $empresas = GruposClientesModel::select(['CODIGO', 'NOME_EMPRESA'])
+    $empresas = GruposClientesModel::select(['CODIGO', 'NOME_EMPRESA', 'CNPJ'])
       ->where('COD_CLIENTE', session('codigologin'))
       ->get();
     

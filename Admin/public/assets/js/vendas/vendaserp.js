@@ -177,6 +177,7 @@ function renderizaTabela(vendas, totais) {
                         vendaFormatada.ADQUIRENTE_IMAGEM ?
                             `<img
                                 class="img-fluid"
+                                alt="${vendaFormatada.ADQUIRENTE || 'Sem identificação'}"
                                 src="${vendaFormatada.ADQUIRENTE_IMAGEM
                                     || 'assets/images/iconCart.jpeg'}"
                             >` :
@@ -185,6 +186,7 @@ function renderizaTabela(vendas, totais) {
                 </td>
                 <td>
                     <img class="img-fluid"
+                        alt="${vendaFormatada.BANDEIRA || 'Sem identificação'}"
                         src="${vendaFormatada.BANDEIRA_IMAGEM || 'assets/images/iconCart.jpeg'}"
                     >
                 </td>
