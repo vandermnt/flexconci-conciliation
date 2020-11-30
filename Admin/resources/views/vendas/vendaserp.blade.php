@@ -56,7 +56,29 @@
 
               <div class="row">
                 <div class="col-sm-6">
-                  <div id="filtroempresa">
+                  <div>
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <h6> Empresa: </h6>
+                          <input
+                            data-group="empresa"
+                            data-checker="to-text-element"
+                            id="empresa" class="empresa form-control" name="empresa">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-2">
+                  <button type="button" class="btn btn-sm bt-filtro-selecao" data-toggle="modal" data-target="#empresaModal">
+                    <b>Selecionar</b>
+                  </button>
+                </div>
+
+                <div class="col-sm-6">
+                  <div>
                     <div class="form-group">
                       <div class="row">
                         <div class="col-sm-12">
@@ -72,13 +94,57 @@
                 </div>
 
                 <div class="col-sm-2">
-                  <button id="bt-selecionar-adquirentes" type="button" class="btn btn-sm bt-filtro-selecao" data-toggle="modal" data-target="#staticBackdropAdquirente">
+                  <button type="button" class="btn btn-sm bt-filtro-selecao" data-toggle="modal" data-target="#staticBackdropAdquirente">
                     <b>Selecionar</b>
                   </button>
                 </div>
 
                 <div class="col-sm-6">
-                  <div id="filtroempresa">
+                  <div>
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <h6> Bandeira: </h6>
+                          <input
+                            data-group="bandeira"
+                            data-checker="to-text-element" 
+                            id="bandeira" class="form-control" name="bandeira">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-2">
+                  <button type="button" class="btn btn-sm bt-filtro-selecao" data-toggle="modal" data-target="#bandeirasModal">
+                    <b>Selecionar</b>
+                  </button>
+                </div>
+
+                <div class="col-sm-6">
+                  <div>
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <h6> Forma de Pagamento: </h6>
+                          <input
+                            data-group="modalidade"
+                            data-checker="to-text-element" 
+                            id="modalidade" class="form-control" name="modalidade">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-2">
+                  <button type="button" class="btn btn-sm bt-filtro-selecao" data-toggle="modal" data-target="#modalidadesModal">
+                    <b>Selecionar</b>
+                  </button>
+                </div>
+
+                <div class="col-sm-6">
+                  <div>
                     <div class="form-group">
                       <div class="row">
                         <div class="col-sm-12">
@@ -107,16 +173,8 @@
                     <div class="form-group">
                       <div class="row">
                         <div class="col-sm-4">
-                          <h6> Código Autorização: </h6>
-                          <input id="cod_autorizacao" class="form-control" name="codigo_autorizacao">
-                        </div>
-                        <div class="col-sm-4">
-                          <h6> Identificador Pagamento: </h6>
-                          <input id="identificador_pagamento" class="form-control" name="identificador_pagamento">
-                        </div>
-                        <div class="col-sm-4">
-                          <h6> NSU: </h6>
-                          <input id="nsu" class="form-control" name="nsu">
+                          <h6> ID. ERP: </h6>
+                          <input id="id_erp" class="form-control" name="id_erp">
                         </div>
                       </div>
                       <div class="row">
@@ -126,7 +184,7 @@
                             @foreach($status_conciliacao as $status)
                               <div class="check-group">
                                 <input 
-                                  id="{{ "statusFinan".$status->CODIGO }}"
+                                  id="{{ "statusConc".$status->CODIGO }}"
                                   type="checkbox"
                                   value="{{ $status->CODIGO }}"
                                   name="status_conciliacao[]"
@@ -137,7 +195,31 @@
                                   checked
                                   required
                                 >
-                                <label for="{{ "statusFinan".$status->CODIGO }}">{{ $status->STATUS_CONCILIACAO}}</label>
+                                <label for="{{ "statusConc".$status->CODIGO }}">{{ $status->STATUS_CONCILIACAO}}</label>
+                              </div>
+                            @endforeach
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <h6>Status Financeiro:</h6>
+                          <div class="row status-financeiro">
+                            @foreach($status_financeiro as $status)
+                              <div class="check-group">
+                                <input 
+                                  id="{{ "statusFinan".$status->CODIGO }}"
+                                  type="checkbox"
+                                  value="{{ $status->CODIGO }}"
+                                  name="status_financeiro[]"
+                                  class="status-financeiro-checkbox"
+                                  data-group="status-financeiro"
+                                  data-checker="checkbox"
+                                  data-codigo="{{ $status->CODIGO }}"
+                                  checked
+                                  required
+                                >
+                                <label for="{{ "statusFinan".$status->CODIGO }}">{{ $status->STATUS_FINANCEIRO }}</label>
                               </div>
                             @endforeach
                           </div>
@@ -160,6 +242,74 @@
             </div>
           </div>
 
+          <div class="modal fade modal-filtro modal-empresas" id="empresaModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdropLabel">Empresa</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <h6> Pesquisar </h6>
+                    </div>
+                    <div class="col-sm-12">
+                      <input class="form-control">
+                    </div>
+                  </div>
+                  <br>
+
+                  <div class="row">
+                    <div class="col-sm-10">
+                      <p><b>EMPRESSA</b></p>
+                    </div>
+                    <div class="col-sm-2">
+                      <input
+                        type="checkbox"
+                        class="selecionar-tudo"
+                        data-checker="global"
+                        data-group="empresa"
+                      >
+                    </div>
+                    @if(isset($empresas))
+                      @foreach($empresas as $empresa)
+                        <div id="{{ $empresa->NOME_EMPRESA }}" class="col-sm-10 opcao-check">
+                          <p>{{ $empresa->NOME_EMPRESA }}</p>
+                        </div>
+
+                        <div class="col-sm-2 opcao-check">
+                          <input 
+                            id="{{ "empresa-".$empresa->CODIGO }}"
+                            type="checkbox"
+                            class="empresa"
+                            name="empresas[]"
+                            value="{{ $empresa->CODIGO }}"
+                            data-checker="checkbox"
+                            data-group="empresa"
+                            data-codigo="{{ $empresa->CODIGO }}"
+                            data-descricao="{{ $empresa->NOME_EMPRESA }}"
+                          >
+                        </div>
+                        <hr>
+                      @endforeach
+                    @endif
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" data-acao="cancelar" class="btn btn-danger" data-group="empresa" data-dismiss="modal">
+                    Cancelar
+                  </button>
+                  <button type="button" data-acao="confirmar" class="btn btn-success" data-group="empresa" data-dismiss="modal">
+                    Confirmar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="modal fade modal-filtro modal-adquirentes" id="staticBackdropAdquirente" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -175,7 +325,7 @@
                       <h6> Pesquisar </h6>
                     </div>
                     <div class="col-sm-12">
-                      <input id="ft" class="form-control" onKeyDown="filtroNomeAdquirente({{$adquirentes}})">
+                      <input class="form-control">
                     </div>
                   </div>
                   <br>
@@ -194,13 +344,13 @@
                     </div>
                     @if(isset($adquirentes))
                       @foreach($adquirentes as $adquirente)
-                        <div id="{{ $adquirente->ADQUIRENTE }}" class="col-sm-10 opcao-check">
+                        <div class="col-sm-10 opcao-check">
                           <p>{{ $adquirente->ADQUIRENTE }}</p>
                         </div>
 
-                        <div id="{{ "divCod".$bandeira->CODIGO }}" class="col-sm-2 opcao-check">
+                        <div class="col-sm-2 opcao-check">
                           <input 
-                            id="{{ $adquirente->CODIGO }}"
+                            id="{{ "adquirente-".$adquirente->CODIGO }}"
                             type="checkbox"
                             class="adquirente"
                             name="arrayAdquirentes[]"
@@ -228,6 +378,138 @@
             </div>
           </div>
 
+          <div class="modal fade modal-filtro modal-bandeiras" id="bandeirasModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdropLabel">Bandeira</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <h6> Pesquisar </h6>
+                    </div>
+                    <div class="col-sm-12">
+                      <input class="form-control">
+                    </div>
+                  </div>
+                  <br>
+
+                  <div class="row">
+                    <div class="col-sm-10">
+                      <p><b>BANDEIRA</b></p>
+                    </div>
+                    <div class="col-sm-2">
+                      <input 
+                        type="checkbox"
+                        data-checker="global"
+                        data-group="bandeira"
+                        data-seletor="bandeira"
+                      >
+                    </div>
+                    @if(isset($bandeiras))
+                      @foreach($bandeiras as $bandeira)
+                        <div class="col-sm-10 opcao-check">
+                          <p>{{ $bandeira->BANDEIRA }}</p>
+                        </div>
+                        <div class="col-sm-2 opcao-check">
+                          <input
+                            type="checkbox"
+                            name="bandeiras[]"
+                            value="{{ $bandeira->CODIGO }}"
+                            class="bandeira"
+                            data-checker="checkbox"
+                            data-group="bandeira"
+                            data-codigo="{{ $bandeira->CODIGO }}"
+                            data-descricao="{{ $bandeira->BANDEIRA }}"
+                          >
+                        </div>
+                        <hr>
+                      @endforeach
+                    @endif
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" data-acao="cancelar" class="btn btn-danger" data-group="bandeira" data-dismiss="modal">
+                    Cancelar
+                  </button>
+                  <button type="button" data-acao="confirmar" data-group="bandeira" class="btn btn-success bt-confirmar-selecao" data-dismiss="modal">
+                    Confirmar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal fade modal-filtro modal-modalidades" id="modalidadesModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdropLabel">Forma de Pagamento</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <h6> Pesquisar </h6>
+                    </div>
+                    <div class="col-sm-12">
+                      <input class="form-control">
+                    </div>
+                  </div>
+                  <br>
+
+                  <div class="row">
+                    <div class="col-sm-10">
+                      <p><b>FORMA DE PAGAMENTO</b></p>
+                    </div>
+                    <div class="col-sm-2">
+                      <input 
+                        type="checkbox"
+                        data-checker="global"
+                        data-group="modalidade"
+                        data-seletor="modalidade"
+                      >
+                    </div>
+                    @if(isset($modalidades))
+                      @foreach($modalidades as $modalidade)
+                        <div class="col-sm-10 opcao-check">
+                          <p>{{ $modalidade->DESCRICAO }}</p>
+                        </div>
+                        <div class="col-sm-2 opcao-check">
+                          <input
+                            type="checkbox"
+                            name="modalidades[]"
+                            value="{{ $modalidade->CODIGO }}"
+                            class="modalidade"
+                            data-checker="checkbox"
+                            data-group="modalidade"
+                            data-codigo="{{ $modalidade->CODIGO }}"
+                            data-descricao="{{ $modalidade->DESCRICAO }}"
+                          >
+                        </div>
+                        <hr>
+                      @endforeach
+                    @endif
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" data-acao="cancelar" class="btn btn-danger" data-group="modalidade" data-dismiss="modal">
+                    Cancelar
+                  </button>
+                  <button type="button" data-acao="confirmar" data-group="modalidade" class="btn btn-success bt-confirmar-selecao" data-dismiss="modal">
+                    Confirmar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="modal fade modal-filtro modal-meio-captura" id="staticBackdropMeioCaptura" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -243,7 +525,7 @@
                       <h6> Pesquisar </h6>
                     </div>
                     <div class="col-sm-12">
-                      <input id="ftMeioCaptura" class="form-control" onKeyDown="filtroMeioCaptura({{$meio_captura}})">
+                      <input id="ftMeioCaptura" class="form-control">
                     </div>
                   </div>
                   <br>
@@ -299,42 +581,61 @@
 
 
     <div id="resultadosPesquisa" class="hidden">
-      <div class="row" id="foo">
-        <div  class="col-sm-2"></div>
-        <div class="col-sm-10">
-          <div class="dropdown">
-            <a class="btn btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fas fa-file-download"></i>
-              <b>Exportar</b>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <a class="dropdown-item" id="dp-item"  href="{{ action('VendasController@downloadTable') }}">  PDF</a>
-              <a class="dropdown-item" id="dp-item"  onclick="download_table_as_csv('mytable');" href="#">  CSV</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <br>
-
       <div class="table-wrapper">
         <table id="jsgrid-table" class="table">
           <thead>
             <tr>
               <th>
                 <div class="d-flex flex-column justify-content-end">
-                  <p class="mb-0">Detalhes</p>
+                  <p class="mb-0">Ações</p>
                 </div>
               </th>
               <th>
                 <div class="d-flex flex-column align-items-center">
-                  <p>Data Venda</p>
+                  <p>ID. ERP</p>
+                  <input type="text" name="ID_ERP">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Empresa</p>
+                  <input type="text" name="NOME_EMPRESA">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>CNPJ</p>
+                  <input type="text" name="CNPJ">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Venda</p>
                   <input type="text" name="DATA_VENDA">
                 </div>
               </th>
               <th>
                 <div class="d-flex flex-column align-items-center">
-                  <p>Previs. PGT</p>
+                  <p>Previsão</p>
                   <input type="text" name="DATA_VENCIMENTO">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Operadora</p>
+                  <input type="text" name="ADQUIRENTE">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Bandeira</p>
+                  <input type="text" name="BANDEIRA">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Forma de Pagamento</p>
+                  <input type="text" name="MODALIDADE">
                 </div>
               </th>
               <th>
@@ -345,44 +646,86 @@
               </th>
               <th>
                 <div class="d-flex flex-column align-items-center">
-                  <p>Total Venda</p>
-                  <input type="text" name="TOTAL_VENDA">
-                </div>
-              </th>
-              <th>
-                <div class="d-flex flex-column align-items-center">
-                  <p>Nº Parcela</p>
-                  <input type="text" name="PARCELA">
-                </div>
-              </th>
-              <th>
-                <div class="d-flex flex-column align-items-center">
-                  <p>Total Parcela</p>
-                  <input type="text" name="TOTAL_PARCELAS">
-                </div>
-              </th>
-              <th>
-                <div class="d-flex flex-column align-items-center">
-                  <p>Liq. Parcela</p>
-                  <input type="text" name="VALOR_LIQUIDO_PARCELA">
-                </div>
-              </th>
-              <th>
-                <div class="d-flex flex-column align-items-center">
-                  <p>Descrição ERP</p>
-                  <input type="text" name="DESCRICAO_TIPO_PRODUTO">
-                </div>
-              </th>
-              <th>
-                <div class="d-flex flex-column align-items-center">
-                  <p>Cod. Autorização</p>
+                  <p>Autorização</p>
                   <input type="text" name="CODIGO_AUTORIZACAO">
                 </div>
               </th>
               <th>
                 <div class="d-flex flex-column align-items-center">
-                  <p>ID. Venda Cliente</p>
-                  <input type="text" name="IDENTIFICADOR_PAGAMENTO">
+                  <p>Cartão</p>
+                  <input type="text" name="">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Valor Bruto</p>
+                  <input type="text" name="TOTAL_VENDA">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Taxa %</p>
+                  <input type="text" name="TAXA">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Taxa R$</p>
+                  <input type="text" name="VALOR_TAXA">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Valor Líquido</p>
+                  <input type="text" name="VALOR_LIQUIDO_PARCELA">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Parcela</p>
+                  <input type="text" name="PARCELA">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Total Parc.</p>
+                  <input type="text" name="TOTAL_PARCELAS">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Hora</p>
+                  <input type="text" name="">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Estabelecimento</p>
+                  <input type="text" name="">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Banco</p>
+                  <input type="text" name="BANCO">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Agência</p>
+                  <input type="text" name="AGENCIA">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Conta</p>
+                  <input type="text" name="CONTA_CORRENTE">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Produto</p>
+                  <input type="text" name="PRODUTO">
                 </div>
               </th>
               <th>
@@ -399,8 +742,32 @@
                </th>
               <th>
                 <div class="d-flex flex-column align-items-center">
+                  <p>Status Financeiro</p>
+                  <input type="text" name="STATUS_FINANCEIRO">
+                </div>
+               </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
                   <p>Justificativa</p>
                   <input type="text" name="JUSTIFICATIVA">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Campo 1</p>
+                  <input type="text" name="CAMPO1">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Campo 2</p>
+                  <input type="text" name="CAMPO2">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Campo 3</p>
+                  <input type="text" name="CAMPO3">
                 </div>
               </th>
             </tr>
@@ -413,10 +780,27 @@
               <td></td>
               <td></td>
               <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
               <td class="bolder" data-chave="TOTAL_VENDAS"></td>
               <td></td>
-              <td></td>
+              <td class="bolder text-danger" data-chave="TOTAL_TAXA"></td>
               <td class="bolder" data-chave="LIQUIDEZ_TOTAL_PARCELA"></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
               <td></td>
               <td></td>
               <td></td>
@@ -446,11 +830,16 @@
         </div>
       </footer>
     </div>
+
+    <div class="alert alert-success font-weight-bold alerta-quantidade-resultados hidden">
+      <span>0</span> resultados encontrados.
+    </div>
   </div>
 @stop
 
 @section('footerScript')
   <script defer src="{{ URL::asset('assets/js/lib/api.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/pagination.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/checker.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/vendas/vendaserp.js') }}"></script>
 
