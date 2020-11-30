@@ -909,19 +909,17 @@ $('#submitFormLogin').click(function(){
           html +="<td>"+response[0].data[i].TOTAL_PARCELAS+"</td>";
           html +="<td>"+response[0].data[i].HORA_TRANSACAO+"</td>";
           html +="<td>"+response[0].data[i].ESTABELECIMENTO+"</td>";
-<<<<<<< HEAD
           html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEM_LINK || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
           if(response[0].data[i].AGENCIA){ html +="<td>"+response[0].data[i].AGENCIA +"</td>"}
           else{ html +="<td>"+''+"</td>";}
           if(response[0].data[i].CONTA){ html +="<td>"+ response[0].data[i].CONTA+"</td>";}
           else{html +="<td>"+ ''+"</td>";}
           html +="<td>"+ `${response[0].data[i].OBSERVACOES || ''}` +"</td>";
-=======
+
           html +="<td>"+"<img src='" + response[0].data[i].IMAGEM_LINK +"'' style='width: 30px'/>"+"</td>";
           html +="<td>"+response[0].data[i].AGENCIA+"</td>";
           html +="<td>"+response[0].data[i].CONTA+"</td>";
           html +="<td>"+(response[0].data[i].OBSERVACOES || '')+"</td>";
->>>>>>> 8e29b6f6942afa352734cc8203aaedaa1a1b0240
           if(response[0].data[i].COD_PRODUTO !=  null){
             html +="<td>"+response[0].data[i].PRODUTO_WEB+"</td>";
           }else{
@@ -1094,19 +1092,17 @@ $('#submitFormLogin').click(function(){
             html +="<td>"+response[0].data[i].TOTAL_PARCELAS+"</td>";
             html +="<td>"+response[0].data[i].HORA_TRANSACAO+"</td>";
             html +="<td>"+response[0].data[i].ESTABELECIMENTO+"</td>";
-<<<<<<< HEAD
             html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEM_LINK || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
             if(response[0].data[i].AGENCIA){ html +="<td>"+response[0].data[i].AGENCIA +"</td>"}
             else{ html +="<td>"+''+"</td>";}
             if(response[0].data[i].CONTA){ html +="<td>"+ response[0].data[i].CONTA+"</td>";}
             else{html +="<td>"+ ''+"</td>";}
             html +="<td>"+ `${response[0].data[i].OBSERVACOES || ''}` +"</td>";
-=======
+
             html +="<td>"+"<img src='" + response[0].data[i].IMAGEM_LINK +"'' style='width: 30px'/>"+"</td>";
             html +="<td>"+response[0].data[i].AGENCIA+"</td>";
             html +="<td>"+response[0].data[i].CONTA+"</td>";
             html +="<td>"+(response[0].data[i].OBSERVACOES || '')+"</td>";
->>>>>>> 8e29b6f6942afa352734cc8203aaedaa1a1b0240
             if(response[0].data[i].COD_PRODUTO !=  null){
               html +="<td>"+response[0].data[i].PRODUTO_WEB+"</td>";
             }else{
