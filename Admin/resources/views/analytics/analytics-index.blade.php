@@ -259,7 +259,7 @@ Tooltip on bottom
                   <th style="color: #231F20" >Bruto</th>
                   <th style="color: #231F20" >Taxa</th>
                   <th style="color: #231F20" >Líquido</th>
-                  <th style="color: #231F20" >Ticket Médio</th>
+                  <!-- <th style="color: #231F20" >Ticket Médio</th> -->
                 </tr>
               </thead>
               <tbody>
@@ -324,7 +324,7 @@ Tooltip on bottom
               <th style="color: #231F20" >Bruto</th>
               <th style="color: #231F20" >Taxa</th>
               <th style="color: #231F20" >Líquido</th>
-              <th style="color: #231F20" >Ticket Médio</th>
+              <!-- <th style="color: #231F20" >Ticket Médio</th> -->
             </tr>
           </thead>
           <tbody style="">
@@ -387,7 +387,7 @@ Tooltip on bottom
                   <th style="color: #231F20" >Bruto</th>
                   <th style="color: #231F20" >Taxa</th>
                   <th style="color: #231F20" >Líquido</th>
-                  <th style="color: #231F20" >Ticket Médio</th>
+                  <!-- <th style="color: #231F20" >Ticket Médio</th> -->
                 </tr>
               </thead>
               <tbody>
@@ -453,7 +453,7 @@ Tooltip on bottom
               <th style="color: #231F20" >Bruto</th>
               <th style="color: #231F20" >Taxa</th>
               <th style="color: #231F20" >Líquido</th>
-              <th style="color: #231F20" >Ticket Médio</th>
+              <!-- <th style="color: #231F20" >Ticket Médio</th> -->
             </tr>
           </thead>
           <tbody>
@@ -781,14 +781,14 @@ function preCarregarGraficoVendas(){
       html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_BRUTO)+"</td>";
       html += "<td style='color: red'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_TAXA)+"</td>";
       html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_LIQUIDO)+"</td>";
-      html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TICKET_MEDIO)+"</td>";
+      // html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TICKET_MEDIO)+"</td>";
 
       totalQtd += parseInt(dados_dash.QUANTIDADE);
       totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
       totalTx += parseFloat(dados_dash.TOTAL_TAXA);
       totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
       totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
-
+      console.log(dados_dash);
       html += "</tr>";
 
       $('#table_vendas_operadora').append(html);
@@ -803,7 +803,7 @@ function preCarregarGraficoVendas(){
   htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalBruto)+"</td>";
   htmlSubTotal += "<td style='color: red; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalTx)+"</td>";
   htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalLiq)+"</td>";
-  htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalTicket)+"</td>";
+  // htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalTicket)+"</td>";
 
   htmlSubTotal += "</tr>";
 
@@ -832,12 +832,12 @@ function preCarregarGraficoVendasBandeira(){
 
       var html = "<tr>";
 
-      html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' style='width: 28px'/>"+"</td>";
+      html += "<td>"+"<img src='"+`${dados_dash.IMAGEM || 'assets/images/iconCart.jpeg'}`+"' style='width: 28px'/>"+"</td>";
       html += "<td style='color: #231F20'>"+dados_dash.QUANTIDADE+"</td>";
       html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_BRUTO)+"</td>";
       html += "<td style='color: red'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_TAXA)+"</td>";
       html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_LIQUIDO)+"</td>";
-      html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TICKET_MEDIO)+"</td>";
+      // html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TICKET_MEDIO)+"</td>";
       html += "</tr>";
 
       totalQtd += parseInt(dados_dash.QUANTIDADE);
@@ -859,7 +859,7 @@ function preCarregarGraficoVendasBandeira(){
   htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalBruto)+"</td>";
   htmlSubTotal += "<td style='color: red; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalTx)+"</td>";
   htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalLiq)+"</td>";
-  htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalTicket)+"</td>";
+  // htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalTicket)+"</td>";
 
   htmlSubTotal += "</tr>";
 
@@ -897,7 +897,7 @@ function preCarregarGraficoVendasProduto(){
       html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_BRUTO)+"</td>";
       html += "<td style='color: red'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_TAXA)+"</td>";
       html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_LIQUIDO)+"</td>";
-      html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TICKET_MEDIO)+"</td>";
+      // html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TICKET_MEDIO)+"</td>";
       html += "</tr>";
 
       totalQtd += parseInt(dados_dash.QUANTIDADE);
@@ -919,7 +919,7 @@ function preCarregarGraficoVendasProduto(){
   htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalBruto)+"</td>";
   htmlSubTotal += "<td style='color: red; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalTx)+"</td>";
   htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalLiq)+"</td>";
-  htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalTicket)+"</td>";
+  // htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalTicket)+"</td>";
 
   htmlSubTotal += "</tr>";
 
@@ -957,7 +957,7 @@ function preCarregarGraficoVendasModalidade(){
       html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_BRUTO)+"</td>";
       html += "<td style='color: red'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_TAXA)+"</td>";
       html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_LIQUIDO)+"</td>";
-      html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TICKET_MEDIO)+"</td>";
+      // html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TICKET_MEDIO)+"</td>";
       html += "</tr>";
 
       $('#table_vendas_modalidade').append(html);
@@ -980,7 +980,7 @@ function preCarregarGraficoVendasModalidade(){
   htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalBruto)+"</td>";
   htmlSubTotal += "<td style='color: red; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalTx)+"</td>";
   htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalLiq)+"</td>";
-  htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalTicket)+"</td>";
+  // htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalTicket)+"</td>";
 
   htmlSubTotal += "</tr>";
 
@@ -1022,7 +1022,7 @@ function trocaPeriodo(cod_periodo, tipo){
         html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_BRUTO)+"</td>";
         html += "<td style='color: red'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_TAXA)+"</td>";
         html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_LIQUIDO)+"</td>";
-        html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TICKET_MEDIO)+"</td>";
+        // html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TICKET_MEDIO)+"</td>";
 
         html += "</tr>";
 
@@ -1045,7 +1045,7 @@ function trocaPeriodo(cod_periodo, tipo){
     htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalBruto)+"</td>";
     htmlSubTotal += "<td style='color: red; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalTx)+"</td>";
     htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalLiq)+"</td>";
-    htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalTicket)+"</td>";
+    // htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalTicket)+"</td>";
 
     htmlSubTotal += "</tr>";
 
@@ -1079,7 +1079,7 @@ function trocaPeriodo(cod_periodo, tipo){
         html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_BRUTO)+"</td>";
         html += "<td style='color: red'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_TAXA)+"</td>";
         html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_LIQUIDO)+"</td>";
-        html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TICKET_MEDIO)+"</td>";
+        // html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TICKET_MEDIO)+"</td>";
 
         html += "</tr>";
 
@@ -1104,7 +1104,7 @@ function trocaPeriodo(cod_periodo, tipo){
     htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalBruto)+"</td>";
     htmlSubTotal += "<td style='color: red; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalTx)+"</td>";
     htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalLiq)+"</td>";
-    htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalTicket)+"</td>";
+    // htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalTicket)+"</td>";
 
     htmlSubTotal += "</tr>";
 
@@ -1138,7 +1138,7 @@ function trocaPeriodo(cod_periodo, tipo){
         html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_BRUTO)+"</td>";
         html += "<td style='color: red'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_TAXA)+"</td>";
         html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_LIQUIDO)+"</td>";
-        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(dados_dash.TICKET_MEDIO)+"</td>";
+        // html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(dados_dash.TICKET_MEDIO)+"</td>";
 
         html += "</tr>";
 
@@ -1163,7 +1163,7 @@ function trocaPeriodo(cod_periodo, tipo){
     htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalBruto)+"</td>";
     htmlSubTotal += "<td style='color: red; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalTx)+"</td>";
     htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalLiq)+"</td>";
-    htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalTicket)+"</td>";
+    // htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalTicket)+"</td>";
 
     htmlSubTotal += "</tr>";
 
@@ -1196,7 +1196,7 @@ function trocaPeriodo(cod_periodo, tipo){
         html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto)+"</td>";
         html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa)+"</td>";
         html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido)+"</td>";
-        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio)+"</td>";
+        // html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio)+"</td>";
 
         html += "</tr>";
 
@@ -1217,7 +1217,7 @@ function trocaPeriodo(cod_periodo, tipo){
       document.getElementById("venda_total_bruto").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto);
       document.getElementById("venda_total_taxa").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa);
       document.getElementById("venda_total_liquido").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido);
-      document.getElementById("venda_ticket_medio").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio);
+      // document.getElementById("venda_ticket_medio").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio);
       document.getElementById("quantidade").innerHTML = qtde;
 
       periodo = cod_periodo;
@@ -1227,118 +1227,6 @@ function trocaPeriodo(cod_periodo, tipo){
 
   }
 
-  // }else if(grupo == "Bandeira"){
-  //   dash_vendas = <?php echo $dados_dash_vendas_bandeira ?>;
-  //   //
-  //   // var total_bruto = 0;
-  //   // var total_liquido = 0;
-  //   // var total_taxa = 0;
-  //   // var total_ticket_medio = 0;
-  //   // var qtde = 0;
-  //   $('#table_vendas tbody').empty();
-  //
-  //   dash_vendas.forEach((dados_dash) => {
-  //
-  //     if(dados_dash.COD_PERIODO == cod_periodo){
-  //       console.log("TESTEEEEEEE");
-  //       // bruto = dados_dash.TOTAL_BRUTO;
-  //       // liquido = dados_dash.TOTAL_LIQUIDO;
-  //       // taxa = dados_dash.TOTAL_TAXA;
-  //       // ticket = dados_dash.TICKET_MEDIO;
-  //       //
-  //       total_bruto = parseInt(dados_dash.TOTAL_BRUTO);
-  //       total_liquido = parseInt(dados_dash.TOTAL_LIQUIDO);
-  //       total_taxa = parseInt(dados_dash.TOTAL_TAXA);
-  //       total_ticket_medio = parseInt(dados_dash.TICKET_MEDIO);
-  //       qtde = parseInt(dados_dash.QUANTIDADE);
-  //
-  //       // document.getElementById("venda_total_bruto").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto);
-  //       // document.getElementById("venda_total_taxa").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa);
-  //       // document.getElementById("venda_total_liquido").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido);
-  //       // document.getElementById("venda_ticket_medio").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio);
-  //
-  //
-  //       var html = "<tr>";
-  //
-  //       html += "<td>"+dados_dash.QUANTIDADE+"</td>";
-  //       html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto)+"</td>";
-  //       html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa)+"</td>";
-  //       html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido)+"</td>";
-  //       html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio)+"</td>";
-  //
-  //       html += "</tr>";
-  //
-  //       $('#table_vendas').append(html);
-  //
-  //       dados_grafico.push(dados_dash);
-  //
-  //       document.getElementById("dropdownMenuButton").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
-  //     }
-  //   })
-  //
-  //   if(dados_grafico.length == 0){
-  //     console.log("VAZIOOOOOOOOOOOO");
-  //   }else{
-  //     grafico_vendas.destroy();
-  //     //
-  //     // document.getElementById("venda_total_bruto").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto);
-  //     // document.getElementById("venda_total_taxa").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa);
-  //     // document.getElementById("venda_total_liquido").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido);
-  //     // document.getElementById("venda_ticket_medio").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio);
-  //     // document.getElementById("quantidade").innerHTML = qtde;
-  //
-  //     periodo = cod_periodo;
-  //     geraGraficoVendas(dados_grafico, 2);
-  //   }
-  // }else if(grupo == "Modalidade"){
-  //   dash_vendas = <?php echo $dados_dash_vendas_modalidade ?>;
-  //
-  //   var total_bruto = 0;
-  //   var total_liquido = 0;
-  //   var total_taxa = 0;
-  //   var total_ticket_medio = 0;
-  //   var qtde = 0;
-  //
-  //   dash_vendas.forEach((dados_dash) => {
-  //     console.log(dash_vendas);
-  //
-  //     if(dados_dash.COD_PERIODO == cod_periodo){
-  //
-  //       bruto = dados_dash.TOTAL_BRUTO;
-  //       liquido = dados_dash.TOTAL_LIQUIDO;
-  //       taxa = dados_dash.TOTAL_TAXA;
-  //       ticket = dados_dash.TICKET_MEDIO;
-  //
-  //       total_bruto = parseInt(total_bruto) + parseInt(dados_dash.TOTAL_BRUTO);
-  //       total_liquido = parseInt(total_liquido) + parseInt(dados_dash.TOTAL_LIQUIDO);
-  //       total_taxa = parseInt(total_taxa) + parseInt(dados_dash.TOTAL_TAXA);
-  //       total_ticket_medio = parseInt(total_ticket_medio) + parseInt(dados_dash.TICKET_MEDIO);
-  //       qtde = qtde + parseInt(dados_dash.QUANTIDADE);
-  //
-  //       dados_grafico.push(dados_dash);
-  //
-  //       document.getElementById("dropdownMenuButton").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
-  //     }
-  //   })
-  //
-  //   if(dados_grafico.length == 0){
-  //     console.log("VAZIOOOOOOOOOOOO");
-  //   }else{
-  //     grafico_vendas.destroy();
-  //
-  //     document.getElementById("venda_total_bruto").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto);
-  //     document.getElementById("venda_total_taxa").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa);
-  //     document.getElementById("venda_total_liquido").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido);
-  //     document.getElementById("venda_ticket_medio").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio);
-  //     document.getElementById("quantidade").innerHTML = qtde;
-  //     periodo = cod_periodo;
-  //     geraGraficoVendas(dados_grafico, 3);
-  //   }
-  //
-  // }else if(grupo = "Produto"){
-  //
-  // }
-  // }
 }
 $("voltar").click(function() {
   $("div_banco_selecionado").removeClass('div_banco_selecionado');
@@ -1579,7 +1467,6 @@ function showTableBancoSelecionadoInicial(codigo){
   var val_liquido = parseInt(result.val_liquido);
   var tx = parseInt(result.TAXA_PERCENTUAL);
   var t = Number(tx).toFixed(2);
-  console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
 
   var html = "<tr>";
 

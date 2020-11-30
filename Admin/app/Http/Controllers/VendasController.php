@@ -536,9 +536,6 @@ class VendasController extends Controller{
                // Se quiser que fique no formato a4 retrato: ->setPaper('a4', 'landscape')
                ->setPaper($customPaper, 'landscape')
                ->stream('cupom.pdf');
-
-
-    // return view('vendas.vendas-impressao')->with('venda', $venda);
   }
 
   public function desfazerJustificativa($codigo){
@@ -550,5 +547,104 @@ class VendasController extends Controller{
     $justificativa->save();
 
     return json_encode($justificativa);
+  }
+
+  public function exportXls(){
+    $data_final = Request::input('data_final');
+    $data_inicial = Request::input('data_inicial');
+    $empresa = Request::input('array');
+    $adquirente = Request::input('arrayAdquirentes');
+    $bandeira = Request::input('arrayBandeira');
+    $modalidade = Request::input('arrayModalidade');
+    $conciliacao = Request::input('status_conciliacao');
+    $status_financeiro = Request::input('status_financeiro');
+
+    $vendas = DB::table('vendas')
+    ->join('modalidade', 'vendas.CODIGO_MODALIDADE', '=', 'modalidade.CODIGO')
+    ->leftJoin('bandeira', 'vendas.COD_BANDEIRA', '=', 'bandeira.CODIGO')
+    ->leftJoin('adquirentes', 'vendas.ADQID', '=', 'adquirentes.CODIGO')
+    ->leftJoin('lista_bancos', 'vendas.BANCO', '=', 'lista_bancos.CODIGO')
+    ->leftJoin('status_conciliacao', 'vendas.COD_STATUS_CONCILIACAO', '=', 'status_conciliacao.CODIGO')
+    ->leftJoin('status_financeiro', 'vendas.COD_STATUS_FINANCEIRO', '=', 'status_financeiro.CODIGO')
+    ->leftJoin('produto_web', 'vendas.COD_PRODUTO', '=', 'produto_web.CODIGO')
+    ->leftJoin('meio_captura', 'vendas.COD_MEIO_CAPTURA', '=', 'meio_captura.CODIGO')
+    ->select('vendas.*', 'vendas.CODIGO as COD', 'modalidade.DESCRICAO as DESCRICAO', 'produto_web.PRODUTO_WEB',
+    'lista_bancos.IMAGEM_LINK', 'meio_captura.DESCRICAO as MEIOCAPTURA',
+     'adquirentes.IMAGEM as IMAGEMAD', 'bandeira.IMAGEM as IMAGEMBAD', 'bandeira.BANDEIRA as BANDEIRA',
+     'adquirentes.ADQUIRENTE as ADQUIRENTE',
+     'status_conciliacao.STATUS_CONCILIACAO as status_conc', 'status_financeiro.STATUS_FINANCEIRO as status_finan')
+    ->where('vendas.COD_CLIENTE', '=', session('codigologin'))
+    ->where(function($query) {
+      if(Request::only('array') != null){
+        $empresas = Request::only('array');
+        foreach ($empresas['array'] as $cnpj) {
+          $query->orWhere('CNPJ', '=', $cnpj);
+        }
+      }
+    })
+    ->where(function($query) {
+      if(Request::only('arrayStatusConciliacao') != null){
+        $status_conciliacao = Request::only('arrayStatusConciliacao');
+        foreach($status_conciliacao['arrayStatusConciliacao'] as $status_conciliacaoo) {
+          $query->orWhere('COD_STATUS_CONCILIACAO', '=', $status_conciliacaoo);
+        }
+      }
+    })
+    ->where(function($query) {
+      if(Request::only('arrayModalidade') != null){
+        $modalidades = Request::only('arrayModalidade');
+        foreach($modalidades['arrayModalidade'] as $modalidade) {
+          $query->orWhere('CODIGO_MODALIDADE', '=', $modalidade);
+        }
+      }
+    })
+    ->where(function($query) {
+      if(Request::only('arrayAdquirentes') != null){
+        $adquirentes = Request::only('arrayAdquirentes');
+        foreach ($adquirentes['arrayAdquirentes'] as $adquirente) {
+          $query->orWhere('ADQID', '=', $adquirente);
+        }
+      }
+    })
+    ->where(function($query) {
+      if(Request::only('arrayBandeira') != null){
+        $bandeiras = Request::only('arrayBandeira');
+        foreach ($bandeiras['arrayBandeira'] as $bandeira) {
+          $query->orWhere('COD_BANDEIRA', '=', $bandeira);
+        }
+      }
+    })
+    ->where(function($query) {
+      if(Request::only('arrayStatusFinanceiro') != null){
+        $status_financeiros = Request::only('arrayStatusFinanceiro');
+        foreach ($status_financeiros['arrayStatusFinanceiro'] as $status_financeiro) {
+          $query->orWhereNull('COD_STATUS_FINANCEIRO')->orWhere('COD_STATUS_FINANCEIRO', '=', $status_financeiro);
+        }
+      }
+    })
+    ->where(function($query) {
+      if(Request::only('arrayMeioCaptura') != null){
+        $meiocaptura = Request::only('arrayMeioCaptura');
+        foreach ($meiocaptura['arrayMeioCaptura'] as $mcaptura) {
+          $query->orWhereNull('COD_MEIO_CAPTURA')->orWhere('COD_MEIO_CAPTURA', '=', $mcaptura);
+        }
+      }
+    })
+    ->where(function($query) {
+      if(Request::only('data_inicial') != null){
+        $data_inicial = Request::only('data_inicial');
+        $data_final = Request::only('data_final');
+        $query->whereBetween('DATA_VENDA', [$data_inicial['data_inicial'], $data_final['data_final']]);
+
+        // $query->where('DATA_VENDA', '>=', '2020-08-01')->where('DATA_VENDA', '<=', '2020-09-05');
+      }
+    })
+    ->orderBy('NSU')
+    ->orderBy('DATA_VENDA')
+    ->get();
+
+    $vendas = json_encode($vendas);
+
+    return $vendas;
   }
 }

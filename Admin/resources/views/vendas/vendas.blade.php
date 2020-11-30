@@ -7,7 +7,7 @@
 <link href="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.css')}}" rel="stylesheet">
 <link href="{{ URL::asset('assets/css/teste.css')}}" rel="stylesheet" type="text/css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/table-dragger@1.0.3/dist/table-dragger.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/table-dragger@1.0.3/dist/table-dragger.js"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -15,8 +15,9 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
 
+
 <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
-<script src="http://tablesorter.com/__jquery.tablesorter.min.js" type="text/javascript"></script>
+<!-- <script src="http://tablesorter.com/__jquery.tablesorter.min.js" type="text/javascript"></script> -->
 
 <link href="{{ URL::asset('plugins/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ URL::asset('plugins/datatables/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
@@ -193,7 +194,7 @@
                   <div class="col-sm-1">
                     <div style="margin-top: -10px">
                       <input type="checkbox" checked value="2" name="status_financeiro[]" id="liquidado">
-                      <label style="font-size: 12px; color: #424242; margin-top: 5px" for="liquidado">Liquidado</label>
+                      <label style="font-size: 12px; color: #424242; margin-top: 5px" for="liquidado">Liquidada</label>
                     </div>
                   </div>
                   <div class="col-sm-2">
@@ -218,7 +219,7 @@
         </div>
 
         <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-          <div class="modal-dialog" style="width: 100%;">
+          <div class="modal-dialog" style="width: 400px;">
             <div class="modal-content">
               <div class="modal-header" style="background: #2D5275;">
                 <h5 class="modal-title" id="staticBackdropLabel" style="color: white">Empresa</h5>
@@ -226,7 +227,7 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">
+              <div class="modal-body" style="max-height: 350px; overflow: auto">
                 <div class="row">
                   <div class="col-sm-12">
                     <h6> Pesquisar </h6>
@@ -304,7 +305,7 @@
                   </div>
 
                   <div id="{{ "divAdq".$adquirente->CODIGO }}" style="display:block" class="col-sm-2">
-                    <input id="{{ $adquirente->CODIGO }}" class="checkAdquirentes" value="{{ $adquirente->ADQUIRENTE }}" name="arrayAdquirentes[]" type="checkbox">
+                    <input id="{{ "inputAdq-".$adquirente->CODIGO }}" class="checkAdquirentes" value="{{ $adquirente->ADQUIRENTE }}" name="arrayAdquirentes[]" type="checkbox">
                   </div>
                   <hr>
                   @endforeach
@@ -550,13 +551,16 @@
           <div class="col-sm-10" align="right">
             <div class="dropdown">
               <a class="btn btn-sm dropdown-toggle" style="width: 160px; background: white; color: #2D5275; border-color: #2D5275" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i style="font-size: 19px" class="fas fa-file-download" style="padding: 7px"></i> <b style="font-size: 12px; margin-left: ">Exportar</b>
+                <i style="font-size: 19px" class="fas fa-file-download" style="padding: 7px"></i> <b style="font-size: 12px; margin-left: ">Exportar </b>
               </a>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <a class="dropdown-item" id="dp-item"  href="{{ action('VendasController@downloadTable') }}">  PDF</a>
-                <a class="dropdown-item" id="btExportXls"  onclick="exportTableToExcel('#jsgrid-table', '#btExportXls')" href="#">  XLS (EXCEL)</a>
+                <!-- <a class="dropdown-item" id="btExportXls"  onclick="exportTableToExcel('#jsgrid-table', '#btExportXls')" href="#">  XLS (EXCEL)</a> -->
+                <a class="dropdown-item" id="btExportXls"  onclick="exportXls()">  XLS (EXCEL)</a>
               </div>
             </div>
+            <span id="label-gerando-xls" style="display: none;  color: red"> Gerando XLS </span>
+
           </div>
         </div><br>
 
@@ -564,7 +568,7 @@
           <div class="modal-dialog" style="width: 320px">
             <div class="modal-content">
               <div class="modal-header" style="background: #2D5275;">
-                <h5 class="modal-title" id="modalCupom" style="color: white">Cupom para Comprovante</h5>
+                <h5 class="modal-title" id="modalCupom" style="color: white">Comprovante</h5>
                 <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -641,6 +645,47 @@
             </tbody>
             <tfoot>
             </tfoot>
+          </table>
+        </div>
+
+        <div class="table-scroll" style="display: none">
+          <table id="table-xls" class="table">
+            <thead>
+              <tr style="border-top: none">
+                <th> Empresa </th>
+                <th> CNPJ  </th>
+                <th> Operadora </th>
+                <th> Venda </th>
+                <th> Previsão </th>
+                <th> Bandeir </th>
+                <th> Forma de Pagament </th>
+                <th> NSU</th>
+                <th> Autorização</th>
+                <th> Cartã </th>
+                <th> Valor Bruto</th>
+                <th> Taxa % </th>
+                <th> Taxa R$</th>
+                <th> Outras Tarifa </th>
+                <th> Valor Líquido </th>
+                <th> Parcela</th>
+                <th> Total Parc.</th>
+                <th> Hora</th>
+                <th> Estabeleciment </th>
+                <th> Banc </th>
+                <th> Agênci </th>
+                <th> Conta</th>
+                <th> Observação</th>
+                <th> Produt </th>
+                <th> Meio de Captur </th>
+                <th> Status Conciliaçã </th>
+                <th> Status Financeir </th>
+                <th> Justificativa </th>
+                <th> RO</th>
+                <th> RO Único</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
           </table>
         </div>
 
@@ -747,7 +792,7 @@ $('#submitFormLogin').click(function(){
   });
 
   adquirentes.forEach((adquirente) => {
-    if(document.getElementById(adquirente.CODIGO).checked){
+    if(document.getElementById("inputAdq-"+adquirente.CODIGO).checked){
       arrayAdquirentes.push(adquirente.CODIGO);
     }
   });
@@ -796,6 +841,8 @@ $('#submitFormLogin').click(function(){
   let dados_filtro = JSON.parse(JSON.stringify(dados));
   let filtro = JSON.stringify(dados);
 
+  localStorage.setItem('dados_filtro', filtro);
+
   $('#jsgrid-table tbody').empty();
   $('#ul_pagination li').empty();
 
@@ -807,55 +854,22 @@ $('#submitFormLogin').click(function(){
     dataType: 'json',
     success: function (response){
       if(response){
-        console.log(response);
         for(var i=0;i< response[0].data.length; i++){
-          var data_v = new Date(response[0].data[i].DATA_VENDA);
-          var data_venda = data_v.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
 
-          let dados_cupom = JSON.stringify(response[0].data[i]);
+          let dados_cupom   = JSON.stringify(response[0].data[i]);
+          let data_venda    = formataData(response[0].data[i].DATA_VENDA);
+          let data_prev_pag = formataData(response[0].data[i].DATA_PREVISTA_PAGTO);
 
-          var data_p = new Date(response[0].data[i].DATA_PREVISTA_PAGTO);
-          var data_prev_pag = data_p.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+          let formatted                  = formataValorReal(response[0].data[i].VALOR_BRUTO);
+          let formatted_liq             = formataValorReal(response[0].data[i].VALOR_LIQUIDO);
+          let formatted_tx              = formataValorReal(response[0].data[i].VALOR_TAXA);
+          let formatted_outras_despesas = formataValorReal(response[0].data[i].OUTRAS_DESPESAS);
 
-          const number = response[0].data[i].VALOR_BRUTO;
+          let cod      = response[0].data[i].COD;
+          let val_taxa = Number(response[0].data[i].PERCENTUAL_TAXA).toFixed(2);
 
-          const formatter = new Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: 'BRL'
-          });
+          let html = "<tr id='"+cod+"' onclick='mudaCorLinhaTable("+cod+")'>";
 
-          const formatted = formatter.format(number);
-
-          const val_liq = response[0].data[i].VALOR_LIQUIDO;
-          const formatterliq = new Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: 'BRL'
-          });
-          const formatted_liq = formatterliq.format(val_liq);
-
-          const val_tx = response[0].data[i].VALOR_TAXA;
-          const formattertx = new Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: 'BRL'
-          });
-          const formatted_tx = formattertx.format(val_tx);
-
-          const outras_despesas = response[0].data[i].OUTRAS_DESPESAS;
-          const outras = new Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: 'BRL'
-          });
-          const outras_despesas_format = outras.format(outras_despesas);
-
-          var cod = response[0].data[i].COD;
-
-          //tira 2 casas decimais da taxa
-          var a = response[0].data[i].PERCENTUAL_TAXA;
-          var val_taxa = Number(a).toFixed(2);
-          var html = "<tr id='"+cod+"' onclick='mudaCorLinhaTable("+cod+")'>";
-
-          // setTimeout(function () {
-          // html +="<td>";
           if(response[0].data[i].COD_STATUS_CONCILIACAO == 6) {
             html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Conciliação' onclick='desfazerConciliacao(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-undo-alt'></i></a>"+" "+
             "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
@@ -869,15 +883,18 @@ $('#submitFormLogin').click(function(){
 
           html +="<td>"+response[0].data[i].EMPRESA+"</td>";
           html +="<td>"+response[0].data[i].CNPJ+"</td>";
-
           // html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' id='cartao'/>"+"</td>";
-          html +="<td style='display: transparent'>"+"<img src='"+response[0].data[i].IMAGEMAD+"' style='width: 30px;'/>"+ " " + response[0].data[i].ADQUIRENTE + "</td>";
+          if(response[0].data[i].IMAGEMAD == null){
+            html +="<td>"+"<img src='assets/images/iconCart.jpeg' style='width: 30px'/>"+"</td>";
+          }else{
+            html +="<td style='display: transparent'>"+"<img src='"+response[0].data[i].IMAGEMAD+"' style='width: 30px;'/>"+  "</td>";
+          }
           html +="<td>"+data_venda+"</td>";
           html +="<td>"+data_prev_pag+"</td>";
           if(response[0].data[i].IMAGEMBAD == null){
             html +="<td>"+"<img src='assets/images/iconCart.jpeg' style='width: 30px'/>"+"</td>";
           }else{
-            html +="<td>"+"<img class='imagebandeira "+ response[0].data[i].BANDEIRA +"' src='"+response[0].data[i].IMAGEMBAD+"' style='width: 30px'/>"+ " " + response[0].data[i].BANDEIRA +  "</td>";
+            html +="<td>"+"<img class='imagebandeira "+ response[0].data[i].BANDEIRA +"' src='"+response[0].data[i].IMAGEMBAD+"' style='width: 30px'/>"+  "</td>";
           }
           html +="<td>"+response[0].data[i].DESCRICAO+"</td>";
           html +="<td>"+response[0].data[i].NSU+"</td>";
@@ -886,16 +903,18 @@ $('#submitFormLogin').click(function(){
           html +="<td>"+formatted +"</td>";
           html +="<td>"+val_taxa+"</td>";
           html +="<td style='color:red'>"+formatted_tx+"</td>";
-          html +="<td>"+outras_despesas_format+"</td>";
+          html +="<td>"+formatted_outras_despesas+"</td>";
           html +="<td>"+formatted_liq+"</td>";
           html +="<td>"+response[0].data[i].PARCELA+"</td>";
           html +="<td>"+response[0].data[i].TOTAL_PARCELAS+"</td>";
           html +="<td>"+response[0].data[i].HORA_TRANSACAO+"</td>";
           html +="<td>"+response[0].data[i].ESTABELECIMENTO+"</td>";
-          html +="<td>"+"<img src='" + response[0].data[i].IMAGEM_LINK +"'' style='width: 30px'/>"+"</td>";
-          html +="<td>"+response[0].data[i].AGENCIA+"</td>";
-          html +="<td>"+response[0].data[i].CONTA+"</td>";
-          html +="<td>"+response[0].data[i].OBSERVACOES+"</td>";
+          html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEM_LINK || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
+          if(response[0].data[i].AGENCIA){ html +="<td>"+response[0].data[i].AGENCIA +"</td>"}
+          else{ html +="<td>"+''+"</td>";}
+          if(response[0].data[i].CONTA){ html +="<td>"+ response[0].data[i].CONTA+"</td>";}
+          else{html +="<td>"+ ''+"</td>";}
+          html +="<td>"+ `${response[0].data[i].OBSERVACOES || ''}` +"</td>";
           if(response[0].data[i].COD_PRODUTO !=  null){
             html +="<td>"+response[0].data[i].PRODUTO_WEB+"</td>";
           }else{
@@ -1012,44 +1031,14 @@ $('#submitFormLogin').click(function(){
           $('#ul_pagination li').empty();
 
           for(var i=0;i< response[0].data.length; i++){
-            var data_v = new Date(response[0].data[i].DATA_VENDA);
-            var data_venda = data_v.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+            let dados_cupom   = JSON.stringify(response[0].data[i]);
+            let data_venda    = formataData(response[0].data[i].DATA_VENDA);
+            let data_prev_pag = formataData(response[0].data[i].DATA_PREVISTA_PAGTO);
 
-            var data_p = new Date(response[0].data[i].DATA_PREVISTA_PAGTO);
-            var data_prev_pag = data_p.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
-
-            let dados_cupom = JSON.stringify(response[0].data[i]);
-
-
-            const number = response[0].data[i].VALOR_BRUTO;
-
-            const formatter = new Intl.NumberFormat('pt-BR', {
-              style: 'currency',
-              currency: 'BRL'
-            });
-
-            const formatted = formatter.format(number);
-
-            const val_liq = response[0].data[i].VALOR_LIQUIDO;
-            const formatterliq = new Intl.NumberFormat('pt-BR', {
-              style: 'currency',
-              currency: 'BRL'
-            });
-            const formatted_liq = formatterliq.format(val_liq);
-
-            const val_tx = response[0].data[i].VALOR_TAXA;
-            const formattertx = new Intl.NumberFormat('pt-BR', {
-              style: 'currency',
-              currency: 'BRL'
-            });
-            const formatted_tx = formattertx.format(val_tx);
-
-            const outras_despesas = response[0].data[i].OUTRAS_DESPESAS;
-            const outras = new Intl.NumberFormat('pt-BR', {
-              style: 'currency',
-              currency: 'BRL'
-            });
-            const outras_despesas_format = outras.format(outras_despesas);
+            let formatted     = formataValorReal(response[0].data[i].VALOR_BRUTO);
+            let formatted_liq = formataValorReal(response[0].data[i].VALOR_LIQUIDO);
+            let formatted_tx  = formataValorReal(response[0].data[i].VALOR_TAXA);
+            let formatted_outras_despesas = formataValorReal(response[0].data[i].OUTRAS_DESPESAS);
 
             var cod = response[0].data[i].COD;
             //tira 2 casas decimais da taxa
@@ -1061,27 +1050,29 @@ $('#submitFormLogin').click(function(){
             // html +="<td>";
             if(response[0].data[i].COD_STATUS_CONCILIACAO == 6) {
               html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Conciliação' onclick='desfazerConciliacao(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-undo-alt'></i></a>"+" "+
-              "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' onclick='exibeModal("+response[0].data[i].COD+")' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+              "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
 
             }else if(response[0].data[i].COD_STATUS_CONCILIACAO == 3){
               html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Justificativa' onclick='desfazerJustificativa(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-history'></i></a>"+" "+
-              "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"'  onclick='exibeModal("+response[0].data[i].COD+")' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+              "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
             }else{
               html += "<td>" + "<a onclick='exibeModal("+dados_cupom+")'  data-target='#staticBackdrop' data-placement='bottom' title='Visualiza Comprovante'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
             }
 
-
             html +="<td>"+response[0].data[i].EMPRESA+"</td>";
             html +="<td>"+response[0].data[i].CNPJ+"</td>";
-
             // html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' id='cartao'/>"+"</td>";
-            html +="<td>"+"<img src='"+response[0].data[i].IMAGEMAD+"' style='width: 30px'/>"+ " " + response[0].data[i].ADQUIRENTE + "</td>";
+            if(response[0].data[i].IMAGEMAD == null){
+              html +="<td>"+"<img src='assets/images/iconCart.jpeg' style='width: 30px'/>"+"</td>";
+            }else{
+              html +="<td style='display: transparent'>"+"<img src='"+response[0].data[i].IMAGEMAD+"' style='width: 30px;'/>"+  "</td>";
+            }
             html +="<td>"+data_venda+"</td>";
             html +="<td>"+data_prev_pag+"</td>";
             if(response[0].data[i].IMAGEMBAD == null){
               html +="<td>"+"<img src='assets/images/iconCart.jpeg' style='width: 30px'/>"+"</td>";
             }else{
-              html +="<td>"+"<img src='"+response[0].data[i].IMAGEMBAD+"' style='width: 30px'/>"+ " " + response[0].data[i].BANDEIRA + "</td>";
+              html +="<td>"+"<img class='imagebandeira "+ response[0].data[i].BANDEIRA +"' src='"+response[0].data[i].IMAGEMBAD+"' style='width: 30px'/>"+  "</td>";
             }
             html +="<td>"+response[0].data[i].DESCRICAO+"</td>";
             html +="<td>"+response[0].data[i].NSU+"</td>";
@@ -1089,17 +1080,19 @@ $('#submitFormLogin').click(function(){
             html +="<td>"+response[0].data[i].CARTAO+"</td>";
             html +="<td>"+formatted +"</td>";
             html +="<td>"+val_taxa+"</td>";
-            html +="<td>"+formatted_tx+"</td>";
-            html +="<td>"+outras_despesas_format+"</td>";
+            html +="<td style='color:red'>"+formatted_tx+"</td>";
+            html +="<td>"+formatted_outras_despesas+"</td>";
             html +="<td>"+formatted_liq+"</td>";
             html +="<td>"+response[0].data[i].PARCELA+"</td>";
             html +="<td>"+response[0].data[i].TOTAL_PARCELAS+"</td>";
             html +="<td>"+response[0].data[i].HORA_TRANSACAO+"</td>";
             html +="<td>"+response[0].data[i].ESTABELECIMENTO+"</td>";
-            html +="<td>"+"<img src='" + response[0].data[i].IMAGEM_LINK +"'' style='width: 30px'/>"+"</td>";
-            html +="<td>"+response[0].data[i].AGENCIA+"</td>";
-            html +="<td>"+response[0].data[i].CONTA+"</td>";
-            html +="<td>"+response[0].data[i].OBSERVACOES+"</td>";
+            html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEM_LINK || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
+            if(response[0].data[i].AGENCIA){ html +="<td>"+response[0].data[i].AGENCIA +"</td>"}
+            else{ html +="<td>"+''+"</td>";}
+            if(response[0].data[i].CONTA){ html +="<td>"+ response[0].data[i].CONTA+"</td>";}
+            else{html +="<td>"+ ''+"</td>";}
+            html +="<td>"+ `${response[0].data[i].OBSERVACOES || ''}` +"</td>";
             if(response[0].data[i].COD_PRODUTO !=  null){
               html +="<td>"+response[0].data[i].PRODUTO_WEB+"</td>";
             }else{
@@ -1109,8 +1102,8 @@ $('#submitFormLogin').click(function(){
             html +="<td>"+response[0].data[i].status_conc+"</td>";
             html +="<td>"+response[0].data[i].status_finan+"</td>";
             html +="<td>"+""+"</td>";
-
-            var url = "#";
+            html +="<td>"+""+"</td>";
+            html +="<td>"+""+"</td>";
 
             html +="</tr>";
             $('#jsgrid-table').append(html);
@@ -1131,9 +1124,12 @@ $('#submitFormLogin').click(function(){
           htmll +="<td>"+""+"</td>";
           htmll +="<td style='color:#6E6E6E'> <b>"+response[2]+"</b></td>";
           htmll +="<td>"+""+"</td>";
-          htmll +="<td style='color:#6E6E6E'><b>"+response[4]+"</b></td>";
+          htmll +="<td style='color:red'><b>"+response[4]+"</b></td>";
           htmll +="<td style='color:#6E6E6E'><b>"+response[6]+"</b></td>";
           htmll +="<td style='color:#6E6E6E'><b>"+response[1]+"</b></td>";
+          htmll +="<td>"+""+"</td>";
+          htmll +="<td>"+""+"</td>";
+          htmll +="<td>"+""+"</td>";
           htmll +="<td>"+""+"</td>";
           htmll +="<td>"+""+"</td>";
           htmll +="<td>"+""+"</td>";
@@ -1219,12 +1215,12 @@ $('#submitFormLogin').click(function(){
   var modalidadesSelecionados = [];
   var meioCapturaSelecionados = [];
 
-  var el = document.getElementById('datatable');
-  var dragger = tableDragger.default(el, {
-    dragHandler: ".handle",
-  })
-  dragger.on('drop',function(from, to){
-  });
+  // var el = document.getElementById('datatable');
+  // var dragger = tableDragger.default(el, {
+  //   dragHandler: ".handle",
+  // })
+  // dragger.on('drop',function(from, to){
+  // });
 
 
   var flag = true;
@@ -1251,11 +1247,12 @@ $('#submitFormLogin').click(function(){
   }
 
   function addSelecionadosAdquirentes(adquirentes){
+    console.log(adquirentes)
     adquirentes.forEach((adquirente) => {
-      if(document.getElementById(adquirente.CODIGO).checked){
+      if(document.getElementById("inputAdq-"+adquirente.CODIGO).checked){
         adquirentesSelecionados.includes(adquirente.ADQUIRENTE) ? '' : adquirentesSelecionados.push(adquirente.ADQUIRENTE);
       }else{
-        adquirentesSelecionados.includes(adquirente.ADQUIRENTE) ? adquirentesSelecionados.splice(adquirentesSelecionados.indexOf(adquirente.ADQUIRENTE), 1) : '';
+        adquirentesSelecionados.includes("inputAdq-"+adquirente.ADQUIRENTE) ? adquirentesSelecionados.splice(adquirentesSelecionados.indexOf(adquirente.ADQUIRENTE), 1) : '';
       }
     });
 
@@ -1465,9 +1462,9 @@ $('#submitFormLogin').click(function(){
   function allCheckboxAd(grupo_clientes) {
     grupo_clientes.forEach((cliente) => {
       if(document.getElementById("allCheckAd").checked){
-        document.getElementById(cliente.CODIGO).checked = true;
+        document.getElementById("inputAdq-"+cliente.CODIGO).checked = true;
       }else{
-        document.getElementById(cliente.CODIGO).checked = false;
+        document.getElementById("inputAdq-"+cliente.CODIGO).checked = false;
       }
     });
   }
@@ -1692,13 +1689,114 @@ $('#submitFormLogin').click(function(){
     btn.href = "{{ url('/impressao-vendas')}}"+"/"+localStorage.getItem('codigo_cupom_venda');
     btn.target = "_blank"
     btn.click();
-
-    // const url = "/impressao-vendas/" + localStorage.getItem('codigo_cupom_venda');
-
   }
 
+  function exportXls(){
+
+    const dados_filtro =  JSON.parse(localStorage.getItem('dados_filtro'));
+
+    document.getElementById("label-gerando-xls").style.display = "block";
+    $.ajax({
+      url: "{{ url('exportxls-vendas-operadora') }}",
+      type: "POST",
+      headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+      data: dados_filtro,
+      dataType: 'json',
+      success: function (response){
+        if(response){
+          for(var i=0;i< response.length; i++){
+
+            let dados_cupom   = JSON.stringify(response[i]);
+            let data_venda    = formataData(response[i].DATA_VENDA);
+            let data_prev_pag = formataData(response[i].DATA_PREVISTA_PAGTO);
+
+            let formatted     = formataValorReal(response[i].VALOR_BRUTO);
+            let formatted_liq = formataValorReal(response[i].VALOR_LIQUIDO);
+            let formatted_tx  = formataValorReal(response[i].VALOR_TAXA);
+            let formatted_outras_despesas = formataValorReal(response[i].OUTRAS_DESPESAS);
 
 
-    </script>
+            //tira 2 casas decimais da taxa
+            var a = response[i].PERCENTUAL_TAXA;
+            var val_taxa = Number(a).toFixed(2);
+            var html = "<tr>";
 
-    @stop
+            html +="<td>"+response[i].EMPRESA+"</td>";
+            html +="<td>"+response[i].CNPJ+"</td>";
+            html +="<td>"+ response[i].ADQUIRENTE+"</td>";
+            html +="<td>"+data_venda+"</td>";
+            html +="<td>"+data_prev_pag+"</td>";
+            html +="<td>"+response[i].BANDEIRA+"</td>";
+            html +="<td>"+response[i].DESCRICAO+"</td>";
+            html +="<td>"+response[i].NSU+"</td>";
+            html +="<td>"+response[i].AUTORIZACAO+"</td>";
+            html +="<td>"+response[i].CARTAO+"</td>";
+            html +="<td>"+formatted +"</td>";
+            html +="<td>"+val_taxa+"</td>";
+            html +="<td style='color:red'>"+formatted_tx+"</td>";
+            html +="<td>"+formatted_outras_despesas+"</td>";
+            html +="<td>"+formatted_liq+"</td>";
+            html +="<td>"+response[i].PARCELA+"</td>";
+            html +="<td>"+response[i].TOTAL_PARCELAS+"</td>";
+            html +="<td>"+response[i].HORA_TRANSACAO+"</td>";
+            html +="<td>"+response[i].ESTABELECIMENTO+"</td>";
+            html +="<td>"+response[i].BANCO+"</td>";
+            if(response[i].AGENCIA){ html +="<td>"+response[i].AGENCIA +"</td>"}
+            else{ html +="<td>"+''+"</td>";}
+            if(response[i].CONTA){ html +="<td>"+ response[i].CONTA+"</td>";}
+            else{html +="<td>"+ ''+"</td>";}
+            html +="<td>"+ `${response[i].OBSERVACOES || ''}` +"</td>";
+            if(response[i].COD_PRODUTO !=  null){
+              html +="<td>"+response[i].PRODUTO_WEB+"</td>";
+            }else{
+              html +="<td>"+""+"</td>";
+            }
+            html +="<td>"+response[i].MEIOCAPTURA+"</td>";
+            html +="<td>"+response[i].status_conc+"</td>";
+            html +="<td>"+response[i].status_finan+"</td>";
+            html +="<td>"+""+"</td>";
+            html +="<td>"+""+"</td>";
+            html +="<td>"+""+"</td>";
+
+            html +="</tr>";
+
+            console.log("dwadwadwadwadwadwa")
+            $('#table-xls').append(html);
+
+          }
+
+          $('#table-xls').DataTable( {
+            dom: 'Bfrtip',
+            buttons: [
+              'excel'
+            ]
+          } );
+
+          $(".buttons-excel").trigger("click");
+          document.getElementById("label-gerando-xls").style.display = "none";
+
+        }
+
+      }
+    });
+  }
+
+  function formataData(data){
+    const new_data_ = new Date(data);
+    const data_formatada = new_data_.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+
+    return data_formatada;
+  }
+
+  function formataValorReal(valor){
+    const formatter = new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    });
+    const valor_formatado = formatter.format(valor);
+
+    return valor_formatado;
+  }
+</script>
+
+@stop
