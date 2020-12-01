@@ -14,13 +14,13 @@ function inicializar() {
     checker.addGroup('adquirente');
     checker.addGroup('bandeira');
     checker.addGroup('modalidade');
-    checker.addGroup('meio-captura');
     checker.addGroup('status-conciliacao');
     checker.addGroup('status-financeiro');
 
     const formPesquisa = document.querySelector('form#form-pesquisa');
     const btPesquisar = document.querySelector('#bt-pesquisar');
     const btLimparForm = document.querySelector('.bt-limpar-form');
+    const btExportar = document.querySelector('#js-exportar');
     const selectPorPagina = document.querySelector('.form-control[name="porPagina"]');
     const btAcoesModal = document.querySelectorAll('.modal-footer button[data-acao]');
     const tbFiltrosDOM = document.querySelectorAll('#resultadosPesquisa th input');
@@ -28,6 +28,7 @@ function inicializar() {
     formPesquisa.addEventListener('submit', submeterFormularioPesquisa);
     btPesquisar.addEventListener('click', pesquisar);
     btLimparForm.addEventListener('click', limparCampos);
+    btExportar.addEventListener('click', exportar);
     selectPorPagina.addEventListener('change', selecionaQuantidadePorPagina);
     [...btAcoesModal]
         .forEach(btAcaoModal => btAcaoModal.addEventListener('click', confirmarCancelarSelecao));
@@ -91,12 +92,82 @@ function alternaVisibilidade(elemento) {
     elemento.classList.toggle('hidden');
 }
 
+function exportar() {
+    const headers = {
+        ID_ERP: 'ID. ERP',
+        NOME_EMPRESA: 'Empresa',
+        CNPJ: 'CNPJ',
+        DATA_VENDA: 'Venda',
+        DATA_VENCIMENTO: 'Previsão',
+        ADQUIRENTE: 'Operadora',
+        BANDEIRA: 'Bandeira',
+        MODALIDADE: 'Forma de Pagamento',
+        NSU: 'NSU',
+        CODIGO_AUTORIZACAO: 'Autorização',
+        CARTAO: 'Cartão',
+        TOTAL_VENDA: 'Valor Bruto',
+        TAXA: 'Taxa %',
+        VALOR_TAXA: 'Taxa R$',
+        VALOR_LIQUIDO_PARCELA: 'Valor Líquido',
+        PARCELA: 'Parcela',
+        TOTAL_PARCELAS: 'Total Parc.',
+        HORA: 'Hora',
+        ESTABELECIMENTO: 'Estabelecimento',
+        BANCO: 'Banco',
+        AGENCIA: 'Agência',
+        CONTA_CORRENTE: 'Conta',
+        PRODUTO: 'Produto',
+        MEIOCAPTURA: 'Meio de Captura',
+        STATUS_CONCILIACAO: 'Status Conciliação',
+        STATUS_FINANCEIRO: 'Status Financeiro',
+        JUSTIFICATIVA: 'Justificativa',
+        CAMPO1: 'Campo 1',
+        CAMPO2: 'Campo 2',
+        CAMPO3: 'Campo 3',
+    };
+
+    const formatadorDecimal = new Intl.NumberFormat('pt-BR');
+    const dados = vendas.map(venda => {
+        delete venda.BANDEIRA_IMAGEM;
+        delete venda.ADQUIRENTE_IMAGEM;
+
+        return {
+            ...venda,
+            DATA_VENDA: new Date(`${venda.DATA_VENDA} 00:00:00`).toLocaleDateString(),
+            DATA_VENCIMENTO: new Date(`${venda.DATA_VENCIMENTO} 00:00:00`).toLocaleDateString(),
+            TOTAL_VENDA: formatadorDecimal.format(venda.TOTAL_VENDA),
+            TAXA: formatadorDecimal.format(venda.TAXA),
+            VALOR_TAXA: formatadorDecimal.format(venda.VALOR_TAXA),
+            VALOR_LIQUIDO_PARCELA: formatadorDecimal.format(venda.VALOR_LIQUIDO_PARCELA),
+        }
+    });
+    dados.unshift(headers);
+
+    const workbook = XLSX.utils.book_new();
+    workbook.Props = {
+        Title: 'Vendas ERP',
+        Subject: 'Relatorio Vendas ERP',
+        Author: 'Conciflex',
+        CreatedDate: new Date(),
+    }
+    workbook.SheetNames.push('Vendas ERP')
+
+    const worksheet = XLSX.utils.json_to_sheet(dados, { skipHeader: true });
+    worksheet['!cols'] = Array.from({ length: Object.keys(headers).length }, 
+        (valor, index) => ({
+            wch: 16,
+        })
+    );
+    worksheet['!cols'][1] = { wch: 24 };
+    workbook.Sheets['Vendas ERP'] = worksheet;
+    XLSX.writeFile(workbook, `Vendas_ERP_${Date.now()}.xlsx`);
+}
+
 function serializarDadosFiltros() {
     const empresas = checker.getCheckedValues('empresa');
     const arrayAdquirentes = checker.getCheckedValues('adquirente');
     const bandeiras = checker.getCheckedValues('bandeira');
     const modalidades = checker.getCheckedValues('modalidade');
-    const arrayMeioCaptura = checker.getCheckedValues('meio-captura');
     const statusConciliacaoSelecionados = checker.getCheckedValues('status-conciliacao');
     const statusFinanceiroSelecionados = checker.getCheckedValues('status-financeiro');
 
@@ -118,7 +189,6 @@ function serializarDadosFiltros() {
         arrayAdquirentes,
         bandeiras,
         modalidades,
-        arrayMeioCaptura,
         id_erp,
         status_conciliacao: statusConciliacaoSelecionados,
         status_financeiro: statusFinanceiroSelecionados,
