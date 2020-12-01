@@ -14,7 +14,6 @@ function inicializar() {
     checker.addGroup('adquirente');
     checker.addGroup('bandeira');
     checker.addGroup('modalidade');
-    checker.addGroup('meio-captura');
     checker.addGroup('status-conciliacao');
     checker.addGroup('status-financeiro');
 
@@ -96,7 +95,6 @@ function serializarDadosFiltros() {
     const arrayAdquirentes = checker.getCheckedValues('adquirente');
     const bandeiras = checker.getCheckedValues('bandeira');
     const modalidades = checker.getCheckedValues('modalidade');
-    const arrayMeioCaptura = checker.getCheckedValues('meio-captura');
     const statusConciliacaoSelecionados = checker.getCheckedValues('status-conciliacao');
     const statusFinanceiroSelecionados = checker.getCheckedValues('status-financeiro');
 
@@ -118,7 +116,6 @@ function serializarDadosFiltros() {
         arrayAdquirentes,
         bandeiras,
         modalidades,
-        arrayMeioCaptura,
         id_erp,
         status_conciliacao: statusConciliacaoSelecionados,
         status_financeiro: statusFinanceiroSelecionados,

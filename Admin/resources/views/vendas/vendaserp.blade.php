@@ -143,31 +143,6 @@
                   </button>
                 </div>
 
-                <div class="col-sm-6">
-                  <div>
-                    <div class="form-group">
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <h6> Meio de Captura: </h6>
-                          <input
-                            id="meiocaptura"
-                            class="meio-captura form-control"
-                            name="meiocaptura"
-                            data-checker="to-text-element"
-                            data-group="meio-captura"
-                          >
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-sm-2">
-                  <button id="bt-selecionar-meios-captura" type="button" class="btn btn-sm bt-filtro-selecao" data-toggle="modal" data-target="#staticBackdropMeioCaptura">
-                    <b>Selecionar</b>
-                  </button>
-                </div>
-
                 <div class="col-sm-8">
                   <div id="grupo-filtros">
                     <div class="form-group">
@@ -505,71 +480,6 @@
                     Cancelar
                   </button>
                   <button type="button" data-acao="confirmar" data-group="modalidade" class="btn btn-success bt-confirmar-selecao" data-dismiss="modal">
-                    Confirmar
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="modal fade modal-filtro modal-meio-captura" id="staticBackdropMeioCaptura" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="staticBackdropLabel">Meio de Captura</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <div class="row">
-                    <div class="col-sm-12">
-                      <h6> Pesquisar </h6>
-                    </div>
-                    <div class="col-sm-12">
-                      <input id="ftMeioCaptura" class="form-control">
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-sm-10">
-                      <p><b>MEIO DE CAPTURA</b></p>
-                    </div>
-                    <div class="col-sm-2">
-                      <input 
-                        type="checkbox"
-                        data-checker="global"
-                        data-group="meio-captura"
-                        data-seletor="meio-captura"
-                      >
-                    </div>
-                    @if(isset($meio_captura))
-                      @foreach($meio_captura as $meio)
-                        <div class="col-sm-10 opcao-check">
-                          <p>{{ $meio->DESCRICAO }}</p>
-                        </div>
-                        <div class="col-sm-2 opcao-check">
-                          <input
-                            type="checkbox"
-                            name="arrayMeioCaptura[]"
-                            value="{{ $meio->CODIGO }}"
-                            class="meio-captura"
-                            data-checker="checkbox"
-                            data-group="meio-captura"
-                            data-codigo="{{ $meio->CODIGO }}"
-                            data-descricao="{{ $meio->DESCRICAO }}"
-                          >
-                        </div>
-                        <hr>
-                      @endforeach
-                    @endif
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" data-acao="cancelar" class="btn btn-danger" data-group="meio-captura" data-dismiss="modal">
-                    Cancelar
-                  </button>
-                  <button type="button" data-acao="confirmar" data-group="meio-captura" class="btn btn-success bt-confirmar-selecao" data-dismiss="modal">
                     Confirmar
                   </button>
                 </div>

@@ -16,9 +16,7 @@ use App\ClienteOperadoraModel;
 
 class VendasErpController extends Controller {
 
-  public function vendaserp(){
-    $meio_captura = MeioCaptura::all();
-    
+  public function vendaserp(){    
     $status_conciliacao = StatusConciliacaoModel::orderBy('STATUS_CONCILIACAO')
       ->get();
 
@@ -62,7 +60,6 @@ class VendasErpController extends Controller {
 
     return view('vendas.vendaserp')
       ->with([
-        'meio_captura' => $meio_captura,
         'status_conciliacao' => $status_conciliacao,
         'status_financeiro' => $status_financeiro,
         'empresas' => $empresas,
@@ -88,7 +85,6 @@ class VendasErpController extends Controller {
       'arrayAdquirentes' => 'vendas_erp.COD_OPERADORA',
       'bandeiras' => 'bandeira.CODIGO',
       'modalidades' => 'modalidade.CODIGO',
-      'arrayMeioCaptura' => 'meio_captura.CODIGO',
       'id_erp' => 'vendas_erp.CODIGO',
       'status_conciliacao' => 'status_conciliacao.CODIGO',
       'status_financeiro' => 'status_financeiro.CODIGO',

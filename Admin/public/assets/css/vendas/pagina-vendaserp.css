@@ -103,15 +103,6 @@
     margin-top: 16px;
 }
 
-#tudo_page .modal-filtro .modal-body input#ft,
-#tudo_page .modal-filtro .modal-body input#ftMeioCaptura {
-    margin-top: -6px;
-    padding-left: 7px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    min-height: 30px;
-}
-
 #tudo_page .modal-footer button {
     font-weight: bold;
 }
