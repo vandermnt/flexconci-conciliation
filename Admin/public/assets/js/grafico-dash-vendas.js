@@ -1,20 +1,29 @@
 function geraGraficoVendas(dados_grafico) {
-  array = [];
-  arrayNomeAdq = [];
+
+  const array = [];
+  const arrayNomeAdq = [];
+  let ticket_medio = null;
 
   dados_grafico.forEach((dado) => {
     if (dado.COD_PERIODO == periodo && dado.QUANTIDADE > 0) {
       var percentualFloat = parseFloat(dado.PERCENTUAL);
       percentualFloat = percentualFloat.toFixed(1)
       array.push(parseFloat(percentualFloat));
+      ticket_medio += parseFloat(dado.TICKET_MEDIO)
     }
   });
+
+  let ticket = ticket_medio / dados_grafico.length;
+  ticket = ticket.toFixed(0);
+  array.push(125);
 
   dados_grafico.forEach((dado) => {
     if (dado.COD_PERIODO == periodo) {
       arrayNomeAdq.push(dado.ADQUIRENTE);
     }
   });
+
+  arrayNomeAdq.push("Ticket Médio");
 
   cores = ["#119DA4", "#FFBC42", "#DA2C38", "#4CB944", "#FF8000"];
   coresGrafico = [];

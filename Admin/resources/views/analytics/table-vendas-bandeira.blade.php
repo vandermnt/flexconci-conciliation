@@ -30,6 +30,14 @@
           </tr>
           @endforeach
         </tbody>
+        <tfoot style="font-weight: bolder">
+          <td> Totais </td>
+          <td> {{ $total['total_qtde'] }} </td>
+          <td> R$ <?php echo number_format($total['total_bruto'], 2, ',', '.'); ?></td>
+          <td style="color: red"> R$ <?php echo number_format($total['total_taxa'], 2, ',', '.'); ?></td>
+          <td> R$ <?php echo number_format($total['total_liquido'], 2, ',', '.'); ?></td>
+          <td> R$ <?php echo number_format($total['total_ticket'], 2, ',', '.'); ?></td>
+        </tfoot>
       </table>
     </div>
   </body>
