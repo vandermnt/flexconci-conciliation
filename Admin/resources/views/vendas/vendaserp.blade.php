@@ -756,6 +756,8 @@
 @stop
 
 @section('footerScript')
+  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+  <script src="https://unpkg.com/xlsx/dist/shim.min.js"></script>
   <script defer src="{{ URL::asset('assets/js/lib/api.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/pagination.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/checker.js') }}"></script>
