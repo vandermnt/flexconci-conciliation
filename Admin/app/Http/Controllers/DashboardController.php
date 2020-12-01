@@ -68,7 +68,7 @@ class DashboardController extends Controller{
     ->get();
 
 
-    $hoje1 = date('Y/m/01');
+    $hoje1 = date('Y/m/d');
     $hoje2 = date('Y/m/30');
 
     $total_mes = DB::table('pagamentos_operadoras')
@@ -83,7 +83,7 @@ class DashboardController extends Controller{
     ->select('pagamentos_operadoras.*', 'pagamentos_operadoras.DATA_PAGAMENTO', 'lista_bancos.IMAGEM_LINK as IMAGEM', 'adquirentes.IMAGEM as IMAGEMAD')
     ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
     ->selectRaw('sum(VALOR_BRUTO) as val_bruto')
-    ->whereBetween('pagamentos_operadoras.DATA_PAGAMENTO', [$hoje1, $hoje2])
+    ->where('pagamentos_operadoras.DATA_PAGAMENTO', '=', $hoje1)
     ->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'));
 
     $dados_operadora = $dados_bancos->groupBy('pagamentos_operadoras.COD_ADQUIRENTE')
@@ -98,14 +98,6 @@ class DashboardController extends Controller{
       $total_banco += $bancos->val_liquido;
     }
 
-    // dd($dados_bancos);
-    //
-    // $total_operadora = 0;
-    // foreach($dados_operadora as $operadora){
-    //   $total_operadora += $operadora->val_liquido;
-    // }
-    // dd($dados_bancos);
-
     $data = date('Y-m-d');
 
     $dados_cliente = ClienteModel::where('CODIGO', '=', session('codigologin'))->first();
@@ -114,7 +106,6 @@ class DashboardController extends Controller{
     session()->put('grupo', 1);
 
     return view('analytics.analytics-index')
-
     ->with('qtde_projetos', $qtde_projetos)
     ->with('projetos', $projetos)
     ->with('dados_bancos', $dados_bancos)
@@ -144,7 +135,23 @@ class DashboardController extends Controller{
     ->where('COD_PERIODO', '=', $codigo_periodo)
     ->get();
 
-    $pdf = \PDF::loadView('analytics.table-vendas-operadora', compact('dados_vendas'));
+    $total = [
+      'total_qtde' => null,
+      'total_bruto' => null,
+      'total_taxa' => null,
+      'total_liquido' => null,
+      'total_ticket' => null
+    ];
+
+    foreach ($dados_vendas as $vendas) {
+      $total['total_qtde'] += $vendas->QUANTIDADE;
+      $total['total_bruto'] += $vendas->TOTAL_BRUTO;
+      $total['total_taxa'] += $vendas->TOTAL_TAXA;
+      $total['total_liquido'] += $vendas->TOTAL_LIQUIDO;
+      $total['total_ticket'] += $vendas->TICKET_MEDIO;
+    }
+
+    $pdf = \PDF::loadView('analytics.table-vendas-operadora', compact('dados_vendas', 'total'));
     return $pdf->setPaper('A4', 'landscape')
     ->download('dados-vendas-por-operadora.pdf');
   }
@@ -159,7 +166,23 @@ class DashboardController extends Controller{
     ->where('dashboard_vendas_bandeiras.QUANTIDADE', '>', 0)
     ->get();
 
-    $pdf = \PDF::loadView('analytics.table-vendas-bandeira', compact('dados_vendas'));
+    $total = [
+      'total_qtde' => null,
+      'total_bruto' => null,
+      'total_taxa' => null,
+      'total_liquido' => null,
+      'total_ticket' => null
+    ];
+
+    foreach ($dados_vendas as $vendas) {
+      $total['total_qtde'] += $vendas->QUANTIDADE;
+      $total['total_bruto'] += $vendas->TOTAL_BRUTO;
+      $total['total_taxa'] += $vendas->TOTAL_TAXA;
+      $total['total_liquido'] += $vendas->TOTAL_LIQUIDO;
+      $total['total_ticket'] += $vendas->TICKET_MEDIO;
+    }
+
+    $pdf = \PDF::loadView('analytics.table-vendas-bandeira', compact('dados_vendas', 'total'));
     return $pdf->setPaper('A4', 'landscape')
     ->download('dados-vendas-por-bandeira.pdf');
   }
@@ -174,7 +197,23 @@ class DashboardController extends Controller{
     ->where('dashboard_vendas_modalidade.QUANTIDADE', '>', 0)
     ->get();
 
-    $pdf = \PDF::loadView('analytics.table-vendas-modalidade', compact('dados_vendas'));
+    $total = [
+      'total_qtde' => null,
+      'total_bruto' => null,
+      'total_taxa' => null,
+      'total_liquido' => null,
+      'total_ticket' => null
+    ];
+
+    foreach ($dados_vendas as $vendas) {
+      $total['total_qtde'] += $vendas->QUANTIDADE;
+      $total['total_bruto'] += $vendas->TOTAL_BRUTO;
+      $total['total_taxa'] += $vendas->TOTAL_TAXA;
+      $total['total_liquido'] += $vendas->TOTAL_LIQUIDO;
+      $total['total_ticket'] += $vendas->TICKET_MEDIO;
+    }
+
+    $pdf = \PDF::loadView('analytics.table-vendas-modalidade', compact('dados_vendas', 'total'));
     return $pdf->setPaper('A4', 'landscape')
     ->download('dados-vendas-por-modalidade.pdf');
   }
@@ -189,7 +228,23 @@ class DashboardController extends Controller{
     ->where('dashboard_vendas_produtos.QUANTIDADE', '>', 0)
     ->get();
 
-    $pdf = \PDF::loadView('analytics.table-vendas-produto', compact('dados_vendas'));
+    $total = [
+      'total_qtde' => null,
+      'total_bruto' => null,
+      'total_taxa' => null,
+      'total_liquido' => null,
+      'total_ticket' => null
+    ];
+
+    foreach ($dados_vendas as $vendas) {
+      $total['total_qtde'] += $vendas->QUANTIDADE;
+      $total['total_bruto'] += $vendas->TOTAL_BRUTO;
+      $total['total_taxa'] += $vendas->TOTAL_TAXA;
+      $total['total_liquido'] += $vendas->TOTAL_LIQUIDO;
+      $total['total_ticket'] += $vendas->TICKET_MEDIO;
+    }
+
+    $pdf = \PDF::loadView('analytics.table-vendas-produto', compact('dados_vendas', 'total'));
     return $pdf->setPaper('A4', 'landscape')
     ->download('dados-vendas-por-produto.pdf');
   }

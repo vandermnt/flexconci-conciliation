@@ -58,8 +58,10 @@ document.addEventListener('DOMContentLoaded', function() {
       eventsList.push(
         {
           title: total_liq_prev_pagt,
+          description: teste.CODIGO,
           start: teste.DATA_PREVISTA_PAGTO,
-          color: '#2D93AD'
+          color: '#2D93AD',
+          publicId: teste.DATA_PREVISTA_PAGTO
         },
         // {
         //   title: 'Previsão',
@@ -71,11 +73,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
   });
-
-  // });
-
-
-
 
   var calendar = new FullCalendar.Calendar(calendarEl, {
     headerToolbar: {
@@ -225,11 +222,11 @@ Tooltip on bottom
                   <button class="btn btn-sm dropdown-toggle" style="background: #2D5275; color: white" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   </button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item"  onclick="trocaPeriodo(1, 'operadora')">Ontem</a>
-                    <a class="dropdown-item"  onclick="trocaPeriodo(2, 'operadora')">Últimos 7 dias</a>
-                    <a class="dropdown-item"  onclick="trocaPeriodo(3, 'operadora')">Últimos 15 dias</a>
-                    <a class="dropdown-item"  onclick="trocaPeriodo(4, 'operadora')">Últimos 30 dias</a>
-                    <a class="dropdown-item"  onclick="trocaPeriodo(5, 'operadora')">Mês Atual</a>
+                    <a class="dropdown-item"  onclick="trocaPeriodo(1, 'operadora', 'Ontem')">Ontem</a>
+                    <a class="dropdown-item"  onclick="trocaPeriodo(2, 'operadora', 'Últimos 7 dias')">Últimos 7 dias</a>
+                    <a class="dropdown-item"  onclick="trocaPeriodo(3, 'operadora', 'Últimos 15 dias')">Últimos 15 dias</a>
+                    <a class="dropdown-item"  onclick="trocaPeriodo(4, 'operadora', 'Últimos 30 dias')">Últimos 30 dias</a>
+                    <a class="dropdown-item"  onclick="trocaPeriodo(5, 'operadora', 'Mês Atual')">Mês Atual</a>
                   </div>
                 </div>
               </div>
@@ -290,11 +287,11 @@ Tooltip on bottom
                 Escolher Período <i class="mdi mdi-chevron-down"></i>
               </button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" onclick="trocaPeriodo(1, 'bandeira')">Ontem</a>
-                <a class="dropdown-item" onclick="trocaPeriodo(2, 'bandeira')">Últimos 7 dias</a>
-                <a class="dropdown-item" onclick="trocaPeriodo(3, 'bandeira')">Últimos 15 dias</a>
-                <a class="dropdown-item" onclick="trocaPeriodo(4, 'bandeira')">Últimos 30 dias</a>
-                <a class="dropdown-item" onclick="trocaPeriodo(5, 'bandeira')">Mês Atual</a>
+                <a class="dropdown-item"  onclick="trocaPeriodo(1, 'bandeira', 'Ontem')">Ontem</a>
+                <a class="dropdown-item"  onclick="trocaPeriodo(2, 'bandeira', 'Últimos 7 dias')">Últimos 7 dias</a>
+                <a class="dropdown-item"  onclick="trocaPeriodo(3, 'bandeira', 'Últimos 15 dias')">Últimos 15 dias</a>
+                <a class="dropdown-item"  onclick="trocaPeriodo(4, 'bandeira', 'Últimos 30 dias')">Últimos 30 dias</a>
+                <a class="dropdown-item"  onclick="trocaPeriodo(5, 'bandeira', 'Mês Atual')">Mês Atual</a>
               </div>
             </div>
           </div>
@@ -353,12 +350,12 @@ Tooltip on bottom
                 <div class="dropdown">
                   <button class="btn btn-sm dropdown-toggle" style="background: #2D5275; color: white" type="button" id="dropdownMenuButtonModalidade" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   </button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonModalidade">
-                    <a class="dropdown-item"  onclick="trocaPeriodo(1, 'modalidade')">Ontem</a>
-                    <a class="dropdown-item"  onclick="trocaPeriodo(2, 'modalidade')">Últimos 7 dias</a>
-                    <a class="dropdown-item"  onclick="trocaPeriodo(3, 'modalidade')">Últimos 15 dias</a>
-                    <a class="dropdown-item"  onclick="trocaPeriodo(4, 'modalidade')">Últimos 30 dias</a>
-                    <a class="dropdown-item"  onclick="trocaPeriodo(5, 'modalidade')">Mês Atual</a>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item"  onclick="trocaPeriodo(1, 'modalidade', 'Ontem')">Ontem</a>
+                    <a class="dropdown-item"  onclick="trocaPeriodo(2, 'modalidade', 'Últimos 7 dias')">Últimos 7 dias</a>
+                    <a class="dropdown-item"  onclick="trocaPeriodo(3, 'modalidade', 'Últimos 15 dias')">Últimos 15 dias</a>
+                    <a class="dropdown-item"  onclick="trocaPeriodo(4, 'modalidade', 'Últimos 30 dias')">Últimos 30 dias</a>
+                    <a class="dropdown-item"  onclick="trocaPeriodo(5, 'modalidade', 'Mês Atual')">Mês Atual</a>
                   </div>
                 </div>
               </div>
@@ -499,9 +496,9 @@ Tooltip on bottom
 
         <div class="wallet-bal-usd">
           <h4 class="wallet-title m-0">Recebimentos</h4>
-          <span id="label_data_recebimento" class="text-muted font-12"><b style="color: #6E6E6E"><?php echo date("01/m/Y") ?> à <?php echo date("30/m/Y") ?></b></span>
+          <span id="label_data_recebimento" class="text-muted font-12"><b style="color: #6E6E6E"><?php echo date("d/m/Y") ?></b></span>
           <h3 id="label_recebimentos" class="text-center" style="color: #257E4A">R$ <?php
-          echo number_format( $total_mes->val_liquido ,2,",",".");
+          // echo number_format( $total_mes->val_liquido ,2,",",".");
           ?> </h3>
         </div> <br>
         <!-- <p class="font-15 text-success text-center mb-4"> + $455.00 <span class="font-12 text-muted">(6.2% <i class="mdi mdi-trending-up text-success"></i>)</span></p> -->
@@ -776,7 +773,7 @@ function preCarregarGraficoVendas(){
       dados_grafico.push(dados_dash);
 
       var html = "<tr>";
-      html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' style='width: 45px'/>"+"</td>";
+      html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' style='width: 50px'/>"+"</td>";
       html += "<td style='color: #231F20'>"+dados_dash.QUANTIDADE+"</td>";
       html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_BRUTO)+"</td>";
       html += "<td style='color: red'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_TAXA)+"</td>";
@@ -788,7 +785,6 @@ function preCarregarGraficoVendas(){
       totalTx += parseFloat(dados_dash.TOTAL_TAXA);
       totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
       totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
-      console.log(dados_dash);
       html += "</tr>";
 
       $('#table_vendas_operadora').append(html);
@@ -832,7 +828,7 @@ function preCarregarGraficoVendasBandeira(){
 
       var html = "<tr>";
 
-      html += "<td>"+"<img src='"+`${dados_dash.IMAGEM || 'assets/images/iconCart.jpeg'}`+"' style='width: 28px'/>"+"</td>";
+      html += "<td>"+"<img src='"+`${dados_dash.IMAGEM || 'assets/images/iconCart.jpeg'}`+"' style='width: 30px'/>"+"</td>";
       html += "<td style='color: #231F20'>"+dados_dash.QUANTIDADE+"</td>";
       html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_BRUTO)+"</td>";
       html += "<td style='color: red'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_TAXA)+"</td>";
@@ -995,7 +991,7 @@ function preCarregarGraficoVendasModalidade(){
 
 }
 
-function trocaPeriodo(cod_periodo, tipo){
+function trocaPeriodo(cod_periodo, tipo, label_button){
   dados_grafico = [];
 
   dash_vendas = <?php echo $dados_dash_vendas ?>;
@@ -1017,7 +1013,7 @@ function trocaPeriodo(cod_periodo, tipo){
 
         var html = "<tr>";
 
-        html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' style='width: 45px'/>"+"</td>";
+        html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' style='width: 35px'/>"+"</td>";
         html += "<td style='color: #231F20'>"+dados_dash.QUANTIDADE+"</td>";
         html += "<td style='color: #231F20'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_BRUTO)+"</td>";
         html += "<td style='color: red'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_TAXA)+"</td>";
@@ -1046,13 +1042,14 @@ function trocaPeriodo(cod_periodo, tipo){
     htmlSubTotal += "<td style='color: red; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalTx)+"</td>";
     htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalLiq)+"</td>";
     // htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalTicket)+"</td>";
+    document.getElementById("dropdownMenuButton").innerHTML = label_button + ' ' + '<i class="mdi mdi-chevron-down"></i>';
 
     htmlSubTotal += "</tr>";
 
     $('#table_vendas_operadora').append(htmlSubTotal);
 
     if(dados_grafico.length == 0){
-      console.log("VAZIOOOOOOOOOOOO");
+      grafico_vendas_operadora.destroy();
     }else{
       grafico_vendas_operadora.destroy();
 
@@ -1105,6 +1102,7 @@ function trocaPeriodo(cod_periodo, tipo){
     htmlSubTotal += "<td style='color: red; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalTx)+"</td>";
     htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalLiq)+"</td>";
     // htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalTicket)+"</td>";
+    document.getElementById("dropdownMenuButtonBandeira").innerHTML = label_button + ' ' + '<i class="mdi mdi-chevron-down"></i>';
 
     htmlSubTotal += "</tr>";
 
@@ -1112,7 +1110,7 @@ function trocaPeriodo(cod_periodo, tipo){
 
 
     if(dados_grafico.length == 0){
-      console.log("VAZIOOOOOOOOOOOO");
+      grafico_vendas_bandeira.destroy();
     }else{
       grafico_vendas_bandeira.destroy();
 
@@ -1164,6 +1162,7 @@ function trocaPeriodo(cod_periodo, tipo){
     htmlSubTotal += "<td style='color: red; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalTx)+"</td>";
     htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalLiq)+"</td>";
     // htmlSubTotal += "<td style='color: #6E6E6E; font-weight: bold'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalTicket)+"</td>";
+    document.getElementById("dropdownMenuButtonModalidade").innerHTML = label_button + ' ' + '<i class="mdi mdi-chevron-down"></i>';
 
     htmlSubTotal += "</tr>";
 
@@ -1171,7 +1170,7 @@ function trocaPeriodo(cod_periodo, tipo){
 
 
     if(dados_grafico.length == 0){
-      console.log("VAZIOOOOOOOOOOOO");
+      grafico_vendas_modalidade.destroy();
     }else{
       grafico_vendas_modalidade.destroy();
 
@@ -1347,18 +1346,10 @@ function showTableOperadoraSelecionada(codigo){
 }
 
 function showRecebiveis(data, title){
-  // var arrayBancos = [];
-  //
-  // var pagamentos = <?php echo $dados_calendario_pagamento ?>;
-  //
-  // var bancos = <?php echo $dados_bancos ?>;
-  //
-  // var result = pagamentos.find(pagamento => pagamento.CODIGO == codigo);
-  // //
-  var data_v = new Date(data);
-  //
-  //
-  var data_venda = data_v.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+  console.log(title);
+  let data_v = new Date(data);
+
+  let data_venda = data_v.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
 
   document.getElementById("label_recebimentos").innerHTML = title;
   document.getElementById("label_data_recebimento").innerHTML = '<b style="color: #6E6E6E">' + data_venda + '</b>';
