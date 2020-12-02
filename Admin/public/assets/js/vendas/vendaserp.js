@@ -4,6 +4,7 @@ const paginacaoFiltros = new Pagination([], { from: 'cache' });
 let vendas = [];
 let totais = {};
 let tabelaFiltros = {};
+let vendasMarcadas = [];
 
 const observadores = {
     'vendas': () => {}
@@ -90,6 +91,17 @@ function confirmarCancelarSelecao(event) {
 
 function alternaVisibilidade(elemento) {
     elemento.classList.toggle('hidden');
+}
+
+function marcarVenda(trDOM) {
+    trDOM.classList.toggle('marcada');
+    const id = trDOM.dataset.id;
+
+    if(trDOM.classList.contains('marcada'))  {
+        vendasMarcadas.push(id);
+    } else {
+        vendasMarcadas  = vendasMarcadas.filter(vendaId => vendaId !== id);
+    }
 }
 
 function exportar() {
@@ -230,8 +242,11 @@ function renderizaTabela(vendas, totais) {
     vendas.forEach(venda => {
         const vendaFormatada = formatarDadosVenda(venda);
 
-        tabelaVendasHTML += `
-            <tr>
+        tabelaVendasHTML = `
+            <tr 
+                data-id="${venda.ID_ERP}"
+                class="${vendasMarcadas.includes(venda.ID_ERP) && 'marcada'}"
+            >
                 <td>
                     <a class="link-impressao">
                         <i class="fas fa-print"></i>
@@ -285,6 +300,17 @@ function renderizaTabela(vendas, totais) {
                 <td>${vendaFormatada.CAMPO3 || ''}</td>
             </tr>
         `;
+
+        tabelaVendas.innerHTML += tabelaVendasHTML;
+    });
+
+    const colunasDOM = document.querySelectorAll('#resultadosPesquisa tbody td');
+
+    Array.from(colunasDOM).forEach(colunaDOM => {
+        colunaDOM.addEventListener('click', event => {
+            const tr = event.target.closest('tr');
+            marcarVenda(tr);
+        });
     });
 
     Object.keys(totais).forEach(chave => {
@@ -292,8 +318,6 @@ function renderizaTabela(vendas, totais) {
         const colunaDOM = document.querySelector(`#resultadosPesquisa tfoot td[data-chave="${chave}"]`);
         colunaDOM.textContent = formatadorMoeda.format(valor);
     });
-
-    tabelaVendas.innerHTML = tabelaVendasHTML;
 }
 
 function renderizaItemPaginacao(itemPaginacao = {}, descricao = itemPaginacao.pagina) {
@@ -456,7 +480,6 @@ function executarFiltrosTabela() {
     exibeAlertaQuantidadeResultados(filtrados.length);
     renderizaTabela(paginacaoFiltros.getPageData(1), totais);
     renderizaPaginacao(paginacaoFiltros.paginate());
-    
 }
 
 function atualizaFiltrosTabela (event) {

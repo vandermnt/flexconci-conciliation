@@ -150,7 +150,7 @@
     max-height: 624px;
 }
 
-#tudo_page #resultadosPesquisa .table {
+#tudo_page #resultadosPesquisa table {
     white-space: nowrap;
     background: white;
     color: #2d5275;
@@ -171,11 +171,6 @@
     background: #2d5275;
 }
 
-#tudo_page #resultadosPesquisa table img {
-    width: 32px;
-    max-width: 100%;
-}
-
 #tudo_page #resultadosPesquisa .table-wrapper tfoot,
 #tudo_page #resultadosPesquisa .table-wrapper tfoot td {
   position: -webkit-sticky;
@@ -184,10 +179,28 @@
   background: #E6E6E6;
 }
 
-#tudo_page #resultadosPesquisa .table td.bolder {
+#tudo_page #resultadosPesquisa table td.bolder {
     font-weight: bolder;
     color: #6E6E6E;
     text-align: center;
+}
+
+#tudo_page #resultadosPesquisa table td {
+    background: transparent;
+    
+}
+
+#tudo_page #resultadosPesquisa table tr.marcada {
+    background-color: #a4a4a4;
+}
+
+#tudo_page #resultadosPesquisa table tr.marcada td {
+    color: white;
+}
+
+#tudo_page #resultadosPesquisa table img {
+    width: 32px;
+    max-width: 100%;
 }
 
 #tudo_page #resultadosPesquisa ul.pagination {
