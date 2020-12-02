@@ -492,6 +492,65 @@
 
 
     <div id="resultadosPesquisa" class="hidden">
+      <section class="row boxes">
+        <div class="col-sm-12 col-md-6 col-lg-3 d-flex">
+          <div class="card flex-grow-1">
+            <div class="card-body">
+              <p class="card-title text-dark font-weight-bold">QTD</p>
+              <div class="d-flex align-items-center justify-content-between">
+                <h4 id="js-qtd-box">0</h4>
+                <img
+                  src="assets/images/vendasoperadora/quantidade.png"
+                  alt="Quantidade Vendas ERP"
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-3 d-flex">
+          <div class="card flex-grow-1">
+            <div class="card-body">
+              <p class="card-title text-dark font-weight-bold">BRUTO</p>
+              <div class="d-flex align-items-center justify-content-between">
+                <h4 id="js-bruto-box">R$ 0,00</h4>
+                <img
+                src="assets/images/vendasoperadora/bruto.png"
+                alt="Valor Bruto"
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-3 d-flex">
+          <div class="card flex-grow-1">
+            <div class="card-body">
+              <p class="card-title text-dark font-weight-bold">TAXA</p>
+              <div class="d-flex align-items-center justify-content-between">
+                <h4 class="text-danger" id="js-taxa-box">R$ 0,00</h4>
+                <img
+                src="assets/images/vendasoperadora/percentagem.png"
+                alt="Valor Taxa"
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-3 d-flex">
+          <div class="card flex-grow-1">
+            <div class="card-body">
+              <p class="card-title text-dark font-weight-bold">VALOR LÍQUIDO DE VENDAS</p>
+              <div class="d-flex align-items-center justify-content-between">
+                <h4 id="js-liquido-box">R$ 0,00</h4>
+                <img
+                src="assets/images/vendasoperadora/liquido.png"
+                alt="Valor Líquido"
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <div class="acoes">
         <button id="js-exportar" class="btn font-weight-bold">
           <i class="fas fa-file-download"></i>

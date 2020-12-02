@@ -115,6 +115,11 @@
     margin-top: 24px;
 }
 
+#tudo_page #resultadosPesquisa .card-body img {
+    width: 40px;
+    max-width: 100%;
+}
+
 #tudo_page #resultadosPesquisa .acoes {
     display: flex;
     flex-direction: column;

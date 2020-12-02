@@ -43,7 +43,10 @@ function submeterFormularioPesquisa(event) {
     
     enviarFiltros({ url }).then(() => {
         limparFiltrosTabela();
-        window.scrollTo(0, 880);
+        atualizaBoxes();
+
+        const offset = document.querySelector('#resultadosPesquisa').offsetTop;
+        window.scrollTo(0, offset);
 
         vendas = [];
 
@@ -102,6 +105,24 @@ function marcarVenda(trDOM) {
     } else {
         vendasMarcadas  = vendasMarcadas.filter(vendaId => vendaId !== id);
     }
+}
+
+function atualizaBoxes() {
+    const formatadorNumerico = new Intl.NumberFormat('pt-br');
+    const formatadorMoeda = new Intl.NumberFormat('pt-br', {
+        style: 'currency',
+        currency: 'BRL'
+    });
+
+    const quantidadeDOM = document.querySelector('#js-qtd-box');
+    const brutoDOM = document.querySelector('#js-bruto-box');
+    const taxaDOM = document.querySelector('#js-taxa-box');
+    const liquidoDOM = document.querySelector('#js-liquido-box');
+
+    quantidadeDOM.textContent = formatadorNumerico.format(totais.quantidade);
+    brutoDOM.textContent = formatadorMoeda.format(totais.TOTAL_VENDAS || 0);
+    taxaDOM.textContent = formatadorMoeda.format(((totais.TOTAL_TAXA || 0) * -1));
+    liquidoDOM.textContent = formatadorMoeda.format(totais.LIQUIDEZ_TOTAL_PARCELA || 0);
 }
 
 function exportar() {
@@ -316,7 +337,9 @@ function renderizaTabela(vendas, totais) {
     Object.keys(totais).forEach(chave => {
         const valor = totais[chave];
         const colunaDOM = document.querySelector(`#resultadosPesquisa tfoot td[data-chave="${chave}"]`);
-        colunaDOM.textContent = formatadorMoeda.format(valor);
+        if(colunaDOM) {
+            colunaDOM.textContent = formatadorMoeda.format(valor);
+        }
     });
 }
 
@@ -445,7 +468,10 @@ async function enviarFiltros({ url, parametros }) {
         perPage: resposta.paginacao.per_page
     });
 
-    totais = resposta.totais;
+    totais = {
+        ...resposta.totais,
+        quantidade: resposta.paginacao.total
+    };
 
     if(resultadosPesquisa.classList.contains('hidden')) {
         alternaVisibilidade(resultadosPesquisa);
