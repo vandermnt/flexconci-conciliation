@@ -114,9 +114,9 @@ class VendasErpController extends Controller {
           'vendas_erp.CODIGO_AUTORIZACAO',
           'vendas_erp.TOTAL_VENDA',
           'vendas_erp.TAXA',
-          DB::raw('round(
-            (`vendas_erp`.`TOTAL_VENDA` * (`vendas_erp`.`TAXA` / 100)), 2
-          ) as `VALOR_TAXA`'),
+          DB::raw('
+            (`vendas_erp`.`TOTAL_VENDA` - `vendas_erp`.`VALOR_LIQUIDO_PARCELA`)
+              as `VALOR_TAXA`'),
           'vendas_erp.VALOR_LIQUIDO_PARCELA',
           'vendas_erp.PARCELA',
           'vendas_erp.TOTAL_PARCELAS',
