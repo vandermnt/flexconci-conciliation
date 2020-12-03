@@ -270,7 +270,7 @@ function renderizaTabela(vendas, totais) {
                 class="${vendasMarcadas.includes(venda.ID_ERP) && 'marcada'}"
             >
                 <td>
-                    <a class="link-impressao tooltip-hint" data-title="Visualizar">
+                    <a class="link-impressao tooltip-hint" data-title="Visualizar comprovante">
                         <i class="fas fa-print"></i>
                     </a>
                 </td>
