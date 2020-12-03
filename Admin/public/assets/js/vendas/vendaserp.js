@@ -3,6 +3,7 @@ const paginacao = new Pagination([], { from: 'api' });
 const paginacaoFiltros = new Pagination([], { from: 'cache' });
 let vendas = [];
 let totais = {};
+let totaisFiltros = {};
 let tabelaFiltros = {};
 let vendasMarcadas = [];
 
@@ -334,6 +335,10 @@ function renderizaTabela(vendas, totais) {
         });
     });
 
+    totais = {
+        ...totais,
+        TOTAL_TAXA: totais.TOTAL_TAXA * -1
+    }
     Object.keys(totais).forEach(chave => {
         const valor = totais[chave];
         const colunaDOM = document.querySelector(`#resultadosPesquisa tfoot td[data-chave="${chave}"]`);
@@ -424,7 +429,7 @@ function irParaPagina(event) {
     
     if(origem === 'cache') {
         paginacaoFiltros.goToPage(pagina);
-        renderizaTabela(paginacaoFiltros.getPageData(), totais);
+        renderizaTabela(paginacaoFiltros.getPageData(), totaisFiltros);
         renderizaPaginacao(paginacaoFiltros);
         return;
     }
@@ -441,7 +446,7 @@ function selecionaQuantidadePorPagina(event) {
     if(Object.keys(tabelaFiltros).length > 0) {
         paginacaoFiltros.setOptions({ perPage: Number(quantidadePorPagina) });
         paginacaoFiltros.goToPage(1).paginate();
-        renderizaTabela(paginacaoFiltros.getPageData(1), totais);
+        renderizaTabela(paginacaoFiltros.getPageData(1), totaisFiltros);
         renderizaPaginacao(paginacaoFiltros);
         paginacao.setData(vendas);
         return;
@@ -504,8 +509,25 @@ function executarFiltrosTabela() {
     paginacaoFiltros.setOptions({ total: filtrados.length });
     
     exibeAlertaQuantidadeResultados(filtrados.length);
-    renderizaTabela(paginacaoFiltros.getPageData(1), totais);
+    calcularTotaisFiltros(filtrados);
+    renderizaTabela(paginacaoFiltros.getPageData(1), totaisFiltros);
     renderizaPaginacao(paginacaoFiltros.paginate());
+}
+
+function calcularTotaisFiltros(vendas) {
+    const totalBruto = vendas.reduce((total, venda) => total + Number(venda.TOTAL_VENDA || 0), 0);
+    const totalTaxa = vendas.reduce((total, venda) => total + Number(venda.VALOR_TAXA || 0), 0);
+    const totalLiquido = vendas.reduce((total, venda) => total + Number(venda.VALOR_LIQUIDO_PARCELA || 0), 0);
+
+    const totais = {
+        TOTAL_VENDAS: totalBruto,
+        TOTAL_TAXA: totalTaxa,
+        LIQUIDEZ_TOTAL_PARCELA: totalLiquido
+    };
+
+    totaisFiltros = { ...totais };
+
+    return totais;
 }
 
 function atualizaFiltrosTabela (event) {
