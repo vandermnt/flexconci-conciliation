@@ -270,7 +270,7 @@ function renderizaTabela(vendas, totais) {
                 class="${vendasMarcadas.includes(venda.ID_ERP) && 'marcada'}"
             >
                 <td>
-                    <a class="link-impressao">
+                    <a class="link-impressao tooltip-hint" data-title="Visualizar">
                         <i class="fas fa-print"></i>
                     </a>
                 </td>
@@ -330,6 +330,10 @@ function renderizaTabela(vendas, totais) {
 
     Array.from(colunasDOM).forEach(colunaDOM => {
         colunaDOM.addEventListener('click', event => {
+            if(event.target.tagName.toLowerCase() !== 'td') {
+                return;
+            }
+
             const tr = event.target.closest('tr');
             marcarVenda(tr);
         });

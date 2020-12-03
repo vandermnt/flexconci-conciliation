@@ -103,6 +103,12 @@
     margin-top: 16px;
 }
 
+#tudo_page .modal-filtro .modal-body p,
+#tudo_page .modal-filtro .modal-body h6
+{
+    color: #6E6E6E;
+}
+
 #tudo_page .modal-footer button {
     font-weight: bold;
 }
@@ -216,7 +222,7 @@
     font-family: Poppins, sans-serif;
     color: #2d5275;
     text-decoration: none;
-    pointer-events: none;
+    cursor: pointer;
 }
 
 
@@ -242,6 +248,54 @@
 
 .deslizar-alerta {
     animation: deslizar 4s ease-in-out 0s 1 forwards;
+}
+
+.tooltip-hint {
+    text-decoration: none;
+    font: 500 12px Poppins, sans-serif;
+    position: relative;
+}
+
+.tooltip-hint::before {
+    content: attr(data-title);
+    min-width: 32px;
+    text-align: center;
+    color: white;
+    background-color: #2d5275;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 100%;
+    margin-top: 8px;
+    border-radius: 8px;
+    padding: 4px;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 8;
+}
+
+.tooltip-hint::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 100%;
+    border: 4px solid #2d5275;
+    border-color: transparent transparent #2d5275 transparent;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 4;
+}
+
+.tooltip-hint,
+.tooltip-hint::before,
+.tooltip-hint::after {
+    transition: all 0.4s ease;
+}
+
+.tooltip-hint:hover:before,
+.tooltip-hint:hover:after {
+    opacity: 1;
 }
 
 .hidden {
