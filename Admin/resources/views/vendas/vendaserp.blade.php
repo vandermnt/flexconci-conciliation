@@ -37,169 +37,203 @@
             <div class="card-body" >
               <div class="row">
                 <div class="col-sm-6">
-                  <div id="filtrodata">
-                    <div class="form-group">
-                      <div class="row">
-                        <div class="col-sm-6">
-                          <h6> Data Inicial: </h6>
-                          <input class="form-control" type="date" id="date_inicial" value="{{  date("Y-m-01")}}" name="data_inicial">
+                  <div class="d-flex align-items-center justify-content-space-between flex-wrap filtros-datas">
+                    <div class="form-group flex-grow-1">
+                      <label id="data_inicial">Data Inicial:</label>
+                      <input
+                        id="data_inicial"
+                        class="form-control"
+                        type="date"
+                        name="data_inicial"
+                        value="{{ date("Y-m-01") }}"
+                      >
+                    </div>
+                    <div class="form-group flex-grow-1">
+                      <label id="data_final">Data Final:</label>
+                      <input
+                        id="data_final"
+                        class="form-control"
+                        type="date"
+                        name="data_final"
+                        value="{{ date("Y-m-d") }}"
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="empresa">Empresa:</label>
+                <div class="input-group row mr-0">
+                  <div class="col-sm-6 d-flex align-items-center pr-0">
+                    <input
+                      id="empresa"
+                      class="form-control"
+                      type="text"
+                      name="empresa"
+                      data-group="empresa"
+                      data-checker="to-text-element"
+                    >
+                  </div>
+                  <div class="col-12 col-sm-4 col-md-2  d-flex align-items-center pr-0">
+                    <button
+                      type="button"
+                      class="btn btn-sm bt-filtro-selecao"
+                      data-toggle="modal"
+                      data-target="#empresaModal"
+                    >
+                      Selecionar
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="adquirente">Adquirente:</label>
+                <div class="input-group row mr-0">
+                  <div class="col-sm-6 d-flex align-items-center pr-0">
+                    <input
+                      id="adquirente"
+                      class="form-control"
+                      type="text"
+                      name="adquirente"
+                      data-group="adquirente"
+                      data-checker="to-text-element"
+                    >
+                  </div>
+                  <div class="col-12 col-sm-4 col-md-2  d-flex align-items-center pr-0">
+                    <button
+                      type="button"
+                      class="btn btn-sm bt-filtro-selecao"
+                      data-toggle="modal"
+                      data-target="#staticBackdropAdquirente"
+                    >
+                      Selecionar
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="bandeira">Bandeira:</label>
+                <div class="input-group row mr-0">
+                  <div class="col-sm-6 d-flex align-items-center pr-0">
+                    <input
+                      id="bandeira"
+                      class="form-control"
+                      type="text"
+                      data-group="bandeira"
+                      name="bandeira"
+                      data-checker="to-text-element"
+                    >
+                  </div>
+                  <div class="col-12 col-sm-4 col-md-2  d-flex align-items-center pr-0">
+                    <button
+                      type="button"
+                      class="btn btn-sm bt-filtro-selecao"
+                      data-toggle="modal"
+                      data-target="#bandeirasModal"
+                    >
+                      Selecionar
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="modalidade">Forma de Pagamento:</label>
+                <div class="input-group row mr-0">
+                  <div class="col-sm-6 d-flex align-items-center pr-0">
+                    <input
+                      id="modalidade"
+                      class="form-control"
+                      type="text"
+                      data-group="modalidade"
+                      name="modalidade"
+                      data-checker="to-text-element"
+                    >
+                  </div>
+                  <div class="col-12 col-sm-4 col-md-2  d-flex align-items-center pr-0">
+                    <button
+                      type="button"
+                      class="btn btn-sm bt-filtro-selecao"
+                      data-toggle="modal"
+                      data-target="#modalidadesModal"
+                    >
+                      Selecionar
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-6 filtro-id-erp">
+                  <div class="form-group">
+                    <label for="id_erp">ID. ERP:</label>
+                    <input
+                      id="id_erp"
+                      class="form-control"
+                      type="text"
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-8">
+                  <div class="form-group">
+                    <label for="status_conciliacao">Status Conciliação:</label>
+                    <div class="d-flex align-items-center flex-wrap">
+                      @foreach($status_conciliacao as $status)
+                        <div class="check-group">
+                          <input
+                            id="status-conciliacao-{{ $status->CODIGO }}"
+                            class="status-conciliacao-checkbox"
+                            type="checkbox"
+                            name="status_conciliacao[]"
+                            value="{{ $status->CODIGO }}"
+                            data-group="status-conciliacao"
+                            data-checker="checkbox"
+                            data-codigo="{{ $status->CODIGO }}"
+                            checked
+                          >
+                          <label
+                            for="status-conciliacao-{{ $status->CODIGO }}"
+                          >
+                            {{ $status->STATUS_CONCILIACAO }}
+                          </label>
                         </div>
-                        <div class="col-sm-6">
-                          <h6> Data Final: </h6>
-                          <input class="form-control" type="date" id="date_final" value="{{ date("Y-m-d") }}" name="data_final">
-                        </div>
-                      </div>
+                      @endforeach
                     </div>
                   </div>
                 </div>
               </div>
 
               <div class="row">
-                <div class="col-sm-6">
-                  <div>
-                    <div class="form-group">
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <h6> Empresa: </h6>
-                          <input
-                            data-group="empresa"
-                            data-checker="to-text-element"
-                            id="empresa" class="empresa form-control" name="empresa">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-sm-2">
-                  <button type="button" class="btn btn-sm bt-filtro-selecao" data-toggle="modal" data-target="#empresaModal">
-                    <b>Selecionar</b>
-                  </button>
-                </div>
-
-                <div class="col-sm-6">
-                  <div>
-                    <div class="form-group">
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <h6> Adquirente: </h6>
-                          <input
-                            data-group="adquirente"
-                            data-checker="to-text-element" 
-                            id="adquirente" class="adquirente form-control" name="adquirente">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-sm-2">
-                  <button type="button" class="btn btn-sm bt-filtro-selecao" data-toggle="modal" data-target="#staticBackdropAdquirente">
-                    <b>Selecionar</b>
-                  </button>
-                </div>
-
-                <div class="col-sm-6">
-                  <div>
-                    <div class="form-group">
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <h6> Bandeira: </h6>
-                          <input
-                            data-group="bandeira"
-                            data-checker="to-text-element" 
-                            id="bandeira" class="form-control" name="bandeira">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-sm-2">
-                  <button type="button" class="btn btn-sm bt-filtro-selecao" data-toggle="modal" data-target="#bandeirasModal">
-                    <b>Selecionar</b>
-                  </button>
-                </div>
-
-                <div class="col-sm-6">
-                  <div>
-                    <div class="form-group">
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <h6> Forma de Pagamento: </h6>
-                          <input
-                            data-group="modalidade"
-                            data-checker="to-text-element" 
-                            id="modalidade" class="form-control" name="modalidade">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-sm-2">
-                  <button type="button" class="btn btn-sm bt-filtro-selecao" data-toggle="modal" data-target="#modalidadesModal">
-                    <b>Selecionar</b>
-                  </button>
-                </div>
-
                 <div class="col-sm-8">
-                  <div id="grupo-filtros">
-                    <div class="form-group">
-                      <div class="row">
-                        <div class="col-sm-4">
-                          <h6> ID. ERP: </h6>
-                          <input id="id_erp" class="form-control" name="id_erp">
+                  <div class="form-group">
+                    <label for="status_conciliacao">Status Financeiro:</label>
+                    <div class="d-flex align-items-center flex-wrap">
+                      @foreach($status_financeiro as $status)
+                        <div class="check-group">
+                          <input
+                            id="status-financeiro-{{ $status->CODIGO }}"
+                            class="status-financeiro-checkbox"
+                            type="checkbox"
+                            name="status_financeiro[]"
+                            value="{{ $status->CODIGO }}"
+                            data-group="status-financeiro"
+                            data-checker="checkbox"
+                            data-codigo="{{ $status->CODIGO }}"
+                            checked
+                          >
+                          <label
+                            for="status-financeiro-{{ $status->CODIGO }}"
+                          >
+                            {{ $status->STATUS_FINANCEIRO }}
+                          </label>
                         </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <h6>Status Conciliação:</h6>
-                          <div class="row status-conciliacao">
-                            @foreach($status_conciliacao as $status)
-                              <div class="check-group">
-                                <input 
-                                  id="{{ "statusConc".$status->CODIGO }}"
-                                  type="checkbox"
-                                  value="{{ $status->CODIGO }}"
-                                  name="status_conciliacao[]"
-                                  class="status-conciliacao-checkbox"
-                                  data-group="status-conciliacao"
-                                  data-checker="checkbox"
-                                  data-codigo="{{ $status->CODIGO }}"
-                                  checked
-                                  required
-                                >
-                                <label for="{{ "statusConc".$status->CODIGO }}">{{ $status->STATUS_CONCILIACAO}}</label>
-                              </div>
-                            @endforeach
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <h6>Status Financeiro:</h6>
-                          <div class="row status-financeiro">
-                            @foreach($status_financeiro as $status)
-                              <div class="check-group">
-                                <input 
-                                  id="{{ "statusFinan".$status->CODIGO }}"
-                                  type="checkbox"
-                                  value="{{ $status->CODIGO }}"
-                                  name="status_financeiro[]"
-                                  class="status-financeiro-checkbox"
-                                  data-group="status-financeiro"
-                                  data-checker="checkbox"
-                                  data-codigo="{{ $status->CODIGO }}"
-                                  checked
-                                  required
-                                >
-                                <label for="{{ "statusFinan".$status->CODIGO }}">{{ $status->STATUS_FINANCEIRO }}</label>
-                              </div>
-                            @endforeach
-                          </div>
-                        </div>
-                      </div>
+                      @endforeach
                     </div>
                   </div>
                 </div>
