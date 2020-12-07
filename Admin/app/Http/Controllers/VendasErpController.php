@@ -25,6 +25,7 @@ class VendasErpController extends Controller {
     
     $empresas = GruposClientesModel::select(['CODIGO', 'NOME_EMPRESA', 'CNPJ'])
       ->where('COD_CLIENTE', session('codigologin'))
+      ->orderBy('NOME_EMPRESA')
       ->get();
     
     $adquirentes = ClienteOperadoraModel::select([
@@ -35,6 +36,7 @@ class VendasErpController extends Controller {
       ->join('adquirentes', 'COD_ADQUIRENTE', 'adquirentes.CODIGO')
       ->where('COD_CLIENTE', '=', session('codigologin'))
       ->distinct()
+      ->orderBy('ADQUIRENTE')
       ->get();
     
     $bandeiras = VendasErpModel::select([
@@ -46,6 +48,7 @@ class VendasErpController extends Controller {
       ->where('COD_CLIENTE', session('codigologin'))
       ->whereNotNull('bandeira.BANDEIRA')
       ->distinct()
+      ->orderBy('BANDEIRA')
       ->get();
     
     $modalidades = VendasErpModel::select([
@@ -56,6 +59,7 @@ class VendasErpController extends Controller {
       ->where('COD_CLIENTE', session('codigologin'))
       ->whereNotNull('modalidade.DESCRICAO')
       ->distinct()
+      ->orderBy('DESCRICAO')
       ->get();
 
     return view('vendas.vendaserp')
