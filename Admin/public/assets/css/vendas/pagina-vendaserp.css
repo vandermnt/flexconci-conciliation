@@ -26,6 +26,10 @@
     display: block;
 }
 
+#tudo_page #form-pesquisa .form-group {
+    margin-bottom: 8px;
+}
+
 #tudo_page #form-pesquisa .filtros-datas .form-group + .form-group {
     margin-left: 24px;
 }
@@ -34,7 +38,7 @@
     color: #303e67;
     font-size: 0.845rem;
     font-weight: 500;
-    margin: 10px 0;
+    margin-bottom: 8px;
     line-height: 1.2;
 }
 
@@ -90,13 +94,15 @@
     border-color: #2d5275;
 }
 
-#tudo_page .modal-dialog-lg {
-    width: 400px  !important;
-}
-
 #tudo_page .modal-filtro .modal-dialog {
     width: 270px;
     max-width: 100%;
+    margin: 0 auto;
+    margin-top: 24px;
+}
+
+#tudo_page .modal-dialog-lg {
+    width: 400px  !important;
 }
 
 #tudo_page .modal-filtro .modal-header {
@@ -108,10 +114,27 @@
     color: white;
 }
 
-#tudo_page .modal-filtro .modal-body > .row + .row {
+#tudo_page .modal-body .form-group .form-control {
+    border: 1px solid #e8ebf3;
+}
+
+#tudo_page .modal-body .form-group h6,
+#tudo_page .modal-body .modal-checkboxes .row:first-of-type p {
+    font-weight: bold;
+}
+
+#tudo_page .modal-filtro .modal-body .modal-checkboxes {
     max-height: 368px;
     overflow-y: auto;
     margin-top: 16px;
+}
+
+#tudo_page .modal-filtro .modal-body .modal-checkboxes .row:first-of-type {
+    font-weight: bold;
+}
+
+#tudo_page .modal-filtro .modal-body .modal-checkboxes .row {
+    margin: 0;
 }
 
 #tudo_page .modal-filtro .modal-body p,
