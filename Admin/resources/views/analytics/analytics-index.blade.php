@@ -370,8 +370,7 @@ body {
           <div class="wallet-bal-usd">
             <h4 class="wallet-title m-0">Recebimentos</h4>
             <span id="label_data_recebimento" class="text-muted font-12"><b><?php echo date("d/m/Y") ?></b></span>
-            <h3 id="label_recebimentos" class="text-center">R$ <?php
-            ?> </h3>
+            <h3 id="label_recebimentos" class="text-center">R$ <?php echo number_format($total_mes->val_liquido ,2,",",".");  ?> </h3>
           </div> <br>
           <!-- <p class="font-15 text-success text-center mb-4"> + $455.00 <span class="font-12 text-muted">(6.2% <i class="mdi mdi-trending-up text-success"></i>)</span></p> -->
           <ul class="nav nav-pills nav-justified" role="tablist">
@@ -453,7 +452,7 @@ body {
                 @foreach($dados_operadora as $operadora)
                 <li class="list-group-item align-items-center d-flex justify-content-between">
                   <div class="col-12 row">
-                    <img src="{{ $bancos->IMAGEMAD}}" class="align-self-center" alt="...">
+                    <img src="{{ $bancos->IMAGEMAD}}" class="align-self-center" style="width: 60px">
                     <div class="col-7 media-body align-self-center">
                       <!-- <div class="coin-bal row"> -->
                       <h4 class="m-0" style="text-align: right; font-size: 14px; color: #257E4A">R$ <?php
@@ -561,7 +560,7 @@ function preCarregarGraficoVendas(){
 
   const dash_vendas = <?php echo $dados_dash_vendas ?>;
   dash_vendas.forEach((dados_dash) => {
-    if(dados_dash.COD_PERIODO == 2){
+    if(dados_dash.COD_PERIODO == 2 && dados_dash.QUANTIDADE > 0){
       dados_grafico.push(dados_dash);
 
       let html = "<tr>";

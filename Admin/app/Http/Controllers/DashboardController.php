@@ -71,25 +71,25 @@ class DashboardController extends Controller{
     $hoje1 = date('Y/m/d');
     $hoje2 = date('Y/m/30');
 
-    $total_mes = DB::table('pagamentos_operadoras')
+    $total_mes = DB::table('vendas')
     ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
-    ->whereBetween('pagamentos_operadoras.DATA_PAGAMENTO', [$hoje1, $hoje2])
-    ->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'))
+    ->where('vendas.DATA_PREVISTA_PAGTO', '=', $hoje1)
+    ->where('vendas.COD_CLIENTE', '=', session('codigologin'))
     ->first();
 
-    $dados_bancos = DB::table('pagamentos_operadoras')
-    ->leftJoin('lista_bancos', 'pagamentos_operadoras.COD_BANCO', 'lista_bancos.CODIGO')
-    ->leftJoin('adquirentes', 'pagamentos_operadoras.COD_ADQUIRENTE', 'adquirentes.CODIGO')
-    ->select('pagamentos_operadoras.*', 'pagamentos_operadoras.DATA_PAGAMENTO', 'lista_bancos.IMAGEM_LINK as IMAGEM', 'adquirentes.IMAGEM as IMAGEMAD')
+    $dados_bancos = DB::table('vendas')
+    ->leftJoin('lista_bancos', 'vendas.BANCO', 'lista_bancos.CODIGO')
+    ->leftJoin('adquirentes', 'vendas.ADQID', 'adquirentes.CODIGO')
+    ->select('vendas.*', 'vendas.DATA_PAGAMENTO', 'lista_bancos.IMAGEM_LINK as IMAGEM', 'adquirentes.IMAGEM as IMAGEMAD')
     ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
     ->selectRaw('sum(VALOR_BRUTO) as val_bruto')
-    ->where('pagamentos_operadoras.DATA_PAGAMENTO', '=', $hoje1)
-    ->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'));
+    ->where('vendas.DATA_PREVISTA_PAGTO', '=', $hoje1)
+    ->where('vendas.COD_CLIENTE', '=', session('codigologin'));
 
-    $dados_operadora = $dados_bancos->groupBy('pagamentos_operadoras.COD_ADQUIRENTE')
+    $dados_operadora = $dados_bancos->groupBy('vendas.ADQID')
     ->get();
 
-    $dados_bancos = $dados_bancos->groupBy('pagamentos_operadoras.COD_BANCO')
+    $dados_bancos = $dados_bancos->groupBy('vendas.BANCO')
     ->get();
     // dd($dados_bancos);
 

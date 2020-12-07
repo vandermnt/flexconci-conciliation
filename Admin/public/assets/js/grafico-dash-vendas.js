@@ -21,7 +21,6 @@ function geraGraficoVendas(dados_grafico) {
   });
 
 
-
   cores = ["#119DA4", "#FFBC42", "#DA2C38", "#4CB944", "#FF8000"];
   coresGrafico = [];
 
@@ -82,10 +81,13 @@ function geraGraficoVendas(dados_grafico) {
 
           dados_grafico.forEach((dado) => {
             if (dado.COD_PERIODO == periodo && dado.QUANTIDADE > 0 && dado.ADQUIRENTE == val ) {
-              ticket_medio = parseFloat(dado.TICKET_MEDIO)
+              ticket_medio += parseFloat(dado.TICKET_MEDIO)
             }
           });
-          t = ticket_medio.toFixed(2);
+
+          ticket_medio_correto = ticket_medio / dados_grafico.length
+
+          t = ticket_medio_correto.toFixed(2);
 
           return `${val}% | Ticket Médio: R$ ${t} `;
 
@@ -184,10 +186,13 @@ function geraGraficoVendasBandeira(dados_grafico) {
 
           dados_grafico.forEach((dado) => {
             if (dado.COD_PERIODO == periodo && dado.QUANTIDADE > 0 && dado.BANDEIRA == val ) {
-              let ticket_medio = parseFloat(dado.TICKET_MEDIO)
+               ticket_medio += parseFloat(dado.TICKET_MEDIO)
             }
           });
-          t = ticket_medio.toFixed(2);
+
+          ticket_medio_correto = ticket_medio / dados_grafico.length
+
+          t = ticket_medio_correto.toFixed(2);
 
           return `${val}% | Ticket Médio: R$ ${t} `;
 
@@ -283,11 +288,12 @@ function geraGraficoVendasProduto(dados_grafico) {
 
             dados_grafico.forEach((dado) => {
               if (dado.COD_PERIODO == periodo && dado.QUANTIDADE > 0 && dado.PRODUTO_WEB == val ) {
-                let ticket_medio = parseFloat(dado.TICKET_MEDIO)
+                 ticket_medio += parseFloat(dado.TICKET_MEDIO)
               }
             });
-            t = ticket_medio.toFixed(2);
+            ticket_medio_correto = ticket_medio / dados_grafico.length
 
+            t = ticket_medio_correto.toFixed(2);
             return `${val}% | Ticket Médio: R$ ${t} `;
 
           }
@@ -386,11 +392,12 @@ function geraGraficoVendasProduto(dados_grafico) {
 
             dados_grafico.forEach((dado) => {
               if (dado.COD_PERIODO == periodo && dado.QUANTIDADE > 0 && dado.DESCRICAO == val ) {
-                let ticket_medio = parseFloat(dado.TICKET_MEDIO)
+                 ticket_medio += parseFloat(dado.TICKET_MEDIO)
               }
             });
-            t = ticket_medio.toFixed(2);
+            ticket_medio_correto = ticket_medio / dados_grafico.length
 
+            t = ticket_medio_correto.toFixed(2);
             return `${val}% | Ticket Médio: R$ ${t} `;
 
           }
