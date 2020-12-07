@@ -195,7 +195,6 @@
 #tudo_page #resultadosPesquisa .table-wrapper {
     position: relative;
     overflow: auto;
-    height: 624px;
     max-height: 624px;
 }
 
@@ -203,6 +202,11 @@
     white-space: nowrap;
     background: white;
     color: #2d5275;
+}
+
+#tudo_page #resultadosPesquisa table thead {
+    position: relative;
+    z-index: 9;
 }
 
 #tudo_page #resultadosPesquisa th input {
