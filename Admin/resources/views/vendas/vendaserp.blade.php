@@ -281,7 +281,12 @@
             <main class="modal-body">
               <div class="form-group">
                 <h6>Pesquisar</h6>
-                <input type="text" class="form-control">
+                <input
+                  type="text"
+                  data-filter-group="empresa"
+                  data-filter-fields="cnpj,empresa"
+                  class="form-control"
+                >
               </div>
               <div class="modal-checkboxes">
                 <div class="row">
@@ -301,7 +306,11 @@
                 </div>
                 @isset($empresas)
                   @foreach($empresas as $empresa)
-                    <div class="row">
+                    <div class="row"
+                      data-filter-item-container="empresa"
+                      data-filter-empresa="{{ $empresa->NOME_EMPRESA }}"
+                      data-filter-cnpj="{{ $empresa->CNPJ }}" 
+                    >
                       <div class="col-sm-6 pl-0">
                         <p>{{ $empresa->NOME_EMPRESA }}</p>
                       </div>
@@ -375,7 +384,12 @@
             <main class="modal-body">
               <div class="form-group">
                 <h6>Pesquisar</h6>
-                <input type="text" class="form-control">
+                <input
+                  type="text"
+                  class="form-control"
+                  data-filter-group="adquirente"
+                  data-filter-fields="adquirente"
+                >
               </div>
               <div class="modal-checkboxes">
                 <div class="row">
@@ -392,7 +406,11 @@
                 </div>
                 @isset($adquirentes)
                   @foreach($adquirentes as $adquirente)
-                    <div class="row">
+                    <div
+                      class="row"
+                      data-filter-item-container="adquirente"
+                      data-filter-adquirente="{{ $adquirente->ADQUIRENTE }}"
+                    >
                       <div class="col-sm-10 pl-0">
                         <p>{{ $adquirente->ADQUIRENTE }}</p>
                       </div>
@@ -463,7 +481,12 @@
             <main class="modal-body">
               <div class="form-group">
                 <h6>Pesquisar</h6>
-                <input type="text" class="form-control">
+                <input
+                  type="text"
+                  class="form-control"
+                  data-filter-group="bandeira"
+                  data-filter-fields="bandeira"
+                >
               </div>
               <div class="modal-checkboxes">
                 <div class="row">
@@ -480,7 +503,11 @@
                 </div>
                 @isset($bandeiras)
                   @foreach($bandeiras as $bandeira)
-                    <div class="row">
+                    <div
+                      class="row"
+                      data-filter-item-container="bandeira"
+                      data-filter-bandeira="{{ $bandeira->BANDEIRA }}"
+                    >
                       <div class="col-sm-10 pl-0">
                         <p>{{ $bandeira->BANDEIRA }}</p>
                       </div>
@@ -551,7 +578,12 @@
             <main class="modal-body">
               <div class="form-group">
                 <h6>Pesquisar</h6>
-                <input type="text" class="form-control">
+                <input
+                  type="text"
+                  class="form-control"
+                  data-filter-group="modalidade"
+                  data-filter-fields="modalidade"
+                >
               </div>
               <div class="modal-checkboxes">
                 <div class="row">
@@ -568,7 +600,11 @@
                 </div>
                 @isset($modalidades)
                   @foreach($modalidades as $modalidade)
-                    <div class="row">
+                    <div
+                      class="row"
+                      data-filter-item-container="modalidade"
+                      data-filter-modalidade="{{ $modalidade->DESCRICAO }}"
+                    >
                       <div class="col-sm-10 pl-0">
                         <p>{{ $modalidade->DESCRICAO }}</p>
                       </div>
@@ -940,6 +976,7 @@
   <script src="https://unpkg.com/xlsx/dist/shim.min.js"></script>
   <script defer src="{{ URL::asset('assets/js/lib/api.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/pagination.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/modal-filters.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/checker.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/vendas/vendaserp.js') }}"></script>
 

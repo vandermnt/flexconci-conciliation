@@ -1,4 +1,5 @@
 const checker = new Checker();
+const modalFilter = new ModalFilter();
 const paginacao = new Pagination([], { from: 'api' });
 const paginacaoFiltros = new Pagination([], { from: 'cache' });
 let vendas = [];
@@ -18,6 +19,11 @@ function inicializar() {
     checker.addGroup('modalidade');
     checker.addGroup('status-conciliacao');
     checker.addGroup('status-financeiro');
+
+    modalFilter.addGroup('empresa');
+    modalFilter.addGroup('adquirente');
+    modalFilter.addGroup('bandeira');
+    modalFilter.addGroup('modalidade');
 
     const formPesquisa = document.querySelector('form#form-pesquisa');
     const btPesquisar = document.querySelector('#bt-pesquisar');
