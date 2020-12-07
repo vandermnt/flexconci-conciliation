@@ -114,6 +114,10 @@
     color: white;
 }
 
+#tudo_page .modal-filtro .modal-header button > * {
+    pointer-events: none;
+}
+
 #tudo_page .modal-body .form-group .form-control {
     border: 1px solid #e8ebf3;
 }

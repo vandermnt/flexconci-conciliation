@@ -270,6 +270,8 @@
               <button
                 class="close"
                 type="button"
+                data-acao="cancelar"
+                data-group="empresa"
                 data-dismiss="modal"
                 aria-label="Close"
               >
@@ -362,6 +364,8 @@
               <button
                 class="close"
                 type="button"
+                data-acao="cancelar"
+                data-group="adquirente"
                 data-dismiss="modal"
                 aria-label="Close"
               >
@@ -448,6 +452,8 @@
               <button
                 class="close"
                 type="button"
+                data-acao="cancelar"
+                data-group="bandeira"
                 data-dismiss="modal"
                 aria-label="Close"
               >
@@ -534,6 +540,8 @@
               <button
                 class="close"
                 type="button"
+                data-acao="cancelar"
+                data-group="modalidade"
                 data-dismiss="modal"
                 aria-label="Close"
               >

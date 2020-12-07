@@ -24,7 +24,7 @@ function inicializar() {
     const btLimparForm = document.querySelector('.bt-limpar-form');
     const btExportar = document.querySelector('#js-exportar');
     const selectPorPagina = document.querySelector('.form-control[name="porPagina"]');
-    const btAcoesModal = document.querySelectorAll('.modal-footer button[data-acao]');
+    const btAcoesModal = document.querySelectorAll('.modal button[data-acao]');
     const tbFiltrosDOM = document.querySelectorAll('#resultadosPesquisa th input');
 
     formPesquisa.addEventListener('submit', submeterFormularioPesquisa);
