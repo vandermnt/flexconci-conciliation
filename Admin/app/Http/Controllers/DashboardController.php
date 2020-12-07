@@ -71,25 +71,25 @@ class DashboardController extends Controller{
     $hoje1 = date('Y/m/d');
     $hoje2 = date('Y/m/30');
 
-    $total_mes = DB::table('pagamentos_operadoras')
+    $total_mes = DB::table('vendas')
     ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
-    ->whereBetween('pagamentos_operadoras.DATA_PAGAMENTO', [$hoje1, $hoje2])
-    ->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'))
+    ->where('vendas.DATA_PREVISTA_PAGTO', '=', $hoje1)
+    ->where('vendas.COD_CLIENTE', '=', session('codigologin'))
     ->first();
 
-    $dados_bancos = DB::table('pagamentos_operadoras')
-    ->leftJoin('lista_bancos', 'pagamentos_operadoras.COD_BANCO', 'lista_bancos.CODIGO')
-    ->leftJoin('adquirentes', 'pagamentos_operadoras.COD_ADQUIRENTE', 'adquirentes.CODIGO')
-    ->select('pagamentos_operadoras.*', 'pagamentos_operadoras.DATA_PAGAMENTO', 'lista_bancos.IMAGEM_LINK as IMAGEM', 'adquirentes.IMAGEM as IMAGEMAD')
+    $dados_bancos = DB::table('vendas')
+    ->leftJoin('lista_bancos', 'vendas.BANCO', 'lista_bancos.CODIGO')
+    ->leftJoin('adquirentes', 'vendas.ADQID', 'adquirentes.CODIGO')
+    ->select('vendas.*', 'vendas.DATA_PAGAMENTO', 'lista_bancos.IMAGEM_LINK as IMAGEM', 'adquirentes.IMAGEM as IMAGEMAD')
     ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
     ->selectRaw('sum(VALOR_BRUTO) as val_bruto')
-    ->where('pagamentos_operadoras.DATA_PAGAMENTO', '=', $hoje1)
-    ->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'));
+    ->where('vendas.DATA_PREVISTA_PAGTO', '=', $hoje1)
+    ->where('vendas.COD_CLIENTE', '=', session('codigologin'));
 
-    $dados_operadora = $dados_bancos->groupBy('pagamentos_operadoras.COD_ADQUIRENTE')
+    $dados_operadora = $dados_bancos->groupBy('vendas.ADQID')
     ->get();
 
-    $dados_bancos = $dados_bancos->groupBy('pagamentos_operadoras.COD_BANCO')
+    $dados_bancos = $dados_bancos->groupBy('vendas.BANCO')
     ->get();
     // dd($dados_bancos);
 
@@ -256,6 +256,7 @@ class DashboardController extends Controller{
     ->select('pagamentos_operadoras.*', 'pagamentos_operadoras.DATA_PAGAMENTO', 'lista_bancos.IMAGEM_LINK as IMAGEM')
     ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
     ->selectRaw('sum(VALOR_BRUTO) as val_bruto')
+    ->selectRaw('sum(VALOR_TAXA) as val_taxa')
     ->where('pagamentos_operadoras.DATA_PAGAMENTO', $data)
     ->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'))
     ->groupBy('pagamentos_operadoras.COD_BANCO')
@@ -266,18 +267,38 @@ class DashboardController extends Controller{
     ->select('pagamentos_operadoras.*', 'pagamentos_operadoras.DATA_PAGAMENTO', 'adquirentes.IMAGEM as IMAGEMAD')
     ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
     ->selectRaw('sum(VALOR_BRUTO) as val_bruto')
+    ->selectRaw('sum(VALOR_TAXA) as val_taxa')
     ->where('pagamentos_operadoras.DATA_PAGAMENTO', $data)
     ->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'))
     ->groupBy('pagamentos_operadoras.COD_ADQUIRENTE')
     ->get();
 
-    // echo json_encode($operadoras);
-    // $dados =
-
-    return json_encode([$bancos, $operadoras]);;
-
-
+    return json_encode([$bancos, $operadoras]);
   }
 
+  public function detalheCalendarioPrevisaoPagamento($data){
+    $bancos = DB::table('vendas')
+    ->leftJoin('lista_bancos', 'vendas.BANCO', 'lista_bancos.CODIGO')
+    ->select('vendas.CODIGO', 'vendas.DATA_PREVISTA_PAGTO', 'lista_bancos.IMAGEM_LINK as IMAGEM', 'vendas.CONTA', 'vendas.AGENCIA')
+    ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
+    ->selectRaw('sum(VALOR_BRUTO) as val_bruto')
+    ->selectRaw('sum(VALOR_TAXA) as val_taxa')
+    ->where('vendas.DATA_PREVISTA_PAGTO', $data)
+    ->where('vendas.COD_CLIENTE', '=', session('codigologin'))
+    ->groupBy('vendas.BANCO')
+    ->get();
 
+    $operadoras = DB::table('vendas')
+    ->leftJoin('adquirentes', 'vendas.ADQID', 'adquirentes.CODIGO')
+    ->select('vendas.CODIGO','vendas.DATA_PREVISTA_PAGTO', 'adquirentes.IMAGEM as IMAGEMAD', 'vendas.CONTA', 'vendas.AGENCIA')
+    ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
+    ->selectRaw('sum(VALOR_TAXA) as val_taxa')
+    ->selectRaw('sum(VALOR_BRUTO) as val_bruto')
+    ->where('vendas.DATA_PREVISTA_PAGTO', $data)
+    ->where('vendas.COD_CLIENTE', '=', session('codigologin'))
+    ->groupBy('vendas.ADQID')
+    ->get();
+
+    return json_encode([$bancos, $operadoras]);
+  }
 }

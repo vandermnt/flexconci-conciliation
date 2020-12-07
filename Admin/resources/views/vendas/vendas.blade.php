@@ -742,6 +742,10 @@ $(function(){
     var index = $(this).parent().index();
     var nth = "#jsgrid-table td:nth-child("+(index+1).toString()+")";
     var valor = $(this).val().toUpperCase();
+    console.log(index);
+    console.log(nth);
+    console.log(valor);
+
 
     $("#jsgrid-table tbody tr").show();
     $(nth).each(function(){
@@ -894,7 +898,7 @@ $('#submitFormLogin').click(function(){
           if(response[0].data[i].IMAGEMBAD == null){
             html +="<td>"+"<img src='assets/images/iconCart.jpeg' style='width: 30px'/>"+"</td>";
           }else{
-            html +="<td>"+"<img class='imagebandeira "+ response[0].data[i].BANDEIRA +"' src='"+response[0].data[i].IMAGEMBAD+"' style='width: 30px'/>"+  "</td>";
+            html +="<td>" + "<img class='imagebandeira "+ response[0].data[i].BANDEIRA +"' src='"+response[0].data[i].IMAGEMBAD+"' alt='"+response[0].data[i].BANDEIRA+"' style='width: 30px'/>"+  "</td>";
           }
           html +="<td>"+response[0].data[i].DESCRICAO+"</td>";
           html +="<td>"+response[0].data[i].NSU+"</td>";
