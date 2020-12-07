@@ -1,0 +1,139 @@
+.table-responsive table th {
+  color: #231F20;
+}
+
+.btn btn-sm dropdown-toggle {
+  background: #2D5275 !important;
+  color: white;
+}
+
+.tableDadosDash {
+  font-size: 12px
+}
+
+.img-export {
+  width: 45px !important;
+}
+
+.div-bt-export {
+  text-align: right;
+}
+
+#table_vendas_operadora tr td img {
+  width: 50px;
+}
+
+#table_vendas_operadora tr td {
+  color: #231F20;
+}
+
+#table_vendas_operadora tfoot .subtotal-dash td {
+  color:   #6E6E6E;
+  font-weight: bold;
+}
+
+#table_vendas_operadora tfoot .subtotal-dash td:nth-child(4) {
+  color: red;
+}
+
+#table_vendas_operadora tbody td:nth-child(4) {
+  color: red;
+}
+
+#table_vendas_bandeira tr td img {
+  width: 30px;
+}
+
+#table_vendas_bandeira tr td {
+  color: #231F20;
+}
+
+#table_vendas_bandeira tbody td:nth-child(4) {
+  color: red;
+}
+
+#table_vendas_bandeira tfoot .subtotal-dash td {
+  color:   #6E6E6E;
+  font-weight: bold;
+}
+
+#table_vendas_bandeira tfoot .subtotal-dash td:nth-child(4) {
+  color: red;
+}
+
+#table_vendas_produto tfoot .subtotal-dash td {
+  color:   #6E6E6E;
+  font-weight: bold;
+}
+
+#table_vendas_produto tfoot .subtotal-dash td:nth-child(4) {
+  color: red;
+}
+
+#table_vendas_modalidade tfoot .subtotal-dash td {
+  color:   #6E6E6E;
+  font-weight: bold;
+}
+
+#table_vendas_modalidade tfoot .subtotal-dash td:nth-child(4) {
+  color: red;
+}
+
+#label_data_recebimento {
+  color: #6E6E6E;
+}
+
+#label_recebimentos {
+  color: #257E4A;
+}
+
+#ul_bancos img{
+  width: 45px;
+  margin-left: 60px;
+}
+
+#ul_operadora img {
+  width: 70px;
+}
+
+#dashboard_styles img {
+  width: 120px;
+}
+
+#dashboard_styles h6 {
+  color: #6E6E6E;
+}
+
+.cards-selecionados ul{
+  align-items: center;
+  justify-content: center;
+}
+
+.table-selecionado{
+  font-size: 14px;
+}
+
+.table-responsive {
+   max-height: 150px !important;
+}
+
+.legenda-calendario {
+   align-items: center !important;
+   margin-left: 5px !important;
+}
+
+.circulo {
+  margin-right: 5px; background: #257E4A; text-align: right"
+}
+
+.previsto {
+  margin-left: 30px; margin-right: 5px; background: #2D93AD;
+}
+
+#dropdownMenuButton,
+#dropdownMenuButtonBandeira,
+#dropdownMenuButtonModalidade,
+#dropdownMenuButtonProduto{
+  background: #2D5275;
+  color: white;
+}

@@ -12,6 +12,8 @@ Route::group(['middleware' => 'auth'], function() {
   //DAHSBOARD
   Route::get('/', 'DashboardController@dashboard');
   Route::get('/detalhe-calendario/{data}', 'DashboardController@detalheCalendario');
+  Route::get('/detalhe-calendario-prev/{data}', 'DashboardController@detalheCalendarioPrevisaoPagamento');
+
   Route::get('/export-vendasoperadora/{periodo}', 'DashboardController@exportarPdfVendasOperadoras');
   Route::get('/export-vendasbandeira/{periodo}', 'DashboardController@exportarPdfVendasBandeiras');
   Route::get('/export-vendasmodalidade/{periodo}', 'DashboardController@exportarPdfVendasModalidade');
