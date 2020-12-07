@@ -116,6 +116,7 @@ class VendasErpController extends Controller {
           'modalidade.DESCRICAO as MODALIDADE',
           'vendas_erp.NSU',
           'vendas_erp.CODIGO_AUTORIZACAO',
+          'vendas_erp.TID',
           'vendas_erp.TOTAL_VENDA',
           'vendas_erp.TAXA',
           DB::raw('

@@ -144,6 +144,7 @@ function exportar() {
         MODALIDADE: 'Forma de Pagamento',
         NSU: 'NSU',
         CODIGO_AUTORIZACAO: 'Autorização',
+        TID: 'TID',
         CARTAO: 'Cartão',
         TOTAL_VENDA: 'Valor Bruto',
         TAXA: 'Taxa %',
@@ -306,6 +307,7 @@ function renderizaTabela(vendas, totais) {
                 <td>${vendaFormatada.MODALIDADE || ''}</td>
                 <td>${vendaFormatada.NSU || ''}</td>
                 <td>${vendaFormatada.CODIGO_AUTORIZACAO || ''}</td>
+                <td>${vendaFormatada.TID || ''}</td>
                 <td></td>
                 <td>${vendaFormatada.TOTAL_VENDA || '0,00'}</td>
                 <td>${vendaFormatada.TAXA || '0,00'}</td>

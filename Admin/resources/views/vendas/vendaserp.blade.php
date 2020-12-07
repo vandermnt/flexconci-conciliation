@@ -787,6 +787,12 @@
               </th>
               <th>
                 <div class="d-flex flex-column align-items-center">
+                  <p>TID</p>
+                  <input type="text" name="TID">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
                   <p>Cartão</p>
                   <input type="text" name="">
                 </div>
@@ -927,6 +933,7 @@
               <td></td>
               <td class="bolder text-danger" data-chave="TOTAL_TAXA"></td>
               <td class="bolder" data-chave="LIQUIDEZ_TOTAL_PARCELA"></td>
+              <td></td>
               <td></td>
               <td></td>
               <td></td>
