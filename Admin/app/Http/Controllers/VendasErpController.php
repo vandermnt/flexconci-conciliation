@@ -136,6 +136,10 @@ class VendasErpController extends Controller {
           'vendas_erp.CAMPO_ADICIONAL1 as CAMPO1',
           'vendas_erp.CAMPO_ADICIONAL2 as CAMPO2',
           'vendas_erp.CAMPO_ADICIONAL3 as CAMPO3',
+          'vendas_erp.DATA_IMPORTACAO',
+          'vendas_erp.HORA_IMPORTACAO',
+          'vendas_erp.DATA_CONCILIACAO',
+          'vendas_erp.HORA_CONCILIACAO',
         ]
       )
       ->leftJoinSub(GruposClientesModel::groupBy('COD_CLIENTE'), 'grupos_clientes', function($join) {

@@ -164,7 +164,10 @@ function exportar() {
         JUSTIFICATIVA: 'Justificativa',
         CAMPO1: 'Campo 1',
         CAMPO2: 'Campo 2',
-        CAMPO3: 'Campo 3',
+        DATA_IMPORTACAO: 'Data Importação',
+        HORA_IMPORTACAO: 'Hora Importação',
+        DATA_CONCILIACAO: 'Data Conciliação',
+        HORA_CONCILIACAO: 'Hora Conciliação',
     };
 
     const formatadorDecimal = new Intl.NumberFormat('pt-BR');
@@ -174,8 +177,8 @@ function exportar() {
 
         return {
             ...venda,
-            DATA_VENDA: new Date(`${venda.DATA_VENDA} 00:00:00`).toLocaleDateString(),
-            DATA_VENCIMENTO: new Date(`${venda.DATA_VENCIMENTO} 00:00:00`).toLocaleDateString(),
+            DATA_VENDA: (venda.DATA_VENDA && new Date(`${venda.DATA_VENDA} 00:00:00`).toLocaleDateString()) || '',
+            DATA_VENCIMENTO: (venda.DATA_VENCIMENTO && new Date(`${venda.DATA_VENCIMENTO} 00:00:00`).toLocaleDateString()) || '',
             TOTAL_VENDA: formatadorDecimal.format(venda.TOTAL_VENDA),
             TAXA: formatadorDecimal.format(venda.TAXA),
             VALOR_TAXA: formatadorDecimal.format(venda.VALOR_TAXA),
@@ -249,8 +252,12 @@ function formatarDadosVenda(venda) {
 
     return {
         ...venda,
-        DATA_VENDA: new Date(`${venda.DATA_VENDA} 00:00:00`).toLocaleDateString(),
-        DATA_VENCIMENTO: new Date(`${venda.DATA_VENCIMENTO} 00:00:00`).toLocaleDateString(),
+        DATA_VENDA: (venda.DATA_VENDA && new Date(`${venda.DATA_VENDA} 00:00:00`).toLocaleDateString()) || '',
+        DATA_VENCIMENTO: (venda.DATA_VENCIMENTO && new Date(`${venda.DATA_VENCIMENTO} 00:00:00`).toLocaleDateString()) || '',
+        DATA_IMPORTACAO: (venda.DATA_IMPORTACAO && new Date(`${venda.DATA_IMPORTACAO} 00:00:00`).toLocaleDateString()) || '',
+        HORA_IMPORTACAO: venda.HORA_IMPORTACAO || '',
+        DATA_CONCILIACAO: (venda.DATA_CONCILIACAO && new Date(`${venda.DATA_CONCILIACAO} 00:00:00`).toLocaleDateString()) || '',
+        HORA_CONCILIACAO: venda.HORA_CONCILIACAO || '',
         TOTAL_VENDA: formatadorMoeda.format(venda.TOTAL_VENDA),
         VALOR_LIQUIDO_PARCELA: formatadorMoeda.format(venda.VALOR_LIQUIDO_PARCELA),
         TAXA: taxa.toFixed(2),
@@ -328,6 +335,10 @@ function renderizaTabela(vendas, totais) {
                 <td>${vendaFormatada.CAMPO1 || ''}</td>
                 <td>${vendaFormatada.CAMPO2 || ''}</td>
                 <td>${vendaFormatada.CAMPO3 || ''}</td>
+                <td>${vendaFormatada.DATA_IMPORTACAO || ''}</td>
+                <td>${vendaFormatada.HORA_IMPORTACAO || ''}</td>
+                <td>${vendaFormatada.DATA_CONCILIACAO || ''}</td>
+                <td>${vendaFormatada.HORA_CONCILIACAO || ''}</td>
             </tr>
         `;
 

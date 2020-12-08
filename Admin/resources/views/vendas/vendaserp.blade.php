@@ -911,6 +911,30 @@
                   <input type="text" name="CAMPO3">
                 </div>
               </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Data Importação</p>
+                  <input type="text" name="CAMPO3">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Hora Importação</p>
+                  <input type="text" name="CAMPO3">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Data Conciliação</p>
+                  <input type="text" name="CAMPO3">
+                </div>
+              </th>
+              <th>
+                <div class="d-flex flex-column align-items-center">
+                  <p>Hora Conciliação</p>
+                  <input type="text" name="CAMPO3">
+                </div>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -929,10 +953,14 @@
               <td></td>
               <td></td>
               <td></td>
+              <td></td>
               <td class="bolder" data-chave="TOTAL_VENDAS"></td>
               <td></td>
               <td class="bolder text-danger" data-chave="TOTAL_TAXA"></td>
               <td class="bolder" data-chave="LIQUIDEZ_TOTAL_PARCELA"></td>
+              <td></td>
+              <td></td>
+              <td></td>
               <td></td>
               <td></td>
               <td></td>
