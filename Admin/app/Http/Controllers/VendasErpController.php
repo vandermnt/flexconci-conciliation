@@ -25,6 +25,7 @@ class VendasErpController extends Controller {
 
     $empresas = GruposClientesModel::select(['CODIGO', 'NOME_EMPRESA', 'CNPJ'])
       ->where('COD_CLIENTE', session('codigologin'))
+      ->orderBy('NOME_EMPRESA')
       ->get();
 
     $adquirentes = ClienteOperadoraModel::select([
@@ -35,6 +36,7 @@ class VendasErpController extends Controller {
       ->join('adquirentes', 'COD_ADQUIRENTE', 'adquirentes.CODIGO')
       ->where('COD_CLIENTE', '=', session('codigologin'))
       ->distinct()
+      ->orderBy('ADQUIRENTE')
       ->get();
 
     $bandeiras = VendasErpModel::select([
@@ -46,6 +48,7 @@ class VendasErpController extends Controller {
       ->where('COD_CLIENTE', session('codigologin'))
       ->whereNotNull('bandeira.BANDEIRA')
       ->distinct()
+      ->orderBy('BANDEIRA')
       ->get();
 
     $modalidades = VendasErpModel::select([
@@ -56,6 +59,7 @@ class VendasErpController extends Controller {
       ->where('COD_CLIENTE', session('codigologin'))
       ->whereNotNull('modalidade.DESCRICAO')
       ->distinct()
+      ->orderBy('DESCRICAO')
       ->get();
 
     return view('vendas.vendaserp')
@@ -112,11 +116,12 @@ class VendasErpController extends Controller {
           'modalidade.DESCRICAO as MODALIDADE',
           'vendas_erp.NSU',
           'vendas_erp.CODIGO_AUTORIZACAO',
+          'vendas_erp.TID',
           'vendas_erp.TOTAL_VENDA',
           'vendas_erp.TAXA',
-          DB::raw('round(
-            (`vendas_erp`.`TOTAL_VENDA` * (`vendas_erp`.`TAXA` / 100)), 2
-          ) as `VALOR_TAXA`'),
+          DB::raw('
+            (`vendas_erp`.`TOTAL_VENDA` - `vendas_erp`.`VALOR_LIQUIDO_PARCELA`)
+              as `VALOR_TAXA`'),
           'vendas_erp.VALOR_LIQUIDO_PARCELA',
           'vendas_erp.PARCELA',
           'vendas_erp.TOTAL_PARCELAS',
@@ -131,6 +136,10 @@ class VendasErpController extends Controller {
           'vendas_erp.CAMPO_ADICIONAL1 as CAMPO1',
           'vendas_erp.CAMPO_ADICIONAL2 as CAMPO2',
           'vendas_erp.CAMPO_ADICIONAL3 as CAMPO3',
+          'vendas_erp.DATA_IMPORTACAO',
+          'vendas_erp.HORA_IMPORTACAO',
+          'vendas_erp.DATA_CONCILIACAO',
+          'vendas_erp.HORA_CONCILIACAO',
         ]
       )
       ->leftJoinSub(GruposClientesModel::groupBy('COD_CLIENTE'), 'grupos_clientes', function($join) {

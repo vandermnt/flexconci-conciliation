@@ -1,8 +1,10 @@
 const checker = new Checker();
+const modalFilter = new ModalFilter();
 const paginacao = new Pagination([], { from: 'api' });
 const paginacaoFiltros = new Pagination([], { from: 'cache' });
 let vendas = [];
 let totais = {};
+let totaisFiltros = {};
 let tabelaFiltros = {};
 let vendasMarcadas = [];
 
@@ -18,12 +20,17 @@ function inicializar() {
     checker.addGroup('status-conciliacao');
     checker.addGroup('status-financeiro');
 
+    modalFilter.addGroup('empresa');
+    modalFilter.addGroup('adquirente');
+    modalFilter.addGroup('bandeira');
+    modalFilter.addGroup('modalidade');
+
     const formPesquisa = document.querySelector('form#form-pesquisa');
     const btPesquisar = document.querySelector('#bt-pesquisar');
     const btLimparForm = document.querySelector('.bt-limpar-form');
     const btExportar = document.querySelector('#js-exportar');
     const selectPorPagina = document.querySelector('.form-control[name="porPagina"]');
-    const btAcoesModal = document.querySelectorAll('.modal-footer button[data-acao]');
+    const btAcoesModal = document.querySelectorAll('.modal button[data-acao]');
     const tbFiltrosDOM = document.querySelectorAll('#resultadosPesquisa th input');
 
     formPesquisa.addEventListener('submit', submeterFormularioPesquisa);
@@ -137,6 +144,7 @@ function exportar() {
         MODALIDADE: 'Forma de Pagamento',
         NSU: 'NSU',
         CODIGO_AUTORIZACAO: 'Autorização',
+        TID: 'TID',
         CARTAO: 'Cartão',
         TOTAL_VENDA: 'Valor Bruto',
         TAXA: 'Taxa %',
@@ -156,7 +164,10 @@ function exportar() {
         JUSTIFICATIVA: 'Justificativa',
         CAMPO1: 'Campo 1',
         CAMPO2: 'Campo 2',
-        CAMPO3: 'Campo 3',
+        DATA_IMPORTACAO: 'Data Importação',
+        HORA_IMPORTACAO: 'Hora Importação',
+        DATA_CONCILIACAO: 'Data Conciliação',
+        HORA_CONCILIACAO: 'Hora Conciliação',
     };
 
     const formatadorDecimal = new Intl.NumberFormat('pt-BR');
@@ -166,8 +177,8 @@ function exportar() {
 
         return {
             ...venda,
-            DATA_VENDA: new Date(`${venda.DATA_VENDA} 00:00:00`).toLocaleDateString(),
-            DATA_VENCIMENTO: new Date(`${venda.DATA_VENCIMENTO} 00:00:00`).toLocaleDateString(),
+            DATA_VENDA: (venda.DATA_VENDA && new Date(`${venda.DATA_VENDA} 00:00:00`).toLocaleDateString()) || '',
+            DATA_VENCIMENTO: (venda.DATA_VENCIMENTO && new Date(`${venda.DATA_VENCIMENTO} 00:00:00`).toLocaleDateString()) || '',
             TOTAL_VENDA: formatadorDecimal.format(venda.TOTAL_VENDA),
             TAXA: formatadorDecimal.format(venda.TAXA),
             VALOR_TAXA: formatadorDecimal.format(venda.VALOR_TAXA),
@@ -241,8 +252,12 @@ function formatarDadosVenda(venda) {
 
     return {
         ...venda,
-        DATA_VENDA: new Date(`${venda.DATA_VENDA} 00:00:00`).toLocaleDateString(),
-        DATA_VENCIMENTO: new Date(`${venda.DATA_VENCIMENTO} 00:00:00`).toLocaleDateString(),
+        DATA_VENDA: (venda.DATA_VENDA && new Date(`${venda.DATA_VENDA} 00:00:00`).toLocaleDateString()) || '',
+        DATA_VENCIMENTO: (venda.DATA_VENCIMENTO && new Date(`${venda.DATA_VENCIMENTO} 00:00:00`).toLocaleDateString()) || '',
+        DATA_IMPORTACAO: (venda.DATA_IMPORTACAO && new Date(`${venda.DATA_IMPORTACAO} 00:00:00`).toLocaleDateString()) || '',
+        HORA_IMPORTACAO: venda.HORA_IMPORTACAO || '',
+        DATA_CONCILIACAO: (venda.DATA_CONCILIACAO && new Date(`${venda.DATA_CONCILIACAO} 00:00:00`).toLocaleDateString()) || '',
+        HORA_CONCILIACAO: venda.HORA_CONCILIACAO || '',
         TOTAL_VENDA: formatadorMoeda.format(venda.TOTAL_VENDA),
         VALOR_LIQUIDO_PARCELA: formatadorMoeda.format(venda.VALOR_LIQUIDO_PARCELA),
         TAXA: taxa.toFixed(2),
@@ -269,7 +284,7 @@ function renderizaTabela(vendas, totais) {
                 class="${vendasMarcadas.includes(venda.ID_ERP) && 'marcada'}"
             >
                 <td>
-                    <a class="link-impressao">
+                    <a class="link-impressao tooltip-hint" data-title="Visualizar comprovante">
                         <i class="fas fa-print"></i>
                     </a>
                 </td>
@@ -299,6 +314,7 @@ function renderizaTabela(vendas, totais) {
                 <td>${vendaFormatada.MODALIDADE || ''}</td>
                 <td>${vendaFormatada.NSU || ''}</td>
                 <td>${vendaFormatada.CODIGO_AUTORIZACAO || ''}</td>
+                <td>${vendaFormatada.TID || ''}</td>
                 <td></td>
                 <td>${vendaFormatada.TOTAL_VENDA || '0,00'}</td>
                 <td>${vendaFormatada.TAXA || '0,00'}</td>
@@ -319,6 +335,10 @@ function renderizaTabela(vendas, totais) {
                 <td>${vendaFormatada.CAMPO1 || ''}</td>
                 <td>${vendaFormatada.CAMPO2 || ''}</td>
                 <td>${vendaFormatada.CAMPO3 || ''}</td>
+                <td>${vendaFormatada.DATA_IMPORTACAO || ''}</td>
+                <td>${vendaFormatada.HORA_IMPORTACAO || ''}</td>
+                <td>${vendaFormatada.DATA_CONCILIACAO || ''}</td>
+                <td>${vendaFormatada.HORA_CONCILIACAO || ''}</td>
             </tr>
         `;
 
@@ -329,11 +349,19 @@ function renderizaTabela(vendas, totais) {
 
     Array.from(colunasDOM).forEach(colunaDOM => {
         colunaDOM.addEventListener('click', event => {
+            if(event.target.tagName.toLowerCase() !== 'td') {
+                return;
+            }
+
             const tr = event.target.closest('tr');
             marcarVenda(tr);
         });
     });
 
+    totais = {
+        ...totais,
+        TOTAL_TAXA: totais.TOTAL_TAXA * -1
+    }
     Object.keys(totais).forEach(chave => {
         const valor = totais[chave];
         const colunaDOM = document.querySelector(`#resultadosPesquisa tfoot td[data-chave="${chave}"]`);
@@ -424,7 +452,7 @@ function irParaPagina(event) {
 
     if(origem === 'cache') {
         paginacaoFiltros.goToPage(pagina);
-        renderizaTabela(paginacaoFiltros.getPageData(), totais);
+        renderizaTabela(paginacaoFiltros.getPageData(), totaisFiltros);
         renderizaPaginacao(paginacaoFiltros);
         return;
     }
@@ -441,7 +469,7 @@ function selecionaQuantidadePorPagina(event) {
     if(Object.keys(tabelaFiltros).length > 0) {
         paginacaoFiltros.setOptions({ perPage: Number(quantidadePorPagina) });
         paginacaoFiltros.goToPage(1).paginate();
-        renderizaTabela(paginacaoFiltros.getPageData(1), totais);
+        renderizaTabela(paginacaoFiltros.getPageData(1), totaisFiltros);
         renderizaPaginacao(paginacaoFiltros);
         paginacao.setData(vendas);
         return;
@@ -504,8 +532,25 @@ function executarFiltrosTabela() {
     paginacaoFiltros.setOptions({ total: filtrados.length });
 
     exibeAlertaQuantidadeResultados(filtrados.length);
-    renderizaTabela(paginacaoFiltros.getPageData(1), totais);
+    calcularTotaisFiltros(filtrados);
+    renderizaTabela(paginacaoFiltros.getPageData(1), totaisFiltros);
     renderizaPaginacao(paginacaoFiltros.paginate());
+}
+
+function calcularTotaisFiltros(vendas) {
+    const totalBruto = vendas.reduce((total, venda) => total + Number(venda.TOTAL_VENDA || 0), 0);
+    const totalTaxa = vendas.reduce((total, venda) => total + Number(venda.VALOR_TAXA || 0), 0);
+    const totalLiquido = vendas.reduce((total, venda) => total + Number(venda.VALOR_LIQUIDO_PARCELA || 0), 0);
+
+    const totais = {
+        TOTAL_VENDAS: totalBruto,
+        TOTAL_TAXA: totalTaxa,
+        LIQUIDEZ_TOTAL_PARCELA: totalLiquido
+    };
+
+    totaisFiltros = { ...totais };
+
+    return totais;
 }
 
 function atualizaFiltrosTabela (event) {
