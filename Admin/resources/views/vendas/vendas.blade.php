@@ -23,7 +23,7 @@
 <link href="{{ URL::asset('plugins/datatables/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
 <!-- Responsive datatable examples -->
 <link href="{{ URL::asset('plugins/datatables/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
-
+<link href="{{ URL::asset('assets/css/vendas/venda-operadora.css')}}" rel="stylesheet" type="text/css" />
 
 @stop
 
@@ -55,12 +55,12 @@
                   <div class="form-group">
                     <div class="row">
                       <div class="col-sm-6">
-                        <h6 style="color: #424242; font-size: 11.5px"> Data Inicial: </h6>
-                        <input style="margin-top: -5px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px; border-color: #2D5275" class="form-control" type="date" id="date_inicial" value="{{  date("Y-m-01")}}" name="data_inicial" max="3000-12-31">
+                        <h6> Data Inicial: </h6>
+                        <input class="form-control inputs" type="date" id="date_inicial" value="{{  date("Y-m-01")}}" name="data_inicial" max="3000-12-31">
                       </div>
                       <div class="col-sm-6">
-                        <h6 style="color: #424242; font-size: 11.5px"> Data Final: </h6>
-                        <input style="margin-top: -5px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px; border-color: #2D5275" class="form-control" type="date" id="date_final" value="{{ date("Y-m-d") }}" name="data_final">
+                        <h6> Data Final: </h6>
+                        <input class="form-control inputs" type="date" id="date_final" value="{{ date("Y-m-d") }}" name="data_final">
                       </div>
                     </div>
                   </div>
@@ -74,8 +74,8 @@
                   <div class="form-group">
                     <div class="row">
                       <div class="col-sm-12">
-                        <h6 style="color: #424242; font-size: 11.5px"> Empresa: </h6>
-                        <input id="empresa" style="margin-top: -5px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px; border-color: #2D5275" class="form-control" name="empresa">
+                        <h6> Empresa: </h6>
+                        <input id="empresa" class="form-control inputs" name="empresa">
                       </div>
                     </div>
                   </div>
@@ -83,18 +83,18 @@
               </div>
 
               <div class="col-sm-2">
-                <button id="buttonpesquisar" type="button" class="btn btn-sm" data-toggle="modal" data-target="#staticBackdrop" style="margin-top: 25px; width: 100%">
+                <button id="buttonpesquisar" type="button" class="btn btn-sm" data-toggle="modal" data-target="#staticBackdrop">
                   <b>Selecionar</b>
                 </button>
               </div>
 
               <div class="col-sm-6" style="margin-top: -16px">
-                <div id="filtroempresa">
+                <div id="filtroadquirente">
                   <div class="form-group">
                     <div class="row">
                       <div class="col-sm-12">
-                        <h6 style="color: #424242; font-size: 11.5px"> Adquirente: </h6>
-                        <input id="adquirente" style="margin-top: -5px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px; border-color: #2D5275" class="form-control" name="adquirente">
+                        <h6> Adquirente: </h6>
+                        <input id="adquirente" class="form-control inputs" name="adquirente">
                       </div>
                     </div>
                   </div>
@@ -108,12 +108,12 @@
               </div>
 
               <div class="col-sm-6" style="margin-top: -16px">
-                <div id="filtroempresa">
+                <div id="filtrobandeira">
                   <div class="form-group">
                     <div class="row">
                       <div class="col-sm-12">
-                        <h6 style="color: #424242; font-size: 11.5px"> Bandeira: </h6>
-                        <input id="bandeira" style="margin-top: -5px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px; border-color: #2D5275" class="form-control" name="bandeira">
+                        <h6> Bandeira: </h6>
+                        <input id="bandeira" class="form-control inputs" name="bandeira">
                       </div>
                     </div>
                   </div>
@@ -127,12 +127,12 @@
               </div>
 
               <div class="col-sm-6" style="margin-top: -16px">
-                <div id="filtroempresa">
+                <div id="filtromodalidade">
                   <div class="form-group">
                     <div class="row">
                       <div class="col-sm-12">
-                        <h6 style="color: #424242; font-size: 11.5px"> Forma de Pagamento: </h6>
-                        <input id="modalidade" style="margin-top: -5px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px; border-color: #2D5275" class="form-control" name="modalidade">
+                        <h6> Forma de Pagamento: </h6>
+                        <input id="modalidade" class="form-control inputs" name="modalidade">
                       </div>
                     </div>
                   </div>
@@ -146,12 +146,12 @@
               </div>
 
               <div class="col-sm-6" style="margin-top: -16px">
-                <div id="filtroempresa">
+                <div id="filtromeiocaptura">
                   <div class="form-group">
                     <div class="row">
                       <div class="col-sm-12">
                         <h6 style="color: #424242; font-size: 11.5px"> Meio de Captura: </h6>
-                        <input id="meiocaptura" style="margin-top: -5px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px; border-color: #2D5275" class="form-control" name="meiocaptura">
+                        <input id="meiocaptura" class="form-control inputs" name="meiocaptura">
                       </div>
                     </div>
                   </div>
@@ -167,13 +167,13 @@
 
             <div class="row" style="margin-top: -16px">
               <div class="col-sm-12">
-                <h6 style="color: #424242; font-size:12px"> Status Conciliação: </h6>
+                <h6> Status Conciliação: </h6>
                 <div class="row">
-                  <div class="row" style="">
+                  <div class="row">
                     @foreach($status_conciliacao as $status)
                     <div style="margin-top: -10px; margin-left: 25px">
                       <input type="checkbox" checked  class="checkStatusConciliacao" value="{{ $status->CODIGO }}" name="status_conciliacao[]" id="{{ "statusFinan-".$status->CODIGO }}"required>
-                      <label style="font-size: 12px; color: #424242; margin-top: 5px"  for="{{ "statusFinan".$status->CODIGO }}">{{ $status->STATUS_CONCILIACAO}}</label>
+                      <label for="{{ "statusFinan".$status->CODIGO }}">{{ $status->STATUS_CONCILIACAO}}</label>
                     </div>
                     @endforeach
                   </div>
@@ -183,24 +183,24 @@
 
             <div class="row" style="margin-top: -12px">
               <div class="col-sm-12">
-                <h6 style="color: #424242; font-size:12px"> Status Financeiro: </h6>
+                <h6> Status Financeiro: </h6>
                 <div class="row">
                   <div class="col-sm-1">
                     <div style="margin-top: -10px">
                       <input type="checkbox" checked value="1" name="status_financeiro[]" id="pendente">
-                      <label style="font-size: 12px; color: #424242; margin-top: 5px" for="aberto">Pendente</label>
+                      <label for="aberto">Pendente</label>
                     </div>
                   </div>
                   <div class="col-sm-1">
                     <div style="margin-top: -10px">
                       <input type="checkbox" checked value="2" name="status_financeiro[]" id="liquidado">
-                      <label style="font-size: 12px; color: #424242; margin-top: 5px" for="liquidado">Liquidada</label>
+                      <label for="liquidado">Liquidada</label>
                     </div>
                   </div>
                   <div class="col-sm-2">
                     <div style="margin-top: -10px">
                       <input type="checkbox" checked value="2" name="status_financeiro[]" id="cancelada">
-                      <label style="font-size: 12px; color: #424242; margin-top: 5px" for="cancelada">Cancelada</label>
+                      <label for="cancelada">Cancelada</label>
                     </div>
                   </div>
                 </div>
@@ -211,7 +211,7 @@
               <div class="col-sm-12">
                 <div id="btfiltro" style="margin-top: -4px; display:block; text-align: right">
                   <a onclick="limparFiltros()" style="align-items: right; background: white; color: #2D5275; border-color: #2D5275" class="btn btn-sm"> <i class="far fa-trash-alt"></i> <b>Limpar Campos</b>  </a>
-                  <a id="submitFormLogin" style="align-items: right; background: white; color: #2D5275; border-color: #2D5275" class="btn btn-sm"> <i class="fas fa-search"></i> <b>Pesquisar</b>  </a>
+                  <a id="submitFormLogin" class="btn btn-sm"> <i class="fas fa-search"></i> <b>Pesquisar</b>  </a>
                 </div>
               </div>
             </div>
@@ -222,7 +222,7 @@
           <div class="modal-dialog" style="width: 400px;">
             <div class="modal-content">
               <div class="modal-header" style="background: #2D5275;">
-                <h5 class="modal-title" id="staticBackdropLabel" style="color: white">Empresa</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Empresa</h5>
                 <button style="color: white" type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -233,7 +233,7 @@
                     <h6> Pesquisar </h6>
                   </div>
                   <div class="col-sm-12">
-                    <input id="ft" style="margin-top: -6px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" name="valor_venda" onKeyDown="filtroCnpj({{$grupos_clientes}})">
+                    <input id="ft" class="form-control" name="valor_venda" onKeyDown="filtroCnpj({{$grupos_clientes}})">
                   </div>
                 </div> <br>
 
@@ -275,7 +275,7 @@
           <div class="modal-dialog" style="width: 250px;">
             <div class="modal-content">
               <div class="modal-header" style="background: #2D5275;">
-                <h5 class="modal-title" id="staticBackdropLabel" style="color: white">Adquirente</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Adquirente</h5>
                 <button style="color: white" type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -286,7 +286,7 @@
                     <h6> Pesquisar </h6>
                   </div>
                   <div class="col-sm-12">
-                    <input id="inputAdq" style="margin-top: -6px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" onKeyDown="filtroNomeAdquirente({{$adquirentes}})">
+                    <input id="inputAdq" class="form-control" onKeyDown="filtroNomeAdquirente({{$adquirentes}})">
                   </div>
                 </div><br>
 
@@ -324,7 +324,7 @@
           <div class="modal-dialog" style="width: 250px; ">
             <div class="modal-content">
               <div class="modal-header" style="background: #2D5275;">
-                <h5 class="modal-title" id="staticBackdropLabel" style="color: white">Bandeira</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Bandeira</h5>
                 <button style="color: white" type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -335,7 +335,7 @@
                     <h6> Pesquisar </h6>
                   </div>
                   <div class="col-sm-12">
-                    <input id="inputBad" style="margin-top: -6px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" onKeyDown="filtroNomeBandeira({{$bandeiras}})">
+                    <input id="inputBad" class="form-control" onKeyDown="filtroNomeBandeira({{$bandeiras}})">
                   </div>
 
                 </div><br>
@@ -375,7 +375,7 @@
           <div class="modal-dialog" style="width: 270px">
             <div class="modal-content">
               <div class="modal-header" style="background: #2D5275;">
-                <h5 class="modal-title" id="staticBackdropLabel" style="color: white">Forma de Pagamento</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Forma de Pagamento</h5>
                 <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -386,7 +386,7 @@
                     <h6> Pesquisar </h6>
                   </div>
                   <div class="col-sm-12">
-                    <input id="ftModalidade" style="margin-top: -6px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" onKeyDown="filtroNomeModalidade({{$modalidades}})">
+                    <input id="ftModalidade" class="form-control" onKeyDown="filtroNomeModalidade({{$modalidades}})">
                   </div>
                 </div> <br>
 
@@ -424,7 +424,7 @@
           <div class="modal-dialog" style="width: 270px">
             <div class="modal-content">
               <div class="modal-header" style="background: #2D5275;">
-                <h5 class="modal-title" id="staticBackdropLabel" style="color: white">Meio de Captura</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Meio de Captura</h5>
                 <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -435,7 +435,7 @@
                     <h6> Pesquisar </h6>
                   </div>
                   <div class="col-sm-12">
-                    <input id="inputMeioCaptura" style="margin-top: -6px; padding-left: 7px; padding-top: 5px; padding-bottom: 5px; height: 30px" class="form-control" onKeyDown="filtroMeioCaptura({{$meio_captura}})">
+                    <input id="inputMeioCaptura" class="form-control" onKeyDown="filtroMeioCaptura({{$meio_captura}})">
                   </div>
                 </div> <br>
 
@@ -470,17 +470,15 @@
         </div>
       </form>
 
-
-
       <div id="resultadosPesquisa" style="display: none">
         <div class="row">
-          <div class="col-md-6 col-lg-3">
+          <div class="col-md-6 col-lg-2">
             <div class="card report-card">
               <div class="card-body">
                 <div class="row d-flex justify-content-center">
                   <div class="col-8">
                     <p class="text-dark font-weight-semibold font-12">QTD</p>
-                    <h4 id="total_registros" class="my-3">378</h4>
+                    <h6 id="total_registros" class="my-3">378</h6>
                   </div>
                   <div class="col-4 align-self-center">
                     <div class="report-main-icon bg-light-alt">
@@ -491,13 +489,13 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6 col-lg-3">
+          <div class="col-md-6 col-lg-2">
             <div class="card report-card">
               <div class="card-body">
                 <div class="row d-flex justify-content-center">
                   <div class="col-8">
                     <p class="text-dark font-weight-semibold font-12">BRUTO</p>
-                    <h4 id="total_bruto_vendas" class="my-3">R$ 240,000,00</h4>
+                    <h6 id="total_bruto_vendas" class="my-3">R$ 240,000,00</h6>
                   </div>
                   <div class="col-4 align-self-center">
                     <div class="report-main-icon bg-light-alt">
@@ -508,13 +506,13 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6 col-lg-3">
+          <div class="col-md-6 col-lg-2">
             <div class="card report-card">
               <div class="card-body">
                 <div class="row d-flex justify-content-center">
                   <div class="col-8">
-                    <p class="text-dark font-weight-semibold font-12">TAXA</p>
-                    <h4 id="total_taxa_cobrada" class="my-3 text-danger">R$ 240,000,00</h4>
+                    <p class="text-dark font-weight-semibold font-12">VALOR TAXA</p>
+                    <h6 id="total_taxa_cobrada" class="my-3 text-danger">R$ 240,000,00</h6>
                   </div>
                   <div class="col-4 align-self-center">
                     <div class="report-main-icon bg-light-alt">
@@ -525,13 +523,30 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6 col-lg-3">
+          <div class="col-md-6 col-lg-2">
+            <div class="card report-card">
+              <div class="card-body">
+                <div class="row d-flex justify-content-center">
+                  <div class="col-8">
+                    <p class="text-dark font-weight-semibold font-12">TARIFA MINÍMA</p>
+                    <h6 id="total_taxa_minima" class="my-3 text-danger">R$ 240,000,00</h6>
+                  </div>
+                  <div class="col-4 align-self-center">
+                    <div class="report-main-icon bg-light-alt">
+                      <img style="width: 40px" src="{{ url('assets/images/vendasoperadora/percentagem.png')}}" alt="">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
             <div class="card report-card">
               <div class="card-body">
                 <div class="row d-flex justify-content-center">
                   <div class="col-8">
                     <p class="text-dark font-weight-semibold font-12">VALOR LÍQUIDO DE VENDAS</p>
-                    <h4 id="total_liquido_vendas" class="my-3">R$ 240,000,00</h4>
+                    <h6 id="total_liquido_vendas" class="my-3">R$ 240,000,00</h6>
                   </div>
                   <div class="col-4 align-self-center">
                     <div class="report-main-icon bg-light-alt">
@@ -609,41 +624,73 @@
             <thead>
               <tr style="border-top: none">
                 <th> Detalhes </th>
-                <th> Empresa  <br> <input style="max-width: 135px;height: 30px;height: 30px; margin-top: 12px"></th>
-                <th> CNPJ  <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
-                <th> Operadora<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
-                <th> Venda  <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"></th>
-                <th> Previsão <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
-                <th> Bandeira<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
-                <th> Forma de Pagamento<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
-                <th> NSU <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"></th>
-                <th> Autorização <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"></th>
-                <th> Cartão<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
-                <th> Valor Bruto <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"></th>
-                <th> Taxa %  <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"></th>
-                <th> Taxa R$ <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"></th>
-                <th> Outras Tarifas<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
-                <th> Valor Líquido <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
-                <th> Parcela <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"></th>
-                <th> Total Parc. <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"></th>
-                <th> Hora <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"></th>
-                <th> Estabelecimento<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
-                <th> Banco<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
-                <th> Agência<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
-                <th> Conta <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"></th>
-                <th> Observação <br> <input style="min-width: 135px;height: 30px; margin-top: 12px;"></th>
-                <th> Produto<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
-                <th> Meio de Captura<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
-                <th> Status Conciliação<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
-                <th> Status Financeiro<br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
-                <th> Justificativa <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"> </th>
-                <th> RO <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"></th>
-                <th> RO Único <br> <input style="max-width: 135px;height: 30px; margin-top: 12px;"></th>
+                <th> Empresa  <br> <input name="EMPRESA" onkeypress="filtraTabela('EMPRESA', event)" ></th>
+                <th> CNPJ  <br> <input name="CNPJ" onkeypress="filtraTabela('CNPJ', event)"> </th>
+                <th> Operadora<br> <input name="ADQUIRENTE" onkeypress="filtraTabela('ADQUIRENTE', event)"> </th>
+                <th> Venda  <br> <input name="DATA_VENDA" onkeypress="filtraTabela('DATA_VENDA', event)"></th>
+                <th> Previsão <br> <input name="DATA_PREVISTA_PAGTO" onkeypress="filtraTabela('DATA_PREVISTA_PAGTO', event)"> </th>
+                <th> Bandeira<br> <input name="BANDEIRA" onkeypress="filtraTabela('BANDEIRA', event)"> </th>
+                <th> Forma de Pagamento<br> <input> </th>
+                <th> NSU <br> <input name="NSU" onkeypress="filtraTabela('NSU', event)"></th>
+                <th> Autorização <br> <input name="AUTORIZACAO" onkeypress="filtraTabela('AUTORIZACAO', event)"></th>
+                <th> Cartão<br> <input name="CARTAO" onkeypress="filtraTabela('CARTAO', event)"> </th>
+                <th> Valor Bruto <br> <input name="VALOR_BRUTO" onkeypress="filtraTabela('VALOR_BRUTO', event)"></th>
+                <th> Taxa %  <br> <input name="PERCENTUAL_TAXA" onkeypress="filtraTabela('PERCENTUAL_TAXA', event)"></th>
+                <th> Taxa R$ <br> <input name="VALOR_TAXA" onkeypress="filtraTabela('VALOR_TAXA', event)"></th>
+                <th> Tarifa Mínima R$ <br> <input name="TAXA_MINIMA" onkeypress="filtraTabela('VALOR_TAXA', event)"></th>
+                <th> Outras Tarifas<br> <input name="OUTRAS_DESPESAS" onkeypress="filtraTabela('OUTRAS_DESPESAS', event)"> </th>
+                <th> Valor Líquido <br> <input name="VALOR_LIQUIDO" onkeypress="filtraTabela('VALOR_LIQUIDO', event)"> </th>
+                <th> Parcela <br> <input name="PARCELA" onkeypress="filtraTabela('PARCELA', event)"></th>
+                <th> Total Parc. <br> <input name="TOTAL_PARCELAS" onkeypress="filtraTabela('TOTAL_PARCELAS', event)"></th>
+                <th> Hora <br> <input name="HORA_TRANSACAO" onkeypress="filtraTabela('HORA_TRANSACAO', event)"></th>
+                <th> Estabelecimento<br> <input name="ESTABELECIMENTO" onkeypress="filtraTabela('ESTABELECIMENTO', event)"> </th>
+                <th> Banco<br> <input > </th>
+                <th> Agência<br> <input name="AGENCIA" onkeypress="filtraTabela('AGENCIA', event)"> </th>
+                <th> Conta <br> <input name="CONTA" onkeypress="filtraTabela('CONTA', event)"></th>
+                <th> Observação <br> <input name="OBSERVACAO" onkeypress="filtraTabela('OBSERVACAO', event)"></th>
+                <th> Produto<br> <input> </th>
+                <th> Meio de Captura<br> <input> </th>
+                <th> Status Conciliação<br> <input> </th>
+                <th> Status Financeiro<br> <input> </th>
+                <th> Justificativa <br> <input name="JUSTIFICATIVA" onkeypress="filtraTabela('JUSTIFICATIVA', event)"> </th>
+                <th> RO <br> <input></th>
+                <th> RO Único <br> <input></th>
               </tr>
             </thead>
             <tbody>
             </tbody>
             <tfoot>
+              <td  style='color:#6E6E6E'> Totais </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td  style='color:#6E6E6E' id="valor_bruto"> </td>
+              <td> </td>
+              <td  style='color:red' id="valor_taxa"> </td>
+              <td  style='color:red' id="outras_tarifas"> </td>
+              <td  style='color:#6E6E6E' id="valor_liquido"> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
             </tfoot>
           </table>
         </div>
@@ -726,7 +773,7 @@
 <script src="{{ URL::asset('plugins/datatables/buttons.print.min.js')}}"></script>
 <script src="{{ URL::asset('plugins/datatables/buttons.colVis.min.js')}}"></script>
 <script src="{{ URL::asset('assets/js/vendas/export-excel-vendas.js')}}"></script>
-<script src="{{ URL::asset('assets/js/vendas/vendas-operadora-sort.js')}}"></script>
+<!-- <script src="{{ URL::asset('assets/js/vendas/vendas-operadora-sort.js')}}"></script> -->
 <!-- Responsive examples -->
 <script src="{{ URL::asset('plugins/datatables/dataTables.responsive.min.js')}}"></script>
 <script src="{{ URL::asset('plugins/datatables/responsive.bootstrap4.min.js')}}"></script>
@@ -737,28 +784,26 @@
 
 <script>
 
-$(function(){
-  $("#jsgrid-table input").keyup(function(){
-    var index = $(this).parent().index();
-    var nth = "#jsgrid-table td:nth-child("+(index+1).toString()+")";
-    var valor = $(this).val().toUpperCase();
-    console.log(index);
-    console.log(nth);
-    console.log(valor);
+let filtros_formulario_principal = {};
 
+// $(function(){
+//   $("#jsgrid-table input").keyup(function(){
+//     var index = $(this).parent().index();
+//     var nth = "#jsgrid-table td:nth-child("+(index+1).toString()+")";
+//     var valor = $(this).val().toUpperCase();
+//
+//     $("#jsgrid-table tbody tr").show();
+//     $(nth).each(function(){
+//       if($(this).text().toUpperCase().indexOf(valor) < 0) {
+//         $(this).parent().hide();
+//       }
+//     });
+//   });
 
-    $("#jsgrid-table tbody tr").show();
-    $(nth).each(function(){
-      if($(this).text().toUpperCase().indexOf(valor) < 0) {
-        $(this).parent().hide();
-      }
-    });
-  });
-
-  $("#jsgrid-table input").blur(function(){
-    $(this).val("");
-  });
-});
+//   $("#jsgrid-table input").blur(function(){
+//     $(this).val("");
+//   });
+// });
 
 $('#submitFormLogin').click(function(){
   $('#jsgrid-table tbody').empty();
@@ -828,6 +873,8 @@ $('#submitFormLogin').click(function(){
   document.getElementById("preloader").style.display = "block";
 
   const qtdeVisivelInicial = 10;
+  const filtro_tabela = null;
+  const valor_digitado = null;
 
   const dados = {
     data_inicial,
@@ -839,8 +886,12 @@ $('#submitFormLogin').click(function(){
     arrayStatusConciliacao,
     arrayStatusFinanceiro,
     arrayMeioCaptura,
-    qtdeVisivelInicial
+    qtdeVisivelInicial,
+    filtro_tabela,
+    valor_digitado
   }
+
+  filtros_formulario_principal = dados;
 
   let dados_filtro = JSON.parse(JSON.stringify(dados));
   let filtro = JSON.stringify(dados);
@@ -858,6 +909,7 @@ $('#submitFormLogin').click(function(){
     dataType: 'json',
     success: function (response){
       if(response){
+        console.log(response);
         for(var i=0;i< response[0].data.length; i++){
 
           let dados_cupom   = JSON.stringify(response[0].data[i]);
@@ -907,6 +959,7 @@ $('#submitFormLogin').click(function(){
           html +="<td>"+formatted +"</td>";
           html +="<td>"+val_taxa+"</td>";
           html +="<td style='color:red'>"+formatted_tx+"</td>";
+          html +="<td>"+response[7]+"</td>";
           html +="<td>"+formatted_outras_despesas+"</td>";
           html +="<td>"+formatted_liq+"</td>";
           html +="<td>"+response[0].data[i].PARCELA+"</td>";
@@ -918,13 +971,9 @@ $('#submitFormLogin').click(function(){
           else{ html +="<td>"+''+"</td>";}
           if(response[0].data[i].CONTA){ html +="<td>"+ response[0].data[i].CONTA+"</td>";}
           else{html +="<td>"+ ''+"</td>";}
-          html +="<td>"+ `${response[0].data[i].OBSERVACOES || ''}` +"</td>";
 
-          html +="<td>"+"<img src='" + response[0].data[i].IMAGEM_LINK +"'' style='width: 30px'/>"+"</td>";
-          html +="<td>"+response[0].data[i].AGENCIA+"</td>";
-          html +="<td>"+response[0].data[i].CONTA+"</td>";
-          html +="<td>"+(response[0].data[i].OBSERVACOES || '')+"</td>";
-          if(response[0].data[i].COD_PRODUTO !=  null){
+          html +="<td>"+ `${response[0].data[i].OBSERVACOES || ''}` +"</td>";
+          if(response[0].data[i].PRODUTO_WEB !=  null){
             html +="<td>"+response[0].data[i].PRODUTO_WEB+"</td>";
           }else{
             html +="<td>"+""+"</td>";
@@ -932,52 +981,19 @@ $('#submitFormLogin').click(function(){
           html +="<td>"+response[0].data[i].MEIOCAPTURA+"</td>";
           html +="<td>"+response[0].data[i].status_conc+"</td>";
           html +="<td>"+response[0].data[i].status_finan+"</td>";
+          html +="<td>"+`${response[0].data[i].JUSTIFICATIVA || ''}`+"</td>";
           html +="<td>"+""+"</td>";
           html +="<td>"+""+"</td>";
-          html +="<td>"+""+"</td>";
-
           html +="</tr>";
 
           $('#jsgrid-table').append(html);
         }
 
-        var htmll = "<tr id='rodapeTable'>";
-        htmll +="<td style='color:#6E6E6E'>"+"Totais"+"</td>";
-        htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+""+"</td>";
-        htmll +="<td style='color:#6E6E6E'> <b>"+response[2]+"</b></td>";
-        htmll +="<td>"+""+"</td>";
-        htmll +="<td style='color:red'><b>"+response[4]+"</b></td>";
-        htmll +="<td style='color:#6E6E6E'><b>"+response[6]+"</b></td>";
-        htmll +="<td style='color:#6E6E6E'><b>"+response[1]+"</b></td>";
-        htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+""+"</td>";
-        htmll +="<td>"+""+"</td>";
+        document.getElementById("valor_bruto").innerHTML = response[2];
+        document.getElementById("valor_liquido").innerHTML = response[1];
+        document.getElementById("valor_taxa").innerHTML = response[4];
+        document.getElementById("outras_tarifas").innerHTML = response[6];
 
-
-
-        htmll +="</tr>";
-        $('#jsgrid-table tfoot').html(htmll);
 
         let li_html = "<li><a>" + "" + "</a></li>"
         if(response[0].last_page < 10){
@@ -1010,6 +1026,8 @@ $('#submitFormLogin').click(function(){
           document.getElementById("total_registros").innerHTML = response[3];
           document.getElementById("total_taxa_cobrada").innerHTML = "R$ -"+response[4];
           document.getElementById("total_bruto_vendas").innerHTML = "R$ "+response[2];
+          document.getElementById("total_taxa_minima").innerHTML = response[7];
+
 
           window.scrollTo(0, 550);
 
@@ -1036,7 +1054,7 @@ $('#submitFormLogin').click(function(){
       success: function (response){
         if(response){
           $('#jsgrid-table tbody').empty();
-          $('#jsgrid-table tfoot').empty();
+          // $('#jsgrid-table tfoot').empty();
           $('#ul_pagination li').empty();
 
           for(var i=0;i< response[0].data.length; i++){
@@ -1081,7 +1099,7 @@ $('#submitFormLogin').click(function(){
             if(response[0].data[i].IMAGEMBAD == null){
               html +="<td>"+"<img src='assets/images/iconCart.jpeg' style='width: 30px'/>"+"</td>";
             }else{
-              html +="<td>"+"<img class='imagebandeira "+ response[0].data[i].BANDEIRA +"' src='"+response[0].data[i].IMAGEMBAD+"' style='width: 30px'/>"+  "</td>";
+              html +="<td>" + "<img class='imagebandeira "+ response[0].data[i].BANDEIRA +"' src='"+response[0].data[i].IMAGEMBAD+"' alt='"+response[0].data[i].BANDEIRA+"' style='width: 30px'/>"+  "</td>";
             }
             html +="<td>"+response[0].data[i].DESCRICAO+"</td>";
             html +="<td>"+response[0].data[i].NSU+"</td>";
@@ -1101,13 +1119,9 @@ $('#submitFormLogin').click(function(){
             else{ html +="<td>"+''+"</td>";}
             if(response[0].data[i].CONTA){ html +="<td>"+ response[0].data[i].CONTA+"</td>";}
             else{html +="<td>"+ ''+"</td>";}
-            html +="<td>"+ `${response[0].data[i].OBSERVACOES || ''}` +"</td>";
 
-            html +="<td>"+"<img src='" + response[0].data[i].IMAGEM_LINK +"'' style='width: 30px'/>"+"</td>";
-            html +="<td>"+response[0].data[i].AGENCIA+"</td>";
-            html +="<td>"+response[0].data[i].CONTA+"</td>";
-            html +="<td>"+(response[0].data[i].OBSERVACOES || '')+"</td>";
-            if(response[0].data[i].COD_PRODUTO !=  null){
+            html +="<td>"+ `${response[0].data[i].OBSERVACOES || ''}` +"</td>";
+            if(response[0].data[i].PRODUTO_WEB !=  null){
               html +="<td>"+response[0].data[i].PRODUTO_WEB+"</td>";
             }else{
               html +="<td>"+""+"</td>";
@@ -1115,50 +1129,18 @@ $('#submitFormLogin').click(function(){
             html +="<td>"+response[0].data[i].MEIOCAPTURA+"</td>";
             html +="<td>"+response[0].data[i].status_conc+"</td>";
             html +="<td>"+response[0].data[i].status_finan+"</td>";
+            html +="<td>"+`${response[0].data[i].JUSTIFICATIVA || ''}`+"</td>";
             html +="<td>"+""+"</td>";
             html +="<td>"+""+"</td>";
-            html +="<td>"+""+"</td>";
-
             html +="</tr>";
             $('#jsgrid-table').append(html);
             // },100);
           }
 
-          var htmll = "<tr id='rodapeTable'>";
-          htmll +="<td style='color:#6E6E6E'>"+"Totais"+"</td>";
-          htmll +="<td>"+""+"</td>";
-          htmll +="<td>"+""+"</td>";
-          htmll +="<td>"+""+"</td>";
-          htmll +="<td>"+""+"</td>";
-          htmll +="<td>"+""+"</td>";
-          htmll +="<td>"+""+"</td>";
-          htmll +="<td>"+""+"</td>";
-          htmll +="<td>"+""+"</td>";
-          htmll +="<td>"+""+"</td>";
-          htmll +="<td>"+""+"</td>";
-          htmll +="<td style='color:#6E6E6E'> <b>"+response[2]+"</b></td>";
-          htmll +="<td>"+""+"</td>";
-          htmll +="<td style='color:red'><b>"+response[4]+"</b></td>";
-          htmll +="<td style='color:#6E6E6E'><b>"+response[6]+"</b></td>";
-          htmll +="<td style='color:#6E6E6E'><b>"+response[1]+"</b></td>";
-          htmll +="<td>"+""+"</td>";
-          htmll +="<td>"+""+"</td>";
-          htmll +="<td>"+""+"</td>";
-          htmll +="<td>"+""+"</td>";
-          htmll +="<td>"+""+"</td>";
-          htmll +="<td>"+""+"</td>";
-          htmll +="<td>"+""+"</td>";
-          htmll +="<td>"+""+"</td>";
-          htmll +="<td>"+""+"</td>";
-          htmll +="<td>"+""+"</td>";
-          htmll +="<td>"+""+"</td>";
-          htmll +="<td>"+""+"</td>";
-          htmll +="<td>"+""+"</td>";
-          htmll +="<td>"+""+"</td>";
-          htmll +="<td>"+""+"</td>";
-
-          htmll +="</tr>";
-          $('#jsgrid-table tfoot').append(htmll);
+          document.getElementById("total_liquido_vendas").innerHTML = "R$ "+response[1];
+          document.getElementById("total_registros").innerHTML = response[3];
+          document.getElementById("total_taxa_cobrada").innerHTML = "R$ -"+response[4];
+          document.getElementById("total_bruto_vendas").innerHTML = "R$ "+response[2];
 
           let li_html = "<li><a>" + "" + "</a></li>"
 
@@ -1228,14 +1210,6 @@ $('#submitFormLogin').click(function(){
   var bandeirasSelecionados = [];
   var modalidadesSelecionados = [];
   var meioCapturaSelecionados = [];
-
-  // var el = document.getElementById('datatable');
-  // var dragger = tableDragger.default(el, {
-  //   dragHandler: ".handle",
-  // })
-  // dragger.on('drop',function(from, to){
-  // });
-
 
   var flag = true;
 
@@ -1774,7 +1748,6 @@ $('#submitFormLogin').click(function(){
 
             html +="</tr>";
 
-            console.log("dwadwadwadwadwadwa")
             $('#table-xls').append(html);
 
           }
@@ -1811,6 +1784,153 @@ $('#submitFormLogin').click(function(){
 
     return valor_formatado;
   }
-</script>
 
-@stop
+  function filtraTabela(campo, event){
+    if(event.keyCode == 13) {
+
+      $('#jsgrid-table tbody').empty();
+      $('#ul_pagination li').empty();
+
+      let valor_digitado = document.querySelector(`input[name=${campo}]`).value;
+
+      filtros_formulario_principal['filtro_tabela'] = campo;
+      filtros_formulario_principal['valor_digitado'] = valor_digitado;
+
+      let dados_filtro = JSON.parse(JSON.stringify(filtros_formulario_principal));
+      let filtro = JSON.stringify(filtros_formulario_principal);
+
+      $.ajax({
+        url: "{{ url('vendasoperadorasfiltro') }}",
+        type: "POST",
+        headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        data: dados_filtro,
+        dataType: 'json',
+        success: function (response){
+          console.log(response);
+          if(response){
+            for(var i=0;i< response[0].data.length; i++){
+
+              let dados_cupom   = JSON.stringify(response[0].data[i]);
+              let data_venda    = formataData(response[0].data[i].DATA_VENDA);
+              let data_prev_pag = formataData(response[0].data[i].DATA_PREVISTA_PAGTO);
+
+              let formatted                 = formataValorReal(response[0].data[i].VALOR_BRUTO);
+              let formatted_liq             = formataValorReal(response[0].data[i].VALOR_LIQUIDO);
+              let formatted_tx              = formataValorReal(response[0].data[i].VALOR_TAXA);
+              let formatted_outras_despesas = formataValorReal(response[0].data[i].OUTRAS_DESPESAS);
+
+              let cod      = response[0].data[i].COD;
+              let val_taxa = Number(response[0].data[i].PERCENTUAL_TAXA).toFixed(2);
+
+              let html = "<tr id='"+cod+"' onclick='mudaCorLinhaTable("+cod+")'>";
+
+              if(response[0].data[i].COD_STATUS_CONCILIACAO == 6) {
+                html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Conciliação' onclick='desfazerConciliacao(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-undo-alt'></i></a>"+" "+
+                "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+
+              }else if(response[0].data[i].COD_STATUS_CONCILIACAO == 3){
+                html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Justificativa' onclick='desfazerJustificativa(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-history'></i></a>"+" "+
+                "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+              }else{
+                html += "<td>" + "<a onclick='exibeModal("+dados_cupom+")'  data-target='#staticBackdrop' data-placement='bottom' title='Visualiza Comprovante'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+              }
+
+              html +="<td>"+response[0].data[i].EMPRESA+"</td>";
+              html +="<td>"+response[0].data[i].CNPJ+"</td>";
+              // html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' id='cartao'/>"+"</td>";
+              if(response[0].data[i].IMAGEMAD == null){
+                html +="<td>"+"<img src='assets/images/iconCart.jpeg' style='width: 30px'/>"+"</td>";
+              }else{
+                html +="<td style='display: transparent'>"+"<img src='"+response[0].data[i].IMAGEMAD+"' style='width: 30px;'/>"+  "</td>";
+              }
+              html +="<td>"+data_venda+"</td>";
+              html +="<td>"+data_prev_pag+"</td>";
+              if(response[0].data[i].IMAGEMBAD == null){
+                html +="<td>"+"<img src='assets/images/iconCart.jpeg' style='width: 30px'/>"+"</td>";
+              }else{
+                html +="<td>" + "<img class='imagebandeira "+ response[0].data[i].BANDEIRA +"' src='"+response[0].data[i].IMAGEMBAD+"' alt='"+response[0].data[i].BANDEIRA+"' style='width: 30px'/>"+  "</td>";
+              }
+              html +="<td>"+response[0].data[i].DESCRICAO+"</td>";
+              html +="<td>"+response[0].data[i].NSU+"</td>";
+              html +="<td>"+response[0].data[i].AUTORIZACAO+"</td>";
+              html +="<td>"+response[0].data[i].CARTAO+"</td>";
+              html +="<td>"+formatted +"</td>";
+              html +="<td>"+val_taxa+"</td>";
+              html +="<td style='color:red'>"+formatted_tx+"</td>";
+              html +="<td>"+formatted_outras_despesas+"</td>";
+              html +="<td>"+formatted_liq+"</td>";
+              html +="<td>"+response[0].data[i].PARCELA+"</td>";
+              html +="<td>"+response[0].data[i].TOTAL_PARCELAS+"</td>";
+              html +="<td>"+response[0].data[i].HORA_TRANSACAO+"</td>";
+              html +="<td>"+response[0].data[i].ESTABELECIMENTO+"</td>";
+              html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEM_LINK || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
+              if(response[0].data[i].AGENCIA){ html +="<td>"+response[0].data[i].AGENCIA +"</td>"}
+              else{ html +="<td>"+''+"</td>";}
+              if(response[0].data[i].CONTA){ html +="<td>"+ response[0].data[i].CONTA+"</td>";}
+              else{html +="<td>"+ ''+"</td>";}
+
+              html +="<td>"+ `${response[0].data[i].OBSERVACOES || ''}` +"</td>";
+              if(response[0].data[i].PRODUTO_WEB !=  null){
+                html +="<td>"+response[0].data[i].PRODUTO_WEB+"</td>";
+              }else{
+                html +="<td>"+""+"</td>";
+              }
+              html +="<td>"+response[0].data[i].MEIOCAPTURA+"</td>";
+              html +="<td>"+response[0].data[i].status_conc+"</td>";
+              html +="<td>"+response[0].data[i].status_finan+"</td>";
+              html +="<td>"+`${response[0].data[i].JUSTIFICATIVA || ''}`+"</td>";
+              html +="<td>"+""+"</td>";
+              html +="<td>"+""+"</td>";
+              html +="</tr>";
+              $('#jsgrid-table').append(html);
+            }
+
+            document.getElementById("valor_bruto").innerHTML = response[2];
+            document.getElementById("valor_liquido").innerHTML = response[1];
+            document.getElementById("valor_taxa").innerHTML = response[4];
+            document.getElementById("outras_tarifas").innerHTML = response[6];
+
+            let li_html = "<li><a>" + "" + "</a></li>"
+            if(response[0].last_page < 10){
+              for(let i=1; i<=response[0].last_page; i++){
+                // li_html += "<li class='page-item'><a class='page-link' href='/page="+i+"'>" + i + "</a></li>"
+                if(i == response[0].current_page){
+                  li_html += "<li class='page-item active'><a class='page-link' onclick='paginate("+i+","+filtro+")'>" + i + "</a></li>"
+                }else{
+                  li_html += "<li class='page-item'><a class='page-link' onclick='paginate("+i+","+filtro+")'>" + i + "</a></li>"
+                }
+              }
+            }else{
+              for(let i=1; i<=5; i++){
+                if(i == response[0].current_page){
+                  li_html += "<li class='page-item active'><a class='page-link' onclick='paginate("+i+","+ filtro + ")'>" + i + "</a></li>"
+                }else{
+                  li_html += "<li class='page-item'><a class='page-link' onclick='paginate("+i+","+  filtro + ")'>" + i + "</a></li>"
+                }           }
+                li_html += "<li class='page-item'><a class='page-link'>" + "..." + "</a></li>"
+                for(let i=response[0].last_page-2; i<=response[0].last_page; i++){
+                  li_html += "<li class='page-item'><a class='page-link' onclick='paginate("+i+","+ filtro + ")'>" + i + "</a></li>"
+                }
+              }
+
+              $('#ul_pagination').append(li_html);
+
+              document.getElementById("resultadosPesquisa").style.display = "block";
+
+              document.getElementById("total_liquido_vendas").innerHTML = "R$ "+response[1];
+              document.getElementById("total_registros").innerHTML = response[3];
+              document.getElementById("total_taxa_cobrada").innerHTML = "R$ -"+response[4];
+              document.getElementById("total_bruto_vendas").innerHTML = "R$ "+response[2];
+
+              window.scrollTo(0, 770);
+
+              document.getElementById("preloader").style.display = "none";
+            }
+          }
+        });
+      }
+    }
+
+    </script>
+
+    @stop

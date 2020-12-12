@@ -514,7 +514,7 @@ $(document).ready(function(){
                 <div class="row d-flex justify-content-center">
                   <div class="col-8">
                     <p class="text-dark font-weight-semibold font-12">BRUTO</p>
-                    <h6 style="font-size: 12px" id="total_bruto_recebimentos" class="my-3">R$ 240,000,00</h6>
+                    <h6 style="font-size: 12px" id="total_bruto_recebimentos" class="my-3">R$ 0,00</h6>
                     <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
                   </div>
                   <div class="col-4 align-self-center">
@@ -532,7 +532,7 @@ $(document).ready(function(){
                 <div class="row d-flex justify-content-center">
                   <div class="col-8">
                     <p class="text-dark font-weight-semibold font-12">TAXAS</p>
-                    <h6 style="font-size: 12px" id="total_taxa_cobrada" class="my-3">R$ 240,000,00</h6>
+                    <h6 style="font-size: 12px" id="total_taxa_cobrada" class="my-3">R$ 0,00</h6>
                     <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
                   </div>
                   <div class="col-4 align-self-center">
@@ -550,7 +550,7 @@ $(document).ready(function(){
                 <div class="row d-flex justify-content-center">
                   <div class="col-8">
                     <p class="text-dark font-weight-semibold font-12">DÉBITOS</p>
-                    <h6 style="font-size: 12px" id="total_debitos_recebimentos" class="my-3">R$ 240,000,00</h6>
+                    <h6 style="font-size: 12px" id="total_debitos_recebimentos" class="my-3">R$ 0,00</h6>
                     <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
                   </div>
                   <div class="col-4 align-self-center">
@@ -568,7 +568,7 @@ $(document).ready(function(){
                 <div class="row d-flex justify-content-center">
                   <div class="col-8">
                     <p class="text-dark font-weight-semibold font-12">CRÉDITOS</p>
-                    <h6 style="font-size: 12px" id="total_bruto_recebimentos" class="my-3">R$ 240,000,00</h6>
+                    <h6 style="font-size: 12px" id="total_bruto_recebimentos" class="my-3">R$ 0,00</h6>
                     <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
                   </div>
                   <div class="col-4 align-self-center">
@@ -587,7 +587,7 @@ $(document).ready(function(){
                 <div class="row d-flex justify-content-center">
                   <div class="col-8">
                     <p class="text-dark font-weight-semibold font-12">LÍQUIDO</p>
-                    <h6 style="font-size: 12px" id="total_liquido_recebimentos" class="my-3">R$ 240,000,00</h6>
+                    <h6 style="font-size: 12px" id="total_liquido_recebimentos" class="my-3">R$ 0,00</h6>
                     <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
                   </div>
                   <div class="col-4 align-self-center">

@@ -40,7 +40,7 @@ function inicializar() {
 function submeterFormularioPesquisa(event) {
     event.preventDefault();
     const url = event.target.action;
-    
+
     enviarFiltros({ url }).then(() => {
         limparFiltrosTabela();
         atualizaBoxes();
@@ -67,7 +67,7 @@ function pesquisar(event) {
 function limparCampos(event) {
     const form = document.querySelector('form#form-pesquisa');
     const dataInputs = document.querySelectorAll('form#form-pesquisa input[type=date]');
-    
+
     form.reset();
     Array.from(dataInputs).forEach(dataInput => {
         dataInput.value = "";
@@ -186,7 +186,7 @@ function exportar() {
     workbook.SheetNames.push('Vendas ERP')
 
     const worksheet = XLSX.utils.json_to_sheet(dados, { skipHeader: true });
-    worksheet['!cols'] = Array.from({ length: Object.keys(headers).length }, 
+    worksheet['!cols'] = Array.from({ length: Object.keys(headers).length },
         (valor, index) => ({
             wch: 16,
         })
@@ -264,7 +264,7 @@ function renderizaTabela(vendas, totais) {
         const vendaFormatada = formatarDadosVenda(venda);
 
         tabelaVendasHTML = `
-            <tr 
+            <tr
                 data-id="${venda.ID_ERP}"
                 class="${vendasMarcadas.includes(venda.ID_ERP) && 'marcada'}"
             >
@@ -390,7 +390,7 @@ async function requisitaVendas(urlBase, parametros = {}, dadosRequisicao) {
 
     if(!parametros.por_pagina)
         parametros.por_pagina = quantidadePorPagina;
-    
+
     const resposta = await api.post(urlBase, {
         headers: {
             'X-CSRF-TOKEN': dadosRequisicao.csrfToken,
@@ -401,13 +401,13 @@ async function requisitaVendas(urlBase, parametros = {}, dadosRequisicao) {
             ...parametros
         }
     });
-    
+
     return resposta;
 }
 
 async function requisitaTodasAsVendas(urlBase, quantidadePorPagina = '*') {
     const dados = serializarDadosFiltros();
-    
+
     const resposta = await requisitaVendas(urlBase, {
         por_pagina: quantidadePorPagina
     }, dados);
@@ -421,7 +421,7 @@ function irParaPagina(event) {
     const url = document.querySelector('form#form-pesquisa').action;
 
     paginaAtual = pagina;
-    
+
     if(origem === 'cache') {
         paginacaoFiltros.goToPage(pagina);
         renderizaTabela(paginacaoFiltros.getPageData(), totais);
@@ -437,7 +437,7 @@ function selecionaQuantidadePorPagina(event) {
     const url = document.querySelector('form#form-pesquisa').action;
 
     paginacao.setOptions({ perPage: Number(quantidadePorPagina) }).paginate();
-    
+
     if(Object.keys(tabelaFiltros).length > 0) {
         paginacaoFiltros.setOptions({ perPage: Number(quantidadePorPagina) });
         paginacaoFiltros.goToPage(1).paginate();
@@ -502,7 +502,7 @@ function executarFiltrosTabela() {
     const filtrados = filtrarTabela(tabelaFiltros, vendas);
     paginacaoFiltros.setData(filtrados);
     paginacaoFiltros.setOptions({ total: filtrados.length });
-    
+
     exibeAlertaQuantidadeResultados(filtrados.length);
     renderizaTabela(paginacaoFiltros.getPageData(1), totais);
     renderizaPaginacao(paginacaoFiltros.paginate());
@@ -522,7 +522,7 @@ function atualizaFiltrosTabela (event) {
         const valorNumerico = valor.replace(/[^0-9-,-\.]/gi, '');
         tabelaFiltros = { ...tabelaFiltros, [chave]: valorNumerico };
     }
-    
+
     if(!valor) {
         delete tabelaFiltros[chave];
     }

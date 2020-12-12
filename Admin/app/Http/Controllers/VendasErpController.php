@@ -16,17 +16,17 @@ use App\ClienteOperadoraModel;
 
 class VendasErpController extends Controller {
 
-  public function vendaserp(){    
+  public function vendaserp(){
     $status_conciliacao = StatusConciliacaoModel::orderBy('STATUS_CONCILIACAO')
       ->get();
 
     $status_financeiro = StatusFinanceiroModel::orderBy('STATUS_FINANCEIRO')
       ->get();
-    
+
     $empresas = GruposClientesModel::select(['CODIGO', 'NOME_EMPRESA', 'CNPJ'])
       ->where('COD_CLIENTE', session('codigologin'))
       ->get();
-    
+
     $adquirentes = ClienteOperadoraModel::select([
         'adquirentes.CODIGO',
         'adquirentes.ADQUIRENTE',
@@ -36,7 +36,7 @@ class VendasErpController extends Controller {
       ->where('COD_CLIENTE', '=', session('codigologin'))
       ->distinct()
       ->get();
-    
+
     $bandeiras = VendasErpModel::select([
         'bandeira.CODIGO',
         'bandeira.BANDEIRA',
@@ -47,7 +47,7 @@ class VendasErpController extends Controller {
       ->whereNotNull('bandeira.BANDEIRA')
       ->distinct()
       ->get();
-    
+
     $modalidades = VendasErpModel::select([
         'modalidade.CODIGO',
         'modalidade.DESCRICAO'
@@ -162,10 +162,10 @@ class VendasErpController extends Controller {
       ->from(DB::raw('('.$query->toSql().') as vendas_erp_sub'))
       ->mergeBindings($query->getQuery())
       ->sum('VALOR_TAXA');
-   
+
     $quantidadePorPagina = $quantidadePorPagina === '*' ? $query->count() : $quantidadePorPagina;
     $paginacaoVendas = $query->paginate($quantidadePorPagina);
-    $vendas = $paginacaoVendas->getCollection(); 
+    $vendas = $paginacaoVendas->getCollection();
     $paginacao = $paginacaoVendas->toArray();
     unset($paginacao['data']);
 
