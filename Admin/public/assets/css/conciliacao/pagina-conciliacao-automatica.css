@@ -1,0 +1,297 @@
+/* Form */
+#pagina-conciliacao form.card {
+  margin-bottom: 0;
+}
+
+#pagina-conciliacao .form-group label {
+  color: #303e67;
+  font-size: 0.845rem;
+  font-weight: 500;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+#pagina-conciliacao .form-group {
+  margin-bottom: 8px;
+}
+
+#pagina-conciliacao .form-group .form-control {
+  height: 30px;
+  color: #303e67;
+  border-color: #2d5275;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding: 0 8px;
+}
+
+#pagina-conciliacao .filtro-datas .form-group + .form-group {
+  margin-left: 24px;
+}
+
+#pagina-conciliacao .input-group button {
+  width: 100%;
+  height: 30px;
+  font-weight: bold;
+  text-align: center;
+  color: #2d5275;
+  border-color: #2d5275;
+  background-color: white;
+  padding: 0;
+  transition: 0.2s;
+}
+
+#pagina-conciliacao .check-group {
+  margin-right: 12px;
+}
+
+#pagina-conciliacao .check-group input + label {
+  font-size: 13px;
+  font-weight: 400;
+  color: #656d9a;
+  margin: 0;
+}
+
+#pagina-conciliacao form .acoes button {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bolder;
+  text-align: center;
+  color: #2d5275;
+  border-color: #2d5275;
+  background-color: white;
+}
+
+#pagina-conciliacao form .acoes button:focus {
+  box-shadow: none;
+}
+
+#pagina-conciliacao form .acoes button > * {
+  pointer-events: none;
+}
+
+#pagina-conciliacao form .acoes button i {
+  margin-right: 4px;
+}
+
+/* --- */
+
+/* Modais */
+#pagina-conciliacao .modais .modal-header {
+  background: #2d5275;
+}
+
+#pagina-conciliacao .modais .modal-dialog {
+  width: 400px !important;
+  max-width: 100%;
+}
+
+#pagina-conciliacao .modais .modal-header .modal-title,
+#pagina-conciliacao .modais .modal-header button {
+  color: white;
+}
+
+#pagina-conciliacao .modais .modal-body .row {
+  margin-left: 0;
+}
+
+#pagina-conciliacao .modais .modal-body .form-group {
+  margin-bottom: 24px;
+}
+
+#pagina-conciliacao .modais .modal-body .form-group h6 {
+  color: #6E6E6E;
+  font-weight: bold;
+}
+
+#pagina-conciliacao .modal-checkboxes {
+  max-height: 368px;
+  overflow-y: auto;
+}
+
+#pagina-conciliacao .modal-checkboxes p {
+  color: #6E6E6E;
+}
+
+#pagina-conciliacao .modal-checkboxes .row {
+  margin-right: 0;
+}
+
+#pagina-conciliacao .modal-checkboxes .row:first-of-type p {
+  font-weight: bold;
+}
+
+#pagina-conciliacao .modais .modal-body .form-group input {
+  border: 1px solid #e8ebf3;
+}
+/* --- */
+
+/** Resultados */
+
+#pagina-conciliacao .resultados {
+  margin-top: 48px;
+}
+
+#pagina-conciliacao .resultados .vendas-erp {
+  margin-bottom: 24px;
+}
+
+#pagina-conciliacao .boxes {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 8px;
+}
+
+#pagina-conciliacao .boxes .card-body p {
+  padding: 0;
+  margin: 0;
+}
+
+#pagina-conciliacao .boxes .card-body img {
+  width: 24px;
+  max-width: 100%;
+}
+
+#pagina-conciliacao .resultados .acoes button {
+  width: 104px;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  color: #2d5275;
+  border-color: #2d5275;
+  background-color: white;
+}
+
+#pagina-conciliacao .resultados .acoes button i {
+  font-size: 19px;
+  margin-right: 4px;
+}
+
+#pagina-conciliacao .tabela-info {
+  margin-bottom: 16px;
+}
+
+#pagina-conciliacao .resultados .tabela-wrapper {
+  max-height: 416px;
+  overflow: auto;
+  margin-bottom: 16px;
+}
+
+#pagina-conciliacao .resultados table {
+  white-space: nowrap;
+  position: relative;
+  background-color: white;
+  border: none;
+  margin: 0;
+}
+
+#pagina-conciliacao .resultados table input.form-control {
+  text-align: center;
+  color: #303e67;
+  border-color: #2d5275;
+  padding: 0 8px;
+}
+
+#pagina-conciliacao table thead tr {
+  background-color: white;
+  border-bottom: 2px solid #eaf0f7;
+}
+
+#pagina-conciliacao table thead th {
+  position: sticky;
+  top: 0;
+  background-color: white;
+}
+
+#pagina-conciliacao table tr {
+  background-color: transparent;
+}
+
+#pagina-conciliacao table th {
+  border: none;
+}
+
+#pagina-conciliacao table th,
+#pagina-conciliacao table td {
+  background-color: transparent;
+  padding: 8px;
+  margin: 0;
+  line-height: normal;
+  width: fit-content;
+}
+
+#pagina-conciliacao table th p {
+  margin-bottom: 8px;
+}
+
+#pagina-conciliacao table th input {
+  width: 136px;
+  max-width: 100%;
+  height: 32px;
+}
+
+#pagina-conciliacao tbody td:first-of-type img {
+  width: 16px;
+}
+
+
+#pagina-conciliacao tbody td img {
+  width: 48px;
+  padding: 1px 0px;
+}
+
+#pagina-conciliacao table tfoot td {
+  font-weight: bolder;
+  color: #6E6E6E;
+  text-align: center;
+  position: sticky;
+  bottom: 0;
+  background-color: #E6E6E6;
+}
+
+/* --- */
+
+.hidden {
+  display: none;
+}
+
+@media screen and (max-width: 372px) {
+  #pagina-conciliacao .filtro-datas {
+    flex-direction: column;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+  }
+
+  #pagina-conciliacao .filtro-datas .form-group {
+    width: 100%;
+  }
+
+  #pagina-conciliacao .filtro-datas .form-group + .form-group {
+    margin-left: 0;
+  }
+  
+  #pagina-conciliacao form .acoes button {
+    width: 100%;
+    margin-left: 0 !important;
+  }
+
+  #pagina-conciliacao form .acoes button + button {
+    margin-top: 8px;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  #pagina-conciliacao .input-group .form-input {
+    padding-right: 0;
+  }
+
+  #pagina-conciliacao .input-group .form-button {
+    padding-left: 0;
+    margin-top: 8px;
+  }
+}
