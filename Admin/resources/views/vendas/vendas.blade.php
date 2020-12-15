@@ -68,7 +68,7 @@
               </div>
             </div>
 
-            <div class="row" style="margin-top: -16px">
+            <div class="row containers-input">
               <div class="col-sm-6">
                 <div id="filtroempresa">
                   <div class="form-group">
@@ -88,7 +88,7 @@
                 </button>
               </div>
 
-              <div class="col-sm-6" style="margin-top: -16px">
+              <div class="col-sm-6 containers-input">
                 <div id="filtroadquirente">
                   <div class="form-group">
                     <div class="row">
@@ -107,7 +107,7 @@
                 </button>
               </div>
 
-              <div class="col-sm-6" style="margin-top: -16px">
+              <div class="col-sm-6 containers-input">
                 <div id="filtrobandeira">
                   <div class="form-group">
                     <div class="row">
@@ -126,7 +126,7 @@
                 </button>
               </div>
 
-              <div class="col-sm-6" style="margin-top: -16px">
+              <div class="col-sm-6 containers-input">
                 <div id="filtromodalidade">
                   <div class="form-group">
                     <div class="row">
@@ -145,12 +145,12 @@
                 </button>
               </div>
 
-              <div class="col-sm-6" style="margin-top: -16px">
+              <div class="col-sm-6 containers-input">
                 <div id="filtromeiocaptura">
                   <div class="form-group">
                     <div class="row">
                       <div class="col-sm-12">
-                        <h6 style="color: #424242; font-size: 11.5px"> Meio de Captura: </h6>
+                        <h6> Meio de Captura: </h6>
                         <input id="meiocaptura" class="form-control inputs" name="meiocaptura">
                       </div>
                     </div>
@@ -165,13 +165,13 @@
               </div>
             </div>
 
-            <div class="row" style="margin-top: -16px">
+            <div class="row containers-input">
               <div class="col-sm-12">
                 <h6> Status Conciliação: </h6>
                 <div class="row">
                   <div class="row">
                     @foreach($status_conciliacao as $status)
-                    <div style="margin-top: -10px; margin-left: 25px">
+                    <div class="inputs-statusconciliacao">
                       <input type="checkbox" checked  class="checkStatusConciliacao" value="{{ $status->CODIGO }}" name="status_conciliacao[]" id="{{ "statusFinan-".$status->CODIGO }}"required>
                       <label for="{{ "statusFinan".$status->CODIGO }}">{{ $status->STATUS_CONCILIACAO}}</label>
                     </div>
@@ -181,27 +181,21 @@
               </div>
             </div>
 
-            <div class="row" style="margin-top: -12px">
+            <div class="row containers-input">
               <div class="col-sm-12">
                 <h6> Status Financeiro: </h6>
                 <div class="row">
-                  <div class="col-sm-1">
-                    <div style="margin-top: -10px">
-                      <input type="checkbox" checked value="1" name="status_financeiro[]" id="pendente">
-                      <label for="aberto">Pendente</label>
-                    </div>
+                  <div class="col-sm-2 checks-fornulario">
+                    <input type="checkbox" checked value="1" name="status_financeiro[]" id="pendente">
+                    <label for="aberto">Pendente</label>
                   </div>
-                  <div class="col-sm-1">
-                    <div style="margin-top: -10px">
-                      <input type="checkbox" checked value="2" name="status_financeiro[]" id="liquidado">
-                      <label for="liquidado">Liquidada</label>
-                    </div>
+                  <div class="col-sm-2 checks-fornulario">
+                    <input type="checkbox" checked value="2" name="status_financeiro[]" id="liquidado">
+                    <label for="liquidado">Liquidada</label>
                   </div>
-                  <div class="col-sm-2">
-                    <div style="margin-top: -10px">
-                      <input type="checkbox" checked value="2" name="status_financeiro[]" id="cancelada">
-                      <label for="cancelada">Cancelada</label>
-                    </div>
+                  <div class="col-sm-2 checks-fornulario">
+                    <input type="checkbox" checked value="2" name="status_financeiro[]" id="cancelada">
+                    <label for="cancelada">Cancelada</label>
                   </div>
                 </div>
               </div>
@@ -209,7 +203,7 @@
 
             <div class="row">
               <div class="col-sm-12">
-                <div id="btfiltro" style="margin-top: -4px; display:block; text-align: right">
+                <div id="btfiltro">
                   <a onclick="limparFiltros()" style="align-items: right; background: white; color: #2D5275; border-color: #2D5275" class="btn btn-sm"> <i class="far fa-trash-alt"></i> <b>Limpar Campos</b>  </a>
                   <a id="submitFormLogin" class="btn btn-sm"> <i class="fas fa-search"></i> <b>Pesquisar</b>  </a>
                 </div>
@@ -219,15 +213,15 @@
         </div>
 
         <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-          <div class="modal-dialog" style="width: 400px;">
+          <div class="modal-dialog">
             <div class="modal-content">
-              <div class="modal-header" style="background: #2D5275;">
+              <div class="modal-header fundo-modal">
                 <h5 class="modal-title" id="staticBackdropLabel">Empresa</h5>
                 <button style="color: white" type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body" style="max-height: 350px; overflow: auto">
+              <div class="modal-body">
                 <div class="row">
                   <div class="col-sm-12">
                     <h6> Pesquisar </h6>
@@ -272,9 +266,9 @@
         </div>
 
         <div class="modal fade" id="staticBackdropAdquirente" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-          <div class="modal-dialog" style="width: 250px;">
+          <div class="modal-dialog">
             <div class="modal-content">
-              <div class="modal-header" style="background: #2D5275;">
+              <div class="modal-header fundo-modal">
                 <h5 class="modal-title" id="staticBackdropLabel">Adquirente</h5>
                 <button style="color: white" type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
@@ -305,7 +299,7 @@
                   </div>
 
                   <div id="{{ "divAdq".$adquirente->CODIGO }}" style="display:block" class="col-sm-2">
-                    <input id="{{ "inputAdq-".$adquirente->CODIGO }}" class="checkAdquirentes" value="{{ $adquirente->ADQUIRENTE }}" name="arrayAdquirentes[]" type="checkbox">
+                    <input id="{{ "inputAdq-".$adquirente->CODIGO }}" class="checkAdquirentes" value="{{ $adquirente->CODIGO }}" name="arrayAdquirentes[]" type="checkbox">
                   </div>
                   <hr>
                   @endforeach
@@ -321,9 +315,9 @@
         </div>
 
         <div class="modal fade" id="staticBackdropBandeira" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-          <div class="modal-dialog" style="width: 250px; ">
+          <div class="modal-dialog">
             <div class="modal-content">
-              <div class="modal-header" style="background: #2D5275;">
+              <div class="modal-header fundo-modal">
                 <h5 class="modal-title" id="staticBackdropLabel">Bandeira</h5>
                 <button style="color: white" type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
@@ -372,9 +366,9 @@
         </div>
 
         <div class="modal fade" id="staticBackdropModalidade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-          <div class="modal-dialog" style="width: 270px">
+          <div class="modal-dialog">
             <div class="modal-content">
-              <div class="modal-header" style="background: #2D5275;">
+              <div class="modal-header fundo-modal">
                 <h5 class="modal-title" id="staticBackdropLabel">Forma de Pagamento</h5>
                 <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
@@ -423,7 +417,7 @@
         <div class="modal fade" id="staticBackdropMeioCaptura" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
           <div class="modal-dialog" style="width: 270px">
             <div class="modal-content">
-              <div class="modal-header" style="background: #2D5275;">
+              <div class="modal-header fundo-modal">
                 <h5 class="modal-title" id="staticBackdropLabel">Meio de Captura</h5>
                 <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
@@ -482,7 +476,7 @@
                   </div>
                   <div class="col-4 align-self-center">
                     <div class="report-main-icon bg-light-alt">
-                      <img style="width: 40px" src="{{ url('assets/images/vendasoperadora/quantidade.png')}}" alt="">
+                      <img src="{{ url('assets/images/vendasoperadora/quantidade.png')}}" alt="">
                     </div>
                   </div>
                 </div>
@@ -499,7 +493,7 @@
                   </div>
                   <div class="col-4 align-self-center">
                     <div class="report-main-icon bg-light-alt">
-                      <img style="width: 40px" src="{{ url('assets/images/vendasoperadora/bruto.png')}}" alt="">
+                      <img src="{{ url('assets/images/vendasoperadora/bruto.png')}}" alt="">
                     </div>
                   </div>
                 </div>
@@ -516,7 +510,7 @@
                   </div>
                   <div class="col-4 align-self-center">
                     <div class="report-main-icon bg-light-alt">
-                      <img style="width: 40px" src="{{ url('assets/images/vendasoperadora/percentagem.png')}}" alt="">
+                      <img src="{{ url('assets/images/vendasoperadora/percentagem.png')}}" alt="">
                     </div>
                   </div>
                 </div>
@@ -533,7 +527,7 @@
                   </div>
                   <div class="col-4 align-self-center">
                     <div class="report-main-icon bg-light-alt">
-                      <img style="width: 40px" src="{{ url('assets/images/vendasoperadora/percentagem.png')}}" alt="">
+                      <img src="{{ url('assets/images/vendasoperadora/percentagem.png')}}" alt="">
                     </div>
                   </div>
                 </div>
@@ -550,7 +544,7 @@
                   </div>
                   <div class="col-4 align-self-center">
                     <div class="report-main-icon bg-light-alt">
-                      <img style="width: 40px" src="{{ url('assets/images/vendasoperadora/liquido.png')}}" alt="">
+                      <img src="{{ url('assets/images/vendasoperadora/liquido.png')}}" alt="">
                     </div>
                   </div>
                 </div>
@@ -575,28 +569,26 @@
               </div>
             </div>
             <span id="label-gerando-xls" style="display: none;  color: red"> Gerando XLS </span>
-
           </div>
         </div><br>
 
         <div class="modal fade" id="modal-cupom" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="modalCupom" aria-hidden="true">
-          <div class="modal-dialog" style="width: 320px">
+          <div class="modal-dialog">
             <div class="modal-content">
-              <div class="modal-header" style="background: #2D5275;">
-                <h5 class="modal-title" id="modalCupom" style="color: white">Comprovante</h5>
+              <div class="modal-header">
+                <h5 class="modal-title" id="modalCupom">Comprovante</h5>
                 <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body" style="max-height: 350px; overflow: auto; background-color: #F3F781">
+              <div class="modal-body">
                 <table>
                   <tbody>
                     <thead>
-                      <h4 id="moda_titulo" align="center" >  </h4>
-                      <h6 id="modal_cnpj" align="center" style="margin-top: -15px"> CNPJ: {{ $venda->CNPJ}}</h6>
+                      <h4 id="moda_titulo" align="center">  </h4>
+                      <h6 id="modal_cnpj" align="center"> CNPJ: {{ $venda->CNPJ}}</h6>
                       <h6 id="modal_empresa" align="center"> CNPJ: {{ $venda->CNPJ}}</h6>
-
-                      <h6 style="margin-top: -15px">-----------------------------------</h6>
+                      <h6 style="margin-top: -15px">--------------------------------------</h6>
                       <div style="text-align: center">
                         <h6 id="modal_data">  </h6>
                         <h6 id="modal_operadora">  </h6>
@@ -604,7 +596,7 @@
                         <h6 id="modal_forma_pagamento">  </h6>
                         <h6 id="modal_estabelecimento">  </h6>
                         <h6 id="modal_cartao">  </h6>
-                        <h6 id="modal_valor_bruto" style="font-weight: bold"> <b></b> </h6>
+                        <h6 id="modal_valor_bruto">  </h6>
                         <h6 id="modal_data_previsao"></h6>
                       </div>
                     </thead>
@@ -619,8 +611,8 @@
           </div>
         </div>
 
-        <div class="table-scroll" style="height: 450px">
-          <table id="jsgrid-table" class="table sortable" style="white-space: nowrap; border: none">
+        <div class="table-scroll">
+          <table id="jsgrid-table" class="table sortable">
             <thead>
               <tr style="border-top: none">
                 <th> Detalhes </th>
@@ -660,7 +652,7 @@
             <tbody>
             </tbody>
             <tfoot>
-              <td  style='color:#6E6E6E'> Totais </td>
+              <td> Totais </td>
               <td> </td>
               <td> </td>
               <td> </td>
@@ -671,7 +663,7 @@
               <td> </td>
               <td> </td>
               <td> </td>
-              <td  style='color:#6E6E6E' id="valor_bruto"> </td>
+              <td id="valor_bruto"> </td>
               <td> </td>
               <td  style='color:red' id="valor_taxa"> </td>
               <td  style='color:red' id="outras_tarifas"> </td>
@@ -718,11 +710,11 @@
                 <th> Total Parc.</th>
                 <th> Hora</th>
                 <th> Estabeleciment </th>
-                <th> Banc </th>
-                <th> Agênci </th>
+                <th> Banco </th>
+                <th> Agência </th>
                 <th> Conta</th>
                 <th> Observação</th>
-                <th> Produt </th>
+                <th> Produto </th>
                 <th> Meio de Captur </th>
                 <th> Status Conciliaçã </th>
                 <th> Status Financeir </th>
@@ -786,91 +778,36 @@
 
 let filtros_formulario_principal = {};
 
-// $(function(){
-//   $("#jsgrid-table input").keyup(function(){
-//     var index = $(this).parent().index();
-//     var nth = "#jsgrid-table td:nth-child("+(index+1).toString()+")";
-//     var valor = $(this).val().toUpperCase();
-//
-//     $("#jsgrid-table tbody tr").show();
-//     $(nth).each(function(){
-//       if($(this).text().toUpperCase().indexOf(valor) < 0) {
-//         $(this).parent().hide();
-//       }
-//     });
-//   });
-
-//   $("#jsgrid-table input").blur(function(){
-//     $(this).val("");
-//   });
-// });
-
 $('#submitFormLogin').click(function(){
   $('#jsgrid-table tbody').empty();
 
-  array = [];
-  arrayModalidade = [];
-  arrayBandeira = [];
-  arrayAdquirentes = [];
-  arrayStatusConciliacao = [];
-  arrayStatusFinanceiro = [];
-  arrayMeioCaptura = [];
+  document.getElementById("preloader").style.display = "block";
 
-  data_inicial = document.getElementById("date_inicial").value;
-  data_final = document.getElementById("date_final").value;
+  let array = [];
+  let arrayAdquirentes = [];
+  let arrayBandeira = [];
+  let arrayModalidade = [];
+  let arrayStatusFinanceiro = [];
+  let arrayStatusConciliacao = [];
 
-  grupo_clientes = <?php echo $grupos_clientes ?>;
-  modalidades = <?php echo $modalidades ?>;
-  bandeiras = <?php echo $bandeiras ?>;
-  mcaptura = <?php echo $meio_captura ?>;
-  adquirentes = <?php echo $adquirentes ?>;
-  status_conciliacao = <?php echo $status_conciliacao ?>;
-  aberto = document.getElementById("pendente").checked;
-  liquidado = document.getElementById("liquidado").checked;
-  cancelada = document.getElementById("cancelada").checked;
-  let qtdeVisivel = 10;
+  const checkboxEmpresa = document.querySelectorAll('input[type=checkbox]:checked.checkEmpresa');
+  const checkboxAdquirentes = document.querySelectorAll('input[type=checkbox]:checked.checkAdquirentes');
+  const checkboxBandeira = document.querySelectorAll('input[type=checkbox]:checked.checkBandeira');
+  const checkboxModalidade = document.querySelectorAll('input[type=checkbox]:checked.checkModalidade');
+  const checkboxMeioCaptura = document.querySelectorAll('input[type=checkbox]:checked.checkMeioCaptura');
+  const checkboxStatusConciliacao = document.querySelectorAll('input[type=checkbox]:checked.checkStatusConciliacao');
+  const data_inicial = document.getElementById("date_inicial").value;
+  const data_final = document.getElementById("date_final").value;
 
   if(document.getElementById("pendente").checked) { arrayStatusFinanceiro.push(1); }
   if(document.getElementById("liquidado").checked){ arrayStatusFinanceiro.push(2); }
   if(document.getElementById("cancelada").checked){ arrayStatusFinanceiro.push(3); }
 
-  grupo_clientes.forEach((grupo_cliente) => {
-    if(document.getElementById(grupo_cliente.CODIGO).checked){
-      array.push(grupo_cliente.CNPJ);
-    }
-  });
-
-  adquirentes.forEach((adquirente) => {
-    if(document.getElementById("inputAdq-"+adquirente.CODIGO).checked){
-      arrayAdquirentes.push(adquirente.CODIGO);
-    }
-  });
-
-  status_conciliacao.forEach((status) => {
-    if(document.getElementById("statusFinan-"+status.CODIGO).checked){
-      arrayStatusConciliacao.push(status.CODIGO);
-    }
-  });
-
-  modalidades.forEach((modalidade) => {
-    if(document.getElementById("inputMod-"+modalidade.CODIGO).checked){
-      arrayModalidade.push(modalidade.CODIGO);
-    }
-  });
-
-  bandeiras.forEach((bandeira) => {
-    if(document.getElementById(bandeira.CODIGO).checked){
-      arrayBandeira.push(bandeira.CODIGO);
-    }
-  });
-
-  mcaptura.forEach((mcaptura) => {
-    if(document.getElementById("inputMeioCap-"+mcaptura.CODIGO).checked){
-      arrayMeioCaptura.push(mcaptura.CODIGO);
-    }
-  });
-
-  document.getElementById("preloader").style.display = "block";
+  checkboxEmpresa.forEach((checkEmpresa) => { array.push(checkEmpresa.defaultValue) });
+  checkboxAdquirentes.forEach((checkAdquirente) => { arrayAdquirentes.push(checkAdquirente.defaultValue) });
+  checkboxBandeira.forEach((checkBandeira) => { arrayBandeira.push(checkBandeira.defaultValue) });
+  checkboxModalidade.forEach((checkModalidade) => { arrayModalidade.push(checkModalidade.defaultValue) });
+  checkboxStatusConciliacao.forEach((checkStatusConciliacao) => { arrayStatusConciliacao.push(checkStatusConciliacao.defaultValue) });
 
   const qtdeVisivelInicial = 10;
   const filtro_tabela = null;
@@ -885,7 +822,6 @@ $('#submitFormLogin').click(function(){
     arrayModalidade,
     arrayStatusConciliacao,
     arrayStatusFinanceiro,
-    arrayMeioCaptura,
     qtdeVisivelInicial,
     filtro_tabela,
     valor_digitado
@@ -909,14 +845,13 @@ $('#submitFormLogin').click(function(){
     dataType: 'json',
     success: function (response){
       if(response){
-        console.log(response);
         for(var i=0;i< response[0].data.length; i++){
 
           let dados_cupom   = JSON.stringify(response[0].data[i]);
           let data_venda    = formataData(response[0].data[i].DATA_VENDA);
           let data_prev_pag = formataData(response[0].data[i].DATA_PREVISTA_PAGTO);
 
-          let formatted                  = formataValorReal(response[0].data[i].VALOR_BRUTO);
+          let formatted                 = formataValorReal(response[0].data[i].VALOR_BRUTO);
           let formatted_liq             = formataValorReal(response[0].data[i].VALOR_LIQUIDO);
           let formatted_tx              = formataValorReal(response[0].data[i].VALOR_TAXA);
           let formatted_outras_despesas = formataValorReal(response[0].data[i].OUTRAS_DESPESAS);
@@ -929,7 +864,6 @@ $('#submitFormLogin').click(function(){
           if(response[0].data[i].COD_STATUS_CONCILIACAO == 6) {
             html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Conciliação' onclick='desfazerConciliacao(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-undo-alt'></i></a>"+" "+
             "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
-
           }else if(response[0].data[i].COD_STATUS_CONCILIACAO == 3){
             html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Justificativa' onclick='desfazerJustificativa(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-history'></i></a>"+" "+
             "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
@@ -939,19 +873,10 @@ $('#submitFormLogin').click(function(){
 
           html +="<td>"+response[0].data[i].EMPRESA+"</td>";
           html +="<td>"+response[0].data[i].CNPJ+"</td>";
-          // html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' id='cartao'/>"+"</td>";
-          if(response[0].data[i].IMAGEMAD == null){
-            html +="<td>"+"<img src='assets/images/iconCart.jpeg' style='width: 30px'/>"+"</td>";
-          }else{
-            html +="<td style='display: transparent'>"+"<img src='"+response[0].data[i].IMAGEMAD+"' style='width: 30px;'/>"+  "</td>";
-          }
+          html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEMAD || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
           html +="<td>"+data_venda+"</td>";
           html +="<td>"+data_prev_pag+"</td>";
-          if(response[0].data[i].IMAGEMBAD == null){
-            html +="<td>"+"<img src='assets/images/iconCart.jpeg' style='width: 30px'/>"+"</td>";
-          }else{
-            html +="<td>" + "<img class='imagebandeira "+ response[0].data[i].BANDEIRA +"' src='"+response[0].data[i].IMAGEMBAD+"' alt='"+response[0].data[i].BANDEIRA+"' style='width: 30px'/>"+  "</td>";
-          }
+          html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEMBAD || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
           html +="<td>"+response[0].data[i].DESCRICAO+"</td>";
           html +="<td>"+response[0].data[i].NSU+"</td>";
           html +="<td>"+response[0].data[i].AUTORIZACAO+"</td>";
@@ -967,17 +892,10 @@ $('#submitFormLogin').click(function(){
           html +="<td>"+response[0].data[i].HORA_TRANSACAO+"</td>";
           html +="<td>"+response[0].data[i].ESTABELECIMENTO+"</td>";
           html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEM_LINK || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
-          if(response[0].data[i].AGENCIA){ html +="<td>"+response[0].data[i].AGENCIA +"</td>"}
-          else{ html +="<td>"+''+"</td>";}
-          if(response[0].data[i].CONTA){ html +="<td>"+ response[0].data[i].CONTA+"</td>";}
-          else{html +="<td>"+ ''+"</td>";}
-
+          html +="<td>"+ `${response[0].data[i].AGENCIA || ''}` +"</td>";
+          html +="<td>"+ `${response[0].data[i].CONTA || ''}` +"</td>";
           html +="<td>"+ `${response[0].data[i].OBSERVACOES || ''}` +"</td>";
-          if(response[0].data[i].PRODUTO_WEB !=  null){
-            html +="<td>"+response[0].data[i].PRODUTO_WEB+"</td>";
-          }else{
-            html +="<td>"+""+"</td>";
-          }
+          html +="<td>"+ `${response[0].data[i].PRODUTO_WEB || ''}` +"</td>";
           html +="<td>"+response[0].data[i].MEIOCAPTURA+"</td>";
           html +="<td>"+response[0].data[i].status_conc+"</td>";
           html +="<td>"+response[0].data[i].status_finan+"</td>";
@@ -993,92 +911,712 @@ $('#submitFormLogin').click(function(){
         document.getElementById("valor_liquido").innerHTML = response[1];
         document.getElementById("valor_taxa").innerHTML = response[4];
         document.getElementById("outras_tarifas").innerHTML = response[6];
+        document.getElementById("resultadosPesquisa").style.display = "block";
+        document.getElementById("total_liquido_vendas").innerHTML = "R$ "+response[1];
+        document.getElementById("total_registros").innerHTML = response[3];
+        document.getElementById("total_taxa_cobrada").innerHTML = "R$ -"+response[4];
+        document.getElementById("total_bruto_vendas").innerHTML = "R$ "+response[2];
+        document.getElementById("total_taxa_minima").innerHTML = response[7];
 
-
-        let li_html = "<li><a>" + "" + "</a></li>"
-        if(response[0].last_page < 10){
-          for(let i=1; i<=response[0].last_page; i++){
-            // li_html += "<li class='page-item'><a class='page-link' href='/page="+i+"'>" + i + "</a></li>"
-            if(i == response[0].current_page){
-              li_html += "<li class='page-item active'><a class='page-link' onclick='paginate("+i+","+filtro+")'>" + i + "</a></li>"
-            }else{
-              li_html += "<li class='page-item'><a class='page-link' onclick='paginate("+i+","+filtro+")'>" + i + "</a></li>"
-            }
-          }
-        }else{
-          for(let i=1; i<=5; i++){
-            if(i == response[0].current_page){
-              li_html += "<li class='page-item active'><a class='page-link' onclick='paginate("+i+","+ filtro + ")'>" + i + "</a></li>"
-            }else{
-              li_html += "<li class='page-item'><a class='page-link' onclick='paginate("+i+","+  filtro + ")'>" + i + "</a></li>"
-            }           }
-            li_html += "<li class='page-item'><a class='page-link'>" + "..." + "</a></li>"
-            for(let i=response[0].last_page-2; i<=response[0].last_page; i++){
-              li_html += "<li class='page-item'><a class='page-link' onclick='paginate("+i+","+ filtro + ")'>" + i + "</a></li>"
-            }
-          }
-
-          $('#ul_pagination').append(li_html);
-
-          document.getElementById("resultadosPesquisa").style.display = "block";
-
-          document.getElementById("total_liquido_vendas").innerHTML = "R$ "+response[1];
-          document.getElementById("total_registros").innerHTML = response[3];
-          document.getElementById("total_taxa_cobrada").innerHTML = "R$ -"+response[4];
-          document.getElementById("total_bruto_vendas").innerHTML = "R$ "+response[2];
-          document.getElementById("total_taxa_minima").innerHTML = response[7];
-
-
-          window.scrollTo(0, 550);
-
-          document.getElementById("preloader").style.display = "none";
-        }
+        renderizaPaginacao(response, filtro);
+        document.getElementById("preloader").style.display = "none";
+        window.scrollTo(0, 550);
       }
-    });
+    }
+  });
+});
+
+function paginate(paginada_selecionada, dados){
+  dados.qtdeVisivelInicial = document.getElementById("quantidadePorPagina").value;
+  document.getElementById("quantidadePorPagina").selected;
+
+  let filtro = JSON.stringify(dados);
+
+  document.getElementById("preloader").style.display = "block";
+
+  $.ajax({
+    url: "{{ url('vendasoperadorasfiltro') }}" + "?page=" + paginada_selecionada,
+    type: "post",
+    headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+    data: dados,
+    dataType: 'json',
+    success: function (response){
+      if(response){
+        $('#jsgrid-table tbody').empty();
+        // $('#jsgrid-table tfoot').empty();
+        $('#ul_pagination li').empty();
+
+        for(var i=0;i< response[0].data.length; i++){
+          let dados_cupom   = JSON.stringify(response[0].data[i]);
+          let data_venda    = formataData(response[0].data[i].DATA_VENDA);
+          let data_prev_pag = formataData(response[0].data[i].DATA_PREVISTA_PAGTO);
+
+          let formatted     = formataValorReal(response[0].data[i].VALOR_BRUTO);
+          let formatted_liq = formataValorReal(response[0].data[i].VALOR_LIQUIDO);
+          let formatted_tx  = formataValorReal(response[0].data[i].VALOR_TAXA);
+          let formatted_outras_despesas = formataValorReal(response[0].data[i].OUTRAS_DESPESAS);
+
+          let cod = response[0].data[i].COD;
+          let a = response[0].data[i].PERCENTUAL_TAXA;
+          let val_taxa = Number(a).toFixed(2);
+
+          let html = "<tr id='"+cod+"' onclick='mudaCorLinhaTable("+cod+")'>";
+          if(response[0].data[i].COD_STATUS_CONCILIACAO == 6) {
+            html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Conciliação' onclick='desfazerConciliacao(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-undo-alt'></i></a>"+" "+
+            "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+
+          }else if(response[0].data[i].COD_STATUS_CONCILIACAO == 3){
+            html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Justificativa' onclick='desfazerJustificativa(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-history'></i></a>"+" "+
+            "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+          }else{
+            html += "<td>" + "<a onclick='exibeModal("+dados_cupom+")'  data-target='#staticBackdrop' data-placement='bottom' title='Visualiza Comprovante'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+          }
+
+          html +="<td>"+response[0].data[i].EMPRESA+"</td>";
+          html +="<td>"+response[0].data[i].CNPJ+"</td>";
+          html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEMAD || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
+          html +="<td>"+data_venda+"</td>";
+          html +="<td>"+data_prev_pag+"</td>";
+          html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEMBAD || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
+          html +="<td>"+response[0].data[i].DESCRICAO+"</td>";
+          html +="<td>"+response[0].data[i].NSU+"</td>";
+          html +="<td>"+response[0].data[i].AUTORIZACAO+"</td>";
+          html +="<td>"+response[0].data[i].CARTAO+"</td>";
+          html +="<td>"+formatted +"</td>";
+          html +="<td>"+val_taxa+"</td>";
+          html +="<td style='color:red'>"+formatted_tx+"</td>";
+          html +="<td>"+response[7]+"</td>";
+          html +="<td>"+formatted_outras_despesas+"</td>";
+          html +="<td>"+formatted_liq+"</td>";
+          html +="<td>"+response[0].data[i].PARCELA+"</td>";
+          html +="<td>"+response[0].data[i].TOTAL_PARCELAS+"</td>";
+          html +="<td>"+response[0].data[i].HORA_TRANSACAO+"</td>";
+          html +="<td>"+response[0].data[i].ESTABELECIMENTO+"</td>";
+          html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEM_LINK || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
+          html +="<td>"+ `${response[0].data[i].AGENCIA || ''}` +"</td>";
+          html +="<td>"+ `${response[0].data[i].CONTA || ''}` +"</td>";
+          html +="<td>"+ `${response[0].data[i].OBSERVACOES || ''}` +"</td>";
+          html +="<td>"+ `${response[0].data[i].PRODUTO_WEB || ''}` +"</td>";
+          html +="<td>"+response[0].data[i].MEIOCAPTURA+"</td>";
+          html +="<td>"+response[0].data[i].status_conc+"</td>";
+          html +="<td>"+response[0].data[i].status_finan+"</td>";
+          html +="<td>"+`${response[0].data[i].JUSTIFICATIVA || ''}`+"</td>";
+          html +="<td>"+""+"</td>";
+          html +="<td>"+""+"</td>";
+          html +="</tr>";
+          $('#jsgrid-table').append(html);
+        }
+
+        document.getElementById("total_liquido_vendas").innerHTML = "R$ "+response[1];
+        document.getElementById("total_registros").innerHTML = response[3];
+        document.getElementById("total_taxa_cobrada").innerHTML = "R$ -"+response[4];
+        document.getElementById("total_bruto_vendas").innerHTML = "R$ "+response[2];
+
+        renderizaPaginacaoPaginate(response, filtro);
+
+        document.getElementById("preloader").style.display = "none";
+      }
+    }
+  });
+}
+
+var empresasSelecionadas = [];
+var adquirentesSelecionados = [];
+var bandeirasSelecionados = [];
+var modalidadesSelecionados = [];
+var meioCapturaSelecionados = [];
+
+var flag = true;
+
+function submit(){
+  document.getElementById("preloader").style.display = "block";
+  document.getElementById("preloader").style.opacity = 0.9;
+
+  setTimeout(function () {
+    document.getElementById("myform").submit();
+  },200)
+}
+
+function addSelecionados(grupo_clientes){
+  grupo_clientes.forEach((cliente) => {
+    if(document.getElementById(cliente.CODIGO).checked){
+      empresasSelecionadas.includes(cliente.NOME_EMPRESA) ? '' : empresasSelecionadas.push(cliente.NOME_EMPRESA);
+    }else{
+      empresasSelecionadas.includes(cliente.NOME_EMPRESA) ? empresasSelecionadas.splice(empresasSelecionadas.indexOf(cliente.NOME_EMPRESA), 1) : '';
+    }
   });
 
-  function paginate(paginada_selecionada, dados){
-    dados.qtdeVisivelInicial = document.getElementById("quantidadePorPagina").value;
-    document.getElementById("quantidadePorPagina").selected;
+  document.getElementById("empresa").value = empresasSelecionadas;
+}
 
-    let filtro = JSON.stringify(dados);
+function addSelecionadosAdquirentes(adquirentes){
+  adquirentes.forEach((adquirente) => {
+    if(document.getElementById("inputAdq-"+adquirente.CODIGO).checked){
+      adquirentesSelecionados.includes(adquirente.ADQUIRENTE) ? '' : adquirentesSelecionados.push(adquirente.ADQUIRENTE);
+    }else{
+      adquirentesSelecionados.includes("inputAdq-"+adquirente.ADQUIRENTE) ? adquirentesSelecionados.splice(adquirentesSelecionados.indexOf(adquirente.ADQUIRENTE), 1) : '';
+    }
+  });
 
-    document.getElementById("preloader").style.display = "block";
+  document.getElementById("adquirente").value = adquirentesSelecionados;
+}
+
+function addSelecionadosBandeira(bandeiras){
+  bandeiras.forEach((bandeira) => {
+    if(document.getElementById(bandeira.CODIGO).checked){
+      bandeirasSelecionados.includes(bandeira.BANDEIRA) ? '' : bandeirasSelecionados.push(bandeira.BANDEIRA);
+    }else{
+      bandeirasSelecionados.includes(bandeira.BANDEIRA) ? bandeirasSelecionados.splice(bandeirasSelecionados.indexOf(bandeira.BANDEIRA), 1) : '';
+    }
+  });
+
+  document.getElementById("bandeira").value = bandeirasSelecionados;
+}
+
+function addSelecionadosModalidade(modalidades){
+  modalidades.forEach((modalidade) => {
+    if(document.getElementById("inputMod"+modalidade.CODIGO).checked){
+      modalidadesSelecionados.includes(modalidade.DESCRICAO) ? '' : modalidadesSelecionados.push(modalidade.DESCRICAO);
+    }else{
+      modalidadesSelecionados.includes(modalidade.DESCRICAO) ? modalidadesSelecionados.splice(modalidadesSelecionados.indexOf(modalidade.DESCRICAO), 1) : '';
+    }
+  });
+
+  document.getElementById("modalidade").value = modalidadesSelecionados;
+}
+
+function addSelecionadosMeioCaptura(meiocaptura){
+  meiocaptura.forEach((meiocaptura) => {
+    if(document.getElementById("inputMeioCap-"+meiocaptura.CODIGO).checked){
+      meioCapturaSelecionados.includes(meiocaptura.DESCRICAO) ? '' :  meioCapturaSelecionados.push(meiocaptura.DESCRICAO);
+    }else{
+      meioCapturaSelecionados.includes(meiocaptura.DESCRICAO) ? meioCapturaSelecionados.splice(meioCapturaSelecionados.indexOf(meiocaptura.DESCRICAO), 1) : '';
+    }
+  });
+
+  document.getElementById("meiocaptura").value = meioCapturaSelecionados;
+}
+
+function filtroCnpj(grupo_clientes){
+
+  setTimeout(function () {
+    var val_input = document.getElementById("ft").value.toUpperCase();
+
+    if(val_input == ""){
+      grupo_clientes.forEach((cliente) => {
+        document.getElementById(cliente.NOME_EMPRESA).style.display = "block";
+        document.getElementById(cliente.CNPJ).style.display = "block";
+        document.getElementById("divCod"+cliente.CODIGO).style.display = "block";
+
+      });
+    }else{
+      grupo_clientes.forEach((cliente) => {
+
+        var regex = new RegExp(val_input);
+
+        resultado_cnpj = cliente.CNPJ.match(regex);
+        resultado = cliente.NOME_EMPRESA.match(regex);
+
+        if(resultado || resultado_cnpj) {
+          document.getElementById(cliente.NOME_EMPRESA).style.display = "block";
+          document.getElementById(cliente.CNPJ).style.display = "block";
+          document.getElementById("divCod"+cliente.CODIGO).style.display = "block";
+        }else{
+          document.getElementById(cliente.NOME_EMPRESA).style.display = "none";
+          document.getElementById(cliente.CNPJ).style.display = "none";
+          document.getElementById("divCod"+cliente.CODIGO).style.display = "none";
+        }
+      });
+    }
+  },300)
+}
+
+function filtroNomeAdquirente(adquirentes) {
+  setTimeout(function () {
+    var val_input = document.getElementById("inputAdq").value;
+
+    if(val_input == ""){
+      adquirentes.forEach((adq) => {
+        document.getElementById(adq.ADQUIRENTE).style.display = "block";
+        document.getElementById("divAdq"+adq.CODIGO).style.display = "block";
+
+      });
+    }else {
+      adquirentes.forEach((adq) => {
+
+        var regex = new RegExp(val_input, 'gi');
+
+        resultado = adq.ADQUIRENTE.match(regex);
+
+        if(resultado) {
+          document.getElementById(adq.ADQUIRENTE).style.display = "block";
+          document.getElementById("divAdq"+adq.CODIGO).style.display = "block";
+        }else{
+          document.getElementById(adq.ADQUIRENTE).style.display = "none";
+          document.getElementById("divAdq"+adq.CODIGO).style.display = "none";
+        }
+      });
+    }
+  },300)
+}
+
+function filtroNomeBandeira(bandeiras){
+  setTimeout(function () {
+    var val_input = document.getElementById("inputBad").value;
+
+    if(val_input == ""){
+      bandeiras.forEach((bandeira) => {
+        document.getElementById(bandeira.BANDEIRA).style.display = "block";
+        document.getElementById("divBad"+bandeira.CODIGO).style.display = "block";
+
+      });
+    }else{
+      bandeiras.forEach((bandeira) => {
+
+        var regex = new RegExp(val_input, 'gi');
+
+        resultado = bandeira.BANDEIRA.match(regex);
+
+        if(resultado) {
+          document.getElementById(bandeira.BANDEIRA).style.display = "block";
+          document.getElementById("divBad"+bandeira.CODIGO).style.display = "block";
+        }else{
+          document.getElementById(bandeira.BANDEIRA).style.display = "none";
+          document.getElementById("divBad"+bandeira.CODIGO).style.display = "none";
+        }
+      });
+    }
+  },300)
+}
+
+function filtroNomeModalidade(modalidades){
+  setTimeout(function () {
+    var val_input = document.getElementById("ftModalidade").value;
+
+    if(val_input == ""){
+      modalidades.forEach((cliente) => {
+        document.getElementById(cliente.DESCRICAO).style.display = "block";
+        // document.getElementById(cliente.CNPJ).style.display = "block";
+        document.getElementById("divCod"+cliente.CODIGO).style.display = "block";
+
+      });
+    }else{
+      modalidades.forEach((cliente) => {
+
+        var regex = new RegExp(val_input, 'gi');
+
+        resultado = cliente.DESCRICAO.match(regex);
+
+        if(resultado) {
+          document.getElementById(cliente.DESCRICAO).style.display = "block";
+          document.getElementById("divCod"+cliente.CODIGO).style.display = "block";
+        }else{
+          document.getElementById(cliente.DESCRICAO).style.display = "none";
+          document.getElementById("divCod"+cliente.CODIGO).style.display = "none";
+        }
+      });
+
+    }
+  },200)
+}
+
+function filtroMeioCaptura(meios_captura){
+  setTimeout(function () {
+    var val_input = document.getElementById("inputMeioCaptura").value.toUpperCase();;
+
+    if(val_input == ""){
+      meios_captura.forEach((meio_captura) => {
+        document.getElementById(meio_captura.DESCRICAO).style.display = "block";
+        document.getElementById("divMCap"+meio_captura.CODIGO).style.display = "block";
+
+      });
+    }else{
+      meios_captura.forEach((meio_captura) => {
+
+        var regex = new RegExp(val_input);
+        resultado = meio_captura.DESCRICAO.match(regex);
+
+        if(resultado) {
+          document.getElementById(meio_captura.DESCRICAO).style.display = "block";
+          document.getElementById("divMCap"+meio_captura.CODIGO).style.display = "block";
+        }else{
+          document.getElementById(meio_captura.DESCRICAO).style.display = "none";
+          document.getElementById("divMCap"+meio_captura.CODIGO).style.display = "none";
+        }
+      });
+
+    }
+  },200)
+}
+
+function allCheckbox(grupo_clientes){
+  grupo_clientes.forEach((cliente) => {
+    if(document.getElementById("allCheck").checked){
+      document.getElementById(cliente.CODIGO).checked = true;
+    }else{
+      document.getElementById(cliente.CODIGO).checked = false;
+    }
+  });
+}
+
+function allCheckboxAd(grupo_clientes) {
+  grupo_clientes.forEach((cliente) => {
+    if(document.getElementById("allCheckAd").checked){
+      document.getElementById("inputAdq-"+cliente.CODIGO).checked = true;
+    }else{
+      document.getElementById("inputAdq-"+cliente.CODIGO).checked = false;
+    }
+  });
+}
+
+function allCheckboxBandeira(grupo_clientes) {
+  grupo_clientes.forEach((cliente) => {
+    if(document.getElementById("allCheckBandeira").checked){
+      document.getElementById(cliente.CODIGO).checked = true;
+    }else{
+      document.getElementById(cliente.CODIGO).checked = false;
+    }
+  });
+}
+
+function allCheckboxModalidade(grupo_clientes){
+
+  grupo_clientes.forEach((cliente) => {
+    if(document.getElementById("allCheckModalidade").checked){
+      document.getElementById("inputMod"+cliente.CODIGO).checked = true;
+    }else{
+      document.getElementById("inputMod"+cliente.CODIGO).checked = false;
+    }
+  });
+}
+
+function allCheckboxMeioCaptura(grupo_clientes){
+  grupo_clientes.forEach((cliente) => {
+    if(document.getElementById("allCheckMeioCaptura").checked){
+      document.getElementById("inputMeioCap-"+cliente.CODIGO).checked = true;
+    }else{
+      document.getElementById("inputMeioCap-"+cliente.CODIGO).checked = false;
+    }
+  });
+}
+
+function ad(value){
+  var bt = document.createElement("INPUT");
+  var div_cnpjs = document.getElementById("cont");
+
+  bt.innerHTML = value[1];
+
+  bt.setAttribute('name' , "array[]");
+  bt.setAttribute('value' , value);
+
+  bt.setAttribute('readonly', "");
+  bt.style = "margin-left: 5px; margin-top:5px; margin-bottom: 3px; width: 270px;";
+  // Insert text
+  div_cnpjs.appendChild(bt);
+}
+
+function limparFiltros() { bdocument.getElementById("myform").reset(); }
+
+function addTodos(grupos_clientes){
+  if(flag){
+    grupos_clientes.forEach((cliente) => {
+      var bt = document.createElement("INPUT");
+      var div_cnpjs = document.getElementById("cont");
+
+      bt.setAttribute('name' , "array[]");
+      bt.setAttribute('value' , cliente.NOME_EMPRESA + "-" +cliente.CNPJ);
+
+      bt.style = "margin-left: 5px; margin-top:5px; width: 130px;";                   // Insert text
+
+      bt.setAttribute('readonly', "");
+      bt.style = "margin-left: 5px; margin-top:5px; margin-bottom: 3px; width: 270px;";
+
+      div_cnpjs.appendChild(bt);
+
+      flag = false;
+    });
+  }
+}
+
+function removeCnpjs(){
+  var array = document.getElementsByName('array[]');
+  while(array[0]) {
+    array[0].parentNode.removeChild(array[0]);
+  }
+  flag = true;
+}
+
+function download_table_as_csv(table_id) {
+  var rows = document.querySelectorAll('table#' + table_id + ' tr');
+
+  var csv = [];
+  for (var i = 0; i < rows.length; i++) {
+    var row = [], cols = rows[i].querySelectorAll('td, th');
+    for (var j = 0; j < cols.length; j++) {
+      var data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ')
+      data = data.replace(/"/g, '""');
+      row.push('"' + data + '"');
+    }
+    csv.push(row.join(';'));
+  }
+  var csv_string = csv.join('\n');
+  var filename = 'export_' + 'conciflex' + '_' + new Date().toLocaleDateString() + '.xls';
+  var link = document.createElement('a');
+  link.style.display = 'none';
+  link.setAttribute('target', '_blank');
+  link.setAttribute('href', 'data:text/xls;charset=utf-8,' + encodeURIComponent(csv_string));
+  link.setAttribute('download', filename);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+var mudacor = false;
+function mudaCorLinhaTable(codigo){
+  var cor = document.getElementById(codigo).style.background;
+
+  if(cor == "" || cor == "rgb(255, 255, 255)") {
+    var cor = document.getElementById(codigo).style.background = "#A4A4A4";
+    var cor = document.getElementById(codigo).style.color = "#ffffff";
+  } else {
+    document.getElementById(codigo).style = "background: #ffffff; color: #231F20";
+  }
+}
+
+function desfazerConciliacao(codigo){
+  console.log(codigo);
+}
+
+function desfazerJustificativa(codigo){
+  const url = "/desfazer-justificativa/" + codigo;
+
+  $.ajax({
+    url: url,
+    type: "GET",
+    dataType: "json",
+    success: function(response){
+      console.log(response);
+    }
+  })
+}
+
+function novaQuantidadePagina(qtde_pagina) {
+  let array = [];
+  let arrayAdquirentes = [];
+  let arrayBandeira = [];
+  let arrayModalidade = [];
+  let arrayMeioCaptura = [];
+  let arrayStatusFinanceiro = [];
+  let arrayStatusConciliacao = [];
+
+  const qtdeVisivelInicial = document.getElementById("quantidadePorPagina").value;
+  const checkboxEmpresa = document.querySelectorAll('input[type=checkbox]:checked.checkEmpresa');
+  const checkboxAdquirentes = document.querySelectorAll('input[type=checkbox]:checked.checkAdquirentes');
+  const checkboxBandeira = document.querySelectorAll('input[type=checkbox]:checked.checkBandeira');
+  const checkboxModalidade = document.querySelectorAll('input[type=checkbox]:checked.checkModalidade');
+  const checkboxMeioCaptura = document.querySelectorAll('input[type=checkbox]:checked.checkMeioCaptura');
+  const checkboxStatusConciliacao = document.querySelectorAll('input[type=checkbox]:checked.checkStatusConciliacao');
+  const data_inicial = document.getElementById("date_inicial").value;
+  const data_final = document.getElementById("date_final").value;
+
+  if(document.getElementById("pendente").checked) { arrayStatusFinanceiro.push(1); }
+  if(document.getElementById("liquidado").checked){ arrayStatusFinanceiro.push(2); }
+  if(document.getElementById("cancelada").checked){ arrayStatusFinanceiro.push(3); }
+
+  checkboxEmpresa.forEach((checkEmpresa) => { array.push(checkEmpresa.defaultValue) });
+  checkboxAdquirentes.forEach((checkAdquirente) => { arrayAdquirentes.push(checkAdquirente.defaultValue) });
+  checkboxBandeira.forEach((checkBandeira) => { arrayBandeira.push(checkBandeira.defaultValue) });
+  checkboxModalidade.forEach((checkModalidade) => { arrayModalidade.push(checkModalidade.defaultValue) });
+  checkboxStatusConciliacao.forEach((checkStatusConciliacao) => { arrayStatusConciliacao.push(checkStatusConciliacao.defaultValue) });
+
+  const dados = {
+    data_inicial,
+    data_final,
+    array,
+    arrayAdquirentes,
+    arrayBandeira,
+    arrayModalidade,
+    arrayStatusConciliacao,
+    arrayStatusFinanceiro,
+    arrayMeioCaptura,
+    qtdeVisivelInicial
+  }
+
+  paginate(1, dados)
+}
+
+function exibeModal(venda){
+  localStorage.setItem('codigo_cupom_venda', venda.CODIGO);
+
+  const data_venda = formataData(venda.DATA_VENDA);
+  const data_prev_pag = formataData(venda.DATA_PREVISTA_PAGTO);
+  const valor_bruto = formataValorReal(venda.VALOR_BRUTO);
+
+  document.getElementById("modal_data").innerHTML = "DATA VENDA " + data_venda;
+  document.getElementById("modal_cnpj").innerHTML = "CNPJ " + venda.CNPJ;
+  document.getElementById("modal_empresa").innerHTML = "EMPRESA " + venda.EMPRESA;
+  document.getElementById("modal_cartao").innerHTML = "CARTÃO " + venda.CARTAO
+  document.getElementById("modal_bandeira").innerHTML = "BANDEIRA " + venda.BANDEIRA;
+  document.getElementById("modal_operadora").innerHTML = "OPERADORA " + venda.ADQUIRENTE;
+  document.getElementById("modal_operadora").innerHTML = "FORMA DE PAGAMENTO " + venda.DESCRICAO;
+  document.getElementById("modal_valor_bruto").innerHTML = "VALOR: " + valor_bruto;
+  document.getElementById("modal_data_previsao").innerHTML = "PREVISÂO DE PAGAMENTO " + data_prev_pag;
+
+  $("#modal-cupom").modal({
+    show: true
+  });
+}
+
+function imprimeCupom(){
+  let btn = document.createElement('a');
+  btn.href = "{{ url('/impressao-vendas')}}"+"/"+localStorage.getItem('codigo_cupom_venda');
+  btn.target = "_blank"
+  btn.click();
+}
+
+function exportXls(){
+
+  const dados_filtro =  JSON.parse(localStorage.getItem('dados_filtro'));
+
+  document.getElementById("label-gerando-xls").style.display = "block";
+  $.ajax({
+    url: "{{ url('exportxls-vendas-operadora') }}",
+    type: "POST",
+    headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+    data: dados_filtro,
+    dataType: 'json',
+    success: function (response){
+      if(response){
+        for(var i=0;i< response.length; i++){
+
+          let dados_cupom   = JSON.stringify(response[i]);
+          let data_venda    = formataData(response[i].DATA_VENDA);
+          let data_prev_pag = formataData(response[i].DATA_PREVISTA_PAGTO);
+
+          let formatted     = formataValorReal(response[i].VALOR_BRUTO);
+          let formatted_liq = formataValorReal(response[i].VALOR_LIQUIDO);
+          let formatted_tx  = formataValorReal(response[i].VALOR_TAXA);
+          let formatted_outras_despesas = formataValorReal(response[i].OUTRAS_DESPESAS);
+
+          let a = response[i].PERCENTUAL_TAXA;
+          let val_taxa = Number(a).toFixed(2);
+          let html = "<tr>";
+
+          html +="<td>"+response[i].EMPRESA+"</td>";
+          html +="<td>"+response[i].CNPJ+"</td>";
+          html +="<td>"+ response[i].ADQUIRENTE+"</td>";
+          html +="<td>"+data_venda+"</td>";
+          html +="<td>"+data_prev_pag+"</td>";
+          html +="<td>"+response[i].BANDEIRA+"</td>";
+          html +="<td>"+response[i].DESCRICAO+"</td>";
+          html +="<td>"+response[i].NSU+"</td>";
+          html +="<td>"+response[i].AUTORIZACAO+"</td>";
+          html +="<td>"+response[i].CARTAO+"</td>";
+          html +="<td>"+formatted +"</td>";
+          html +="<td>"+val_taxa+"</td>";
+          html +="<td style='color:red'>"+formatted_tx+"</td>";
+          html +="<td>"+formatted_outras_despesas+"</td>";
+          html +="<td>"+formatted_liq+"</td>";
+          html +="<td>"+response[i].PARCELA+"</td>";
+          html +="<td>"+response[i].TOTAL_PARCELAS+"</td>";
+          html +="<td>"+response[i].HORA_TRANSACAO+"</td>";
+          html +="<td>"+response[i].ESTABELECIMENTO+"</td>";
+          html +="<td>"+response[i].BANCO+"</td>";
+          if(response[i].AGENCIA){ html +="<td>"+response[i].AGENCIA +"</td>"}
+          else{ html +="<td>"+''+"</td>";}
+          if(response[i].CONTA){ html +="<td>"+ response[i].CONTA+"</td>";}
+          else{html +="<td>"+ ''+"</td>";}
+          html +="<td>"+ `${response[i].OBSERVACOES || ''}` +"</td>";
+          if(response[i].COD_PRODUTO !=  null){
+            html +="<td>"+response[i].PRODUTO_WEB+"</td>";
+          }else{
+            html +="<td>"+""+"</td>";
+          }
+          html +="<td>"+response[i].MEIOCAPTURA+"</td>";
+          html +="<td>"+response[i].status_conc+"</td>";
+          html +="<td>"+response[i].status_finan+"</td>";
+          html +="<td>"+""+"</td>";
+          html +="<td>"+""+"</td>";
+          html +="<td>"+""+"</td>";
+
+          html +="</tr>";
+
+          $('#table-xls').append(html);
+
+        }
+
+        $('#table-xls').DataTable( {
+          dom: 'Bfrtip',
+          buttons: [
+            'excel'
+          ]
+        } );
+
+        $(".buttons-excel").trigger("click");
+        document.getElementById("label-gerando-xls").style.display = "none";
+      }
+    }
+  });
+}
+
+function formataData(data){
+  const new_data_ = new Date(data);
+  const data_formatada = new_data_.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+
+  return data_formatada;
+}
+
+function formataValorReal(valor){
+  const formatter = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  });
+  const valor_formatado = formatter.format(valor);
+
+  return valor_formatado;
+}
+
+function filtraTabela(campo, event){
+  if(event.keyCode == 13) {
+
+    $('#jsgrid-table tbody').empty();
+    $('#ul_pagination li').empty();
+
+    let valor_digitado = document.querySelector(`input[name=${campo}]`).value;
+
+    filtros_formulario_principal['filtro_tabela'] = campo;
+    filtros_formulario_principal['valor_digitado'] = valor_digitado;
+
+    let dados_filtro = JSON.parse(JSON.stringify(filtros_formulario_principal));
+    let filtro = JSON.stringify(filtros_formulario_principal);
 
     $.ajax({
-      url: "{{ url('vendasoperadorasfiltro') }}" + "?page=" + paginada_selecionada,
-      type: "post",
+      url: "{{ url('vendasoperadorasfiltro') }}",
+      type: "POST",
       headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-      data: dados,
+      data: dados_filtro,
       dataType: 'json',
       success: function (response){
         if(response){
-          $('#jsgrid-table tbody').empty();
-          // $('#jsgrid-table tfoot').empty();
-          $('#ul_pagination li').empty();
-
           for(var i=0;i< response[0].data.length; i++){
+
             let dados_cupom   = JSON.stringify(response[0].data[i]);
             let data_venda    = formataData(response[0].data[i].DATA_VENDA);
             let data_prev_pag = formataData(response[0].data[i].DATA_PREVISTA_PAGTO);
 
-            let formatted     = formataValorReal(response[0].data[i].VALOR_BRUTO);
-            let formatted_liq = formataValorReal(response[0].data[i].VALOR_LIQUIDO);
-            let formatted_tx  = formataValorReal(response[0].data[i].VALOR_TAXA);
+            let formatted                 = formataValorReal(response[0].data[i].VALOR_BRUTO);
+            let formatted_liq             = formataValorReal(response[0].data[i].VALOR_LIQUIDO);
+            let formatted_tx              = formataValorReal(response[0].data[i].VALOR_TAXA);
             let formatted_outras_despesas = formataValorReal(response[0].data[i].OUTRAS_DESPESAS);
 
-            var cod = response[0].data[i].COD;
-            //tira 2 casas decimais da taxa
-            var a = response[0].data[i].PERCENTUAL_TAXA;
-            var val_taxa = Number(a).toFixed(2);
-            var html = "<tr id='"+cod+"' onclick='mudaCorLinhaTable("+cod+")'>";
+            let cod      = response[0].data[i].COD;
+            let val_taxa = Number(response[0].data[i].PERCENTUAL_TAXA).toFixed(2);
 
-            // setTimeout(function () {
-            // html +="<td>";
+            let html = "<tr id='"+cod+"' onclick='mudaCorLinhaTable("+cod+")'>";
+
             if(response[0].data[i].COD_STATUS_CONCILIACAO == 6) {
               html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Conciliação' onclick='desfazerConciliacao(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-undo-alt'></i></a>"+" "+
               "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
-
             }else if(response[0].data[i].COD_STATUS_CONCILIACAO == 3){
               html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Justificativa' onclick='desfazerJustificativa(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-history'></i></a>"+" "+
               "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
@@ -1088,19 +1626,10 @@ $('#submitFormLogin').click(function(){
 
             html +="<td>"+response[0].data[i].EMPRESA+"</td>";
             html +="<td>"+response[0].data[i].CNPJ+"</td>";
-            // html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' id='cartao'/>"+"</td>";
-            if(response[0].data[i].IMAGEMAD == null){
-              html +="<td>"+"<img src='assets/images/iconCart.jpeg' style='width: 30px'/>"+"</td>";
-            }else{
-              html +="<td style='display: transparent'>"+"<img src='"+response[0].data[i].IMAGEMAD+"' style='width: 30px;'/>"+  "</td>";
-            }
+            html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEMAD || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
             html +="<td>"+data_venda+"</td>";
             html +="<td>"+data_prev_pag+"</td>";
-            if(response[0].data[i].IMAGEMBAD == null){
-              html +="<td>"+"<img src='assets/images/iconCart.jpeg' style='width: 30px'/>"+"</td>";
-            }else{
-              html +="<td>" + "<img class='imagebandeira "+ response[0].data[i].BANDEIRA +"' src='"+response[0].data[i].IMAGEMBAD+"' alt='"+response[0].data[i].BANDEIRA+"' style='width: 30px'/>"+  "</td>";
-            }
+            html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEMBAD || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
             html +="<td>"+response[0].data[i].DESCRICAO+"</td>";
             html +="<td>"+response[0].data[i].NSU+"</td>";
             html +="<td>"+response[0].data[i].AUTORIZACAO+"</td>";
@@ -1108,6 +1637,7 @@ $('#submitFormLogin').click(function(){
             html +="<td>"+formatted +"</td>";
             html +="<td>"+val_taxa+"</td>";
             html +="<td style='color:red'>"+formatted_tx+"</td>";
+            html +="<td>"+response[7]+"</td>";
             html +="<td>"+formatted_outras_despesas+"</td>";
             html +="<td>"+formatted_liq+"</td>";
             html +="<td>"+response[0].data[i].PARCELA+"</td>";
@@ -1115,17 +1645,10 @@ $('#submitFormLogin').click(function(){
             html +="<td>"+response[0].data[i].HORA_TRANSACAO+"</td>";
             html +="<td>"+response[0].data[i].ESTABELECIMENTO+"</td>";
             html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEM_LINK || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
-            if(response[0].data[i].AGENCIA){ html +="<td>"+response[0].data[i].AGENCIA +"</td>"}
-            else{ html +="<td>"+''+"</td>";}
-            if(response[0].data[i].CONTA){ html +="<td>"+ response[0].data[i].CONTA+"</td>";}
-            else{html +="<td>"+ ''+"</td>";}
-
+            html +="<td>"+ `${response[0].data[i].AGENCIA || ''}` +"</td>";
+            html +="<td>"+ `${response[0].data[i].CONTA || ''}` +"</td>";
             html +="<td>"+ `${response[0].data[i].OBSERVACOES || ''}` +"</td>";
-            if(response[0].data[i].PRODUTO_WEB !=  null){
-              html +="<td>"+response[0].data[i].PRODUTO_WEB+"</td>";
-            }else{
-              html +="<td>"+""+"</td>";
-            }
+            html +="<td>"+ `${response[0].data[i].PRODUTO_WEB || ''}` +"</td>";
             html +="<td>"+response[0].data[i].MEIOCAPTURA+"</td>";
             html +="<td>"+response[0].data[i].status_conc+"</td>";
             html +="<td>"+response[0].data[i].status_finan+"</td>";
@@ -1134,803 +1657,115 @@ $('#submitFormLogin').click(function(){
             html +="<td>"+""+"</td>";
             html +="</tr>";
             $('#jsgrid-table').append(html);
-            // },100);
           }
 
+          document.getElementById("valor_bruto").innerHTML = response[2];
+          document.getElementById("valor_liquido").innerHTML = response[1];
+          document.getElementById("valor_taxa").innerHTML = response[4];
+          document.getElementById("outras_tarifas").innerHTML = response[6];
+
+          renderizaPaginacao(response, filtro);
+
+          document.getElementById("resultadosPesquisa").style.display = "block";
           document.getElementById("total_liquido_vendas").innerHTML = "R$ "+response[1];
           document.getElementById("total_registros").innerHTML = response[3];
           document.getElementById("total_taxa_cobrada").innerHTML = "R$ -"+response[4];
           document.getElementById("total_bruto_vendas").innerHTML = "R$ "+response[2];
 
-          let li_html = "<li><a>" + "" + "</a></li>"
-
-          if(response[0].last_page < 10){
-            for(let i=1; i<=response[0].last_page; i++){
-              // li_html += "<li class='page-item'><a class='page-link' href='/page="+i+"'>" + i + "</a></li>"
-              if(i == response[0].current_page){
-                li_html += "<li class='page-item active'><a class='page-link' onclick='paginate("+i+","+  filtro + ")'>" + i + "</a></li>"
-              }else{
-                li_html += "<li class='page-item'><a class='page-link' onclick='paginate("+i+","+  filtro + ")'>" + i + "</a></li>"
-              }
-            }
-          }else if(response[0].current_page >=5 && response[0].current_page < response[0].last_page-2){
-            for(let i=1; i<3; i++){
-              li_html += "<li class='page-item'><a class='page-link' onclick='paginate("+i+","+  filtro + ")'>" + i + "</a></li>"
-            }
-            li_html += "<li class='page-item'><a class='page-link'>" + "..." + "</a></li>"
-            for(let i=response[0].current_page-1; i<response[0].current_page+2; i++){
-              if(i == response[0].current_page){
-                li_html += "<li class='page-item active'><a class='page-link' onclick='paginate("+i+","+  filtro + ")'>" + i + "</a></li>"
-              }else{
-                li_html += "<li class='page-item'><a class='page-link' onclick='paginate("+i+","+  filtro + ")'>" + i + "</a></li>"
-              }
-            }
-            li_html += "<li class='page-item'><a class='page-link'>" + "..." + "</a></li>"
-            for(let i=response[0].last_page-2; i<=response[0].last_page; i++){
-              li_html += "<li class='page-item'><a class='page-link' onclick='paginate("+i+","+  filtro + ")'>" + i + "</a></li>"
-
-            }
-          }else if(response[0].current_page >= response[0].last_page-2){
-            for(let i=1; i<3; i++){
-              li_html += "<li class='page-item'><a class='page-link' onclick='paginate("+i+","+  filtro + ")'>" + i + "</a></li>"
-            }
-            li_html += "<li class='page-item'><a class='page-link'>" + "..." + "</a></li>"
-            for(let i=response[0].last_page-2; i<=response[0].last_page; i++){
-              if(i == response[0].current_page){
-                li_html += "<li class='page-item active'><a class='page-link' onclick='paginate("+i+","+  filtro + ")'>" + i + "</a></li>"
-              }else{
-                li_html += "<li class='page-item'><a class='page-link' onclick='paginate("+i+","+  filtro + ")'>" + i + "</a></li>"
-              }
-            }
-          }else{
-            for(let i=1; i<=5; i++){
-              if(i == response[0].current_page){
-                li_html += "<li class='page-item active'><a class='page-link' onclick='paginate("+i+","+  filtro + ")'>" + i + "</a></li>"
-              }else{
-                li_html += "<li class='page-item'><a class='page-link' onclick='paginate("+i+","+  filtro + ")'>" + i + "</a></li>"
-              }
-            }
-            li_html += "<li class='page-item'><a class='page-link'>" + "..." + "</a></li>"
-            for(let i =response[0].last_page-2; i<=response[0].last_page; i++){
-              li_html += "<li class='page-item'><a class='page-link' onclick='paginate("+i+","+  filtro + ")'>" + i + "</a></li>"
-            }
-          }
-
-          $('#ul_pagination').append(li_html);
+          window.scrollTo(0, 770);
 
           document.getElementById("preloader").style.display = "none";
-
         }
       }
     });
   }
+}
 
-  var empresasSelecionadas = [];
-  var adquirentesSelecionados = [];
-  var bandeirasSelecionados = [];
-  var modalidadesSelecionados = [];
-  var meioCapturaSelecionados = [];
+function renderizaPaginacao(response, filtro){
+  let li_html = "<li><a>" + "" + "</a></li>"
 
-  var flag = true;
-
-  function submit(){
-    document.getElementById("preloader").style.display = "block";
-    document.getElementById("preloader").style.opacity = 0.9;
-
-    setTimeout(function () {
-      document.getElementById("myform").submit();
-    },200)
-  }
-
-  function addSelecionados(grupo_clientes){
-    grupo_clientes.forEach((cliente) => {
-      if(document.getElementById(cliente.CODIGO).checked){
-        empresasSelecionadas.includes(cliente.NOME_EMPRESA) ? '' : empresasSelecionadas.push(cliente.NOME_EMPRESA);
+  if(response[0].last_page < 10){
+    for(let i=1; i<=response[0].last_page; i++){
+      if(i == response[0].current_page){
+        li_html += "<li class='page-item active'><a class='page-link' onclick='paginate("+i+","+filtro+")'>" + i + "</a></li>"
       }else{
-        empresasSelecionadas.includes(cliente.NOME_EMPRESA) ? empresasSelecionadas.splice(empresasSelecionadas.indexOf(cliente.NOME_EMPRESA), 1) : '';
+        li_html += "<li class='page-item'><a class='page-link' onclick='paginate("+i+","+filtro+")'>" + i + "</a></li>"
       }
-    });
-
-    document.getElementById("empresa").value = empresasSelecionadas;
-  }
-
-  function addSelecionadosAdquirentes(adquirentes){
-    console.log(adquirentes)
-    adquirentes.forEach((adquirente) => {
-      if(document.getElementById("inputAdq-"+adquirente.CODIGO).checked){
-        adquirentesSelecionados.includes(adquirente.ADQUIRENTE) ? '' : adquirentesSelecionados.push(adquirente.ADQUIRENTE);
+    }
+  }else{
+    for(let i=1; i<=5; i++){
+      if(i == response[0].current_page){
+        li_html += "<li class='page-item active'><a class='page-link' onclick='paginate("+i+","+ filtro + ")'>" + i + "</a></li>"
       }else{
-        adquirentesSelecionados.includes("inputAdq-"+adquirente.ADQUIRENTE) ? adquirentesSelecionados.splice(adquirentesSelecionados.indexOf(adquirente.ADQUIRENTE), 1) : '';
+        li_html += "<li class='page-item'><a class='page-link' onclick='paginate("+i+","+  filtro + ")'>" + i + "</a></li>"
       }
-    });
-
-    document.getElementById("adquirente").value = adquirentesSelecionados;
-  }
-
-  function addSelecionadosBandeira(bandeiras){
-    bandeiras.forEach((bandeira) => {
-      if(document.getElementById(bandeira.CODIGO).checked){
-        bandeirasSelecionados.includes(bandeira.BANDEIRA) ? '' : bandeirasSelecionados.push(bandeira.BANDEIRA);
-      }else{
-        bandeirasSelecionados.includes(bandeira.BANDEIRA) ? bandeirasSelecionados.splice(bandeirasSelecionados.indexOf(bandeira.BANDEIRA), 1) : '';
-      }
-    });
-
-    document.getElementById("bandeira").value = bandeirasSelecionados;
-  }
-
-  function addSelecionadosModalidade(modalidades){
-    modalidades.forEach((modalidade) => {
-      if(document.getElementById("inputMod"+modalidade.CODIGO).checked){
-        modalidadesSelecionados.includes(modalidade.DESCRICAO) ? '' : modalidadesSelecionados.push(modalidade.DESCRICAO);
-      }else{
-        modalidadesSelecionados.includes(modalidade.DESCRICAO) ? modalidadesSelecionados.splice(modalidadesSelecionados.indexOf(modalidade.DESCRICAO), 1) : '';
-      }
-    });
-
-    document.getElementById("modalidade").value = modalidadesSelecionados;
-  }
-
-  function addSelecionadosMeioCaptura(meiocaptura){
-    meiocaptura.forEach((meiocaptura) => {
-      if(document.getElementById("inputMeioCap-"+meiocaptura.CODIGO).checked){
-        meioCapturaSelecionados.includes(meiocaptura.DESCRICAO) ? '' :  meioCapturaSelecionados.push(meiocaptura.DESCRICAO);
-      }else{
-        meioCapturaSelecionados.includes(meiocaptura.DESCRICAO) ? meioCapturaSelecionados.splice(meioCapturaSelecionados.indexOf(meiocaptura.DESCRICAO), 1) : '';
-      }
-    });
-
-    document.getElementById("meiocaptura").value = meioCapturaSelecionados;
-  }
-
-  function filtroCnpj(grupo_clientes){
-
-    setTimeout(function () {
-      var val_input = document.getElementById("ft").value.toUpperCase();
-
-      if(val_input == ""){
-        grupo_clientes.forEach((cliente) => {
-          document.getElementById(cliente.NOME_EMPRESA).style.display = "block";
-          document.getElementById(cliente.CNPJ).style.display = "block";
-          document.getElementById("divCod"+cliente.CODIGO).style.display = "block";
-
-        });
-      }else{
-        grupo_clientes.forEach((cliente) => {
-
-          var regex = new RegExp(val_input);
-
-          resultado_cnpj = cliente.CNPJ.match(regex);
-          resultado = cliente.NOME_EMPRESA.match(regex);
-
-          if(resultado || resultado_cnpj) {
-            document.getElementById(cliente.NOME_EMPRESA).style.display = "block";
-            document.getElementById(cliente.CNPJ).style.display = "block";
-            document.getElementById("divCod"+cliente.CODIGO).style.display = "block";
-          }else{
-            document.getElementById(cliente.NOME_EMPRESA).style.display = "none";
-            document.getElementById(cliente.CNPJ).style.display = "none";
-            document.getElementById("divCod"+cliente.CODIGO).style.display = "none";
-          }
-        });
-      }
-    },300)
-  }
-
-  function filtroNomeAdquirente(adquirentes) {
-    setTimeout(function () {
-      var val_input = document.getElementById("inputAdq").value;
-
-      if(val_input == ""){
-        adquirentes.forEach((adq) => {
-          document.getElementById(adq.ADQUIRENTE).style.display = "block";
-          document.getElementById("divAdq"+adq.CODIGO).style.display = "block";
-
-        });
-      }else {
-        adquirentes.forEach((adq) => {
-
-          var regex = new RegExp(val_input, 'gi');
-
-          resultado = adq.ADQUIRENTE.match(regex);
-
-          if(resultado) {
-            document.getElementById(adq.ADQUIRENTE).style.display = "block";
-            document.getElementById("divAdq"+adq.CODIGO).style.display = "block";
-          }else{
-            document.getElementById(adq.ADQUIRENTE).style.display = "none";
-            document.getElementById("divAdq"+adq.CODIGO).style.display = "none";
-          }
-        });
-      }
-    },300)
-  }
-
-  function filtroNomeBandeira(bandeiras){
-    setTimeout(function () {
-      var val_input = document.getElementById("inputBad").value;
-
-      if(val_input == ""){
-        bandeiras.forEach((bandeira) => {
-          document.getElementById(bandeira.BANDEIRA).style.display = "block";
-          document.getElementById("divBad"+bandeira.CODIGO).style.display = "block";
-
-        });
-      }else{
-
-
-        bandeiras.forEach((bandeira) => {
-
-          var regex = new RegExp(val_input, 'gi');
-
-          resultado = bandeira.BANDEIRA.match(regex);
-
-          if(resultado) {
-            document.getElementById(bandeira.BANDEIRA).style.display = "block";
-            document.getElementById("divBad"+bandeira.CODIGO).style.display = "block";
-          }else{
-            document.getElementById(bandeira.BANDEIRA).style.display = "none";
-            document.getElementById("divBad"+bandeira.CODIGO).style.display = "none";
-          }
-        });
-      }
-    },300)
-  }
-
-  function filtroNomeModalidade(modalidades){
-    setTimeout(function () {
-      var val_input = document.getElementById("ftModalidade").value;
-
-      if(val_input == ""){
-        modalidades.forEach((cliente) => {
-          document.getElementById(cliente.DESCRICAO).style.display = "block";
-          // document.getElementById(cliente.CNPJ).style.display = "block";
-          document.getElementById("divCod"+cliente.CODIGO).style.display = "block";
-
-        });
-      }else{
-        modalidades.forEach((cliente) => {
-
-          var regex = new RegExp(val_input, 'gi');
-
-          resultado = cliente.DESCRICAO.match(regex);
-
-          if(resultado) {
-            document.getElementById(cliente.DESCRICAO).style.display = "block";
-            document.getElementById("divCod"+cliente.CODIGO).style.display = "block";
-          }else{
-            document.getElementById(cliente.DESCRICAO).style.display = "none";
-            document.getElementById("divCod"+cliente.CODIGO).style.display = "none";
-          }
-        });
-
-      }
-    },200)
-  }
-
-  function filtroMeioCaptura(meios_captura){
-    setTimeout(function () {
-      var val_input = document.getElementById("inputMeioCaptura").value.toUpperCase();;
-
-      if(val_input == ""){
-        meios_captura.forEach((meio_captura) => {
-          document.getElementById(meio_captura.DESCRICAO).style.display = "block";
-          document.getElementById("divMCap"+meio_captura.CODIGO).style.display = "block";
-
-        });
-      }else{
-        meios_captura.forEach((meio_captura) => {
-
-          var regex = new RegExp(val_input);
-          resultado = meio_captura.DESCRICAO.match(regex);
-
-          if(resultado) {
-            document.getElementById(meio_captura.DESCRICAO).style.display = "block";
-            document.getElementById("divMCap"+meio_captura.CODIGO).style.display = "block";
-          }else{
-            document.getElementById(meio_captura.DESCRICAO).style.display = "none";
-            document.getElementById("divMCap"+meio_captura.CODIGO).style.display = "none";
-          }
-        });
-
-      }
-    },200)
-  }
-
-  function allCheckbox(grupo_clientes){
-    grupo_clientes.forEach((cliente) => {
-      if(document.getElementById("allCheck").checked){
-        document.getElementById(cliente.CODIGO).checked = true;
-      }else{
-        document.getElementById(cliente.CODIGO).checked = false;
-      }
-    });
-  }
-
-  function allCheckboxAd(grupo_clientes) {
-    grupo_clientes.forEach((cliente) => {
-      if(document.getElementById("allCheckAd").checked){
-        document.getElementById("inputAdq-"+cliente.CODIGO).checked = true;
-      }else{
-        document.getElementById("inputAdq-"+cliente.CODIGO).checked = false;
-      }
-    });
-  }
-
-  function allCheckboxBandeira(grupo_clientes) {
-    grupo_clientes.forEach((cliente) => {
-      if(document.getElementById("allCheckBandeira").checked){
-        document.getElementById(cliente.CODIGO).checked = true;
-      }else{
-        document.getElementById(cliente.CODIGO).checked = false;
-      }
-    });
-  }
-
-  function allCheckboxModalidade(grupo_clientes){
-
-    grupo_clientes.forEach((cliente) => {
-      if(document.getElementById("allCheckModalidade").checked){
-        document.getElementById("inputMod"+cliente.CODIGO).checked = true;
-      }else{
-        document.getElementById("inputMod"+cliente.CODIGO).checked = false;
-      }
-    });
-  }
-
-  function allCheckboxMeioCaptura(grupo_clientes){
-    grupo_clientes.forEach((cliente) => {
-      if(document.getElementById("allCheckMeioCaptura").checked){
-        document.getElementById("inputMeioCap-"+cliente.CODIGO).checked = true;
-      }else{
-        document.getElementById("inputMeioCap-"+cliente.CODIGO).checked = false;
-      }
-    });
-  }
-
-  function ad(value){
-    var bt = document.createElement("INPUT");
-    var div_cnpjs = document.getElementById("cont");
-
-    bt.innerHTML = value[1];
-
-    bt.setAttribute('name' , "array[]");
-    bt.setAttribute('value' , value);
-
-    bt.setAttribute('readonly', "");
-    bt.style = "margin-left: 5px; margin-top:5px; margin-bottom: 3px; width: 270px;";
-    // Insert text
-    div_cnpjs.appendChild(bt);
-  }
-
-  function limparFiltros() { bdocument.getElementById("myform").reset(); }
-
-  function addTodos(grupos_clientes){
-    if(flag){
-      grupos_clientes.forEach((cliente) => {
-        var bt = document.createElement("INPUT");
-        var div_cnpjs = document.getElementById("cont");
-
-        bt.setAttribute('name' , "array[]");
-        bt.setAttribute('value' , cliente.NOME_EMPRESA + "-" +cliente.CNPJ);
-
-        bt.style = "margin-left: 5px; margin-top:5px; width: 130px;";                   // Insert text
-
-        bt.setAttribute('readonly', "");
-        bt.style = "margin-left: 5px; margin-top:5px; margin-bottom: 3px; width: 270px;";
-
-        div_cnpjs.appendChild(bt);
-
-        flag = false;
-      });
+    }
+    li_html += "<li class='page-item'><a class='page-link'>" + "..." + "</a></li>"
+    for(let i=response[0].last_page-2; i<=response[0].last_page; i++){
+      li_html += "<li class='page-item'><a class='page-link' onclick='paginate("+i+","+ filtro + ")'>" + i + "</a></li>"
     }
   }
 
-  function removeCnpjs(){
-    var array = document.getElementsByName('array[]');
-    while(array[0]) {
-      array[0].parentNode.removeChild(array[0]);
-    }
-    flag = true;
-  }
+  $('#ul_pagination').append(li_html);
+}
 
-  function download_table_as_csv(table_id) {
-    var rows = document.querySelectorAll('table#' + table_id + ' tr');
+function renderizaPaginacaoPaginate(response, filtro){
+  let li_html = "<li><a>" + "" + "</a></li>"
 
-    var csv = [];
-    for (var i = 0; i < rows.length; i++) {
-      var row = [], cols = rows[i].querySelectorAll('td, th');
-      for (var j = 0; j < cols.length; j++) {
-        var data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ')
-        data = data.replace(/"/g, '""');
-        row.push('"' + data + '"');
-      }
-      csv.push(row.join(';'));
-    }
-    var csv_string = csv.join('\n');
-    var filename = 'export_' + 'conciflex' + '_' + new Date().toLocaleDateString() + '.xls';
-    var link = document.createElement('a');
-    link.style.display = 'none';
-    link.setAttribute('target', '_blank');
-    link.setAttribute('href', 'data:text/xls;charset=utf-8,' + encodeURIComponent(csv_string));
-    link.setAttribute('download', filename);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
-
-  var mudacor = false;
-  function mudaCorLinhaTable(codigo){
-    var cor = document.getElementById(codigo).style.background;
-
-    if(cor == "" || cor == "rgb(255, 255, 255)") {
-      var cor = document.getElementById(codigo).style.background = "#A4A4A4";
-      var cor = document.getElementById(codigo).style.color = "#ffffff";
-    } else {
-      document.getElementById(codigo).style = "background: #ffffff; color: #231F20";
-    }
-  }
-
-  function desfazerConciliacao(codigo){
-    console.log(codigo);
-  }
-
-  function desfazerJustificativa(codigo){
-    const url = "/desfazer-justificativa/" + codigo;
-
-    $.ajax({
-      url: url,
-      type: "GET",
-      dataType: "json",
-      success: function(response){
-        console.log(response);
-      }
-    })
-  }
-
-  function novaQuantidadePagina(qtde_pagina) {
-    let array = [];
-    let arrayAdquirentes = [];
-    let arrayBandeira = [];
-    let arrayModalidade = [];
-    let arrayMeioCaptura = [];
-    let arrayStatusFinanceiro = [];
-    let arrayStatusConciliacao = [];
-
-    const qtdeVisivelInicial = document.getElementById("quantidadePorPagina").value;
-    const checkboxEmpresa = document.querySelectorAll('input[type=checkbox]:checked.checkEmpresa');
-    const checkboxAdquirentes = document.querySelectorAll('input[type=checkbox]:checked.checkAdquirentes');
-    const checkboxBandeira = document.querySelectorAll('input[type=checkbox]:checked.checkBandeira');
-    const checkboxModalidade = document.querySelectorAll('input[type=checkbox]:checked.checkModalidade');
-    const checkboxMeioCaptura = document.querySelectorAll('input[type=checkbox]:checked.checkMeioCaptura');
-    const checkboxStatusConciliacao = document.querySelectorAll('input[type=checkbox]:checked.checkStatusConciliacao');
-    const data_inicial = document.getElementById("date_inicial").value;
-    const data_final = document.getElementById("date_final").value;
-
-    if(document.getElementById("pendente").checked) { arrayStatusFinanceiro.push(1); }
-    if(document.getElementById("liquidado").checked){ arrayStatusFinanceiro.push(2); }
-    if(document.getElementById("cancelada").checked){ arrayStatusFinanceiro.push(3); }
-
-    checkboxEmpresa.forEach((checkEmpresa) => { array.push(checkEmpresa.id) });
-    checkboxAdquirentes.forEach((checkAdquirente) => { arrayAdquirentes.push(checkAdquirente.id) });
-    checkboxBandeira.forEach((checkBandeira) => { arrayBandeira.push(checkBandeira.id) });
-    checkboxModalidade.forEach((checkModalidade) => {
-      let id = checkModalidade.id.split('-');
-      arrayModalidade.push(d[1]);
-    });
-    checkboxMeioCaptura.forEach((checkMeioCaptura) => {
-      let id = checkMeioCaptura.id.split('-');
-      arrayMeioCaptura.push(id)
-    });
-    checkboxStatusConciliacao.forEach((checkStatusConciliacao) => {
-      let id = checkStatusConciliacao.id.split('-');
-      arrayStatusConciliacao.push(id[1]);
-    });
-
-    const dados = {
-      data_inicial,
-      data_final,
-      array,
-      arrayAdquirentes,
-      arrayBandeira,
-      arrayModalidade,
-      arrayStatusConciliacao,
-      arrayStatusFinanceiro,
-      arrayMeioCaptura,
-      qtdeVisivelInicial
-    }
-
-    paginate(1, dados)
-  }
-
-  function exibeModal(venda){
-    console.log(venda);
-
-    localStorage.setItem('codigo_cupom_venda', venda.CODIGO);
-
-    let data_v = new Date(venda.DATA_VENDA);
-    const data_venda = data_v.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
-    let data_p = new Date(venda.DATA_PREVISTA_PAGTO);
-    const data_prev_pag = data_p.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
-
-    const val_brt = venda.VALOR_BRUTO;
-    const formatter = new Intl.NumberFormat('pt-BR', {style: 'currency',currency: 'BRL'});
-    const valor_bruto = formatter.format(val_brt);
-
-    document.getElementById("modal_data").innerHTML = "DATA VENDA " + data_venda;
-    document.getElementById("modal_cnpj").innerHTML = "CNPJ " + venda.CNPJ;
-    document.getElementById("modal_empresa").innerHTML = "EMPRESA " + venda.EMPRESA;
-    document.getElementById("modal_cartao").innerHTML = "CARTÃO " + venda.CARTAO
-    document.getElementById("modal_bandeira").innerHTML = "BANDEIRA " + venda.BANDEIRA;
-    document.getElementById("modal_operadora").innerHTML = "OPERADORA " + venda.ADQUIRENTE;
-    document.getElementById("modal_operadora").innerHTML = "FORMA DE PAGAMENTO " + venda.DESCRICAO;
-    document.getElementById("modal_valor_bruto").innerHTML = "VALOR: " + valor_bruto;
-    document.getElementById("modal_data_previsao").innerHTML = "PREVISÂO DE PAGAMENTO " + data_prev_pag;
-
-    $("#modal-cupom").modal({
-      show: true
-    });
-  }
-
-  function imprimeCupom(){
-    let btn = document.createElement('a');
-    btn.href = "{{ url('/impressao-vendas')}}"+"/"+localStorage.getItem('codigo_cupom_venda');
-    btn.target = "_blank"
-    btn.click();
-  }
-
-  function exportXls(){
-
-    const dados_filtro =  JSON.parse(localStorage.getItem('dados_filtro'));
-
-    document.getElementById("label-gerando-xls").style.display = "block";
-    $.ajax({
-      url: "{{ url('exportxls-vendas-operadora') }}",
-      type: "POST",
-      headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-      data: dados_filtro,
-      dataType: 'json',
-      success: function (response){
-        if(response){
-          for(var i=0;i< response.length; i++){
-
-            let dados_cupom   = JSON.stringify(response[i]);
-            let data_venda    = formataData(response[i].DATA_VENDA);
-            let data_prev_pag = formataData(response[i].DATA_PREVISTA_PAGTO);
-
-            let formatted     = formataValorReal(response[i].VALOR_BRUTO);
-            let formatted_liq = formataValorReal(response[i].VALOR_LIQUIDO);
-            let formatted_tx  = formataValorReal(response[i].VALOR_TAXA);
-            let formatted_outras_despesas = formataValorReal(response[i].OUTRAS_DESPESAS);
-
-
-            //tira 2 casas decimais da taxa
-            var a = response[i].PERCENTUAL_TAXA;
-            var val_taxa = Number(a).toFixed(2);
-            var html = "<tr>";
-
-            html +="<td>"+response[i].EMPRESA+"</td>";
-            html +="<td>"+response[i].CNPJ+"</td>";
-            html +="<td>"+ response[i].ADQUIRENTE+"</td>";
-            html +="<td>"+data_venda+"</td>";
-            html +="<td>"+data_prev_pag+"</td>";
-            html +="<td>"+response[i].BANDEIRA+"</td>";
-            html +="<td>"+response[i].DESCRICAO+"</td>";
-            html +="<td>"+response[i].NSU+"</td>";
-            html +="<td>"+response[i].AUTORIZACAO+"</td>";
-            html +="<td>"+response[i].CARTAO+"</td>";
-            html +="<td>"+formatted +"</td>";
-            html +="<td>"+val_taxa+"</td>";
-            html +="<td style='color:red'>"+formatted_tx+"</td>";
-            html +="<td>"+formatted_outras_despesas+"</td>";
-            html +="<td>"+formatted_liq+"</td>";
-            html +="<td>"+response[i].PARCELA+"</td>";
-            html +="<td>"+response[i].TOTAL_PARCELAS+"</td>";
-            html +="<td>"+response[i].HORA_TRANSACAO+"</td>";
-            html +="<td>"+response[i].ESTABELECIMENTO+"</td>";
-            html +="<td>"+response[i].BANCO+"</td>";
-            if(response[i].AGENCIA){ html +="<td>"+response[i].AGENCIA +"</td>"}
-            else{ html +="<td>"+''+"</td>";}
-            if(response[i].CONTA){ html +="<td>"+ response[i].CONTA+"</td>";}
-            else{html +="<td>"+ ''+"</td>";}
-            html +="<td>"+ `${response[i].OBSERVACOES || ''}` +"</td>";
-            if(response[i].COD_PRODUTO !=  null){
-              html +="<td>"+response[i].PRODUTO_WEB+"</td>";
-            }else{
-              html +="<td>"+""+"</td>";
-            }
-            html +="<td>"+response[i].MEIOCAPTURA+"</td>";
-            html +="<td>"+response[i].status_conc+"</td>";
-            html +="<td>"+response[i].status_finan+"</td>";
-            html +="<td>"+""+"</td>";
-            html +="<td>"+""+"</td>";
-            html +="<td>"+""+"</td>";
-
-            html +="</tr>";
-
-            $('#table-xls').append(html);
-
-          }
-
-          $('#table-xls').DataTable( {
-            dom: 'Bfrtip',
-            buttons: [
-              'excel'
-            ]
-          } );
-
-          $(".buttons-excel").trigger("click");
-          document.getElementById("label-gerando-xls").style.display = "none";
-
-        }
-
-      }
-    });
-  }
-
-  function formataData(data){
-    const new_data_ = new Date(data);
-    const data_formatada = new_data_.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
-
-    return data_formatada;
-  }
-
-  function formataValorReal(valor){
-    const formatter = new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL'
-    });
-    const valor_formatado = formatter.format(valor);
-
-    return valor_formatado;
-  }
-
-  function filtraTabela(campo, event){
-    if(event.keyCode == 13) {
-
-      $('#jsgrid-table tbody').empty();
-      $('#ul_pagination li').empty();
-
-      let valor_digitado = document.querySelector(`input[name=${campo}]`).value;
-
-      filtros_formulario_principal['filtro_tabela'] = campo;
-      filtros_formulario_principal['valor_digitado'] = valor_digitado;
-
-      let dados_filtro = JSON.parse(JSON.stringify(filtros_formulario_principal));
-      let filtro = JSON.stringify(filtros_formulario_principal);
-
-      $.ajax({
-        url: "{{ url('vendasoperadorasfiltro') }}",
-        type: "POST",
-        headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        data: dados_filtro,
-        dataType: 'json',
-        success: function (response){
-          console.log(response);
-          if(response){
-            for(var i=0;i< response[0].data.length; i++){
-
-              let dados_cupom   = JSON.stringify(response[0].data[i]);
-              let data_venda    = formataData(response[0].data[i].DATA_VENDA);
-              let data_prev_pag = formataData(response[0].data[i].DATA_PREVISTA_PAGTO);
-
-              let formatted                 = formataValorReal(response[0].data[i].VALOR_BRUTO);
-              let formatted_liq             = formataValorReal(response[0].data[i].VALOR_LIQUIDO);
-              let formatted_tx              = formataValorReal(response[0].data[i].VALOR_TAXA);
-              let formatted_outras_despesas = formataValorReal(response[0].data[i].OUTRAS_DESPESAS);
-
-              let cod      = response[0].data[i].COD;
-              let val_taxa = Number(response[0].data[i].PERCENTUAL_TAXA).toFixed(2);
-
-              let html = "<tr id='"+cod+"' onclick='mudaCorLinhaTable("+cod+")'>";
-
-              if(response[0].data[i].COD_STATUS_CONCILIACAO == 6) {
-                html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Conciliação' onclick='desfazerConciliacao(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-undo-alt'></i></a>"+" "+
-                "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
-
-              }else if(response[0].data[i].COD_STATUS_CONCILIACAO == 3){
-                html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Justificativa' onclick='desfazerJustificativa(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-history'></i></a>"+" "+
-                "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
-              }else{
-                html += "<td>" + "<a onclick='exibeModal("+dados_cupom+")'  data-target='#staticBackdrop' data-placement='bottom' title='Visualiza Comprovante'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
-              }
-
-              html +="<td>"+response[0].data[i].EMPRESA+"</td>";
-              html +="<td>"+response[0].data[i].CNPJ+"</td>";
-              // html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' id='cartao'/>"+"</td>";
-              if(response[0].data[i].IMAGEMAD == null){
-                html +="<td>"+"<img src='assets/images/iconCart.jpeg' style='width: 30px'/>"+"</td>";
-              }else{
-                html +="<td style='display: transparent'>"+"<img src='"+response[0].data[i].IMAGEMAD+"' style='width: 30px;'/>"+  "</td>";
-              }
-              html +="<td>"+data_venda+"</td>";
-              html +="<td>"+data_prev_pag+"</td>";
-              if(response[0].data[i].IMAGEMBAD == null){
-                html +="<td>"+"<img src='assets/images/iconCart.jpeg' style='width: 30px'/>"+"</td>";
-              }else{
-                html +="<td>" + "<img class='imagebandeira "+ response[0].data[i].BANDEIRA +"' src='"+response[0].data[i].IMAGEMBAD+"' alt='"+response[0].data[i].BANDEIRA+"' style='width: 30px'/>"+  "</td>";
-              }
-              html +="<td>"+response[0].data[i].DESCRICAO+"</td>";
-              html +="<td>"+response[0].data[i].NSU+"</td>";
-              html +="<td>"+response[0].data[i].AUTORIZACAO+"</td>";
-              html +="<td>"+response[0].data[i].CARTAO+"</td>";
-              html +="<td>"+formatted +"</td>";
-              html +="<td>"+val_taxa+"</td>";
-              html +="<td style='color:red'>"+formatted_tx+"</td>";
-              html +="<td>"+formatted_outras_despesas+"</td>";
-              html +="<td>"+formatted_liq+"</td>";
-              html +="<td>"+response[0].data[i].PARCELA+"</td>";
-              html +="<td>"+response[0].data[i].TOTAL_PARCELAS+"</td>";
-              html +="<td>"+response[0].data[i].HORA_TRANSACAO+"</td>";
-              html +="<td>"+response[0].data[i].ESTABELECIMENTO+"</td>";
-              html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEM_LINK || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
-              if(response[0].data[i].AGENCIA){ html +="<td>"+response[0].data[i].AGENCIA +"</td>"}
-              else{ html +="<td>"+''+"</td>";}
-              if(response[0].data[i].CONTA){ html +="<td>"+ response[0].data[i].CONTA+"</td>";}
-              else{html +="<td>"+ ''+"</td>";}
-
-              html +="<td>"+ `${response[0].data[i].OBSERVACOES || ''}` +"</td>";
-              if(response[0].data[i].PRODUTO_WEB !=  null){
-                html +="<td>"+response[0].data[i].PRODUTO_WEB+"</td>";
-              }else{
-                html +="<td>"+""+"</td>";
-              }
-              html +="<td>"+response[0].data[i].MEIOCAPTURA+"</td>";
-              html +="<td>"+response[0].data[i].status_conc+"</td>";
-              html +="<td>"+response[0].data[i].status_finan+"</td>";
-              html +="<td>"+`${response[0].data[i].JUSTIFICATIVA || ''}`+"</td>";
-              html +="<td>"+""+"</td>";
-              html +="<td>"+""+"</td>";
-              html +="</tr>";
-              $('#jsgrid-table').append(html);
-            }
-
-            document.getElementById("valor_bruto").innerHTML = response[2];
-            document.getElementById("valor_liquido").innerHTML = response[1];
-            document.getElementById("valor_taxa").innerHTML = response[4];
-            document.getElementById("outras_tarifas").innerHTML = response[6];
-
-            let li_html = "<li><a>" + "" + "</a></li>"
-            if(response[0].last_page < 10){
-              for(let i=1; i<=response[0].last_page; i++){
-                // li_html += "<li class='page-item'><a class='page-link' href='/page="+i+"'>" + i + "</a></li>"
-                if(i == response[0].current_page){
-                  li_html += "<li class='page-item active'><a class='page-link' onclick='paginate("+i+","+filtro+")'>" + i + "</a></li>"
-                }else{
-                  li_html += "<li class='page-item'><a class='page-link' onclick='paginate("+i+","+filtro+")'>" + i + "</a></li>"
-                }
-              }
-            }else{
-              for(let i=1; i<=5; i++){
-                if(i == response[0].current_page){
-                  li_html += "<li class='page-item active'><a class='page-link' onclick='paginate("+i+","+ filtro + ")'>" + i + "</a></li>"
-                }else{
-                  li_html += "<li class='page-item'><a class='page-link' onclick='paginate("+i+","+  filtro + ")'>" + i + "</a></li>"
-                }           }
-                li_html += "<li class='page-item'><a class='page-link'>" + "..." + "</a></li>"
-                for(let i=response[0].last_page-2; i<=response[0].last_page; i++){
-                  li_html += "<li class='page-item'><a class='page-link' onclick='paginate("+i+","+ filtro + ")'>" + i + "</a></li>"
-                }
-              }
-
-              $('#ul_pagination').append(li_html);
-
-              document.getElementById("resultadosPesquisa").style.display = "block";
-
-              document.getElementById("total_liquido_vendas").innerHTML = "R$ "+response[1];
-              document.getElementById("total_registros").innerHTML = response[3];
-              document.getElementById("total_taxa_cobrada").innerHTML = "R$ -"+response[4];
-              document.getElementById("total_bruto_vendas").innerHTML = "R$ "+response[2];
-
-              window.scrollTo(0, 770);
-
-              document.getElementById("preloader").style.display = "none";
-            }
-          }
-        });
+  if(response[0].last_page < 10){
+    for(let i=1; i<=response[0].last_page; i++){
+      if(i == response[0].current_page){
+        li_html += "<li class='page-item active'><a class='page-link' onclick='paginate("+i+","+  filtro + ")'>" + i + "</a></li>"
+      }else{
+        li_html += "<li class='page-item'><a class='page-link' onclick='paginate("+i+","+  filtro + ")'>" + i + "</a></li>"
       }
     }
+  }else if(response[0].current_page >=5 && response[0].current_page < response[0].last_page-2){
+    for(let i=1; i<3; i++){
+      li_html += "<li class='page-item'><a class='page-link' onclick='paginate("+i+","+  filtro + ")'>" + i + "</a></li>"
+    }
+    li_html += "<li class='page-item'><a class='page-link'>" + "..." + "</a></li>"
+    for(let i=response[0].current_page-1; i<response[0].current_page+2; i++){
+      if(i == response[0].current_page){
+        li_html += "<li class='page-item active'><a class='page-link' onclick='paginate("+i+","+  filtro + ")'>" + i + "</a></li>"
+      }else{
+        li_html += "<li class='page-item'><a class='page-link' onclick='paginate("+i+","+  filtro + ")'>" + i + "</a></li>"
+      }
+    }
+    li_html += "<li class='page-item'><a class='page-link'>" + "..." + "</a></li>"
+    for(let i=response[0].last_page-2; i<=response[0].last_page; i++){
+      li_html += "<li class='page-item'><a class='page-link' onclick='paginate("+i+","+  filtro + ")'>" + i + "</a></li>"
 
-    </script>
+    }
+  }else if(response[0].current_page >= response[0].last_page-2){
+    for(let i=1; i<3; i++){
+      li_html += "<li class='page-item'><a class='page-link' onclick='paginate("+i+","+  filtro + ")'>" + i + "</a></li>"
+    }
+    li_html += "<li class='page-item'><a class='page-link'>" + "..." + "</a></li>"
+    for(let i=response[0].last_page-2; i<=response[0].last_page; i++){
+      if(i == response[0].current_page){
+        li_html += "<li class='page-item active'><a class='page-link' onclick='paginate("+i+","+  filtro + ")'>" + i + "</a></li>"
+      }else{
+        li_html += "<li class='page-item'><a class='page-link' onclick='paginate("+i+","+  filtro + ")'>" + i + "</a></li>"
+      }
+    }
+  }else{
+    for(let i=1; i<=5; i++){
+      if(i == response[0].current_page){
+        li_html += "<li class='page-item active'><a class='page-link' onclick='paginate("+i+","+  filtro + ")'>" + i + "</a></li>"
+      }else{
+        li_html += "<li class='page-item'><a class='page-link' onclick='paginate("+i+","+  filtro + ")'>" + i + "</a></li>"
+      }
+    }
+    li_html += "<li class='page-item'><a class='page-link'>" + "..." + "</a></li>"
+    for(let i =response[0].last_page-2; i<=response[0].last_page; i++){
+      li_html += "<li class='page-item'><a class='page-link' onclick='paginate("+i+","+  filtro + ")'>" + i + "</a></li>"
+    }
+  }
 
-    @stop
+  $('#ul_pagination').append(li_html);
+}
+
+</script>
+
+@stop

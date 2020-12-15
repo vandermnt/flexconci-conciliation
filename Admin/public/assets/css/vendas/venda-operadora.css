@@ -5,6 +5,10 @@
   margin-top: 12px;
 }
 
+#jsgrid-table tfoot td:nth-child(1) td:nth-child(12) {
+  color:#6E6E6E;
+}
+
 #date_inicial {
   margin-top: -5px;
   padding-left: 7px;
@@ -38,6 +42,51 @@
   font-size: 11.5px;
 }
 
+#myform .containers-input {
+  margin-top: -16px !important;
+}
+
+#myform .checks-fornulario {
+  margin-top: -10px;
+}
+
+#myform .fundo-modal {
+  background: #2D5275;
+}
+
+#myform .inputs-statusconciliacao {
+  margin-top: -10px;
+  margin-left: 25px;
+}
+
+#btfiltro {
+  margin-top: -4px;
+  display:block;
+  text-align: right;
+}
+
+#staticBackdrop .modal-dialog {
+  width: 400px;
+}
+
+#staticBackdrop .modal-body {
+   max-height: 350px;
+   overflow: auto;
+}
+
+#staticBackdropAdquirente .modal-dialog {
+  width: 250px !important;
+}
+
+#staticBackdropBandeira .modal-dialog {
+  width: 250px !important;
+}
+
+#staticBackdropModalidade .modal-dialog {
+  width: 270px;
+}
+
+
 #submitFormLogin {
   align-items: right;
   background: white;
@@ -45,11 +94,47 @@
   border-color: #2D5275;
 }
 
+#resultadosPesquisa .card-body img {
+  width: 40px;
+}
+
+/* #resultadosPesquisa .table-scroll {
+  height: 800px !important;
+} */
+
+#modal_cnpj {
+  margin-top: -15px;
+}
+
+#modal-cupom .modal-body {
+  max-height: 350px;
+  overflow: auto;
+  background-color: #F3F781;
+}
+
+#modal-cupom .modal-header {
+  background: #2D5275;
+}
+
+#modal-cupom .modal-title {
+  color: white;
+}
+
+#modal-cupom .modal-dialog {
+  width: 300px;
+}
+
+#modal_valor_bruto {
+   font-weight: bold;
+}
+
 #ft, #inputAdq, #inputBad, #ftModalidade, #inputMeioCaptura {
   font-size: 12px;
   color: #424242;
   margin-top: 5px;
 }
+
+
 
 #filtrodata h6 {
   color: #424242;
