@@ -83,10 +83,10 @@ class RecebimentosOperadoraController extends Controller{
       if(Request::only('data_inicial') != null){
         $data_inicial = Request::only('data_inicial');
         $data_final = Request::only('data_final');
-        $query->whereBetween('DATA_PROCESSAMENTO', [$data_inicial['data_inicial'], $data_final['data_final']]);
+        $query->whereBetween('DATA_PAGAMENTO', [$data_inicial['data_inicial'], $data_final['data_final']]);
       }
     })
-    ->orderBy('DATA_PROCESSAMENTO')
+    ->orderBy('DATA_PAGAMENTO')
     ->get();
 
     $val_bruto = DB::table('pagamentos_operadoras')
