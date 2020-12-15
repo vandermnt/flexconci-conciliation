@@ -4,7 +4,6 @@ namespace App\Filters;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 use App\VendasModel;
 use App\GruposClientesModel;
 use App\Filters\BaseFilter;
@@ -25,13 +24,13 @@ class VendasFilter extends BaseFilter {
     'status_financeiro',
   ];
 
-  public static function filter(Request $filters) {
+  public static function filter($filters) {
     $vendasFilter = app(VendasFilter::class);
     return $vendasFilter->apply($filters);
   }
 
-  public function apply(Request $filters) {
-    $filters = $filters->only($whiteList);
+  public function apply($filters) {
+    $filters = Arr::only($filters, $whiteList);
     $filters = Arr::where($filters, function($value, $key) {
       return boolval($value);
     });

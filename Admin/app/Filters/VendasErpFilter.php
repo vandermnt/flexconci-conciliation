@@ -4,7 +4,6 @@ namespace App\Filters;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 use App\VendasErpModel;
 use App\GruposClientesModel;
 use App\Filters\BaseFilter;
@@ -23,13 +22,13 @@ class VendasErpFilter extends BaseFilter {
     'status_conciliacao',
   ];
 
-  public static function filter(Request $filters) {
+  public static function filter($filters) {
     $vendasErpFilter = app(VendasErpFilter::class);
     return $vendasErpFilter->apply($filters);
   }
 
-  public function apply(Request $filters) {
-    $filters = $filters->only($whiteList);
+  public function apply($filters) {
+    $filters = Arr::only($filters, $this->whiteList);
     $filters = Arr::where($filters, function($value, $key) {
       return boolval($value);
     });
