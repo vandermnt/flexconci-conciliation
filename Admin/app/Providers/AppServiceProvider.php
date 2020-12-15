@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Filters\VendasErpFilter;
+use App\Filters\VendasFilter;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +15,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(VendasErpFilter::class, function ($app) {
+            return new VendasErpFilter;
+        });
+        $this->app->bind(VendasFilter::class, function ($app) {
+            return new VendasFilter;
+        });
     }
 
     /**
