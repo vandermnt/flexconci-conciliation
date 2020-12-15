@@ -1,6 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
+use App\VendasModel;
+use App\StatusConciliacaoModel;
+use App\GruposClientesModel;
+use App\VendasErpModel;
 
 Auth::routes();
 if(version_compare(PHP_VERSION, '7.2.0', '>=')) { error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING); }
@@ -44,6 +49,9 @@ Route::group(['middleware' => 'auth'], function() {
 
   //CONCILIAÇÃO AUTOMÁTICA
   Route::get('/conciliacao-automatica', 'ConciliacaoAutomaticaVendasController@conciliacaoAutomatica');
+  Route::get('/conciliacao-automatica1', 'ConciliacaoAutomaticaController@index');
+  Route::post('/conciliacao-automatica1/buscar', 'ConciliacaoAutomaticaController@filter')->name('conciliacao-automatica.busca');
+
   Route::match(['get', 'post'], '/conciliacao-manual', 'ConciliacaoAutomaticaVendasController@conciliarManualmente');
   Route::match(['get', 'post'], '/conciliacao-justificada-venda', 'ConciliacaoAutomaticaVendasController@conciliacaoJustificadaVenda');
   Route::match(['get', 'post'], '/conciliacao-justificada-vendaerp', 'ConciliacaoAutomaticaVendasController@conciliacaoJustificadaVendaErp');
