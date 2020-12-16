@@ -146,12 +146,12 @@
               </div>
 
               <div class="col-sm-6 containers-input">
-                <div id="filtromeiocaptura">
+                <div id="filtrocodestabelecimento">
                   <div class="form-group">
                     <div class="row">
                       <div class="col-sm-12">
-                        <h6> Meio de Captura: </h6>
-                        <input id="meiocaptura" class="form-control inputs" name="meiocaptura">
+                        <h6> Código de Estabelecimento: </h6>
+                        <input id="codestabelecimento" class="form-control inputs" name="codestabelecimento">
                       </div>
                     </div>
                   </div>
@@ -159,7 +159,7 @@
               </div>
 
               <div class="col-sm-2">
-                <button id="buttonpesquisar" type="button" class="btn btn-sm" data-toggle="modal" data-target="#staticBackdropMeioCaptura" style="margin-top: 9px; width: 100%">
+                <button id="buttonpesquisar" type="button" class="btn btn-sm" data-toggle="modal" data-target="#staticBackdropCodEstabelecimento" style="margin-top: 9px; width: 100%">
                   <b>Selecionar</b>
                 </button>
               </div>
@@ -292,7 +292,7 @@
                   <div class="col-sm-2">
                     <input id="allCheckAd" onchange="allCheckboxAd({{$adquirentes}})" type="checkbox">
                   </div>
-                  @if(isset($adquirentes))
+                  <!-- @if(isset($adquirentes))
                   @foreach($adquirentes as $adquirente)
                   <div id="{{ $adquirente->ADQUIRENTE }}" style="display:block; " class="col-sm-10">
                     <p>{{ $adquirente->ADQUIRENTE }}</p>
@@ -303,7 +303,7 @@
                   </div>
                   <hr>
                   @endforeach
-                  @endif
+                  @endif -->
                 </div>
               </div>
               <div class="modal-footer">
@@ -414,7 +414,7 @@
           </div>
         </div>
 
-        <div class="modal fade" id="staticBackdropMeioCaptura" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <!-- <div class="modal fade" id="staticBackdropMeioCaptura" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
           <div class="modal-dialog" style="width: 270px">
             <div class="modal-content">
               <div class="modal-header fundo-modal">
@@ -458,6 +458,67 @@
               <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
                 <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addSelecionadosMeioCaptura({{$meio_captura}})"><b>Confirmar</b></button>
+              </div>
+            </div>
+          </div>
+        </div> -->
+
+        <div class="modal fade" id="staticBackdropCodEstabelecimento" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header fundo-modal">
+                <h5 class="modal-title" id="staticBackdropLabel">Código de Estabelecimento</h5>
+                <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" style="max-height: 350px; overflow: auto">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <h6> Pesquisar </h6>
+                  </div>
+                  <div class="col-sm-12">
+                    <input id="inputCodEstabelecimento" class="form-control" onKeyDown="filtroCodEstabelecimento({{$cod_estabelecimento}})">
+                  </div>
+                </div> <br>
+
+                <div class="row">
+                  <div class="col-sm-9">
+                    <p><b>CÓDIGO DE ESTABELEC.</b></p>
+                  </div>
+                  <!-- <div class="col-sm-4">
+                    <p><b>ADQUIRENTE</b></p>
+                  </div>
+                  <div class="col-sm-3">
+                    <p><b>EMPRESA</b></p>
+                  </div> -->
+
+                  <div class="col-sm-3">
+                    <input id="allCheckCodEstabelecimento" onchange="allCheckboxMeioCaptura({{$cod_estabelecimento}})" type="checkbox">
+                  </div>
+                  @if(isset($cod_estabelecimento))
+                  @foreach($cod_estabelecimento as $estabelecimento)
+
+                  <div id="{{ $estabelecimento->CODIGO_ESTABELECIMENTO }}" style="display: block" class="col-sm-9">
+                    <p>{{ $estabelecimento->CODIGO_ESTABELECIMENTO }}</p>
+                  </div>
+                  <!-- <div id="{{ $estabelecimento->ADQUIRENTE }}" style="display: block" class="col-sm-4">
+                    <p>{{ $estabelecimento->ADQUIRENTE }}</p>
+                  </div>
+                  <div id="{{ $estabelecimento->NOME_EMPRESA }}" style="display: block" class="col-sm-3">
+                    <p>{{ $estabelecimento->NOME_EMPRESA }}</p>
+                  </div> -->
+                  <div id="{{ "divMCap".$estabelecimento->CODIGO }}" style="display: block" class="col-sm-3">
+                    <input id="{{ "inputMeioCap-".$estabelecimento->CODIGO }}" class="checkCodEstabelecimento" value="{{ $estabelecimento->CODIGO }}" name="arrayMeioCaptura[]" type="checkbox">
+                  </div>
+                  <hr>
+                  @endforeach
+                  @endif
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addSelecionadosMeioCaptura({{$cod_estabelecimento}})"><b>Confirmar</b></button>
               </div>
             </div>
           </div>
@@ -789,12 +850,13 @@ $('#submitFormLogin').click(function(){
   let arrayModalidade = [];
   let arrayStatusFinanceiro = [];
   let arrayStatusConciliacao = [];
+  let arrayCodEstabelecimento = [];
 
   const checkboxEmpresa = document.querySelectorAll('input[type=checkbox]:checked.checkEmpresa');
   const checkboxAdquirentes = document.querySelectorAll('input[type=checkbox]:checked.checkAdquirentes');
   const checkboxBandeira = document.querySelectorAll('input[type=checkbox]:checked.checkBandeira');
   const checkboxModalidade = document.querySelectorAll('input[type=checkbox]:checked.checkModalidade');
-  const checkboxMeioCaptura = document.querySelectorAll('input[type=checkbox]:checked.checkMeioCaptura');
+  const checkboxCodEstabelecimento = document.querySelectorAll('input[type=checkbox]:checked.checkCodEstabelecimento');
   const checkboxStatusConciliacao = document.querySelectorAll('input[type=checkbox]:checked.checkStatusConciliacao');
   const data_inicial = document.getElementById("date_inicial").value;
   const data_final = document.getElementById("date_final").value;
@@ -808,6 +870,7 @@ $('#submitFormLogin').click(function(){
   checkboxBandeira.forEach((checkBandeira) => { arrayBandeira.push(checkBandeira.defaultValue) });
   checkboxModalidade.forEach((checkModalidade) => { arrayModalidade.push(checkModalidade.defaultValue) });
   checkboxStatusConciliacao.forEach((checkStatusConciliacao) => { arrayStatusConciliacao.push(checkStatusConciliacao.defaultValue) });
+  checkboxCodEstabelecimento.forEach((checkCodEstabelecimento) => { arrayCodEstabelecimento.push(checkCodEstabelecimento.defaultValue) });
 
   const qtdeVisivelInicial = 10;
   const filtro_tabela = null;
@@ -821,7 +884,7 @@ $('#submitFormLogin').click(function(){
     arrayBandeira,
     arrayModalidade,
     arrayStatusConciliacao,
-    arrayStatusFinanceiro,
+    // arrayStatusFinanceiro,
     qtdeVisivelInicial,
     filtro_tabela,
     valor_digitado
@@ -1085,16 +1148,16 @@ function addSelecionadosModalidade(modalidades){
   document.getElementById("modalidade").value = modalidadesSelecionados;
 }
 
-function addSelecionadosMeioCaptura(meiocaptura){
-  meiocaptura.forEach((meiocaptura) => {
-    if(document.getElementById("inputMeioCap-"+meiocaptura.CODIGO).checked){
-      meioCapturaSelecionados.includes(meiocaptura.DESCRICAO) ? '' :  meioCapturaSelecionados.push(meiocaptura.DESCRICAO);
+function addSelecionadosMeioCaptura(cod_estabelecimento){
+  cod_estabelecimento.forEach((cod_estabelecimento) => {
+    if(document.getElementById("inputMeioCap-"+cod_estabelecimento.CODIGO).checked){
+      meioCapturaSelecionados.includes(cod_estabelecimento.CODIGO_ESTABELECIMENTO) ? '' :  meioCapturaSelecionados.push(cod_estabelecimento.CODIGO_ESTABELECIMENTO);
     }else{
-      meioCapturaSelecionados.includes(meiocaptura.DESCRICAO) ? meioCapturaSelecionados.splice(meioCapturaSelecionados.indexOf(meiocaptura.DESCRICAO), 1) : '';
+      meioCapturaSelecionados.includes(cod_estabelecimento.CODIGO_ESTABELECIMENTO) ? meioCapturaSelecionados.splice(meioCapturaSelecionados.indexOf(cod_estabelecimento.CODIGO_ESTABELECIMENTO), 1) : '';
     }
   });
 
-  document.getElementById("meiocaptura").value = meioCapturaSelecionados;
+  document.getElementById("codestabelecimento").value = meioCapturaSelecionados;
 }
 
 function filtroCnpj(grupo_clientes){
@@ -1220,33 +1283,37 @@ function filtroNomeModalidade(modalidades){
   },200)
 }
 
-function filtroMeioCaptura(meios_captura){
+function filtroCodEstabelecimento(grupo_clientes){
+
   setTimeout(function () {
-    var val_input = document.getElementById("inputMeioCaptura").value.toUpperCase();;
+    var val_input = document.getElementById("inputCodEstabelecimento").value.toUpperCase();
 
     if(val_input == ""){
-      meios_captura.forEach((meio_captura) => {
-        document.getElementById(meio_captura.DESCRICAO).style.display = "block";
-        document.getElementById("divMCap"+meio_captura.CODIGO).style.display = "block";
+      grupo_clientes.forEach((cliente) => {
+        document.getElementById(cliente.CODIGO_ESTABELECIMENTO).style.display = "block";
+        document.getElementById(cliente.ADQUIRENTE).style.display = "block";
+        document.getElementById(cliente.NOME_EMPRESA).style.display = "block";
+
+        document.getElementById("divMCap"+cliente.CODIGO).style.display = "block";
 
       });
     }else{
-      meios_captura.forEach((meio_captura) => {
+      grupo_clientes.forEach((cliente) => {
 
         var regex = new RegExp(val_input);
-        resultado = meio_captura.DESCRICAO.match(regex);
+
+        resultado = cliente.CODIGO_ESTABELECIMENTO.match(regex);
 
         if(resultado) {
-          document.getElementById(meio_captura.DESCRICAO).style.display = "block";
-          document.getElementById("divMCap"+meio_captura.CODIGO).style.display = "block";
+          document.getElementById(cliente.CODIGO_ESTABELECIMENTO).style.display = "block";
+          document.getElementById("divMCap"+cliente.CODIGO).style.display = "block";
         }else{
-          document.getElementById(meio_captura.DESCRICAO).style.display = "none";
-          document.getElementById("divMCap"+meio_captura.CODIGO).style.display = "none";
+          document.getElementById(cliente.CODIGO_ESTABELECIMENTO).style.display = "none";
+          document.getElementById("divMCap"+cliente.CODIGO).style.display = "none";
         }
       });
-
     }
-  },200)
+  },300)
 }
 
 function allCheckbox(grupo_clientes){
@@ -1292,7 +1359,7 @@ function allCheckboxModalidade(grupo_clientes){
 
 function allCheckboxMeioCaptura(grupo_clientes){
   grupo_clientes.forEach((cliente) => {
-    if(document.getElementById("allCheckMeioCaptura").checked){
+    if(document.getElementById("allCheckCodEstabelecimento").checked){
       document.getElementById("inputMeioCap-"+cliente.CODIGO).checked = true;
     }else{
       document.getElementById("inputMeioCap-"+cliente.CODIGO).checked = false;

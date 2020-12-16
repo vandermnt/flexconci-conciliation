@@ -22,19 +22,25 @@ class VendasController extends Controller{
   public function vendas(){
     $modalidades = ModalidadesModel::orderBy('DESCRICAO', 'ASC')->get();
     $adquirentes = DB::table('cliente_operadora')
-    ->join('adquirentes', 'cliente_operadora.COD_ADQUIRENTE', 'adquirentes.CODIGO')
+    ->leftJoin('adquirentes', 'cliente_operadora.COD_ADQUIRENTE', 'adquirentes.CODIGO')
     ->select('adquirentes.*')
     ->where('cliente_operadora.COD_CLIENTE', '=', session('codigologin'))
     ->distinct('COD_ADQUIRENTE')
     ->get();
 
     $bandeiras = DB::table('clientes_bandeiras')
-    ->join('bandeira', 'clientes_bandeiras.COD_BANDEIRA', 'bandeira.CODIGO')
+    ->leftJoin('bandeira', 'clientes_bandeiras.COD_BANDEIRA', 'bandeira.CODIGO')
     ->select('bandeira.*')
     ->where('clientes_bandeiras.COD_CLIENTE', '=', session('codigologin'))
     ->get();
 
-    $meio_captura = DB::table('meio_captura')->get();
+    $cod_estabelecimento = DB::table('cliente_operadora')
+    ->leftJoin('adquirentes', 'cliente_operadora.COD_ADQUIRENTE', 'adquirentes.CODIGO')
+    ->leftJoin('grupos_clientes', 'cliente_operadora.COD_GRUPO', 'grupos_clientes.CODIGO')
+    ->select('adquirentes.ADQUIRENTE', 'cliente_operadora.CODIGO_ESTABELECIMENTO', 'cliente_operadora.CODIGO', 'grupos_clientes.NOME_EMPRESA')
+    ->where('cliente_operadora.COD_CLIENTE', '=', session('codigologin'))
+    ->distinct('COD_ADQUIRENTE')
+    ->get();
 
     $grupos_clientes = GruposClientesModel::where('COD_CLIENTE', '=', session('codigologin'))->get();
     $status_conciliacao = StatusConciliacaoModel::where('CODIGO', '!=', 4)->orderBy('STATUS_CONCILIACAO', 'ASC')->get();
@@ -42,7 +48,7 @@ class VendasController extends Controller{
     return view('vendas.vendas')->with('adquirentes', $adquirentes)
     ->with('modalidades', $modalidades)
     ->with('bandeiras', $bandeiras)
-    ->with('meio_captura', $meio_captura)
+    ->with('cod_estabelecimento', $cod_estabelecimento)
     ->with('grupos_clientes', $grupos_clientes)
     ->with('status_conciliacao', $status_conciliacao);
   }
@@ -130,10 +136,10 @@ class VendasController extends Controller{
         }
       })
       ->where(function($query) {
-        if(Request::only('arrayMeioCaptura') != null){
-          $meiocaptura = Request::only('arrayMeioCaptura');
-          foreach ($meiocaptura['arrayMeioCaptura'] as $mcaptura) {
-            $query->orWhereNull('COD_MEIO_CAPTURA')->orWhere('COD_MEIO_CAPTURA', '=', $mcaptura);
+        if(Request::only('arrayCodEstabelecimento') != null){
+          $cod_estabelecimento = Request::only('arrayCodEstabelecimento');
+          foreach ($cod_estabelecimento['arrayCodEstabelecimento'] as $codestabelecimento) {
+            $query->orWhereNull('COD_MEIO_CAPTURA')->orWhere('COD_MEIO_CAPTURA', '=', $codestabelecimento);
           }
         }
       })

@@ -74,6 +74,10 @@
    overflow: auto;
 }
 
+#staticBackdropCodEstabelecimento .modal-dialog {
+  max-width: 300px !important;
+}
+
 #staticBackdropAdquirente .modal-dialog {
   width: 250px !important;
 }
