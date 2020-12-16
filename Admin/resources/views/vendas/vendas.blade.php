@@ -292,7 +292,7 @@
                   <div class="col-sm-2">
                     <input id="allCheckAd" onchange="allCheckboxAd({{$adquirentes}})" type="checkbox">
                   </div>
-                  <!-- @if(isset($adquirentes))
+                  @if(isset($adquirentes))
                   @foreach($adquirentes as $adquirente)
                   <div id="{{ $adquirente->ADQUIRENTE }}" style="display:block; " class="col-sm-10">
                     <p>{{ $adquirente->ADQUIRENTE }}</p>
@@ -303,7 +303,7 @@
                   </div>
                   <hr>
                   @endforeach
-                  @endif -->
+                  @endif
                 </div>
               </div>
               <div class="modal-footer">
@@ -415,401 +415,401 @@
         </div>
 
         <!-- <div class="modal fade" id="staticBackdropMeioCaptura" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-          <div class="modal-dialog" style="width: 270px">
-            <div class="modal-content">
-              <div class="modal-header fundo-modal">
-                <h5 class="modal-title" id="staticBackdropLabel">Meio de Captura</h5>
-                <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body" style="max-height: 350px; overflow: auto">
-                <div class="row">
-                  <div class="col-sm-12">
-                    <h6> Pesquisar </h6>
-                  </div>
-                  <div class="col-sm-12">
-                    <input id="inputMeioCaptura" class="form-control" onKeyDown="filtroMeioCaptura({{$meio_captura}})">
-                  </div>
-                </div> <br>
+        <div class="modal-dialog" style="width: 270px">
+        <div class="modal-content">
+        <div class="modal-header fundo-modal">
+        <h5 class="modal-title" id="staticBackdropLabel">Meio de Captura</h5>
+        <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" style="max-height: 350px; overflow: auto">
+    <div class="row">
+    <div class="col-sm-12">
+    <h6> Pesquisar </h6>
+  </div>
+  <div class="col-sm-12">
+  <input id="inputMeioCaptura" class="form-control" onKeyDown="filtroMeioCaptura({{$meio_captura}})">
+</div>
+</div> <br>
 
-                <div class="row">
-                  <div class="col-sm-10">
-                    <p><b>MEIO DE CAPTURA</b></p>
-                  </div>
+<div class="row">
+<div class="col-sm-10">
+<p><b>MEIO DE CAPTURA</b></p>
+</div>
 
-                  <div class="col-sm-2">
-                    <input id="allCheckMeioCaptura" onchange="allCheckboxMeioCaptura({{$meio_captura}})" type="checkbox">
-                  </div>
-                  @if(isset($meio_captura))
-                  @foreach($meio_captura as $meio)
+<div class="col-sm-2">
+<input id="allCheckMeioCaptura" onchange="allCheckboxMeioCaptura({{$meio_captura}})" type="checkbox">
+</div>
+@if(isset($meio_captura))
+@foreach($meio_captura as $meio)
 
-                  <div id="{{ $meio->DESCRICAO }}" style="display:block" class="col-sm-10">
-                    <p>{{ $meio->DESCRICAO }}</p>
-                  </div>
-                  <div id="{{ "divMCap".$meio->CODIGO }}" style="display:block" class="col-sm-2">
-                    <input id="{{ "inputMeioCap-".$meio->CODIGO }}" class="checkMeioCaptura" value="{{ $meio->CODIGO }}" name="arrayMeioCaptura[]" type="checkbox">
-                  </div>
-                  <hr>
-                  @endforeach
-                  @endif
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
-                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addSelecionadosMeioCaptura({{$meio_captura}})"><b>Confirmar</b></button>
-              </div>
-            </div>
-          </div>
-        </div> -->
+<div id="{{ $meio->DESCRICAO }}" style="display:block" class="col-sm-10">
+<p>{{ $meio->DESCRICAO }}</p>
+</div>
+<div id="{{ "divMCap".$meio->CODIGO }}" style="display:block" class="col-sm-2">
+<input id="{{ "inputMeioCap-".$meio->CODIGO }}" class="checkMeioCaptura" value="{{ $meio->CODIGO }}" name="arrayMeioCaptura[]" type="checkbox">
+</div>
+<hr>
+@endforeach
+@endif
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
+<button type="button" class="btn btn-success" data-dismiss="modal" onclick="addSelecionadosMeioCaptura({{$meio_captura}})"><b>Confirmar</b></button>
+</div>
+</div>
+</div>
+</div> -->
 
-        <div class="modal fade" id="staticBackdropCodEstabelecimento" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header fundo-modal">
-                <h5 class="modal-title" id="staticBackdropLabel">Código de Estabelecimento</h5>
-                <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body" style="max-height: 350px; overflow: auto">
-                <div class="row">
-                  <div class="col-sm-12">
-                    <h6> Pesquisar </h6>
-                  </div>
-                  <div class="col-sm-12">
-                    <input id="inputCodEstabelecimento" class="form-control" onKeyDown="filtroCodEstabelecimento({{$cod_estabelecimento}})">
-                  </div>
-                </div> <br>
-
-                <div class="row">
-                  <div class="col-sm-9">
-                    <p><b>CÓDIGO DE ESTABELEC.</b></p>
-                  </div>
-                  <!-- <div class="col-sm-4">
-                    <p><b>ADQUIRENTE</b></p>
-                  </div>
-                  <div class="col-sm-3">
-                    <p><b>EMPRESA</b></p>
-                  </div> -->
-
-                  <div class="col-sm-3">
-                    <input id="allCheckCodEstabelecimento" onchange="allCheckboxMeioCaptura({{$cod_estabelecimento}})" type="checkbox">
-                  </div>
-                  @if(isset($cod_estabelecimento))
-                  @foreach($cod_estabelecimento as $estabelecimento)
-
-                  <div id="{{ $estabelecimento->CODIGO_ESTABELECIMENTO }}" style="display: block" class="col-sm-9">
-                    <p>{{ $estabelecimento->CODIGO_ESTABELECIMENTO }}</p>
-                  </div>
-                  <!-- <div id="{{ $estabelecimento->ADQUIRENTE }}" style="display: block" class="col-sm-4">
-                    <p>{{ $estabelecimento->ADQUIRENTE }}</p>
-                  </div>
-                  <div id="{{ $estabelecimento->NOME_EMPRESA }}" style="display: block" class="col-sm-3">
-                    <p>{{ $estabelecimento->NOME_EMPRESA }}</p>
-                  </div> -->
-                  <div id="{{ "divMCap".$estabelecimento->CODIGO }}" style="display: block" class="col-sm-3">
-                    <input id="{{ "inputMeioCap-".$estabelecimento->CODIGO }}" class="checkCodEstabelecimento" value="{{ $estabelecimento->CODIGO }}" name="arrayMeioCaptura[]" type="checkbox">
-                  </div>
-                  <hr>
-                  @endforeach
-                  @endif
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
-                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addSelecionadosMeioCaptura({{$cod_estabelecimento}})"><b>Confirmar</b></button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
-
-      <div id="resultadosPesquisa" style="display: none">
+<div class="modal fade" id="staticBackdropCodEstabelecimento" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header fundo-modal">
+        <h5 class="modal-title" id="staticBackdropLabel">Código de Estabelecimento</h5>
+        <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="max-height: 350px; overflow: auto">
         <div class="row">
-          <div class="col-md-6 col-lg-2">
-            <div class="card report-card">
-              <div class="card-body">
-                <div class="row d-flex justify-content-center">
-                  <div class="col-8">
-                    <p class="text-dark font-weight-semibold font-12">QTD</p>
-                    <h6 id="total_registros" class="my-3">378</h6>
-                  </div>
-                  <div class="col-4 align-self-center">
-                    <div class="report-main-icon bg-light-alt">
-                      <img src="{{ url('assets/images/vendasoperadora/quantidade.png')}}" alt="">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div class="col-sm-12">
+            <h6> Pesquisar </h6>
           </div>
-          <div class="col-md-6 col-lg-2">
-            <div class="card report-card">
-              <div class="card-body">
-                <div class="row d-flex justify-content-center">
-                  <div class="col-8">
-                    <p class="text-dark font-weight-semibold font-12">BRUTO</p>
-                    <h6 id="total_bruto_vendas" class="my-3">R$ 240,000,00</h6>
-                  </div>
-                  <div class="col-4 align-self-center">
-                    <div class="report-main-icon bg-light-alt">
-                      <img src="{{ url('assets/images/vendasoperadora/bruto.png')}}" alt="">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div class="col-sm-12">
+            <input id="inputCodEstabelecimento" class="form-control" onKeyDown="filtroCodEstabelecimento({{$cod_estabelecimento}})">
           </div>
-          <div class="col-md-6 col-lg-2">
-            <div class="card report-card">
-              <div class="card-body">
-                <div class="row d-flex justify-content-center">
-                  <div class="col-8">
-                    <p class="text-dark font-weight-semibold font-12">VALOR TAXA</p>
-                    <h6 id="total_taxa_cobrada" class="my-3 text-danger">R$ 240,000,00</h6>
-                  </div>
-                  <div class="col-4 align-self-center">
-                    <div class="report-main-icon bg-light-alt">
-                      <img src="{{ url('assets/images/vendasoperadora/percentagem.png')}}" alt="">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+        </div> <br>
+
+        <div class="row">
+          <div class="col-sm-9">
+            <p><b>CÓDIGO DE ESTABELEC.</b></p>
           </div>
-          <div class="col-md-6 col-lg-2">
-            <div class="card report-card">
-              <div class="card-body">
-                <div class="row d-flex justify-content-center">
-                  <div class="col-8">
-                    <p class="text-dark font-weight-semibold font-12">TARIFA MINÍMA</p>
-                    <h6 id="total_taxa_minima" class="my-3 text-danger">R$ 240,000,00</h6>
-                  </div>
-                  <div class="col-4 align-self-center">
-                    <div class="report-main-icon bg-light-alt">
-                      <img src="{{ url('assets/images/vendasoperadora/percentagem.png')}}" alt="">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-4">
-            <div class="card report-card">
-              <div class="card-body">
-                <div class="row d-flex justify-content-center">
-                  <div class="col-8">
-                    <p class="text-dark font-weight-semibold font-12">VALOR LÍQUIDO DE VENDAS</p>
-                    <h6 id="total_liquido_vendas" class="my-3">R$ 240,000,00</h6>
-                  </div>
-                  <div class="col-4 align-self-center">
-                    <div class="report-main-icon bg-light-alt">
-                      <img src="{{ url('assets/images/vendasoperadora/liquido.png')}}" alt="">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <!-- <div class="col-sm-4">
+          <p><b>ADQUIRENTE</b></p>
         </div>
-        <div class="row" id="foo">
-          <div  class="col-sm-2">
+        <div class="col-sm-3">
+        <p><b>EMPRESA</b></p>
+      </div> -->
 
-          </div>
+      <div class="col-sm-3">
+        <input id="allCheckCodEstabelecimento" onchange="allCheckboxMeioCaptura({{$cod_estabelecimento}})" type="checkbox">
+      </div>
+      @if(isset($cod_estabelecimento))
+      @foreach($cod_estabelecimento as $estabelecimento)
 
-          <div class="col-sm-10" align="right">
-            <div class="dropdown">
-              <a class="btn btn-sm dropdown-toggle" style="width: 160px; background: white; color: #2D5275; border-color: #2D5275" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i style="font-size: 19px" class="fas fa-file-download" style="padding: 7px"></i> <b style="font-size: 12px; margin-left: ">Exportar </b>
-              </a>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <a class="dropdown-item" id="dp-item"  href="{{ action('VendasController@downloadTable') }}">  PDF</a>
-                <!-- <a class="dropdown-item" id="btExportXls"  onclick="exportTableToExcel('#jsgrid-table', '#btExportXls')" href="#">  XLS (EXCEL)</a> -->
-                <a class="dropdown-item" id="btExportXls"  onclick="exportXls()">  XLS (EXCEL)</a>
+      <div id="{{ $estabelecimento->CODIGO_ESTABELECIMENTO }}" style="display: block" class="col-sm-9">
+        <p>{{ $estabelecimento->CODIGO_ESTABELECIMENTO }}</p>
+      </div>
+      <!-- <div id="{{ $estabelecimento->ADQUIRENTE }}" style="display: block" class="col-sm-4">
+      <p>{{ $estabelecimento->ADQUIRENTE }}</p>
+    </div>
+    <div id="{{ $estabelecimento->NOME_EMPRESA }}" style="display: block" class="col-sm-3">
+    <p>{{ $estabelecimento->NOME_EMPRESA }}</p>
+  </div> -->
+  <div id="{{ "divMCap".$estabelecimento->CODIGO }}" style="display: block" class="col-sm-3">
+    <input id="{{ "inputMeioCap-".$estabelecimento->CODIGO }}" class="checkCodEstabelecimento" value="{{ $estabelecimento->CODIGO }}" name="arrayMeioCaptura[]" type="checkbox">
+  </div>
+  <hr>
+  @endforeach
+  @endif
+</div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
+  <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addSelecionadosMeioCaptura({{$cod_estabelecimento}})"><b>Confirmar</b></button>
+</div>
+</div>
+</div>
+</div>
+</form>
+
+<div id="resultadosPesquisa" style="display: none">
+  <div class="row">
+    <div class="col-md-6 col-lg-2">
+      <div class="card report-card">
+        <div class="card-body">
+          <div class="row d-flex justify-content-center">
+            <div class="col-8">
+              <p class="text-dark font-weight-semibold font-12">QTD</p>
+              <h6 id="total_registros" class="my-3">378</h6>
+            </div>
+            <div class="col-4 align-self-center">
+              <div class="report-main-icon bg-light-alt">
+                <img src="{{ url('assets/images/vendasoperadora/quantidade.png')}}" alt="">
               </div>
             </div>
-            <span id="label-gerando-xls" style="display: none;  color: red"> Gerando XLS </span>
-          </div>
-        </div><br>
-
-        <div class="modal fade" id="modal-cupom" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="modalCupom" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="modalCupom">Comprovante</h5>
-                <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <table>
-                  <tbody>
-                    <thead>
-                      <h4 id="moda_titulo" align="center">  </h4>
-                      <h6 id="modal_cnpj" align="center"> CNPJ: {{ $venda->CNPJ}}</h6>
-                      <h6 id="modal_empresa" align="center"> CNPJ: {{ $venda->CNPJ}}</h6>
-                      <h6 style="margin-top: -15px">--------------------------------------</h6>
-                      <div style="text-align: center">
-                        <h6 id="modal_data">  </h6>
-                        <h6 id="modal_operadora">  </h6>
-                        <h6 id="modal_bandeira">  </h6>
-                        <h6 id="modal_forma_pagamento">  </h6>
-                        <h6 id="modal_estabelecimento">  </h6>
-                        <h6 id="modal_cartao">  </h6>
-                        <h6 id="modal_valor_bruto">  </h6>
-                        <h6 id="modal_data_previsao"></h6>
-                      </div>
-                    </thead>
-                  </tbody>
-                </table>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Fechar</b></button>
-                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="imprimeCupom()"><b>Imprimir</b></button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="table-scroll">
-          <table id="jsgrid-table" class="table sortable">
-            <thead>
-              <tr style="border-top: none">
-                <th> Detalhes </th>
-                <th> Empresa  <br> <input name="EMPRESA" onkeypress="filtraTabela('EMPRESA', event)" ></th>
-                <th> CNPJ  <br> <input name="CNPJ" onkeypress="filtraTabela('CNPJ', event)"> </th>
-                <th> Operadora<br> <input name="ADQUIRENTE" onkeypress="filtraTabela('ADQUIRENTE', event)"> </th>
-                <th> Venda  <br> <input name="DATA_VENDA" onkeypress="filtraTabela('DATA_VENDA', event)"></th>
-                <th> Previsão <br> <input name="DATA_PREVISTA_PAGTO" onkeypress="filtraTabela('DATA_PREVISTA_PAGTO', event)"> </th>
-                <th> Bandeira<br> <input name="BANDEIRA" onkeypress="filtraTabela('BANDEIRA', event)"> </th>
-                <th> Forma de Pagamento<br> <input> </th>
-                <th> NSU <br> <input name="NSU" onkeypress="filtraTabela('NSU', event)"></th>
-                <th> Autorização <br> <input name="AUTORIZACAO" onkeypress="filtraTabela('AUTORIZACAO', event)"></th>
-                <th> Cartão<br> <input name="CARTAO" onkeypress="filtraTabela('CARTAO', event)"> </th>
-                <th> Valor Bruto <br> <input name="VALOR_BRUTO" onkeypress="filtraTabela('VALOR_BRUTO', event)"></th>
-                <th> Taxa %  <br> <input name="PERCENTUAL_TAXA" onkeypress="filtraTabela('PERCENTUAL_TAXA', event)"></th>
-                <th> Taxa R$ <br> <input name="VALOR_TAXA" onkeypress="filtraTabela('VALOR_TAXA', event)"></th>
-                <th> Tarifa Mínima R$ <br> <input name="TAXA_MINIMA" onkeypress="filtraTabela('VALOR_TAXA', event)"></th>
-                <th> Outras Tarifas<br> <input name="OUTRAS_DESPESAS" onkeypress="filtraTabela('OUTRAS_DESPESAS', event)"> </th>
-                <th> Valor Líquido <br> <input name="VALOR_LIQUIDO" onkeypress="filtraTabela('VALOR_LIQUIDO', event)"> </th>
-                <th> Parcela <br> <input name="PARCELA" onkeypress="filtraTabela('PARCELA', event)"></th>
-                <th> Total Parc. <br> <input name="TOTAL_PARCELAS" onkeypress="filtraTabela('TOTAL_PARCELAS', event)"></th>
-                <th> Hora <br> <input name="HORA_TRANSACAO" onkeypress="filtraTabela('HORA_TRANSACAO', event)"></th>
-                <th> Estabelecimento<br> <input name="ESTABELECIMENTO" onkeypress="filtraTabela('ESTABELECIMENTO', event)"> </th>
-                <th> Banco<br> <input > </th>
-                <th> Agência<br> <input name="AGENCIA" onkeypress="filtraTabela('AGENCIA', event)"> </th>
-                <th> Conta <br> <input name="CONTA" onkeypress="filtraTabela('CONTA', event)"></th>
-                <th> Observação <br> <input name="OBSERVACAO" onkeypress="filtraTabela('OBSERVACAO', event)"></th>
-                <th> Produto<br> <input> </th>
-                <th> Meio de Captura<br> <input> </th>
-                <th> Status Conciliação<br> <input> </th>
-                <th> Status Financeiro<br> <input> </th>
-                <th> Justificativa <br> <input name="JUSTIFICATIVA" onkeypress="filtraTabela('JUSTIFICATIVA', event)"> </th>
-                <th> RO <br> <input></th>
-                <th> RO Único <br> <input></th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-            <tfoot>
-              <td> Totais </td>
-              <td> </td>
-              <td> </td>
-              <td> </td>
-              <td> </td>
-              <td> </td>
-              <td> </td>
-              <td> </td>
-              <td> </td>
-              <td> </td>
-              <td> </td>
-              <td id="valor_bruto"> </td>
-              <td> </td>
-              <td  style='color:red' id="valor_taxa"> </td>
-              <td  style='color:red' id="outras_tarifas"> </td>
-              <td  style='color:#6E6E6E' id="valor_liquido"> </td>
-              <td> </td>
-              <td> </td>
-              <td> </td>
-              <td> </td>
-              <td> </td>
-              <td> </td>
-              <td> </td>
-              <td> </td>
-              <td> </td>
-              <td> </td>
-              <td> </td>
-              <td> </td>
-              <td> </td>
-              <td> </td>
-              <td> </td>
-            </tfoot>
-          </table>
-        </div>
-
-        <div class="table-scroll" style="display: none">
-          <table id="table-xls" class="table">
-            <thead>
-              <tr style="border-top: none">
-                <th> Empresa </th>
-                <th> CNPJ  </th>
-                <th> Operadora </th>
-                <th> Venda </th>
-                <th> Previsão </th>
-                <th> Bandeir </th>
-                <th> Forma de Pagament </th>
-                <th> NSU</th>
-                <th> Autorização</th>
-                <th> Cartã </th>
-                <th> Valor Bruto</th>
-                <th> Taxa % </th>
-                <th> Taxa R$</th>
-                <th> Outras Tarifa </th>
-                <th> Valor Líquido </th>
-                <th> Parcela</th>
-                <th> Total Parc.</th>
-                <th> Hora</th>
-                <th> Estabeleciment </th>
-                <th> Banco </th>
-                <th> Agência </th>
-                <th> Conta</th>
-                <th> Observação</th>
-                <th> Produto </th>
-                <th> Meio de Captur </th>
-                <th> Status Conciliaçã </th>
-                <th> Status Financeir </th>
-                <th> Justificativa </th>
-                <th> RO</th>
-                <th> RO Único</th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="d-flex justify-content-between align-items-end flex-wrap">
-          <nav aria-label="Page navigation example">
-            <ul id="ul_pagination" class="pagination">
-            </ul>
-          </nav>
-
-          <div class="form-group">
-            <label for="quantidadePorPagina">Quantidade por página</label>
-            <select onchange="novaQuantidadePagina()" name="porPagina" id="quantidadePorPagina" class="form-control">
-              <option value="10" selected>10</option>
-              <option value="20">20</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-              <option value="200">200</option>
-            </select>
           </div>
         </div>
       </div>
-      <br>
+    </div>
+    <div class="col-md-6 col-lg-2">
+      <div class="card report-card">
+        <div class="card-body">
+          <div class="row d-flex justify-content-center">
+            <div class="col-8">
+              <p class="text-dark font-weight-semibold font-12">BRUTO</p>
+              <h6 id="total_bruto_vendas" class="my-3">R$ 240,000,00</h6>
+            </div>
+            <div class="col-4 align-self-center">
+              <div class="report-main-icon bg-light-alt">
+                <img src="{{ url('assets/images/vendasoperadora/bruto.png')}}" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-2">
+      <div class="card report-card">
+        <div class="card-body">
+          <div class="row d-flex justify-content-center">
+            <div class="col-8">
+              <p class="text-dark font-weight-semibold font-12">VALOR TAXA</p>
+              <h6 id="total_taxa_cobrada" class="my-3 text-danger">R$ 240,000,00</h6>
+            </div>
+            <div class="col-4 align-self-center">
+              <div class="report-main-icon bg-light-alt">
+                <img src="{{ url('assets/images/vendasoperadora/percentagem.png')}}" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-2">
+      <div class="card report-card">
+        <div class="card-body">
+          <div class="row d-flex justify-content-center">
+            <div class="col-8">
+              <p class="text-dark font-weight-semibold font-12">TARIFA MÍNIMA</p>
+              <h6 id="total_taxa_minima" class="my-3 text-danger">R$ 240,000,00</h6>
+            </div>
+            <div class="col-4 align-self-center">
+              <div class="report-main-icon bg-light-alt">
+                <img src="{{ url('assets/images/vendasoperadora/percentagem.png')}}" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-4">
+      <div class="card report-card">
+        <div class="card-body">
+          <div class="row d-flex justify-content-center">
+            <div class="col-8">
+              <p class="text-dark font-weight-semibold font-12">VALOR LÍQUIDO DE VENDAS</p>
+              <h6 id="total_liquido_vendas" class="my-3">R$ 240,000,00</h6>
+            </div>
+            <div class="col-4 align-self-center">
+              <div class="report-main-icon bg-light-alt">
+                <img src="{{ url('assets/images/vendasoperadora/liquido.png')}}" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+  <div class="row" id="foo">
+    <div  class="col-sm-2">
+
+    </div>
+
+    <div class="col-sm-10" align="right">
+      <div class="dropdown">
+        <a class="btn btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i style="font-size: 19px" class="fas fa-file-download" style="padding: 7px"></i> <b style="font-size: 12px; margin-left: ">Exportar </b>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <a class="dropdown-item" id="dp-item"  href="{{ action('VendasController@downloadTable') }}">  PDF</a>
+          <!-- <a class="dropdown-item" id="btExportXls"  onclick="exportTableToExcel('#jsgrid-table', '#btExportXls')" href="#">  XLS (EXCEL)</a> -->
+          <a class="dropdown-item" id="btExportXls"  onclick="exportXls()">  XLS (EXCEL)</a>
+        </div>
+      </div>
+      <span id="label-gerando-xls"> Gerando XLS </span>
+    </div>
+  </div><br>
+
+  <div class="modal fade" id="modal-cupom" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="modalCupom" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalCupom">Comprovante</h5>
+          <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <table>
+            <tbody>
+              <thead>
+                <h4 id="moda_titulo" align="center">  </h4>
+                <h6 id="modal_cnpj" align="center"> CNPJ: {{ $venda->CNPJ}}</h6>
+                <h6 id="modal_empresa" align="center"> CNPJ: {{ $venda->CNPJ}}</h6>
+                <h6 style="margin-top: -15px">--------------------------------------</h6>
+                <div style="text-align: center">
+                  <h6 id="modal_data">  </h6>
+                  <h6 id="modal_operadora">  </h6>
+                  <h6 id="modal_bandeira">  </h6>
+                  <h6 id="modal_forma_pagamento">  </h6>
+                  <h6 id="modal_estabelecimento">  </h6>
+                  <h6 id="modal_cartao">  </h6>
+                  <h6 id="modal_valor_bruto">  </h6>
+                  <h6 id="modal_data_previsao"></h6>
+                </div>
+              </thead>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Fechar</b></button>
+          <button type="button" class="btn btn-success" data-dismiss="modal" onclick="imprimeCupom()"><b>Imprimir</b></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-scroll">
+    <table id="jsgrid-table" class="table sortable">
+      <thead>
+        <tr style="border-top: none">
+          <th> Detalhes </th>
+          <th> Empresa  <br> <input name="EMPRESA" onkeypress="filtraTabela('EMPRESA', event)" ></th>
+          <th> CNPJ  <br> <input name="CNPJ" onkeypress="filtraTabela('CNPJ', event)"> </th>
+          <th> Operadora<br> <input name="ADQUIRENTE" onkeypress="filtraTabela('ADQUIRENTE', event)"> </th>
+          <th> Venda  <br> <input name="DATA_VENDA" onkeypress="filtraTabela('DATA_VENDA', event)"></th>
+          <th> Previsão <br> <input name="DATA_PREVISTA_PAGTO" onkeypress="filtraTabela('DATA_PREVISTA_PAGTO', event)"> </th>
+          <th> Bandeira<br> <input name="BANDEIRA" onkeypress="filtraTabela('BANDEIRA', event)"> </th>
+          <th> Forma de Pagamento<br> <input> </th>
+          <th> NSU <br> <input name="NSU" onkeypress="filtraTabela('NSU', event)"></th>
+          <th> Autorização <br> <input name="AUTORIZACAO" onkeypress="filtraTabela('AUTORIZACAO', event)"></th>
+          <th> Cartão<br> <input name="CARTAO" onkeypress="filtraTabela('CARTAO', event)"> </th>
+          <th> Valor Bruto <br> <input name="VALOR_BRUTO" onkeypress="filtraTabela('VALOR_BRUTO', event)"></th>
+          <th> Taxa %  <br> <input name="PERCENTUAL_TAXA" onkeypress="filtraTabela('PERCENTUAL_TAXA', event)"></th>
+          <th> Taxa R$ <br> <input name="VALOR_TAXA" onkeypress="filtraTabela('VALOR_TAXA', event)"></th>
+          <th> Tarifa Mínima R$ <br> <input name="TAXA_MINIMA" onkeypress="filtraTabela('VALOR_TAXA', event)"></th>
+          <th> Outras Tarifas<br> <input name="OUTRAS_DESPESAS" onkeypress="filtraTabela('OUTRAS_DESPESAS', event)"> </th>
+          <th> Valor Líquido <br> <input name="VALOR_LIQUIDO" onkeypress="filtraTabela('VALOR_LIQUIDO', event)"> </th>
+          <th> Parcela <br> <input name="PARCELA" onkeypress="filtraTabela('PARCELA', event)"></th>
+          <th> Total Parc. <br> <input name="TOTAL_PARCELAS" onkeypress="filtraTabela('TOTAL_PARCELAS', event)"></th>
+          <th> Hora <br> <input name="HORA_TRANSACAO" onkeypress="filtraTabela('HORA_TRANSACAO', event)"></th>
+          <th> Estabelecimento<br> <input name="ESTABELECIMENTO" onkeypress="filtraTabela('ESTABELECIMENTO', event)"> </th>
+          <th> Banco<br> <input > </th>
+          <th> Agência<br> <input name="AGENCIA" onkeypress="filtraTabela('AGENCIA', event)"> </th>
+          <th> Conta <br> <input name="CONTA" onkeypress="filtraTabela('CONTA', event)"></th>
+          <th> Observação <br> <input name="OBSERVACAO" onkeypress="filtraTabela('OBSERVACAO', event)"></th>
+          <th> Produto<br> <input> </th>
+          <th> Meio de Captura<br> <input> </th>
+          <th> Status Conciliação<br> <input> </th>
+          <th> Status Financeiro<br> <input> </th>
+          <th> Justificativa <br> <input name="JUSTIFICATIVA" onkeypress="filtraTabela('JUSTIFICATIVA', event)"> </th>
+          <th> RO <br> <input></th>
+          <th> RO Único <br> <input></th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+      <tfoot>
+        <td style='color:#6E6E6E; font-weight: bolder'> Totais </td>
+        <td> </td>
+        <td> </td>
+        <td> </td>
+        <td> </td>
+        <td> </td>
+        <td> </td>
+        <td> </td>
+        <td> </td>
+        <td> </td>
+        <td> </td>
+        <td style='color:#6E6E6E' id="valor_bruto"> </td>
+        <td> </td>
+        <td  style='color:red' id="valor_taxa"> </td>
+        <td  style='color:red' id="outras_tarifas"> </td>
+        <td  style='color:#6E6E6E' id="valor_liquido"> </td>
+        <td> </td>
+        <td> </td>
+        <td> </td>
+        <td> </td>
+        <td> </td>
+        <td> </td>
+        <td> </td>
+        <td> </td>
+        <td> </td>
+        <td> </td>
+        <td> </td>
+        <td> </td>
+        <td> </td>
+        <td> </td>
+        <td> </td>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="table-scroll" style="display: none">
+    <table id="table-xls" class="table">
+      <thead>
+        <tr style="border-top: none">
+          <th> Empresa </th>
+          <th> CNPJ  </th>
+          <th> Operadora </th>
+          <th> Venda </th>
+          <th> Previsão </th>
+          <th> Bandeir </th>
+          <th> Forma de Pagament </th>
+          <th> NSU</th>
+          <th> Autorização</th>
+          <th> Cartã </th>
+          <th> Valor Bruto</th>
+          <th> Taxa % </th>
+          <th> Taxa R$</th>
+          <th> Outras Tarifa </th>
+          <th> Valor Líquido </th>
+          <th> Parcela</th>
+          <th> Total Parc.</th>
+          <th> Hora</th>
+          <th> Estabeleciment </th>
+          <th> Banco </th>
+          <th> Agência </th>
+          <th> Conta</th>
+          <th> Observação</th>
+          <th> Produto </th>
+          <th> Meio de Captur </th>
+          <th> Status Conciliaçã </th>
+          <th> Status Financeir </th>
+          <th> Justificativa </th>
+          <th> RO</th>
+          <th> RO Único</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-end flex-wrap">
+    <nav aria-label="Page navigation example">
+      <ul id="ul_pagination" class="pagination">
+      </ul>
+    </nav>
+
+    <div class="form-group">
+      <label for="quantidadePorPagina">Quantidade por página</label>
+      <select onchange="novaQuantidadePagina()" name="porPagina" id="quantidadePorPagina" class="form-control">
+        <option value="10" selected>10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="200">200</option>
+      </select>
+    </div>
+  </div>
+</div>
+<br>
+</div>
+</div>
 </div>
 
 @section('footerScript')
@@ -819,7 +819,6 @@
 <!-- Buttons examples -->
 <script src="{{ URL::asset('plugins/datatables/dataTables.buttons.min.js')}}"></script>
 <script src="{{ URL::asset('plugins/datatables/buttons.bootstrap4.min.js')}}"></script>
-<script src="{{ URL::asset('plugins/datatables/jszip.min.js')}}"></script>
 <script src="{{ URL::asset('plugins/datatables/pdfmake.min.js')}}"></script>
 <script src="{{ URL::asset('plugins/datatables/vfs_fonts.js')}}"></script>
 <script src="{{ URL::asset('plugins/datatables/buttons.html5.min.js')}}"></script>
@@ -884,7 +883,8 @@ $('#submitFormLogin').click(function(){
     arrayBandeira,
     arrayModalidade,
     arrayStatusConciliacao,
-    // arrayStatusFinanceiro,
+    arrayStatusFinanceiro,
+    arrayCodEstabelecimento,
     qtdeVisivelInicial,
     filtro_tabela,
     valor_digitado
@@ -908,80 +908,12 @@ $('#submitFormLogin').click(function(){
     dataType: 'json',
     success: function (response){
       if(response){
-        for(var i=0;i< response[0].data.length; i++){
 
-          let dados_cupom   = JSON.stringify(response[0].data[i]);
-          let data_venda    = formataData(response[0].data[i].DATA_VENDA);
-          let data_prev_pag = formataData(response[0].data[i].DATA_PREVISTA_PAGTO);
-
-          let formatted                 = formataValorReal(response[0].data[i].VALOR_BRUTO);
-          let formatted_liq             = formataValorReal(response[0].data[i].VALOR_LIQUIDO);
-          let formatted_tx              = formataValorReal(response[0].data[i].VALOR_TAXA);
-          let formatted_outras_despesas = formataValorReal(response[0].data[i].OUTRAS_DESPESAS);
-
-          let cod      = response[0].data[i].COD;
-          let val_taxa = Number(response[0].data[i].PERCENTUAL_TAXA).toFixed(2);
-
-          let html = "<tr id='"+cod+"' onclick='mudaCorLinhaTable("+cod+")'>";
-
-          if(response[0].data[i].COD_STATUS_CONCILIACAO == 6) {
-            html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Conciliação' onclick='desfazerConciliacao(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-undo-alt'></i></a>"+" "+
-            "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
-          }else if(response[0].data[i].COD_STATUS_CONCILIACAO == 3){
-            html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Justificativa' onclick='desfazerJustificativa(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-history'></i></a>"+" "+
-            "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
-          }else{
-            html += "<td>" + "<a onclick='exibeModal("+dados_cupom+")'  data-target='#staticBackdrop' data-placement='bottom' title='Visualiza Comprovante'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
-          }
-
-          html +="<td>"+response[0].data[i].EMPRESA+"</td>";
-          html +="<td>"+response[0].data[i].CNPJ+"</td>";
-          html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEMAD || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
-          html +="<td>"+data_venda+"</td>";
-          html +="<td>"+data_prev_pag+"</td>";
-          html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEMBAD || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
-          html +="<td>"+response[0].data[i].DESCRICAO+"</td>";
-          html +="<td>"+response[0].data[i].NSU+"</td>";
-          html +="<td>"+response[0].data[i].AUTORIZACAO+"</td>";
-          html +="<td>"+response[0].data[i].CARTAO+"</td>";
-          html +="<td>"+formatted +"</td>";
-          html +="<td>"+val_taxa+"</td>";
-          html +="<td style='color:red'>"+formatted_tx+"</td>";
-          html +="<td>"+response[7]+"</td>";
-          html +="<td>"+formatted_outras_despesas+"</td>";
-          html +="<td>"+formatted_liq+"</td>";
-          html +="<td>"+response[0].data[i].PARCELA+"</td>";
-          html +="<td>"+response[0].data[i].TOTAL_PARCELAS+"</td>";
-          html +="<td>"+response[0].data[i].HORA_TRANSACAO+"</td>";
-          html +="<td>"+response[0].data[i].ESTABELECIMENTO+"</td>";
-          html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEM_LINK || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
-          html +="<td>"+ `${response[0].data[i].AGENCIA || ''}` +"</td>";
-          html +="<td>"+ `${response[0].data[i].CONTA || ''}` +"</td>";
-          html +="<td>"+ `${response[0].data[i].OBSERVACOES || ''}` +"</td>";
-          html +="<td>"+ `${response[0].data[i].PRODUTO_WEB || ''}` +"</td>";
-          html +="<td>"+response[0].data[i].MEIOCAPTURA+"</td>";
-          html +="<td>"+response[0].data[i].status_conc+"</td>";
-          html +="<td>"+response[0].data[i].status_finan+"</td>";
-          html +="<td>"+`${response[0].data[i].JUSTIFICATIVA || ''}`+"</td>";
-          html +="<td>"+""+"</td>";
-          html +="<td>"+""+"</td>";
-          html +="</tr>";
-
-          $('#jsgrid-table').append(html);
-        }
-
-        document.getElementById("valor_bruto").innerHTML = response[2];
-        document.getElementById("valor_liquido").innerHTML = response[1];
-        document.getElementById("valor_taxa").innerHTML = response[4];
-        document.getElementById("outras_tarifas").innerHTML = response[6];
-        document.getElementById("resultadosPesquisa").style.display = "block";
-        document.getElementById("total_liquido_vendas").innerHTML = "R$ "+response[1];
-        document.getElementById("total_registros").innerHTML = response[3];
-        document.getElementById("total_taxa_cobrada").innerHTML = "R$ -"+response[4];
-        document.getElementById("total_bruto_vendas").innerHTML = "R$ "+response[2];
-        document.getElementById("total_taxa_minima").innerHTML = response[7];
-
+        renderizaTabela(response);
+        atualizaBoxes(response);
+        atualizaSubTotais(response);
         renderizaPaginacao(response, filtro);
+
         document.getElementById("preloader").style.display = "none";
         window.scrollTo(0, 550);
       }
@@ -997,6 +929,9 @@ function paginate(paginada_selecionada, dados){
 
   document.getElementById("preloader").style.display = "block";
 
+  $('#jsgrid-table tbody').empty();
+  $('#ul_pagination li').empty();
+
   $.ajax({
     url: "{{ url('vendasoperadorasfiltro') }}" + "?page=" + paginada_selecionada,
     type: "post",
@@ -1005,76 +940,9 @@ function paginate(paginada_selecionada, dados){
     dataType: 'json',
     success: function (response){
       if(response){
-        $('#jsgrid-table tbody').empty();
-        // $('#jsgrid-table tfoot').empty();
-        $('#ul_pagination li').empty();
 
-        for(var i=0;i< response[0].data.length; i++){
-          let dados_cupom   = JSON.stringify(response[0].data[i]);
-          let data_venda    = formataData(response[0].data[i].DATA_VENDA);
-          let data_prev_pag = formataData(response[0].data[i].DATA_PREVISTA_PAGTO);
-
-          let formatted     = formataValorReal(response[0].data[i].VALOR_BRUTO);
-          let formatted_liq = formataValorReal(response[0].data[i].VALOR_LIQUIDO);
-          let formatted_tx  = formataValorReal(response[0].data[i].VALOR_TAXA);
-          let formatted_outras_despesas = formataValorReal(response[0].data[i].OUTRAS_DESPESAS);
-
-          let cod = response[0].data[i].COD;
-          let a = response[0].data[i].PERCENTUAL_TAXA;
-          let val_taxa = Number(a).toFixed(2);
-
-          let html = "<tr id='"+cod+"' onclick='mudaCorLinhaTable("+cod+")'>";
-          if(response[0].data[i].COD_STATUS_CONCILIACAO == 6) {
-            html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Conciliação' onclick='desfazerConciliacao(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-undo-alt'></i></a>"+" "+
-            "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
-
-          }else if(response[0].data[i].COD_STATUS_CONCILIACAO == 3){
-            html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Justificativa' onclick='desfazerJustificativa(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-history'></i></a>"+" "+
-            "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
-          }else{
-            html += "<td>" + "<a onclick='exibeModal("+dados_cupom+")'  data-target='#staticBackdrop' data-placement='bottom' title='Visualiza Comprovante'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
-          }
-
-          html +="<td>"+response[0].data[i].EMPRESA+"</td>";
-          html +="<td>"+response[0].data[i].CNPJ+"</td>";
-          html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEMAD || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
-          html +="<td>"+data_venda+"</td>";
-          html +="<td>"+data_prev_pag+"</td>";
-          html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEMBAD || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
-          html +="<td>"+response[0].data[i].DESCRICAO+"</td>";
-          html +="<td>"+response[0].data[i].NSU+"</td>";
-          html +="<td>"+response[0].data[i].AUTORIZACAO+"</td>";
-          html +="<td>"+response[0].data[i].CARTAO+"</td>";
-          html +="<td>"+formatted +"</td>";
-          html +="<td>"+val_taxa+"</td>";
-          html +="<td style='color:red'>"+formatted_tx+"</td>";
-          html +="<td>"+response[7]+"</td>";
-          html +="<td>"+formatted_outras_despesas+"</td>";
-          html +="<td>"+formatted_liq+"</td>";
-          html +="<td>"+response[0].data[i].PARCELA+"</td>";
-          html +="<td>"+response[0].data[i].TOTAL_PARCELAS+"</td>";
-          html +="<td>"+response[0].data[i].HORA_TRANSACAO+"</td>";
-          html +="<td>"+response[0].data[i].ESTABELECIMENTO+"</td>";
-          html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEM_LINK || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
-          html +="<td>"+ `${response[0].data[i].AGENCIA || ''}` +"</td>";
-          html +="<td>"+ `${response[0].data[i].CONTA || ''}` +"</td>";
-          html +="<td>"+ `${response[0].data[i].OBSERVACOES || ''}` +"</td>";
-          html +="<td>"+ `${response[0].data[i].PRODUTO_WEB || ''}` +"</td>";
-          html +="<td>"+response[0].data[i].MEIOCAPTURA+"</td>";
-          html +="<td>"+response[0].data[i].status_conc+"</td>";
-          html +="<td>"+response[0].data[i].status_finan+"</td>";
-          html +="<td>"+`${response[0].data[i].JUSTIFICATIVA || ''}`+"</td>";
-          html +="<td>"+""+"</td>";
-          html +="<td>"+""+"</td>";
-          html +="</tr>";
-          $('#jsgrid-table').append(html);
-        }
-
-        document.getElementById("total_liquido_vendas").innerHTML = "R$ "+response[1];
-        document.getElementById("total_registros").innerHTML = response[3];
-        document.getElementById("total_taxa_cobrada").innerHTML = "R$ -"+response[4];
-        document.getElementById("total_bruto_vendas").innerHTML = "R$ "+response[2];
-
+        renderizaTabela(response);
+        atualizaSubTotais(response);
         renderizaPaginacaoPaginate(response, filtro);
 
         document.getElementById("preloader").style.display = "none";
@@ -1088,8 +956,6 @@ var adquirentesSelecionados = [];
 var bandeirasSelecionados = [];
 var modalidadesSelecionados = [];
 var meioCapturaSelecionados = [];
-
-var flag = true;
 
 function submit(){
   document.getElementById("preloader").style.display = "block";
@@ -1347,7 +1213,6 @@ function allCheckboxBandeira(grupo_clientes) {
 }
 
 function allCheckboxModalidade(grupo_clientes){
-
   grupo_clientes.forEach((cliente) => {
     if(document.getElementById("allCheckModalidade").checked){
       document.getElementById("inputMod"+cliente.CODIGO).checked = true;
@@ -1367,78 +1232,8 @@ function allCheckboxMeioCaptura(grupo_clientes){
   });
 }
 
-function ad(value){
-  var bt = document.createElement("INPUT");
-  var div_cnpjs = document.getElementById("cont");
+function limparFiltros() { document.getElementById("myform").reset(); }
 
-  bt.innerHTML = value[1];
-
-  bt.setAttribute('name' , "array[]");
-  bt.setAttribute('value' , value);
-
-  bt.setAttribute('readonly', "");
-  bt.style = "margin-left: 5px; margin-top:5px; margin-bottom: 3px; width: 270px;";
-  // Insert text
-  div_cnpjs.appendChild(bt);
-}
-
-function limparFiltros() { bdocument.getElementById("myform").reset(); }
-
-function addTodos(grupos_clientes){
-  if(flag){
-    grupos_clientes.forEach((cliente) => {
-      var bt = document.createElement("INPUT");
-      var div_cnpjs = document.getElementById("cont");
-
-      bt.setAttribute('name' , "array[]");
-      bt.setAttribute('value' , cliente.NOME_EMPRESA + "-" +cliente.CNPJ);
-
-      bt.style = "margin-left: 5px; margin-top:5px; width: 130px;";                   // Insert text
-
-      bt.setAttribute('readonly', "");
-      bt.style = "margin-left: 5px; margin-top:5px; margin-bottom: 3px; width: 270px;";
-
-      div_cnpjs.appendChild(bt);
-
-      flag = false;
-    });
-  }
-}
-
-function removeCnpjs(){
-  var array = document.getElementsByName('array[]');
-  while(array[0]) {
-    array[0].parentNode.removeChild(array[0]);
-  }
-  flag = true;
-}
-
-function download_table_as_csv(table_id) {
-  var rows = document.querySelectorAll('table#' + table_id + ' tr');
-
-  var csv = [];
-  for (var i = 0; i < rows.length; i++) {
-    var row = [], cols = rows[i].querySelectorAll('td, th');
-    for (var j = 0; j < cols.length; j++) {
-      var data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ')
-      data = data.replace(/"/g, '""');
-      row.push('"' + data + '"');
-    }
-    csv.push(row.join(';'));
-  }
-  var csv_string = csv.join('\n');
-  var filename = 'export_' + 'conciflex' + '_' + new Date().toLocaleDateString() + '.xls';
-  var link = document.createElement('a');
-  link.style.display = 'none';
-  link.setAttribute('target', '_blank');
-  link.setAttribute('href', 'data:text/xls;charset=utf-8,' + encodeURIComponent(csv_string));
-  link.setAttribute('download', filename);
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-}
-
-var mudacor = false;
 function mudaCorLinhaTable(codigo){
   var cor = document.getElementById(codigo).style.background;
 
@@ -1665,79 +1460,10 @@ function filtraTabela(campo, event){
       dataType: 'json',
       success: function (response){
         if(response){
-          for(var i=0;i< response[0].data.length; i++){
 
-            let dados_cupom   = JSON.stringify(response[0].data[i]);
-            let data_venda    = formataData(response[0].data[i].DATA_VENDA);
-            let data_prev_pag = formataData(response[0].data[i].DATA_PREVISTA_PAGTO);
-
-            let formatted                 = formataValorReal(response[0].data[i].VALOR_BRUTO);
-            let formatted_liq             = formataValorReal(response[0].data[i].VALOR_LIQUIDO);
-            let formatted_tx              = formataValorReal(response[0].data[i].VALOR_TAXA);
-            let formatted_outras_despesas = formataValorReal(response[0].data[i].OUTRAS_DESPESAS);
-
-            let cod      = response[0].data[i].COD;
-            let val_taxa = Number(response[0].data[i].PERCENTUAL_TAXA).toFixed(2);
-
-            let html = "<tr id='"+cod+"' onclick='mudaCorLinhaTable("+cod+")'>";
-
-            if(response[0].data[i].COD_STATUS_CONCILIACAO == 6) {
-              html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Conciliação' onclick='desfazerConciliacao(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-undo-alt'></i></a>"+" "+
-              "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
-            }else if(response[0].data[i].COD_STATUS_CONCILIACAO == 3){
-              html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Justificativa' onclick='desfazerJustificativa(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-history'></i></a>"+" "+
-              "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
-            }else{
-              html += "<td>" + "<a onclick='exibeModal("+dados_cupom+")'  data-target='#staticBackdrop' data-placement='bottom' title='Visualiza Comprovante'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
-            }
-
-            html +="<td>"+response[0].data[i].EMPRESA+"</td>";
-            html +="<td>"+response[0].data[i].CNPJ+"</td>";
-            html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEMAD || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
-            html +="<td>"+data_venda+"</td>";
-            html +="<td>"+data_prev_pag+"</td>";
-            html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEMBAD || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
-            html +="<td>"+response[0].data[i].DESCRICAO+"</td>";
-            html +="<td>"+response[0].data[i].NSU+"</td>";
-            html +="<td>"+response[0].data[i].AUTORIZACAO+"</td>";
-            html +="<td>"+response[0].data[i].CARTAO+"</td>";
-            html +="<td>"+formatted +"</td>";
-            html +="<td>"+val_taxa+"</td>";
-            html +="<td style='color:red'>"+formatted_tx+"</td>";
-            html +="<td>"+response[7]+"</td>";
-            html +="<td>"+formatted_outras_despesas+"</td>";
-            html +="<td>"+formatted_liq+"</td>";
-            html +="<td>"+response[0].data[i].PARCELA+"</td>";
-            html +="<td>"+response[0].data[i].TOTAL_PARCELAS+"</td>";
-            html +="<td>"+response[0].data[i].HORA_TRANSACAO+"</td>";
-            html +="<td>"+response[0].data[i].ESTABELECIMENTO+"</td>";
-            html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEM_LINK || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
-            html +="<td>"+ `${response[0].data[i].AGENCIA || ''}` +"</td>";
-            html +="<td>"+ `${response[0].data[i].CONTA || ''}` +"</td>";
-            html +="<td>"+ `${response[0].data[i].OBSERVACOES || ''}` +"</td>";
-            html +="<td>"+ `${response[0].data[i].PRODUTO_WEB || ''}` +"</td>";
-            html +="<td>"+response[0].data[i].MEIOCAPTURA+"</td>";
-            html +="<td>"+response[0].data[i].status_conc+"</td>";
-            html +="<td>"+response[0].data[i].status_finan+"</td>";
-            html +="<td>"+`${response[0].data[i].JUSTIFICATIVA || ''}`+"</td>";
-            html +="<td>"+""+"</td>";
-            html +="<td>"+""+"</td>";
-            html +="</tr>";
-            $('#jsgrid-table').append(html);
-          }
-
-          document.getElementById("valor_bruto").innerHTML = response[2];
-          document.getElementById("valor_liquido").innerHTML = response[1];
-          document.getElementById("valor_taxa").innerHTML = response[4];
-          document.getElementById("outras_tarifas").innerHTML = response[6];
-
+          renderizaTabela(response);
+          atualizaSubTotais(response);
           renderizaPaginacao(response, filtro);
-
-          document.getElementById("resultadosPesquisa").style.display = "block";
-          document.getElementById("total_liquido_vendas").innerHTML = "R$ "+response[1];
-          document.getElementById("total_registros").innerHTML = response[3];
-          document.getElementById("total_taxa_cobrada").innerHTML = "R$ -"+response[4];
-          document.getElementById("total_bruto_vendas").innerHTML = "R$ "+response[2];
 
           window.scrollTo(0, 770);
 
@@ -1831,6 +1557,85 @@ function renderizaPaginacaoPaginate(response, filtro){
   }
 
   $('#ul_pagination').append(li_html);
+}
+
+function renderizaTabela(response){
+  for(var i=0;i< response[0].data.length; i++){
+
+    let dados_cupom   = JSON.stringify(response[0].data[i]);
+    let data_venda    = formataData(response[0].data[i].DATA_VENDA);
+    let data_prev_pag = formataData(response[0].data[i].DATA_PREVISTA_PAGTO);
+
+    let formatted                 = formataValorReal(response[0].data[i].VALOR_BRUTO);
+    let formatted_liq             = formataValorReal(response[0].data[i].VALOR_LIQUIDO);
+    let formatted_tx              = formataValorReal(response[0].data[i].VALOR_TAXA);
+    let formatted_outras_despesas = formataValorReal(response[0].data[i].OUTRAS_DESPESAS);
+
+    let cod      = response[0].data[i].COD;
+    let val_taxa = Number(response[0].data[i].PERCENTUAL_TAXA).toFixed(2);
+
+    let html = "<tr id='"+cod+"' onclick='mudaCorLinhaTable("+cod+")'>";
+
+    if(response[0].data[i].COD_STATUS_CONCILIACAO == 6) {
+      html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Conciliação' onclick='desfazerConciliacao(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-undo-alt'></i></a>"+" "+
+      "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+    }else if(response[0].data[i].COD_STATUS_CONCILIACAO == 3){
+      html +="<td>" + "<a href='' data-toggle='tooltip' data-placement='bottom' title='Desfazer Justificativa' onclick='desfazerJustificativa(" + response[0].data[i].CODIGO + ")'><i style='font-size: 17px' class='fas fa-history'></i></a>"+" "+
+      "<a href='{{ url('/impressao-vendas')}}"+"/"+response[0].data[i].COD+"' data-toggle='tooltip' data-placement='bottom' title='Visualiza Comprovante' target='_blank'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+    }else{
+      html += "<td>" + "<a onclick='exibeModal("+dados_cupom+")'  data-target='#staticBackdrop' data-placement='bottom' title='Visualiza Comprovante'><i style='font-size: 17px' class='fas fa-print'></i></a>"+"</td>";
+    }
+
+    html +="<td>"+response[0].data[i].EMPRESA+"</td>";
+    html +="<td>"+response[0].data[i].CNPJ+"</td>";
+    html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEMAD || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
+    html +="<td>"+data_venda+"</td>";
+    html +="<td>"+data_prev_pag+"</td>";
+    html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEMBAD || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
+    html +="<td>"+response[0].data[i].DESCRICAO+"</td>";
+    html +="<td>"+response[0].data[i].NSU+"</td>";
+    html +="<td>"+response[0].data[i].AUTORIZACAO+"</td>";
+    html +="<td>"+response[0].data[i].CARTAO+"</td>";
+    html +="<td>"+formatted +"</td>";
+    html +="<td>"+val_taxa+"</td>";
+    html +="<td style='color:red'>"+formatted_tx+"</td>";
+    html +="<td>"+response[7]+"</td>";
+    html +="<td>"+formatted_outras_despesas+"</td>";
+    html +="<td>"+formatted_liq+"</td>";
+    html +="<td>"+response[0].data[i].PARCELA+"</td>";
+    html +="<td>"+response[0].data[i].TOTAL_PARCELAS+"</td>";
+    html +="<td>"+response[0].data[i].HORA_TRANSACAO+"</td>";
+    html +="<td>"+response[0].data[i].ESTABELECIMENTO+"</td>";
+    html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEM_LINK || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
+    html +="<td>"+ `${response[0].data[i].AGENCIA || ''}` +"</td>";
+    html +="<td>"+ `${response[0].data[i].CONTA || ''}` +"</td>";
+    html +="<td>"+ `${response[0].data[i].OBSERVACOES || ''}` +"</td>";
+    html +="<td>"+ `${response[0].data[i].PRODUTO_WEB || ''}` +"</td>";
+    html +="<td>"+response[0].data[i].MEIOCAPTURA+"</td>";
+    html +="<td>"+response[0].data[i].status_conc+"</td>";
+    html +="<td>"+response[0].data[i].status_finan+"</td>";
+    html +="<td>"+`${response[0].data[i].JUSTIFICATIVA || ''}`+"</td>";
+    html +="<td>"+""+"</td>";
+    html +="<td>"+""+"</td>";
+    html +="</tr>";
+    $('#jsgrid-table').append(html);
+  }
+}
+
+function atualizaSubTotais(response){
+  document.getElementById("total_liquido_vendas").innerHTML = "R$ "+response[1];
+  document.getElementById("total_registros").innerHTML = response[3];
+  document.getElementById("total_taxa_cobrada").innerHTML = "R$ -"+response[4];
+  document.getElementById("total_bruto_vendas").innerHTML = "R$ "+response[2];
+  document.getElementById("total_taxa_minima").innerHTML = response[7];
+}
+
+function atualizaBoxes(response){
+  document.getElementById("valor_bruto").innerHTML = response[2];
+  document.getElementById("valor_liquido").innerHTML = response[1];
+  document.getElementById("valor_taxa").innerHTML = response[4];
+  document.getElementById("outras_tarifas").innerHTML = response[6];
+  document.getElementById("resultadosPesquisa").style.display = "block";
 }
 
 </script>

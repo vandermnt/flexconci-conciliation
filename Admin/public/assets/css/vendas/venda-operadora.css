@@ -18,6 +18,18 @@
   border-color: #2D5275;
 }
 
+#label-gerando-xls {
+  display: none;
+  color: red;
+}
+
+#dropdownMenuLink {
+  width: 160px;
+  background: white;
+  color: #2D5275;
+  border-color: #2D5275;
+}
+
 #myform .inputs {
   margin-top: -5px;
   padding-left: 7px;
