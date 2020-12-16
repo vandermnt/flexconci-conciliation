@@ -14,8 +14,24 @@ function limpar() {
   });
 }
 
+function confirmarSelecao(event) {
+  const botaoDOM = event.target;
+  const acao = botaoDOM.dataset.acao;
+  const nomeGrupo = botaoDOM.dataset.group;
+
+  if(String(acao).toLowerCase() === 'cancelar') {
+    checker.uncheckAll(nomeGrupo);
+  }
+
+  checker.setValuesToTextElement(nomeGrupo, 'descricao');
+}
+
 window.addEventListener('load', () => {
   document.querySelector('#pagina-conciliacao').classList.remove('hidden');
+});
+
+[...document.querySelectorAll('button[data-acao]')].forEach(botaoDOM => {
+  botaoDOM.addEventListener('click', confirmarSelecao);
 });
 
 document.querySelector('#js-reset-form')
