@@ -30,7 +30,7 @@ class VendasFilter extends BaseFilter {
   }
 
   public function apply($filters) {
-    $filters = Arr::only($filters, $whiteList);
+    $filters = Arr::only($filters, $this->whiteList);
     $filters = Arr::where($filters, function($value, $key) {
       return boolval($value);
     });
@@ -42,7 +42,7 @@ class VendasFilter extends BaseFilter {
 
     $this->query = VendasModel::select(
         [
-          'vendas.CODIGO',
+          'vendas.CODIGO as ID',
           'grupos_clientes.NOME_EMPRESA',
           'grupos_clientes.CNPJ',
           'vendas.DATA_VENDA',
@@ -65,6 +65,7 @@ class VendasFilter extends BaseFilter {
           'vendas.PARCELA',
           'vendas.TOTAL_PARCELAS',
           'vendas.HORA_TRANSACAO',
+          'vendas.ESTABELECIMENTO',
           'lista_bancos.BANCO',
           'lista_bancos.IMAGEM_LINK as BANCO_IMAGEM',
           'vendas.AGENCIA',
