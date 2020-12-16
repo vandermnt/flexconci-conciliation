@@ -28,6 +28,7 @@
                   name="data_inicial"
                   class="form-control"
                   value="{{ date("Y-m-01") }}"
+                  required
                 >
               </div>
               <div class="form-group flex-grow-1">
@@ -38,6 +39,7 @@
                   name="data_final"
                   class="form-control"
                   value="{{ date("Y-m-d") }}"
+                  required
                 >
               </div>
             </div>
@@ -138,9 +140,9 @@
                 <button
                   class="close"
                   type="button"
-                  data-group="empresa"
                   data-dismiss="modal"
                   data-acao="cancelar"
+                  data-group="empresa"
                   aria-label="Close"
                 >
                   <span aria-hidden="true">&times;</span>
@@ -234,7 +236,7 @@
           <div class="card-body">
             <h6 class="text-dark text-center font-weight-semibold font-12">VENDAS ERP</h6>
             <div class="d-flex align-items-center justify-content-between">
-              <p>0</p>
+              <p data-total="EPR_TOTAL_BRUTO">0</p>
               <img src="assets/images/conciliacao/vendaserp.png" alt="Vendas ERP">
             </div>
           </div>
@@ -243,7 +245,7 @@
           <div class="card-body">
             <h6 class="text-dark text-center font-weight-semibold font-12">CONCILIADO</h6>
             <div class="d-flex align-items-center justify-content-between">
-              <p>0</p>
+              <p data-total="TOTAL_CONCILIADA">0</p>
               <img src="assets/images/conciliacao/conciliado.png" alt="Conciliado">
             </div>
           </div>
@@ -252,7 +254,7 @@
           <div class="card-body">
             <h6 class="text-dark text-center font-weight-semibold font-12">DIVERGENTE</h6>
             <div class="d-flex align-items-center justify-content-between">
-              <p>0</p>
+              <p data-total="TOTAL_DIVERGENTE">0</p>
               <img src="assets/images/conciliacao/conciliadodiv.png" alt="Divergente">
             </div>
           </div>
@@ -261,7 +263,7 @@
           <div class="card-body">
             <h6 class="text-dark text-center font-weight-semibold font-12">CONC. MANUAL</h6>
             <div class="d-flex align-items-center justify-content-between">
-              <p>0</p>
+              <p data-total="TOTAL_MANUAL">0</p>
               <img src="assets/images/conciliacao/conciliadomanualmente.png" alt="Conciliado Manualmente">
             </div>
           </div>
@@ -270,7 +272,7 @@
           <div class="card-body">
             <h6 class="text-dark text-center font-weight-semibold font-12">JUSTIFICADO</h6>
             <div class="d-flex align-items-center justify-content-between">
-              <p>0</p>
+              <p data-total="TOTAL_JUSTIFICADA">0</p>
               <img src="assets/images/conciliacao/justificado.png" alt="Justificado">
             </div>
           </div>
@@ -279,7 +281,7 @@
           <div class="card-body">
             <h6 class="text-dark text-center font-weight-semibold font-12">PENDÊNCIAS ERP</h6>
             <div class="d-flex align-items-center justify-content-between">
-              <p>0</p>
+              <p data-total="TOTAL_NAO_CONCILIADA">0</p>
               <img src="assets/images/conciliacao/vendaserpnotconc.png" alt="Pendências ERP">
             </div>
           </div>
@@ -288,7 +290,7 @@
           <div class="card-body">
             <h6 class="text-dark text-center font-weight-semibold font-12">PENDÊNCIAS OPER.</h6>
             <div class="d-flex align-items-center justify-content-between">
-              <p>0</p>
+              <p data-total="OPERADORAS_TOTAL_BRUTO">0</p>
               <img src="assets/images/conciliacao/vendasoperadoranotconc.png" alt="Pendências Operadoras">
             </div>
           </div>
@@ -319,12 +321,6 @@
                 <th>
                   <div class="d-flex flex-column justify-content-end">
                     <p class="m-0">Ações</p>
-                  </div>
-                </th>
-                <th>
-                  <div class="d-flex flex-column align-items-center">
-                    <p>ID. ERP</p>
-                    <input type="text" class="form-control" name="ID_ERP">
                   </div>
                 </th>
                 <th>
@@ -534,20 +530,23 @@
               </tr>
             </thead>
             <tbody>
-              {{-- <tr>
+              <tr>
                 <td>
                   <div class="d-flex align-items-center justify-content-between">
                     <input type="checkbox">
                     <img src="assets/images/conciliacao/conciliado.png" alt="">
                   </div>
                 </td>
-                <td data-campo="ID_ERP"></td>
                 <td data-campo="NOME_EMPRESA"></td>
                 <td data-campo="CNPJ"></td>
                 <td data-campo="DATA_VENDA"></td>
                 <td data-campo="DATA_VENCIMENTO"></td>
-                <td data-campo="ADQUIRENTE"></td>
-                <td data-campo="BANDEIRA"></td>
+                <td>
+                  <img data-image="ADQUIRENTE_IMAGEM" data-text="ADQUIRENTE" src="" alt="">
+                </td>
+                <td>
+                  <img data-image="BANDEIRA_IMAGEM" data-text="BANDEIRA" src="" alt="">
+                </td>
                 <td data-campo="MODALIDADE"></td>
                 <td data-campo="NSU"></td>
                 <td data-campo="COD_AUTORIZACAO"></td>
@@ -576,58 +575,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-              </tr> --}}
-              @for($i = 0; $i < 10; $i++)
-                <tr>
-                  <td>
-                    <div class="d-flex align-items-center justify-content-between">
-                      <input type="checkbox">
-                      <img src="assets/images/conciliacao/conciliado.png" alt="">
-                    </div>
-                  </td>
-                  <td data-campo="ID_ERP">0000</td>
-                  <td data-campo="NOME_EMPRESA">TINTAS MC - MATRIZ</td>
-                  <td data-campo="CNPJ">61149506000151</td>
-                  <td data-campo="DATA_VENDA">20/11/2020</td>
-                  <td data-campo="DATA_VENCIMENTO">20/12/2020</td>
-                  <td data-campo="ADQUIRENTE" class="p-0 m-0">
-                    <img src="assets/images/adquirentes/pagseguro.png" alt="">
-                  </td>
-                  <td data-campo="BANDEIRA" class="p-0 m-0">
-                    <img src="assets/images/bandeiras/mastercard.svg" alt="">
-                  </td>
-                  <td data-campo="MODALIDADE">Crédito</td>
-                  <td data-campo="NSU">93049230</td>
-                  <td data-campo="CODIGO_AUTORIZACAO">4329423</td>
-                  <td data-campo="TID">00000000000000000</td>
-                  <td></td>
-                  <td data-campo="TOTAL_VENDA">R$ 200,00</td>
-                  <td data-campo="TAXA">1.00</td>
-                  <td data-campo="VALOR_TAXA">R$ 2,00</td>
-                  <td data-campo="VALOR_LIQUIDO_PARCELA">R$ 198,00</td>
-                  <td data-campo="PARCELA">1</td>
-                  <td data-campo="TOTAL_PARCELAS">3</td>
-                  <td></td>
-                  <td></td>
-                  <td data-campo="BANCO" class="p-0 m-0">
-                    <img src="assets/images/bancos/banco-do-brasil.png" alt="">
-                  </td>
-                  <td data-campo="AGENCIA"></td>
-                  <td data-campo="CONTA_CORRENTE"></td>
-                  <td data-campo="PRODUTO">Voucher</td>
-                  <td data-campo="MEIO_CAPTURA">POS</td>
-                  <td data-campo="STATUS_CONCILIACAO">Não Conciliada</td>
-                  <td data-campo="STATUS_FINANCEIRO"></td>
-                  <td data-campo="JUSTIFICATIVA">Justificada</td>
-                  <td data-campo="CAMPO1" ></td>
-                  <td data-campo="CAMPO2"></td>
-                  <td data-campo="CAMPO3"></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-              @endfor
+              </tr>
             </tbody>
             <tfoot>
               <tr>
@@ -643,11 +591,10 @@
                 <td></td>
                 <td></td>
                 <td></td>
+                <td data-chave="TOTAL_BRUTO"></td>
                 <td></td>
-                <td data-chave="TOTAL_VENDAS">R$ {{ number_format((200 * 10), 2, ',', '.') }}</td>
-                <td></td>
-                <td data-chave="TOTAL_TAXA" class="text-danger">-R$ {{ number_format((2 * 10), 2, ',', '.') }}</td>
-                <td data-chave="LIQUIDEZ_TOTAL_PARCELA">R$ {{ number_format((198 * 10), 2, ',', '.') }}</td>
+                <td data-chave="TOTAL_TAXA" class="text-danger"></td>
+                <td data-chave="TOTAL_LIQUIDO"></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -681,8 +628,8 @@
           </nav>
   
           <div class="form-group">
-            <label for="quantidadePorPagina">Quantidade por página</label>
-            <select name="porPagina" id="quantidadePorPagina" class="form-control">
+            <label for="por_pagina_erp">Quantidade por página</label>
+            <select name="por_pagina_erp" id="por_pagina_erp" class="form-control">
               <option value="5" selected>5</option>
               <option value="10">10</option>
               <option value="20">20</option>
@@ -734,7 +681,7 @@
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Previsão</p>
-                    <input type="text" class="form-control" name="DATA_VENCIMENTO">
+                    <input type="text" class="form-control" name="DATA_PREVISAO">
                   </div>
                 </th>
                 <th>
@@ -764,19 +711,19 @@
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Autorização</p>
-                    <input type="text" class="form-control" name="CODIGO_AUTORIZACAO">
+                    <input type="text" class="form-control" name="AUTORIZACAO">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Valor Bruto</p>
-                    <input type="text" class="form-control" name="TOTAL_VENDA">
+                    <input type="text" class="form-control" name="VALOR_BRUTO">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Taxa %</p>
-                    <input type="text" class="form-control" name="TAXA">
+                    <input type="text" class="form-control" name="PERCENTUAL_TAXA">
                   </div>
                 </th>
                 <th>
@@ -788,7 +735,7 @@
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Valor Líquido</p>
-                    <input type="text" class="form-control" name="VALOR_LIQUIDO_PARCELA">
+                    <input type="text" class="form-control" name="VALOR_LIQUIDO">
                   </div>
                 </th>
                 <th>
@@ -806,13 +753,13 @@
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Hora</p>
-                    <input type="text" class="form-control" name="">
+                    <input type="text" class="form-control" name="HORA_TRANSACAO">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Estabelecimento</p>
-                    <input type="text" class="form-control" name="">
+                    <input type="text" class="form-control" name="ESTABELECIMENTO">
                   </div>
                 </th>
                 <th>
@@ -830,13 +777,13 @@
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Conta</p>
-                    <input type="text" class="form-control" name="CONTA_CORRENTE">
+                    <input type="text" class="form-control" name="CONTA">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Observação</p>
-                    <input type="text" class="form-control" name="OBSERVACAO">
+                    <input type="text" class="form-control" name="OBSERVACOES">
                   </div>
                 </th>
                 <th>
@@ -857,6 +804,12 @@
                     <input type="text" class="form-control" name="STATUS_CONCILIACAO">
                   </div>
                  </th>
+                <th>
+                  <div class="d-flex flex-column align-items-center">
+                    <p>Status Financeiro</p>
+                    <input type="text" class="form-control" name="STATUS_FINANCEIRO">
+                  </div>
+                 </th>
                  <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Justificativa</p>
@@ -866,7 +819,7 @@
               </tr>
             </thead>
             <tbody>
-              {{-- <tr>
+              <tr>
                 <td>
                   <div class="d-flex align-items-center justify-content-between">
                     <input type="checkbox">
@@ -876,70 +829,36 @@
                 <td data-campo="NOME_EMPRESA"></td>
                 <td data-campo="CNPJ"></td>
                 <td data-campo="DATA_VENDA"></td>
-                <td data-campo="DATA_VENCIMENTO"></td>
-                <td data-campo="ADQUIRENTE"></td>
-                <td data-campo="BANDEIRA"></td>
+                <td data-campo="DATA_PREVISAO"></td>
+                <td>
+                  <img data-image="ADQUIRENTE_IMAGEM" data-text="ADQUIRENTE" src="" alt="">
+                </td>
+                <td>
+                  <img data-image="BANDEIRA_IMAGEM" data-text="BANDEIRA" src="" alt="">
+                </td>
                 <td data-campo="MODALIDADE"></td>
                 <td data-campo="NSU"></td>
-                <td data-campo="COD_AUTORIZACAO"></td>
-                <td data-campo="TOTAL_VENDA"></td>
-                <td data-campo="TAXA"></td>
+                <td data-campo="AUTORIZACAO"></td>
+                <td data-campo="VALOR_BRUTO"></td>
+                <td data-campo="PERCENTUAL_TAXA"></td>
                 <td data-campo="VALOR_TAXA"></td>
-                <td data-campo="VALOR_LIQUIDO_PARCELA"></td>
+                <td data-campo="VALOR_LIQUIDO"></td>
                 <td data-campo="PARCELA"></td>
                 <td data-campo="TOTAL_PARCELAS"></td>
                 <td></td>
                 <td></td>
-                <td data-campo="BANCO"></td>
+                <td>
+                  <img data-image="BANCO_IMAGEM" data-text="BANCO" src="" alt="">
+                </td>
                 <td data-campo="AGENCIA"></td>
-                <td data-campo="CONTA_CORRENTE"></td>
-                <td data-campo="OBSERVACAO"></td>
+                <td data-campo="CONTA"></td>
+                <td data-campo="OBSERVACOES"></td>
                 <td data-campo="PRODUTO"></td>
                 <td data-campo="MEIOCAPTURA"></td>
                 <td data-campo="STATUS_CONCILIACAO"></td>
+                <td data-campo="STATUS_FINANCEIRO"></td>
                 <td data-campo="JUSTIFICATIVA"></td>
-              </tr> --}}
-              @for($i = 0; $i < 10; $i++)
-                <tr>
-                  <td>
-                    <div class="d-flex align-items-center justify-content-between">
-                      <input type="checkbox">
-                      <img src="assets/images/conciliacao/conciliado.png" alt="">
-                    </div>
-                  </td>
-                  <td data-campo="NOME_EMPRESA">TINTAS MC - MATRIZ</td>
-                  <td data-campo="CNPJ">61149506000151</td>
-                  <td data-campo="DATA_VENDA">20/11/2020</td>
-                  <td data-campo="DATA_VENCIMENTO">20/12/2020</td>
-                  <td data-campo="ADQUIRENTE" class="p-0 m-0">
-                    <img src="assets/images/adquirentes/cielo.svg" alt="">
-                  </td>
-                  <td data-campo="BANDEIRA" class="p-0 m-0">
-                    <img src="assets/images/bandeiras/mastercard.svg" alt="">
-                  </td>
-                  <td data-campo="MODALIDADE">Crédito</td>
-                  <td data-campo="NSU">93049230</td>
-                  <td data-campo="CODIGO_AUTORIZACAO">4329423</td>
-                  <td data-campo="TOTAL_VENDA">R$ 200,00</td>
-                  <td data-campo="TAXA">1.00</td>
-                  <td data-campo="VALOR_TAXA">R$ 2,00</td>
-                  <td data-campo="VALOR_LIQUIDO_PARCELA">R$ 198,00</td>
-                  <td data-campo="PARCELA">1</td>
-                  <td data-campo="TOTAL_PARCELAS">3</td>
-                  <td></td>
-                  <td></td>
-                  <td data-campo="BANCO" class="p-0 m-0">
-                    <img src="assets/images/bancos/banco-do-brasil.png" alt="">
-                  </td>
-                  <td data-campo="AGENCIA"></td>
-                  <td data-campo="CONTA_CORRENTE"></td>
-                  <td data-campo="OBSERVACAO"></td>
-                  <td data-campo="PRODUTO">Voucher</td>
-                  <td data-campo="MEIO_CAPTURA">POS</td>
-                  <td data-campo="STATUS_CONCILIACAO">Não Conciliada</td>
-                  <td data-campo="JUSTIFICATIVA">Justificada</td>
-                </tr>
-              @endfor
+              </tr>      
             </tbody>
             <tfoot>
               <tr>
@@ -953,10 +872,11 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td data-chave="TOTAL_VENDAS">R$ {{ number_format((200 * 10), 2, ',', '.') }}</td>
+                <td data-chave="TOTAL_BRUTO"></td>
                 <td></td>
-                <td data-chave="TOTAL_TAXA" class="text-danger">-R$ {{ number_format((2 * 10), 2, ',', '.') }}</td>
-                <td data-chave="LIQUIDEZ_TOTAL_PARCELA">R$ {{ number_format((198 * 10), 2, ',', '.') }}</td>
+                <td data-chave="TOTAL_TAXA" class="text-danger"></td>
+                <td data-chave="TOTAL_LIQUIDO"></td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -983,8 +903,8 @@
           </nav>
   
           <div class="form-group">
-            <label for="quantidadePorPagina">Quantidade por página</label>
-            <select name="porPagina" id="quantidadePorPagina" class="form-control">
+            <label for="por_pagina_operadoras">Quantidade por página</label>
+            <select name="por_pagina_operadoras" id="por_pagina_operadoras" class="form-control">
               <option value="5" selected>5</option>
               <option value="10">10</option>
               <option value="20">20</option>

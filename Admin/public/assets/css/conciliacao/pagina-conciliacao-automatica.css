@@ -1,3 +1,7 @@
+#pagina-conciliacao button > * {
+  pointer-events: none;
+}
+
 /* Form */
 #pagina-conciliacao form.card {
   margin-bottom: 0;
