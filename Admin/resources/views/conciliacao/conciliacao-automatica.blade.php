@@ -14,7 +14,12 @@
       @endcomponent
     </header>
 
-    <form id="js-form-pesquisar" action="{{ route('conciliacao-automatica.busca') }}" class="card" method="POST">
+    <form 
+      id="js-form-pesquisar"
+      data-url-erp="{{ route('conciliacao-automatica.busca.erp') }}"
+      data-url-operadoras="{{ route('conciliacao-automatica.busca.operadoras') }}"
+      class="card" method="POST"
+    >
       <div class="card-body">
         @csrf
         <div class="row">
@@ -530,7 +535,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr class="hidden">
                 <td>
                   <div class="d-flex align-items-center justify-content-between">
                     <input type="checkbox">
@@ -539,23 +544,23 @@
                 </td>
                 <td data-campo="NOME_EMPRESA"></td>
                 <td data-campo="CNPJ"></td>
-                <td data-campo="DATA_VENDA"></td>
-                <td data-campo="DATA_VENCIMENTO"></td>
+                <td data-campo="DATA_VENDA" data-format="date"></td>
+                <td data-campo="DATA_VENCIMENTO" data-format="date"></td>
                 <td>
-                  <img data-image="ADQUIRENTE_IMAGEM" data-text="ADQUIRENTE" src="" alt="">
+                  <img data-image="ADQUIRENTE_IMAGEM" data-text="ADQUIRENTE">
                 </td>
                 <td>
-                  <img data-image="BANDEIRA_IMAGEM" data-text="BANDEIRA" src="" alt="">
+                  <img data-image="BANDEIRA_IMAGEM" data-text="BANDEIRA">
                 </td>
                 <td data-campo="MODALIDADE"></td>
                 <td data-campo="NSU"></td>
-                <td data-campo="COD_AUTORIZACAO"></td>
+                <td data-campo="CODIGO_AUTORIZACAO"></td>
                 <td data-campo="TID"></td>
                 <td></td>
-                <td data-campo="TOTAL_VENDA"></td>
-                <td data-campo="TAXA"></td>
-                <td data-campo="VALOR_TAXA"></td>
-                <td data-campo="VALOR_LIQUIDO_PARCELA"></td>
+                <td data-campo="TOTAL_VENDA" data-format="currency"></td>
+                <td data-campo="TAXA" data-format="decimal"></td>
+                <td class="text-danger" data-campo="VALOR_TAXA" data-format="currency"></td>
+                <td data-campo="VALOR_LIQUIDO_PARCELA" data-format="currency"></td>
                 <td data-campo="PARCELA"></td>
                 <td data-campo="TOTAL_PARCELAS"></td>
                 <td></td>
@@ -629,7 +634,7 @@
   
           <div class="form-group">
             <label for="por_pagina_erp">Quantidade por página</label>
-            <select name="por_pagina_erp" id="por_pagina_erp" class="form-control">
+            <select name="por_pagina" id="por_pagina_erp" class="form-control">
               <option value="5" selected>5</option>
               <option value="10">10</option>
               <option value="20">20</option>
@@ -819,7 +824,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr class="hidden">
                 <td>
                   <div class="d-flex align-items-center justify-content-between">
                     <input type="checkbox">
@@ -828,21 +833,21 @@
                 </td>
                 <td data-campo="NOME_EMPRESA"></td>
                 <td data-campo="CNPJ"></td>
-                <td data-campo="DATA_VENDA"></td>
-                <td data-campo="DATA_PREVISAO"></td>
+                <td data-campo="DATA_VENDA" data-format="date"></td>
+                <td data-campo="DATA_PREVISAO" data-format="date"></td>
                 <td>
-                  <img data-image="ADQUIRENTE_IMAGEM" data-text="ADQUIRENTE" src="" alt="">
+                  <img data-image="ADQUIRENTE_IMAGEM" data-text="ADQUIRENTE">
                 </td>
                 <td>
-                  <img data-image="BANDEIRA_IMAGEM" data-text="BANDEIRA" src="" alt="">
+                  <img data-image="BANDEIRA_IMAGEM" data-text="BANDEIRA">
                 </td>
                 <td data-campo="MODALIDADE"></td>
                 <td data-campo="NSU"></td>
                 <td data-campo="AUTORIZACAO"></td>
-                <td data-campo="VALOR_BRUTO"></td>
-                <td data-campo="PERCENTUAL_TAXA"></td>
-                <td data-campo="VALOR_TAXA"></td>
-                <td data-campo="VALOR_LIQUIDO"></td>
+                <td data-campo="VALOR_BRUTO" data-format="currency"></td>
+                <td data-campo="PERCENTUAL_TAXA" data-format="decimal"></td>
+                <td class="text-danger" data-campo="VALOR_TAXA" data-format="currency"></td>
+                <td data-campo="VALOR_LIQUIDO" data-format="currency"></td>
                 <td data-campo="PARCELA"></td>
                 <td data-campo="TOTAL_PARCELAS"></td>
                 <td></td>
@@ -904,7 +909,7 @@
   
           <div class="form-group">
             <label for="por_pagina_operadoras">Quantidade por página</label>
-            <select name="por_pagina_operadoras" id="por_pagina_operadoras" class="form-control">
+            <select name="por_pagina" id="por_pagina_operadoras" class="form-control">
               <option value="5" selected>5</option>
               <option value="10">10</option>
               <option value="20">20</option>
@@ -923,6 +928,7 @@
 @endsection
 
 @section('footerScript')
+  <script src="assets/js/lib/api.js"></script>
   <script src="assets/js/lib/checker.js"></script>
   <script src="assets/js/lib/modal-filters.js"></script>
   <script src="assets/js/conciliacao/conciliacao-automatica.js"></script>
