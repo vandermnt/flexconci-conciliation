@@ -307,11 +307,11 @@ body {
                       Escolher Período <i class="mdi mdi-chevron-down"></i>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonProduto">
-                      <a class="dropdown-item" onclick="">Ontem</a>
-                      <a class="dropdown-item" onclick="">Últimos 7 dias</a>
-                      <a class="dropdown-item" onclick="">Últimos 15 dias</a>
-                      <a class="dropdown-item" onclick="">Últimos 30 dias</a>
-                      <a class="dropdown-item" onclick="">Mês Atual</a>
+                      <a class="dropdown-item" onclick="trocaPeriodo(1, 'produto', 'Ontem')">Ontem</a>
+                      <a class="dropdown-item" onclick="trocaPeriodo(2, 'produto', 'Últimos 7 dias')">Últimos 7 dias</a>
+                      <a class="dropdown-item" onclick="trocaPeriodo(3, 'produto', 'Últimos 15 dias')">Últimos 15 dias</a>
+                      <a class="dropdown-item" onclick="trocaPeriodo(4, 'produto', 'Últimos 30 dias')">Últimos 30 dias</a>
+                      <a class="dropdown-item" onclick="trocaPeriodo(5, 'produto', 'Mês Atual')">Mês Atual</a>
                     </div>
                   </div>
                 </div>
@@ -547,6 +547,7 @@ let periodo = null;
 let grafico_vendas_operadora = null;
 let grafico_vendas_modalidade = null;
 let grafico_vendas_bandeira = null;
+let grafico_vendas_produto = null;
 let bancos_dados = null
 let operadoras_dados = null;
 
@@ -564,11 +565,12 @@ function preCarregarGraficoVendas(){
       dados_grafico.push(dados_dash);
 
       let html = "<tr>";
-      html += "<td>"+"<img src='"+dados_dash.IMAGEM+"'/>"+"</td>";
+      html += "<td>"+"<img src='"+dados_dash.IMAGEM+"' data-toggle='tooltip' title='"+dados_dash.ADQUIRENTE+"'/>"+"</td>";
       html += "<td>"+dados_dash.QUANTIDADE+"</td>";
       html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_BRUTO)+"</td>";
       html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_TAXA)+"</td>";
       html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_LIQUIDO)+"</td>";
+
       html += "</tr>";
 
       totalQtd += parseInt(dados_dash.QUANTIDADE);
@@ -613,7 +615,7 @@ function preCarregarGraficoVendasBandeira(){
       dados_grafico.push(dados_dash);
 
       let html = "<tr>";
-      html += "<td>"+"<img src='"+`${dados_dash.IMAGEM || 'assets/images/iconCart.jpeg'}`+"'/>"+"</td>";
+      html += "<td>"+"<img src='"+`${dados_dash.IMAGEM || 'assets/images/iconCart.jpeg'}`+"' data-toggle='tooltip' title='"+dados_dash.BANDEIRA+"'/>"+"</td>";
       html += "<td>"+dados_dash.QUANTIDADE+"</td>";
       html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_BRUTO)+"</td>";
       html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_TAXA)+"</td>";
@@ -862,6 +864,8 @@ function trocaPeriodo(cod_periodo, tipo, label_button){
     }
 
   }else if(tipo == 'modalidade'){
+    console.log("ENTROU EM MODALIDADE");
+
     dash_vendas = <?php echo $dados_dash_vendas_modalidade ?>;
 
     $('#table_vendas_modalidade tbody').empty();
@@ -914,48 +918,58 @@ function trocaPeriodo(cod_periodo, tipo, label_button){
       geraGraficoVendasModalidade(dados_grafico);
     }
 
-  }else{
+  } else if(tipo == 'produto'){
+    console.log("ENTROU EM PRODUTO");
+    dash_vendas = <?php echo $dados_dash_vendas_produto ?>;
 
-    // $('#table_vendas_operadora tbody').empty();
-    // $('#table_vendas_operadora tbody').empty();
+    $('#table_vendas_produto tbody').empty();
+    $('#table_vendas_produto tfoot').empty();
 
     dash_vendas.forEach((dados_dash) => {
-
       if(dados_dash.COD_PERIODO == cod_periodo && dados_dash.QUANTIDADE > 0){
 
         var html = "<tr>";
-
+        html += "<td>"+dados_dash.PRODUTO_WEB+"</td>";
         html += "<td>"+dados_dash.QUANTIDADE+"</td>";
-        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto)+"</td>";
-        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa)+"</td>";
-        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido)+"</td>";
-        // html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio)+"</td>";
-
+        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_BRUTO)+"</td>";
+        html += "<td style='color: red'>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_TAXA)+"</td>";
+        html += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(dados_dash.TOTAL_LIQUIDO)+"</td>";
         html += "</tr>";
 
-        $('#table_vendas_operadora').append(html);
+        $('#table_vendas_produto').append(html);
+
+        totalQtd += parseInt(dados_dash.QUANTIDADE);
+        totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
+        totalTx += parseFloat(dados_dash.TOTAL_TAXA);
+        totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
+        totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
 
         dados_grafico.push(dados_dash);
 
-        document.getElementById("dropdownMenuButton").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
+        document.getElementById("dropdownMenuButtonProduto").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
       }
     })
 
+    var htmlSubTotal = "<tr class='subtotal-dash'>";
+    htmlSubTotal += "<td>"+"Total"+"</td>";
+    htmlSubTotal += "<td>"+totalQtd+"</td>";
+    htmlSubTotal += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalBruto)+"</td>";
+    htmlSubTotal += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalTx)+"</td>";
+    htmlSubTotal += "<td>"+Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(totalLiq)+"</td>";
+    htmlSubTotal += "</tr>";
+
+    document.getElementById("dropdownMenuButtonProduto").innerHTML = label_button + ' ' + '<i class="mdi mdi-chevron-down"></i>';
+
+    $('#table_vendas_produto tfoot').append(htmlSubTotal);
 
     if(dados_grafico.length == 0){
-      console.log("VAZIOOOOOOOOOOOO");
+      grafico_vendas_produto.destroy();
     }else{
-      grafico_vendas.destroy();
-
-      document.getElementById("venda_total_bruto").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_bruto);
-      document.getElementById("venda_total_taxa").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_taxa);
-      document.getElementById("venda_total_liquido").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(total_liquido);
-      // document.getElementById("venda_ticket_medio").innerHTML = Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL'}).format(total_ticket_medio);
-      document.getElementById("quantidade").innerHTML = qtde;
+      grafico_vendas_produto.destroy();
 
       periodo = cod_periodo;
-
-      geraGraficoVendas(dados_grafico);
+      localStorage.setItem('periodo_venda_produto', cod_periodo);
+      geraGraficoVendasProduto(dados_grafico);
     }
 
   }
@@ -1020,7 +1034,6 @@ function showTableOperadoraSelecionada(codigo){
 
   var result = operadoras.find(operadora => operadora.CODIGO == codigo);
 
-
   var val_bruto = parseFloat(result.val_bruto);
   var val_liquido = parseFloat(result.val_liquido);
   var tx = parseFloat(result.val_taxa);
@@ -1057,7 +1070,7 @@ function showTableOperadoraSelecionada(codigo){
   html += "<tr>";
 
 
-  html += "<td style='background: #BDBDBD '>"+"<b>Situação de Pagamento: "+"</td>";
+  html += "<td style='background: #BDBDBD '>"+"<b>Situação de Pagamento: "+ localStorage.getItem('situacao_pgto') +"</td>";
 
   html += "</tr>";
 
@@ -1076,6 +1089,8 @@ function showRecebiveis(data, title, color, jsEvent){
 
   if(color){
     if(color == '#257e4a'){
+      localStorage.setItem('situacao_pgto', 'Depositado');
+
       document.getElementById("label_recebimentos").innerHTML = title;
       document.getElementById("label_data_recebimento").innerHTML = '<b style="color: #6E6E6E">' + data_venda + '</b>';
       $("#ul_bancos li").remove();
@@ -1142,6 +1157,8 @@ function showRecebiveis(data, title, color, jsEvent){
         return;
       });
     }else if(color == '#2D93AD'){
+      localStorage.setItem('situacao_pgto', 'Previsto');
+
       document.getElementById("label_recebimentos").innerHTML = title;
       document.getElementById("label_data_recebimento").innerHTML = '<b style="color: #6E6E6E">' + data_venda + '</b>';
       $("#ul_bancos li").remove();

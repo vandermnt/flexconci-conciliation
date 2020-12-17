@@ -189,6 +189,8 @@ function geraGraficoVendasBandeira(dados_grafico) {
                ticket_medio += parseFloat(dado.TICKET_MEDIO)
             }
           });
+          console.log(`LENGHT: ${dados_grafico.length}`);
+          console.log(`TICKET MÉDIO: ${ticket_medio}`);
 
           ticket_medio_correto = ticket_medio / dados_grafico.length
 
@@ -303,7 +305,7 @@ function geraGraficoVendasProduto(dados_grafico) {
 
     var chart = new ApexCharts(document.querySelector("#apex_pie9"), options);
 
-    grafico_vendas = chart;
+    grafico_vendas_produto = chart;
 
     chart.render(options);
   }
