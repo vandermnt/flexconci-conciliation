@@ -1,5 +1,11 @@
 const checker = new Checker();
 const modalFilter = new ModalFilter();
+const dados = new Proxy({
+  marcacoes: {
+    erp: [],
+    operadoras: [],
+  }
+}, handler());
 const formatadorMoeda = new Intl.NumberFormat('pt-br', {
   style: 'currency',
   currency: 'BRL'
@@ -7,26 +13,58 @@ const formatadorMoeda = new Intl.NumberFormat('pt-br', {
 const formatadorDecimal = new Intl.NumberFormat('pt-br', {
   style: 'decimal',
   maximumFractionDigits: 2,
-})
-const dados = new Proxy({}, {
-  set: function(target, name, value) {
-    if(['erp', 'operadoras'].includes(name)) {
-      value = value[name];
-
-      const vendas = value.vendas.data;
-      const paginacao = value.vendas;
-      delete value.vendas.data;
-      delete value.vendas;
-      value.vendas = vendas;
-      value.paginacao = paginacao;
-      target[name] = { ...value };
-    }
-  }
 });
 
 checker.addGroup('empresa');
 checker.addGroup('status-conciliacao');
 modalFilter.addGroup('empresa');
+
+function handler() {
+  return {
+    set: function(target, name, value) {
+      if(['erp', 'operadoras'].includes(name)) {
+        value = value[name];
+  
+        const vendas = value.vendas.data;
+        const paginacao = value.vendas;
+        paginacao.id = name;
+        delete value.vendas.data;
+        delete value.vendas;
+        value.vendas = vendas;
+        value.paginacao = criarPaginacao(paginacao)
+        target[name] = { ...value };
+        target[name].paginacao.render();
+      }
+    }
+  };
+}
+
+function criarPaginacao(paginacao) {
+  const novaPaginacao = new Pagination().setOptions({
+    currentPage: paginacao.current_page,
+    lastPage: paginacao.last_page,
+    perPage: paginacao.per_page,
+    total: paginacao.total,
+    paginationContainer: document.querySelector(`#js-paginacao-${paginacao.id}`),
+    baseUrl: paginacao.path,
+    id: paginacao.id,
+  });
+
+  novaPaginacao.setNavigateHandler(page => {
+    alternarVisibilidade(document.querySelector('#js-loader'));
+    requisitarVendas(novaPaginacao.options.baseUrl, {
+      por_pagina: novaPaginacao.options.perPage,
+      page
+    }).then(res => {
+      const idVendas = novaPaginacao.options.id;
+      dados[idVendas] = { ...res };
+      renderizarTabela(idVendas, dados[idVendas].vendas, dados[idVendas].totais);
+      alternarVisibilidade(document.querySelector('#js-loader'));
+    });
+  });
+  
+  return novaPaginacao;
+}
 
 function limpar() {
   const form = document.querySelector('#js-form-pesquisar');
@@ -48,6 +86,24 @@ function confirmarSelecao(event) {
   }
 
   checker.setValuesToTextElement(nomeGrupo, 'descricao');
+}
+
+function selecionarQuantidadePagina(event) {
+  const tipo = event.target.dataset.vendasTipo;
+  const quantidade = event.target.value;
+  const loader = document.querySelector('#js-loader');
+
+  dados[tipo].paginacao.setOptions({ perPage: quantidade }).goToPage(1);
+
+  alternarVisibilidade(loader);
+  requisitarVendas(dados[tipo].paginacao.options.baseUrl, {
+    por_pagina: quantidade,
+    page: 1,
+  }).then(res => {
+    dados[tipo] = { ...res };
+    renderizarTabela(tipo, dados[tipo].vendas, dados[tipo].totais);
+    alternarVisibilidade(loader);
+  });
 }
 
 function serializarDadosPesquisa() {
@@ -80,35 +136,45 @@ async function requisitarVendas(url, params = {}) {
   });
 }
 
-async function requisitarVendasErp() {
-  const url = document.querySelector('#js-form-pesquisar').dataset.urlErp;
-  const por_pagina = document.querySelector('#por_pagina_erp').value;
-
-  return requisitarVendas(url, { por_pagina });
-}
-
-async function requisitarVendasOperadoras() {
-  const url = document.querySelector('#js-form-pesquisar').dataset.urlOperadoras;
-  const por_pagina = document.querySelector('#por_pagina_operadoras').value;
-
-  return requisitarVendas(url, { por_pagina })
+function alternarVisibilidade(elementoDOM) {
+  elementoDOM.classList.toggle('hidden');
 }
 
 async function submeterPesquisa(event) {
   event.preventDefault();
 
-  Promise.all([
-    requisitarVendasErp(), 
-    requisitarVendasOperadoras()
-  ]).then(res => {
-    const [erp, operadoras] = res;
-    dados.erp = erp;
-    dados.operadoras = operadoras;
+  const resultados = document.querySelector('#js-resultados');
+  const loader = document.querySelector('#js-loader');
 
-    atualizarBoxes();
-    renderizarTabela(dados.erp.vendas, dados.erp.totais, document.querySelector('#js-tabela-erp'));
-    renderizarTabela(dados.operadoras.vendas, dados.operadoras.totais, document.querySelector('#js-tabela-pendencias'));
+  const erpUrl = document.querySelector('#js-form-pesquisar').dataset.urlErp;
+  const porPaginaErp = document.querySelector('#js-porpagina-erp').value;
+  const operadorasUrl = document.querySelector('#js-form-pesquisar').dataset.urlOperadoras;
+  const porPaginaOperadoras = document.querySelector('#js-porpagina-operadoras').value;
+
+  alternarVisibilidade(loader);
+
+  const [erp, operadoras] = await Promise.all([
+    requisitarVendas(erpUrl, { por_pagina: porPaginaErp }),
+    requisitarVendas(operadorasUrl, { por_pagina: porPaginaOperadoras }),
+  ]).catch(err => {
+    alternarVisibilidade(loader);
+    alert("Ooops... Um erro inesperado ocorreu.");
   });
+
+  dados.erp = erp;
+  dados.operadoras = operadoras;
+  
+  atualizarBoxes();
+  renderizarTabela('erp', dados.erp.vendas, dados.erp.totais);
+  renderizarTabela('operadoras', dados.operadoras.vendas, dados.operadoras.totais);
+  
+  alternarVisibilidade(loader);
+
+  if(resultados.classList.contains('hidden')) {
+    resultados.classList.remove('hidden');
+  }
+
+  window.scrollTo(0, resultados.offsetTop);
 }
 
 function atualizarBoxes() {
@@ -129,16 +195,40 @@ function atualizarBoxes() {
   totalOperadoras.textContent = formatadorMoeda.format(dados.operadoras.totais.TOTAL_BRUTO);
 }
 
-function renderizarTabela(vendas, totais, tabelaDOM) {
-  const tbody = tabelaDOM.querySelector('tbody');
-  const totaisDOM = tabelaDOM.querySelectorAll('tfoot td[data-chave]');
-  const linhaTabelaTemplate = tabelaDOM.querySelector('tbody tr').cloneNode(true);
+function renderizarTabela(tipo, vendas, totais) {
+  const table = document.querySelector(`table#js-tabela-${tipo}`);
+  const tbody = table.querySelector(`tbody`)
+  const totaisDOM = table.querySelectorAll('tfoot td[data-chave]');
+  const linhaTabelaTemplate = table.querySelector('tbody tr').cloneNode(true);
+  let marcacoes = dados.marcacoes[tipo];
 
   tbody.innerHTML = '';
   tbody.appendChild(linhaTabelaTemplate);
 
   vendas.forEach(venda => {
     const tr = linhaTabelaTemplate.cloneNode(true);
+    const id = venda[tr.dataset.id];
+    tr.dataset.id = id;
+    if(marcacoes.includes(id)) {
+      tr.classList.add('marcada');
+    }
+    
+    tr.addEventListener('click', (event) => {
+      if(event.target.tagName.toLowerCase() === 'input') {
+        return;
+      }
+
+      if(!marcacoes.includes(id)) {
+        marcacoes.push(id); 
+        tr.classList.add('marcada');
+      } else {
+        marcacoes = marcacoes.filter(idMarcacao => id !== idMarcacao);
+        tr.classList.remove('marcada');
+      }
+
+      dados.marcacoes[tipo] = marcacoes;
+    })
+
     const imagensDOM = tr.querySelectorAll('td img');
     const colunasDOM = tr.querySelectorAll('td[data-campo]');
     
@@ -178,12 +268,17 @@ function renderizarTabela(vendas, totais, tabelaDOM) {
 
 window.addEventListener('load', () => {
   document.querySelector('#pagina-conciliacao').classList.remove('hidden');
+  window.scrollTo(0, 0);
 });
 
 document.querySelector('#js-form-pesquisar').addEventListener('submit', submeterPesquisa);
 
 document.querySelector('#js-reset-form')
   .addEventListener('click', limpar);
+
+[...document.querySelectorAll('select[name="por_pagina"]')].forEach(select => {
+  select.addEventListener('change', event => selecionarQuantidadePagina(event));
+});
 
 [...document.querySelectorAll('button[data-acao]')].forEach(botaoDOM => {
   botaoDOM.addEventListener('click', confirmarSelecao);

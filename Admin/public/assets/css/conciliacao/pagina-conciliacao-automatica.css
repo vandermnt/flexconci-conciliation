@@ -216,6 +216,14 @@
   background-color: transparent;
 }
 
+#pagina-conciliacao table tr.marcada {
+  background-color: #a4a4a4;
+}
+
+#pagina-conciliacao table tr.marcada td {
+  color: white;
+}
+
 #pagina-conciliacao table th {
   border: none;
 }

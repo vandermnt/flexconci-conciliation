@@ -235,7 +235,7 @@
       </div>
     </form>
 
-    <section class="resultados" id="js-resultados">
+    <section class="resultados hidden" id="js-resultados">
       <div class="boxes">
         <div class="card">
           <div class="card-body">
@@ -535,11 +535,11 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="hidden">
+              <tr data-id="ID_ERP" class="hidden">
                 <td>
                   <div class="d-flex align-items-center justify-content-between">
                     <input type="checkbox">
-                    <img src="assets/images/conciliacao/conciliado.png" alt="">
+                    <img data-image="STATUS_CONCILIACAO_IMAGEM" data-text="STATUS_CONCILIACAO">
                   </div>
                 </td>
                 <td data-campo="NOME_EMPRESA"></td>
@@ -625,7 +625,7 @@
         </div>
         <footer class="d-flex justify-content-between align-items-end flex-wrap">
           <nav class="nav-paginacao">
-            <ul class="pagination" id="js-paginacao-vendaserp">
+            <ul class="pagination" id="js-paginacao-erp">
               <li class="page-item active">
                 <a href="" class="page-link">1</a>
               </li>
@@ -633,8 +633,8 @@
           </nav>
   
           <div class="form-group">
-            <label for="por_pagina_erp">Quantidade por página</label>
-            <select name="por_pagina" id="por_pagina_erp" class="form-control">
+            <label for="js-porpagina-erp">Quantidade por página</label>
+            <select data-vendas-tipo="erp" name="por_pagina" id="js-porpagina-erp" class="form-control">
               <option value="5" selected>5</option>
               <option value="10">10</option>
               <option value="20">20</option>
@@ -657,7 +657,7 @@
           </div>
         </div>
         <div class="tabela-wrapper">
-          <table id="js-tabela-pendencias" class="table">
+          <table id="js-tabela-operadoras" class="table">
             <thead>
               <tr>
                 <th>
@@ -824,11 +824,11 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="hidden">
+              <tr data-id="ID" class="hidden">
                 <td>
                   <div class="d-flex align-items-center justify-content-between">
                     <input type="checkbox">
-                    <img src="assets/images/conciliacao/conciliado.png" alt="">
+                    <img data-image="STATUS_CONCILIACAO_IMAGEM" data-text="STATUS_CONCILIACAO">
                   </div>
                 </td>
                 <td data-campo="NOME_EMPRESA"></td>
@@ -900,7 +900,7 @@
         </div>
         <footer class="d-flex justify-content-between align-items-end flex-wrap">
           <nav class="nav-paginacao">
-            <ul class="pagination" id="js-paginacao-pendencias">
+            <ul class="pagination" id="js-paginacao-operadoras">
               <li class="page-item active">
                 <a href="" class="page-link">1</a>
               </li>
@@ -908,8 +908,8 @@
           </nav>
   
           <div class="form-group">
-            <label for="por_pagina_operadoras">Quantidade por página</label>
-            <select name="por_pagina" id="por_pagina_operadoras" class="form-control">
+            <label for="js-porpagina-operadoras">Quantidade por página</label>
+            <select data-vendas-tipo="operadoras" name="por_pagina" id="js-porpagina-operadoras" class="form-control">
               <option value="5" selected>5</option>
               <option value="10">10</option>
               <option value="20">20</option>
@@ -929,6 +929,7 @@
 
 @section('footerScript')
   <script src="assets/js/lib/api.js"></script>
+  <script src="assets/js/lib/pagination.js"></script>
   <script src="assets/js/lib/checker.js"></script>
   <script src="assets/js/lib/modal-filters.js"></script>
   <script src="assets/js/conciliacao/conciliacao-automatica.js"></script>
