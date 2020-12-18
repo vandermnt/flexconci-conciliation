@@ -91,7 +91,8 @@ class ConciliacaoAutomaticaController extends Controller
                 $erp_totais[$total_chave] = $total_conciliacao['TOTAL_BRUTO'];
             }
 
-            $erp = $erp_query->paginate($por_pagina);
+            $erp = $erp_query->whereIn('COD_STATUS_CONCILIACAO', $request->input('status_conciliacao'))
+                ->paginate($por_pagina);
 
             return response()->json([
                 'erp' => [
