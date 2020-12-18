@@ -74,6 +74,7 @@ class VendasFilter extends BaseFilter {
           'produto_web.PRODUTO_WEB as PRODUTO',
           'meio_captura.DESCRICAO as MEIOCAPTURA',
           'status_conciliacao.STATUS_CONCILIACAO',
+          'status_conciliacao.IMAGEM_URL as STATUS_CONCILIACAO_IMAGEM',
           'status_financeiro.STATUS_FINANCEIRO',
           'vendas.JUSTIFICATIVA'
         ]
