@@ -68,7 +68,7 @@ class ConciliacaoAutomaticaController extends Controller
 
             $erp_base_query = clone VendasErpFilter::filter($filters)->getQuery();
 
-            $erp_query = clone $erp_base_query;
+            $erp_query = (clone $erp_base_query)->whereIn('COD_STATUS_CONCILIACAO', $request->input('status_conciliacao'));
             $erp_totais = [
                 'TOTAL_BRUTO' => $erp_query->sum('TOTAL_VENDA'),
                 'TOTAL_LIQUIDO' => $erp_query->sum('VALOR_LIQUIDO_PARCELA'),
@@ -91,8 +91,7 @@ class ConciliacaoAutomaticaController extends Controller
                 $erp_totais[$total_chave] = $total_conciliacao['TOTAL_BRUTO'];
             }
 
-            $erp = $erp_query->whereIn('COD_STATUS_CONCILIACAO', $request->input('status_conciliacao'))
-                ->paginate($por_pagina);
+            $erp = $erp_query->paginate($por_pagina);
 
             return response()->json([
                 'erp' => [
