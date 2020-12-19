@@ -914,25 +914,25 @@
               <th>
                 <div class="d-flex flex-column align-items-center">
                   <p>Data Importação</p>
-                  <input type="text" name="CAMPO3">
+                  <input type="text" name="">
                 </div>
               </th>
               <th>
                 <div class="d-flex flex-column align-items-center">
                   <p>Hora Importação</p>
-                  <input type="text" name="CAMPO3">
+                  <input type="text" name="">
                 </div>
               </th>
               <th>
                 <div class="d-flex flex-column align-items-center">
                   <p>Data Conciliação</p>
-                  <input type="text" name="CAMPO3">
+                  <input type="text" name="">
                 </div>
               </th>
               <th>
                 <div class="d-flex flex-column align-items-center">
                   <p>Hora Conciliação</p>
-                  <input type="text" name="CAMPO3">
+                  <input type="text" name="">
                 </div>
               </th>
             </tr>

@@ -38,6 +38,15 @@ Pagination.prototype.setOptions = function(options = {}) {
   return this;
 }
 
+Pagination.prototype.setNavigateHandler = function(callback = () => {}) {
+  if(!callback || typeof callback !== 'function') {
+    return;
+  }
+
+  this.options.navigateHandler = callback;
+  return this;
+}
+
 /**
  * @function paginate
  * Set the pagination metadata for the given data
@@ -134,6 +143,41 @@ Pagination.prototype.prev = function() {
 Pagination.prototype.next = function() {
   this.goToPage(this.options.currentPage + 1);
   return this;
+}
+
+Pagination.prototype.render = function(shouldFragment = true, fragmentOn = 10, fragmentSeparator = '...') {
+  const paginationContainer = this.options.paginationContainer;
+  if(!paginationContainer) {
+    return;
+  }
+
+  const pages = this.toArray(shouldFragment, fragmentOn, fragmentSeparator);
+  paginationContainer.innerHTML = "";
+
+  pages.forEach(page => {
+    const li = document.createElement('li');
+    li.classList.add('page-item');
+    if(page === this.options.currentPage) {
+      li.classList.add('active');
+    }
+    
+    const a = document.createElement('a');
+    a.classList.add('page-link');
+    if(this.options.baseUrl) {
+      a.dataset.baseUrl = this.options.baseUrl;
+    }
+    a.dataset.page = page;
+    a.textContent = page;
+
+    if(page !== fragmentSeparator && page !== this.options.currentPage) {
+      a.addEventListener('click', event => {
+        this.options.navigateHandler(page, event);
+      });
+    }
+
+    li.appendChild(a);
+    paginationContainer.appendChild(li);
+  });
 }
 
 /**
