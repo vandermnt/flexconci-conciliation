@@ -154,7 +154,7 @@ class VendasController extends Controller{
       })
       ->orderBy('NSU')
       ->orderBy('DATA_VENDA')
-      ->paginate($qtd);
+      ->paginate(5000);
 
       $val_bruto = DB::table('vendas')
       ->join('modalidade', 'vendas.CODIGO_MODALIDADE', '=', 'modalidade.CODIGO')

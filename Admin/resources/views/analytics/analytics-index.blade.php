@@ -1263,9 +1263,7 @@ function showTableBancoSelecionadoInicial(codigo){
   var result = bancos.find(banco => banco.CODIGO == codigo);
   var val_bruto = parseFloat(result.val_bruto);
   var val_liquido = parseFloat(result.val_liquido);
-  var tx = parseFloat(result.val_taxa);
-  var t = Number(tx).toFixed(2);
-
+  var tx = parseFloat(result.val_tx);
   var html = "<tr>";
 
   html += "<td>"+"<b text-align='left'>Recebíveis Bruto:  </b>" +Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(val_bruto)+"</td>";
@@ -1314,8 +1312,7 @@ function showTableOperadoraSelecionadaInicial(codigo){
   const result = operadoras.find(operadora => operadora.CODIGO == codigo);
   const val_bruto = parseFloat(result.val_bruto);
   const val_liquido = parseFloat(result.val_liquido);
-  const tx = parseInt(result.val_taxa);
-  const t = Number(tx).toFixed(2);
+  const tx = parseInt(result.val_tx);
 
   var html = "<tr>";
   html += "<td>"+"<b text-align='left'>Recebíveis Bruto:  </b>" +Intl.NumberFormat('pt-br', {style: 'currency',currency: 'BRL'}).format(val_bruto)+"</td>";

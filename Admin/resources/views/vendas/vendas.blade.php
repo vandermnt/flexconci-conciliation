@@ -5,7 +5,6 @@
 @section('headerStyle')
 
 <link href="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.css')}}" rel="stylesheet">
-<link href="{{ URL::asset('assets/css/teste.css')}}" rel="stylesheet" type="text/css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- <script src="https://cdn.jsdelivr.net/npm/table-dragger@1.0.3/dist/table-dragger.js"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
@@ -839,9 +838,10 @@
 let filtros_formulario_principal = {};
 
 $('#submitFormLogin').click(function(){
+  document.getElementById("preloader").style.display = "block";
+
   $('#jsgrid-table tbody').empty();
 
-  document.getElementById("preloader").style.display = "block";
 
   let array = [];
   let arrayAdquirentes = [];
