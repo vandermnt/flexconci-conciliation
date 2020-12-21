@@ -320,7 +320,7 @@
           </div>
         </div>
         <div class="tabela-wrapper">
-          <table id="js-tabela-erp" class="table">
+          <table id="js-tabela-erp" class="table" data-modalidade="erp">
             <thead>
               <tr>
                 <th>
@@ -657,7 +657,7 @@
           </div>
         </div>
         <div class="tabela-wrapper">
-          <table id="js-tabela-operadoras" class="table">
+          <table id="js-tabela-operadoras" class="table" data-modalidade="operadoras">
             <thead>
               <tr>
                 <th>

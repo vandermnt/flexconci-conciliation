@@ -4,7 +4,9 @@ const dados = new Proxy({
   marcacoes: {
     erp: [],
     operadoras: [],
-  }
+  },
+  filtros: {},
+  subfiltros: { erp: {}, operadoras: {} }
 }, handler());
 const formatadorMoeda = new Intl.NumberFormat('pt-br', {
   style: 'currency',
@@ -34,6 +36,13 @@ function handler() {
         value.paginacao = criarPaginacao(paginacao)
         target[name] = { ...value };
         target[name].paginacao.render();
+      }
+
+      if(name === 'filtros') {
+        target[name].data_inicial = value.data_inicial;
+        target[name].data_final = value.data_final;
+        target[name].grupos_clientes = value.grupos_clientes;
+        target[name].status_conciliacao = value.status_conciliacao;
       }
     }
   };
@@ -123,6 +132,28 @@ function serializarDadosPesquisa() {
   };
 }
 
+function atualizarFiltros() {
+  const filtros = serializarDadosPesquisa();
+  
+  dados.filtros = { ...filtros }
+}
+
+function atualizarSubfiltros(modalidadeVendas) {
+  const inputs = document.querySelectorAll(`#js-tabela-${modalidadeVendas} input:not([type="checkbox"]):not([name=""])`);
+  const subFiltros = [...inputs].reduce((objeto, input) => {
+    const chave = input.name;
+    const valor = input.value.trim();
+
+    if(valor) {
+      objeto[chave] = valor;
+    }
+
+    return objeto
+  }, {});
+
+  dados.subfiltros[modalidadeVendas] = { ...subFiltros };
+}
+
 async function requisitarVendas(url, params = {}) {
   const filtros = serializarDadosPesquisa();
 
@@ -169,6 +200,7 @@ async function submeterPesquisa(event) {
   renderizarTabela('operadoras', dados.operadoras.vendas, dados.operadoras.totais);
   
   alternarVisibilidade(loader);
+  atualizarFiltros()
 
   if(resultados.classList.contains('hidden')) {
     resultados.classList.remove('hidden');
@@ -272,6 +304,15 @@ window.addEventListener('load', () => {
 });
 
 document.querySelector('#js-form-pesquisar').addEventListener('submit', submeterPesquisa);
+
+[...document.querySelectorAll('table input:not([type="checkbox"]):not([name=""])')].forEach(input => {
+  input.addEventListener('keyup', (event) => {
+    const { target } = event;
+    const modalidadeVendas = target.closest('table').dataset.modalidade;
+    
+    atualizarSubfiltros(modalidadeVendas);
+  })
+})
 
 document.querySelector('#js-reset-form')
   .addEventListener('click', limpar);
