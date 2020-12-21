@@ -103,6 +103,7 @@ class DashboardController extends Controller{
 
     $dados_cliente = ClienteModel::where('CODIGO', '=', session('codigologin'))->first();
 
+    session()->put('nome_fantasia', $dados_cliente->NOME_FANTASIA);
     session()->put('periodo', 2);
     session()->put('grupo', 1);
 
