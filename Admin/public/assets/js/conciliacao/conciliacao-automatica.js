@@ -1,13 +1,3 @@
-const checker = new Checker();
-const modalFilter = new ModalFilter();
-const dados = new Proxy({
-  marcacoes: {
-    erp: [],
-    operadoras: [],
-  },
-  filtros: {},
-  subfiltros: { erp: {}, operadoras: {} }
-}, handler());
 const formatadorMoeda = new Intl.NumberFormat('pt-br', {
   style: 'currency',
   currency: 'BRL'
@@ -17,6 +7,24 @@ const formatadorDecimal = new Intl.NumberFormat('pt-br', {
   maximumFractionDigits: 2,
 });
 
+const checker = new Checker();
+const modalFilter = new ModalFilter();
+const urls = getUrls();
+const dados = new Proxy({
+  filtros: {},
+  subfiltros: {},
+  erp: new Proxy({
+    id: 'erp',
+    marcacoes: [],
+    porPagina: 5,
+  }, {}),
+  operadoras: new Proxy({
+    id: 'operadoras',
+    marcacoes: [],
+    porPagina: 5,
+  }, {})
+}, handler());
+
 checker.addGroup('empresa');
 checker.addGroup('status-conciliacao');
 modalFilter.addGroup('empresa');
@@ -24,20 +32,6 @@ modalFilter.addGroup('empresa');
 function handler() {
   return {
     set: function(target, name, value) {
-      if(['erp', 'operadoras'].includes(name)) {
-        value = value[name];
-  
-        const vendas = value.vendas.data;
-        const paginacao = value.vendas;
-        paginacao.id = name;
-        delete value.vendas.data;
-        delete value.vendas;
-        value.vendas = vendas;
-        value.paginacao = criarPaginacao(paginacao)
-        target[name] = { ...value };
-        target[name].paginacao.render();
-      }
-
       if(name === 'filtros') {
         target[name].data_inicial = value.data_inicial;
         target[name].data_final = value.data_final;
@@ -45,10 +39,35 @@ function handler() {
         target[name].status_conciliacao = value.status_conciliacao;
       }
     }
-  };
+  }
 }
 
-function criarPaginacao(paginacao) {
+function getUrls() {
+  const form = document.querySelector('#js-form-pesquisar');
+  return {
+    erp: {
+      buscar: form.dataset.urlErp,
+      filtrar: form.dataset.urlFiltrarErp
+    },
+    operadoras: {
+      buscar: form.dataset.urlOperadoras,
+      filtrar: form.dataset.urlFiltrarOperadoras
+    }
+  }
+}
+
+function serializarVendas(resultado, id) {
+  const vendas = resultado.vendas.data;
+  const paginacao = resultado.vendas;
+  paginacao.id = id;
+  delete resultado.vendas.data;
+  delete resultado.vendas;
+  resultado.vendas = vendas;
+  resultado.paginacao = criarPaginacao(paginacao)
+  return { ...resultado }
+}
+
+function criarPaginacao(paginacao, navigateHandler) {
   const novaPaginacao = new Pagination().setOptions({
     currentPage: paginacao.current_page,
     lastPage: paginacao.last_page,
@@ -59,20 +78,16 @@ function criarPaginacao(paginacao) {
     id: paginacao.id,
   });
 
-  novaPaginacao.setNavigateHandler(page => {
-    alternarVisibilidade(document.querySelector('#js-loader'));
-    requisitarVendas(novaPaginacao.options.baseUrl, {
-      por_pagina: novaPaginacao.options.perPage,
-      page
-    }).then(res => {
-      const idVendas = novaPaginacao.options.id;
-      dados[idVendas] = { ...res };
-      renderizarTabela(idVendas, dados[idVendas].vendas, dados[idVendas].totais);
-      alternarVisibilidade(document.querySelector('#js-loader'));
-    });
-  });
+  novaPaginacao.setNavigateHandler(navigateHandler);
   
   return novaPaginacao;
+}
+
+function atualizarInterface(modalidadeVendas, dados, paginacao = null) {
+  renderizarTabela(modalidadeVendas, dados.vendas, dados.totais);
+  if(paginacao) {
+    paginacao.render();
+  }
 }
 
 function limpar() {
@@ -100,31 +115,18 @@ function confirmarSelecao(event) {
 function selecionarQuantidadePagina(event) {
   const tipo = event.target.dataset.vendasTipo;
   const quantidade = event.target.value;
-  const loader = document.querySelector('#js-loader');
 
-  dados[tipo].paginacao.setOptions({ perPage: quantidade }).goToPage(1);
-
-  alternarVisibilidade(loader);
-  requisitarVendas(dados[tipo].paginacao.options.baseUrl, {
-    por_pagina: quantidade,
-    page: 1,
-  }).then(res => {
-    dados[tipo] = { ...res };
-    renderizarTabela(tipo, dados[tipo].vendas, dados[tipo].totais);
-    alternarVisibilidade(loader);
-  });
+  setQuantidadePorPagina(tipo, quantidade);
 }
 
 function serializarDadosPesquisa() {
   const form = document.querySelector('#js-form-pesquisar');
   const dataInicial = form.querySelector('input[name="data_inicial"]').value;
   const dataFinal = form.querySelector('input[name="data_final"]').value;
-  const csrfToken = form.querySelector('input[name="_token"]').value;
   const empresas = checker.getCheckedValues('empresa');
   const statusConciliacao = checker.getCheckedValues('status-conciliacao');
 
   return {
-    _token: csrfToken,
     data_inicial: dataInicial,
     data_final: dataFinal,
     grupos_clientes: empresas,
@@ -132,10 +134,11 @@ function serializarDadosPesquisa() {
   };
 }
 
-function atualizarFiltros() {
+function getFiltros() {
   const filtros = serializarDadosPesquisa();
-  
+
   dados.filtros = { ...filtros }
+  return dados.filtros;
 }
 
 function atualizarSubfiltros(modalidadeVendas) {
@@ -154,15 +157,18 @@ function atualizarSubfiltros(modalidadeVendas) {
   dados.subfiltros[modalidadeVendas] = { ...subFiltros };
 }
 
-async function requisitarVendas(url, params = {}) {
-  const filtros = serializarDadosPesquisa();
+async function requisitarVendas(url, body = {}, params = {}) {
+  const csrfToken = document.querySelector('input[name="_token"').value;
 
   return api.post(url, {
     headers: {
-      'X-CSRF-TOKEN': filtros._token,
+      'X-CSRF-TOKEN': csrfToken,
       'Content-type': 'application/json'
     },
-    body: JSON.stringify(filtros),
+    body: JSON.stringify({
+      _token: csrfToken,
+      ...body
+    }),
     params
   });
 }
@@ -171,36 +177,20 @@ function alternarVisibilidade(elementoDOM) {
   elementoDOM.classList.toggle('hidden');
 }
 
-async function submeterPesquisa(event) {
-  event.preventDefault();
-
+async function iniciarRequisicao(requisicaoCallback = async () => {}) {
   const resultados = document.querySelector('#js-resultados');
   const loader = document.querySelector('#js-loader');
-
-  const erpUrl = document.querySelector('#js-form-pesquisar').dataset.urlErp;
-  const porPaginaErp = document.querySelector('#js-porpagina-erp').value;
-  const operadorasUrl = document.querySelector('#js-form-pesquisar').dataset.urlOperadoras;
-  const porPaginaOperadoras = document.querySelector('#js-porpagina-operadoras').value;
-
-  alternarVisibilidade(loader);
-
-  const [erp, operadoras] = await Promise.all([
-    requisitarVendas(erpUrl, { por_pagina: porPaginaErp }),
-    requisitarVendas(operadorasUrl, { por_pagina: porPaginaOperadoras }),
-  ]).catch(err => {
-    alternarVisibilidade(loader);
-    alert("Ooops... Um erro inesperado ocorreu.");
-  });
-
-  dados.erp = erp;
-  dados.operadoras = operadoras;
-  
-  atualizarBoxes();
-  renderizarTabela('erp', dados.erp.vendas, dados.erp.totais);
-  renderizarTabela('operadoras', dados.operadoras.vendas, dados.operadoras.totais);
   
   alternarVisibilidade(loader);
-  atualizarFiltros()
+  
+  if(requisicaoCallback && typeof requisicaoCallback === 'function') {
+    await requisicaoCallback();
+  }
+
+  atualizarInterface('erp', dados.erp.busca, dados.erp.busca.paginacao);
+  atualizarInterface('operadoras', dados.operadoras.busca, dados.operadoras.busca.paginacao);
+  
+  alternarVisibilidade(loader);
 
   if(resultados.classList.contains('hidden')) {
     resultados.classList.remove('hidden');
@@ -209,7 +199,38 @@ async function submeterPesquisa(event) {
   window.scrollTo(0, resultados.offsetTop);
 }
 
-function atualizarBoxes() {
+async function submeterPesquisa(event) {
+  event.preventDefault();
+
+  await iniciarRequisicao(async () => {
+    const filtros = getFiltros();
+
+    const [erp, operadoras] = await Promise.all([
+      requisitarVendas(
+        urls.erp.buscar,
+        { ...filtros },
+        { por_pagina: dados.erp.porPagina }
+      ),
+      requisitarVendas(
+        urls.operadoras.buscar, 
+        { ...filtros }, 
+        { por_pagina: dados.operadoras.porPagina }
+      ),
+    ]).catch(err => {
+      alert("Ooops... Um erro inesperado ocorreu.");
+    });
+
+    dados.erp.busca = serializarVendas(erp, 'erp');
+    dados.operadoras.busca = serializarVendas(operadoras, 'operadoras');
+  });
+  
+  atualizarBoxes({ 
+      erp: { ...dados.erp.busca.totais },
+      operadoras: { ...dados.operadoras.busca.totais }
+  });
+}
+
+function atualizarBoxes(totais) {
   const totalErp = document.querySelector('p[data-total="EPR_TOTAL_BRUTO"]');
   const totalConciliada = document.querySelector('p[data-total="TOTAL_CONCILIADA"]');
   const totalDivergente = document.querySelector('p[data-total="TOTAL_DIVERGENTE"]');
@@ -218,13 +239,13 @@ function atualizarBoxes() {
   const totalNaoConciliada = document.querySelector('p[data-total="TOTAL_NAO_CONCILIADA"]');
   const totalOperadoras = document.querySelector('p[data-total="OPERADORAS_TOTAL_BRUTO"]');
 
-  totalErp.textContent = formatadorMoeda.format(dados.erp.totais.TOTAL_BRUTO);
-  totalConciliada.textContent = formatadorMoeda.format(dados.erp.totais.TOTAL_CONCILIADA);
-  totalDivergente.textContent = formatadorMoeda.format(dados.erp.totais.TOTAL_DIVERGENTE);
-  totalManual.textContent = formatadorMoeda.format(dados.erp.totais.TOTAL_MANUAL);
-  totalJustificada.textContent = formatadorMoeda.format(dados.erp.totais.TOTAL_JUSTIFICADA);
-  totalNaoConciliada.textContent = formatadorMoeda.format(dados.erp.totais.TOTAL_NAO_CONCILIADA);
-  totalOperadoras.textContent = formatadorMoeda.format(dados.operadoras.totais.TOTAL_BRUTO);
+  totalErp.textContent = formatadorMoeda.format(totais.erp.TOTAL_BRUTO);
+  totalConciliada.textContent = formatadorMoeda.format(totais.erp.TOTAL_CONCILIADA);
+  totalDivergente.textContent = formatadorMoeda.format(totais.erp.TOTAL_DIVERGENTE);
+  totalManual.textContent = formatadorMoeda.format(totais.erp.TOTAL_MANUAL);
+  totalJustificada.textContent = formatadorMoeda.format(totais.erp.TOTAL_JUSTIFICADA);
+  totalNaoConciliada.textContent = formatadorMoeda.format(totais.erp.TOTAL_NAO_CONCILIADA);
+  totalOperadoras.textContent = formatadorMoeda.format(totais.operadoras.TOTAL_BRUTO);
 }
 
 function renderizarTabela(tipo, vendas, totais) {
@@ -232,7 +253,7 @@ function renderizarTabela(tipo, vendas, totais) {
   const tbody = table.querySelector(`tbody`)
   const totaisDOM = table.querySelectorAll('tfoot td[data-chave]');
   const linhaTabelaTemplate = table.querySelector('tbody tr').cloneNode(true);
-  let marcacoes = dados.marcacoes[tipo];
+  let marcacoes = dados[tipo].marcacoes;
 
   tbody.innerHTML = '';
   tbody.appendChild(linhaTabelaTemplate);
