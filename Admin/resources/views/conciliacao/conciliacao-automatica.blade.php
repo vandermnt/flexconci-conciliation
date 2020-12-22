@@ -18,6 +18,8 @@
       id="js-form-pesquisar"
       data-url-erp="{{ route('conciliacao-automatica.busca.erp') }}"
       data-url-operadoras="{{ route('conciliacao-automatica.busca.operadoras') }}"
+      data-url-filtrar-erp="{{ route('conciliacao-automatica.filtrar.erp') }}"
+      data-url-filtrar-operadoras="{{ route('conciliacao-automatica.filtrar.operadoras') }}"
       class="card" method="POST"
     >
       <div class="card-body">
@@ -343,13 +345,13 @@
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Venda</p>
-                    <input type="text" class="form-control" name="DATA_VENDA">
+                    <input type="date" class="form-control" name="DATA_VENDA">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Previsão</p>
-                    <input type="text" class="form-control" name="DATA_VENCIMENTO">
+                    <input type="date" class="form-control" name="DATA_VENCIMENTO">
                   </div>
                 </th>
                 <th>
@@ -397,25 +399,25 @@
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Valor Bruto</p>
-                    <input type="text" class="form-control" name="TOTAL_VENDA">
+                    <input type="number" min="0" step="0.01" class="form-control" name="TOTAL_VENDA">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Taxa %</p>
-                    <input type="text" class="form-control" name="TAXA">
+                    <input type="number" min="0" step="0.01" class="form-control" name="TAXA">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Taxa R$</p>
-                    <input type="text" class="form-control" name="VALOR_TAXA">
+                    <input type="number" min="0" step="0.01" class="form-control" name="VALOR_TAXA">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Valor Líquido</p>
-                    <input type="text" class="form-control" name="VALOR_LIQUIDO_PARCELA">
+                    <input type="number" min="0" step="0.01" class="form-control" name="VALOR_LIQUIDO_PARCELA">
                   </div>
                 </th>
                 <th>
@@ -680,13 +682,13 @@
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Venda</p>
-                    <input type="text" class="form-control" name="DATA_VENDA">
+                    <input type="date" class="form-control" name="DATA_VENDA">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Previsão</p>
-                    <input type="text" class="form-control" name="DATA_PREVISAO">
+                    <input type="date" class="form-control" name="DATA_PREVISAO">
                   </div>
                 </th>
                 <th>
@@ -722,25 +724,25 @@
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Valor Bruto</p>
-                    <input type="text" class="form-control" name="VALOR_BRUTO">
+                    <input type="number" min="0" step="0.01" class="form-control" name="VALOR_BRUTO">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Taxa %</p>
-                    <input type="text" class="form-control" name="PERCENTUAL_TAXA">
+                    <input type="number" min="0" step="0.01" class="form-control" name="PERCENTUAL_TAXA">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Taxa R$</p>
-                    <input type="text" class="form-control" name="VALOR_TAXA">
+                    <input type="number" min="0" step="0.01" class="form-control" name="VALOR_TAXA">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Valor Líquido</p>
-                    <input type="text" class="form-control" name="VALOR_LIQUIDO">
+                    <input type="number" min="0" step="0.01" class="form-control" name="VALOR_LIQUIDO">
                   </div>
                 </th>
                 <th>
