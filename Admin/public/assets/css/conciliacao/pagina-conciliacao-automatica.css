@@ -247,6 +247,17 @@
   height: 32px;
 }
 
+
+#pagina-conciliacao table th input[type="number"]::-webkit-inner-spin-button, 
+#pagina-conciliacao table th input[type="number"]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+#pagina-conciliacao table th input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 #pagina-conciliacao tbody td:first-of-type img {
   width: 16px;
 }
