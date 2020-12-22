@@ -11,6 +11,8 @@ use App\GruposClientesModel;
 use App\StatusConciliacaoModel;
 use App\Filters\VendasErpFilter;
 use App\Filters\VendasFilter;
+use App\Filters\VendasErpSubFilter;
+use App\Filters\VendasSubFilter;
 
 class ConciliacaoAutomaticaController extends Controller
 {
@@ -94,10 +96,8 @@ class ConciliacaoAutomaticaController extends Controller
             $erp = $erp_query->paginate($por_pagina);
 
             return response()->json([
-                'erp' => [
-                    'vendas' => $erp,
-                    'totais' => $erp_totais
-                ]
+                'vendas' => $erp,
+                'totais' => $erp_totais
             ]);
         } catch(Exception $e) {
             return response()->json([
@@ -129,14 +129,74 @@ class ConciliacaoAutomaticaController extends Controller
             $operadoras = $operadoras_query->paginate($por_pagina);
 
             return response()->json([
-                'operadoras' => [
-                    'vendas' => $operadoras,
-                    'totais' => $operadoras_totais
-                ]
+                'vendas' => $operadoras,
+                'totais' => $operadoras_totais
             ]);
         } catch(Exception $e) {
             return response()->json([
                 'mensagem' => 'Não foi possível realizar a consulta em Vendas Operadoras.'
+            ], 500);
+        }
+    }
+
+    public function subFilterErp(Request $request) {
+        $quantidadesPermitidas = [5, 10, 20, 50, 100, 200];
+        $filtros = $request->input('filtros');
+        $filtros['cliente_id'] = session('codigologin');
+        $subfiltros = $request->input('subfiltros');
+
+        $por_pagina = $request->input('por_pagina', 5);
+        $por_pagina = in_array($por_pagina, $quantidadesPermitidas) ? $por_pagina : 5;
+
+        try {
+            $query = VendasErpSubFilter::subfilter($filtros, $subfiltros)->getQuery();
+
+            $vendas = (clone $query)->paginate($por_pagina);
+            $totais = [
+                'TOTAL_BRUTO' => $query->sum('TOTAL_VENDA'),
+                'TOTAL_LIQUIDO' => $query->sum('VALOR_LIQUIDO_PARCELA')
+            ];
+            $totais['TOTAL_TAXA'] = $totais['TOTAL_BRUTO'] - $totais['TOTAL_LIQUIDO'];
+
+            return response()->json([
+                'vendas' => $vendas,
+                'totais' => $totais,
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'mensagem' => 'Não foi possível realizar a consulta em Vendas ERP.'
+            ], 500);
+        }
+    }
+    
+    public function subFilterOperadoras(Request $request) {
+        $quantidadesPermitidas = [5, 10, 20, 50, 100, 200];
+        $filtros = $request->input('filtros');
+        $filtros['cliente_id'] = session('codigologin');
+        $subfiltros = $request->input('subfiltros');
+        $por_pagina = $request->input('por_pagina', 5);
+        $por_pagina = in_array($por_pagina, $quantidadesPermitidas) ? $por_pagina : 5;
+
+        try {
+            $status_nao_conciliada = StatusConciliacaoModel::naoConciliada()->first()->CODIGO;
+            $filtros = Arr::set($filtros, 'status_conciliacao', [$status_nao_conciliada]);
+            
+            $query = VendasSubFilter::subfilter($filtros, $subfiltros)->getQuery();
+
+            $vendas = (clone $query)->paginate($por_pagina);
+            $totais = [
+                'TOTAL_BRUTO' => $query->sum('VALOR_BRUTO'),
+                'TOTAL_LIQUIDO' => $query->sum('VALOR_LIQUIDO')
+            ];
+            $totais['TOTAL_TAXA'] = $totais['TOTAL_BRUTO'] - $totais['TOTAL_LIQUIDO'];
+
+            return response()->json([
+                'vendas' => $vendas,
+                'totais' => $totais
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'mensagem' => 'Não foi possível realizar a consulta em Vendas ERP.'
             ], 500);
         }
     }
