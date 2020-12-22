@@ -5,6 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Filters\VendasErpFilter;
 use App\Filters\VendasFilter;
+use App\Filters\VendasErpSubFilter;
+use App\Filters\VendasSubFilter;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,6 +22,12 @@ class AppServiceProvider extends ServiceProvider
         });
         $this->app->bind(VendasFilter::class, function ($app) {
             return new VendasFilter;
+        });
+        $this->app->bind(VendasErpSubFilter::class, function($app) {
+            return new VendasErpSubFilter($app->make(VendasErpFilter::class));
+        });
+        $this->app->bind(VendasSubFilter::class, function($app) {
+            return new VendasSubFilter($app->make(VendasFilter::class));
         });
     }
 
