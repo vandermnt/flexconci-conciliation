@@ -171,7 +171,7 @@ Pagination.prototype.render = function(shouldFragment = true, fragmentOn = 10, f
 
     if(page !== fragmentSeparator && page !== this.options.currentPage) {
       a.addEventListener('click', event => {
-        this.options.navigateHandler(page, event);
+        this.options.navigateHandler(page, this, event);
       });
     }
 
