@@ -19,21 +19,22 @@ function VendasProxy(id) {
     set: function(target, name, value) {
       if(name === 'porPagina') {
         target.porPagina = value
-        target.busca.paginacao.setOptions({
+        target[target.emExibicao].paginacao.setOptions({
           perPage: value
-        })
-        target.filtrados.paginacao.setOptions({
-          perPage: value
-        })
+        }).paginate()
         return
       }
       if(['busca', 'filtrados'].includes(name)) {
-        target[name] = serializarVendas(value, target.id)
+        target[name] = value.serializado ? value : serializarVendas(value, target.id)
         return
       }
       if(name === 'emExibicao') {
+        if(typeof value === 'string') {
+          target[name] = value
+          return
+        }
         vendasEmExibicao = target[name]
-        target[vendasEmExibicao] = serializarVendas(value, target.id)
+        target[vendasEmExibicao] = value.serializado ? value : serializarVendas(value, target.id)
         return
       }
 
@@ -98,12 +99,32 @@ function serializarVendas(resultado, id) {
   delete resultado.vendas.data;
   delete resultado.vendas;
   resultado.vendas = vendas;
-  resultado.paginacao = criarPaginacao(paginacao, (a,b,c) => console.log(b))
+  resultado.paginacao = criarPaginacao(paginacao, async (page, paginacao, event) => {
+    const url = paginacao.options.baseUrl
+    const body = url === urls[id].filtrar ? 
+      { filtros: dados.filtros, subfiltros: dados.subfiltros[id] } : { ...dados.filtros }
+    const params = {
+      page,
+      por_pagina: paginacao.options.perPage
+    }
+
+    iniciarRequisicao(async () => {
+      const vendas = await requisitarVendas(url, body, params).catch(err => alert("Não foi possível realizar a consulta!"));
+      if(url === urls[id].filtrar) {
+        dados[id].emExibicao = 'filtrados';
+      } else {
+        dados[id].emExibicao = 'busca';
+      }
+
+      dados[id].emExibicao = vendas
+    });
+  });
+  resultado.serializado = true
   return { ...resultado }
 }
 
 function criarPaginacao(paginacao, navigateHandler = () => {}) {
-  const novaPaginacao = new Pagination().setOptions({
+  const novaPaginacao = new Pagination([], {
     currentPage: paginacao.current_page,
     lastPage: paginacao.last_page,
     perPage: paginacao.per_page,
@@ -121,6 +142,7 @@ function atualizarInterface(modalidadeVendas, dados, paginacao = null) {
   renderizarTabela(modalidadeVendas, dados.vendas, dados.totais);
   if(paginacao) {
     paginacao.render();
+    document.querySelector(`#js-porpagina-${modalidadeVendas}`).value = paginacao.options.perPage
   }
 }
 
@@ -132,6 +154,15 @@ function limpar() {
   [...dataInputs].forEach(input => {
     input.value = "";
   });
+}
+
+function limparFiltros() {
+  const seletor = 'table input:not([type="checkbox"]):not([name=""])';
+  [...document.querySelectorAll(seletor)].forEach(input => {
+    input.value = "";
+  });
+
+  dados.subFiltros = { erp: {}, operadoras: {} };
 }
 
 function confirmarSelecao(event) {
@@ -149,12 +180,15 @@ function confirmarSelecao(event) {
 function selecionarQuantidadePagina(event) {
   const tipo = event.target.dataset.vendasTipo;
   const quantidade = event.target.value;
+  const url = dados[tipo].emExibicao.paginacao.options.baseUrl
+  const body = url === urls[tipo].filtrar ? 
+    { filtros: dados.filtros, subfiltros: dados.subfiltros[tipo] } : { ...dados.filtros }
 
   dados[tipo].porPagina = quantidade;
 
   iniciarRequisicao(async () => {
-    const vendas = await requisitarVendas(dados[tipo].emExibicao.paginacao.options.baseUrl,
-      { ...dados.filtros },
+    const vendas = await requisitarVendas(url,
+      body,
       {
         page: 1,
         por_pagina: quantidade
@@ -265,6 +299,8 @@ async function submeterPesquisa(event) {
       alert("Ooops... Um erro inesperado ocorreu.");
     });
 
+    dados.erp.emExibicao = 'busca'
+    dados.operadoras.emExibicao = 'busca'
     dados.erp.busca = erp;
     dados.operadoras.busca = operadoras;
   });
@@ -273,6 +309,7 @@ async function submeterPesquisa(event) {
       erp: { ...dados.erp.busca.totais },
       operadoras: { ...dados.operadoras.busca.totais }
   });
+  limparFiltros();
 }
 
 function atualizarBoxes(totais) {
@@ -373,10 +410,32 @@ document.querySelector('#js-form-pesquisar').addEventListener('submit', submeter
 
 [...document.querySelectorAll('table input:not([type="checkbox"]):not([name=""])')].forEach(input => {
   input.addEventListener('keyup', (event) => {
-    const { target } = event;
+    const { target, key } = event;
     const modalidadeVendas = target.closest('table').dataset.modalidade;
     
     atualizarSubfiltros(modalidadeVendas);
+    
+    if(key === 'Enter') {
+      if(Object.keys(dados.subfiltros[modalidadeVendas]).length === 0) {
+        dados[modalidadeVendas].emExibicao = 'busca'
+        atualizarInterface(modalidadeVendas, dados[modalidadeVendas].emExibicao, dados[modalidadeVendas].emExibicao.paginacao)
+        return
+      }
+      
+      iniciarRequisicao(async () => {
+        const vendas = await requisitarVendas(urls[modalidadeVendas].filtrar, {
+          filtros: dados.filtros,
+          subfiltros: dados.subfiltros[modalidadeVendas]
+        },
+        {
+          por_pagina: dados[modalidadeVendas].filtrados.paginacao.options.perPage,
+          page: 1
+        });
+
+        dados[modalidadeVendas].emExibicao = 'filtrados'
+        dados[modalidadeVendas].emExibicao = vendas
+      })
+    }
   })
 })
 
