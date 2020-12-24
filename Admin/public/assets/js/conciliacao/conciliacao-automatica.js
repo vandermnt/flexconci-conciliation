@@ -7,22 +7,57 @@ const formatadorDecimal = new Intl.NumberFormat('pt-br', {
   maximumFractionDigits: 2,
 });
 
+function VendasProxy(id) {
+  return new Proxy({
+    id,
+    porPagina: 5,
+    marcacoes: [],
+    busca: { paginacao: new Pagination([], { perPage: 5 }) },
+    filtrados: { paginacao: new Pagination([], { perPage: 5 }) },
+    emExibicao: 'busca'
+  }, {
+    set: function(target, name, value) {
+      if(name === 'porPagina') {
+        target.porPagina = value
+        target.busca.paginacao.setOptions({
+          perPage: value
+        })
+        target.filtrados.paginacao.setOptions({
+          perPage: value
+        })
+        return
+      }
+      if(['busca', 'filtrados'].includes(name)) {
+        target[name] = serializarVendas(value, target.id)
+        return
+      }
+      if(name === 'emExibicao') {
+        vendasEmExibicao = target[name]
+        target[vendasEmExibicao] = serializarVendas(value, target.id)
+        return
+      }
+
+      target[name] = value
+    },
+    get: function(target, name) {
+      if(name === 'emExibicao') {
+        vendasEmExibicao = target[name]
+        return target[vendasEmExibicao]
+      }
+
+      return target[name]
+    }
+  })
+}
+
 const checker = new Checker();
 const modalFilter = new ModalFilter();
 const urls = getUrls();
 const dados = new Proxy({
   filtros: {},
   subfiltros: {},
-  erp: new Proxy({
-    id: 'erp',
-    marcacoes: [],
-    porPagina: 5,
-  }, {}),
-  operadoras: new Proxy({
-    id: 'operadoras',
-    marcacoes: [],
-    porPagina: 5,
-  }, {})
+  erp: new VendasProxy('erp'),
+  operadoras: new VendasProxy('operadoras'),
 }, handler());
 
 checker.addGroup('empresa');
@@ -63,11 +98,11 @@ function serializarVendas(resultado, id) {
   delete resultado.vendas.data;
   delete resultado.vendas;
   resultado.vendas = vendas;
-  resultado.paginacao = criarPaginacao(paginacao)
+  resultado.paginacao = criarPaginacao(paginacao, (a,b,c) => console.log(b))
   return { ...resultado }
 }
 
-function criarPaginacao(paginacao, navigateHandler) {
+function criarPaginacao(paginacao, navigateHandler = () => {}) {
   const novaPaginacao = new Pagination().setOptions({
     currentPage: paginacao.current_page,
     lastPage: paginacao.last_page,
@@ -76,10 +111,9 @@ function criarPaginacao(paginacao, navigateHandler) {
     paginationContainer: document.querySelector(`#js-paginacao-${paginacao.id}`),
     baseUrl: paginacao.path,
     id: paginacao.id,
-  });
+  })
+    .setNavigateHandler(navigateHandler);
 
-  novaPaginacao.setNavigateHandler(navigateHandler);
-  
   return novaPaginacao;
 }
 
@@ -116,7 +150,19 @@ function selecionarQuantidadePagina(event) {
   const tipo = event.target.dataset.vendasTipo;
   const quantidade = event.target.value;
 
-  setQuantidadePorPagina(tipo, quantidade);
+  dados[tipo].porPagina = quantidade;
+
+  iniciarRequisicao(async () => {
+    const vendas = await requisitarVendas(dados[tipo].emExibicao.paginacao.options.baseUrl,
+      { ...dados.filtros },
+      {
+        page: 1,
+        por_pagina: quantidade
+      }
+    )
+
+    dados[tipo].emExibicao = vendas
+  })
 }
 
 function serializarDadosPesquisa() {
@@ -187,16 +233,15 @@ async function iniciarRequisicao(requisicaoCallback = async () => {}) {
     await requisicaoCallback();
   }
 
-  atualizarInterface('erp', dados.erp.busca, dados.erp.busca.paginacao);
-  atualizarInterface('operadoras', dados.operadoras.busca, dados.operadoras.busca.paginacao);
+  atualizarInterface('erp', dados.erp.emExibicao, dados.erp.emExibicao.paginacao);
+  atualizarInterface('operadoras', dados.operadoras.emExibicao, dados.operadoras.emExibicao.paginacao);
   
   alternarVisibilidade(loader);
 
   if(resultados.classList.contains('hidden')) {
     resultados.classList.remove('hidden');
+    window.scrollTo(0, resultados.offsetTop);
   }
-
-  window.scrollTo(0, resultados.offsetTop);
 }
 
 async function submeterPesquisa(event) {
@@ -220,8 +265,8 @@ async function submeterPesquisa(event) {
       alert("Ooops... Um erro inesperado ocorreu.");
     });
 
-    dados.erp.busca = serializarVendas(erp, 'erp');
-    dados.operadoras.busca = serializarVendas(operadoras, 'operadoras');
+    dados.erp.busca = erp;
+    dados.operadoras.busca = operadoras;
   });
   
   atualizarBoxes({ 
@@ -279,7 +324,7 @@ function renderizarTabela(tipo, vendas, totais) {
         tr.classList.remove('marcada');
       }
 
-      dados.marcacoes[tipo] = marcacoes;
+      dados[tipo].marcacoes = marcacoes;
     })
 
     const imagensDOM = tr.querySelectorAll('td img');
@@ -339,7 +384,8 @@ document.querySelector('#js-reset-form')
   .addEventListener('click', limpar);
 
 [...document.querySelectorAll('select[name="por_pagina"]')].forEach(select => {
-  select.addEventListener('change', event => selecionarQuantidadePagina(event));
+  select.addEventListener('change', event => {
+  selecionarQuantidadePagina(event)});
 });
 
 [...document.querySelectorAll('button[data-acao]')].forEach(botaoDOM => {
