@@ -315,7 +315,7 @@
               <i class="far fa-flag"></i>
               Justificar
             </button>
-            <button id="js-exportar" class="btn">
+            <button id="js-exportar-erp" class="btn">
               <i class="fas fa-file-download"></i>
               Exportar
             </button>
@@ -540,7 +540,11 @@
               <tr data-id="ID_ERP" class="hidden">
                 <td>
                   <div class="d-flex align-items-center justify-content-between">
-                    <input type="checkbox">
+                    <input
+                      name="id_erp[]"
+                      type="checkbox"
+                      data-campo="ID_ERP"
+                    >
                     <img data-image="STATUS_CONCILIACAO_IMAGEM" data-text="STATUS_CONCILIACAO">
                   </div>
                 </td>
@@ -652,7 +656,7 @@
         <div class="tabela-info d-flex align-items-center justify-content-between">
           <h4>Pendências Operadoras</h4>
           <div class="acoes d-flex align-items-center justify-content-end">
-            <button id="js-exportar" class="btn">
+            <button id="js-exportar-operadoras" class="btn">
               <i class="fas fa-file-download"></i>
               Exportar
             </button>
@@ -829,7 +833,11 @@
               <tr data-id="ID" class="hidden">
                 <td>
                   <div class="d-flex align-items-center justify-content-between">
-                    <input type="checkbox">
+                    <input
+                      name="id_operadora[]"
+                      type="checkbox"
+                      data-campo="ID"
+                    >
                     <img data-image="STATUS_CONCILIACAO_IMAGEM" data-text="STATUS_CONCILIACAO">
                   </div>
                 </td>

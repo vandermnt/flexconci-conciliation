@@ -12,6 +12,7 @@ function VendasProxy(id) {
     id,
     porPagina: 5,
     marcacoes: [],
+    selecionados: [],
     busca: { paginacao: new Pagination([], { perPage: 5 }) },
     filtrados: { paginacao: new Pagination([], { perPage: 5 }) },
     emExibicao: 'busca'
@@ -366,6 +367,7 @@ function renderizarTabela(tipo, vendas, totais) {
 
     const imagensDOM = tr.querySelectorAll('td img');
     const colunasDOM = tr.querySelectorAll('td[data-campo]');
+    const inputsDOM = tr.querySelectorAll('input[type="checkbox"][data-campo]');
     
     [...imagensDOM].forEach(imagemDOM => {
       const imagemUrl = imagemDOM.dataset.image;
@@ -389,6 +391,21 @@ function renderizarTabela(tipo, vendas, totais) {
         valor = formatadorDecimal.format(valor);
       }
       colunaDOM.textContent = valor;
+    });
+
+    [...inputsDOM].forEach(inputDOM => {
+      const campo = inputDOM.dataset.campo;
+      const idVenda = venda[campo] || '';
+      inputDOM.value = idVenda;
+      inputDOM.checked = dados[tipo].selecionados.includes(idVenda);
+      inputDOM.addEventListener('change', event => {
+        const { target } = event;
+        if(target.checked) {
+          dados[tipo].selecionados.push(idVenda);
+        } else {
+          dados[tipo].selecionados = dados[tipo].selecionados.filter(value => value != idVenda)
+        }
+      });
     });
 
     tr.classList.remove('hidden');
