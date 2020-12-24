@@ -191,6 +191,8 @@ Checker.prototype.setValuesToTextElement = function (name, attributeValueName = 
  */
 Checker.prototype.removeGroup = function(name) {
     const { globalCheckbox } = this.groups[name];
-    globalCheckbox.removeEventListener('change', this._handleGlobalClick);
+    if(globalCheckbox) {
+        globalCheckbox.removeEventListener('change', this._handleGlobalClick);
+    }
     delete this.groups[name];
 }
