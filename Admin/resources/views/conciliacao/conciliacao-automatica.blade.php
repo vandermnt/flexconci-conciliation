@@ -20,6 +20,7 @@
       data-url-operadoras="{{ route('conciliacao-automatica.busca.operadoras') }}"
       data-url-filtrar-erp="{{ route('conciliacao-automatica.filtrar.erp') }}"
       data-url-filtrar-operadoras="{{ route('conciliacao-automatica.filtrar.operadoras') }}"
+      data-url-conciliar-manualmente="{{ route('conciliacao-automatica.conciliar.manualmente') }}"
       class="card" method="POST"
     >
       <div class="card-body">

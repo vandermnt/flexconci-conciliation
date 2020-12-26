@@ -13,8 +13,8 @@ function VendasProxy(id) {
     porPagina: 5,
     marcacoes: [],
     selecionados: [],
-    busca: { paginacao: new Pagination([], { perPage: 5 }) },
-    filtrados: { paginacao: new Pagination([], { perPage: 5 }) },
+    busca: { paginacao: new Pagination([], { perPage: 5 }), vendas: [], totais: {} },
+    filtrados: { paginacao: new Pagination([], { perPage: 5 }), vendas: [], totais: {} },
     emExibicao: 'busca'
   }, {
     set: function(target, name, value) {
@@ -89,7 +89,8 @@ function getUrls() {
     operadoras: {
       buscar: form.dataset.urlOperadoras,
       filtrar: form.dataset.urlFiltrarOperadoras
-    }
+    },
+    conciliar: form.dataset.urlConciliarManualmente
   }
 }
 
@@ -238,8 +239,13 @@ function atualizarSubfiltros(modalidadeVendas) {
   dados.subfiltros[modalidadeVendas] = { ...subFiltros };
 }
 
-async function requisitarVendas(url, body = {}, params = {}) {
+function getCsrfToken() {
   const csrfToken = document.querySelector('input[name="_token"').value;
+  return csrfToken;
+}
+
+async function requisitarVendas(url, body = {}, params = {}) {
+  const csrfToken = getCsrfToken();
 
   return api.post(url, {
     headers: {
@@ -418,6 +424,86 @@ function renderizarTabela(tipo, vendas, totais) {
   });
 }
 
+function conciliar() {
+  const idErp = dados.erp.selecionados;
+  const idOperadoras = dados.operadoras.selecionados;
+
+  if(idErp.length != 1 || idOperadoras.length != 1) {
+    alert("Selecione apenas uma venda ERP e uma operadora para realizar a conciliação.");
+    return;
+  }
+
+  api.post(urls.conciliar, {
+    headers: {
+      'X-CSRF-TOKEN': getCsrfToken(),
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      _token: getCsrfToken(),
+      id_erp: idErp,
+      id_operadora: idOperadoras,
+    })
+  }).then(res => {
+    const erpTotais = dados.erp.busca.totais;
+    const operadoraTotais = dados.operadoras.busca.totais;
+    const erpBuscaIndex = dados.erp.busca.vendas.findIndex(venda => venda.ID_ERP == res.erp.ID);
+    const erpFiltradosIndex = dados.erp.filtrados.vendas.findIndex(venda => venda.ID_ERP == res.erp.ID);
+    const operadoraBuscaIndex = dados.operadoras.busca.vendas.findIndex(venda => venda.ID == res.operadora.ID);
+    const operadoraFiltradoIndex = dados.operadoras.filtrados.vendas.findIndex(venda => venda.ID == res.operadora.ID);
+
+    if(erpBuscaIndex != -1) {
+      dados.erp.busca.vendas[erpBuscaIndex].STATUS_CONCILIACAO_IMAGEM = res.erp.STATUS_MANUAL_IMAGEM_URL;
+    }
+    if(erpFiltradosIndex != -1) {
+      dados.erp.filtrados.vendas[erpFiltradosIndex].STATUS_CONCILIACAO_IMAGEM = res.erp.STATUS_MANUAL_IMAGEM_URL;
+    }
+    
+    if(operadoraBuscaIndex != -1) {
+      dados.operadoras.busca.vendas.splice(operadoraBuscaIndex, 1);
+      dados.operadoras.busca.paginacao.options.total -= 1;
+      dados.operadoras.busca.paginacao.paginate();
+    }
+
+    if(operadoraFiltradoIndex != -1) {
+      dados.operadoras.filtrados.vendas.splice(operadoraFiltradoIndex, 1);
+      dados.operadoras.filtrados.paginacao.options.total -= 1;
+      dados.operadoras.filtrados.paginacao.paginate();
+    }
+
+    dados.erp.busca.totais = {
+      ...erpTotais,
+      TOTAL_MANUAL: (Number(erpTotais.TOTAL_MANUAL) || 0) + (Number(res.erp.TOTAL_BRUTO) || 0),
+      TOTAL_NAO_CONCILIADA: (Number(erpTotais.TOTAL_NAO_CONCILIADA) || 0) - (Number(res.erp.TOTAL_BRUTO) || 0),
+    }
+    dados.operadoras.busca.totais = {
+      ...operadoraTotais,
+      TOTAL_BRUTO: (Number(operadoraTotais.TOTAL_BRUTO) || 0) - (Number(res.operadora.TOTAL_BRUTO) || 0),
+      TOTAL_LIQUIDO: (Number(operadoraTotais.TOTAL_LIQUIDO) || 0) - (Number(res.operadora.TOTAL_LIQUIDO) || 0),
+      TOTAL_TAXA: (Number(operadoraTotais.TOTAL_TAXA) || 0) - (Number(res.operadora.TOTAL_TAXA) || 0),
+    }
+
+    console.log(erpBuscaIndex);
+    console.log(operadoraBuscaIndex);
+    console.log(dados.operadoras.busca.totais);
+    console.log(dados.erp.busca.totais);
+
+    atualizarBoxes({ 
+      erp: { ...dados.erp.busca.totais },
+      operadoras: { ...dados.operadoras.busca.totais }
+    });
+
+    dados.erp.selecionados = [];
+    dados.operadoras.selecionados = [];
+
+    atualizarInterface('erp', dados.erp.emExibicao, dados.erp.emExibicao.paginacao);
+    atualizarInterface('operadoras', dados.operadoras.emExibicao, dados.operadoras.emExibicao.paginacao);
+
+    if(res.mensagem) {
+      alert(res.mensagem);
+    }
+  });
+}
+
 window.addEventListener('load', () => {
   document.querySelector('#pagina-conciliacao').classList.remove('hidden');
   window.scrollTo(0, 0);
@@ -467,3 +553,6 @@ document.querySelector('#js-reset-form')
 [...document.querySelectorAll('button[data-acao]')].forEach(botaoDOM => {
   botaoDOM.addEventListener('click', confirmarSelecao);
 });
+
+document.querySelector('#js-conciliar')
+  .addEventListener('click', conciliar)

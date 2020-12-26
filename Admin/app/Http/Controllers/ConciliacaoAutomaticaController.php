@@ -7,6 +7,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 use App\ClienteModel;
+use App\VendasErpModel;
+use App\VendasModel;
 use App\GruposClientesModel;
 use App\StatusConciliacaoModel;
 use App\Filters\VendasErpFilter;
@@ -201,59 +203,53 @@ class ConciliacaoAutomaticaController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function conciliarManualmente(Request $request)
     {
-        //
-    }
+        $id_operadoras = $request->input('id_operadora');
+        $id_erp = $request->input('id_erp');
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+        if(count($id_erp) != 1 || count($id_operadoras) != 1) {
+            return response()->json([
+                'mensagem' => 'A conciliação deve ser realizada entre uma venda ERP e uma venda operadora',
+            ], 400);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+        $status_nao_conciliada = StatusConciliacaoModel::naoConciliada()->first()->CODIGO;
+        $venda_erp = VendasErpModel::where('CODIGO', $id_erp[0])
+            ->where('COD_CLIENTE', session('codigologin'))
+            ->where('COD_STATUS_CONCILIACAO', $status_nao_conciliada)
+            ->first();
+        $venda_operadora = VendasModel::where('CODIGO', $id_operadoras[0])
+            ->where('COD_CLIENTE', session('codigologin'))
+            ->where('COD_STATUS_CONCILIACAO', $status_nao_conciliada)
+            ->first();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        if(is_null($venda_erp) || is_null($venda_operadora)) {
+            return response()->json([
+                'mensagem' => 'As vendas não foram encontradas ou já estão conciliadas.',
+            ], 400);
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $status_manual = StatusConciliacaoModel::manual()->first();
+        
+        $venda_erp->COD_STATUS_CONCILIACAO = $status_manual->CODIGO;
+        $venda_operadora->COD_STATUS_CONCILIACAO = $status_manual->CODIGO;
+        $venda_erp->save();
+        $venda_operadora->save();
+
+        return response()->json([
+            'mensagem' => 'As vendas foram conciliadas com sucesso.',
+            'erp' => [
+                'ID' => $venda_erp->CODIGO,
+                'TOTAL_BRUTO' => $venda_erp->TOTAL_VENDA,
+                'STATUS_MANUAL_IMAGEM_URL' => $status_manual->IMAGEM_URL
+            ],
+            'operadora' => [
+                'ID' => $venda_operadora->CODIGO,
+                'TOTAL_BRUTO' =>  $venda_operadora->VALOR_BRUTO,
+                'TOTAL_LIQUIDO' =>  $venda_operadora->VALOR_LIQUIDO,
+                'TOTAL_TAXA' =>  $venda_operadora->VALOR_BRUTO - $venda_operadora->VALOR_LIQUIDO,
+            ]
+        ], 200);
     }
 }
