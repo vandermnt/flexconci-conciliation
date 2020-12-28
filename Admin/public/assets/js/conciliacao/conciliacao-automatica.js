@@ -426,6 +426,7 @@ function renderizarTabela(tipo, vendas, totais) {
 }
 
 function conciliar() {
+  const loader = document.querySelector('#js-loader');
   const idErp = dados.erp.selecionados;
   const idOperadoras = dados.operadoras.selecionados;
 
@@ -433,6 +434,8 @@ function conciliar() {
     swal("Ooops...", "Selecione apenas uma venda ERP e uma operadora para realizar a conciliação.", "error");
     return;
   }
+
+  alternarVisibilidade(loader);
 
   api.post(urls.conciliar, {
     headers: {
@@ -445,6 +448,8 @@ function conciliar() {
       id_operadora: idOperadoras,
     })
   }).then(res => {
+    alternarVisibilidade(loader);
+    
     if(res.status != 'sucesso' && res.mensagem) {
       swal("Ooops...", res.mensagem, "error");
       return;
