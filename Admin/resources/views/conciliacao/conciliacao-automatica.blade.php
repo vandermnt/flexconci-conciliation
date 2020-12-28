@@ -939,6 +939,7 @@
 @endsection
 
 @section('footerScript')
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script src="assets/js/lib/api.js"></script>
   <script src="assets/js/lib/pagination.js"></script>
   <script src="assets/js/lib/checker.js"></script>

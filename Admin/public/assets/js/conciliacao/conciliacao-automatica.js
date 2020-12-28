@@ -111,7 +111,8 @@ function serializarVendas(resultado, id) {
     }
 
     iniciarRequisicao(async () => {
-      const vendas = await requisitarVendas(url, body, params).catch(err => alert("Não foi possível realizar a consulta!"));
+      const vendas = await requisitarVendas(url, body, params).catch(err => 
+        swal("Ooops...", "Não foi possível realizar a consulta.", "error"));
       if(url === urls[id].filtrar) {
         dados[id].emExibicao = 'filtrados';
       } else {
@@ -303,7 +304,7 @@ async function submeterPesquisa(event) {
         { por_pagina: dados.operadoras.porPagina }
       ),
     ]).catch(err => {
-      alert("Ooops... Um erro inesperado ocorreu.");
+      swal("Ooops...", " Um erro inesperado ocorreu.", "error")
     });
 
     dados.erp.emExibicao = 'busca'
@@ -429,7 +430,7 @@ function conciliar() {
   const idOperadoras = dados.operadoras.selecionados;
 
   if(idErp.length != 1 || idOperadoras.length != 1) {
-    alert("Selecione apenas uma venda ERP e uma operadora para realizar a conciliação.");
+    swal("Ooops...", "Selecione apenas uma venda ERP e uma operadora para realizar a conciliação.", "error");
     return;
   }
 
@@ -445,7 +446,7 @@ function conciliar() {
     })
   }).then(res => {
     if(res.status != 'sucesso' && res.mensagem) {
-      alert(res.mensagem);
+      swal("Ooops...", res.mensagem, "error");
       return;
     }
 
@@ -494,7 +495,7 @@ function conciliar() {
     atualizarInterface('operadoras', dados.operadoras.emExibicao, dados.operadoras.emExibicao.paginacao);
 
     if(res.status === 'sucesso' && res.mensagem) {
-      alert(res.mensagem);
+      swal("Conciliação realizada!", "As vendas foram conciliadas com êxito.", "success");
       return;
     }
   });
