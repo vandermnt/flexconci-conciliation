@@ -242,4 +242,44 @@ class ConciliacaoAutomaticaController extends Controller
             'STATUS_MANUAL' => $status_manual->STATUS_CONCILIACAO
         ], 200);
     }
+
+    public function justificar(Request $request) {
+        $id_erp = $request->input('id_erp') ?? '';
+        $justificativa = $request->input('justificativa') ?? null;
+
+        if(strlen(trim($justificativa)) === 0) {
+            return response()->json([
+                'status' => 'erro',
+                'mensagem' => 'A justificativa deve ser informada.'
+            ], 400);
+        }
+
+        $status_justificada = StatusConciliacaoModel::justificada()->first();
+        $status_nao_conciliada = StatusConciliacaoModel::naoConciliada()->first()->CODIGO;
+
+        $query = VendasErpModel::whereIn('CODIGO', $id_erp)
+            ->where('COD_CLIENTE', session('codigologin'))
+            ->where('COD_STATUS_CONCILIACAO', $status_nao_conciliada);
+        
+        $vendas_erp = (clone $query)->get();
+        $total_bruto = (clone $query)->sum('TOTAL_VENDA');
+        $ids_erp = (clone $query)->select('CODIGO as ID')->get();
+
+        foreach($vendas_erp as $venda_erp) {
+            $venda_erp->JUSTIFICATIVA = $justificativa;
+            $venda_erp->COD_STATUS_CONCILIACAO = $status_justificada->CODIGO;
+            $venda_erp->save();
+        }
+
+        return response()->json([
+            'status' => 'sucesso',
+            'erp' => [
+                'ID_ERP' => $ids_erp,
+                'TOTAL_BRUTO' => $total_bruto,
+            ],
+            'STATUS_JUSTIFICADO_IMAGEM_URL' => $status_justificada->IMAGEM_URL,
+            'STATUS_JUSTIFICADO' => $status_justificada->STATUS_CONCILIACAO,
+            'JUSTIFICATIVA' => $justificativa
+        ], 200);
+    }
 }

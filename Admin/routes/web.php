@@ -60,6 +60,8 @@ Route::group(['middleware' => 'auth'], function() {
   Route::post('/conciliacao-automatica/conciliar/manualmente', 'ConciliacaoAutomaticaController@conciliarManualmente')
     ->middleware('verifica_vendas_conciliacao')
     ->name('conciliacao-automatica.conciliar.manualmente');
+  Route::post('/conciliacao-automatica/conciliar/justificar', 'ConciliacaoAutomaticaController@justificar')
+    ->name('conciliacao-automatica.conciliar.justificar');
 
   Route::match(['get', 'post'], '/conciliacao-manual', 'ConciliacaoAutomaticaVendasController@conciliarManualmente');
   Route::match(['get', 'post'], '/conciliacao-justificada-venda', 'ConciliacaoAutomaticaVendasController@conciliacaoJustificadaVenda');
