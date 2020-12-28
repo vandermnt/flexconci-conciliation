@@ -21,6 +21,7 @@
       data-url-filtrar-erp="{{ route('conciliacao-automatica.filtrar.erp') }}"
       data-url-filtrar-operadoras="{{ route('conciliacao-automatica.filtrar.operadoras') }}"
       data-url-conciliar-manualmente="{{ route('conciliacao-automatica.conciliar.manualmente') }}"
+      data-url-justificar="{{ route('conciliacao-automatica.conciliar.justificar') }}"
       class="card" method="POST"
     >
       <div class="card-body">
@@ -312,10 +313,20 @@
               <i class="far fa-handshake"></i>
               Conciliar
             </button>
-            <button id="js-justificar" class="btn mr-1">
+            <button
+              class="btn mr-1"
+              data-target="#js-abrir-justificar-modal"
+            >
               <i class="far fa-flag"></i>
               Justificar
             </button>
+            <button
+              id="js-abrir-justificar-modal"
+              class="hidden"
+              type="button"
+              data-toggle="modal"
+              data-target="#js-justificar-modal"
+            ></button>
             <button id="js-exportar-erp" class="btn">
               <i class="fas fa-file-download"></i>
               Exportar
@@ -931,6 +942,64 @@
           </div>
         </footer>
       </div>
+      
+      <div class="modais">
+        <form
+          id="js-justificar-modal"
+          class="modal fade"
+          role="dialog"
+          tabindex="-1"
+          data-backdrop="static"
+          data-keyboard="false"
+          aria-labelledby="justificar-label"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <header class="modal-header d-flex align-items-center">
+                <h5 class="modal-title" id="justificar-label">Justificar</h5>
+                <button
+                  class="close"
+                  type="button"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </header>
+              <main class="modal-body">
+                <div class="form-group">
+                  <h6>Justificativa</h6>
+                  <input
+                    name="justificativa"
+                    class="form-control"
+                    type="text"
+                  >
+                </div>
+              </main>
+              <footer class="modal-footer">
+                <button
+                  id="js-cancelar-justificar"
+                  type="reset"
+                  class="btn btn-danger font-weight-bold"
+                  data-dismiss="modal"
+                >
+                  Cancelar
+                </button>
+                <button
+                  id="js-justificar"
+                  type="button"
+                  class="btn btn-success font-weight-bold"
+                  data-dismiss="modal"
+                >
+                  Confirmar
+                </button>
+              </footer>
+            </div>
+          </div>
+        </form>
+      </div>
+
     </section>
 
   </main>
