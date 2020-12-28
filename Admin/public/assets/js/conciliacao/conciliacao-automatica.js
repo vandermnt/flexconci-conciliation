@@ -444,6 +444,11 @@ function conciliar() {
       id_operadora: idOperadoras,
     })
   }).then(res => {
+    if(res.status != 'sucesso' && res.mensagem) {
+      alert(res.mensagem);
+      return;
+    }
+
     const erpTotais = dados.erp.busca.totais;
     const operadoraTotais = dados.operadoras.busca.totais;
     const erpBuscaIndex = dados.erp.busca.vendas.findIndex(venda => venda.ID_ERP == res.erp.ID);
@@ -452,22 +457,21 @@ function conciliar() {
     const operadoraFiltradoIndex = dados.operadoras.filtrados.vendas.findIndex(venda => venda.ID == res.operadora.ID);
 
     if(erpBuscaIndex != -1) {
-      dados.erp.busca.vendas[erpBuscaIndex].STATUS_CONCILIACAO_IMAGEM = res.erp.STATUS_MANUAL_IMAGEM_URL;
+      dados.erp.busca.vendas[erpBuscaIndex].STATUS_CONCILIACAO_IMAGEM = res.STATUS_MANUAL_IMAGEM_URL;
+      dados.erp.busca.vendas[erpBuscaIndex].STATUS_CONCILIACAO = res.STATUS_MANUAL;
     }
     if(erpFiltradosIndex != -1) {
-      dados.erp.filtrados.vendas[erpFiltradosIndex].STATUS_CONCILIACAO_IMAGEM = res.erp.STATUS_MANUAL_IMAGEM_URL;
+      dados.erp.filtrados.vendas[erpFiltradosIndex].STATUS_CONCILIACAO_IMAGEM = res.STATUS_MANUAL_IMAGEM_URL;
+      dados.erp.filtrados.vendas[erpFiltradosIndex].STATUS_CONCILIACAO = res.STATUS_MANUAL;
     }
     
     if(operadoraBuscaIndex != -1) {
-      dados.operadoras.busca.vendas.splice(operadoraBuscaIndex, 1);
-      dados.operadoras.busca.paginacao.options.total -= 1;
-      dados.operadoras.busca.paginacao.paginate();
+      dados.operadoras.busca.vendas[operadoraBuscaIndex].STATUS_CONCILIACAO_IMAGEM = res.STATUS_MANUAL_IMAGEM_URL;
+      dados.operadoras.busca.vendas[operadoraBuscaIndex].STATUS_CONCILIACAO = res.STATUS_MANUAL;
     }
-
     if(operadoraFiltradoIndex != -1) {
-      dados.operadoras.filtrados.vendas.splice(operadoraFiltradoIndex, 1);
-      dados.operadoras.filtrados.paginacao.options.total -= 1;
-      dados.operadoras.filtrados.paginacao.paginate();
+      dados.operadoras.busca.vendas[operadoraFiltradoIndex].STATUS_CONCILIACAO_IMAGEM = res.STATUS_MANUAL_IMAGEM_URL;
+      dados.operadoras.busca.vendas[operadoraFiltradoIndex].STATUS_CONCILIACAO = res.STATUS_MANUAL;
     }
 
     dados.erp.busca.totais = {
@@ -475,21 +479,12 @@ function conciliar() {
       TOTAL_MANUAL: (Number(erpTotais.TOTAL_MANUAL) || 0) + (Number(res.erp.TOTAL_BRUTO) || 0),
       TOTAL_NAO_CONCILIADA: (Number(erpTotais.TOTAL_NAO_CONCILIADA) || 0) - (Number(res.erp.TOTAL_BRUTO) || 0),
     }
-    dados.operadoras.busca.totais = {
-      ...operadoraTotais,
-      TOTAL_BRUTO: (Number(operadoraTotais.TOTAL_BRUTO) || 0) - (Number(res.operadora.TOTAL_BRUTO) || 0),
-      TOTAL_LIQUIDO: (Number(operadoraTotais.TOTAL_LIQUIDO) || 0) - (Number(res.operadora.TOTAL_LIQUIDO) || 0),
-      TOTAL_TAXA: (Number(operadoraTotais.TOTAL_TAXA) || 0) - (Number(res.operadora.TOTAL_TAXA) || 0),
-    }
-
-    console.log(erpBuscaIndex);
-    console.log(operadoraBuscaIndex);
-    console.log(dados.operadoras.busca.totais);
-    console.log(dados.erp.busca.totais);
 
     atualizarBoxes({ 
       erp: { ...dados.erp.busca.totais },
-      operadoras: { ...dados.operadoras.busca.totais }
+      operadoras: {
+        TOTAL_BRUTO: (Number(operadoraTotais.TOTAL_BRUTO) || 0) - (Number(res.operadora.TOTAL_BRUTO) || 0)
+      }
     });
 
     dados.erp.selecionados = [];
@@ -498,8 +493,9 @@ function conciliar() {
     atualizarInterface('erp', dados.erp.emExibicao, dados.erp.emExibicao.paginacao);
     atualizarInterface('operadoras', dados.operadoras.emExibicao, dados.operadoras.emExibicao.paginacao);
 
-    if(res.mensagem) {
+    if(res.status === 'sucesso' && res.mensagem) {
       alert(res.mensagem);
+      return;
     }
   });
 }
