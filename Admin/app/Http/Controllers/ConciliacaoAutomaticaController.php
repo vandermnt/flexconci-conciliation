@@ -207,14 +207,8 @@ class ConciliacaoAutomaticaController extends Controller
     {
         $id_operadoras = $request->input('id_operadora');
         $id_erp = $request->input('id_erp');
+        $status_nao_conciliada = StatusConciliacaoModel::naoConciliada()->first()->CODIGO; 
 
-        if(count($id_erp) != 1 || count($id_operadoras) != 1) {
-            return response()->json([
-                'mensagem' => 'A conciliação deve ser realizada entre uma venda ERP e uma venda operadora',
-            ], 400);
-        }
-
-        $status_nao_conciliada = StatusConciliacaoModel::naoConciliada()->first()->CODIGO;
         $venda_erp = VendasErpModel::where('CODIGO', $id_erp[0])
             ->where('COD_CLIENTE', session('codigologin'))
             ->where('COD_STATUS_CONCILIACAO', $status_nao_conciliada)
@@ -224,12 +218,6 @@ class ConciliacaoAutomaticaController extends Controller
             ->where('COD_STATUS_CONCILIACAO', $status_nao_conciliada)
             ->first();
 
-        if(is_null($venda_erp) || is_null($venda_operadora)) {
-            return response()->json([
-                'mensagem' => 'As vendas não foram encontradas ou já estão conciliadas.',
-            ], 400);
-        }
-
         $status_manual = StatusConciliacaoModel::manual()->first();
         
         $venda_erp->COD_STATUS_CONCILIACAO = $status_manual->CODIGO;
@@ -238,18 +226,20 @@ class ConciliacaoAutomaticaController extends Controller
         $venda_operadora->save();
 
         return response()->json([
+            'status' => 'sucesso',
             'mensagem' => 'As vendas foram conciliadas com sucesso.',
             'erp' => [
                 'ID' => $venda_erp->CODIGO,
                 'TOTAL_BRUTO' => $venda_erp->TOTAL_VENDA,
-                'STATUS_MANUAL_IMAGEM_URL' => $status_manual->IMAGEM_URL
             ],
             'operadora' => [
                 'ID' => $venda_operadora->CODIGO,
                 'TOTAL_BRUTO' =>  $venda_operadora->VALOR_BRUTO,
                 'TOTAL_LIQUIDO' =>  $venda_operadora->VALOR_LIQUIDO,
                 'TOTAL_TAXA' =>  $venda_operadora->VALOR_BRUTO - $venda_operadora->VALOR_LIQUIDO,
-            ]
+            ],
+            'STATUS_MANUAL_IMAGEM_URL' => $status_manual->IMAGEM_URL,
+            'STATUS_MANUAL' => $status_manual->STATUS_CONCILIACAO
         ], 200);
     }
 }
