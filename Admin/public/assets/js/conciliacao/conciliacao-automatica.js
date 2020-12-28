@@ -90,7 +90,8 @@ function getUrls() {
       buscar: form.dataset.urlOperadoras,
       filtrar: form.dataset.urlFiltrarOperadoras
     },
-    conciliar: form.dataset.urlConciliarManualmente
+    conciliar: form.dataset.urlConciliarManualmente,
+    justificar: form.dataset.urlJustificar
   }
 }
 
@@ -506,6 +507,95 @@ function conciliar() {
   });
 }
 
+function abrirModalJustificativa(event) {
+  const botaoAbrirModal = document.querySelector(event.target.dataset.target);
+
+  if(dados.erp.selecionados.length === 0) {
+    swal("Ooops...", "Selecione ao menos uma venda ERP.", "error");
+    return;
+  }
+  if(dados.operadoras.selecionados.length > 0) {
+    swal("Ooops...", "Apenas as vendas ERP podem ser justificadas.", "error");
+    return;
+  }
+
+  botaoAbrirModal.click();
+}
+
+function justificar() {
+  const justificativa = document.querySelector('#js-justificar-modal input[name="justificativa"]').value;
+  const idErp = dados.erp.selecionados;
+  const loader = document.querySelector('#js-loader');
+ 
+  if(justificativa.trim() === '') {
+    swal('Ooops...', 'A justificativa deve ser informada.', 'error')
+    return;
+  }
+
+  alternarVisibilidade(loader);
+
+  api.post(urls.justificar, {
+    headers: {
+      'X-CSRF-TOKEN': getCsrfToken(),
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      _token: getCsrfToken(),
+      id_erp: idErp,
+      justificativa
+    })
+  }).then(res => {
+    if(res.status !== 'sucesso' && res.mensagem) {
+      swal('Ooops...', res.mensagem, 'error');
+      return;
+    }
+
+    alternarVisibilidade(loader);
+
+    const erpTotais = dados.erp.busca.totais;
+
+    dados.erp.busca.totais = {
+      ...erpTotais,
+      TOTAL_JUSTIFICADA: (Number(erpTotais.TOTAL_JUSTIFICADA) || 0) + (Number(res.erp.TOTAL_BRUTO) || 0),
+      TOTAL_NAO_CONCILIADA: (Number(erpTotais.TOTAL_NAO_CONCILIADA) || 0) - (Number(res.erp.TOTAL_BRUTO) || 0),
+    }
+    
+    res.erp.ID_ERP.forEach(erp => {
+      const erpBuscaIndex = dados.erp.busca.vendas.findIndex(venda => venda.ID_ERP == erp.ID);
+      const erpFiltradosIndex = dados.erp.filtrados.vendas.findIndex(venda => venda.ID_ERP == erp.ID);
+
+      if(erpBuscaIndex !== -1) {
+        dados.erp.busca.vendas[erpBuscaIndex] = {
+          ...dados.erp.busca.vendas[erpBuscaIndex],
+          JUSTIFICATIVA: res.JUSTIFICATIVA,
+          STATUS_CONCILIACAO: res.STATUS_JUSTIFICADO,
+          STATUS_CONCILIACAO_IMAGEM: res.STATUS_JUSTIFICADO_IMAGEM_URL
+        }
+      }
+      if(erpFiltradosIndex !== 1) {
+        dados.erp.filtrados.vendas[erpFiltradosIndex] = {
+          ...dados.erp.busca.vendas[erpFiltradosIndex],
+          JUSTIFICATIVA: res.JUSTIFICATIVA,
+          STATUS_CONCILIACAO: res.STATUS_JUSTIFICADO,
+          STATUS_CONCILIACAO_IMAGEM: res.STATUS_JUSTIFICADO_IMAGEM_URL
+        }
+      }
+    });
+
+    dados.erp.selecionados = [];
+    atualizarBoxes({ 
+      erp: { ...dados.erp.busca.totais },
+      operadoras: { ...dados.operadoras.busca.totais }
+    });
+
+    atualizarInterface('erp', dados.erp.emExibicao, dados.erp.emExibicao.paginacao);
+
+    if(res.status === 'sucesso') {
+      swal('Justificativa realizada.', 'As vendas foram justificadas com êxito.', 'success');
+    }
+  });
+}
+
 window.addEventListener('load', () => {
   document.querySelector('#pagina-conciliacao').classList.remove('hidden');
   window.scrollTo(0, 0);
@@ -558,3 +648,12 @@ document.querySelector('#js-reset-form')
 
 document.querySelector('#js-conciliar')
   .addEventListener('click', conciliar)
+
+document.querySelector('form#js-justificar-modal')
+  .addEventListener('click', event => event.preventDefault());
+
+document.querySelector('button[data-target="#js-abrir-justificar-modal"]')
+  .addEventListener('click', abrirModalJustificativa)
+
+document.querySelector('#js-justificar')
+  .addEventListener('click', justificar);
