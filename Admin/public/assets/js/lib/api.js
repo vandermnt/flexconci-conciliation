@@ -13,8 +13,15 @@ const api = new API();
  */
 API.prototype.urlBuilder = function(urlBase, params = {}, toString = true) {
     const url = new URL(urlBase);
-
     Object.keys(params).forEach(key => {
+        if(Array.isArray(params[key])) {
+            params[key].forEach(value => {
+                url.searchParams.append(`${key}[]`, value);
+            });
+
+            return;
+        }
+        
         url.searchParams.append(key, params[key]);
     })
 
