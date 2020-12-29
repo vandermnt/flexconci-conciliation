@@ -84,14 +84,16 @@ function getUrls() {
   return {
     erp: {
       buscar: form.dataset.urlErp,
-      filtrar: form.dataset.urlFiltrarErp
+      filtrar: form.dataset.urlFiltrarErp,
+      exportar: form.dataset.urlExportarErp,
     },
     operadoras: {
       buscar: form.dataset.urlOperadoras,
-      filtrar: form.dataset.urlFiltrarOperadoras
+      filtrar: form.dataset.urlFiltrarOperadoras,
+      exportar: form.dataset.urlExportarOperadoras,
     },
     conciliar: form.dataset.urlConciliarManualmente,
-    justificar: form.dataset.urlJustificar
+    justificar: form.dataset.urlJustificar,
   }
 }
 
@@ -523,7 +525,8 @@ function abrirModalJustificativa(event) {
 }
 
 function justificar() {
-  const justificativa = document.querySelector('#js-justificar-modal input[name="justificativa"]').value;
+  const justificativaDOM = document.querySelector('#js-justificar-modal input[name="justificativa"]');
+  const justificativa = justificativaDOM.value;
   const idErp = dados.erp.selecionados;
   const loader = document.querySelector('#js-loader');
  
@@ -593,7 +596,25 @@ function justificar() {
     if(res.status === 'sucesso') {
       swal('Justificativa realizada.', 'As vendas foram justificadas com êxito.', 'success');
     }
+
+    justificativaDOM.value = "";
   });
+}
+
+function abrirUrlExportacao(baseUrl, target =  '') {
+  swal('Aguarde um momento...', 'A sua planilha está sendo gerada.', 'warning');
+  const a = document.createElement('a');
+  a.href = api.urlBuilder(baseUrl, dados.filtros);
+  a.target = target;
+  a.click();
+}
+
+function exportarErp() {
+  abrirUrlExportacao(urls.erp.exportar, '_blank');
+}
+
+function exportarOperadoras() {
+  abrirUrlExportacao(urls.operadoras.exportar, '_blank');
 }
 
 window.addEventListener('load', () => {
@@ -657,3 +678,9 @@ document.querySelector('button[data-target="#js-abrir-justificar-modal"]')
 
 document.querySelector('#js-justificar')
   .addEventListener('click', justificar);
+
+document.querySelector('#js-exportar-erp')
+  .addEventListener('click', exportarErp);
+
+document.querySelector('#js-exportar-operadoras')
+  .addEventListener('click', exportarOperadoras);

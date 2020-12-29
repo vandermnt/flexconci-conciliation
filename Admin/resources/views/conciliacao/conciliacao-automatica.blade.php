@@ -22,6 +22,8 @@
       data-url-filtrar-operadoras="{{ route('conciliacao-automatica.filtrar.operadoras') }}"
       data-url-conciliar-manualmente="{{ route('conciliacao-automatica.conciliar.manualmente') }}"
       data-url-justificar="{{ route('conciliacao-automatica.conciliar.justificar') }}"
+      data-url-exportar-erp="{{ route('conciliacao-automatica.exportar.erp') }}"
+      data-url-exportar-operadoras="{{ route('conciliacao-automatica.exportar.operadoras') }}"
       class="card" method="POST"
     >
       <div class="card-body">
@@ -872,8 +874,8 @@
                 <td data-campo="VALOR_LIQUIDO" data-format="currency"></td>
                 <td data-campo="PARCELA"></td>
                 <td data-campo="TOTAL_PARCELAS"></td>
-                <td></td>
-                <td></td>
+                <td data-campo="HORA_TRANSACAO" data-format="time"></td>
+                <td data-campo="ESTABELECIMENTO"></td>
                 <td>
                   <img data-image="BANCO_IMAGEM" data-text="BANCO" src="" alt="">
                 </td>
