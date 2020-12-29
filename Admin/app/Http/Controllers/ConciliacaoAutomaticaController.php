@@ -15,6 +15,8 @@ use App\Filters\VendasErpFilter;
 use App\Filters\VendasFilter;
 use App\Filters\VendasErpSubFilter;
 use App\Filters\VendasSubFilter;
+use App\Exports\VendasErpConciliacaoExport;
+use App\Exports\VendasConciliacaoExport;
 
 class ConciliacaoAutomaticaController extends Controller
 {
@@ -281,5 +283,23 @@ class ConciliacaoAutomaticaController extends Controller
             'STATUS_JUSTIFICADO' => $status_justificada->STATUS_CONCILIACAO,
             'JUSTIFICATIVA' => $justificativa
         ], 200);
+    }
+
+    public function exportarErp(Request $request) {
+        set_time_limit(300);
+
+        $filters = $request->except('_token');
+        Arr::set($filters, 'cliente_id', session('codigologin'));
+        return (new VendasErpConciliacaoExport($filters))->download('vendas_erp_conciliacao_'.time().'.xlsx');
+    }
+
+    public function exportarOperadoras(Request $request) {
+        set_time_limit(300);
+
+        $filters = $request->except(['_token', 'status_conciliacao']);
+        $status_nao_conciliada = StatusConciliacaoModel::naoConciliada()->first()->CODIGO;
+        Arr::set($filters, 'cliente_id', session('codigologin'));
+        Arr::set($filters, 'status_conciliacao', [$status_nao_conciliada]);
+        return (new VendasConciliacaoExport($filters))->download('vendas_operadoras_conciliacao_'.time().'.xlsx');
     }
 }
