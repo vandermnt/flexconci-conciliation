@@ -1,11 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
-use App\VendasModel;
-use App\StatusConciliacaoModel;
-use App\GruposClientesModel;
-use App\VendasErpModel;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
 
 Auth::routes();
 if(version_compare(PHP_VERSION, '7.2.0', '>=')) { error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING); }
@@ -113,6 +110,24 @@ Route::group(['middleware' => 'auth'], function() {
 Route::get('/credenciamento-cielo', function() {
     return view('authentication.auth-lock-screen');
 });
+
+
+Route::get('/reset', function() {
+    return view('auth.passwords.email');
+});
+
+// Route::post('/forgot-password', function (Request $request) {
+
+//     $request->validate(['email' => 'required|email']);
+
+//     $status = Password::sendResetLink(
+//         $request->only('email')
+//     );
+
+//     return $status === Password::RESET_LINK_SENT
+//                 ? back()->with(['status' => __($status)])
+//                 : back()->withErrors(['email' => __($status)]);
+// })->middleware('guest')->name('post-reset-password');
 
 Route::get('/credenciamento-stone', function() {
     return view('authentication.auth-lock-stone');

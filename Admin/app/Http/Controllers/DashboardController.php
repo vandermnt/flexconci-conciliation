@@ -12,13 +12,17 @@ use App\Http\Controllers\DOMPDF;
 class DashboardController extends Controller{
 
   public function dashboard(){
-    $sql = 'Select  projetos.*, tipo_projeto.TIPO_PROJETO, clientes.NOME  from projetos  left outer join tipo_projeto on (TIPO_PROJETO.CODIGO = projetos.COD_TIPO_PROJETO) left outer join funcionarios on (funcionarios.CODIGO = projetos.COD_FUNCIONARIO_RESP_PROJETO) left outer join clientes on (clientes.CODIGO = projetos.COD_CLIENTE) where projetos.cod_cliente ='.session('codigologin');
-    $projetos = DB::select($sql);
-    $qtde_projetos = count($projetos);
+    // $sql = 'Select  projetos.*, tipo_projeto.TIPO_PROJETO, clientes.NOME  from projetos  left outer join tipo_projeto on (TIPO_PROJETO.CODIGO = projetos.COD_TIPO_PROJETO) left outer join funcionarios on (funcionarios.CODIGO = projetos.COD_FUNCIONARIO_RESP_PROJETO) left outer join clientes on (clientes.CODIGO = projetos.COD_CLIENTE) where projetos.cod_cliente ='.session('codigologin');
+    // $projetos = DB::select($sql);
+    // $qtde_projetos = count($projetos);
+    $qtde_projetos = null;
 
     $frase = DB::table('config_cliente')
+    ->select('AVISO_GERAL', 'ALERTA_GLOBAL')
     ->whereNotNull('AVISO_GERAL')
     ->first();
+
+    // dd($frase);
 
     $dados_dash_vendas = DB::table('dashboard_vendas_adquirentes')
     ->leftJoin('periodo_dash', 'dashboard_vendas_adquirentes.COD_PERIODO', 'periodo_dash.CODIGO')
