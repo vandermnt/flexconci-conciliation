@@ -152,6 +152,10 @@
   grid-gap: 8px;
 }
 
+#pagina-conciliacao .boxes .card > * {
+  pointer-events: none;
+}
+
 #pagina-conciliacao .boxes .card-body p {
   padding: 0;
   margin: 0;

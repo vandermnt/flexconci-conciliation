@@ -98,6 +98,7 @@
                       value="{{ $status->CODIGO }}"
                       data-group="status-conciliacao"
                       data-checker="checkbox"
+                      data-status="{{ mb_strtolower($status->STATUS_CONCILIACAO, 'UTF-8') }}"
                       checked
                     >
                     <label
@@ -124,6 +125,7 @@
 
 
           <button
+            id="js-pesquisar"
             class="btn btn-sm ml-1"
             type="submit"
           >
@@ -243,7 +245,7 @@
 
     <section class="resultados hidden" id="js-resultados">
       <div class="boxes">
-        <div class="card">
+        <div class="card" data-status="*">
           <div class="card-body">
             <h6 class="text-dark text-center font-weight-semibold font-12">VENDAS ERP</h6>
             <div class="d-flex align-items-center justify-content-between">
@@ -252,7 +254,7 @@
             </div>
           </div>
         </div>
-        <div class="card">
+        <div class="card" data-status="conciliada">
           <div class="card-body">
             <h6 class="text-dark text-center font-weight-semibold font-12">CONCILIADO</h6>
             <div class="d-flex align-items-center justify-content-between">
@@ -261,7 +263,7 @@
             </div>
           </div>
         </div>
-        <div class="card">
+        <div class="card" data-status="divergente">
           <div class="card-body">
             <h6 class="text-dark text-center font-weight-semibold font-12">DIVERGENTE</h6>
             <div class="d-flex align-items-center justify-content-between">
@@ -270,7 +272,7 @@
             </div>
           </div>
         </div>
-        <div class="card">
+        <div class="card" data-status="conciliada manualmente">
           <div class="card-body">
             <h6 class="text-dark text-center font-weight-semibold font-12">CONC. MANUAL</h6>
             <div class="d-flex align-items-center justify-content-between">
@@ -279,7 +281,7 @@
             </div>
           </div>
         </div>
-        <div class="card">
+        <div class="card" data-status="justificada">
           <div class="card-body">
             <h6 class="text-dark text-center font-weight-semibold font-12">JUSTIFICADO</h6>
             <div class="d-flex align-items-center justify-content-between">
@@ -288,7 +290,7 @@
             </div>
           </div>
         </div>
-        <div class="card">
+        <div class="card" data-status="não conciliada">
           <div class="card-body">
             <h6 class="text-dark text-center font-weight-semibold font-12">PENDÊNCIAS ERP</h6>
             <div class="d-flex align-items-center justify-content-between">

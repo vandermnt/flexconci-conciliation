@@ -323,6 +323,22 @@ async function submeterPesquisa(event) {
   window.scrollTo(0, document.querySelector('#js-resultados').offsetTop);
 }
 
+function pesquisarPorBox(event) {
+  const boxDOM = event.target;
+  const statusConciliacao = boxDOM.dataset.status;
+  const statusConciliacaoCheckbox = document.querySelector(`form .check-group input[data-status="${statusConciliacao}"]`);
+  const botaoPesquisar = document.querySelector('#js-pesquisar');
+
+  if(statusConciliacao === '*') {
+    checker.checkAll('status-conciliacao')
+  } else {
+    checker.uncheckAll('status-conciliacao');
+    statusConciliacaoCheckbox.checked = true;
+  }
+
+  botaoPesquisar.click();
+}
+
 function atualizarBoxes(totais) {
   const totalErp = document.querySelector('p[data-total="EPR_TOTAL_BRUTO"]');
   const totalConciliada = document.querySelector('p[data-total="TOTAL_CONCILIADA"]');
@@ -659,6 +675,10 @@ window.addEventListener('load', () => {
 });
 
 document.querySelector('#js-form-pesquisar').addEventListener('submit', submeterPesquisa);
+
+[...document.querySelectorAll('#js-resultados .boxes .card[data-status]')].forEach(boxDOM => {
+  boxDOM.addEventListener('click', pesquisarPorBox);
+});
 
 [...document.querySelectorAll('table input:not([type="checkbox"]):not([name=""])')].forEach(input => {
   input.addEventListener('keyup', (event) => {
