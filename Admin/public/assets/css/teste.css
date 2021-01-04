@@ -7,9 +7,10 @@
 		z-index: 9999;
 /* https://i.imgur.com/zAD2y29.gif */
 /* background: url(https://static.wixstatic.com/media/12c3ed_913d70e166a44885be13270c478ab6c1~mv2.gif) 50% 50% no-repeat ; */
-background: url(https://cdn.dribbble.com/users/3148081/screenshots/6176842/rocket.gif) 50% 50% no-repeat ;
-
-background-size: 350px;
+/* background: url(https://cdn.dribbble.com/users/3148081/screenshots/6176842/rocket.gif) 50% 50% no-repeat ; */
+/* background-repeat: no-repeat; */
+background: url(../images/load.gif) 50% 50% no-repeat ;
+background-size: 200px;
 background-color: rgba(169,169,169, 0.2);
 
 }

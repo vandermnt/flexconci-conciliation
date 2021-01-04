@@ -12,20 +12,24 @@ use App\Http\Controllers\DOMPDF;
 class DashboardController extends Controller{
 
   public function dashboard(){
-    $sql = 'Select  projetos.*, tipo_projeto.TIPO_PROJETO, clientes.NOME  from projetos  left outer join tipo_projeto on (TIPO_PROJETO.CODIGO = projetos.COD_TIPO_PROJETO) left outer join funcionarios on (funcionarios.CODIGO = projetos.COD_FUNCIONARIO_RESP_PROJETO) left outer join clientes on (clientes.CODIGO = projetos.COD_CLIENTE) where projetos.cod_cliente ='.session('codigologin');
-    $projetos = DB::select($sql);
-    $qtde_projetos = count($projetos);
+    // $sql = 'Select  projetos.*, tipo_projeto.TIPO_PROJETO, clientes.NOME  from projetos  left outer join tipo_projeto on (TIPO_PROJETO.CODIGO = projetos.COD_TIPO_PROJETO) left outer join funcionarios on (funcionarios.CODIGO = projetos.COD_FUNCIONARIO_RESP_PROJETO) left outer join clientes on (clientes.CODIGO = projetos.COD_CLIENTE) where projetos.cod_cliente ='.session('codigologin');
+    // $projetos = DB::select($sql);
+    // $qtde_projetos = count($projetos);
+    $qtde_projetos = null;
 
     $frase = DB::table('config_cliente')
+    ->select('AVISO_GERAL', 'ALERTA_GLOBAL')
     ->whereNotNull('AVISO_GERAL')
     ->first();
+
+    // dd($frase);
 
     $dados_dash_vendas = DB::table('dashboard_vendas_adquirentes')
     ->leftJoin('periodo_dash', 'dashboard_vendas_adquirentes.COD_PERIODO', 'periodo_dash.CODIGO')
     ->leftJoin('adquirentes', 'dashboard_vendas_adquirentes.COD_ADQUIRENTE', 'adquirentes.CODIGO')
     ->where('cod_cliente', '=', session('codigologin'))->get();
     // ->where('cod_cliente', '=', 538)->get();
-    
+
     $dados_dash_vendas_bandeira = DB::table('dashboard_vendas_bandeiras')
     ->join('periodo_dash', 'dashboard_vendas_bandeiras.COD_PERIODO', 'periodo_dash.CODIGO')
     ->join('bandeira', 'dashboard_vendas_bandeiras.COD_BANDEIRA', 'bandeira.CODIGO')
@@ -39,7 +43,7 @@ class DashboardController extends Controller{
     ->join('periodo_dash', 'dashboard_vendas_modalidade.COD_PERIODO', 'periodo_dash.CODIGO')
     ->join('modalidade', 'dashboard_vendas_modalidade.COD_MODALIDADE', 'modalidade.CODIGO')
     ->where('cod_cliente', '=', session('codigologin'))
-    // ->groupBy('dashboard_vendas_modalidade.COD_PERIODO')
+    // ->groupBy('dashboard_vendas_modalidade.AUTORIZACAO')
     ->get();
 
     $dados_dash_vendas_produto = DB::table('dashboard_vendas_produtos')
@@ -83,6 +87,7 @@ class DashboardController extends Controller{
     ->select('vendas.*', 'vendas.DATA_PAGAMENTO', 'lista_bancos.IMAGEM_LINK as IMAGEM', 'adquirentes.IMAGEM as IMAGEMAD')
     ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
     ->selectRaw('sum(VALOR_BRUTO) as val_bruto')
+    ->selectRaw('sum(VALOR_TAXA) as val_tx')
     ->where('vendas.DATA_PREVISTA_PAGTO', '=', $hoje1)
     ->where('vendas.COD_CLIENTE', '=', session('codigologin'));
 
@@ -102,6 +107,7 @@ class DashboardController extends Controller{
 
     $dados_cliente = ClienteModel::where('CODIGO', '=', session('codigologin'))->first();
 
+    session()->put('nome_fantasia', $dados_cliente->NOME_FANTASIA);
     session()->put('periodo', 2);
     session()->put('grupo', 1);
 

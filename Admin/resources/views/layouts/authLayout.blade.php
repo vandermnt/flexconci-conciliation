@@ -24,12 +24,12 @@
     </head>
 @section('body')
 @show
-    <body class="account-body accountbg">
+    <body class="account-body" style="background: #2D5275">
 
         <!-- content -->
         @yield('content')
 
-  
+
 
         <!-- App js -->
         <!-- <script src="{{ URL::asset('assets/js/app.js') }}"></script> -->
