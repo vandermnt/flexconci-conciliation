@@ -11,6 +11,7 @@ use App\VendasErpModel;
 use App\VendasModel;
 use App\GruposClientesModel;
 use App\StatusConciliacaoModel;
+use App\JustificativaModel;
 use App\Filters\VendasErpFilter;
 use App\Filters\VendasFilter;
 use App\Filters\VendasErpSubFilter;
@@ -40,11 +41,17 @@ class ConciliacaoAutomaticaController extends Controller
         $status_conciliacao = StatusConciliacaoModel::orderBy('STATUS_CONCILIACAO')
             ->get();
 
+        $justificativas = JustificativaModel::select('JUSTIFICATIVA')
+            ->where('JUSTIFICATIVA_GLOBAL', 'S')
+            ->orWhere('COD_CLIENTE', session('codigologin'))
+            ->get();
+
         return view('conciliacao.conciliacao-automatica')
             ->with([
                 'erp' => $erp,
                 'empresas' => $empresas,
-                'status_conciliacao' => $status_conciliacao
+                'status_conciliacao' => $status_conciliacao,
+                'justificativas' => $justificativas
             ]);
     }
 

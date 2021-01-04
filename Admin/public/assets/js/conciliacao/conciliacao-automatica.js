@@ -542,6 +542,24 @@ function abrirModalJustificativa(event) {
   botaoAbrirModal.click();
 }
 
+function selecionarJustificativa(event) {
+  const selecionada = document.querySelector('#js-justificativas-lista .list-group-item.active');
+  const justificativaInput = document.querySelector('#js-justificar-modal input[name="justificativa"]');
+
+  if(event.target.classList.contains('active')) {
+    event.target.classList.remove('active');
+    justificativaInput.value = '';
+    return;
+  }
+
+  if(selecionada) {
+    selecionada.classList.remove('active');
+  }
+
+  justificativaInput.value = event.target.textContent;
+  event.target.classList.add('active');
+}
+
 function justificar() {
   const justificativaDOM = document.querySelector('#js-justificar-modal input[name="justificativa"]');
   const justificativa = justificativaDOM.value;
@@ -616,6 +634,10 @@ function justificar() {
     }
 
     justificativaDOM.value = "";
+    const justificativaSelecionada = document.querySelector('#js-justificativas-lista .list-group-item.active');
+    if(justificativaSelecionada) {
+      justificativaSelecionada.classList.remove('active');
+    }
   });
 }
 
@@ -692,7 +714,11 @@ document.querySelector('form#js-justificar-modal')
   .addEventListener('click', event => event.preventDefault());
 
 document.querySelector('button[data-target="#js-abrir-justificar-modal"]')
-  .addEventListener('click', abrirModalJustificativa)
+  .addEventListener('click', abrirModalJustificativa);
+
+[...document.querySelectorAll('#js-justificativas-lista .list-group-item')].forEach(justificativaDOM => {
+  justificativaDOM.addEventListener('click', selecionarJustificativa);
+});
 
 document.querySelector('#js-justificar')
   .addEventListener('click', justificar);

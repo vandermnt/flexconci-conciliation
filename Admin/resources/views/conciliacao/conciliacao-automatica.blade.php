@@ -977,6 +977,11 @@
                     class="form-control"
                     type="text"
                   >
+                  <ul id="js-justificativas-lista" class="modal-options list-group mt-3">
+                    @foreach ($justificativas as $justificativa)
+                      <li class="list-group-item">{{ $justificativa->JUSTIFICATIVA }}</li>
+                    @endforeach
+                  </ul>
                 </div>
               </main>
               <footer class="modal-footer">
