@@ -285,7 +285,6 @@ async function iniciarRequisicao(requisicaoCallback = async () => {}) {
 
   if(resultados.classList.contains('hidden')) {
     resultados.classList.remove('hidden');
-    window.scrollTo(0, resultados.offsetTop);
   }
 }
 
@@ -321,6 +320,7 @@ async function submeterPesquisa(event) {
       operadoras: { ...dados.operadoras.busca.totais }
   });
   limparFiltros();
+  window.scrollTo(0, document.querySelector('#js-resultados').offsetTop);
 }
 
 function atualizarBoxes(totais) {
@@ -428,8 +428,7 @@ function renderizarTabela(tipo, vendas, totais) {
   });
 }
 
-function conciliar() {
-  const loader = document.querySelector('#js-loader');
+function confirmarConciliacao() {
   const idErp = dados.erp.selecionados;
   const idOperadoras = dados.operadoras.selecionados;
 
@@ -437,6 +436,25 @@ function conciliar() {
     swal("Ooops...", "Selecione apenas uma venda ERP e uma operadora para realizar a conciliação.", "error");
     return;
   }
+
+  swal("Tem certeza que deseja realizar a conciliação?", {
+    buttons: {
+      confirm: "Sim",
+      cancel: "Não",
+    }
+  }).then(value => {
+    if(!value) {
+      return;
+    }
+
+    conciliar();
+  });
+}
+
+function conciliar() {
+  const loader = document.querySelector('#js-loader');
+  const idErp = dados.erp.selecionados;
+  const idOperadoras = dados.operadoras.selecionados;
 
   alternarVisibilidade(loader);
 
@@ -668,7 +686,7 @@ document.querySelector('#js-reset-form')
 });
 
 document.querySelector('#js-conciliar')
-  .addEventListener('click', conciliar)
+  .addEventListener('click', confirmarConciliacao)
 
 document.querySelector('form#js-justificar-modal')
   .addEventListener('click', event => event.preventDefault());
