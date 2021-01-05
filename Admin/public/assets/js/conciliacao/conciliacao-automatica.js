@@ -509,8 +509,8 @@ function conciliar() {
       dados.operadoras.busca.vendas[operadoraBuscaIndex].STATUS_CONCILIACAO = res.STATUS_MANUAL;
     }
     if(operadoraFiltradoIndex != -1) {
-      dados.operadoras.busca.vendas[operadoraFiltradoIndex].STATUS_CONCILIACAO_IMAGEM = res.STATUS_MANUAL_IMAGEM_URL;
-      dados.operadoras.busca.vendas[operadoraFiltradoIndex].STATUS_CONCILIACAO = res.STATUS_MANUAL;
+      dados.operadoras.filtrados.vendas[operadoraFiltradoIndex].STATUS_CONCILIACAO_IMAGEM = res.STATUS_MANUAL_IMAGEM_URL;
+      dados.operadoras.filtrados.vendas[operadoraFiltradoIndex].STATUS_CONCILIACAO = res.STATUS_MANUAL;
     }
 
     dados.erp.busca.totais = {
