@@ -152,7 +152,7 @@
   grid-gap: 8px;
 }
 
-#pagina-conciliacao .boxes .card[data-status] {
+#pagina-conciliacao .boxes .card {
   cursor: pointer;
 }
 
@@ -248,6 +248,7 @@
   margin: 0;
   line-height: normal;
   width: fit-content;
+  z-index: 2;
 }
 
 #pagina-conciliacao table th p {
@@ -275,7 +276,6 @@
   width: 16px;
 }
 
-
 #pagina-conciliacao tbody td img {
   width: 48px;
   padding: 1px 0px;
@@ -291,10 +291,6 @@
 }
 
 /* --- */
-
-.hidden {
-  display: none !important;
-}
 
 @media screen and (max-width: 372px) {
   #pagina-conciliacao .filtro-datas {

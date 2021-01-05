@@ -2,6 +2,7 @@
 
 @section('headerStyle')
   <link href="{{ URL::asset('assets/css/teste.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{ URL::asset('assets/css/globals/global.css') }}" rel="stylesheet" type="text/css"/>
   <link href="{{ URL::asset('assets/css/conciliacao/pagina-conciliacao-automatica.css') }}" rel="stylesheet" type="text/css"/>
 @endsection
 
@@ -247,7 +248,7 @@
       <div class="boxes">
         <div class="card" data-status="*">
           <div class="card-body">
-            <h6 class="text-dark text-center font-weight-semibold font-12">VENDAS ERP</h6>
+            <h6 class="text-dark text-left font-weight-semibold font-12">VENDAS ERP</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="EPR_TOTAL_BRUTO">0</p>
               <img src="assets/images/conciliacao/vendaserp.png" alt="Vendas ERP">
@@ -256,7 +257,7 @@
         </div>
         <div class="card" data-status="conciliada">
           <div class="card-body">
-            <h6 class="text-dark text-center font-weight-semibold font-12">CONCILIADO</h6>
+            <h6 class="text-dark text-left font-weight-semibold font-12">CONCILIADO</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="TOTAL_CONCILIADA">0</p>
               <img src="assets/images/conciliacao/conciliado.png" alt="Conciliado">
@@ -265,7 +266,7 @@
         </div>
         <div class="card" data-status="divergente">
           <div class="card-body">
-            <h6 class="text-dark text-center font-weight-semibold font-12">DIVERGENTE</h6>
+            <h6 class="text-dark text-left font-weight-semibold font-12">DIVERGENTE</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="TOTAL_DIVERGENTE">0</p>
               <img src="assets/images/conciliacao/conciliadodiv.png" alt="Divergente">
@@ -274,7 +275,7 @@
         </div>
         <div class="card" data-status="conciliada manualmente">
           <div class="card-body">
-            <h6 class="text-dark text-center font-weight-semibold font-12">CONC. MANUAL</h6>
+            <h6 class="text-dark text-left font-weight-semibold font-12">CONC. MANUAL</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="TOTAL_MANUAL">0</p>
               <img src="assets/images/conciliacao/conciliadomanualmente.png" alt="Conciliado Manualmente">
@@ -283,7 +284,7 @@
         </div>
         <div class="card" data-status="justificada">
           <div class="card-body">
-            <h6 class="text-dark text-center font-weight-semibold font-12">JUSTIFICADO</h6>
+            <h6 class="text-dark text-left font-weight-semibold font-12">JUSTIFICADO</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="TOTAL_JUSTIFICADA">0</p>
               <img src="assets/images/conciliacao/justificado.png" alt="Justificado">
@@ -292,16 +293,16 @@
         </div>
         <div class="card" data-status="não conciliada">
           <div class="card-body">
-            <h6 class="text-dark text-center font-weight-semibold font-12">PENDÊNCIAS ERP</h6>
+            <h6 class="text-dark text-left font-weight-semibold font-12">PENDÊNCIAS ERP</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="TOTAL_NAO_CONCILIADA">0</p>
               <img src="assets/images/conciliacao/vendaserpnotconc.png" alt="Pendências ERP">
             </div>
           </div>
         </div>
-        <div class="card">
+        <div class="card" data-navigate=".pendencias-operadoras">
           <div class="card-body">
-            <h6 class="text-dark text-center font-weight-semibold font-12">PENDÊNCIAS OPER.</h6>
+            <h6 class="text-dark text-left font-weight-semibold font-12">PENDÊNCIAS OPER.</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="OPERADORAS_TOTAL_BRUTO">0</p>
               <img src="assets/images/conciliacao/vendasoperadoranotconc.png" alt="Pendências Operadoras">
@@ -561,7 +562,9 @@
                       type="checkbox"
                       data-campo="ID_ERP"
                     >
-                    <img data-image="STATUS_CONCILIACAO_IMAGEM" data-text="STATUS_CONCILIACAO">
+                    <div class="tooltip-hint" data-title="STATUS_CONCILIACAO">
+                      <img data-image="STATUS_CONCILIACAO_IMAGEM" data-text="STATUS_CONCILIACAO">
+                    </div>
                   </div>
                 </td>
                 <td data-campo="NOME_EMPRESA"></td>
@@ -569,10 +572,14 @@
                 <td data-campo="DATA_VENDA" data-format="date"></td>
                 <td data-campo="DATA_VENCIMENTO" data-format="date"></td>
                 <td>
-                  <img data-image="ADQUIRENTE_IMAGEM" data-text="ADQUIRENTE">
+                  <div class="tooltip-hint" data-title="ADQUIRENTE">
+                    <img data-image="ADQUIRENTE_IMAGEM" data-text="ADQUIRENTE">
+                  </div>
                 </td>
                 <td>
-                  <img data-image="BANDEIRA_IMAGEM" data-text="BANDEIRA">
+                  <div class="tooltip-hint" data-title="BANDEIRA">
+                    <img data-image="BANDEIRA_IMAGEM" data-text="BANDEIRA">
+                  </div>
                 </td>
                 <td data-campo="MODALIDADE"></td>
                 <td data-campo="NSU"></td>
@@ -854,7 +861,9 @@
                       type="checkbox"
                       data-campo="ID"
                     >
-                    <img data-image="STATUS_CONCILIACAO_IMAGEM" data-text="STATUS_CONCILIACAO">
+                    <div class="tooltip-hint" data-title="STATUS_CONCILIACAO">
+                      <img data-image="STATUS_CONCILIACAO_IMAGEM" data-text="STATUS_CONCILIACAO">
+                    </div>
                   </div>
                 </td>
                 <td data-campo="NOME_EMPRESA"></td>
@@ -862,10 +871,14 @@
                 <td data-campo="DATA_VENDA" data-format="date"></td>
                 <td data-campo="DATA_PREVISAO" data-format="date"></td>
                 <td>
-                  <img data-image="ADQUIRENTE_IMAGEM" data-text="ADQUIRENTE">
+                  <div class="tooltip-hint" data-title="ADQUIRENTE">
+                    <img data-image="ADQUIRENTE_IMAGEM" data-text="ADQUIRENTE">
+                  </div>
                 </td>
                 <td>
-                  <img data-image="BANDEIRA_IMAGEM" data-text="BANDEIRA">
+                  <div class="tooltip-hint" data-title="BANDEIRA">
+                    <img data-image="BANDEIRA_IMAGEM" data-text="BANDEIRA">
+                  </div>
                 </td>
                 <td data-campo="MODALIDADE"></td>
                 <td data-campo="NSU"></td>
@@ -879,7 +892,9 @@
                 <td data-campo="HORA_TRANSACAO" data-format="time"></td>
                 <td data-campo="ESTABELECIMENTO"></td>
                 <td>
-                  <img data-image="BANCO_IMAGEM" data-text="BANCO" src="" alt="">
+                  <div class="tooltip-hint" data-title="BANCO">
+                    <img data-image="BANCO_IMAGEM" data-text="BANCO" src="" alt="">
+                  </div>
                 </td>
                 <td data-campo="AGENCIA"></td>
                 <td data-campo="CONTA"></td>
