@@ -162,8 +162,8 @@ function limpar() {
   });
 }
 
-function limparFiltros() {
-  const seletor = 'table input:not([type="checkbox"]):not([name=""])';
+function limparFiltros(tipo = "*") {
+  const seletor = `${tipo === '*' ? 'table' : `#js-tabela-${tipo}`} input:not([type="checkbox"]):not([name=""])`;
   [...document.querySelectorAll(seletor)].forEach(input => {
     input.value = "";
   });
@@ -323,11 +323,10 @@ async function submeterPesquisa(event) {
   window.scrollTo(0, document.querySelector('#js-resultados').offsetTop);
 }
 
-function pesquisarPorBox(event) {
+async function pesquisarPorBox(event) {
   const boxDOM = event.target;
   const statusConciliacao = boxDOM.dataset.status;
   const statusConciliacaoCheckbox = document.querySelector(`form .check-group input[data-status="${statusConciliacao}"]`);
-  const botaoPesquisar = document.querySelector('#js-pesquisar');
 
   if(statusConciliacao === '*') {
     checker.checkAll('status-conciliacao')
@@ -335,8 +334,23 @@ function pesquisarPorBox(event) {
     checker.uncheckAll('status-conciliacao');
     statusConciliacaoCheckbox.checked = true;
   }
+  
+  await iniciarRequisicao(async () => {
+    const vendas = await requisitarVendas(urls.erp.buscar, {
+      ...getFiltros(),
+    },
+    {
+      page: 1,
+      por_pagina: dados.erp.porPagina
+    });
 
-  botaoPesquisar.click();
+    dados.erp.emExibicao = 'busca'
+    dados.erp.busca = vendas;
+  });
+
+  atualizarInterface('erp', dados.erp.emExibicao, dados.erp.emExibicao.paginacao);
+  limparFiltros('erp');
+  window.scrollTo(0, document.querySelector('#js-resultados').offsetTop);
 }
 
 function atualizarBoxes(totais) {
