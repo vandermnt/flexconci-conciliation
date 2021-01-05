@@ -387,9 +387,14 @@ function renderizarTabela(tipo, vendas, totais) {
       dados[tipo].marcacoes = marcacoes;
     })
 
+    const tooltipsDOM = tr.querySelectorAll('.tooltip-hint');
     const imagensDOM = tr.querySelectorAll('td img');
     const colunasDOM = tr.querySelectorAll('td[data-campo]');
     const inputsDOM = tr.querySelectorAll('input[type="checkbox"][data-campo]');
+
+    [...tooltipsDOM].forEach(tooltipDOM => {
+      tooltipDOM.dataset.title = venda[tooltipDOM.dataset.title] || 'Sem identificação';
+    });
     
     [...imagensDOM].forEach(imagemDOM => {
       const imagemUrl = imagemDOM.dataset.image;
@@ -531,6 +536,13 @@ function conciliar() {
 
     atualizarInterface('erp', dados.erp.emExibicao, dados.erp.emExibicao.paginacao);
     atualizarInterface('operadoras', dados.operadoras.emExibicao, dados.operadoras.emExibicao.paginacao);
+
+    if(operadoraBuscaIndex != -1) {
+      dados.operadoras.busca.vendas.splice(operadoraBuscaIndex, 1)
+    }
+    if(operadoraFiltradoIndex != -1) {
+      dados.operadoras.filtrados.vendas.splice(operadoraFiltradoIndex, 1)
+    }
 
     if(res.status === 'sucesso' && res.mensagem) {
       swal("Conciliação realizada!", "As vendas foram conciliadas com êxito.", "success");
@@ -679,6 +691,14 @@ document.querySelector('#js-form-pesquisar').addEventListener('submit', submeter
 [...document.querySelectorAll('#js-resultados .boxes .card[data-status]')].forEach(boxDOM => {
   boxDOM.addEventListener('click', pesquisarPorBox);
 });
+
+document.querySelector('#js-resultados .boxes .card[data-navigate]')
+  .addEventListener('click', event => {
+    const seletor = event.target.dataset.navigate;
+    const elementoDOM = document.querySelector(seletor);
+    
+    window.scrollTo(0, elementoDOM.offsetTop);
+  });
 
 [...document.querySelectorAll('table input:not([type="checkbox"]):not([name=""])')].forEach(input => {
   input.addEventListener('keyup', (event) => {
