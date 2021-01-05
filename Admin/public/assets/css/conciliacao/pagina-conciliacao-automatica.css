@@ -152,6 +152,10 @@
   grid-gap: 8px;
 }
 
+#pagina-conciliacao .boxes .card[data-status] {
+  cursor: pointer;
+}
+
 #pagina-conciliacao .boxes .card > * {
   pointer-events: none;
 }
@@ -251,7 +255,7 @@
 }
 
 #pagina-conciliacao table th input {
-  width: 136px;
+  min-width: 136px;
   max-width: 100%;
   height: 32px;
 }
