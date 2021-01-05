@@ -1,0 +1,23 @@
+@keyframes deslizar {
+  0% {
+      right: -10000px;
+  }
+  10% {
+      right: 16px;
+  }
+  25% {
+      right: 24px;
+  }
+  50% {
+      right: 32px;
+  }
+  75% {
+      right: 24px;
+  }
+  90% {
+      right: 16px;
+  }
+  100% {
+      right: -10000px;
+  }
+}
