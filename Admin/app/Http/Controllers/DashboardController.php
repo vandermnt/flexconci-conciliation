@@ -105,7 +105,6 @@ class DashboardController extends Controller{
 
     $data = date('Y-m-d');
 
-    // dd($dados_operadora);
 
     $dados_cliente = ClienteModel::where('CODIGO', '=', session('codigologin'))->first();
 
