@@ -2,6 +2,7 @@
 
 @section('headerStyle')
   <link href="{{ URL::asset('assets/css/teste.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{ URL::asset('assets/css/globals/global.css') }}" rel="stylesheet" type="text/css"/>
   <link href="{{ URL::asset('assets/css/conciliacao/pagina-conciliacao-automatica.css') }}" rel="stylesheet" type="text/css"/>
 @endsection
 
@@ -18,6 +19,12 @@
       id="js-form-pesquisar"
       data-url-erp="{{ route('conciliacao-automatica.busca.erp') }}"
       data-url-operadoras="{{ route('conciliacao-automatica.busca.operadoras') }}"
+      data-url-filtrar-erp="{{ route('conciliacao-automatica.filtrar.erp') }}"
+      data-url-filtrar-operadoras="{{ route('conciliacao-automatica.filtrar.operadoras') }}"
+      data-url-conciliar-manualmente="{{ route('conciliacao-automatica.conciliar.manualmente') }}"
+      data-url-justificar="{{ route('conciliacao-automatica.conciliar.justificar') }}"
+      data-url-exportar-erp="{{ route('conciliacao-automatica.exportar.erp') }}"
+      data-url-exportar-operadoras="{{ route('conciliacao-automatica.exportar.operadoras') }}"
       class="card" method="POST"
     >
       <div class="card-body">
@@ -92,6 +99,7 @@
                       value="{{ $status->CODIGO }}"
                       data-group="status-conciliacao"
                       data-checker="checkbox"
+                      data-status="{{ mb_strtolower($status->STATUS_CONCILIACAO, 'UTF-8') }}"
                       checked
                     >
                     <label
@@ -118,6 +126,7 @@
 
 
           <button
+            id="js-pesquisar"
             class="btn btn-sm ml-1"
             type="submit"
           >
@@ -237,63 +246,63 @@
 
     <section class="resultados hidden" id="js-resultados">
       <div class="boxes">
-        <div class="card">
+        <div class="card" data-status="*">
           <div class="card-body">
-            <h6 class="text-dark text-center font-weight-semibold font-12">VENDAS ERP</h6>
+            <h6 class="text-dark text-left font-weight-semibold font-12">VENDAS ERP</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="EPR_TOTAL_BRUTO">0</p>
               <img src="assets/images/conciliacao/vendaserp.png" alt="Vendas ERP">
             </div>
           </div>
         </div>
-        <div class="card">
+        <div class="card" data-status="conciliada">
           <div class="card-body">
-            <h6 class="text-dark text-center font-weight-semibold font-12">CONCILIADO</h6>
+            <h6 class="text-dark text-left font-weight-semibold font-12">CONCILIADO</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="TOTAL_CONCILIADA">0</p>
               <img src="assets/images/conciliacao/conciliado.png" alt="Conciliado">
             </div>
           </div>
         </div>
-        <div class="card">
+        <div class="card" data-status="divergente">
           <div class="card-body">
-            <h6 class="text-dark text-center font-weight-semibold font-12">DIVERGENTE</h6>
+            <h6 class="text-dark text-left font-weight-semibold font-12">DIVERGENTE</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="TOTAL_DIVERGENTE">0</p>
               <img src="assets/images/conciliacao/conciliadodiv.png" alt="Divergente">
             </div>
           </div>
         </div>
-        <div class="card">
+        <div class="card" data-status="conciliada manualmente">
           <div class="card-body">
-            <h6 class="text-dark text-center font-weight-semibold font-12">CONC. MANUAL</h6>
+            <h6 class="text-dark text-left font-weight-semibold font-12">CONC. MANUAL</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="TOTAL_MANUAL">0</p>
               <img src="assets/images/conciliacao/conciliadomanualmente.png" alt="Conciliado Manualmente">
             </div>
           </div>
         </div>
-        <div class="card">
+        <div class="card" data-status="justificada">
           <div class="card-body">
-            <h6 class="text-dark text-center font-weight-semibold font-12">JUSTIFICADO</h6>
+            <h6 class="text-dark text-left font-weight-semibold font-12">JUSTIFICADO</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="TOTAL_JUSTIFICADA">0</p>
               <img src="assets/images/conciliacao/justificado.png" alt="Justificado">
             </div>
           </div>
         </div>
-        <div class="card">
+        <div class="card" data-status="não conciliada">
           <div class="card-body">
-            <h6 class="text-dark text-center font-weight-semibold font-12">PENDÊNCIAS ERP</h6>
+            <h6 class="text-dark text-left font-weight-semibold font-12">PENDÊNCIAS ERP</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="TOTAL_NAO_CONCILIADA">0</p>
               <img src="assets/images/conciliacao/vendaserpnotconc.png" alt="Pendências ERP">
             </div>
           </div>
         </div>
-        <div class="card">
+        <div class="card" data-navigate=".pendencias-operadoras">
           <div class="card-body">
-            <h6 class="text-dark text-center font-weight-semibold font-12">PENDÊNCIAS OPER.</h6>
+            <h6 class="text-dark text-left font-weight-semibold font-12">PENDÊNCIAS OPER.</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="OPERADORAS_TOTAL_BRUTO">0</p>
               <img src="assets/images/conciliacao/vendasoperadoranotconc.png" alt="Pendências Operadoras">
@@ -309,18 +318,28 @@
               <i class="far fa-handshake"></i>
               Conciliar
             </button>
-            <button id="js-justificar" class="btn mr-1">
+            <button
+              class="btn mr-1"
+              data-target="#js-abrir-justificar-modal"
+            >
               <i class="far fa-flag"></i>
               Justificar
             </button>
-            <button id="js-exportar" class="btn">
+            <button
+              id="js-abrir-justificar-modal"
+              class="hidden"
+              type="button"
+              data-toggle="modal"
+              data-target="#js-justificar-modal"
+            ></button>
+            <button id="js-exportar-erp" class="btn">
               <i class="fas fa-file-download"></i>
               Exportar
             </button>
           </div>
         </div>
         <div class="tabela-wrapper">
-          <table id="js-tabela-erp" class="table">
+          <table id="js-tabela-erp" class="table" data-modalidade="erp">
             <thead>
               <tr>
                 <th>
@@ -343,13 +362,13 @@
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Venda</p>
-                    <input type="text" class="form-control" name="DATA_VENDA">
+                    <input type="date" class="form-control" name="DATA_VENDA">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Previsão</p>
-                    <input type="text" class="form-control" name="DATA_VENCIMENTO">
+                    <input type="date" class="form-control" name="DATA_VENCIMENTO">
                   </div>
                 </th>
                 <th>
@@ -397,25 +416,25 @@
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Valor Bruto</p>
-                    <input type="text" class="form-control" name="TOTAL_VENDA">
+                    <input type="number" min="0" step="0.01" class="form-control" name="TOTAL_VENDA">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Taxa %</p>
-                    <input type="text" class="form-control" name="TAXA">
+                    <input type="number" min="0" step="0.01" class="form-control" name="TAXA">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Taxa R$</p>
-                    <input type="text" class="form-control" name="VALOR_TAXA">
+                    <input type="number" min="0" step="0.01" class="form-control" name="VALOR_TAXA">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Valor Líquido</p>
-                    <input type="text" class="form-control" name="VALOR_LIQUIDO_PARCELA">
+                    <input type="number" min="0" step="0.01" class="form-control" name="VALOR_LIQUIDO_PARCELA">
                   </div>
                 </th>
                 <th>
@@ -538,8 +557,14 @@
               <tr data-id="ID_ERP" class="hidden">
                 <td>
                   <div class="d-flex align-items-center justify-content-between">
-                    <input type="checkbox">
-                    <img data-image="STATUS_CONCILIACAO_IMAGEM" data-text="STATUS_CONCILIACAO">
+                    <input
+                      name="id_erp[]"
+                      type="checkbox"
+                      data-campo="ID_ERP"
+                    >
+                    <div class="tooltip-hint" data-title="STATUS_CONCILIACAO">
+                      <img data-image="STATUS_CONCILIACAO_IMAGEM" data-text="STATUS_CONCILIACAO">
+                    </div>
                   </div>
                 </td>
                 <td data-campo="NOME_EMPRESA"></td>
@@ -547,10 +572,14 @@
                 <td data-campo="DATA_VENDA" data-format="date"></td>
                 <td data-campo="DATA_VENCIMENTO" data-format="date"></td>
                 <td>
-                  <img data-image="ADQUIRENTE_IMAGEM" data-text="ADQUIRENTE">
+                  <div class="tooltip-hint" data-title="ADQUIRENTE">
+                    <img data-image="ADQUIRENTE_IMAGEM" data-text="ADQUIRENTE">
+                  </div>
                 </td>
                 <td>
-                  <img data-image="BANDEIRA_IMAGEM" data-text="BANDEIRA">
+                  <div class="tooltip-hint" data-title="BANDEIRA">
+                    <img data-image="BANDEIRA_IMAGEM" data-text="BANDEIRA">
+                  </div>
                 </td>
                 <td data-campo="MODALIDADE"></td>
                 <td data-campo="NSU"></td>
@@ -650,14 +679,14 @@
         <div class="tabela-info d-flex align-items-center justify-content-between">
           <h4>Pendências Operadoras</h4>
           <div class="acoes d-flex align-items-center justify-content-end">
-            <button id="js-exportar" class="btn">
+            <button id="js-exportar-operadoras" class="btn">
               <i class="fas fa-file-download"></i>
               Exportar
             </button>
           </div>
         </div>
         <div class="tabela-wrapper">
-          <table id="js-tabela-operadoras" class="table">
+          <table id="js-tabela-operadoras" class="table" data-modalidade="operadoras">
             <thead>
               <tr>
                 <th>
@@ -680,13 +709,13 @@
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Venda</p>
-                    <input type="text" class="form-control" name="DATA_VENDA">
+                    <input type="date" class="form-control" name="DATA_VENDA">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Previsão</p>
-                    <input type="text" class="form-control" name="DATA_PREVISAO">
+                    <input type="date" class="form-control" name="DATA_PREVISAO">
                   </div>
                 </th>
                 <th>
@@ -722,25 +751,25 @@
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Valor Bruto</p>
-                    <input type="text" class="form-control" name="VALOR_BRUTO">
+                    <input type="number" min="0" step="0.01" class="form-control" name="VALOR_BRUTO">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Taxa %</p>
-                    <input type="text" class="form-control" name="PERCENTUAL_TAXA">
+                    <input type="number" min="0" step="0.01" class="form-control" name="PERCENTUAL_TAXA">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Taxa R$</p>
-                    <input type="text" class="form-control" name="VALOR_TAXA">
+                    <input type="number" min="0" step="0.01" class="form-control" name="VALOR_TAXA">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Valor Líquido</p>
-                    <input type="text" class="form-control" name="VALOR_LIQUIDO">
+                    <input type="number" min="0" step="0.01" class="form-control" name="VALOR_LIQUIDO">
                   </div>
                 </th>
                 <th>
@@ -827,8 +856,14 @@
               <tr data-id="ID" class="hidden">
                 <td>
                   <div class="d-flex align-items-center justify-content-between">
-                    <input type="checkbox">
-                    <img data-image="STATUS_CONCILIACAO_IMAGEM" data-text="STATUS_CONCILIACAO">
+                    <input
+                      name="id_operadora[]"
+                      type="checkbox"
+                      data-campo="ID"
+                    >
+                    <div class="tooltip-hint" data-title="STATUS_CONCILIACAO">
+                      <img data-image="STATUS_CONCILIACAO_IMAGEM" data-text="STATUS_CONCILIACAO">
+                    </div>
                   </div>
                 </td>
                 <td data-campo="NOME_EMPRESA"></td>
@@ -836,10 +871,14 @@
                 <td data-campo="DATA_VENDA" data-format="date"></td>
                 <td data-campo="DATA_PREVISAO" data-format="date"></td>
                 <td>
-                  <img data-image="ADQUIRENTE_IMAGEM" data-text="ADQUIRENTE">
+                  <div class="tooltip-hint" data-title="ADQUIRENTE">
+                    <img data-image="ADQUIRENTE_IMAGEM" data-text="ADQUIRENTE">
+                  </div>
                 </td>
                 <td>
-                  <img data-image="BANDEIRA_IMAGEM" data-text="BANDEIRA">
+                  <div class="tooltip-hint" data-title="BANDEIRA">
+                    <img data-image="BANDEIRA_IMAGEM" data-text="BANDEIRA">
+                  </div>
                 </td>
                 <td data-campo="MODALIDADE"></td>
                 <td data-campo="NSU"></td>
@@ -850,10 +889,12 @@
                 <td data-campo="VALOR_LIQUIDO" data-format="currency"></td>
                 <td data-campo="PARCELA"></td>
                 <td data-campo="TOTAL_PARCELAS"></td>
-                <td></td>
-                <td></td>
+                <td data-campo="HORA_TRANSACAO" data-format="time"></td>
+                <td data-campo="ESTABELECIMENTO"></td>
                 <td>
-                  <img data-image="BANCO_IMAGEM" data-text="BANCO" src="" alt="">
+                  <div class="tooltip-hint" data-title="BANCO">
+                    <img data-image="BANCO_IMAGEM" data-text="BANCO" src="" alt="">
+                  </div>
                 </td>
                 <td data-campo="AGENCIA"></td>
                 <td data-campo="CONTA"></td>
@@ -920,6 +961,69 @@
           </div>
         </footer>
       </div>
+      
+      <div class="modais">
+        <form
+          id="js-justificar-modal"
+          class="modal fade"
+          role="dialog"
+          tabindex="-1"
+          data-backdrop="static"
+          data-keyboard="false"
+          aria-labelledby="justificar-label"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <header class="modal-header d-flex align-items-center">
+                <h5 class="modal-title" id="justificar-label">Justificar</h5>
+                <button
+                  class="close"
+                  type="button"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </header>
+              <main class="modal-body">
+                <div class="form-group">
+                  <h6>Justificativa</h6>
+                  <input
+                    name="justificativa"
+                    class="form-control"
+                    type="text"
+                  >
+                  <ul id="js-justificativas-lista" class="modal-options list-group mt-3">
+                    @foreach ($justificativas as $justificativa)
+                      <li class="list-group-item">{{ $justificativa->JUSTIFICATIVA }}</li>
+                    @endforeach
+                  </ul>
+                </div>
+              </main>
+              <footer class="modal-footer">
+                <button
+                  id="js-cancelar-justificar"
+                  type="reset"
+                  class="btn btn-danger font-weight-bold"
+                  data-dismiss="modal"
+                >
+                  Cancelar
+                </button>
+                <button
+                  id="js-justificar"
+                  type="button"
+                  class="btn btn-success font-weight-bold"
+                  data-dismiss="modal"
+                >
+                  Confirmar
+                </button>
+              </footer>
+            </div>
+          </div>
+        </form>
+      </div>
+
     </section>
 
   </main>
@@ -928,6 +1032,7 @@
 @endsection
 
 @section('footerScript')
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script src="assets/js/lib/api.js"></script>
   <script src="assets/js/lib/pagination.js"></script>
   <script src="assets/js/lib/checker.js"></script>

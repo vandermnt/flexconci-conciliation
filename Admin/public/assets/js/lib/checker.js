@@ -18,7 +18,10 @@ Checker.prototype._toggleCheck = function(name, value) {
             `input[type="checkbox"][data-checker="checkbox"][data-group="${name}"]:${querySelectorOperator}`
         );
 
-    group.globalCheckbox.checked = value;
+    if(group.globalCheckbox) {
+        group.globalCheckbox.checked = value;
+    }
+    
     [...checkboxesToBeToggled].forEach(checkbox => {
         checkbox.checked = value;
     });
@@ -191,6 +194,8 @@ Checker.prototype.setValuesToTextElement = function (name, attributeValueName = 
  */
 Checker.prototype.removeGroup = function(name) {
     const { globalCheckbox } = this.groups[name];
-    globalCheckbox.removeEventListener('change', this._handleGlobalClick);
+    if(globalCheckbox) {
+        globalCheckbox.removeEventListener('change', this._handleGlobalClick);
+    }
     delete this.groups[name];
 }

@@ -7,10 +7,17 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 use App\ClienteModel;
+use App\VendasErpModel;
+use App\VendasModel;
 use App\GruposClientesModel;
 use App\StatusConciliacaoModel;
+use App\JustificativaModel;
 use App\Filters\VendasErpFilter;
 use App\Filters\VendasFilter;
+use App\Filters\VendasErpSubFilter;
+use App\Filters\VendasSubFilter;
+use App\Exports\VendasErpConciliacaoExport;
+use App\Exports\VendasConciliacaoExport;
 
 class ConciliacaoAutomaticaController extends Controller
 {
@@ -34,11 +41,17 @@ class ConciliacaoAutomaticaController extends Controller
         $status_conciliacao = StatusConciliacaoModel::orderBy('STATUS_CONCILIACAO')
             ->get();
 
+        $justificativas = JustificativaModel::select('JUSTIFICATIVA')
+            ->where('JUSTIFICATIVA_GLOBAL', 'S')
+            ->orWhere('COD_CLIENTE', session('codigologin'))
+            ->get();
+
         return view('conciliacao.conciliacao-automatica')
             ->with([
                 'erp' => $erp,
                 'empresas' => $empresas,
-                'status_conciliacao' => $status_conciliacao
+                'status_conciliacao' => $status_conciliacao,
+                'justificativas' => $justificativas
             ]);
     }
 
@@ -94,10 +107,8 @@ class ConciliacaoAutomaticaController extends Controller
             $erp = $erp_query->paginate($por_pagina);
 
             return response()->json([
-                'erp' => [
-                    'vendas' => $erp,
-                    'totais' => $erp_totais
-                ]
+                'vendas' => $erp,
+                'totais' => $erp_totais
             ]);
         } catch(Exception $e) {
             return response()->json([
@@ -129,10 +140,8 @@ class ConciliacaoAutomaticaController extends Controller
             $operadoras = $operadoras_query->paginate($por_pagina);
 
             return response()->json([
-                'operadoras' => [
-                    'vendas' => $operadoras,
-                    'totais' => $operadoras_totais
-                ]
+                'vendas' => $operadoras,
+                'totais' => $operadoras_totais
             ]);
         } catch(Exception $e) {
             return response()->json([
@@ -141,59 +150,163 @@ class ConciliacaoAutomaticaController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function subFilterErp(Request $request) {
+        $quantidadesPermitidas = [5, 10, 20, 50, 100, 200];
+        $filtros = $request->input('filtros');
+        $filtros['cliente_id'] = session('codigologin');
+        $subfiltros = $request->input('subfiltros');
+
+        $por_pagina = $request->input('por_pagina', 5);
+        $por_pagina = in_array($por_pagina, $quantidadesPermitidas) ? $por_pagina : 5;
+
+        try {
+            $query = VendasErpSubFilter::subfilter($filtros, $subfiltros)->getQuery();
+
+            $vendas = (clone $query)->paginate($por_pagina);
+            $totais = [
+                'TOTAL_BRUTO' => $query->sum('TOTAL_VENDA'),
+                'TOTAL_LIQUIDO' => $query->sum('VALOR_LIQUIDO_PARCELA')
+            ];
+            $totais['TOTAL_TAXA'] = $totais['TOTAL_BRUTO'] - $totais['TOTAL_LIQUIDO'];
+
+            return response()->json([
+                'vendas' => $vendas,
+                'totais' => $totais,
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'mensagem' => 'Não foi possível realizar a consulta em Vendas ERP.'
+            ], 500);
+        }
+    }
+    
+    public function subFilterOperadoras(Request $request) {
+        $quantidadesPermitidas = [5, 10, 20, 50, 100, 200];
+        $filtros = $request->input('filtros');
+        $filtros['cliente_id'] = session('codigologin');
+        $subfiltros = $request->input('subfiltros');
+        $por_pagina = $request->input('por_pagina', 5);
+        $por_pagina = in_array($por_pagina, $quantidadesPermitidas) ? $por_pagina : 5;
+
+        try {
+            $status_nao_conciliada = StatusConciliacaoModel::naoConciliada()->first()->CODIGO;
+            $filtros = Arr::set($filtros, 'status_conciliacao', [$status_nao_conciliada]);
+            
+            $query = VendasSubFilter::subfilter($filtros, $subfiltros)->getQuery();
+
+            $vendas = (clone $query)->paginate($por_pagina);
+            $totais = [
+                'TOTAL_BRUTO' => $query->sum('VALOR_BRUTO'),
+                'TOTAL_LIQUIDO' => $query->sum('VALOR_LIQUIDO')
+            ];
+            $totais['TOTAL_TAXA'] = $totais['TOTAL_BRUTO'] - $totais['TOTAL_LIQUIDO'];
+
+            return response()->json([
+                'vendas' => $vendas,
+                'totais' => $totais
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'mensagem' => 'Não foi possível realizar a consulta em Vendas ERP.'
+            ], 500);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function conciliarManualmente(Request $request)
     {
-        //
+        $id_operadoras = $request->input('id_operadora');
+        $id_erp = $request->input('id_erp');
+        $status_nao_conciliada = StatusConciliacaoModel::naoConciliada()->first()->CODIGO; 
+
+        $venda_erp = VendasErpModel::where('CODIGO', $id_erp[0])
+            ->where('COD_CLIENTE', session('codigologin'))
+            ->where('COD_STATUS_CONCILIACAO', $status_nao_conciliada)
+            ->first();
+        $venda_operadora = VendasModel::where('CODIGO', $id_operadoras[0])
+            ->where('COD_CLIENTE', session('codigologin'))
+            ->where('COD_STATUS_CONCILIACAO', $status_nao_conciliada)
+            ->first();
+
+        $status_manual = StatusConciliacaoModel::manual()->first();
+        
+        $venda_erp->COD_STATUS_CONCILIACAO = $status_manual->CODIGO;
+        $venda_operadora->COD_STATUS_CONCILIACAO = $status_manual->CODIGO;
+        $venda_erp->save();
+        $venda_operadora->save();
+
+        return response()->json([
+            'status' => 'sucesso',
+            'mensagem' => 'As vendas foram conciliadas com sucesso.',
+            'erp' => [
+                'ID' => $venda_erp->CODIGO,
+                'TOTAL_BRUTO' => $venda_erp->TOTAL_VENDA,
+            ],
+            'operadora' => [
+                'ID' => $venda_operadora->CODIGO,
+                'TOTAL_BRUTO' =>  $venda_operadora->VALOR_BRUTO,
+                'TOTAL_LIQUIDO' =>  $venda_operadora->VALOR_LIQUIDO,
+                'TOTAL_TAXA' =>  $venda_operadora->VALOR_BRUTO - $venda_operadora->VALOR_LIQUIDO,
+            ],
+            'STATUS_MANUAL_IMAGEM_URL' => $status_manual->IMAGEM_URL,
+            'STATUS_MANUAL' => $status_manual->STATUS_CONCILIACAO
+        ], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+    public function justificar(Request $request) {
+        $id_erp = $request->input('id_erp') ?? '';
+        $justificativa = $request->input('justificativa') ?? null;
+
+        if(strlen(trim($justificativa)) === 0) {
+            return response()->json([
+                'status' => 'erro',
+                'mensagem' => 'A justificativa deve ser informada.'
+            ], 400);
+        }
+
+        $status_justificada = StatusConciliacaoModel::justificada()->first();
+        $status_nao_conciliada = StatusConciliacaoModel::naoConciliada()->first()->CODIGO;
+
+        $query = VendasErpModel::whereIn('CODIGO', $id_erp)
+            ->where('COD_CLIENTE', session('codigologin'))
+            ->where('COD_STATUS_CONCILIACAO', $status_nao_conciliada);
+        
+        $vendas_erp = (clone $query)->get();
+        $total_bruto = (clone $query)->sum('TOTAL_VENDA');
+        $ids_erp = (clone $query)->select('CODIGO as ID')->get();
+
+        foreach($vendas_erp as $venda_erp) {
+            $venda_erp->JUSTIFICATIVA = $justificativa;
+            $venda_erp->COD_STATUS_CONCILIACAO = $status_justificada->CODIGO;
+            $venda_erp->save();
+        }
+
+        return response()->json([
+            'status' => 'sucesso',
+            'erp' => [
+                'ID_ERP' => $ids_erp,
+                'TOTAL_BRUTO' => $total_bruto,
+            ],
+            'STATUS_JUSTIFICADO_IMAGEM_URL' => $status_justificada->IMAGEM_URL,
+            'STATUS_JUSTIFICADO' => $status_justificada->STATUS_CONCILIACAO,
+            'JUSTIFICATIVA' => $justificativa
+        ], 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+    public function exportarErp(Request $request) {
+        set_time_limit(300);
+
+        $filters = $request->except('_token');
+        Arr::set($filters, 'cliente_id', session('codigologin'));
+        return (new VendasErpConciliacaoExport($filters))->download('vendas_erp_conciliacao_'.time().'.xlsx');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+    public function exportarOperadoras(Request $request) {
+        set_time_limit(300);
+
+        $filters = $request->except(['_token', 'status_conciliacao']);
+        $status_nao_conciliada = StatusConciliacaoModel::naoConciliada()->first()->CODIGO;
+        Arr::set($filters, 'cliente_id', session('codigologin'));
+        Arr::set($filters, 'status_conciliacao', [$status_nao_conciliada]);
+        return (new VendasConciliacaoExport($filters))->download('vendas_operadoras_conciliacao_'.time().'.xlsx');
     }
 }

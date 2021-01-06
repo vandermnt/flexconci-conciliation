@@ -109,6 +109,11 @@
   font-weight: bold;
 }
 
+#pagina-conciliacao .modal-options {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
 #pagina-conciliacao .modal-checkboxes {
   max-height: 368px;
   overflow-y: auto;
@@ -145,6 +150,14 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-gap: 8px;
+}
+
+#pagina-conciliacao .boxes .card {
+  cursor: pointer;
+}
+
+#pagina-conciliacao .boxes .card > * {
+  pointer-events: none;
 }
 
 #pagina-conciliacao .boxes .card-body p {
@@ -235,6 +248,7 @@
   margin: 0;
   line-height: normal;
   width: fit-content;
+  z-index: 2;
 }
 
 #pagina-conciliacao table th p {
@@ -242,15 +256,25 @@
 }
 
 #pagina-conciliacao table th input {
-  width: 136px;
+  min-width: 136px;
   max-width: 100%;
   height: 32px;
+}
+
+
+#pagina-conciliacao table th input[type="number"]::-webkit-inner-spin-button, 
+#pagina-conciliacao table th input[type="number"]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+#pagina-conciliacao table th input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 #pagina-conciliacao tbody td:first-of-type img {
   width: 16px;
 }
-
 
 #pagina-conciliacao tbody td img {
   width: 48px;
@@ -267,10 +291,6 @@
 }
 
 /* --- */
-
-.hidden {
-  display: none;
-}
 
 @media screen and (max-width: 372px) {
   #pagina-conciliacao .filtro-datas {
