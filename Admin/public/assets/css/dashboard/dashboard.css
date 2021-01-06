@@ -104,6 +104,10 @@
   color: #6E6E6E;
 }
 
+.fc-event, .fc-event-title {
+  cursor: pointer !important;
+}
+
 .cards-selecionados ul{
   align-items: center;
   justify-content: center;

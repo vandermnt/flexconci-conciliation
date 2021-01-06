@@ -133,7 +133,6 @@ class PasswordBroker implements PasswordBrokerContract
         $credentials = Arr::except($credentials, ['token', 'SENHA']);
 
         $user = $this->users->retrieveByCredentials($credentials);
-        // dd($user);
         if ($user && ! $user instanceof CanResetPasswordContract) {
             throw new UnexpectedValueException('User must implement CanResetPassword interface.');
         }
