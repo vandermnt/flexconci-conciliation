@@ -312,7 +312,7 @@
       </div>
       <div class="vendas-erp">
         <div class="tabela-info d-flex align-items-center justify-content-between">
-          <h4>Vendas {{ $erp }}</h4>
+          <h4>Vendas {{ $erp }} <span id="js-vendas-erp-info"></span></h4>
           <div class="acoes d-flex align-items-center justify-content-end">
             <button id="js-conciliar" class="btn mr-1">
               <i class="far fa-handshake"></i>
@@ -576,9 +576,14 @@
                     <img data-image="ADQUIRENTE_IMAGEM" data-text="ADQUIRENTE">
                   </div>
                 </td>
-                <td>
+                <td data-text="BANDEIRA">
                   <div class="tooltip-hint" data-title="BANDEIRA">
-                    <img data-image="BANDEIRA_IMAGEM" data-text="BANDEIRA">
+                    <img
+                      data-image="BANDEIRA_IMAGEM"
+                      data-default-image="assets/images/iconCart.jpeg"
+                      data-text="BANDEIRA"
+                      data-default-text="Sem Identificação"
+                    >
                   </div>
                 </td>
                 <td data-campo="MODALIDADE"></td>
@@ -586,7 +591,7 @@
                 <td data-campo="CODIGO_AUTORIZACAO"></td>
                 <td data-campo="TID"></td>
                 <td></td>
-                <td data-campo="VALOR_VENDA_PARCELA" data-format="currency"></td>
+                <td data-campo="VALOR_VENDA" data-format="currency"></td>
                 <td data-campo="TAXA" data-format="decimal"></td>
                 <td class="text-danger" data-campo="VALOR_TAXA" data-format="currency"></td>
                 <td data-campo="VALOR_LIQUIDO_PARCELA" data-format="currency"></td>
@@ -594,7 +599,11 @@
                 <td data-campo="TOTAL_PARCELAS"></td>
                 <td></td>
                 <td></td>
-                <td data-campo="BANCO"></td>
+                <td>
+                  <div class="tooltip-hint" data-title="BANCO">
+                    <img data-image="BANCO_IMAGEM" data-text="BANCO" src="" alt="">
+                  </div>
+                </td>
                 <td data-campo="AGENCIA"></td>
                 <td data-campo="CONTA_CORRENTE"></td>
                 <td data-campo="PRODUTO"></td>
@@ -677,7 +686,7 @@
 
       <div class="pendencias-operadoras">
         <div class="tabela-info d-flex align-items-center justify-content-between">
-          <h4>Pendências Operadoras</h4>
+          <h4>Pendências Operadoras <span id="js-pendencias-operadoras-info"></span></h4>
           <div class="acoes d-flex align-items-center justify-content-end">
             <button id="js-exportar-operadoras" class="btn">
               <i class="fas fa-file-download"></i>

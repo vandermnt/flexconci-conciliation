@@ -144,11 +144,16 @@ function criarPaginacao(paginacao, navigateHandler = () => {}) {
   return novaPaginacao;
 }
 
-function atualizarInterface(modalidadeVendas, dados, paginacao = null) {
-  renderizarTabela(modalidadeVendas, dados.vendas, dados.totais);
+function atualizarInterface(modalidadeVendas, registros, paginacao = null) {
+  const vendasErpInfoDOM = document.querySelector('#js-vendas-erp-info');
+  const pendenciasOperadorasInfoDOM = document.querySelector('#js-pendencias-operadoras-info');
+
+  vendasErpInfoDOM.textContent = `(${dados.erp.emExibicao.paginacao.options.total} registros)`;
+  pendenciasOperadorasInfoDOM.textContent = `(${dados.operadoras.emExibicao.paginacao.options.total} registros)`;
+  renderizarTabela(modalidadeVendas, registros.vendas, registros.totais);
   if(paginacao) {
     paginacao.render();
-    document.querySelector(`#js-porpagina-${modalidadeVendas}`).value = paginacao.options.perPage
+    document.querySelector(`#js-porpagina-${modalidadeVendas}`).value = paginacao.options.perPage;
   }
 }
 
@@ -413,8 +418,23 @@ function renderizarTabela(tipo, vendas, totais) {
     [...imagensDOM].forEach(imagemDOM => {
       const imagemUrl = imagemDOM.dataset.image;
       const textoImagem = imagemDOM.dataset.text;
-      imagemDOM.src = venda[imagemUrl] || 'assets/images/iconCart.jpeg';
-      imagemDOM.alt = venda[textoImagem] || 'Sem identificação';
+      const td = imagemDOM.closest('td');
+      const texto = imagemDOM.dataset.defaultText || '';
+
+      if(venda[imagemUrl]) {
+        imagemDOM.src = venda[imagemUrl];
+        imagemDOM.alt = venda[textoImagem] || texto;
+        return;
+      }
+
+      if(imagemDOM.dataset.defaultImage) {
+        imagemDOM.src = imagemDOM.dataset.defaultImage;
+        imagemDOM.alt = venda[textoImagem] || imagemDOM.dataset.defaultText || '';
+        return;
+      } 
+
+      td.innerHTML = '';
+      td.textContent = texto;
     });
 
     [...colunasDOM].forEach(colunaDOM => {
