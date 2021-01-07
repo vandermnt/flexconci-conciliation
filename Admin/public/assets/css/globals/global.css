@@ -46,6 +46,176 @@
   opacity: 1;
 }
 
+/* Form */
+.input-group + .input-group {
+  margin-top: 8px;
+}
+
+.form .input-group .form-group {
+  margin-bottom: 0;
+}
+
+.form .form-group label {
+  color: #303e67;
+  font-size: 0.845rem;
+  font-weight: 500;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.form .form-group {
+  margin-bottom: 8px;
+}
+
+.form .form-group .form-control {
+  height: 30px;
+  color: #303e67;
+  border-color: #2d5275;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding: 0 8px;
+}
+
+.form .form-button {
+  width: 100%;
+  height: 30px;
+  font-weight: bold;
+  text-align: center;
+  color: #2d5275;
+  border-color: #2d5275;
+  background-color: white;
+  padding: 0;
+  transition: 0.2s;
+}
+
+.form .button-group {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.form .button-group button {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bolder;
+  text-align: center;
+  color: #2d5275;
+  border-color: #2d5275;
+  background-color: white;
+}
+
+.form .button-group button:focus {
+  box-shadow: none;
+}
+
+.form .button-group button > * {
+  pointer-events: none;
+}
+
+.form .button-group button i {
+  margin-right: 4px;
+}
+
+.search-form .input-group {
+  display: grid;
+  align-items: flex-end;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 16px;
+}
+
+.search-form .input-group > *:first-child {
+  grid-column: 1 / span 2;
+}
+
+.search-form > .input-group:first-child > *:first-child {
+  grid-column: 1;
+}
+
+/* Modais */
+.page-content-tab .modais .modal-header {
+  background: #2d5275;
+}
+
+.page-content-tab .modais .modal-dialog {
+  width: 400px !important;
+  max-width: 100%;
+}
+
+.page-content-tab .modais .modal-header .modal-title,
+.page-content-tab .modais .modal-header button {
+  color: white;
+}
+
+.page-content-tab .modais .modal-body .row {
+  margin-left: 0;
+}
+
+.page-content-tab .modais .modal-body .form-group {
+  margin-bottom: 24px;
+}
+
+.page-content-tab .modais .modal-body .form-group h6 {
+  color: #6E6E6E;
+  font-weight: bold;
+}
+
+.page-content-tab .modais .modal-options {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.page-content-tab .modais .modal-checkboxes {
+  max-height: 368px;
+  overflow-y: auto;
+}
+
+.page-content-tab .modais .modal-checkboxes p {
+  color: #6E6E6E;
+}
+
+.page-content-tab .modais .modal-checkboxes .row {
+  margin-right: 0;
+}
+
+.page-content-tab .modais .modal-checkboxes .row:first-of-type p {
+  font-weight: bold;
+}
+
+.page-content-tab .modais .modal-body .form-group input {
+  border: 1px solid #e8ebf3;
+}
+
 .hidden {
   display: none !important;
+}
+
+@media screen and (max-width: 778px) {
+  .search-form .input-group {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 536px) {
+  .form .button-group {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .form .button-group > * {
+    width: 100%;
+    margin: 0;
+    margin-bottom: 8px;
+  }
+
+  .search-form .input-group {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .search-form .input-group > * {
+    grid-column: 1 !important;
+  }
 }
