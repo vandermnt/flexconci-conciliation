@@ -117,15 +117,16 @@ class VendasErpController extends Controller {
           'vendas_erp.NSU',
           'vendas_erp.CODIGO_AUTORIZACAO',
           'vendas_erp.TID',
-          'vendas_erp.TOTAL_VENDA',
+          'vendas_erp.VALOR_VENDA_PARCELA as TOTAL_VENDA',
           'vendas_erp.TAXA',
           DB::raw('
-            (`vendas_erp`.`TOTAL_VENDA` - `vendas_erp`.`VALOR_LIQUIDO_PARCELA`)
+            (`vendas_erp`.`VALOR_VENDA_PARCELA` - `vendas_erp`.`VALOR_LIQUIDO_PARCELA`)
               as `VALOR_TAXA`'),
           'vendas_erp.VALOR_LIQUIDO_PARCELA',
           'vendas_erp.PARCELA',
           'vendas_erp.TOTAL_PARCELAS',
-          'vendas_erp.BANCO',
+          'lista_bancos.BANCO as BANCO',
+          'lista_bancos.IMAGEM_LINK as BANCO_IMAGEM',
           'vendas_erp.AGENCIA',
           'vendas_erp.CONTA_CORRENTE',
           'produto_web.PRODUTO_WEB as PRODUTO',
@@ -152,6 +153,7 @@ class VendasErpController extends Controller {
       ->leftJoin('meio_captura', 'vendas_erp.COD_MEIO_CAPTURA', 'meio_captura.CODIGO')
       ->leftJoin('status_conciliacao', 'vendas_erp.COD_STATUS_CONCILIACAO', 'status_conciliacao.CODIGO')
       ->leftJoin('status_financeiro', 'vendas_erp.COD_STATUS_FINANCEIRO', 'status_financeiro.CODIGO')
+      ->leftJoin('lista_bancos', 'vendas_erp.COD_BANCO', 'lista_bancos.CODIGO')
       ->where('vendas_erp.COD_CLIENTE', session('codigologin'))
       ->whereBetween('vendas_erp.DATA_VENDA', $datas)
       ->orderBy('vendas_erp.DATA_VENDA');
@@ -165,7 +167,7 @@ class VendasErpController extends Controller {
     }
 
     $liquidezTotalPacela = $query->sum('VALOR_LIQUIDO_PARCELA');
-    $totalVendas = $query->sum('TOTAL_VENDA');
+    $totalVendas = $query->sum('VALOR_VENDA_PARCELA');
     $totalTaxa = DB::table('vendas_erp_sub')
       ->selectRaw('VALOR_TAXA')
       ->from(DB::raw('('.$query->toSql().') as vendas_erp_sub'))
