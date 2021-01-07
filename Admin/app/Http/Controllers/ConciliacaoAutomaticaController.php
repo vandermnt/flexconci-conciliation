@@ -83,7 +83,7 @@ class ConciliacaoAutomaticaController extends Controller
 
             $erp_query = (clone $erp_base_query)->whereIn('COD_STATUS_CONCILIACAO', $request->input('status_conciliacao'));
             $erp_totais = [
-                'TOTAL_BRUTO' => $erp_query->sum('TOTAL_VENDA'),
+                'TOTAL_BRUTO' => $erp_query->sum('VALOR_VENDA_PARCELA'),
                 'TOTAL_LIQUIDO' => $erp_query->sum('VALOR_LIQUIDO_PARCELA'),
             ];
             $erp_totais['TOTAL_TAXA'] = $erp_totais['TOTAL_BRUTO'] - $erp_totais['TOTAL_LIQUIDO'];
@@ -94,7 +94,7 @@ class ConciliacaoAutomaticaController extends Controller
 
             $totais_conciliacao = (clone $erp_base_query)
                 ->select('COD_STATUS_CONCILIACAO')
-                ->selectRaw('sum(TOTAL_VENDA) as TOTAL_BRUTO')
+                ->selectRaw('sum(VALOR_VENDA_PARCELA) as TOTAL_BRUTO')
                 ->groupBy('COD_STATUS_CONCILIACAO')
                 ->get()
                 ->toArray();
@@ -164,7 +164,7 @@ class ConciliacaoAutomaticaController extends Controller
 
             $vendas = (clone $query)->paginate($por_pagina);
             $totais = [
-                'TOTAL_BRUTO' => $query->sum('TOTAL_VENDA'),
+                'TOTAL_BRUTO' => $query->sum('VALOR_VENDA_PARCELA'),
                 'TOTAL_LIQUIDO' => $query->sum('VALOR_LIQUIDO_PARCELA')
             ];
             $totais['TOTAL_TAXA'] = $totais['TOTAL_BRUTO'] - $totais['TOTAL_LIQUIDO'];
@@ -239,7 +239,7 @@ class ConciliacaoAutomaticaController extends Controller
             'mensagem' => 'As vendas foram conciliadas com sucesso.',
             'erp' => [
                 'ID' => $venda_erp->CODIGO,
-                'TOTAL_BRUTO' => $venda_erp->TOTAL_VENDA,
+                'TOTAL_BRUTO' => $venda_erp->VALOR_VENDA_PARCELA,
             ],
             'operadora' => [
                 'ID' => $venda_operadora->CODIGO,
@@ -271,7 +271,7 @@ class ConciliacaoAutomaticaController extends Controller
             ->where('COD_STATUS_CONCILIACAO', $status_nao_conciliada);
         
         $vendas_erp = (clone $query)->get();
-        $total_bruto = (clone $query)->sum('TOTAL_VENDA');
+        $total_bruto = (clone $query)->sum('VALOR_VENDA_PARCELA');
         $ids_erp = (clone $query)->select('CODIGO as ID')->get();
 
         foreach($vendas_erp as $venda_erp) {

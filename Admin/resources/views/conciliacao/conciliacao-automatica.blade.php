@@ -194,7 +194,7 @@
                         class="row"
                         data-filter-item-container="empresa"
                         data-filter-empresa="{{ $empresa->NOME_EMPRESA }}"
-                        data-filter-cnpj="{{ $empresa->CNPJ }}"   
+                        data-filter-cnpj="{{ $empresa->CNPJ }}"
                       >
                         <div class="col-sm-6 pl-0">
                           <p>{{ $empresa->NOME_EMPRESA }}</p>
@@ -416,7 +416,7 @@
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Valor Bruto</p>
-                    <input type="number" min="0" step="0.01" class="form-control" name="TOTAL_VENDA">
+                    <input type="number" min="0" step="0.01" class="form-control" name="VALOR_VENDA_PARCELA">
                   </div>
                 </th>
                 <th>
@@ -586,7 +586,7 @@
                 <td data-campo="CODIGO_AUTORIZACAO"></td>
                 <td data-campo="TID"></td>
                 <td></td>
-                <td data-campo="TOTAL_VENDA" data-format="currency"></td>
+                <td data-campo="VALOR_VENDA_PARCELA" data-format="currency"></td>
                 <td data-campo="TAXA" data-format="decimal"></td>
                 <td class="text-danger" data-campo="VALOR_TAXA" data-format="currency"></td>
                 <td data-campo="VALOR_LIQUIDO_PARCELA" data-format="currency"></td>
