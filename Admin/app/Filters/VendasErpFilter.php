@@ -54,14 +54,16 @@ class VendasErpFilter extends BaseFilter {
           'vendas_erp.CODIGO_AUTORIZACAO',
           'vendas_erp.TID',
           'vendas_erp.TOTAL_VENDA',
-          'vendas_erp.VALOR_VENDA_PARCELA',
+          DB::raw('coalesce(`vendas_erp`.`VALOR_VENDA_PARCELA`, `vendas_erp`.`TOTAL_VENDA`) as VALOR_VENDA'),
           'vendas_erp.TAXA',
           DB::raw('
-            (`vendas_erp`.`VALOR_VENDA_PARCELA` - `vendas_erp`.`VALOR_LIQUIDO_PARCELA`)
+            (coalesce(`vendas_erp`.`VALOR_VENDA_PARCELA`, `vendas_erp`.`TOTAL_VENDA`) - `vendas_erp`.`VALOR_LIQUIDO_PARCELA`)
               as `VALOR_TAXA`'),
           'vendas_erp.VALOR_LIQUIDO_PARCELA',
           'vendas_erp.PARCELA',
           'vendas_erp.TOTAL_PARCELAS',
+          'lista_bancos.BANCO as BANCO',
+          'lista_bancos.IMAGEM_LINK as BANCO_IMAGEM',
           'vendas_erp.AGENCIA',
           'vendas_erp.CONTA_CORRENTE',
           'produto_web.PRODUTO_WEB as PRODUTO',
@@ -85,6 +87,7 @@ class VendasErpFilter extends BaseFilter {
       ->leftJoin('adquirentes', 'adquirentes.CODIGO', 'vendas_erp.COD_OPERADORA')
       ->leftJoin('bandeira', 'bandeira.CODIGO', 'vendas_erp.COD_BANDEIRA')
       ->leftJoin('modalidade', 'modalidade.CODIGO', 'vendas_erp.COD_MODALIDADE')
+      ->leftJoin('lista_bancos', 'lista_bancos.CODIGO', 'vendas_erp.COD_BANCO')
       ->leftJoin('produto_web', 'produto_web.CODIGO', 'vendas_erp.COD_PRODUTO')
       ->leftJoin('meio_captura', 'vendas_erp.COD_MEIO_CAPTURA', 'meio_captura.CODIGO')
       ->leftJoin('status_conciliacao', 'vendas_erp.COD_STATUS_CONCILIACAO', 'status_conciliacao.CODIGO')
