@@ -117,10 +117,10 @@ class VendasErpController extends Controller {
           'vendas_erp.NSU',
           'vendas_erp.CODIGO_AUTORIZACAO',
           'vendas_erp.TID',
-          'vendas_erp.VALOR_VENDA_PARCELA as TOTAL_VENDA',
+          DB::raw('coalesce(`vendas_erp`.`VALOR_VENDA_PARCELA`, `vendas_erp`.`TOTAL_VENDA`) as TOTAL_VENDA'),
           'vendas_erp.TAXA',
           DB::raw('
-            (`vendas_erp`.`VALOR_VENDA_PARCELA` - `vendas_erp`.`VALOR_LIQUIDO_PARCELA`)
+            (coalesce(`vendas_erp`.`VALOR_VENDA_PARCELA`, `vendas_erp`.`TOTAL_VENDA`) - `vendas_erp`.`VALOR_LIQUIDO_PARCELA`)
               as `VALOR_TAXA`'),
           'vendas_erp.VALOR_LIQUIDO_PARCELA',
           'vendas_erp.PARCELA',
@@ -167,7 +167,7 @@ class VendasErpController extends Controller {
     }
 
     $liquidezTotalPacela = $query->sum('VALOR_LIQUIDO_PARCELA');
-    $totalVendas = $query->sum('VALOR_VENDA_PARCELA');
+    $totalVendas = $query->sum(DB::raw('coalesce(`vendas_erp`.`VALOR_VENDA_PARCELA`, `vendas_erp`.`TOTAL_VENDA`)'));
     $totalTaxa = DB::table('vendas_erp_sub')
       ->selectRaw('VALOR_TAXA')
       ->from(DB::raw('('.$query->toSql().') as vendas_erp_sub'))
