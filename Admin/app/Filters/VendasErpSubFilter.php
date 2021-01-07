@@ -21,6 +21,8 @@ class VendasErpSubFilter extends BaseSubFilter {
     'CODIGO_AUTORIZACAO',
     'TID',
     'TOTAL_VENDA',
+    'VALOR_VENDA_PARCELA',
+    'VALOR_VENDA',
     'TAXA',
     'VALOR_TAXA',
     'VALOR_LIQUIDO_PARCELA',

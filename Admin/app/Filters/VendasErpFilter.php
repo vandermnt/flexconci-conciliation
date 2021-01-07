@@ -54,6 +54,7 @@ class VendasErpFilter extends BaseFilter {
           'vendas_erp.CODIGO_AUTORIZACAO',
           'vendas_erp.TID',
           'vendas_erp.TOTAL_VENDA',
+          'vendas_erp.VALOR_VENDA_PARCELA',
           DB::raw('coalesce(`vendas_erp`.`VALOR_VENDA_PARCELA`, `vendas_erp`.`TOTAL_VENDA`) as VALOR_VENDA'),
           'vendas_erp.TAXA',
           DB::raw('
