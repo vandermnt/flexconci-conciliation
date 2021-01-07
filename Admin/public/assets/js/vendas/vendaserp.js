@@ -174,6 +174,7 @@ function exportar() {
     const dados = vendas.map(venda => {
         delete venda.BANDEIRA_IMAGEM;
         delete venda.ADQUIRENTE_IMAGEM;
+        delete venda.BANCO_IMAGEM
 
         return {
             ...venda,
@@ -324,7 +325,18 @@ function renderizaTabela(vendas, totais) {
                 <td>${vendaFormatada.TOTAL_PARCELAS || ''}</td>
                 <td></td>
                 <td></td>
-                <td>${vendaFormatada.BANCO || ''}</td>
+                <td>
+                    ${
+                        vendaFormatada.BANCO_IMAGEM ?
+                            `<img
+                                class="img-fluid"
+                                alt="${vendaFormatada.BANCO || 'Sem identificação'}"
+                                src="${vendaFormatada.BANCO_IMAGEM
+                                    || 'assets/images/iconCart.jpeg'}"
+                            >` :
+                            `${(vendaFormatada.BANCO || '')}`
+                    }
+                </td>
                 <td>${vendaFormatada.AGENCIA || ''}</td>
                 <td>${vendaFormatada.CONTA_CORRENTE || ''}</td>
                 <td>${vendaFormatada.PRODUTO || ''}</td>
