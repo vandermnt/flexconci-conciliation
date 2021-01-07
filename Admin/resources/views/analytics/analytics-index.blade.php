@@ -21,18 +21,22 @@ document.addEventListener('DOMContentLoaded', function() {
   let eventsList = [];
 
   dados_pagamento.forEach((pagamento) => {
-    const total_liq = Intl.NumberFormat('pt-br', {
-      style: 'currency',
-      currency: 'BRL'
-    }).format(pagamento.val_liquido);
-    eventsList.push({
-      title: total_liq,
-      description: pagamento.CODIGO,
-      start: pagamento.DATA_PAGAMENTO,
-      color: '#257e4a',
-      background: '#FF4000',
-      publicId: pagamento.DATA_PAGAMENTO
-    }, );
+    const hoje = new Date().toISOString().slice(0,10);
+
+    if (pagamento.DATA_PAGAMENTO != hoje){
+      const total_liq = Intl.NumberFormat('pt-br', {
+        style: 'currency',
+        currency: 'BRL'
+      }).format(pagamento.val_liquido);
+      eventsList.push({
+        title: total_liq,
+        description: pagamento.CODIGO,
+        start: pagamento.DATA_PAGAMENTO,
+        color: '#257e4a',
+        background: '#FF4000',
+        publicId: pagamento.DATA_PAGAMENTO
+      }, );
+    }
   });
 
   let eventos = eventsList;
