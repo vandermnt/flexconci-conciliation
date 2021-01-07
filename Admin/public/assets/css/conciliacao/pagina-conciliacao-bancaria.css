@@ -1,0 +1,38 @@
+#pagina-conciliacao-bancaria #js-form-extratos button {
+  color: white;
+  background: #FF6B00;
+  box-shadow: 0px 3px 10px 0 #e25f00;
+  margin-top: 16px;
+}
+
+#pagina-conciliacao-bancaria #js-form-extratos button:hover {
+  box-shadow: none;
+}
+
+#pagina-conciliacao-bancaria .em-processamento {
+  margin-top: 32px;
+}
+
+#pagina-conciliacao-bancaria table {
+  white-space: nowrap;
+}
+
+#pagina-conciliacao-bancaria table,
+#pagina-conciliacao-bancaria table thead,
+#pagina-conciliacao-bancaria table thead th,
+#pagina-conciliacao-bancaria table tbody,
+#pagina-conciliacao-bancaria table tbody td {
+  background: transparent;
+}
+
+#pagina-conciliacao-bancaria table thead tr {
+  background: #2D5275;
+}
+
+#pagina-conciliacao-bancaria table thead th {
+  color: white;
+}
+
+#pagina-conciliacao-bancaria table tbody tr {
+  background: #edf0f5;
+}
