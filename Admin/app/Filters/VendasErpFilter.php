@@ -54,14 +54,14 @@ class VendasErpFilter extends BaseFilter {
           'vendas_erp.CODIGO_AUTORIZACAO',
           'vendas_erp.TID',
           'vendas_erp.TOTAL_VENDA',
+          'vendas_erp.VALOR_VENDA_PARCELA',
           'vendas_erp.TAXA',
           DB::raw('
-            (`vendas_erp`.`TOTAL_VENDA` - `vendas_erp`.`VALOR_LIQUIDO_PARCELA`)
+            (`vendas_erp`.`VALOR_VENDA_PARCELA` - `vendas_erp`.`VALOR_LIQUIDO_PARCELA`)
               as `VALOR_TAXA`'),
           'vendas_erp.VALOR_LIQUIDO_PARCELA',
           'vendas_erp.PARCELA',
           'vendas_erp.TOTAL_PARCELAS',
-          'vendas_erp.BANCO',
           'vendas_erp.AGENCIA',
           'vendas_erp.CONTA_CORRENTE',
           'produto_web.PRODUTO_WEB as PRODUTO',
