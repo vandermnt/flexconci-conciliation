@@ -587,7 +587,8 @@ body {
                       dados_grafico.push(dados_dash);
 
                       let html = "<tr>";
-                      html += "<td>" + "<img src='" + dados_dash.IMAGEM + "' data-toggle='tooltip' title='" + dados_dash.ADQUIRENTE + "'/>" + "</td>";
+                      html += "<td>" + "<div class='tooltip-hint' data-title='" + dados_dash.ADQUIRENTE + "'>" +
+                                      "<img src='" + dados_dash.IMAGEM + "'/>" + "</div>" + "</td>";
                       html += "<td>" + dados_dash.QUANTIDADE + "</td>";
                       html += "<td>" + Intl.NumberFormat('pt-br', {
                         style: 'currency',
@@ -655,7 +656,9 @@ body {
                       dados_grafico.push(dados_dash);
 
                       let html = "<tr>";
-                      html += "<td>" + "<img src='" + `${dados_dash.IMAGEM || 'assets/images/iconCart.jpeg'}` + "' data-toggle='tooltip' title='" + dados_dash.BANDEIRA + "'/>" + "</td>";
+                      html += "<td>" + "<div class='tooltip-hint' data-title='" + dados_dash.BANDEIRA + "'>" +
+                                      "<img src='" + dados_dash.IMAGEM + "'/>" + "</div>" + "</td>";
+                      // html += "<td>" + "<img src='" + `${dados_dash.IMAGEM || 'assets/images/iconCart.jpeg'}` + "' data-toggle='tooltip' title='" + dados_dash.BANDEIRA + "'/>" + "</td>";
                       html += "<td>" + dados_dash.QUANTIDADE + "</td>";
                       html += "<td>" + Intl.NumberFormat('pt-br', {
                         style: 'currency',
