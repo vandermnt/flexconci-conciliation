@@ -109,7 +109,7 @@ body {
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h3 class="modal-title" id="modalCupom">AVISA GERAL</h3>
+          <h3 class="modal-title" id="modalCupom">AVISO GERAL</h3>
           <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -124,12 +124,12 @@ body {
     </div>
   </div>
   <div class="row" style="margin-left: 2px;">
-    <div class="col-lg-6" style="border: 2px; margin-top: 15px; background: white">
+    <div class="col-lg-12" style="border: 2px; margin-top: 15px; background: white">
       <div class="row" style="align-items: center; justify-content: center;">
-        <div class="col-sm-3">
+        <div class="col-sm-2">
           <img src="{{ url('assets/images/user.jpg')}}" />
         </div>
-        <div class="col-sm-9">
+        <div class="col-sm-10">
           <?php $primeiro_nome = explode(' ', Auth::user()->NOME); ?>
           <h3> Bem vindo de volta, {{$primeiro_nome[0]}}! </h3>
           @if($frase->AVISO_GERAL)
