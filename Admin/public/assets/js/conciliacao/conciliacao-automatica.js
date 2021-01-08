@@ -585,6 +585,32 @@ function conciliar() {
   });
 }
 
+function confirmarDesconciliacao() {
+  const idErp = dados.erp.selecionados;
+  
+  if(idErp.length != 1) {
+    swal("Ooops...", "Para realizar a desconciliação selecione apenas uma venda ERP.", "error");
+    return;
+  }
+
+  swal("Tem certeza que deseja desconciliar a venda?", {
+    buttons: {
+      confirm: "Sim",
+      cancel: "Não",
+    }
+  }).then(value => {
+    if(!value) {
+      return;
+    }
+
+    desconciliar();
+  });
+}
+
+function desconciliar() {
+  swal('Uhuuu!!!', 'Venda desconciliada', 'success');
+}
+
 function abrirModalJustificativa(event) {
   const botaoAbrirModal = document.querySelector(event.target.dataset.target);
 
@@ -779,6 +805,9 @@ document.querySelector('#js-reset-form')
 
 document.querySelector('#js-conciliar')
   .addEventListener('click', confirmarConciliacao)
+
+  document.querySelector('#js-desconciliar')
+  .addEventListener('click', confirmarDesconciliacao)
 
 document.querySelector('form#js-justificar-modal')
   .addEventListener('click', event => event.preventDefault());
