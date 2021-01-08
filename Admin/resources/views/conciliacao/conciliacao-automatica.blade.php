@@ -318,12 +318,20 @@
               <i class="far fa-handshake"></i>
               Conciliar
             </button>
+            <button id="js-desconciliar" class="btn mr-1">
+              <i class="fas fa-handshake-slash"></i>
+              Desconciliar
+            </button>
             <button
               class="btn mr-1"
               data-target="#js-abrir-justificar-modal"
             >
               <i class="far fa-flag"></i>
               Justificar
+            </button>
+            <button id="js-desjustificar" class="btn mr-1">
+              <i class="fas fa-comment-slash"></i>
+              Desjustificar
             </button>
             <button
               id="js-abrir-justificar-modal"
