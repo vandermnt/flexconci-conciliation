@@ -229,7 +229,9 @@ class ConciliacaoAutomaticaController extends Controller
 
         $status_manual = StatusConciliacaoModel::manual()->first();
         
+        $venda_erp->COD_VENDAS_OPERADORAS = $venda_operadora->CODIGO;
         $venda_erp->COD_STATUS_CONCILIACAO = $status_manual->CODIGO;
+        $venda_operadora->COD_VENDA_ERP = $venda_erp->CODIGO;
         $venda_operadora->COD_STATUS_CONCILIACAO = $status_manual->CODIGO;
         $venda_erp->save();
         $venda_operadora->save();
