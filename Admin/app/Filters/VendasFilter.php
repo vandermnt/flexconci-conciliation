@@ -43,8 +43,8 @@ class VendasFilter extends BaseFilter {
     $this->query = VendasModel::select(
         [
           'vendas.CODIGO as ID',
-          'grupos_clientes.NOME_EMPRESA',
-          'grupos_clientes.CNPJ',
+          'vendas.EMPRESA as NOME_EMPRESA',
+          'vendas.CNPJ',
           'vendas.DATA_VENDA',
           'vendas.DATA_PREVISTA_PAGTO as DATA_PREVISAO',
           'adquirentes.ADQUIRENTE',
@@ -79,9 +79,6 @@ class VendasFilter extends BaseFilter {
           'vendas.JUSTIFICATIVA'
         ]
       )
-      ->leftJoinSub(GruposClientesModel::groupBy('COD_CLIENTE'), 'grupos_clientes', function($join) {
-        $join->on('grupos_clientes.COD_CLIENTE', 'vendas.COD_CLIENTE');
-      })
       ->leftJoin('adquirentes', 'adquirentes.CODIGO', 'vendas.ADQID')
       ->leftJoin('bandeira', 'bandeira.CODIGO', 'vendas.COD_BANDEIRA')
       ->leftJoin('modalidade', 'modalidade.CODIGO', 'vendas.CODIGO_MODALIDADE')

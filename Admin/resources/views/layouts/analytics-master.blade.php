@@ -14,20 +14,16 @@
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{ URL::asset('assets/images/favconci.jpeg') }}">
 
-        @yield('headerStyle')
-
         <!-- <script type="module" src = "../node_modules/table-dragger/dist/table-dragger.min.js "> </script> -->
 
 
         <!-- App css -->
         <link href="{{ URL::asset('assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{ URL::asset('assets/css/jquery-ui.min.css')}}" rel="stylesheet">
-        <link href="{{ URL::asset('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{ URL::asset('assets/css/metisMenu.min.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{ URL::asset('assets/css/app.min.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{ URL::asset('assets/css/teste.css')}}" rel="stylesheet" type="text/css" />
-
-
+        @yield('headerStyle')
     </head>
 
     <body>
@@ -70,10 +66,10 @@
 
         <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.4.1/prism.min.js"></script> -->
 
-        <!-- footerScript -->
-        @yield('footerScript')
-
         <!-- App js -->
         <script src="{{ URL::asset('assets/js/app.js') }}"></script>
+        <script src="https://kit.fontawesome.com/9a0b64c7c3.js" crossorigin="anonymous"></script>
+        <!-- footerScript -->
+        @yield('footerScript')
     </body>
 </html>

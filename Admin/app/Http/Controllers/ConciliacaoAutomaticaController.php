@@ -212,8 +212,7 @@ class ConciliacaoAutomaticaController extends Controller
         }
     }
 
-    public function conciliarManualmente(Request $request)
-    {
+    public function conciliarManualmente(Request $request) {
         $id_operadoras = $request->input('id_operadora');
         $id_erp = $request->input('id_erp');
         $status_nao_conciliada = StatusConciliacaoModel::naoConciliada()->first()->CODIGO; 
@@ -229,7 +228,9 @@ class ConciliacaoAutomaticaController extends Controller
 
         $status_manual = StatusConciliacaoModel::manual()->first();
         
+        $venda_erp->COD_VENDAS_OPERADORAS = $venda_operadora->CODIGO;
         $venda_erp->COD_STATUS_CONCILIACAO = $status_manual->CODIGO;
+        $venda_operadora->COD_VENDA_ERP = $venda_erp->CODIGO;
         $venda_operadora->COD_STATUS_CONCILIACAO = $status_manual->CODIGO;
         $venda_erp->save();
         $venda_operadora->save();
@@ -246,6 +247,46 @@ class ConciliacaoAutomaticaController extends Controller
                 'TOTAL_BRUTO' =>  $venda_operadora->VALOR_BRUTO,
                 'TOTAL_LIQUIDO' =>  $venda_operadora->VALOR_LIQUIDO,
                 'TOTAL_TAXA' =>  $venda_operadora->VALOR_BRUTO - $venda_operadora->VALOR_LIQUIDO,
+            ],
+            'STATUS_MANUAL_IMAGEM_URL' => $status_manual->IMAGEM_URL,
+            'STATUS_MANUAL' => $status_manual->STATUS_CONCILIACAO
+        ], 200);
+    }
+
+    public function desconciliarManualmente(Request $request) {
+        $id_erp = $request->input('id_erp');
+        $status_manual = StatusConciliacaoModel::manual()->first()->CODIGO;
+        $status_nao_conciliada = StatusConciliacaoModel::naoConciliada()->first();
+
+        $venda_erp = VendasErpModel::where('CODIGO', $id_erp[0])
+            ->where('COD_CLIENTE', session('codigologin'))
+            ->where('COD_STATUS_CONCILIACAO', $status_manual)
+            ->first();
+        $venda_operadora = VendasModel::where('CODIGO', $venda_erp->COD_VENDAS_OPERADORAS);
+
+        $venda_erp->COD_STATUS_CONCILIACAO = $status_nao_conciliada->CODIGO;
+        $venda_erp->COD_VENDAS_OPERADORAS = null;
+
+        if(!is_null($venda_operadora)) {
+            $venda_operadora->COD_STATUS_CONCILIACAO = $status_nao_conciliada->CODIGO;
+            $venda_operadora->COD_VENDA_ERP = null;
+        }
+
+        $venda_erp->save();
+        $venda_operadora->save();
+        
+        return response()->json([
+            'status' => 'sucesso',
+            'mensagem' => 'As vendas foram conciliadas com sucesso.',
+            'erp' => [
+                'ID' => $venda_erp->CODIGO,
+                'TOTAL_BRUTO' => $venda_erp->VALOR_VENDA_PARCELA ?? $venda_erp->TOTAL_VENDA,
+            ],
+            'operadora' => [
+                'ID' => $venda_operadora ? $venda_operadora->CODIGO : null,
+                'TOTAL_BRUTO' =>  $venda_operadora ? $venda_operadora->VALOR_BRUTO : 0,
+                'TOTAL_LIQUIDO' =>  $venda_operadora ? $venda_operadora->VALOR_LIQUIDO : 0,
+                'TOTAL_TAXA' =>  $venda_operadora ? ($venda_operadora->VALOR_BRUTO - $venda_operadora->VALOR_LIQUIDO) : 0,
             ],
             'STATUS_MANUAL_IMAGEM_URL' => $status_manual->IMAGEM_URL,
             'STATUS_MANUAL' => $status_manual->STATUS_CONCILIACAO

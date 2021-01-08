@@ -82,9 +82,7 @@ class VendasErpFilter extends BaseFilter {
           'vendas_erp.HORA_CONCILIACAO',
         ]
       )
-      ->leftJoinSub(GruposClientesModel::groupBy('COD_CLIENTE'), 'grupos_clientes', function($join) {
-        $join->on('grupos_clientes.COD_CLIENTE', 'vendas_erp.COD_CLIENTE');
-      })
+      ->leftJoin('grupos_clientes', 'grupos_clientes.CODIGO', 'vendas_erp.COD_GRUPO_CLIENTE')
       ->leftJoin('adquirentes', 'adquirentes.CODIGO', 'vendas_erp.COD_OPERADORA')
       ->leftJoin('bandeira', 'bandeira.CODIGO', 'vendas_erp.COD_BANDEIRA')
       ->leftJoin('modalidade', 'modalidade.CODIGO', 'vendas_erp.COD_MODALIDADE')
