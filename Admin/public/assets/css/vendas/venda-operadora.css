@@ -18,6 +18,52 @@
   border-color: #2D5275;
 }
 
+#btfiltro .limpar-campos {
+  align-items: right;
+  background: white;
+  color: #2D5275;
+  border-color: #2D5275;
+}
+
+#resultadosPesquisa .xls{
+  display: none;
+}
+
+#resultadosPesquisa {
+  display: none;
+}
+
+#dropdownMenuLink i {
+  font-size: 19px;
+  padding: 7px;
+}
+
+#dropdownMenuLink i b {
+  font-size: 12px;
+}
+
+#preloader {
+  display: none;
+}
+
+#myform .bt-pesquisa {
+  margin-top: 9px;
+  width: 100%;
+}
+
+#moda_titulo, #modal_cnpj, #modal_empresa {
+  text-align: center;
+}
+
+#modal-cupom .body-cupom {
+  text-align: center;
+}
+
+.tamanho-modal {
+  max-height: 350px;
+  overflow: auto;
+}
+
 #label-gerando-xls {
   display: none;
   color: red;

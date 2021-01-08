@@ -4,17 +4,12 @@
 
 @section('headerStyle')
 
-<link href="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.css')}}" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<!-- <script src="https://cdn.jsdelivr.net/npm/table-dragger@1.0.3/dist/table-dragger.js"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
-
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.4.4/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
-
-
 <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
 <!-- <script src="http://tablesorter.com/__jquery.tablesorter.min.js" type="text/javascript"></script> -->
 
@@ -23,12 +18,11 @@
 <!-- Responsive datatable examples -->
 <link href="{{ URL::asset('plugins/datatables/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ URL::asset('assets/css/vendas/venda-operadora.css')}}" rel="stylesheet" type="text/css" />
-
 @stop
 
 @section('content')
 
-<div id="preloader" style="display: none" class="loader"></div>
+<div id="preloader" class="loader"></div>
 
 <div id="tudo_page" class="container-fluid">
   <div class="row">
@@ -43,7 +37,6 @@
   </div>
   <form id="myform" action="{{ action('VendasController@buscarVendasFiltro')}}" method="post">
     <input type ="hidden" name="_token" value="{{{ csrf_token() }}}">
-
     <div class="row">
       <div class="col-lg-12">
         <div class="card">
@@ -101,7 +94,7 @@
               </div>
 
               <div class="col-sm-2">
-                <button id="buttonpesquisar" type="button" class="btn btn-sm" data-toggle="modal" data-target="#staticBackdropAdquirente" style="margin-top: 9px; width: 100%">
+                <button id="buttonpesquisar" type="button" class="btn btn-sm bt-pesquisa" data-toggle="modal" data-target="#staticBackdropAdquirente">
                   <b>Selecionar</b>
                 </button>
               </div>
@@ -120,7 +113,7 @@
               </div>
 
               <div class="col-sm-2">
-                <button id="buttonpesquisar" type="button" class="btn btn-sm" data-toggle="modal" data-target="#staticBackdropBandeira" style="margin-top: 9px; width: 100%">
+                <button id="buttonpesquisar" type="button" class="btn btn-sm bt-pesquisa" data-toggle="modal" data-target="#staticBackdropBandeira">
                   <b>Selecionar</b>
                 </button>
               </div>
@@ -139,7 +132,7 @@
               </div>
 
               <div class="col-sm-2">
-                <button id="buttonpesquisar" type="button" class="btn btn-sm" data-toggle="modal" data-target="#staticBackdropModalidade" style="margin-top: 9px; width: 100%">
+                <button id="buttonpesquisar" type="button" class="btn btn-sm bt-pesquisa" data-toggle="modal" data-target="#staticBackdropModalidade">
                   <b>Selecionar</b>
                 </button>
               </div>
@@ -158,7 +151,7 @@
               </div>
 
               <div class="col-sm-2">
-                <button id="buttonpesquisar" type="button" class="btn btn-sm" data-toggle="modal" data-target="#staticBackdropCodEstabelecimento" style="margin-top: 9px; width: 100%">
+                <button id="buttonpesquisar" type="button" class="btn btn-sm bt-pesquisa" data-toggle="modal" data-target="#staticBackdropCodEstabelecimento">
                   <b>Selecionar</b>
                 </button>
               </div>
@@ -203,7 +196,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <div id="btfiltro">
-                  <a onclick="limparFiltros()" style="align-items: right; background: white; color: #2D5275; border-color: #2D5275" class="btn btn-sm"> <i class="far fa-trash-alt"></i> <b>Limpar Campos</b>  </a>
+                  <a onclick="limparFiltros()" class="btn btn-sm limpar-campos"> <i class="far fa-trash-alt"></i> <b>Limpar Campos</b>  </a>
                   <a id="submitFormLogin" class="btn btn-sm"> <i class="fas fa-search"></i> <b>Pesquisar</b>  </a>
                 </div>
               </div>
@@ -216,11 +209,8 @@
             <div class="modal-content">
               <div class="modal-header fundo-modal">
                 <h5 class="modal-title" id="staticBackdropLabel">Empresa</h5>
-                <button style="color: white" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
               </div>
-              <div class="modal-body">
+              <div class="modal-body tamanho-modal">
                 <div class="row">
                   <div class="col-sm-12">
                     <h6> Pesquisar </h6>
@@ -242,13 +232,13 @@
                   </div>
                   @if(isset($grupos_clientes))
                   @foreach($grupos_clientes as $cliente)
-                  <div id="{{ $cliente->NOME_EMPRESA }}" style="display:block" class="col-sm-7">
+                  <div id="{{ $cliente->NOME_EMPRESA }}" class="col-sm-7">
                     <p>{{ $cliente->NOME_EMPRESA }}</p>
                   </div>
-                  <div id="{{ $cliente->CNPJ }}" style="display:block" class="col-sm-4">
+                  <div id="{{ $cliente->CNPJ }}" class="col-sm-4">
                     <p>{{ $cliente->CNPJ }}</p>
                   </div>
-                  <div id="{{ "divCod".$cliente->CODIGO }}" style="display:block" class="col-sm-1">
+                  <div id="{{ "divCod".$cliente->CODIGO }}" class="col-sm-1">
                     <input id="{{ $cliente->CODIGO }}" class="checkEmpresa" value="{{ $cliente->CNPJ }}" name="array[]" type="checkbox">
                   </div>
                   <hr>
@@ -269,11 +259,8 @@
             <div class="modal-content">
               <div class="modal-header fundo-modal">
                 <h5 class="modal-title" id="staticBackdropLabel">Adquirente</h5>
-                <button style="color: white" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
               </div>
-              <div class="modal-body">
+              <div class="modal-body tamanho-modal">
                 <div class="row">
                   <div class="col-sm-12">
                     <h6> Pesquisar </h6>
@@ -293,11 +280,11 @@
                   </div>
                   @if(isset($adquirentes))
                   @foreach($adquirentes as $adquirente)
-                  <div id="{{ $adquirente->ADQUIRENTE }}" style="display:block; " class="col-sm-10">
+                  <div id="{{ $adquirente->ADQUIRENTE }}" class="col-sm-10">
                     <p>{{ $adquirente->ADQUIRENTE }}</p>
                   </div>
 
-                  <div id="{{ "divAdq".$adquirente->CODIGO }}" style="display:block" class="col-sm-2">
+                  <div id="{{ "divAdq".$adquirente->CODIGO }}" class="col-sm-2">
                     <input id="{{ "inputAdq-".$adquirente->CODIGO }}" class="checkAdquirentes" value="{{ $adquirente->CODIGO }}" name="arrayAdquirentes[]" type="checkbox">
                   </div>
                   <hr>
@@ -318,11 +305,8 @@
             <div class="modal-content">
               <div class="modal-header fundo-modal">
                 <h5 class="modal-title" id="staticBackdropLabel">Bandeira</h5>
-                <button style="color: white" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
               </div>
-              <div class="modal-body" style="max-height: 350px; overflow: auto">
+              <div class="modal-body tamanho-modal">
                 <div class="row">
                   <div class="col-sm-12">
                     <h6> Pesquisar </h6>
@@ -344,11 +328,11 @@
                   @if(isset($bandeiras))
                   @foreach($bandeiras as $bandeira)
 
-                  <div id="{{ $bandeira->BANDEIRA }}" style="display:block; " class="col-sm-10">
+                  <div id="{{ $bandeira->BANDEIRA }}" class="col-sm-10">
                     <p>{{ $bandeira->BANDEIRA }}</p>
                   </div>
 
-                  <div id="{{ "divBad".$bandeira->CODIGO }}" style="display:block" class="col-sm-2">
+                  <div id="{{ "divBad".$bandeira->CODIGO }}" class="col-sm-2">
                     <input id="{{ $bandeira->CODIGO }}" class="checkBandeira" value="{{ $bandeira->CODIGO }}" name="arrayBandeira[]" type="checkbox">
                   </div>
                   <hr>
@@ -369,11 +353,8 @@
             <div class="modal-content">
               <div class="modal-header fundo-modal">
                 <h5 class="modal-title" id="staticBackdropLabel">Forma de Pagamento</h5>
-                <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
               </div>
-              <div class="modal-body" style="max-height: 350px; overflow: auto">
+              <div class="modal-body tamanho-modal">
                 <div class="row">
                   <div class="col-sm-12">
                     <h6> Pesquisar </h6>
@@ -394,10 +375,10 @@
                   @if(isset($modalidades))
                   @foreach($modalidades as $modalidade)
 
-                  <div id="{{ $modalidade->DESCRICAO }}" style="display:block" class="col-sm-10">
+                  <div id="{{ $modalidade->DESCRICAO }}" class="col-sm-10">
                     <p>{{ $modalidade->DESCRICAO }}</p>
                   </div>
-                  <div id="{{ "divCod".$modalidade->CODIGO }}" style="display:block" class="col-sm-2">
+                  <div id="{{ "divCod".$modalidade->CODIGO }}" class="col-sm-2">
                     <input id="{{ "inputMod-".$modalidade->CODIGO }}" class="checkModalidade" value="{{ $modalidade->CODIGO }}" name="arrayModalidade[]" type="checkbox">
                   </div>
                   <hr>
@@ -413,402 +394,334 @@
           </div>
         </div>
 
-        <!-- <div class="modal fade" id="staticBackdropMeioCaptura" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog" style="width: 270px">
-        <div class="modal-content">
-        <div class="modal-header fundo-modal">
-        <h5 class="modal-title" id="staticBackdropLabel">Meio de Captura</h5>
-        <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body" style="max-height: 350px; overflow: auto">
-    <div class="row">
-    <div class="col-sm-12">
-    <h6> Pesquisar </h6>
-  </div>
-  <div class="col-sm-12">
-  <input id="inputMeioCaptura" class="form-control" onKeyDown="filtroMeioCaptura({{$meio_captura}})">
-</div>
-</div> <br>
-
-<div class="row">
-<div class="col-sm-10">
-<p><b>MEIO DE CAPTURA</b></p>
-</div>
-
-<div class="col-sm-2">
-<input id="allCheckMeioCaptura" onchange="allCheckboxMeioCaptura({{$meio_captura}})" type="checkbox">
-</div>
-@if(isset($meio_captura))
-@foreach($meio_captura as $meio)
-
-<div id="{{ $meio->DESCRICAO }}" style="display:block" class="col-sm-10">
-<p>{{ $meio->DESCRICAO }}</p>
-</div>
-<div id="{{ "divMCap".$meio->CODIGO }}" style="display:block" class="col-sm-2">
-<input id="{{ "inputMeioCap-".$meio->CODIGO }}" class="checkMeioCaptura" value="{{ $meio->CODIGO }}" name="arrayMeioCaptura[]" type="checkbox">
-</div>
-<hr>
-@endforeach
-@endif
-</div>
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
-<button type="button" class="btn btn-success" data-dismiss="modal" onclick="addSelecionadosMeioCaptura({{$meio_captura}})"><b>Confirmar</b></button>
-</div>
-</div>
-</div>
-</div> -->
-
-<div class="modal fade" id="staticBackdropCodEstabelecimento" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header fundo-modal">
-        <h5 class="modal-title" id="staticBackdropLabel">Código de Estabelecimento</h5>
-        <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" style="max-height: 350px; overflow: auto">
-        <div class="row">
-          <div class="col-sm-12">
-            <h6> Pesquisar </h6>
-          </div>
-          <div class="col-sm-12">
-            <input id="inputCodEstabelecimento" class="form-control" onKeyDown="filtroCodEstabelecimento({{$cod_estabelecimento}})">
-          </div>
-        </div> <br>
-
-        <div class="row">
-          <div class="col-sm-9">
-            <p><b>CÓDIGO DE ESTABELEC.</b></p>
-          </div>
-          <!-- <div class="col-sm-4">
-          <p><b>ADQUIRENTE</b></p>
-        </div>
-        <div class="col-sm-3">
-        <p><b>EMPRESA</b></p>
-      </div> -->
-
-      <div class="col-sm-3">
-        <input id="allCheckCodEstabelecimento" onchange="allCheckboxMeioCaptura({{$cod_estabelecimento}})" type="checkbox">
-      </div>
-      @if(isset($cod_estabelecimento))
-      @foreach($cod_estabelecimento as $estabelecimento)
-
-      <div id="{{ $estabelecimento->CODIGO_ESTABELECIMENTO }}" style="display: block" class="col-sm-9">
-        <p>{{ $estabelecimento->CODIGO_ESTABELECIMENTO }}</p>
-      </div>
-      <!-- <div id="{{ $estabelecimento->ADQUIRENTE }}" style="display: block" class="col-sm-4">
-      <p>{{ $estabelecimento->ADQUIRENTE }}</p>
-    </div>
-    <div id="{{ $estabelecimento->NOME_EMPRESA }}" style="display: block" class="col-sm-3">
-    <p>{{ $estabelecimento->NOME_EMPRESA }}</p>
-  </div> -->
-  <div id="{{ "divMCap".$estabelecimento->CODIGO }}" style="display: block" class="col-sm-3">
-    <input id="{{ "inputMeioCap-".$estabelecimento->CODIGO }}" class="checkCodEstabelecimento" value="{{ $estabelecimento->CODIGO }}" name="arrayMeioCaptura[]" type="checkbox">
-  </div>
-  <hr>
-  @endforeach
-  @endif
-</div>
-</div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
-  <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addSelecionadosMeioCaptura({{$cod_estabelecimento}})"><b>Confirmar</b></button>
-</div>
-</div>
-</div>
-</div>
-</form>
-
-<div id="resultadosPesquisa" style="display: none">
-  <div class="row">
-    <div class="col-md-6 col-lg-2">
-      <div class="card report-card">
-        <div class="card-body">
-          <div class="row d-flex justify-content-center">
-            <div class="col-8">
-              <p class="text-dark font-weight-semibold font-12">QTD</p>
-              <h6 id="total_registros" class="my-3">378</h6>
-            </div>
-            <div class="col-4 align-self-center">
-              <div class="report-main-icon bg-light-alt">
-                <img src="{{ url('assets/images/vendasoperadora/quantidade.png')}}" alt="">
+        <div class="modal fade" id="staticBackdropCodEstabelecimento" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header fundo-modal">
+                <h5 class="modal-title" id="staticBackdropLabel">Código de Estabelecimento</h5>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6 col-lg-2">
-      <div class="card report-card">
-        <div class="card-body">
-          <div class="row d-flex justify-content-center">
-            <div class="col-8">
-              <p class="text-dark font-weight-semibold font-12">BRUTO</p>
-              <h6 id="total_bruto_vendas" class="my-3">R$ 240,000,00</h6>
-            </div>
-            <div class="col-4 align-self-center">
-              <div class="report-main-icon bg-light-alt">
-                <img src="{{ url('assets/images/vendasoperadora/bruto.png')}}" alt="">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6 col-lg-2">
-      <div class="card report-card">
-        <div class="card-body">
-          <div class="row d-flex justify-content-center">
-            <div class="col-8">
-              <p class="text-dark font-weight-semibold font-12">VALOR TAXA</p>
-              <h6 id="total_taxa_cobrada" class="my-3 text-danger">R$ 240,000,00</h6>
-            </div>
-            <div class="col-4 align-self-center">
-              <div class="report-main-icon bg-light-alt">
-                <img src="{{ url('assets/images/vendasoperadora/percentagem.png')}}" alt="">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6 col-lg-2">
-      <div class="card report-card">
-        <div class="card-body">
-          <div class="row d-flex justify-content-center">
-            <div class="col-8">
-              <p class="text-dark font-weight-semibold font-12">TARIFA MÍNIMA</p>
-              <h6 id="total_taxa_minima" class="my-3 text-danger">R$ 240,000,00</h6>
-            </div>
-            <div class="col-4 align-self-center">
-              <div class="report-main-icon bg-light-alt">
-                <img src="{{ url('assets/images/vendasoperadora/percentagem.png')}}" alt="">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6 col-lg-4">
-      <div class="card report-card">
-        <div class="card-body">
-          <div class="row d-flex justify-content-center">
-            <div class="col-8">
-              <p class="text-dark font-weight-semibold font-12">VALOR LÍQUIDO DE VENDAS</p>
-              <h6 id="total_liquido_vendas" class="my-3">R$ 240,000,00</h6>
-            </div>
-            <div class="col-4 align-self-center">
-              <div class="report-main-icon bg-light-alt">
-                <img src="{{ url('assets/images/vendasoperadora/liquido.png')}}" alt="">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row" id="foo">
-    <div  class="col-sm-2">
+              <div class="modal-body tamanho-modal">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <h6> Pesquisar </h6>
+                  </div>
+                  <div class="col-sm-12">
+                    <input id="inputCodEstabelecimento" class="form-control" onKeyDown="filtroCodEstabelecimento({{$cod_estabelecimento}})">
+                  </div>
+                </div> <br>
+                <div class="row">
+                  <div class="col-sm-9">
+                    <p><b>CÓDIGO DE ESTABELEC.</b></p>
+                  </div>
+                  <div class="col-sm-3">
+                    <input id="allCheckCodEstabelecimento" onchange="allCheckboxMeioCaptura({{$cod_estabelecimento}})" type="checkbox">
+                  </div>
+                  @if(isset($cod_estabelecimento))
+                  @foreach($cod_estabelecimento as $estabelecimento)
 
-    </div>
+                  <div id="{{ $estabelecimento->CODIGO_ESTABELECIMENTO }}" class="col-sm-9">
+                    <p>{{ $estabelecimento->CODIGO_ESTABELECIMENTO }}</p>
+                  </div>
 
-    <div class="col-sm-10" align="right">
-      <div class="dropdown">
-        <a class="btn btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i style="font-size: 19px" class="fas fa-file-download" style="padding: 7px"></i> <b style="font-size: 12px; margin-left: ">Exportar </b>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-          <a class="dropdown-item" id="dp-item"  href="{{ action('VendasController@downloadTable') }}">  PDF</a>
-          <!-- <a class="dropdown-item" id="btExportXls"  onclick="exportTableToExcel('#jsgrid-table', '#btExportXls')" href="#">  XLS (EXCEL)</a> -->
-          <a class="dropdown-item" id="btExportXls"  onclick="exportXls()">  XLS (EXCEL)</a>
-        </div>
-      </div>
-      <span id="label-gerando-xls"> Gerando XLS </span>
-    </div>
-  </div><br>
-
-  <div class="modal fade" id="modal-cupom" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="modalCupom" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalCupom">Comprovante</h5>
-          <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <table>
-            <tbody>
-              <thead>
-                <h4 id="moda_titulo" align="center">  </h4>
-                <h6 id="modal_cnpj" align="center"> CNPJ: {{ $venda->CNPJ}}</h6>
-                <h6 id="modal_empresa" align="center"> CNPJ: {{ $venda->CNPJ}}</h6>
-                <h6 style="margin-top: -15px">--------------------------------------</h6>
-                <div style="text-align: center">
-                  <h6 id="modal_data">  </h6>
-                  <h6 id="modal_operadora">  </h6>
-                  <h6 id="modal_bandeira">  </h6>
-                  <h6 id="modal_forma_pagamento">  </h6>
-                  <h6 id="modal_estabelecimento">  </h6>
-                  <h6 id="modal_cartao">  </h6>
-                  <h6 id="modal_valor_bruto">  </h6>
-                  <h6 id="modal_data_previsao"></h6>
+                  <div id="{{ "divMCap".$estabelecimento->CODIGO }}" class="col-sm-3">
+                    <input id="{{ "inputMeioCap-".$estabelecimento->CODIGO }}" class="checkCodEstabelecimento" value="{{ $estabelecimento->CODIGO }}" name="arrayMeioCaptura[]" type="checkbox">
+                  </div>
+                  <hr>
+                  @endforeach
+                  @endif
                 </div>
-              </thead>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addSelecionadosMeioCaptura({{$cod_estabelecimento}})"><b>Confirmar</b></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <div id="resultadosPesquisa">
+        <div class="row">
+          <div class="col-md-6 col-lg-2">
+            <div class="card report-card">
+              <div class="card-body">
+                <div class="row d-flex justify-content-center">
+                  <div class="col-8">
+                    <p class="text-dark font-weight-semibold font-12">QTD</p>
+                    <h6 id="total_registros" class="my-3"></h6>
+                  </div>
+                  <div class="col-4 align-self-center">
+                    <div class="report-main-icon bg-light-alt">
+                      <img src="{{ url('assets/images/vendasoperadora/quantidade.png')}}" alt="">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-2">
+            <div class="card report-card">
+              <div class="card-body">
+                <div class="row d-flex justify-content-center">
+                  <div class="col-8">
+                    <p class="text-dark font-weight-semibold font-12">BRUTO</p>
+                    <h6 id="total_bruto_vendas" class="my-3"></h6>
+                  </div>
+                  <div class="col-4 align-self-center">
+                    <div class="report-main-icon bg-light-alt">
+                      <img src="{{ url('assets/images/vendasoperadora/bruto.png')}}" alt="">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-2">
+            <div class="card report-card">
+              <div class="card-body">
+                <div class="row d-flex justify-content-center">
+                  <div class="col-8">
+                    <p class="text-dark font-weight-semibold font-12">VALOR TAXA</p>
+                    <h6 id="total_taxa_cobrada" class="my-3 text-danger"></h6>
+                  </div>
+                  <div class="col-4 align-self-center">
+                    <div class="report-main-icon bg-light-alt">
+                      <img src="{{ url('assets/images/vendasoperadora/percentagem.png')}}" alt="">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-2">
+            <div class="card report-card">
+              <div class="card-body">
+                <div class="row d-flex justify-content-center">
+                  <div class="col-8">
+                    <p class="text-dark font-weight-semibold font-12">TARIFA MÍNIMA</p>
+                    <h6 id="total_taxa_minima" class="my-3 text-danger"></h6>
+                  </div>
+                  <div class="col-4 align-self-center">
+                    <div class="report-main-icon bg-light-alt">
+                      <img src="{{ url('assets/images/vendasoperadora/percentagem.png')}}" alt="">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="card report-card">
+              <div class="card-body">
+                <div class="row d-flex justify-content-center">
+                  <div class="col-8">
+                    <p class="text-dark font-weight-semibold font-12">VALOR LÍQUIDO DE VENDAS</p>
+                    <h6 id="total_liquido_vendas" class="my-3"></h6>
+                  </div>
+                  <div class="col-4 align-self-center">
+                    <div class="report-main-icon bg-light-alt">
+                      <img src="{{ url('assets/images/vendasoperadora/liquido.png')}}" alt="">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" id="foo">
+          <div  class="col-sm-2">
+
+          </div>
+
+          <div class="col-sm-10" align="right">
+            <div class="dropdown">
+              <a class="btn btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-file-download"></i> <b>Exportar </b>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" id="dp-item"  href="{{ action('VendasController@downloadTable') }}">  PDF</a>
+                <!-- <a class="dropdown-item" id="btExportXls"  onclick="exportTableToExcel('#jsgrid-table', '#btExportXls')" href="#">  XLS (EXCEL)</a> -->
+                <a class="dropdown-item" id="btExportXls"  onclick="exportXls()">  XLS (EXCEL)</a>
+              </div>
+            </div>
+            <span id="label-gerando-xls"> Gerando XLS </span>
+          </div>
+        </div><br>
+
+        <div class="modal fade" id="modal-cupom" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="modalCupom" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modalCupom">Comprovante</h5>
+              </div>
+              <div class="modal-body">
+                <table>
+                  <tbody>
+                    <thead>
+                      <h4 id="moda_titulo">  </h4>
+                      <h6 id="modal_cnpj"> CNPJ: {{ $venda->CNPJ}}</h6>
+                      <h6 id="modal_empresa"> CNPJ: {{ $venda->CNPJ}}</h6>
+                      <h6 style="margin-top: -15px">--------------------------------------</h6>
+                      <div class="body-cupom">
+                        <h6 id="modal_data">  </h6>
+                        <h6 id="modal_operadora">  </h6>
+                        <h6 id="modal_bandeira">  </h6>
+                        <h6 id="modal_forma_pagamento">  </h6>
+                        <h6 id="modal_estabelecimento">  </h6>
+                        <h6 id="modal_cartao">  </h6>
+                        <h6 id="modal_valor_bruto">  </h6>
+                        <h6 id="modal_data_previsao"></h6>
+                      </div>
+                    </thead>
+                  </tbody>
+                </table>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Fechar</b></button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="imprimeCupom()"><b>Imprimir</b></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-scroll">
+          <table id="jsgrid-table" class="table sortable">
+            <thead>
+              <tr>
+                <th> Detalhes </th>
+                <th> Empresa  <br> <input name="EMPRESA" onkeypress="filtraTabela('EMPRESA', event)" ></th>
+                <th> CNPJ  <br> <input name="CNPJ" onkeypress="filtraTabela('CNPJ', event)"> </th>
+                <th> Operadora<br> <input name="ADQUIRENTE" onkeypress="filtraTabela('ADQUIRENTE', event)"> </th>
+                <th> Venda  <br> <input name="DATA_VENDA" onkeypress="filtraTabela('DATA_VENDA', event)"></th>
+                <th> Previsão <br> <input name="DATA_PREVISTA_PAGTO" onkeypress="filtraTabela('DATA_PREVISTA_PAGTO', event)"> </th>
+                <th> Bandeira<br> <input name="BANDEIRA" onkeypress="filtraTabela('BANDEIRA', event)"> </th>
+                <th> Forma de Pagamento<br> <input> </th>
+                <th> NSU <br> <input name="NSU" onkeypress="filtraTabela('NSU', event)"></th>
+                <th> Autorização <br> <input name="AUTORIZACAO" onkeypress="filtraTabela('AUTORIZACAO', event)"></th>
+                <th> Cartão<br> <input name="CARTAO" onkeypress="filtraTabela('CARTAO', event)"> </th>
+                <th> Valor Bruto <br> <input name="VALOR_BRUTO" onkeypress="filtraTabela('VALOR_BRUTO', event)"></th>
+                <th> Taxa %  <br> <input name="PERCENTUAL_TAXA" onkeypress="filtraTabela('PERCENTUAL_TAXA', event)"></th>
+                <th> Taxa R$ <br> <input name="VALOR_TAXA" onkeypress="filtraTabela('VALOR_TAXA', event)"></th>
+                <th> Tarifa Mínima R$ <br> <input name="TAXA_MINIMA" onkeypress="filtraTabela('VALOR_TAXA', event)"></th>
+                <th> Outras Tarifas<br> <input name="OUTRAS_DESPESAS" onkeypress="filtraTabela('OUTRAS_DESPESAS', event)"> </th>
+                <th> Valor Líquido <br> <input name="VALOR_LIQUIDO" onkeypress="filtraTabela('VALOR_LIQUIDO', event)"> </th>
+                <th> Parcela <br> <input name="PARCELA" onkeypress="filtraTabela('PARCELA', event)"></th>
+                <th> Total Parc. <br> <input name="TOTAL_PARCELAS" onkeypress="filtraTabela('TOTAL_PARCELAS', event)"></th>
+                <th> Hora <br> <input name="HORA_TRANSACAO" onkeypress="filtraTabela('HORA_TRANSACAO', event)"></th>
+                <th> Estabelecimento<br> <input name="ESTABELECIMENTO" onkeypress="filtraTabela('ESTABELECIMENTO', event)"> </th>
+                <th> Banco<br> <input > </th>
+                <th> Agência<br> <input name="AGENCIA" onkeypress="filtraTabela('AGENCIA', event)"> </th>
+                <th> Conta <br> <input name="CONTA" onkeypress="filtraTabela('CONTA', event)"></th>
+                <th> Observação <br> <input name="OBSERVACAO" onkeypress="filtraTabela('OBSERVACAO', event)"></th>
+                <th> Produto<br> <input> </th>
+                <th> Meio de Captura<br> <input> </th>
+                <th> Status Conciliação<br> <input> </th>
+                <th> Status Financeiro<br> <input> </th>
+                <th> Justificativa <br> <input name="JUSTIFICATIVA" onkeypress="filtraTabela('JUSTIFICATIVA', event)"> </th>
+                <th> RO <br> <input></th>
+                <th> RO Único <br> <input></th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>
+              <td style='color:#6E6E6E; font-weight: bolder'> Totais </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td style='color:#6E6E6E' id="valor_bruto"> </td>
+              <td> </td>
+              <td  style='color:red' id="valor_taxa"> </td>
+              <td  style='color:red' id="outras_tarifas"> </td>
+              <td  style='color:#6E6E6E' id="valor_liquido"> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+            </tfoot>
+          </table>
+        </div>
+
+        <div class="table-scroll xls">
+          <table id="table-xls" class="table">
+            <thead>
+              <tr>
+                <th> Empresa </th>
+                <th> CNPJ  </th>
+                <th> Operadora </th>
+                <th> Venda </th>
+                <th> Previsão </th>
+                <th> Bandeir </th>
+                <th> Forma de Pagament </th>
+                <th> NSU</th>
+                <th> Autorização</th>
+                <th> Cartã </th>
+                <th> Valor Bruto</th>
+                <th> Taxa % </th>
+                <th> Taxa R$</th>
+                <th> Outras Tarifa </th>
+                <th> Valor Líquido </th>
+                <th> Parcela</th>
+                <th> Total Parc.</th>
+                <th> Hora</th>
+                <th> Estabeleciment </th>
+                <th> Banco </th>
+                <th> Agência </th>
+                <th> Conta</th>
+                <th> Observação</th>
+                <th> Produto </th>
+                <th> Meio de Captur </th>
+                <th> Status Conciliaçã </th>
+                <th> Status Financeir </th>
+                <th> Justificativa </th>
+                <th> RO</th>
+                <th> RO Único</th>
+              </tr>
+            </thead>
+            <tbody>
             </tbody>
           </table>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Fechar</b></button>
-          <button type="button" class="btn btn-success" data-dismiss="modal" onclick="imprimeCupom()"><b>Imprimir</b></button>
+
+        <div class="d-flex justify-content-between align-items-end flex-wrap">
+          <nav aria-label="Page navigation example">
+            <ul id="ul_pagination" class="pagination">
+            </ul>
+          </nav>
+
+          <div class="form-group">
+            <label for="quantidadePorPagina">Quantidade por página</label>
+            <select onchange="novaQuantidadePagina()" name="porPagina" id="quantidadePorPagina" class="form-control">
+              <option value="10" selected>10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+              <option value="200">200</option>
+            </select>
+          </div>
         </div>
       </div>
+      <br>
     </div>
   </div>
-
-  <div class="table-scroll">
-    <table id="jsgrid-table" class="table sortable">
-      <thead>
-        <tr style="border-top: none">
-          <th> Detalhes </th>
-          <th> Empresa  <br> <input name="EMPRESA" onkeypress="filtraTabela('EMPRESA', event)" ></th>
-          <th> CNPJ  <br> <input name="CNPJ" onkeypress="filtraTabela('CNPJ', event)"> </th>
-          <th> Operadora<br> <input name="ADQUIRENTE" onkeypress="filtraTabela('ADQUIRENTE', event)"> </th>
-          <th> Venda  <br> <input name="DATA_VENDA" onkeypress="filtraTabela('DATA_VENDA', event)"></th>
-          <th> Previsão <br> <input name="DATA_PREVISTA_PAGTO" onkeypress="filtraTabela('DATA_PREVISTA_PAGTO', event)"> </th>
-          <th> Bandeira<br> <input name="BANDEIRA" onkeypress="filtraTabela('BANDEIRA', event)"> </th>
-          <th> Forma de Pagamento<br> <input> </th>
-          <th> NSU <br> <input name="NSU" onkeypress="filtraTabela('NSU', event)"></th>
-          <th> Autorização <br> <input name="AUTORIZACAO" onkeypress="filtraTabela('AUTORIZACAO', event)"></th>
-          <th> Cartão<br> <input name="CARTAO" onkeypress="filtraTabela('CARTAO', event)"> </th>
-          <th> Valor Bruto <br> <input name="VALOR_BRUTO" onkeypress="filtraTabela('VALOR_BRUTO', event)"></th>
-          <th> Taxa %  <br> <input name="PERCENTUAL_TAXA" onkeypress="filtraTabela('PERCENTUAL_TAXA', event)"></th>
-          <th> Taxa R$ <br> <input name="VALOR_TAXA" onkeypress="filtraTabela('VALOR_TAXA', event)"></th>
-          <th> Tarifa Mínima R$ <br> <input name="TAXA_MINIMA" onkeypress="filtraTabela('VALOR_TAXA', event)"></th>
-          <th> Outras Tarifas<br> <input name="OUTRAS_DESPESAS" onkeypress="filtraTabela('OUTRAS_DESPESAS', event)"> </th>
-          <th> Valor Líquido <br> <input name="VALOR_LIQUIDO" onkeypress="filtraTabela('VALOR_LIQUIDO', event)"> </th>
-          <th> Parcela <br> <input name="PARCELA" onkeypress="filtraTabela('PARCELA', event)"></th>
-          <th> Total Parc. <br> <input name="TOTAL_PARCELAS" onkeypress="filtraTabela('TOTAL_PARCELAS', event)"></th>
-          <th> Hora <br> <input name="HORA_TRANSACAO" onkeypress="filtraTabela('HORA_TRANSACAO', event)"></th>
-          <th> Estabelecimento<br> <input name="ESTABELECIMENTO" onkeypress="filtraTabela('ESTABELECIMENTO', event)"> </th>
-          <th> Banco<br> <input > </th>
-          <th> Agência<br> <input name="AGENCIA" onkeypress="filtraTabela('AGENCIA', event)"> </th>
-          <th> Conta <br> <input name="CONTA" onkeypress="filtraTabela('CONTA', event)"></th>
-          <th> Observação <br> <input name="OBSERVACAO" onkeypress="filtraTabela('OBSERVACAO', event)"></th>
-          <th> Produto<br> <input> </th>
-          <th> Meio de Captura<br> <input> </th>
-          <th> Status Conciliação<br> <input> </th>
-          <th> Status Financeiro<br> <input> </th>
-          <th> Justificativa <br> <input name="JUSTIFICATIVA" onkeypress="filtraTabela('JUSTIFICATIVA', event)"> </th>
-          <th> RO <br> <input></th>
-          <th> RO Único <br> <input></th>
-        </tr>
-      </thead>
-      <tbody>
-      </tbody>
-      <tfoot>
-        <td style='color:#6E6E6E; font-weight: bolder'> Totais </td>
-        <td> </td>
-        <td> </td>
-        <td> </td>
-        <td> </td>
-        <td> </td>
-        <td> </td>
-        <td> </td>
-        <td> </td>
-        <td> </td>
-        <td> </td>
-        <td style='color:#6E6E6E' id="valor_bruto"> </td>
-        <td> </td>
-        <td  style='color:red' id="valor_taxa"> </td>
-        <td  style='color:red' id="outras_tarifas"> </td>
-        <td  style='color:#6E6E6E' id="valor_liquido"> </td>
-        <td> </td>
-        <td> </td>
-        <td> </td>
-        <td> </td>
-        <td> </td>
-        <td> </td>
-        <td> </td>
-        <td> </td>
-        <td> </td>
-        <td> </td>
-        <td> </td>
-        <td> </td>
-        <td> </td>
-        <td> </td>
-        <td> </td>
-      </tfoot>
-    </table>
-  </div>
-
-  <div class="table-scroll" style="display: none">
-    <table id="table-xls" class="table">
-      <thead>
-        <tr style="border-top: none">
-          <th> Empresa </th>
-          <th> CNPJ  </th>
-          <th> Operadora </th>
-          <th> Venda </th>
-          <th> Previsão </th>
-          <th> Bandeir </th>
-          <th> Forma de Pagament </th>
-          <th> NSU</th>
-          <th> Autorização</th>
-          <th> Cartã </th>
-          <th> Valor Bruto</th>
-          <th> Taxa % </th>
-          <th> Taxa R$</th>
-          <th> Outras Tarifa </th>
-          <th> Valor Líquido </th>
-          <th> Parcela</th>
-          <th> Total Parc.</th>
-          <th> Hora</th>
-          <th> Estabeleciment </th>
-          <th> Banco </th>
-          <th> Agência </th>
-          <th> Conta</th>
-          <th> Observação</th>
-          <th> Produto </th>
-          <th> Meio de Captur </th>
-          <th> Status Conciliaçã </th>
-          <th> Status Financeir </th>
-          <th> Justificativa </th>
-          <th> RO</th>
-          <th> RO Único</th>
-        </tr>
-      </thead>
-      <tbody>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="d-flex justify-content-between align-items-end flex-wrap">
-    <nav aria-label="Page navigation example">
-      <ul id="ul_pagination" class="pagination">
-      </ul>
-    </nav>
-
-    <div class="form-group">
-      <label for="quantidadePorPagina">Quantidade por página</label>
-      <select onchange="novaQuantidadePagina()" name="porPagina" id="quantidadePorPagina" class="form-control">
-        <option value="10" selected>10</option>
-        <option value="20">20</option>
-        <option value="50">50</option>
-        <option value="100">100</option>
-        <option value="200">200</option>
-      </select>
-    </div>
-  </div>
-</div>
-<br>
-</div>
-</div>
 </div>
 
 @section('footerScript')
@@ -841,7 +754,6 @@ $('#submitFormLogin').click(function(){
   document.getElementById("preloader").style.display = "block";
 
   $('#jsgrid-table tbody').empty();
-
 
   let array = [];
   let arrayAdquirentes = [];
@@ -907,7 +819,7 @@ $('#submitFormLogin').click(function(){
     data: dados_filtro,
     dataType: 'json',
     success: function (response){
-      if(response){
+      if(response) {
 
         renderizaTabela(response);
         atualizaBoxes(response);
@@ -925,7 +837,7 @@ function paginate(paginada_selecionada, dados){
   dados.qtdeVisivelInicial = document.getElementById("quantidadePorPagina").value;
   document.getElementById("quantidadePorPagina").selected;
 
-  let filtro = JSON.stringify(dados);
+  const filtro = JSON.stringify(dados);
 
   document.getElementById("preloader").style.display = "block";
 
@@ -1041,8 +953,7 @@ function filtroCnpj(grupo_clientes){
     }else{
       grupo_clientes.forEach((cliente) => {
 
-        var regex = new RegExp(val_input);
-
+        const regex = new RegExp(val_input);
         resultado_cnpj = cliente.CNPJ.match(regex);
         resultado = cliente.NOME_EMPRESA.match(regex);
 
@@ -1073,8 +984,7 @@ function filtroNomeAdquirente(adquirentes) {
     }else {
       adquirentes.forEach((adq) => {
 
-        var regex = new RegExp(val_input, 'gi');
-
+        const regex = new RegExp(val_input, 'gi');
         resultado = adq.ADQUIRENTE.match(regex);
 
         if(resultado) {
@@ -1097,13 +1007,11 @@ function filtroNomeBandeira(bandeiras){
       bandeiras.forEach((bandeira) => {
         document.getElementById(bandeira.BANDEIRA).style.display = "block";
         document.getElementById("divBad"+bandeira.CODIGO).style.display = "block";
-
       });
     }else{
       bandeiras.forEach((bandeira) => {
 
         var regex = new RegExp(val_input, 'gi');
-
         resultado = bandeira.BANDEIRA.match(regex);
 
         if(resultado) {
@@ -1351,17 +1259,17 @@ function exportXls(){
       if(response){
         for(var i=0;i< response.length; i++){
 
-          let dados_cupom   = JSON.stringify(response[i]);
-          let data_venda    = formataData(response[i].DATA_VENDA);
-          let data_prev_pag = formataData(response[i].DATA_PREVISTA_PAGTO);
+          const dados_cupom   = JSON.stringify(response[i]);
+          const data_venda    = formataData(response[i].DATA_VENDA);
+          const data_prev_pag = formataData(response[i].DATA_PREVISTA_PAGTO);
 
-          let formatted     = formataValorReal(response[i].VALOR_BRUTO);
-          let formatted_liq = formataValorReal(response[i].VALOR_LIQUIDO);
-          let formatted_tx  = formataValorReal(response[i].VALOR_TAXA);
-          let formatted_outras_despesas = formataValorReal(response[i].OUTRAS_DESPESAS);
+          const formatted     = formataValorReal(response[i].VALOR_BRUTO);
+          const formatted_liq = formataValorReal(response[i].VALOR_LIQUIDO);
+          const formatted_tx  = formataValorReal(response[i].VALOR_TAXA);
+          const formatted_outras_despesas = formataValorReal(response[i].OUTRAS_DESPESAS);
 
-          let a = response[i].PERCENTUAL_TAXA;
-          let val_taxa = Number(a).toFixed(2);
+          const a = response[i].PERCENTUAL_TAXA;
+          const val_taxa = Number(a).toFixed(2);
           let html = "<tr>";
 
           html +="<td>"+response[i].EMPRESA+"</td>";
@@ -1384,10 +1292,8 @@ function exportXls(){
           html +="<td>"+response[i].HORA_TRANSACAO+"</td>";
           html +="<td>"+response[i].ESTABELECIMENTO+"</td>";
           html +="<td>"+response[i].BANCO+"</td>";
-          if(response[i].AGENCIA){ html +="<td>"+response[i].AGENCIA +"</td>"}
-          else{ html +="<td>"+''+"</td>";}
-          if(response[i].CONTA){ html +="<td>"+ response[i].CONTA+"</td>";}
-          else{html +="<td>"+ ''+"</td>";}
+          html +="<td>"+ `${response[i].AGENCIA || ''}` +"</td>";
+          html +="<td>"+ `${response[i].CONTA || ''}` +"</td>";
           html +="<td>"+ `${response[i].OBSERVACOES || ''}` +"</td>";
           if(response[i].COD_PRODUTO !=  null){
             html +="<td>"+response[i].PRODUTO_WEB+"</td>";
@@ -1400,11 +1306,9 @@ function exportXls(){
           html +="<td>"+""+"</td>";
           html +="<td>"+""+"</td>";
           html +="<td>"+""+"</td>";
-
           html +="</tr>";
 
           $('#table-xls').append(html);
-
         }
 
         $('#table-xls').DataTable( {
