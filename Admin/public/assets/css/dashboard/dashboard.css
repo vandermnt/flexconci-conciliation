@@ -141,3 +141,47 @@
   background: #2D5275;
   color: white;
 }
+
+a.tooltip {
+  text-decoration: none;
+  color: #000;
+  font-family: "Roboto";
+  font-size: 16px;
+  transition: all 0.4s ease;
+  -webkit-transition: all .4s ease;
+  padding: 5px;
+  background-color: #FFF;
+  position: relative;
+}
+a.tooltip:before {
+  content: attr(data-title);
+  background-color: #000;
+  color: #FFF;
+  font-size: 13px;
+  padding: 10px;
+  box-sizing: border-box;
+  font-family: "Roboto";
+  position: absolute;
+  left: 0;
+  bottom: -50px;
+  width: 250px;
+  opacity: 0;
+  transition: all .4s ease;
+}
+a.tooltip:after {
+  content: "";
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  left: 5px;
+  bottom: -16px;
+  border-style: solid;
+  border-width: 0 10px 10px 10px;
+  border-color: transparent transparent #000 transparent;
+  transition: all .4s ease;
+}
+a.tooltip:hover:after,
+a.tooltip:hover:before {
+  opacity: 1;
+}
