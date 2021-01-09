@@ -95,7 +95,11 @@ class VendasFilter extends BaseFilter {
       $this->query->whereIn('vendas.CODIGO', $filters['id_erp']);
     }
     if(Arr::has($filters, 'grupos_clientes')) {
-      $this->query->whereIn('grupos_clientes.CODIGO', $filters['grupos_clientes']);
+      $this->query->whereIn('vendas.EMPRESA', function($query) use ($filters) {
+        $query->select('NOME_EMPRESA')
+          ->from('grupos_clientes')
+          ->whereIn('grupos_clientes.CODIGO', $filters['grupos_clientes']);
+      });
     }
     if(Arr::has($filters, 'adquirentes')) {
       $this->query->whereIn('adquirentes.CODIGO', $filters['adquirentes']);
