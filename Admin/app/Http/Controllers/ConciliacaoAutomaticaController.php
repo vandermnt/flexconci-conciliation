@@ -262,22 +262,22 @@ class ConciliacaoAutomaticaController extends Controller
             ->where('COD_CLIENTE', session('codigologin'))
             ->where('COD_STATUS_CONCILIACAO', $status_manual)
             ->first();
-        $venda_operadora = VendasModel::where('CODIGO', $venda_erp->COD_VENDAS_OPERADORAS);
+        $venda_operadora = VendasModel::where('CODIGO', $venda_erp->COD_VENDAS_OPERADORAS)
+            ->first();
 
         $venda_erp->COD_STATUS_CONCILIACAO = $status_nao_conciliada->CODIGO;
         $venda_erp->COD_VENDAS_OPERADORAS = null;
+        $venda_erp->save();
 
         if(!is_null($venda_operadora)) {
             $venda_operadora->COD_STATUS_CONCILIACAO = $status_nao_conciliada->CODIGO;
             $venda_operadora->COD_VENDA_ERP = null;
+            $venda_operadora->save();
         }
 
-        $venda_erp->save();
-        $venda_operadora->save();
-        
         return response()->json([
             'status' => 'sucesso',
-            'mensagem' => 'As vendas foram conciliadas com sucesso.',
+            'mensagem' => 'As vendas foram desconciliadas com êxito.',
             'erp' => [
                 'ID' => $venda_erp->CODIGO,
                 'TOTAL_BRUTO' => $venda_erp->VALOR_VENDA_PARCELA ?? $venda_erp->TOTAL_VENDA,
@@ -288,8 +288,8 @@ class ConciliacaoAutomaticaController extends Controller
                 'TOTAL_LIQUIDO' =>  $venda_operadora ? $venda_operadora->VALOR_LIQUIDO : 0,
                 'TOTAL_TAXA' =>  $venda_operadora ? ($venda_operadora->VALOR_BRUTO - $venda_operadora->VALOR_LIQUIDO) : 0,
             ],
-            'STATUS_MANUAL_IMAGEM_URL' => $status_manual->IMAGEM_URL,
-            'STATUS_MANUAL' => $status_manual->STATUS_CONCILIACAO
+            'STATUS_CONCILIACAO_IMAGEM_URL' => $status_nao_conciliada->IMAGEM_URL,
+            'STATUS_CONCILIACAO' => $status_nao_conciliada->STATUS_CONCILIACAO
         ], 200);
     }
 
@@ -330,6 +330,36 @@ class ConciliacaoAutomaticaController extends Controller
             'STATUS_JUSTIFICADO_IMAGEM_URL' => $status_justificada->IMAGEM_URL,
             'STATUS_JUSTIFICADO' => $status_justificada->STATUS_CONCILIACAO,
             'JUSTIFICATIVA' => $justificativa
+        ], 200);
+    }
+
+    public function desjustificar(Request $request) {
+        $id_erp = $request->input('id_erp') ?? '';
+
+        $status_justificada = StatusConciliacaoModel::justificada()->first()->CODIGO;
+        $status_nao_conciliada = StatusConciliacaoModel::naoConciliada()->first();
+
+        $query = VendasErpModel::whereIn('CODIGO', $id_erp)
+            ->where('COD_CLIENTE', session('codigologin'))
+            ->where('COD_STATUS_CONCILIACAO', $status_justificada);
+
+        $total_bruto = (clone $query)->sum(DB::raw('coalesce(`vendas_erp`.`VALOR_VENDA_PARCELA`, `vendas_erp`.`TOTAL_VENDA`)'));
+        $ids_erp = (clone $query)->select('CODIGO as ID')->get();
+
+        (clone $query)->update([
+            'COD_STATUS_CONCILIACAO' => $status_nao_conciliada->CODIGO,
+            'JUSTIFICATIVA' => null
+        ]);
+
+        return response()->json([
+            'status' => 'sucesso',
+            'erp' => [
+                'ID_ERP' => $ids_erp,
+                'TOTAL_BRUTO' => $total_bruto,
+            ],
+            'STATUS_CONCILIACAO_IMAGEM_URL' => $status_nao_conciliada->IMAGEM_URL,
+            'STATUS_CONCILIACAO' => $status_nao_conciliada->STATUS_CONCILIACAO,
+            'JUSTIFICATIVA' => null
         ], 200);
     }
 
