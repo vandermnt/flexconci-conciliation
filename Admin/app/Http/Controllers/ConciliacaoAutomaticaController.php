@@ -315,11 +315,10 @@ class ConciliacaoAutomaticaController extends Controller
         $total_bruto = (clone $query)->sum(DB::raw('coalesce(`vendas_erp`.`VALOR_VENDA_PARCELA`, `vendas_erp`.`TOTAL_VENDA`)'));
         $ids_erp = (clone $query)->select('CODIGO as ID')->get();
 
-        foreach($vendas_erp as $venda_erp) {
-            $venda_erp->JUSTIFICATIVA = $justificativa;
-            $venda_erp->COD_STATUS_CONCILIACAO = $status_justificada->CODIGO;
-            $venda_erp->save();
-        }
+        (clone $query)->update([
+            'COD_STATUS_CONCILIACAO' => $status_justificada->CODIGO,
+            'JUSTIFICATIVA' => $justificativa
+        ]);
 
         return response()->json([
             'status' => 'sucesso',
