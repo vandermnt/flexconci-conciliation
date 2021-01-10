@@ -337,8 +337,12 @@ Launch static backdrop modal
 
         function escolherNome() {
             setTimeout(function() {
-                var val_input = document.getElementById("buscaEmpresaNome").value.toUpperCase();
+                var val_input = document.getElementById("buscaEmpresaNome").value;
 
+                val_input = val_input.toLowerCase().replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+
+                // console.log(teste);
+                // console.log(val_input.charAt(0).toUpperCase() + val_input.slice(1));
                 if (val_input == "") {
                     clientes.forEach((cliente) => {
 
