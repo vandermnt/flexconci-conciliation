@@ -83,10 +83,6 @@
   color: #6E6E6E;
 }
 
-#label_recebimentos {
-  color: #257E4A;
-}
-
 #ul_bancos img{
   width: 45px;
   margin-left: 60px;
@@ -102,6 +98,15 @@
 
 #dashboard_styles h6 {
   color: #6E6E6E;
+}
+
+.recebimentos h4 {
+  font-weight: 600 !important;
+  color: #257E4A;
+}
+
+.label-recebimentos {
+  color: #A4A4A4 !important;
 }
 
 .fc-event, .fc-event-title {

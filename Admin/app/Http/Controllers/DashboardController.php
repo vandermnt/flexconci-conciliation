@@ -12,6 +12,8 @@ use App\Http\Controllers\DOMPDF;
 class DashboardController extends Controller{
 
   public function dashboard(){
+    $hoje1 = date('Y/m/d');
+    $hoje2 = date('Y/m/30');
     // $sql = 'Select  projetos.*, tipo_projeto.TIPO_PROJETO, clientes.NOME  from projetos  left outer join tipo_projeto on (TIPO_PROJETO.CODIGO = projetos.COD_TIPO_PROJETO) left outer join funcionarios on (funcionarios.CODIGO = projetos.COD_FUNCIONARIO_RESP_PROJETO) left outer join clientes on (clientes.CODIGO = projetos.COD_CLIENTE) where projetos.cod_cliente ='.session('codigologin');
     // $projetos = DB::select($sql);
     // $qtde_projetos = count($projetos);
@@ -71,13 +73,15 @@ class DashboardController extends Controller{
     ->groupBy('pagamentos_operadoras.DATA_PAGAMENTO')
     ->get();
 
-
-    $hoje1 = date('Y/m/d');
-    $hoje2 = date('Y/m/30');
-
     $total_mes = DB::table('vendas')
     ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
     ->where('vendas.DATA_PREVISTA_PAGTO', '=', $hoje1)
+    ->where('vendas.COD_CLIENTE', '=', session('codigologin'))
+    ->first();
+
+    $total_futuro = DB::table('vendas')
+    ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
+    ->where('vendas.DATA_PREVISTA_PAGTO', '>', $hoje1)
     ->where('vendas.COD_CLIENTE', '=', session('codigologin'))
     ->first();
 
@@ -120,6 +124,8 @@ class DashboardController extends Controller{
     ->with('dados_operadora', $dados_operadora)
     ->with('frase', $frase)
     ->with('total_mes', $total_mes)
+    ->with('total_futuro', $total_futuro)
+
 
     ->with('total_banco', $total_banco)
     ->with('dados_dash_vendas_bandeira', $dados_dash_vendas_bandeira)
