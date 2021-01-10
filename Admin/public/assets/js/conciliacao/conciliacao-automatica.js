@@ -93,7 +93,9 @@ function getUrls() {
       exportar: form.dataset.urlExportarOperadoras,
     },
     conciliar: form.dataset.urlConciliarManualmente,
+    desconciliar: form.dataset.urlDesconciliarManualmente,
     justificar: form.dataset.urlJustificar,
+    desjustificar: form.dataset.urlDesjustificar,
   }
 }
 
@@ -367,7 +369,11 @@ function atualizarBoxes(totais) {
   const totalNaoConciliada = document.querySelector('p[data-total="TOTAL_NAO_CONCILIADA"]');
   const totalOperadoras = document.querySelector('p[data-total="OPERADORAS_TOTAL_BRUTO"]');
 
-  totalErp.textContent = formatadorMoeda.format(totais.erp.TOTAL_BRUTO);
+  const total = Object.keys(totais.erp).reduce((valorTotal, key) => {
+    return valorTotal + (['TOTAL_BRUTO', 'TOTAL_LIQUIDO', 'TOTAL_TAXA'].includes(key) ? 0 : Number(totais.erp[key]));
+  }, 0);
+
+  totalErp.textContent = formatadorMoeda.format(total);
   totalConciliada.textContent = formatadorMoeda.format(totais.erp.TOTAL_CONCILIADA);
   totalDivergente.textContent = formatadorMoeda.format(totais.erp.TOTAL_DIVERGENTE);
   totalManual.textContent = formatadorMoeda.format(totais.erp.TOTAL_MANUAL);
@@ -608,7 +614,77 @@ function confirmarDesconciliacao() {
 }
 
 function desconciliar() {
-  swal('Uhuuu!!!', 'Venda desconciliada', 'success');
+  const loader = document.querySelector('#js-loader');
+  const idErp = dados.erp.selecionados;
+
+  alternarVisibilidade(loader);
+
+  api.post(urls.desconciliar, {
+    headers: {
+      'X-CSRF-TOKEN': getCsrfToken(),
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      _token: getCsrfToken(),
+      id_erp: idErp,
+    })
+  }).then(res => {
+    alternarVisibilidade(loader);
+    
+    if(res.status != 'sucesso' && res.mensagem) {
+      swal("Ooops...", res.mensagem, "error");
+      return;
+    }
+
+    const erpTotais = dados.erp.busca.totais;
+    const operadoraTotais = dados.operadoras.busca.totais;
+    const erpBuscaIndex = dados.erp.busca.vendas.findIndex(venda => venda.ID_ERP == res.erp.ID);
+    const erpFiltradosIndex = dados.erp.filtrados.vendas.findIndex(venda => venda.ID_ERP == res.erp.ID);
+    const operadoraBuscaIndex = dados.operadoras.busca.vendas.findIndex(venda => venda.ID == res.operadora.ID);
+    const operadoraFiltradoIndex = dados.operadoras.filtrados.vendas.findIndex(venda => venda.ID == res.operadora.ID);
+
+    if(erpBuscaIndex != -1) {
+      dados.erp.busca.vendas[erpBuscaIndex].STATUS_CONCILIACAO_IMAGEM = res.STATUS_CONCILIACAO_IMAGEM_URL;
+      dados.erp.busca.vendas[erpBuscaIndex].STATUS_CONCILIACAO = res.STATUS_CONCILIACAO;
+    }
+    if(erpFiltradosIndex != -1) {
+      dados.erp.filtrados.vendas[erpFiltradosIndex].STATUS_CONCILIACAO_IMAGEM = res.STATUS_CONCILIACAO_IMAGEM_URL;
+      dados.erp.filtrados.vendas[erpFiltradosIndex].STATUS_CONCILIACAO = res.STATUS_CONCILIACAO;
+    }
+    
+    if(operadoraBuscaIndex != -1) {
+      dados.operadoras.busca.vendas[operadoraBuscaIndex].STATUS_CONCILIACAO_IMAGEM = res.STATUS_CONCILIACAO_IMAGEM_URL;
+      dados.operadoras.busca.vendas[operadoraBuscaIndex].STATUS_CONCILIACAO = res.STATUS_CONCILIACAO;
+    }
+    if(operadoraFiltradoIndex != -1) {
+      dados.operadoras.filtrados.vendas[operadoraFiltradoIndex].STATUS_CONCILIACAO_IMAGEM = res.STATUS_CONCILIACAO_IMAGEM_URL;
+      dados.operadoras.filtrados.vendas[operadoraFiltradoIndex].STATUS_CONCILIACAO = res.STATUS_CONCILIACAO;
+    }
+
+    dados.erp.busca.totais = {
+      ...erpTotais,
+      TOTAL_MANUAL: (Number(erpTotais.TOTAL_MANUAL) || 0) - (Number(res.erp.TOTAL_BRUTO) || 0),
+      TOTAL_NAO_CONCILIADA: (Number(erpTotais.TOTAL_NAO_CONCILIADA) || 0) + (Number(res.erp.TOTAL_BRUTO) || 0),
+    }
+
+    atualizarBoxes({ 
+      erp: { ...dados.erp.busca.totais },
+      operadoras: {
+        TOTAL_BRUTO: (Number(operadoraTotais.TOTAL_BRUTO) || 0) + (Number(res.operadora.TOTAL_BRUTO) || 0)
+      }
+    });
+
+    dados.erp.selecionados = [];
+    dados.operadoras.selecionados = [];
+
+    atualizarInterface('erp', dados.erp.emExibicao, dados.erp.emExibicao.paginacao);
+    atualizarInterface('operadoras', dados.operadoras.emExibicao, dados.operadoras.emExibicao.paginacao);
+
+    if(res.status === 'sucesso' && res.mensagem) {
+      swal("Desconciliação realizada!", res.mensagem, "success");
+      return;
+    }
+  });
 }
 
 function abrirModalJustificativa(event) {
@@ -725,6 +801,95 @@ function justificar() {
   });
 }
 
+function confirmarDesjustificar () {
+  const idErp = dados.erp.selecionados;
+  
+  if(idErp.length < 1) {
+    swal("Ooops...", "Para desfazer a justificativa selecione ao menos uma venda ERP.", "error");
+    return;
+  }
+
+  swal("Tem certeza que deseja desfazer a justificativa?", {
+    buttons: {
+      confirm: "Sim",
+      cancel: "Não",
+    }
+  }).then(value => {
+    if(!value) {
+      return;
+    }
+
+    desjustificar();
+  });
+}
+
+function desjustificar() {
+  const idErp = dados.erp.selecionados;
+  const loader = document.querySelector('#js-loader');
+
+  alternarVisibilidade(loader);
+
+  api.post(urls.desjustificar, {
+    headers: {
+      'X-CSRF-TOKEN': getCsrfToken(),
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      _token: getCsrfToken(),
+      id_erp: idErp,
+    })
+  }).then(res => {
+    if(res.status !== 'sucesso' && res.mensagem) {
+      swal('Ooops...', res.mensagem, 'error');
+      return;
+    }
+
+    alternarVisibilidade(loader);
+
+    const erpTotais = dados.erp.busca.totais;
+
+    dados.erp.busca.totais = {
+      ...erpTotais,
+      TOTAL_JUSTIFICADA: (Number(erpTotais.TOTAL_JUSTIFICADA) || 0) - (Number(res.erp.TOTAL_BRUTO) || 0),
+      TOTAL_NAO_CONCILIADA: (Number(erpTotais.TOTAL_NAO_CONCILIADA) || 0) + (Number(res.erp.TOTAL_BRUTO) || 0),
+    }
+    
+    res.erp.ID_ERP.forEach(erp => {
+      const erpBuscaIndex = dados.erp.busca.vendas.findIndex(venda => venda.ID_ERP == erp.ID);
+      const erpFiltradosIndex = dados.erp.filtrados.vendas.findIndex(venda => venda.ID_ERP == erp.ID);
+
+      if(erpBuscaIndex !== -1) {
+        dados.erp.busca.vendas[erpBuscaIndex] = {
+          ...dados.erp.busca.vendas[erpBuscaIndex],
+          JUSTIFICATIVA: res.JUSTIFICATIVA,
+          STATUS_CONCILIACAO: res.STATUS_CONCILIACAO,
+          STATUS_CONCILIACAO_IMAGEM: res.STATUS_CONCILIACAO_IMAGEM_URL
+        }
+      }
+      if(erpFiltradosIndex !== 1) {
+        dados.erp.filtrados.vendas[erpFiltradosIndex] = {
+          ...dados.erp.busca.vendas[erpFiltradosIndex],
+          JUSTIFICATIVA: res.JUSTIFICATIVA,
+          STATUS_CONCILIACAO: res.STATUS_CONCILIACAO,
+          STATUS_CONCILIACAO_IMAGEM: res.STATUS_CONCILIACAO_IMAGEM_URL
+        }
+      }
+    });
+
+    dados.erp.selecionados = [];
+    atualizarBoxes({ 
+      erp: { ...dados.erp.busca.totais },
+      operadoras: { ...dados.operadoras.busca.totais }
+    });
+
+    atualizarInterface('erp', dados.erp.emExibicao, dados.erp.emExibicao.paginacao);
+
+    if(res.status === 'sucesso') {
+      swal('Justificativa desfeita.', 'A justificativa foi desfeita com êxito.', 'success');
+    }
+  });
+}
+
 function abrirUrlExportacao(baseUrl, target =  '') {
   swal('Aguarde um momento...', 'A sua planilha está sendo gerada.', 'warning');
   const a = document.createElement('a');
@@ -821,6 +986,9 @@ document.querySelector('button[data-target="#js-abrir-justificar-modal"]')
 
 document.querySelector('#js-justificar')
   .addEventListener('click', justificar);
+
+document.querySelector('#js-desjustificar')
+  .addEventListener('click', confirmarDesjustificar);
 
 document.querySelector('#js-exportar-erp')
   .addEventListener('click', exportarErp);
