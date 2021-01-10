@@ -124,7 +124,7 @@ body {
     </div>
   </div>
   <div class="row" style="margin-left: 2px;">
-    <div class="col-lg-12" style="border: 2px; margin-top: 15px; background: white">
+    <div class="col-lg-12" style="border-radius: 4px; border: 2px; margin-top: 15px; background: white">
       <div class="row" style="align-items: center; justify-content: center;">
         <div class="col-sm-2">
           <img src="{{ url('assets/images/user.jpg')}}" />
