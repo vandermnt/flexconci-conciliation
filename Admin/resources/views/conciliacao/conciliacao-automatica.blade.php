@@ -359,6 +359,12 @@
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
+                    <p>ID. ERP</p>
+                    <input type="text" class="form-control" name="ID_ERP">
+                  </div>
+                </th>
+                <th>
+                  <div class="d-flex flex-column align-items-center">
                     <p>Empresa</p>
                     <input type="text" class="form-control" name="NOME_EMPRESA">
                   </div>
@@ -577,6 +583,7 @@
                     </div>
                   </div>
                 </td>
+                <td data-campo="ID_ERP"></td>
                 <td data-campo="NOME_EMPRESA"></td>
                 <td data-campo="CNPJ"></td>
                 <td data-campo="DATA_VENDA" data-format="date"></td>
@@ -633,6 +640,7 @@
             <tfoot>
               <tr>
                 <td>Totais</td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>

@@ -401,6 +401,10 @@ function renderizarTabela(tipo, vendas, totais) {
     }
     
     tr.addEventListener('click', (event) => {
+      if(event.target.tagName.toLowerCase() === 'input') {
+        return;
+      }
+
       if(!marcacoes.includes(id)) {
         marcacoes.push(id); 
         tr.classList.add('marcada');
