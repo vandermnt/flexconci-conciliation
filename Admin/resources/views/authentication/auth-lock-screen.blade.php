@@ -61,7 +61,7 @@ function autorizacaoCielo(){
     localStorage.setItem('email', email);
 
     const redirectUri = encodeURIComponent(document.querySelector("#js-redirect-uri").value);
-    
+
     window.location.href = `https://minhaconta2.cielo.com.br/oauth/?mode=redirect&client_id=2cd71f8e-aaf1-3d7a-b139-8017b4cd01f1&redirect_uri=${redirectUri}&state=STATE_INFO&scope=profile_read,transaction_read,transaction_write`;
   }
 }

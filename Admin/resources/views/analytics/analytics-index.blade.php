@@ -598,7 +598,7 @@ document.addEventListener('DOMContentLoaded', function() {
               let html = "<tr>";
               html += "<td>" + "<div class='tooltip-hint' data-title='" + dados_dash.ADQUIRENTE + "'>" +
               "<img src='" + dados_dash.IMAGEM + "'/>" + "</div>" + "</td>";
-              html += "<td>" + dados_dash.QUANTIDADE + "</td>";
+              html += "<td>" + dados_dash.QUANTIDADE_REAL + "</td>";
               html += "<td>" + Intl.NumberFormat('pt-br', {
                 style: 'currency',
                 currency: 'BRL'
@@ -614,7 +614,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
               html += "</tr>";
 
-              totalQtd += parseInt(dados_dash.QUANTIDADE);
+              totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
               totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
               totalTx += parseFloat(dados_dash.TOTAL_TAXA);
               totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
@@ -666,9 +666,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
               let html = "<tr>";
               html += "<td>" + "<div class='tooltip-hint' data-title='" + dados_dash.BANDEIRA + "'>" +
-              "<img src='" + dados_dash.IMAGEM + "'/>" + "</div>" + "</td>";
+              "<img style='position: static' src='" + dados_dash.IMAGEM + "'/>" + "</div>" + "</td>";
               // html += "<td>" + "<img src='" + `${dados_dash.IMAGEM || 'assets/images/iconCart.jpeg'}` + "' data-toggle='tooltip' title='" + dados_dash.BANDEIRA + "'/>" + "</td>";
-              html += "<td>" + dados_dash.QUANTIDADE + "</td>";
+              html += "<td>" + dados_dash.QUANTIDADE_REAL + "</td>";
               html += "<td>" + Intl.NumberFormat('pt-br', {
                 style: 'currency',
                 currency: 'BRL'
@@ -683,7 +683,7 @@ document.addEventListener('DOMContentLoaded', function() {
               }).format(dados_dash.TOTAL_LIQUIDO) + "</td>";
               html += "</tr>";
 
-              totalQtd += parseInt(dados_dash.QUANTIDADE);
+              totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
               totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
               totalTx += parseFloat(dados_dash.TOTAL_TAXA);
               totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
@@ -735,7 +735,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
               var html = "<tr>";
               html += "<td style='color: #231F20'>" + dados_dash.PRODUTO_WEB + "</td>";
-              html += "<td style='color: #231F20'>" + dados_dash.QUANTIDADE + "</td>";
+              html += "<td style='color: #231F20'>" + dados_dash.QUANTIDADE_REAL + "</td>";
               html += "<td style='color: #231F20'>" + Intl.NumberFormat('pt-br', {
                 style: 'currency',
                 currency: 'BRL'
@@ -750,7 +750,7 @@ document.addEventListener('DOMContentLoaded', function() {
               }).format(dados_dash.TOTAL_LIQUIDO) + "</td>";
               html += "</tr>";
 
-              totalQtd += parseInt(dados_dash.QUANTIDADE);
+              totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
               totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
               totalTx += parseFloat(dados_dash.TOTAL_TAXA);
               totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
@@ -803,7 +803,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
               var html = "<tr>";
               html += "<td>" + dados_dash.DESCRICAO + "</td>";
-              html += "<td style='color: #231F20'>" + dados_dash.QUANTIDADE + "</td>";
+              html += "<td style='color: #231F20'>" + dados_dash.QUANTIDADE_REAL + "</td>";
               html += "<td style='color: #231F20'>" + Intl.NumberFormat('pt-br', {
                 style: 'currency',
                 currency: 'BRL'
@@ -820,7 +820,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
               $('#table_vendas_modalidade').append(html);
 
-              totalQtd += parseInt(dados_dash.QUANTIDADE);
+              totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
               totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
               totalTx += parseFloat(dados_dash.TOTAL_TAXA);
               totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
@@ -876,7 +876,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 let html = "<tr>";
                 html += "<td>" + "<img src='" + dados_dash.IMAGEM + "' style='width: 35px'/>" + "</td>";
-                html += "<td style='color: #231F20'>" + dados_dash.QUANTIDADE + "</td>";
+                html += "<td style='color: #231F20'>" + dados_dash.QUANTIDADE_REAL + "</td>";
                 html += "<td style='color: #231F20'>" + Intl.NumberFormat('pt-br', {
                   style: 'currency',
                   currency: 'BRL'
@@ -893,7 +893,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 $('#table_vendas_operadora').append(html);
 
-                totalQtd += parseInt(dados_dash.QUANTIDADE);
+                totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
                 totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
                 totalTx += parseFloat(dados_dash.TOTAL_TAXA);
                 totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
@@ -945,7 +945,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 var html = "<tr>";
                 html += "<td>" + "<img src='" + dados_dash.IMAGEM + "' style='width: 28px'/>" + "</td>";
-                html += "<td style='color: #231F20'>" + dados_dash.QUANTIDADE + "</td>";
+                html += "<td style='color: #231F20'>" + dados_dash.QUANTIDADE_REAL + "</td>";
                 html += "<td style='color: #231F20'>" + Intl.NumberFormat('pt-br', {
                   style: 'currency',
                   currency: 'BRL'
@@ -962,7 +962,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 $('#table_vendas_bandeira').append(html);
 
-                totalQtd += parseInt(dados_dash.QUANTIDADE);
+                totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
                 totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
                 totalTx += parseFloat(dados_dash.TOTAL_TAXA);
                 totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
@@ -1006,7 +1006,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
           } else if (tipo == 'modalidade') {
-            console.log("ENTROU EM MODALIDADE");
 
             dash_vendas = <?php echo $dados_dash_vendas_modalidade ?>;
 
@@ -1018,7 +1017,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 var html = "<tr>";
                 html += "<td>" + dados_dash.DESCRICAO + "</td>";
-                html += "<td>" + dados_dash.QUANTIDADE + "</td>";
+                html += "<td>" + dados_dash.QUANTIDADE_REAL + "</td>";
                 html += "<td>" + Intl.NumberFormat('pt-br', {
                   style: 'currency',
                   currency: 'BRL'
@@ -1035,7 +1034,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 $('#table_vendas_modalidade').append(html);
 
-                totalQtd += parseInt(dados_dash.QUANTIDADE);
+                totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
                 totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
                 totalTx += parseFloat(dados_dash.TOTAL_TAXA);
                 totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
@@ -1079,7 +1078,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
           } else if (tipo == 'produto') {
-            console.log("ENTROU EM PRODUTO");
             dash_vendas = <?php echo $dados_dash_vendas_produto ?>;
 
             $('#table_vendas_produto tbody').empty();
@@ -1090,7 +1088,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 var html = "<tr>";
                 html += "<td>" + dados_dash.PRODUTO_WEB + "</td>";
-                html += "<td>" + dados_dash.QUANTIDADE + "</td>";
+                html += "<td>" + dados_dash.QUANTIDADE_REAL + "</td>";
                 html += "<td>" + Intl.NumberFormat('pt-br', {
                   style: 'currency',
                   currency: 'BRL'
@@ -1107,7 +1105,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 $('#table_vendas_produto').append(html);
 
-                totalQtd += parseInt(dados_dash.QUANTIDADE);
+                totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
                 totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
                 totalTx += parseFloat(dados_dash.TOTAL_TAXA);
                 totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
