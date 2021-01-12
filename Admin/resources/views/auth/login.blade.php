@@ -341,8 +341,6 @@ Launch static backdrop modal
 
                 val_input = val_input.toLowerCase().replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
 
-                // console.log(teste);
-                // console.log(val_input.charAt(0).toUpperCase() + val_input.slice(1));
                 if (val_input == "") {
                     clientes.forEach((cliente) => {
 

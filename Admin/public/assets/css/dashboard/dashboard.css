@@ -147,6 +147,10 @@
   color: white;
 }
 
+table thead tr th {
+  z-index: 10;
+}
+
 .tooltip-hint {
   text-decoration: none;
   font: 500 12px Poppins, sans-serif;

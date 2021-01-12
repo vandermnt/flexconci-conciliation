@@ -666,7 +666,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
               let html = "<tr>";
               html += "<td>" + "<div class='tooltip-hint' data-title='" + dados_dash.BANDEIRA + "'>" +
-              "<img src='" + dados_dash.IMAGEM + "'/>" + "</div>" + "</td>";
+              "<img style='position: static' src='" + dados_dash.IMAGEM + "'/>" + "</div>" + "</td>";
               // html += "<td>" + "<img src='" + `${dados_dash.IMAGEM || 'assets/images/iconCart.jpeg'}` + "' data-toggle='tooltip' title='" + dados_dash.BANDEIRA + "'/>" + "</td>";
               html += "<td>" + dados_dash.QUANTIDADE + "</td>";
               html += "<td>" + Intl.NumberFormat('pt-br', {
