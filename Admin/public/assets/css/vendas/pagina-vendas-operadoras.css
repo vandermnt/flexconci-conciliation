@@ -1,0 +1,25 @@
+#pagina-vendas-operadoras .resultados {
+  margin-top: 48px;
+}
+
+#pagina-vendas-operadoras .boxes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 24px;
+}
+
+#pagina-vendas-operadoras .boxes h4 {
+  font-size: 0.845rem;
+  font-weight: 700;
+  color: #000444;
+}
+
+#pagina-vendas-operadoras .boxes p {
+  font-size: 1rem;
+  margin: 0;
+}
+
+#pagina-vendas-operadoras .boxes img {
+  width: 40px;
+  max-width: 100%;
+}

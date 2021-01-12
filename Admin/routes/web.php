@@ -41,7 +41,8 @@ Route::group(['middleware' => 'auth'], function() {
   Route::get('/download', 'VendasController@downloadTable');
   Route::get('/desfazer-justificativa/{codigo}', 'VendasController@desfazerJustificativa');
   Route::match(['get', 'post'], '/exportxls-vendas-operadora', 'VendasController@exportXls');
-
+  
+  Route::get('/vendas-operadoras', 'VendasOperadorasController@index')->name('vendas-operadoras.index');
 
 
   //CONCILIAÇÃO AUTOMÁTICA
