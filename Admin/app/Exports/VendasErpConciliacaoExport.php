@@ -61,7 +61,7 @@ class VendasErpConciliacaoExport implements FromQuery, WithStrictNullComparison,
     public function map($venda): array
     {
         return [
-            $venda->ID_ERP,
+            $venda->DESCRICAO_ERP,
             $venda->NOME_EMPRESA,
             $venda->CNPJ." ",
             is_null($venda->DATA_VENDA) ? null : date_format(date_create($venda->DATA_VENDA), 'd/m/Y'),
