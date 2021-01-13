@@ -931,46 +931,60 @@
               </tr>
             </thead>
             <tbody>
-              <tr data-id="ID" class="hidden">
-                <td></td>
-                <td data-campo="NOME_EMPRESA"></td>
-                <td data-campo="CNPJ"></td>
-                <td data-campo="DATA_VENDA" data-format="date"></td>
-                <td data-campo="DATA_PREVISAO" data-format="date"></td>
+              <tr data-id="ID" class="">
                 <td>
-                  <div class="tooltip-hint" data-title="ADQUIRENTE">
-                    <img data-image="ADQUIRENTE_IMAGEM" data-text="ADQUIRENTE">
-                  </div>
+                  <a class="link-impressao tooltip-hint" data-title="Visualizar comprovante">
+                    <i class="fas fa-print"></i>
+                  </a>
                 </td>
-                <td>
-                  <div class="tooltip-hint" data-title="BANDEIRA">
-                    <img data-image="BANDEIRA_IMAGEM" data-text="BANDEIRA">
-                  </div>
+                <td data-campo="NOME_EMPRESA">-</td>
+                <td data-campo="CNPJ">-</td>
+                <td data-campo="DATA_VENDA" data-format="date">-</td>
+                <td data-campo="DATA_PREVISAO" data-format="date">-</td>
+                <td
+                  class="tooltip-hint" 
+                  data-image="ADQUIRENTE_IMAGEM"
+                  data-default-image="assets/images/iconCart.jpeg"
+                  data-text="ADQUIRENTE"
+                  data-default-text="Sem identificação"
+                  data-title="ADQUIRENTE"
+                >
+                  <div class="icon-image"></div>
                 </td>
-                <td data-campo="MODALIDADE"></td>
-                <td data-campo="NSU"></td>
-                <td data-campo="AUTORIZACAO"></td>
-                <td data-campo="VALOR_BRUTO" data-format="currency"></td>
-                <td data-campo="PERCENTUAL_TAXA" data-format="decimal"></td>
+                <td
+                  class="tooltip-hint" 
+                  data-image="BANDEIRA_IMAGEM"
+                  data-default-image="assets/images/iconCart.jpeg"
+                  data-text="BANDEIRA"
+                  data-default-text="Sem identificação"
+                  data-title="BANDEIRA"
+                >
+                  <div class="icon-image"></div>
+                </td>
+                <td data-campo="MODALIDADE">-</td>
+                <td data-campo="NSU">-</td>
+                <td data-campo="AUTORIZACAO">-</td>
+                <td data-campo="VALOR_BRUTO" data-format="currency">-</td>
+                <td data-campo="PERCENTUAL_TAXA" data-format="decimal">-</td>
                 <td class="text-danger" data-campo="VALOR_TAXA" data-format="currency"></td>
-                <td data-campo="VALOR_LIQUIDO" data-format="currency"></td>
-                <td data-campo="PARCELA"></td>
-                <td data-campo="TOTAL_PARCELAS"></td>
-                <td data-campo="HORA_TRANSACAO" data-format="time"></td>
-                <td data-campo="ESTABELECIMENTO"></td>
+                <td data-campo="VALOR_LIQUIDO" data-format="currency">-</td>
+                <td data-campo="PARCELA">-</td>
+                <td data-campo="TOTAL_PARCELAS">-</td>
+                <td data-campo="HORA_TRANSACAO" data-format="time">-</td>
+                <td data-campo="ESTABELECIMENTO">-</td>
                 <td>
                   <div class="tooltip-hint" data-title="BANCO">
                     <img data-image="BANCO_IMAGEM" data-text="BANCO" src="" alt="">
                   </div>
                 </td>
-                <td data-campo="AGENCIA"></td>
-                <td data-campo="CONTA"></td>
-                <td data-campo="OBSERVACOES"></td>
-                <td data-campo="PRODUTO"></td>
-                <td data-campo="MEIOCAPTURA"></td>
-                <td data-campo="STATUS_CONCILIACAO"></td>
-                <td data-campo="STATUS_FINANCEIRO"></td>
-                <td data-campo="JUSTIFICATIVA"></td>
+                <td data-campo="AGENCIA">-</td>
+                <td data-campo="CONTA">-</td>
+                <td data-campo="OBSERVACOES">-</td>
+                <td data-campo="PRODUTO">-</td>
+                <td data-campo="MEIOCAPTURA">-</td>
+                <td data-campo="STATUS_CONCILIACAO">-</td>
+                <td data-campo="STATUS_FINANCEIRO">-</td>
+                <td data-campo="JUSTIFICATIVA">-</td>
               </tr>      
             </tbody>
             <tfoot>
@@ -1006,6 +1020,28 @@
             </tfoot>
           </table>
         </div>
+
+        <footer class="d-flex justify-content-between align-items-end flex-wrap">
+          <nav class="nav-paginacao">
+            <ul class="pagination" id="js-paginacao-operadoras">
+              <li class="page-item active">
+                <a href="" class="page-link">1</a>
+              </li>
+            </ul>
+          </nav>
+  
+          <div class="form-group">
+            <label for="js-porpagina-operadoras">Quantidade por página</label>
+            <select data-vendas-tipo="operadoras" name="por_pagina" id="js-porpagina-operadoras" class="form-control">
+              <option value="5" selected>5</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+              <option value="200">200</option>
+            </select>
+          </div>
+        </footer>
       </div>
     </div>
   </main>
