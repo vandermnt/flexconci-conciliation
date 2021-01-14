@@ -337,9 +337,9 @@ Launch static backdrop modal
 
         function escolherNome() {
             setTimeout(function() {
-                var val_input = document.getElementById("buscaEmpresaNome").value;
+                var val_input = document.getElementById("buscaEmpresaNome").value.toUpperCase();
 
-                val_input = val_input.toLowerCase().replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+                // val_input = val_input.toLowerCase().replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
 
                 if (val_input == "") {
                     clientes.forEach((cliente) => {
@@ -352,8 +352,7 @@ Launch static backdrop modal
 
                         var regex = new RegExp(val_input);
 
-                        resultado_nome = cliente.NOME_FANTASIA.match(regex);
-
+                        resultado_nome = cliente.NOME_FANTASIA.toUpperCase().match(regex);
                         if (resultado_nome) {
                             document.getElementById(cliente.CODIGO).style.display = "block";
                         } else {
