@@ -58,6 +58,7 @@ const urls = getUrls();
 const dados = new Proxy({
   filtros: {},
   subfiltros: {},
+  statusAtivos: [],
   erp: new VendasProxy('erp'),
   operadoras: new VendasProxy('operadoras'),
 }, handler());
@@ -75,6 +76,8 @@ function handler() {
         target[name].grupos_clientes = value.grupos_clientes;
         target[name].status_conciliacao = value.status_conciliacao;
       }
+
+      target[name] = value
     }
   }
 }
@@ -157,6 +160,10 @@ function atualizarInterface(modalidadeVendas, registros, paginacao = null) {
     paginacao.render();
     document.querySelector(`#js-porpagina-${modalidadeVendas}`).value = paginacao.options.perPage;
   }
+  atualizarBoxes({ 
+    erp: { ...dados.erp.busca.totais },
+    operadoras: { ...dados.operadoras.busca.totais }
+  });
 }
 
 function limpar() {
@@ -298,6 +305,8 @@ async function iniciarRequisicao(requisicaoCallback = async () => {}) {
 async function submeterPesquisa(event) {
   event.preventDefault();
 
+  dados.statusAtivos = checker.getCheckedValues('status-conciliacao', 'status');
+
   await iniciarRequisicao(async () => {
     const filtros = getFiltros();
 
@@ -322,10 +331,6 @@ async function submeterPesquisa(event) {
     dados.operadoras.busca = operadoras;
   });
   
-  atualizarBoxes({ 
-      erp: { ...dados.erp.busca.totais },
-      operadoras: { ...dados.operadoras.busca.totais }
-  });
   limparFiltros();
   window.scrollTo(0, document.querySelector('#js-resultados').offsetTop);
 }
@@ -342,6 +347,7 @@ async function pesquisarPorBox(event) {
     statusConciliacaoCheckbox.checked = true;
   }
   
+  dados.statusAtivos = checker.getCheckedValues('status-conciliacao', 'status');
   await iniciarRequisicao(async () => {
     const vendas = await requisitarVendas(urls.erp.buscar, {
       ...getFiltros(),
@@ -360,6 +366,17 @@ async function pesquisarPorBox(event) {
   window.scrollTo(0, document.querySelector('#js-resultados').offsetTop);
 }
 
+function calcularTotalErpBrutoBox() {
+  const statusAtivos = [...dados.statusAtivos];
+
+  const total = statusAtivos.reduce((total, status) => {
+    const statusDOM = document.querySelector(`.boxes .card[data-status="${status}"] p[data-valor]`);
+    return total + (Number(statusDOM.dataset.valor) || 0);
+  }, 0);
+
+  return total;
+}
+
 function atualizarBoxes(totais) {
   const totalErp = document.querySelector('p[data-total="EPR_TOTAL_BRUTO"]');
   const totalConciliada = document.querySelector('p[data-total="TOTAL_CONCILIADA"]');
@@ -369,16 +386,24 @@ function atualizarBoxes(totais) {
   const totalNaoConciliada = document.querySelector('p[data-total="TOTAL_NAO_CONCILIADA"]');
   const totalOperadoras = document.querySelector('p[data-total="OPERADORAS_TOTAL_BRUTO"]');
 
-  const total = Object.keys(totais.erp).reduce((valorTotal, key) => {
-    return valorTotal + (['TOTAL_BRUTO', 'TOTAL_LIQUIDO', 'TOTAL_TAXA'].includes(key) ? 0 : Number(totais.erp[key]));
-  }, 0);
-
-  totalErp.textContent = formatadorMoeda.format(total);
+  totalConciliada.dataset.valor = totais.erp.TOTAL_CONCILIADA;
   totalConciliada.textContent = formatadorMoeda.format(totais.erp.TOTAL_CONCILIADA);
+
+  totalDivergente.dataset.valor = totais.erp.TOTAL_DIVERGENTE;
   totalDivergente.textContent = formatadorMoeda.format(totais.erp.TOTAL_DIVERGENTE);
+  
+  totalManual.dataset.valor = totais.erp.TOTAL_MANUAL;
   totalManual.textContent = formatadorMoeda.format(totais.erp.TOTAL_MANUAL);
+  
+  totalJustificada.dataset.valor = totais.erp.TOTAL_JUSTIFICADA;
   totalJustificada.textContent = formatadorMoeda.format(totais.erp.TOTAL_JUSTIFICADA);
+  
+  totalNaoConciliada.dataset.valor = totais.erp.TOTAL_NAO_CONCILIADA;
   totalNaoConciliada.textContent = formatadorMoeda.format(totais.erp.TOTAL_NAO_CONCILIADA);
+  
+  totalErp.textContent = formatadorMoeda.format(calcularTotalErpBrutoBox());
+
+  totalOperadoras.dataset.valor = totais.operadoras.TOTAL_BRUTO;
   totalOperadoras.textContent = formatadorMoeda.format(totais.operadoras.TOTAL_BRUTO);
 }
 
@@ -568,12 +593,10 @@ function conciliar() {
       TOTAL_NAO_CONCILIADA: (Number(erpTotais.TOTAL_NAO_CONCILIADA) || 0) - (Number(res.erp.TOTAL_BRUTO) || 0),
     }
 
-    atualizarBoxes({ 
-      erp: { ...dados.erp.busca.totais },
-      operadoras: {
-        TOTAL_BRUTO: (Number(operadoraTotais.TOTAL_BRUTO) || 0) - (Number(res.operadora.TOTAL_BRUTO) || 0)
-      }
-    });
+    dados.operadoras.busca.totais = {
+      ...operadoraTotais,
+      TOTAL_BRUTO: (Number(operadoraTotais.TOTAL_BRUTO) || 0) - (Number(res.operadora.TOTAL_BRUTO) || 0)
+    }
 
     dados.erp.selecionados = [];
     dados.operadoras.selecionados = [];
@@ -670,13 +693,11 @@ function desconciliar() {
       TOTAL_MANUAL: (Number(erpTotais.TOTAL_MANUAL) || 0) - (Number(res.erp.TOTAL_BRUTO) || 0),
       TOTAL_NAO_CONCILIADA: (Number(erpTotais.TOTAL_NAO_CONCILIADA) || 0) + (Number(res.erp.TOTAL_BRUTO) || 0),
     }
-
-    atualizarBoxes({ 
-      erp: { ...dados.erp.busca.totais },
-      operadoras: {
-        TOTAL_BRUTO: (Number(operadoraTotais.TOTAL_BRUTO) || 0) + (Number(res.operadora.TOTAL_BRUTO) || 0)
-      }
-    });
+    
+    dados.operadoras.busca.totais = {
+      ...operadoraTotais,
+      TOTAL_BRUTO: (Number(operadoraTotais.TOTAL_BRUTO) || 0) + (Number(res.operadora.TOTAL_BRUTO) || 0)
+    }
 
     dados.erp.selecionados = [];
     dados.operadoras.selecionados = [];
@@ -786,10 +807,6 @@ function justificar() {
     });
 
     dados.erp.selecionados = [];
-    atualizarBoxes({ 
-      erp: { ...dados.erp.busca.totais },
-      operadoras: { ...dados.operadoras.busca.totais }
-    });
 
     atualizarInterface('erp', dados.erp.emExibicao, dados.erp.emExibicao.paginacao);
 
@@ -881,10 +898,6 @@ function desjustificar() {
     });
 
     dados.erp.selecionados = [];
-    atualizarBoxes({ 
-      erp: { ...dados.erp.busca.totais },
-      operadoras: { ...dados.operadoras.busca.totais }
-    });
 
     atualizarInterface('erp', dados.erp.emExibicao, dados.erp.emExibicao.paginacao);
 

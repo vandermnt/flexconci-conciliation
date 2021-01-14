@@ -45,6 +45,14 @@ class VendasErpSubFilter extends BaseSubFilter {
     'DATA_CONCILIACAO',
     'HORA_CONCILIACAO',
   ];
+  protected $numericFilters = [
+    'TOTAL_VENDA',
+    'VALOR_VENDA_PARCELA',
+    'VALOR_VENDA',
+    'TAXA',
+    'VALOR_TAXA',
+    'VALOR_LIQUIDO_PARCELA',
+  ];
 
   public static function subfilter($filters, $subfilters) {
     $instance = app(VendasErpSubFilter::class);
@@ -66,7 +74,7 @@ class VendasErpSubFilter extends BaseSubFilter {
       ->mergeBindings($filterQuery->getQuery());
 
     foreach($subfilters as $subfilter => $value) {
-      $this->query->where($subfilter, 'like', '%'.$value.'%');
+      $this->buildWhereClause($subfilter, $value);
     }
 
     return $this;

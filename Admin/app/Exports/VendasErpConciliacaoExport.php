@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Filters\VendasErpFilter;
+use App\Filters\VendasErpSubFilter;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 use Maatwebsite\Excel\Concerns\Exportable;
@@ -72,10 +72,10 @@ class VendasErpConciliacaoExport implements FromQuery, WithStrictNullComparison,
             $venda->NSU." ",
             $venda->CODIGO_AUTORIZACAO." ",
             $venda->TID." ",
-            number_format(($venda->VALOR_VENDA_PARCELA ?? $venda->TOTAL_VENDA), 2, ',', '.'),
-            number_format($venda->TAXA, 2, ',', '.'),
-            number_format($venda->VALOR_TAXA, 2, ',', '.'),
-            number_format($venda->VALOR_LIQUIDO_PARCELA, 2, ',', '.'),
+            ($venda->VALOR_VENDA_PARCELA ?? $venda->TOTAL_VENDA) ?? 0,
+            $venda->TAXA ?? 0,
+            $venda->VALOR_TAXA ?? 0,
+            $venda->VALOR_LIQUIDO_PARCELA ?? 0,
             $venda->PARCELA,
             $venda->TOTAL_PARCELAS,
             $venda->BANCO,
@@ -98,6 +98,6 @@ class VendasErpConciliacaoExport implements FromQuery, WithStrictNullComparison,
 
     public function query()
     {
-        return VendasErpFilter::filter($this->filters)->getQuery();
+        return VendasErpSubFilter::filter($this->filters, [])->getQuery()->orderBy('DATA_VENDA');
     }
 }
