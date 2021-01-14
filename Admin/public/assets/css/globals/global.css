@@ -1,3 +1,13 @@
+.icon-image {
+  content: '';
+  width: 100%;
+  height: 100%;
+  background: no-repeat center center / contain;
+  background-origin: content-box;
+  padding: 0;
+  margin: 0;
+}
+
 .tooltip-hint {
   text-decoration: none;
   font: 500 12px Poppins, sans-serif;
@@ -46,8 +56,176 @@
   opacity: 1;
 }
 
+.button {
+  min-width: 104px;
+  max-width: 100%;
+  min-height: 30px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-align: center;
+  color: #2d5275;
+  border-color: #2d5275;
+  background-color: white;
+  padding: 0;
+  transition: 0.4s;
+  padding: 6px 12px;
+}
+
+.button:not(.no-hover):hover {
+  color: white;
+  background-color: #2d5275;
+}
+
+table {
+  white-space: nowrap;
+  position: relative;
+  background-color: transparent;
+  border: none;
+  margin: 0 !important;
+}
+
+table thead th {
+  position: sticky;
+  top: 0;
+}
+
+table tr,
+table td,
+table th {
+  background-color: transparent !important;
+  padding: 8px !important;
+  border: none !important;
+}
+
+table tr {
+  border-bottom: 2px solid #eaf0f7 !important;
+}
+
+table th {
+  border: none;
+}
+
+table th,
+table td {
+  width: fit-content;
+  color: #231F20;
+  font-weight: 400;
+  line-height: normal;
+  z-index: 2;
+  padding: 8px;
+  margin: 0;
+}
+
+table th p {
+  margin-bottom: 8px;
+}
+
+table th input {
+  min-width: 136px;
+  max-width: 100%;
+  height: 32px !important;
+}
+
+table th input[type="number"]::-webkit-inner-spin-button, 
+table th input[type="number"]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+table th input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+table thead,
+table tbody,
+table tfoot {
+  background-color: white;
+}
+
+tbody td img {
+  width: 48px;
+  padding: 1px 0px;
+}
+
+table tfoot {
+  font-weight: bolder;
+  text-align: center;
+  background-color: #E6E6E6;
+  position: sticky;
+  bottom: 0;
+}
+
+table tfoot td { 
+  color: #6E6E6E;
+  font-weight: bold;
+}
+
+table td[data-image] {
+  padding: 0px !important;
+}
+
+table td[data-image] > .icon-image {
+  width: 90%;
+  background-image: url(../../images/adquirentes/pagseguro.svg);
+  background-image: url(../../images/adquirentes/pagseguro-v2.png);
+  background-image: url(../../images/adquirentes/cielo.svg);
+  background-image: url(../../images/adquirentes/omni.svg);
+  background-image: url(../../images/adquirentes/rede.png);
+  background-image: url(../../images/adquirentes/stone.png);
+  background-image: url(../../images/adquirentes/truckpag.png);
+
+  background-image: url(../../images/bancos/banco-do-brasil.png);
+  background-image: url(../../images/bancos/bradesco.png);
+  background-image: url(../../images/bancos/banrisul.png);
+  background-image: url(../../images/bancos/caixa.png);
+  background-image: url(../../images/bancos/inter.png);
+  background-image: url(../../images/bancos/itau.png);
+  background-image: url(../../images/bancos/santander.png);
+  background-image: url(../../images/bancos/sicoob.png);
+  background-image: url(../../images/bancos/sicredi.png);
+  background-image: url(../../images/bancos/topazio.png);
+  background-image: url(../../images/bancos/tribanco.png);
+  
+  background-image: url(../../images/bandeiras/alelo.svg);
+  background-image: url(../../images/bandeiras/amex.png);
+  background-image: url(../../images/bandeiras/amex.svg);
+  background-image: url(../../images/bandeiras/banescard.svg);
+  background-image: url(../../images/bandeiras/cabal.svg);
+  background-image: url(../../images/bandeiras/cooper.png);
+  background-image: url(../../images/bandeiras/diners.svg);
+  background-image: url(../../images/bandeiras/elo.png);
+  background-image: url(../../images/bandeiras/elo.svg);
+  background-image: url(../../images/bandeiras/hipercard.svg);
+  background-image: url(../../images/bandeiras/jcb.svg);
+  background-image: url(../../images/bandeiras/mastercard.png);
+  background-image: url(../../images/bandeiras/mastercard.svg);
+  background-image: url(../../images/bandeiras/sodexo.svg);
+  background-image: url(../../images/bandeiras/sorocred.png);
+  background-image: url(../../images/bandeiras/ticket.png);
+  background-image: url(../../images/bandeiras/visa.svg);
+  background-image: url(../../images/bandeiras/vr.png);
+  background-image: url(../../images/iconCart.jpeg);
+  background-origin: border-box;
+  padding: 20px !important;
+  margin: 2px auto;
+}
+
+table .form-control {
+  text-align: center;
+}
+
+table tr.marcada {
+  background-color: #a4a4a4 !important;
+}
+
+table tr.marcada td {
+  color: white;
+}
+
 /* Form */
-.input-group + .input-group {
+.input-group + .input-group,
+.input-group + .input-check-group,
+.input-check-group + .input-check-group {
   margin-top: 8px;
 }
 
@@ -55,9 +233,11 @@
   margin-bottom: 0;
 }
 
-.form .form-group label {
+.form .form-group label,
+.input-group label,
+.input-check-group label {
   color: #303e67;
-  font-size: 0.845rem;
+  font-size: 0.8rem;
   font-weight: 500;
   line-height: 1.2;
   margin-bottom: 8px;
@@ -67,13 +247,18 @@
   margin-bottom: 8px;
 }
 
-.form .form-group .form-control {
-  height: 30px;
+.form-control {
   color: #303e67;
   border-color: #2d5275;
-  padding-top: 0;
-  padding-bottom: 0;
   padding: 0 8px;
+}
+
+.form-control:focus {
+  border-color: #2d5275;
+}
+
+.form .form-group .form-control {
+  height: 30px;
 }
 
 .form .form-button {
@@ -85,7 +270,12 @@
   border-color: #2d5275;
   background-color: white;
   padding: 0;
-  transition: 0.2s;
+  transition: 0.4s;
+}
+
+.form .form-button:hover {
+  color: white;
+  background-color: #2d5275;
 }
 
 .form .button-group {
@@ -105,6 +295,7 @@
   color: #2d5275;
   border-color: #2d5275;
   background-color: white;
+  transition: 0.4s;
 }
 
 .form .button-group button:focus {
@@ -134,6 +325,23 @@
   grid-column: 1;
 }
 
+.search-form .input-check-group .check-group {
+  display: flex;
+  align-items: center;
+}
+
+.search-form .check-group .form-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.search-form .check-group .form-group label {
+  font-size: 12px;
+  margin: 0;
+  margin-left: 4px;
+}
+
 /* Modais */
 .page-content-tab .modais .modal-header {
   background: #2d5275;
@@ -159,6 +367,10 @@
 
 .page-content-tab .modais .modal-body .form-group h6 {
   color: #6E6E6E;
+  font-weight: bold;
+}
+
+.page-content-tab .modais .modal-footer button {
   font-weight: bold;
 }
 

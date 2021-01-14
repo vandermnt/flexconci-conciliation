@@ -360,7 +360,7 @@
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>ID. ERP</p>
-                    <input type="text" class="form-control" name="ID_ERP">
+                    <input type="text" class="form-control" name="DESCRICAO_ERP">
                   </div>
                 </th>
                 <th>
@@ -583,7 +583,7 @@
                     </div>
                   </div>
                 </td>
-                <td data-campo="ID_ERP"></td>
+                <td data-campo="DESCRICAO_ERP"></td>
                 <td data-campo="NOME_EMPRESA"></td>
                 <td data-campo="CNPJ"></td>
                 <td data-campo="DATA_VENDA" data-format="date"></td>
@@ -777,6 +777,18 @@
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
+                    <p>TID</p>
+                    <input type="text" class="form-control" name="TID">
+                  </div>
+                </th>
+                <th>
+                  <div class="d-flex flex-column align-items-center">
+                    <p>Cartão</p>
+                    <input type="text" class="form-control" name="CARTAO">
+                  </div>
+                </th>
+                <th>
+                  <div class="d-flex flex-column align-items-center">
                     <p>Valor Bruto</p>
                     <input type="number" min="0" step="0.01" class="form-control" name="VALOR_BRUTO">
                   </div>
@@ -910,6 +922,8 @@
                 <td data-campo="MODALIDADE"></td>
                 <td data-campo="NSU"></td>
                 <td data-campo="AUTORIZACAO"></td>
+                <td data-campo="TID"></td>
+                <td data-campo="CARTAO"></td>
                 <td data-campo="VALOR_BRUTO" data-format="currency"></td>
                 <td data-campo="PERCENTUAL_TAXA" data-format="decimal"></td>
                 <td class="text-danger" data-campo="VALOR_TAXA" data-format="currency"></td>
@@ -936,6 +950,8 @@
             <tfoot>
               <tr>
                 <td>Totais</td>
+                <td></td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
