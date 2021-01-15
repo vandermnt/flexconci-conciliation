@@ -134,7 +134,7 @@ function atualizaBoxes() {
 
 function exportar() {
     const headers = {
-        ID_ERP: 'ID. ERP',
+        DESCRICAO_ERP: 'ID. ERP',
         NOME_EMPRESA: 'Empresa',
         CNPJ: 'CNPJ',
         DATA_VENDA: 'Venda',
@@ -170,8 +170,8 @@ function exportar() {
         HORA_CONCILIACAO: 'Hora Conciliação',
     };
 
-    const formatadorDecimal = new Intl.NumberFormat('pt-BR');
     const dados = vendas.map(venda => {
+        delete venda.ID_ERP;
         delete venda.BANDEIRA_IMAGEM;
         delete venda.ADQUIRENTE_IMAGEM;
         delete venda.BANCO_IMAGEM
@@ -180,10 +180,10 @@ function exportar() {
             ...venda,
             DATA_VENDA: (venda.DATA_VENDA && new Date(`${venda.DATA_VENDA} 00:00:00`).toLocaleDateString()) || '',
             DATA_VENCIMENTO: (venda.DATA_VENCIMENTO && new Date(`${venda.DATA_VENCIMENTO} 00:00:00`).toLocaleDateString()) || '',
-            TOTAL_VENDA: formatadorDecimal.format(venda.TOTAL_VENDA),
-            TAXA: formatadorDecimal.format(venda.TAXA),
-            VALOR_TAXA: formatadorDecimal.format(venda.VALOR_TAXA),
-            VALOR_LIQUIDO_PARCELA: formatadorDecimal.format(venda.VALOR_LIQUIDO_PARCELA),
+            TOTAL_VENDA: Number(venda.TOTAL_VENDA) || 0,
+            TAXA: Number(venda.TAXA) || 0,
+            VALOR_TAXA: Number(venda.VALOR_TAXA) || 0,
+            VALOR_LIQUIDO_PARCELA: Number(venda.VALOR_LIQUIDO_PARCELA) || 0,
         }
     });
     dados.unshift(headers);
@@ -282,14 +282,14 @@ function renderizaTabela(vendas, totais) {
         tabelaVendasHTML = `
             <tr
                 data-id="${venda.ID_ERP}"
-                class="${vendasMarcadas.includes(venda.ID_ERP) && 'marcada'}"
+                class="${(vendasMarcadas.includes(venda.ID_ERP) ? 'marcada': '')}"
             >
                 <td>
                     <a class="link-impressao tooltip-hint" data-title="Visualizar comprovante">
                         <i class="fas fa-print"></i>
                     </a>
                 </td>
-                <td>${vendaFormatada.ID_ERP || ''}</td>
+                <td>${vendaFormatada.DESCRICAO_ERP || ''}</td>
                 <td>${vendaFormatada.NOME_EMPRESA || ''}</td>
                 <td>${vendaFormatada.CNPJ || ''}</td>
                 <td>${vendaFormatada.DATA_VENDA || ''}</td>

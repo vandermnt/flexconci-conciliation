@@ -28,11 +28,15 @@ class ConciliacaoAutomaticaController extends Controller
      */
     public function index()
     {
-        $erp = ClienteModel::select('erp.ERP')
+        $erp = ClienteModel::select([
+                'erp.ERP',
+                'erp.TITULO_CAMPO_ADICIONAL1 as TITULO_CAMPO1',
+                'erp.TITULO_CAMPO_ADICIONAL2 as TITULO_CAMPO2',
+                'erp.TITULO_CAMPO_ADICIONAL3 as TITULO_CAMPO3'
+            ])
             ->leftJoin('erp', 'clientes.COD_ERP', 'erp.CODIGO')
             ->where('clientes.CODIGO', session('codigologin'))
-            ->first()
-            ->ERP;
+            ->first();
 
         $empresas = GruposClientesModel::where('COD_CLIENTE', session('codigologin'))
             ->orderBy('NOME_EMPRESA')
@@ -366,17 +370,19 @@ class ConciliacaoAutomaticaController extends Controller
         set_time_limit(300);
 
         $filters = $request->except('_token');
+        $subfilters = $request->except('_token');
         Arr::set($filters, 'cliente_id', session('codigologin'));
-        return (new VendasErpConciliacaoExport($filters))->download('vendas_erp_conciliacao_'.time().'.xlsx');
+        return (new VendasErpConciliacaoExport($filters, $subfilters))->download('vendas_erp_conciliacao_'.time().'.xlsx');
     }
 
     public function exportarOperadoras(Request $request) {
         set_time_limit(300);
 
         $filters = $request->except(['_token', 'status_conciliacao']);
+        $subfilters = $request->except(['_token', 'status_conciliacao']);
         $status_nao_conciliada = StatusConciliacaoModel::naoConciliada()->first()->CODIGO;
         Arr::set($filters, 'cliente_id', session('codigologin'));
         Arr::set($filters, 'status_conciliacao', [$status_nao_conciliada]);
-        return (new VendasConciliacaoExport($filters))->download('vendas_operadoras_conciliacao_'.time().'.xlsx');
+        return (new VendasConciliacaoExport($filters, $subfilters))->download('vendas_operadoras_conciliacao_'.time().'.xlsx');
     }
 }
