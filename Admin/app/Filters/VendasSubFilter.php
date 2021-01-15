@@ -38,6 +38,14 @@ class VendasSubFilter extends BaseSubFilter {
     'STATUS_FINANCEIRO',
     'JUSTIFICATIVA'
   ];
+  protected $numericFilters = [
+    'VALOR_BRUTO',
+    'PERCENTUAL_TAXA',
+    'VALOR_TAXA',
+    'VALOR_LIQUIDO',
+    'PARCELA',
+    'TOTAL_PARCELAS',
+  ];
 
   public static function subfilter($filters, $subfilters) {
     $instance = app(VendasSubFilter::class);
@@ -59,9 +67,10 @@ class VendasSubFilter extends BaseSubFilter {
       ->mergeBindings($filterQuery->getQuery());
 
       foreach($subfilters as $subfilter => $value) {
-        $this->query->where($subfilter, 'like', '%'.$value.'%');
+        $this->buildWhereClause($subfilter, $value);
       }
   
+
       return $this;
   }
 
