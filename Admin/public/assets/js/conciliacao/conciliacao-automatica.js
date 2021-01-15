@@ -57,7 +57,10 @@ const modalFilter = new ModalFilter();
 const urls = getUrls();
 const dados = new Proxy({
   filtros: {},
-  subfiltros: {},
+  subfiltros: {
+    erp: {},
+    operadoras: {},
+  },
   statusAtivos: [],
   erp: new VendasProxy('erp'),
   operadoras: new VendasProxy('operadoras'),
@@ -910,9 +913,12 @@ function desjustificar() {
 function abrirUrlExportacao(baseUrl, target =  '') {
   swal('Aguarde um momento...', 'A sua planilha está sendo gerada.', 'warning');
   const a = document.createElement('a');
-  a.href = api.urlBuilder(baseUrl, dados.filtros);
+  const subfiltros = baseUrl === urls.erp.exportar ? dados.subfiltros.erp : dados.subfiltros.operadoras;
+  a.href = api.urlBuilder(baseUrl, { ...dados.filtros, ...subfiltros });
   a.target = target;
-  a.click();
+  setTimeout(() => {
+    a.click();
+  }, 500);
 }
 
 function exportarErp() {
