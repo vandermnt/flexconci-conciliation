@@ -10,8 +10,8 @@ function geraGraficoVendas(dados_grafico) {
       var percentualFloat = parseFloat(dado.PERCENTUAL);
       percentualFloat = percentualFloat.toFixed(1)
       array.push(parseFloat(percentualFloat));
-      ticket_medio += parseFloat(dado.TOTAL_BRUTO)
-      qtd += parseInt(dado.QUANTIDADE);
+      ticket_medio += parseFloat(dado.TOTAL_BRUTO).toFixed(2)
+      qtd += parseFloat(dado.QUANTIDADE_REAL)
     }
   });
 
@@ -79,22 +79,28 @@ function geraGraficoVendas(dados_grafico) {
     },
     tooltip: {
       y: {
-        formatter: function(val) {
-
-          dados_grafico.forEach((dado) => {
-            if (dado.COD_PERIODO == periodo && dado.QUANTIDADE > 0 && dado.ADQUIRENTE == val ) {
-              ticket_medio += parseFloat(dado.TICKET_MEDIO)
-            }
-          });
-
-          console.log(dados_grafico);
+        formatter: function(val, series) {
 
           ticket_medio_correto = ticket_medio / qtd
 
           t = ticket_medio_correto.toFixed(2);
+          return '';
 
-          return `${val}% | Ticket Médio: R$ ${t} `;
+        },
+        title: {
+          formatter: function(val) {
 
+            dados_grafico.forEach((dado) => {
+              if (dado.ADQUIRENTE == val ) {
+                total = parseFloat(dado.TOTAL_BRUTO);
+                ticket_medio_correto = total.toFixed(2) / dado.QUANTIDADE_REAL
+              }
+            });
+
+            t = ticket_medio_correto.toFixed(2);
+            return 'Ticket Médio: ' + t + '';
+            // return val
+          }
         }
       },
     }
@@ -119,8 +125,8 @@ function geraGraficoVendasBandeira(dados_grafico) {
       let percentualFloat = parseFloat(dado.PERCENTUAL);
       percentualFloat = percentualFloat.toFixed(1)
       array.push(parseFloat(percentualFloat));
-      ticket_medio += parseFloat(dado.TOTAL_BRUTO)
-      qtd += parseInt(dado.QUANTIDADE)
+      ticket_medio += parseFloat(dado.TOTAL_BRUTO).toFixed(2)
+      qtd += parseFloat(dado.QUANTIDADE_REAL)
     }
   });
 
@@ -186,22 +192,28 @@ function geraGraficoVendasBandeira(dados_grafico) {
     },
     tooltip: {
       y: {
-        formatter: function(val) {
-
-          dados_grafico.forEach((dado) => {
-            if (dado.COD_PERIODO == periodo && dado.QUANTIDADE > 0 && dado.BANDEIRA == val ) {
-              ticket_medio += parseFloat(dado.TICKET_MEDIO)
-            }
-          });
-          console.log(`LENGHT: ${dados_grafico.length}`);
-          console.log(`TICKET MÉDIO: ${ticket_medio}`);
+        formatter: function(val, series) {
 
           ticket_medio_correto = ticket_medio / qtd
 
           t = ticket_medio_correto.toFixed(2);
+          return '';
 
-          return `${val}% | Ticket Médio: R$ ${t} `;
+        },
+        title: {
+          formatter: function(val) {
 
+            dados_grafico.forEach((dado) => {
+              if (dado.BANDEIRA == val ) {
+                total = parseFloat(dado.TOTAL_BRUTO);
+                ticket_medio_correto = total.toFixed(2) / dado.QUANTIDADE_REAL
+              }
+            });
+
+            t = ticket_medio_correto.toFixed(2);
+            return 'Ticket Médio: ' + t + '';
+            // return val
+          }
         }
       },
     }
@@ -225,8 +237,8 @@ function geraGraficoVendasProduto(dados_grafico) {
       var percentualFloat = parseFloat(dado.PERCENTUAL);
       percentualFloat = percentualFloat.toFixed(1)
       array.push(parseFloat(percentualFloat));
-      ticket_medio += parseFloat(dado.TOTAL_BRUTO)
-      qtd += parseInt(dado.QUANTIDADE);
+      ticket_medio += parseFloat(dado.TOTAL_BRUTO).toFixed(2)
+      qtd += parseFloat(dado.QUANTIDADE_REAL)
     }
   });
 
@@ -292,18 +304,28 @@ function geraGraficoVendasProduto(dados_grafico) {
     },
     tooltip: {
       y: {
-        formatter: function(val) {
+        formatter: function(val, series) {
 
-          dados_grafico.forEach((dado) => {
-            if (dado.COD_PERIODO == periodo && dado.QUANTIDADE > 0 && dado.PRODUTO_WEB == val ) {
-              ticket_medio += parseFloat(dado.TICKET_MEDIO)
-            }
-          });
           ticket_medio_correto = ticket_medio / qtd
 
           t = ticket_medio_correto.toFixed(2);
-          return `${val}% | Ticket Médio: R$ ${t} `;
+          return '';
 
+        },
+        title: {
+          formatter: function(val) {
+
+            dados_grafico.forEach((dado) => {
+              if (dado.DESCRICAO == val ) {
+                total = parseFloat(dado.TOTAL_BRUTO);
+                ticket_medio_correto = total.toFixed(2) / dado.QUANTIDADE_REAL
+              }
+            });
+
+            t = ticket_medio_correto.toFixed(2);
+            return 'Ticket Médio: ' + t + '';
+            // return val
+          }
         }
       },
     }
@@ -328,8 +350,8 @@ function geraGraficoVendasModalidade(dados_grafico) {
       var percentualFloat = parseFloat(dado.PERCENTUAL);
       percentualFloat = percentualFloat.toFixed(1)
       array.push(parseFloat(percentualFloat));
-      ticket_medio += parseFloat(dado.TOTAL_BRUTO)
-      qtd += parseInt(dado.QUANTIDADE)
+      ticket_medio += parseFloat(dado.TOTAL_BRUTO).toFixed(2)
+      qtd += parseFloat(dado.QUANTIDADE_REAL)
     }
   });
 
@@ -397,18 +419,28 @@ function geraGraficoVendasModalidade(dados_grafico) {
     },
     tooltip: {
       y: {
-        formatter: function(val) {
+        formatter: function(val, series) {
 
-          dados_grafico.forEach((dado) => {
-            if (dado.COD_PERIODO == periodo && dado.QUANTIDADE > 0 && dado.DESCRICAO == val ) {
-              ticket_medio += parseFloat(dado.TICKET_MEDIO)
-            }
-          });
           ticket_medio_correto = ticket_medio / qtd
 
           t = ticket_medio_correto.toFixed(2);
-          return `${val}% | Ticket Médio: R$ ${t} `;
+          return '';
 
+        },
+        title: {
+          formatter: function(val) {
+
+            dados_grafico.forEach((dado) => {
+              if (dado.DESCRICAO == val ) {
+                total = parseFloat(dado.TOTAL_BRUTO);
+                ticket_medio_correto = total.toFixed(2) / dado.QUANTIDADE_REAL
+              }
+            });
+
+            t = ticket_medio_correto.toFixed(2);
+            return 'Ticket Médio: ' + t + '';
+            // return val
+          }
         }
       },
     }
