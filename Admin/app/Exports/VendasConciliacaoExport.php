@@ -15,9 +15,11 @@ class VendasConciliacaoExport implements FromQuery, WithStrictNullComparison, Sh
     use Exportable;
     
     protected $filters;
+    protected $subfilters;
 
-    public function __construct($filters) {
+    public function __construct($filters, $subfilters) {
         $this->filters = $filters;
+        $this->subfilters = $subfilters;
     }
 
     public function headings(): array
@@ -92,6 +94,8 @@ class VendasConciliacaoExport implements FromQuery, WithStrictNullComparison, Sh
 
     public function query()
     {
-        return VendasSubFilter::subfilter($this->filters, [])->getQuery()->orderBy('DATA_VENDA');
+        return VendasSubFilter::subfilter($this->filters, $this->subfilters)
+            ->getQuery()
+            ->orderBy('DATA_VENDA');
     }
 }
