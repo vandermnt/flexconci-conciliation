@@ -28,11 +28,15 @@ class ConciliacaoAutomaticaController extends Controller
      */
     public function index()
     {
-        $erp = ClienteModel::select('erp.ERP')
+        $erp = ClienteModel::select([
+                'erp.ERP',
+                'erp.TITULO_CAMPO_ADICIONAL1 as TITULO_CAMPO1',
+                'erp.TITULO_CAMPO_ADICIONAL2 as TITULO_CAMPO2',
+                'erp.TITULO_CAMPO_ADICIONAL3 as TITULO_CAMPO3'
+            ])
             ->leftJoin('erp', 'clientes.COD_ERP', 'erp.CODIGO')
             ->where('clientes.CODIGO', session('codigologin'))
-            ->first()
-            ->ERP;
+            ->first();
 
         $empresas = GruposClientesModel::where('COD_CLIENTE', session('codigologin'))
             ->orderBy('NOME_EMPRESA')

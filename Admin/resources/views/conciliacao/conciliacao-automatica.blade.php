@@ -314,7 +314,7 @@
       </div>
       <div class="vendas-erp">
         <div class="tabela-info d-flex align-items-center justify-content-between">
-          <h4>Vendas {{ $erp }} <span id="js-vendas-erp-info"></span></h4>
+          <h4>Vendas {{ $erp->ERP }} <span id="js-vendas-erp-info"></span></h4>
           <div class="acoes d-flex align-items-center justify-content-end">
             <button id="js-conciliar" class="btn mr-1">
               <i class="far fa-handshake"></i>
@@ -515,6 +515,12 @@
                  </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
+                    <p>Divergência</p>
+                    <input type="text" class="form-control" name="DIVERGENCIA">
+                  </div>
+                 </th>
+                <th>
+                  <div class="d-flex flex-column align-items-center">
                     <p>Status Financeiro</p>
                     <input type="text" class="form-control" name="STATUS_FINANCEIRO">
                   </div>
@@ -527,19 +533,31 @@
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
-                    <p>Campo 1</p>
+                    <p>
+                      {{ is_null($erp->TITULO_CAMPO1) ?
+                       'Campo 1' : 
+                       ucwords(mb_strtolower($erp->TITULO_CAMPO1, 'utf-8')) }}
+                    </p>
                     <input type="text" class="form-control" name="CAMPO1">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
-                    <p>Campo 2</p>
+                    <p>
+                      {{ is_null($erp->TITULO_CAMPO2) ?
+                        'Campo 2' : 
+                        ucwords(mb_strtolower($erp->TITULO_CAMPO2, 'utf-8')) }}
+                    </p>
                     <input type="text" class="form-control" name="CAMPO2">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
-                    <p>Campo 3</p>
+                    <p>
+                      {{ is_null($erp->TITULO_CAMPO3) ?
+                        'Campo 3' : 
+                        ucwords(mb_strtolower($erp->TITULO_CAMPO3, 'utf-8')) }}
+                    </p>
                     <input type="text" class="form-control" name="CAMPO3">
                   </div>
                 </th>
@@ -626,6 +644,7 @@
                 <td data-campo="PRODUTO"></td>
                 <td data-campo="MEIOCAPTURA"></td>
                 <td data-campo="STATUS_CONCILIACAO"></td>
+                <td data-campo="DIVERGENCIA"></td>
                 <td data-campo="STATUS_FINANCEIRO"></td>
                 <td data-campo="JUSTIFICATIVA"></td>
                 <td data-campo="CAMPO1"></td>
@@ -656,6 +675,7 @@
                 <td></td>
                 <td data-chave="TOTAL_TAXA" class="text-danger"></td>
                 <td data-chave="TOTAL_LIQUIDO"></td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -876,7 +896,13 @@
                     <p>Status Conciliação</p>
                     <input type="text" class="form-control" name="STATUS_CONCILIACAO">
                   </div>
-                 </th>
+                </th>
+                <th>
+                  <div class="d-flex flex-column align-items-center">
+                    <p>Divergência</p>
+                    <input type="text" class="form-control" name="DIVERGENCIA">
+                  </div>
+                </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Status Financeiro</p>
@@ -943,6 +969,7 @@
                 <td data-campo="PRODUTO"></td>
                 <td data-campo="MEIOCAPTURA"></td>
                 <td data-campo="STATUS_CONCILIACAO"></td>
+                <td data-campo="DIVERGENCIA"></td>
                 <td data-campo="STATUS_FINANCEIRO"></td>
                 <td data-campo="JUSTIFICATIVA"></td>
               </tr>      
@@ -965,6 +992,7 @@
                 <td></td>
                 <td data-chave="TOTAL_TAXA" class="text-danger"></td>
                 <td data-chave="TOTAL_LIQUIDO"></td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
