@@ -72,6 +72,7 @@ class VendasErpFilter extends BaseFilter {
           'meio_captura.DESCRICAO as MEIOCAPTURA',
           'status_conciliacao.STATUS_CONCILIACAO',
           'status_conciliacao.IMAGEM_URL as STATUS_CONCILIACAO_IMAGEM',
+          'vendas_erp.DIVERGENCIA',
           'status_financeiro.STATUS_FINANCEIRO',
           'vendas_erp.JUSTIFICATIVA',
           'vendas_erp.CAMPO_ADICIONAL1 as CAMPO1',

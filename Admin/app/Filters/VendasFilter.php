@@ -75,6 +75,7 @@ class VendasFilter extends BaseFilter {
           'meio_captura.DESCRICAO as MEIOCAPTURA',
           'status_conciliacao.STATUS_CONCILIACAO',
           'status_conciliacao.IMAGEM_URL as STATUS_CONCILIACAO_IMAGEM',
+          'vendas.DIVERGENCIA',
           'status_financeiro.STATUS_FINANCEIRO',
           'vendas.JUSTIFICATIVA'
         ]

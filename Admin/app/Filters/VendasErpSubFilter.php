@@ -35,6 +35,7 @@ class VendasErpSubFilter extends BaseSubFilter {
     'CONTA_CORRENTE',
     'MEIOCAPTURA',
     'STATUS_CONCILIACAO',
+    'DIVERGENCIA',
     'STATUS_FINANCEIRO',
     'JUSTIFICATIVA',
     'CAMPO1',
