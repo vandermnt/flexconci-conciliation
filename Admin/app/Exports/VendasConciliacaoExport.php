@@ -52,6 +52,7 @@ class VendasConciliacaoExport implements FromQuery, WithStrictNullComparison, Sh
             'Produto',
             'Meio de Captura',
             'Status Conciliação',
+            'Divergência',
             'Status Financeiro',
             'Justificativa',
         ];
@@ -87,6 +88,7 @@ class VendasConciliacaoExport implements FromQuery, WithStrictNullComparison, Sh
             $venda->PRODUTO,
             $venda->MEIOCAPTURA,
             $venda->STATUS_CONCILIACAO,
+            $venda->DIVERGENCIA,
             $venda->STATUS_FINANCEIRO,
             $venda->JUSTIFICATIVA
         ];
