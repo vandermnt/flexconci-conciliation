@@ -728,7 +728,7 @@
               <th>
                 <div class="d-flex flex-column align-items-center">
                   <p>ID. ERP</p>
-                  <input type="text" name="ID_ERP">
+                  <input type="text" name="DESCRICAO_ERP">
                 </div>
               </th>
               <th>
