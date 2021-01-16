@@ -342,18 +342,17 @@ async function pesquisarPorBox(event) {
   const boxDOM = event.target;
   const statusConciliacao = boxDOM.dataset.status;
   const statusConciliacaoCheckbox = document.querySelector(`form .check-group input[data-status="${statusConciliacao}"]`);
+  const filtros = { ...getFiltros() };
 
   if(statusConciliacao === '*') {
-    checker.checkAll('status-conciliacao')
+    filtros.status_conciliacao = checker.getValuesBy('status-conciliacao', 'status', dados.statusAtivos);
   } else {
-    checker.uncheckAll('status-conciliacao');
-    statusConciliacaoCheckbox.checked = true;
+    filtros.status_conciliacao = [statusConciliacaoCheckbox.value];
   }
   
-  dados.statusAtivos = checker.getCheckedValues('status-conciliacao', 'status');
   await iniciarRequisicao(async () => {
     const vendas = await requisitarVendas(urls.erp.buscar, {
-      ...getFiltros(),
+      ...filtros,
     },
     {
       page: 1,
