@@ -162,6 +162,30 @@ Checker.prototype.getCheckedValues = function(name, attributeValueName = 'value'
 }
 
 /**
+ * @function getValuesBy
+ * Return values that have specific data attribute values
+ * 
+ * @param {String} groupName - The group name
+ * @param {String} attributeValueName - The attribute name that has the value @default value
+ * @param {Array} values - The search attribute values
+ */
+Checker.prototype.getValuesBy = function(groupName, attributeValueName, values) {
+    const { checkboxes } = this.groups[groupName];
+
+    return [...checkboxes].reduce((_values, checkbox) => {
+        const checkDataValue = checkbox[attributeValueName] ||
+            checkbox.dataset[attributeValueName] ||
+            checkbox.getAttribute(`data-${attributeValueName}`);
+        
+        if(values.includes(checkDataValue)) {
+            return [..._values, (checkbox.value || '')];
+        }
+
+        return _values;
+    }, []);
+}
+
+/**
  * @function setValuesToTextElement
  * Convert all checkboxes that are checked to a string invoking the _valuesToString Method
  * and set the returned string to the text element
