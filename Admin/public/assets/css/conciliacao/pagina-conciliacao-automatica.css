@@ -152,6 +152,14 @@
   grid-gap: 8px;
 }
 
+#pagina-conciliacao .boxes.collapse {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+#pagina-conciliacao .boxes.collapse .box-pendencias-operadoras {
+  display: none;
+}
+
 #pagina-conciliacao .boxes .card {
   cursor: pointer;
 }

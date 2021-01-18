@@ -163,6 +163,20 @@ function criarPaginacao(paginacao, navigateHandler = () => {}) {
   return novaPaginacao;
 }
 
+function alternarBoxPendenciasOperadoras() {
+  const boxesDOM = document.querySelector('.boxes');
+  const status = document.querySelector('#js-box-nao-conciliada').dataset.status;
+  const statusNaoConciliada = document.querySelector(`input[data-status="${status}"]`).value;
+
+  if(dados.statusFiltros.includes(statusNaoConciliada)) {
+    boxesDOM.classList.remove('collapse');
+  } else {
+    if(!boxesDOM.classList.contains('collapse')) {
+      boxesDOM.classList.add('collapse');
+    }
+  }
+}
+
 function atualizarInterface(modalidadeVendas, registros, paginacao = null) {
   const vendasErpInfoDOM = document.querySelector('#js-vendas-erp-info');
   const pendenciasOperadorasInfoDOM = document.querySelector('#js-pendencias-operadoras-info');
@@ -175,6 +189,7 @@ function atualizarInterface(modalidadeVendas, registros, paginacao = null) {
     erp: { ...dados.erp.busca.totais },
     operadoras: { ...dados.operadoras.busca.totais }
   });
+  alternarBoxPendenciasOperadoras();
 
   if(paginacao) {
     paginacao.render();

@@ -247,7 +247,7 @@
     </form>
 
     <section class="resultados hidden" id="js-resultados">
-      <div class="boxes">
+      <div class="boxes collapse">
         <div class="card" data-status="*">
           <div class="card-body">
             <h6 class="text-dark text-left font-weight-semibold font-12">VENDAS ERP</h6>
@@ -293,7 +293,7 @@
             </div>
           </div>
         </div>
-        <div class="card" data-status="não conciliada">
+        <div class="card" data-status="não conciliada" id="js-box-nao-conciliada">
           <div class="card-body">
             <h6 class="text-dark text-left font-weight-semibold font-12">PENDÊNCIAS ERP</h6>
             <div class="d-flex align-items-center justify-content-between">
@@ -302,7 +302,7 @@
             </div>
           </div>
         </div>
-        <div class="card" data-navigate=".pendencias-operadoras">
+        <div class="card box-pendencias-operadoras" data-navigate=".pendencias-operadoras">
           <div class="card-body">
             <h6 class="text-dark text-left font-weight-semibold font-12">PENDÊNCIAS OPER.</h6>
             <div class="d-flex align-items-center justify-content-between">
