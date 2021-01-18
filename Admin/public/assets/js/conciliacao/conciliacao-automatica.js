@@ -169,15 +169,17 @@ function atualizarInterface(modalidadeVendas, registros, paginacao = null) {
 
   vendasErpInfoDOM.textContent = `(${dados.erp.emExibicao.paginacao.options.total} registros)`;
   pendenciasOperadorasInfoDOM.textContent = `(${dados.operadoras.emExibicao.paginacao.options.total} registros)`;
+  
   renderizarTabela(modalidadeVendas, registros.vendas, registros.totais);
-  if(paginacao) {
-    paginacao.render();
-    document.querySelector(`#js-porpagina-${modalidadeVendas}`).value = paginacao.options.perPage;
-  }
   atualizarBoxes({ 
     erp: { ...dados.erp.busca.totais },
     operadoras: { ...dados.operadoras.busca.totais }
   });
+
+  if(paginacao) {
+    paginacao.render();
+    document.querySelector(`#js-porpagina-${modalidadeVendas}`).value = paginacao.options.perPage;
+  }
 }
 
 function limpar() {
@@ -384,14 +386,24 @@ async function pesquisarPorBox(event) {
 }
 
 function calcularTotalErpBrutoBox() {
-  const statusAtivos = [...dados.statusAtivos];
+  const statusFiltros = [...dados.statusFiltros];
 
-  const total = statusAtivos.reduce((total, status) => {
+  const total = statusFiltros.reduce((total, statusId) => {
+    const status = document.querySelector(`input[data-status][value="${statusId}"]`).dataset.status;
     const statusDOM = document.querySelector(`.boxes .card[data-status="${status}"] p[data-valor]`);
     return total + (Number(statusDOM.dataset.valor) || 0);
   }, 0);
 
   return total;
+}
+
+function retornaValorBox(total, status) {
+  const statusId = checker.getValuesBy('status-conciliacao', 'status', [status])[0];
+  if(dados.statusFiltros.includes(statusId)) {
+    return Number(total) || 0;
+  }
+
+  return 0;
 }
 
 function atualizarBoxes(totais) {
@@ -403,20 +415,25 @@ function atualizarBoxes(totais) {
   const totalNaoConciliada = document.querySelector('p[data-total="TOTAL_NAO_CONCILIADA"]');
   const totalOperadoras = document.querySelector('p[data-total="OPERADORAS_TOTAL_BRUTO"]');
 
-  totalConciliada.dataset.valor = totais.erp.TOTAL_CONCILIADA;
-  totalConciliada.textContent = formatadorMoeda.format(totais.erp.TOTAL_CONCILIADA);
+  let status = totalConciliada.closest('*[data-status]').dataset.status;
+  totalConciliada.dataset.valor = retornaValorBox(totais.erp.TOTAL_CONCILIADA, status);
+  totalConciliada.textContent = formatadorMoeda.format(totalConciliada.dataset.valor);
 
-  totalDivergente.dataset.valor = totais.erp.TOTAL_DIVERGENTE;
-  totalDivergente.textContent = formatadorMoeda.format(totais.erp.TOTAL_DIVERGENTE);
+  status = totalDivergente.closest('*[data-status]').dataset.status;
+  totalDivergente.dataset.valor = retornaValorBox(totais.erp.TOTAL_DIVERGENTE, status);
+  totalDivergente.textContent = formatadorMoeda.format(totalDivergente.dataset.valor);
+
+  status = totalManual.closest('*[data-status]').dataset.status;
+  totalManual.dataset.valor = retornaValorBox(totais.erp.TOTAL_MANUAL, status);
+  totalManual.textContent = formatadorMoeda.format(totalManual.dataset.valor);
   
-  totalManual.dataset.valor = totais.erp.TOTAL_MANUAL;
-  totalManual.textContent = formatadorMoeda.format(totais.erp.TOTAL_MANUAL);
+  status = totalJustificada.closest('*[data-status]').dataset.status;
+  totalJustificada.dataset.valor =  retornaValorBox(totais.erp.TOTAL_JUSTIFICADA, status);
+  totalJustificada.textContent = formatadorMoeda.format(totalJustificada.dataset.valor);
   
-  totalJustificada.dataset.valor = totais.erp.TOTAL_JUSTIFICADA;
-  totalJustificada.textContent = formatadorMoeda.format(totais.erp.TOTAL_JUSTIFICADA);
-  
-  totalNaoConciliada.dataset.valor = totais.erp.TOTAL_NAO_CONCILIADA;
-  totalNaoConciliada.textContent = formatadorMoeda.format(totais.erp.TOTAL_NAO_CONCILIADA);
+  status = totalNaoConciliada.closest('*[data-status]').dataset.status;
+  totalNaoConciliada.dataset.valor = retornaValorBox(totais.erp.TOTAL_NAO_CONCILIADA, status);
+  totalNaoConciliada.textContent = formatadorMoeda.format(totalNaoConciliada.dataset.valor);
   
   totalErp.textContent = formatadorMoeda.format(calcularTotalErpBrutoBox());
 
