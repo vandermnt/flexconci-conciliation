@@ -62,6 +62,7 @@ const dados = new Proxy({
     operadoras: {},
   },
   statusAtivos: [],
+  statusFiltros: [],
   erp: new VendasProxy('erp'),
   operadoras: new VendasProxy('operadoras'),
 }, handler());
@@ -115,7 +116,17 @@ function serializarVendas(resultado, id) {
   resultado.paginacao = criarPaginacao(paginacao, async (page, paginacao, event) => {
     const url = paginacao.options.baseUrl
     const body = url === urls[id].filtrar ? 
-      { filtros: dados.filtros, subfiltros: dados.subfiltros[id] } : { ...dados.filtros }
+      { 
+        filtros: {
+          ...dados.filtros, 
+          status_conciliacao: dados.statusFiltros
+        },
+        subfiltros: dados.subfiltros[id]
+      } : 
+      { 
+        ...dados.filtros, 
+        status_conciliacao: dados.statusFiltros
+      }
     const params = {
       page,
       por_pagina: paginacao.options.perPage
@@ -309,6 +320,7 @@ async function submeterPesquisa(event) {
   event.preventDefault();
 
   dados.statusAtivos = checker.getCheckedValues('status-conciliacao', 'status');
+  dados.statusFiltros = checker.getValuesBy('status-conciliacao', 'status', dados.statusAtivos);
 
   await iniciarRequisicao(async () => {
     const filtros = getFiltros();
@@ -345,9 +357,12 @@ async function pesquisarPorBox(event) {
   const filtros = { ...getFiltros() };
 
   if(statusConciliacao === '*') {
-    filtros.status_conciliacao = checker.getValuesBy('status-conciliacao', 'status', dados.statusAtivos);
+    const statusConciliacao = checker.getValuesBy('status-conciliacao', 'status', dados.statusAtivos);
+    filtros.status_conciliacao = statusConciliacao;
+    dados.statusFiltros = statusConciliacao;
   } else {
     filtros.status_conciliacao = [statusConciliacaoCheckbox.value];
+    dados.statusFiltros = [statusConciliacaoCheckbox.value];
   }
   
   await iniciarRequisicao(async () => {
@@ -913,7 +928,10 @@ function abrirUrlExportacao(baseUrl, target =  '') {
   swal('Aguarde um momento...', 'A sua planilha está sendo gerada.', 'warning');
   const a = document.createElement('a');
   const subfiltros = baseUrl === urls.erp.exportar ? dados.subfiltros.erp : dados.subfiltros.operadoras;
-  a.href = api.urlBuilder(baseUrl, { ...dados.filtros, ...subfiltros });
+  a.href = api.urlBuilder(baseUrl, { 
+    ...{ ...dados.filtros, status_conciliacao: dados.statusFiltros }, 
+    ...subfiltros 
+  });
   a.target = target;
   setTimeout(() => {
     a.click();
@@ -963,7 +981,10 @@ document.querySelector('#js-resultados .boxes .card[data-navigate]')
       
       iniciarRequisicao(async () => {
         const vendas = await requisitarVendas(urls[modalidadeVendas].filtrar, {
-          filtros: dados.filtros,
+          filtros: {
+            ...dados.filtros,
+            status_conciliacao: dados.statusFiltros
+          },
           subfiltros: dados.subfiltros[modalidadeVendas]
         },
         {
