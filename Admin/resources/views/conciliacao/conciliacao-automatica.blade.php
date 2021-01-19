@@ -596,6 +596,9 @@
                       type="checkbox"
                       data-campo="ID_ERP"
                     >
+                    <div class="tooltip-hint d-flex align-items-center" data-default-title="Visualizar Detalhes">
+                      <i class="fas fa-eye"></i>
+                    </div>
                     <div class="tooltip-hint" data-title="STATUS_CONCILIACAO">
                       <img data-image="STATUS_CONCILIACAO_IMAGEM" data-text="STATUS_CONCILIACAO">
                     </div>

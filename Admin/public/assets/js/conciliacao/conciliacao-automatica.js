@@ -510,7 +510,7 @@ function renderizarTabela(tipo, vendas, totais) {
     const inputsDOM = tr.querySelectorAll('input[type="checkbox"][data-campo]');
 
     [...tooltipsDOM].forEach(tooltipDOM => {
-      tooltipDOM.dataset.title = venda[tooltipDOM.dataset.title] || 'Sem identificação';
+      tooltipDOM.dataset.title = venda[tooltipDOM.dataset.title] || tooltipDOM.dataset.defaultTitle || 'Sem identificação';
     });
     
     [...imagensDOM].forEach(imagemDOM => {
