@@ -163,33 +163,47 @@ function criarPaginacao(paginacao, navigateHandler = () => {}) {
   return novaPaginacao;
 }
 
-function alternarBoxPendenciasOperadoras() {
-  const boxesDOM = document.querySelector('.boxes');
+function naoConciliadaEstaSelecionada() {
   const status = document.querySelector('#js-box-nao-conciliada').dataset.status;
   const statusNaoConciliada = document.querySelector(`input[data-status="${status}"]`).value;
 
-  if(dados.statusFiltros.includes(statusNaoConciliada)) {
-    boxesDOM.classList.remove('collapse');
-  } else {
-    if(!boxesDOM.classList.contains('collapse')) {
-      boxesDOM.classList.add('collapse');
-    }
-  }
+  return dados.statusFiltros.includes(statusNaoConciliada);
 }
 
 function atualizarInterface(modalidadeVendas, registros, paginacao = null) {
   const vendasErpInfoDOM = document.querySelector('#js-vendas-erp-info');
   const pendenciasOperadorasInfoDOM = document.querySelector('#js-pendencias-operadoras-info');
+  let totaisOperadoras = { ...dados.operadoras.busca.totais };
 
+  registros = { ...registros };
   vendasErpInfoDOM.textContent = `(${dados.erp.emExibicao.paginacao.options.total} registros)`;
-  pendenciasOperadorasInfoDOM.textContent = `(${dados.operadoras.emExibicao.paginacao.options.total} registros)`;
+  pendenciasOperadorasInfoDOM.textContent = 
+    `(${naoConciliadaEstaSelecionada() ? dados.operadoras.emExibicao.paginacao.options.total : 0} registros)`;
+  
+  if(!naoConciliadaEstaSelecionada()) {
+    totaisOperadoras = {
+      TOTAL_BRUTO: 0,
+      TOTAL_LIQUIDO: 0,
+      TOTAL_TAXA: 0,
+    }
+  }
+  if(modalidadeVendas === 'operadoras' && !naoConciliadaEstaSelecionada()) {
+    registros.vendas = [];
+    registros.totais = totaisOperadoras;
+    paginacao = new Pagination([],  {
+      paginationContainer: document.querySelector('#js-paginacao-operadoras'),
+      total: 0,
+      currentPage: 1,
+      lastPage: 1,
+      perPage: paginacao ? paginacao.options.perPage : 5,
+    });
+  }
   
   renderizarTabela(modalidadeVendas, registros.vendas, registros.totais);
   atualizarBoxes({ 
     erp: { ...dados.erp.busca.totais },
-    operadoras: { ...dados.operadoras.busca.totais }
+    operadoras: totaisOperadoras
   });
-  alternarBoxPendenciasOperadoras();
 
   if(paginacao) {
     paginacao.render();
@@ -959,7 +973,12 @@ function desjustificar() {
 function abrirUrlExportacao(baseUrl, target =  '') {
   swal('Aguarde um momento...', 'A sua planilha está sendo gerada.', 'warning');
   const a = document.createElement('a');
-  const subfiltros = baseUrl === urls.erp.exportar ? dados.subfiltros.erp : dados.subfiltros.operadoras;
+  const subfiltros = baseUrl === urls.erp.exportar ? { ...dados.subfiltros.erp } : { ...dados.subfiltros.operadoras };
+
+  if(baseUrl === urls.operadoras.exportar && !naoConciliadaEstaSelecionada()) {
+    subfiltros.id_erp = [null];
+  }
+
   a.href = api.urlBuilder(baseUrl, { 
     ...{ ...dados.filtros, status_conciliacao: dados.statusFiltros }, 
     ...subfiltros 

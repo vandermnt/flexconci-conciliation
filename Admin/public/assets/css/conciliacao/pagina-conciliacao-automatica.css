@@ -152,14 +152,6 @@
   grid-gap: 8px;
 }
 
-#pagina-conciliacao .boxes.collapse {
-  grid-template-columns: repeat(6, 1fr);
-}
-
-#pagina-conciliacao .boxes.collapse .box-pendencias-operadoras {
-  display: none;
-}
-
 #pagina-conciliacao .boxes .card {
   cursor: pointer;
 }
@@ -176,6 +168,12 @@
 #pagina-conciliacao .boxes .card-body img {
   width: 24px;
   max-width: 100%;
+}
+
+#pagina-conciliacao .boxes .tooltip-hint::before {
+  width: 128px;
+  max-width: 100%;
+  transform: translateX(-50%);
 }
 
 #pagina-conciliacao .resultados .acoes button {
