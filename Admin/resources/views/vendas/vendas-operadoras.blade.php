@@ -834,6 +834,18 @@
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
+                    <p>TID</p>
+                    <input type="text" class="form-control" name="TID">
+                  </div>
+                </th>
+                <th>
+                  <div class="d-flex flex-column align-items-center">
+                    <p>Cartão</p>
+                    <input type="text" class="form-control" name="CARTAO">
+                  </div>
+                </th>
+                <th>
+                  <div class="d-flex flex-column align-items-center">
                     <p>Valor Bruto</p>
                     <input type="number" min="0" step="0.01" class="form-control" name="VALOR_BRUTO">
                   </div>
@@ -924,6 +936,12 @@
                  </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
+                    <p>Divergência</p>
+                    <input type="text" class="form-control" name="DIVERGENCIA">
+                  </div>
+                 </th>
+                <th>
+                  <div class="d-flex flex-column align-items-center">
                     <p>Status Financeiro</p>
                     <input type="text" class="form-control" name="STATUS_FINANCEIRO">
                   </div>
@@ -971,6 +989,8 @@
                 <td data-campo="MODALIDADE">-</td>
                 <td data-campo="NSU">-</td>
                 <td data-campo="AUTORIZACAO">-</td>
+                <td data-campo="TID">-</td>
+                <td data-campo="CARTAO">-</td>
                 <td data-campo="VALOR_BRUTO" data-format="currency">-</td>
                 <td data-campo="PERCENTUAL_TAXA" data-format="decimal">-</td>
                 <td class="text-danger" data-campo="VALOR_TAXA" data-format="currency"></td>
@@ -990,6 +1010,7 @@
                 <td data-campo="PRODUTO">-</td>
                 <td data-campo="MEIOCAPTURA">-</td>
                 <td data-campo="STATUS_CONCILIACAO">-</td>
+                <td data-campo="DIVERGENCIA">-</td>
                 <td data-campo="STATUS_FINANCEIRO">-</td>
                 <td data-campo="JUSTIFICATIVA">-</td>
               </tr>      
@@ -1007,10 +1028,13 @@
                 <td></td>
                 <td></td>
                 <td></td>
+                <td></td>
+                <td></td>
                 <td data-chave="TOTAL_BRUTO"></td>
                 <td></td>
                 <td data-chave="TOTAL_TAXA" class="text-danger"></td>
                 <td data-chave="TOTAL_LIQUIDO"></td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
