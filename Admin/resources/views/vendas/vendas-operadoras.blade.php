@@ -28,39 +28,30 @@
           data-url-filtrar-operadoras="{{ route('vendas-operadoras.index') }}"
         >
           <div class="input-group">
-            <div class="form-group flex-grow-1">
-              <label for="data-inicial">Data Inicial:</label>
-              <input
-                id="data-inicial"
-                class="form-control"
-                type="date"
-                name="data_inicial"
-                value="{{ date("Y-m-01") }}"
-                required
-              >
-            </div>
-            <div class="form-group flex-grow-1">
-              <label for="data-final">Data Final:</label>
-              <input
-                id="data-final"
-                class="form-control"
-                type="date"
-                name="data_final"
-                value="{{ date("Y-m-d") }}"
-                required
-              >
-            </div>
+            <x-forms.form-group
+              label="Data Inicial:"
+              id="data-inicial"
+              type="date"
+              name="data_inicial"
+              :value="date('Y-m-01')"
+              required
+            />
+            <x-forms.form-group
+              label="Data Final:"
+              id="data-final"
+              type="date"
+              name="data_final"
+              :value="date('Y-m-d')"
+              required
+            />
           </div>
           
           <div class="input-group">
-            <div class="form-group flex-grow-1">
-              <label for="empresa">Empresa:</label>
-              <input 
-                id="empresa" 
-                class="form-control"
-                type="text"
-              >
-            </div>
+            <x-forms.form-group
+              label="Empresa:"
+              id="empresa"
+              type="text"
+            />
             <button
               class="btn btn-sm form-button"
               type="button"
@@ -72,14 +63,11 @@
           </div>
           
           <div class="input-group">
-            <div class="form-group flex-grow-1">
-              <label for="adquirente">Adquirente:</label>
-              <input 
-                id="adquirente" 
-                class="form-control"
-                type="text"
-              >
-            </div>
+            <x-forms.form-group
+              label="Adquirente:"
+              id="adquirente"
+              type="text"
+            />
             <button
               class="btn btn-sm form-button"
               type="button"
@@ -91,14 +79,11 @@
           </div>
           
           <div class="input-group">
-            <div class="form-group flex-grow-1">
-              <label for="bandeira">Bandeira:</label>
-              <input 
-                id="bandeira" 
-                class="form-control"
-                type="text"
-              >
-            </div>
+            <x-forms.form-group
+              label="Bandeira:"
+              id="bandeira"
+              type="text"
+            />
             <button
               class="btn btn-sm form-button"
               type="button"
@@ -110,14 +95,11 @@
           </div>
           
           <div class="input-group">
-            <div class="form-group flex-grow-1">
-              <label for="modalidade">Forma de Pagamento:</label>
-              <input 
-                id="modalidade" 
-                class="form-control"
-                type="text"
-              >
-            </div>
+            <x-forms.form-group
+              label="Forma de Pagamento:"
+              id="modalidade"
+              type="text"
+            />
             <button
               class="btn btn-sm form-button"
               type="button"
@@ -129,14 +111,11 @@
           </div>
           
           <div class="input-group">
-            <div class="form-group flex-grow-1">
-              <label for="estabelecimento">Código de Estabelecimento:</label>
-              <input 
-                id="estabelecimento" 
-                class="form-control"
-                type="text"
-              >
-            </div>
+            <x-forms.form-group
+              label="Código de Estabelecimento:"
+              id="estabelecimento"
+              type="text"
+            />
             <button
               class="btn btn-sm form-button"
               type="button"
@@ -147,54 +126,29 @@
             </button>
           </div>
 
-          <div class="input-check-group">
-            <label>Status Conciliação:</label>
-            <div class="check-group">
-              
-              @isset($status_conciliacao)
-                @foreach($status_conciliacao as $status)
-                  <div class="form-group mr-2">
-                    <input
-                      id="status-conciliacao-{{ $status->CODIGO }}"
-                      name="status_conciliacao"
-                      value="{{ $status->CODIGO }}"
-                      type="checkbox"
-                      data-group="status-conciliacao"
-                      data-checker="checkbox"
-                      checked
-                    >
-                    <label
-                      for="status-conciliacao-{{ $status->CODIGO }}"
-                    >
-                      {{ $status->STATUS_CONCILIACAO }}
-                    </label>
-                  </div>
-                @endforeach
-              @endisset
-            </div>
-          </div>
+          <x-forms.check-group
+            id="status-conciliacao"
+            label="Status Conciliação:"
+            name="status_conciliacao"
+            item-description-key="STATUS_CONCILIACAO"
+            item-id-key="CODIGO"
+            :data="$status_conciliacao->toArray()"
+            data-group="status-conciliacao"
+            data-checker="checkbox"
+            checked
+          />
           
-          <div class="input-check-group">
-            <label>Status Financeiro:</label>
-            <div class="check-group">
-              @isset($status_financeiro)
-                @foreach($status_financeiro as $status)
-                  <div class="form-group mr-2">
-                    <input
-                      id="status-financeiro-{{ $status->CODIGO }}"
-                      name="status_financeiro"
-                      type="checkbox"
-                      value="{{ $status->CODIGO }}"
-                      data-group="status-financeiro"
-                      data-checker="checkbox"
-                      checked
-                    >
-                    <label for="status-financeiro-{{ $status->CODIGO }}">{{ $status->STATUS_FINANCEIRO }}</label>
-                  </div>
-                @endforeach
-              @endisset
-            </div>
-          </div>
+          <x-forms.check-group
+            id="status-financeiro"
+            label="Status Financeiro:"
+            name="status_financeiro"
+            item-description-key="STATUS_FINANCEIRO"
+            item-id-key="CODIGO"
+            :data="$status_financeiro->toArray()"
+            data-group="status-financeiro"
+            data-checker="checkbox"
+            checked
+          />
 
           <div class="button-group">
             <button
@@ -214,499 +168,247 @@
           </div>
 
           <div class="modais">
-            <div
+            <x-selection-modal
               id="empresas-modal"
-              class="modal fade"
-              role="dialog"
-              tabindex="-1"
-              data-backdrop="static"
-              data-keyboard="false"
-              aria-labelledby="empresas-label"
-              aria-hidden="true"
+              modal-label-id="empresas-label"
+              modal-label="Empresa"
+              data-group="empresa"
+              data-filter-group="empresa"
+              data-filter-fields="cnpj,empresa"
             >
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <header class="modal-header d-flex align-items-center">
-                    <h5 class="modal-title" id="empresas-label">Empresa</h5>
-                    <button
-                      class="close"
-                      type="button"
-                      data-dismiss="modal"
-                      data-acao="cancelar"
+              <div class="modal-checkboxes">
+                <div class="row">
+                  <div class="col-sm-6 pl-0">
+                    <p>Empresa</p>
+                  </div>
+                  <div class="col-sm-4 px-0">
+                    <p>CNPJ</p>
+                  </div>
+                  <div class="col-sm-2 d-flex align-items-start px-0 justify-content-end">
+                    <input
+                      type="checkbox"
                       data-group="empresa"
-                      data-label="Close"
+                      data-checker="global"
                     >
-                      <span aria-hidden="true">&times;</span>  
-                    </button>
-                  </header>
-                  <main class="modal-body">
-                    <div class="form-group">
-                      <h6>Pesquisar</h6>
-                      <input
-                        class="form-control"
-                        type="text"
-                        data-filter-group="empresa"
-                        data-filter-fields="cnpj,empresa"
-                      >
-                    </div>
-
-                    <div class="modal-checkboxes">
-                      <div class="row">
-                        <div class="col-sm-6 pl-0">
-                          <p>Empresa</p>
-                        </div>
-                        <div class="col-sm-4 px-0">
-                          <p>CNPJ</p>
-                        </div>
-                        <div class="col-sm-2 d-flex align-items-start px-0 justify-content-end">
-                          <input
-                            type="checkbox"
-                            data-group="empresa"
-                            data-checker="global"
-                          >
-                        </div>
-                      </div>
-                      @isset($empresas)
-                        @foreach($empresas as $empresa)
-                          <div
-                            class="row"
-                            data-filter-item-container="empresa"
-                            data-filter-empresa="{{ $empresa->NOME_EMPRESA }}"
-                            data-filter-cnpj="{{ $empresa->CNPJ }}"
-                          >
-                            <div class="col-sm-6 pl-0">
-                              <p>{{ $empresa->NOME_EMPRESA }}</p>
-                            </div>
-                            <div class="col-sm-4 px-0">
-                              <p>{{ $empresa->CNPJ }}</p>
-                            </div>
-                            <div class="col-sm-2 d-flex align-items-start px-0 justify-content-end">
-                              <input
-                                type="checkbox"
-                                name="grupos_clientes[]"
-                                value="{{ $empresa->CODIGO }}"
-                                data-checker="checkbox"
-                                data-group="empresa"
-                                data-descricao="{{ $empresa->NOME_EMPRESA }}"
-                              >
-                            </div>
-                          </div>
-                        @endforeach
-                      @endisset
-                    </div>
-                  </main>
-                  <footer class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-danger font-weight-bold"
-                      data-acao="cancelar"
-                      data-group="empresa"
-                      data-dismiss="modal"
-                    >
-                      Cancelar
-                    </button>
-    
-                    <button
-                      type="button"
-                      class="btn btn-success font-weight-bold"
-                      data-acao="confirmar"
-                      data-group="empresa"
-                      data-dismiss="modal"
-                    >
-                      Confirmar
-                    </button>
-                  </footer>
+                  </div>
                 </div>
+                @isset($empresas)
+                  @foreach($empresas as $empresa)
+                    <div
+                      class="row"
+                      data-filter-item-container="empresa"
+                      data-filter-empresa="{{ $empresa->NOME_EMPRESA }}"
+                      data-filter-cnpj="{{ $empresa->CNPJ }}"
+                    >
+                      <div class="col-sm-6 pl-0">
+                        <p>{{ $empresa->NOME_EMPRESA }}</p>
+                      </div>
+                      <div class="col-sm-4 px-0">
+                        <p>{{ $empresa->CNPJ }}</p>
+                      </div>
+                      <div class="col-sm-2 d-flex align-items-start px-0 justify-content-end">
+                        <input
+                          type="checkbox"
+                          name="grupos_clientes[]"
+                          value="{{ $empresa->CODIGO }}"
+                          data-checker="checkbox"
+                          data-group="empresa"
+                          data-descricao="{{ $empresa->NOME_EMPRESA }}"
+                        >
+                      </div>
+                    </div>
+                  @endforeach
+                @endisset
               </div>
-            </div>
-
-            <div
+            </x-selection-modal>
+            
+            <x-selection-modal
               id="adquirentes-modal"
-              class="modal fade"
-              data-backdrop="static"
-              data-keyboard="false"
-              role="dialog"
-              aria-labelledby="adquirentes-label"
-              aria-hidden="true"
-              tabindex="-1"
+              modal-label-id="adquirentes-label"
+              modal-label="Adquirente"
+              data-group="adquirente"
+              data-filter-group="adquirente"
+              data-filter-fields="adquirente"
             >
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <header class="modal-header d-flex align-items-center">
-                    <h5 class="modal-title" id="adquirentes-label">Adquirente</h5>
-                    <button
-                      class="close"
-                      type="button"
-                      data-acao="cancelar"
+              <div class="modal-checkboxes">
+                <div class="row">
+                  <div class="col-sm-10 pl-0">
+                    <p>Adquirente</p>
+                  </div>
+                  <div class="col-sm-2 pl-0 d-flex align-items-start px-0 justify-content-end">
+                    <input
+                      type="checkbox"
+                      data-checker="global"
                       data-group="adquirente"
-                      data-dismiss="modal"
-                      aria-label="Close"
                     >
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </header>
-                  <main class="modal-body">
-                    <div class="form-group">
-                      <h6>Pesquisar</h6>
-                      <input
-                        type="text"
-                        class="form-control"
-                        data-filter-group="adquirente"
-                        data-filter-fields="adquirente"
-                      >
-                    </div>
-                    <div class="modal-checkboxes">
-                      <div class="row">
-                        <div class="col-sm-10 pl-0">
-                          <p>Adquirente</p>
-                        </div>
-                        <div class="col-sm-2 pl-0 d-flex align-items-start px-0 justify-content-end">
-                          <input
-                            type="checkbox"
-                            data-checker="global"
-                            data-group="adquirente"
-                          >
-                        </div>
-                      </div>
-                      @isset($adquirentes)
-                        @foreach($adquirentes as $adquirente)
-                          <div
-                            class="row"
-                            data-filter-item-container="adquirente"
-                            data-filter-adquirente="{{ $adquirente->ADQUIRENTE }}"
-                          >
-                            <div class="col-sm-10 pl-0">
-                              <p>{{ $adquirente->ADQUIRENTE }}</p>
-                            </div>
-                            <div class="col-sm-2 d-flex align-items-start px-0 justify-content-end">
-                              <input
-                                type="checkbox"
-                                name="adquirentes[]"
-                                value="{{ $adquirente->CODIGO }}"
-                                data-checker="checkbox"
-                                data-group="adquirente"
-                                data-descricao="{{ $adquirente->ADQUIRENTE }}"
-                              >
-                            </div>
-                          </div>
-                        @endforeach
-                      @endisset
-                    </div>
-                  </main>
-                  <footer class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-danger"
-                      data-acao="cancelar"
-                      data-group="adquirente"
-                      data-dismiss="modal"
-                    >
-                      Cancelar
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-success"
-                      data-acao="confirmar"
-                      data-group="adquirente"
-                      data-dismiss="modal"
-                    >
-                      Confirmar
-                    </button>
-                  </footer>
+                  </div>
                 </div>
+                @isset($adquirentes)
+                  @foreach($adquirentes as $adquirente)
+                    <div
+                      class="row"
+                      data-filter-item-container="adquirente"
+                      data-filter-adquirente="{{ $adquirente->ADQUIRENTE }}"
+                    >
+                      <div class="col-sm-10 pl-0">
+                        <p>{{ $adquirente->ADQUIRENTE }}</p>
+                      </div>
+                      <div class="col-sm-2 d-flex align-items-start px-0 justify-content-end">
+                        <input
+                          type="checkbox"
+                          name="adquirentes[]"
+                          value="{{ $adquirente->CODIGO }}"
+                          data-checker="checkbox"
+                          data-group="adquirente"
+                          data-descricao="{{ $adquirente->ADQUIRENTE }}"
+                        >
+                      </div>
+                    </div>
+                  @endforeach
+                @endisset
               </div>
-            </div>
-            
-            <div
+            </x-selection-modal>
+                   
+            <x-selection-modal
               id="bandeiras-modal"
-              class="modal fade"
-              data-backdrop="static"
-              data-keyboard="false"
-              role="dialog"
-              aria-labelledby="bandeiras-label"
-              aria-hidden="true"
-              tabindex="-1"
+              modal-label-id="bandeiras-label"
+              modal-label="Bandeira"
+              data-group="bandeira"
+              data-filter-group="bandeira"
+              data-filter-fields="bandeira"
             >
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <header class="modal-header d-flex align-items-center">
-                    <h5 class="modal-title" id="bandeiras-label">Bandeira</h5>
-                    <button
-                      class="close"
-                      type="button"
-                      data-acao="cancelar"
+              <div class="modal-checkboxes">
+                <div class="row">
+                  <div class="col-sm-10 pl-0">
+                    <p>Bandeira</p>
+                  </div>
+                  <div class="col-sm-2 pl-0 d-flex align-items-start px-0 justify-content-end">
+                    <input
+                      type="checkbox"
+                      data-checker="global"
                       data-group="bandeira"
-                      data-dismiss="modal"
-                      aria-label="Close"
                     >
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </header>
-                  <main class="modal-body">
-                    <div class="form-group">
-                      <h6>Pesquisar</h6>
-                      <input
-                        type="text"
-                        class="form-control"
-                        data-filter-group="bandeira"
-                        data-filter-fields="bandeira"
-                      >
-                    </div>
-                    <div class="modal-checkboxes">
-                      <div class="row">
-                        <div class="col-sm-10 pl-0">
-                          <p>Bandeira</p>
-                        </div>
-                        <div class="col-sm-2 pl-0 d-flex align-items-start px-0 justify-content-end">
-                          <input
-                            type="checkbox"
-                            data-checker="global"
-                            data-group="bandeira"
-                          >
-                        </div>
-                      </div>
-                      @isset($bandeiras)
-                        @foreach($bandeiras as $bandeira)
-                          <div
-                            class="row"
-                            data-filter-item-container="bandeira"
-                            data-filter-bandeira="{{ $bandeira->BANDEIRA }}"
-                          >
-                            <div class="col-sm-10 pl-0">
-                              <p>{{ $bandeira->BANDEIRA }}</p>
-                            </div>
-                            <div class="col-sm-2 d-flex align-items-start px-0 justify-content-end">
-                              <input
-                                type="checkbox"
-                                name="bandeiras[]"
-                                value="{{ $bandeira->CODIGO }}"
-                                data-checker="checkbox"
-                                data-group="bandeira"
-                                data-descricao="{{ $bandeira->BANDEIRA }}"
-                              >
-                            </div>
-                          </div>
-                        @endforeach
-                      @endisset
-                    </div>
-                  </main>
-                  <footer class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-danger"
-                      data-acao="cancelar"
-                      data-group="bandeira"
-                      data-dismiss="modal"
-                    >
-                      Cancelar
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-success"
-                      data-acao="confirmar"
-                      data-group="bandeira"
-                      data-dismiss="modal"
-                    >
-                      Confirmar
-                    </button>
-                  </footer>
+                  </div>
                 </div>
+                @isset($bandeiras)
+                  @foreach($bandeiras as $bandeira)
+                    <div
+                      class="row"
+                      data-filter-item-container="bandeira"
+                      data-filter-bandeira="{{ $bandeira->BANDEIRA }}"
+                    >
+                      <div class="col-sm-10 pl-0">
+                        <p>{{ $bandeira->BANDEIRA }}</p>
+                      </div>
+                      <div class="col-sm-2 d-flex align-items-start px-0 justify-content-end">
+                        <input
+                          type="checkbox"
+                          name="bandeiras[]"
+                          value="{{ $bandeira->CODIGO }}"
+                          data-checker="checkbox"
+                          data-group="bandeira"
+                          data-descricao="{{ $bandeira->BANDEIRA }}"
+                        >
+                      </div>
+                    </div>
+                  @endforeach
+                @endisset
               </div>
-            </div>
-            
-            <div
+            </x-selection-modal>
+
+            <x-selection-modal
               id="modalidades-modal"
-              class="modal fade"
-              data-backdrop="static"
-              data-keyboard="false"
-              role="dialog"
-              aria-labelledby="modalidades-label"
-              aria-hidden="true"
-              tabindex="-1"
+              modal-label-id="modalidades-label"
+              modal-label="Forma de Pagamento"
+              data-group="modalidade"
+              data-filter-group="modalidade"
+              data-filter-fields="modalidade"
             >
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <header class="modal-header d-flex align-items-center">
-                    <h5 class="modal-title" id="modalidades-label">Forma de Pagamento</h5>
-                    <button
-                      class="close"
-                      type="button"
-                      data-acao="cancelar"
-                      data-group="modalidade"
-                      data-dismiss="modal"
-                      aria-label="Close"
+              <div class="modal-checkboxes">
+                <div class="row">
+                  <div class="col-sm-10 pl-0">
+                    <p>Forma de Pagamento</p>
+                  </div>
+                  <div class="col-sm-2 pl-0 d-flex align-items-start px-0 justify-content-end">
+                    <input
+                      type="checkbox"
+                      data-checker="global"
+                      data-group="modalidadde"
                     >
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </header>
-                  <main class="modal-body">
-                    <div class="form-group">
-                      <h6>Pesquisar</h6>
-                      <input
-                        type="text"
-                        class="form-control"
-                        data-filter-group="modalidade"
-                        data-filter-fields="modalidade"
-                      >
-                    </div>
-                    <div class="modal-checkboxes">
-                      <div class="row">
-                        <div class="col-sm-10 pl-0">
-                          <p>Forma de Pagamento</p>
-                        </div>
-                        <div class="col-sm-2 pl-0 d-flex align-items-start px-0 justify-content-end">
-                          <input
-                            type="checkbox"
-                            data-checker="global"
-                            data-group="modalidadde"
-                          >
-                        </div>
-                      </div>
-                      @isset($modalidades)
-                        @foreach($modalidades as $modalidade)
-                          <div
-                            class="row"
-                            data-filter-item-container="modalidade"
-                            data-filter-modalidaade="{{ $modalidade->DESCRICAO }}"
-                          >
-                            <div class="col-sm-10 pl-0">
-                              <p>{{ $modalidade->DESCRICAO }}</p>
-                            </div>
-                            <div class="col-sm-2 d-flex align-items-start px-0 justify-content-end">
-                              <input
-                                type="checkbox"
-                                name="modalidades[]"
-                                value="{{ $modalidade->CODIGO }}"
-                                data-checker="checkbox"
-                                data-group="modalidade"
-                                data-descricao="{{ $modalidade->DESCRICAO }}"
-                              >
-                            </div>
-                          </div>
-                        @endforeach
-                      @endisset
-                    </div>
-                  </main>
-                  <footer class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-danger"
-                      data-acao="cancelar"
-                      data-group="modalidade"
-                      data-dismiss="modal"
-                    >
-                      Cancelar
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-success"
-                      data-acao="confirmar"
-                      data-group="modalidade"
-                      data-dismiss="modal"
-                    >
-                      Confirmar
-                    </button>
-                  </footer>
+                  </div>
                 </div>
+                @isset($modalidades)
+                  @foreach($modalidades as $modalidade)
+                    <div
+                      class="row"
+                      data-filter-item-container="modalidade"
+                      data-filter-modalidaade="{{ $modalidade->DESCRICAO }}"
+                    >
+                      <div class="col-sm-10 pl-0">
+                        <p>{{ $modalidade->DESCRICAO }}</p>
+                      </div>
+                      <div class="col-sm-2 d-flex align-items-start px-0 justify-content-end">
+                        <input
+                          type="checkbox"
+                          name="modalidades[]"
+                          value="{{ $modalidade->CODIGO }}"
+                          data-checker="checkbox"
+                          data-group="modalidade"
+                          data-descricao="{{ $modalidade->DESCRICAO }}"
+                        >
+                      </div>
+                    </div>
+                  @endforeach
+                @endisset
               </div>
-            </div>
-            
-            <div
+            </x-selection-modal>
+
+            <x-selection-modal
               id="estabelecimentos-modal"
-              class="modal fade"
-              data-backdrop="static"
-              data-keyboard="false"
-              role="dialog"
-              aria-labelledby="estabelecimentos-label"
-              aria-hidden="true"
-              tabindex="-1"
+              modal-label-id="estabelecimentos-label"
+              modal-label="Código de Estabelecimento"
+              data-group="estabelecimento"
+              data-filter-group="estabelecimento"
+              data-filter-fields="estabelecimento"
             >
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <header class="modal-header d-flex align-items-center">
-                    <h5 class="modal-title" id="estabelecimentos-label">Código de Estabelecimento</h5>
-                    <button
-                      class="close"
-                      type="button"
-                      data-acao="cancelar"
+              <div class="modal-checkboxes">
+                <div class="row">
+                  <div class="col-sm-10 pl-0">
+                    <p>Código de Estabelec.</p>
+                  </div>
+                  <div class="col-sm-2 pl-0 d-flex align-items-start px-0 justify-content-end">
+                    <input
+                      type="checkbox"
+                      data-checker="global"
                       data-group="estabelecimento"
-                      data-dismiss="modal"
-                      aria-label="Close"
                     >
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </header>
-                  <main class="modal-body">
-                    <div class="form-group">
-                      <h6>Pesquisar</h6>
-                      <input
-                        type="text"
-                        class="form-control"
-                        data-filter-group="modalidade"
-                        data-filter-fields="modalidade"
-                      >
-                    </div>
-                    <div class="modal-checkboxes">
-                      <div class="row">
-                        <div class="col-sm-10 pl-0">
-                          <p>Código de Estabelec.</p>
-                        </div>
-                        <div class="col-sm-2 pl-0 d-flex align-items-start px-0 justify-content-end">
-                          <input
-                            type="checkbox"
-                            data-checker="global"
-                            data-group="estabelecimento"
-                          >
-                        </div>
-                      </div>
-                      @isset($estabelecimentos)
-                        @foreach($estabelecimentos as $estabelecimento)
-                          <div
-                            class="row"
-                            data-filter-item-container="modalidade"
-                            data-filter-estabelecimento="{{ $estabelecimento->ESTABELECIMENTO }}"
-                          >
-                            <div class="col-sm-10 pl-0">
-                              <p>{{ $estabelecimento->ESTABELECIMENTO }}</p>
-                            </div>
-                            <div class="col-sm-2 d-flex align-items-start px-0 justify-content-end">
-                              <input
-                                type="checkbox"
-                                name="estabelecimentos[]"
-                                value="{{ $estabelecimento->ESTABELECIMENTO }}"
-                                data-checker="checkbox"
-                                data-group="estabelecimento"
-                                data-descricao="{{ $estabelecimento->ESTABELECIMENTO }}"
-                              >
-                            </div>
-                          </div>
-                        @endforeach
-                      @endisset
-                    </div>
-                  </main>
-                  <footer class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-danger"
-                      data-acao="cancelar"
-                      data-group="estabelecimento"
-                      data-dismiss="modal"
-                    >
-                      Cancelar
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-success"
-                      data-acao="confirmar"
-                      data-group="estabelecimento"
-                      data-dismiss="modal"
-                    >
-                      Confirmar
-                    </button>
-                  </footer>
+                  </div>
                 </div>
+                @isset($estabelecimentos)
+                  @foreach($estabelecimentos as $estabelecimento)
+                    <div
+                      class="row"
+                      data-filter-item-container="modalidade"
+                      data-filter-estabelecimento="{{ $estabelecimento->ESTABELECIMENTO }}"
+                    >
+                      <div class="col-sm-10 pl-0">
+                        <p>{{ $estabelecimento->ESTABELECIMENTO }}</p>
+                      </div>
+                      <div class="col-sm-2 d-flex align-items-start px-0 justify-content-end">
+                        <input
+                          type="checkbox"
+                          name="estabelecimentos[]"
+                          value="{{ $estabelecimento->ESTABELECIMENTO }}"
+                          data-checker="checkbox"
+                          data-group="estabelecimento"
+                          data-descricao="{{ $estabelecimento->ESTABELECIMENTO }}"
+                        >
+                      </div>
+                    </div>
+                  @endforeach
+                @endisset
               </div>
-            </div>
+            </x-selection-modal>
           </div>
         </form>
       </div>
@@ -754,7 +456,7 @@
 
       <div class="vendas">
         <div class="tabela-info d-flex align-items-center justify-content-between">
-          <h4>Vendas Operadoras <span id="js-vendas-erp-info"></span></h4>
+          <h4>Vendas Operadoras <span id="js-vendas-erp-info">(0 registros)</span></h4>
           <div class="acoes d-flex align-items-center justify-content-end">
             <button id="js-exportar-erp" class="btn button no-hover">
               <i class="fas fa-file-download"></i>
