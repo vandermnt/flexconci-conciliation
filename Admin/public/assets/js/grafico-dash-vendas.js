@@ -84,7 +84,7 @@ function geraGraficoVendas(dados_grafico) {
           ticket_medio_correto = ticket_medio / qtd
 
           t = ticket_medio_correto.toFixed(2);
-          return '';
+          return val + "%";
 
         },
         title: {
@@ -98,7 +98,7 @@ function geraGraficoVendas(dados_grafico) {
             });
 
             t = ticket_medio_correto.toFixed(2);
-            return 'Ticket Médio: ' + t + '';
+            return `Ticket Médio: ${t}` + ' | ' + val;
             // return val
           }
         }
@@ -197,7 +197,7 @@ function geraGraficoVendasBandeira(dados_grafico) {
           ticket_medio_correto = ticket_medio / qtd
 
           t = ticket_medio_correto.toFixed(2);
-          return '';
+          return val + "%";
 
         },
         title: {
@@ -211,7 +211,7 @@ function geraGraficoVendasBandeira(dados_grafico) {
             });
 
             t = ticket_medio_correto.toFixed(2);
-            return 'Ticket Médio: ' + t + '';
+            return `Ticket Médio: ${t}` + ' | ' + val;
             // return val
           }
         }
@@ -309,21 +309,21 @@ function geraGraficoVendasProduto(dados_grafico) {
           ticket_medio_correto = ticket_medio / qtd
 
           t = ticket_medio_correto.toFixed(2);
-          return '';
+          return val + "%";
 
         },
         title: {
           formatter: function(val) {
-
+            console.log(dados_grafico)
             dados_grafico.forEach((dado) => {
-              if (dado.DESCRICAO == val ) {
+              if (dado.PRODUTO_WEB == val ) {
                 total = parseFloat(dado.TOTAL_BRUTO);
                 ticket_medio_correto = total.toFixed(2) / dado.QUANTIDADE_REAL
               }
             });
 
             t = ticket_medio_correto.toFixed(2);
-            return 'Ticket Médio: ' + t + '';
+            return `Ticket Médio: ${t}` + ' | ' + val;
             // return val
           }
         }
@@ -424,7 +424,7 @@ function geraGraficoVendasModalidade(dados_grafico) {
           ticket_medio_correto = ticket_medio / qtd
 
           t = ticket_medio_correto.toFixed(2);
-          return '';
+          return val + "%";
 
         },
         title: {
@@ -438,7 +438,7 @@ function geraGraficoVendasModalidade(dados_grafico) {
             });
 
             t = ticket_medio_correto.toFixed(2);
-            return 'Ticket Médio: ' + t + '';
+            return `Ticket Médio: ${t}` + ' | ' + val;
             // return val
           }
         }
