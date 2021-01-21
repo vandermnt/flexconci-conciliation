@@ -170,6 +170,12 @@
   max-width: 100%;
 }
 
+#pagina-conciliacao .boxes .tooltip-hint::before {
+  width: 128px;
+  max-width: 100%;
+  transform: translateX(-50%);
+}
+
 #pagina-conciliacao .resultados .acoes button {
   min-width: 104px;
   max-width: 100%;
@@ -214,6 +220,12 @@
   padding: 0 8px;
 }
 
+#pagina-conciliacao .resultados table td i {
+  font-size: 16px;
+  color: #2d5275;
+  margin: 0 4px;  
+}
+
 #pagina-conciliacao table thead tr {
   background-color: white;
   border-bottom: 2px solid #eaf0f7;
@@ -222,7 +234,7 @@
 #pagina-conciliacao table thead th {
   position: sticky;
   top: 0;
-  background-color: white;
+  background-color: white !important;
 }
 
 #pagina-conciliacao table tr {

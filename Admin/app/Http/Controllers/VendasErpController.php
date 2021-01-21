@@ -105,6 +105,7 @@ class VendasErpController extends Controller {
     $query = VendasErpModel::select(
         [
           'vendas_erp.CODIGO as ID_ERP',
+          'vendas_erp.DESCRICAO_TIPO_PRODUTO as DESCRICAO_ERP',
           'grupos_clientes.NOME_EMPRESA',
           'grupos_clientes.CNPJ',
           'vendas_erp.DATA_VENDA',

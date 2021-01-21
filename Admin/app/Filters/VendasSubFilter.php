@@ -35,6 +35,7 @@ class VendasSubFilter extends BaseSubFilter {
     'PRODUTO',
     'MEIOCAPTURA',
     'STATUS_CONCILIACAO',
+    'DIVERGENCIA',
     'STATUS_FINANCEIRO',
     'JUSTIFICATIVA'
   ];

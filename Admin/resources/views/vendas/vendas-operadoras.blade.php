@@ -774,6 +774,12 @@
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
+                    <p>ID. ERP</p>
+                    <input type="text" class="form-control" name="ID_ERP">
+                  </div>
+                </th>
+                <th>
+                  <div class="d-flex flex-column align-items-center">
                     <p>Empresa</p>
                     <input type="text" class="form-control" name="NOME_EMPRESA">
                   </div>
@@ -824,6 +830,18 @@
                   <div class="d-flex flex-column align-items-center">
                     <p>Autorização</p>
                     <input type="text" class="form-control" name="AUTORIZACAO">
+                  </div>
+                </th>
+                <th>
+                  <div class="d-flex flex-column align-items-center">
+                    <p>TID</p>
+                    <input type="text" class="form-control" name="TID">
+                  </div>
+                </th>
+                <th>
+                  <div class="d-flex flex-column align-items-center">
+                    <p>Cartão</p>
+                    <input type="text" class="form-control" name="CARTAO">
                   </div>
                 </th>
                 <th>
@@ -918,6 +936,12 @@
                  </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
+                    <p>Divergência</p>
+                    <input type="text" class="form-control" name="DIVERGENCIA">
+                  </div>
+                 </th>
+                <th>
+                  <div class="d-flex flex-column align-items-center">
                     <p>Status Financeiro</p>
                     <input type="text" class="form-control" name="STATUS_FINANCEIRO">
                   </div>
@@ -937,6 +961,7 @@
                     <i class="fas fa-print"></i>
                   </a>
                 </td>
+                <td data-campo="ID_ERP">-</td>
                 <td data-campo="NOME_EMPRESA">-</td>
                 <td data-campo="CNPJ">-</td>
                 <td data-campo="DATA_VENDA" data-format="date">-</td>
@@ -964,6 +989,8 @@
                 <td data-campo="MODALIDADE">-</td>
                 <td data-campo="NSU">-</td>
                 <td data-campo="AUTORIZACAO">-</td>
+                <td data-campo="TID">-</td>
+                <td data-campo="CARTAO">-</td>
                 <td data-campo="VALOR_BRUTO" data-format="currency">-</td>
                 <td data-campo="PERCENTUAL_TAXA" data-format="decimal">-</td>
                 <td class="text-danger" data-campo="VALOR_TAXA" data-format="currency"></td>
@@ -983,6 +1010,7 @@
                 <td data-campo="PRODUTO">-</td>
                 <td data-campo="MEIOCAPTURA">-</td>
                 <td data-campo="STATUS_CONCILIACAO">-</td>
+                <td data-campo="DIVERGENCIA">-</td>
                 <td data-campo="STATUS_FINANCEIRO">-</td>
                 <td data-campo="JUSTIFICATIVA">-</td>
               </tr>      
@@ -999,10 +1027,14 @@
                 <td></td>
                 <td></td>
                 <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
                 <td data-chave="TOTAL_BRUTO"></td>
                 <td></td>
                 <td data-chave="TOTAL_TAXA" class="text-danger"></td>
                 <td data-chave="TOTAL_LIQUIDO"></td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>

@@ -57,8 +57,12 @@ const modalFilter = new ModalFilter();
 const urls = getUrls();
 const dados = new Proxy({
   filtros: {},
-  subfiltros: {},
+  subfiltros: {
+    erp: {},
+    operadoras: {},
+  },
   statusAtivos: [],
+  statusFiltros: [],
   erp: new VendasProxy('erp'),
   operadoras: new VendasProxy('operadoras'),
 }, handler());
@@ -112,7 +116,17 @@ function serializarVendas(resultado, id) {
   resultado.paginacao = criarPaginacao(paginacao, async (page, paginacao, event) => {
     const url = paginacao.options.baseUrl
     const body = url === urls[id].filtrar ? 
-      { filtros: dados.filtros, subfiltros: dados.subfiltros[id] } : { ...dados.filtros }
+      { 
+        filtros: {
+          ...dados.filtros, 
+          status_conciliacao: dados.statusFiltros
+        },
+        subfiltros: dados.subfiltros[id]
+      } : 
+      { 
+        ...dados.filtros, 
+        status_conciliacao: dados.statusFiltros
+      }
     const params = {
       page,
       por_pagina: paginacao.options.perPage
@@ -149,21 +163,52 @@ function criarPaginacao(paginacao, navigateHandler = () => {}) {
   return novaPaginacao;
 }
 
+function naoConciliadaEstaSelecionada() {
+  const status = document.querySelector('#js-box-nao-conciliada').dataset.status;
+  const statusNaoConciliada = document.querySelector(`input[data-status="${status}"]`).value;
+
+  return dados.statusFiltros.includes(statusNaoConciliada);
+}
+
 function atualizarInterface(modalidadeVendas, registros, paginacao = null) {
   const vendasErpInfoDOM = document.querySelector('#js-vendas-erp-info');
   const pendenciasOperadorasInfoDOM = document.querySelector('#js-pendencias-operadoras-info');
+  let totaisOperadoras = { ...dados.operadoras.busca.totais };
 
+  registros = { ...registros };
   vendasErpInfoDOM.textContent = `(${dados.erp.emExibicao.paginacao.options.total} registros)`;
-  pendenciasOperadorasInfoDOM.textContent = `(${dados.operadoras.emExibicao.paginacao.options.total} registros)`;
+  pendenciasOperadorasInfoDOM.textContent = 
+    `(${naoConciliadaEstaSelecionada() ? dados.operadoras.emExibicao.paginacao.options.total : 0} registros)`;
+  
+  if(!naoConciliadaEstaSelecionada()) {
+    totaisOperadoras = {
+      TOTAL_BRUTO: 0,
+      TOTAL_LIQUIDO: 0,
+      TOTAL_TAXA: 0,
+    }
+  }
+  if(modalidadeVendas === 'operadoras' && !naoConciliadaEstaSelecionada()) {
+    registros.vendas = [];
+    registros.totais = totaisOperadoras;
+    paginacao = new Pagination([],  {
+      paginationContainer: document.querySelector('#js-paginacao-operadoras'),
+      total: 0,
+      currentPage: 1,
+      lastPage: 1,
+      perPage: paginacao ? paginacao.options.perPage : 5,
+    });
+  }
+  
   renderizarTabela(modalidadeVendas, registros.vendas, registros.totais);
+  atualizarBoxes({ 
+    erp: { ...dados.erp.busca.totais },
+    operadoras: totaisOperadoras
+  });
+
   if(paginacao) {
     paginacao.render();
     document.querySelector(`#js-porpagina-${modalidadeVendas}`).value = paginacao.options.perPage;
   }
-  atualizarBoxes({ 
-    erp: { ...dados.erp.busca.totais },
-    operadoras: { ...dados.operadoras.busca.totais }
-  });
 }
 
 function limpar() {
@@ -306,6 +351,7 @@ async function submeterPesquisa(event) {
   event.preventDefault();
 
   dados.statusAtivos = checker.getCheckedValues('status-conciliacao', 'status');
+  dados.statusFiltros = checker.getValuesBy('status-conciliacao', 'status', dados.statusAtivos);
 
   await iniciarRequisicao(async () => {
     const filtros = getFiltros();
@@ -339,18 +385,20 @@ async function pesquisarPorBox(event) {
   const boxDOM = event.target;
   const statusConciliacao = boxDOM.dataset.status;
   const statusConciliacaoCheckbox = document.querySelector(`form .check-group input[data-status="${statusConciliacao}"]`);
+  const filtros = { ...getFiltros() };
 
   if(statusConciliacao === '*') {
-    checker.checkAll('status-conciliacao')
+    const statusConciliacao = checker.getValuesBy('status-conciliacao', 'status', dados.statusAtivos);
+    filtros.status_conciliacao = statusConciliacao;
+    dados.statusFiltros = statusConciliacao;
   } else {
-    checker.uncheckAll('status-conciliacao');
-    statusConciliacaoCheckbox.checked = true;
+    filtros.status_conciliacao = [statusConciliacaoCheckbox.value];
+    dados.statusFiltros = [statusConciliacaoCheckbox.value];
   }
   
-  dados.statusAtivos = checker.getCheckedValues('status-conciliacao', 'status');
   await iniciarRequisicao(async () => {
     const vendas = await requisitarVendas(urls.erp.buscar, {
-      ...getFiltros(),
+      ...filtros,
     },
     {
       page: 1,
@@ -367,14 +415,24 @@ async function pesquisarPorBox(event) {
 }
 
 function calcularTotalErpBrutoBox() {
-  const statusAtivos = [...dados.statusAtivos];
+  const statusFiltros = [...dados.statusFiltros];
 
-  const total = statusAtivos.reduce((total, status) => {
+  const total = statusFiltros.reduce((total, statusId) => {
+    const status = document.querySelector(`input[data-status][value="${statusId}"]`).dataset.status;
     const statusDOM = document.querySelector(`.boxes .card[data-status="${status}"] p[data-valor]`);
     return total + (Number(statusDOM.dataset.valor) || 0);
   }, 0);
 
   return total;
+}
+
+function retornaValorBox(total, status) {
+  const statusId = checker.getValuesBy('status-conciliacao', 'status', [status])[0];
+  if(dados.statusFiltros.includes(statusId)) {
+    return Number(total) || 0;
+  }
+
+  return 0;
 }
 
 function atualizarBoxes(totais) {
@@ -386,20 +444,25 @@ function atualizarBoxes(totais) {
   const totalNaoConciliada = document.querySelector('p[data-total="TOTAL_NAO_CONCILIADA"]');
   const totalOperadoras = document.querySelector('p[data-total="OPERADORAS_TOTAL_BRUTO"]');
 
-  totalConciliada.dataset.valor = totais.erp.TOTAL_CONCILIADA;
-  totalConciliada.textContent = formatadorMoeda.format(totais.erp.TOTAL_CONCILIADA);
+  let status = totalConciliada.closest('*[data-status]').dataset.status;
+  totalConciliada.dataset.valor = retornaValorBox(totais.erp.TOTAL_CONCILIADA, status);
+  totalConciliada.textContent = formatadorMoeda.format(totalConciliada.dataset.valor);
 
-  totalDivergente.dataset.valor = totais.erp.TOTAL_DIVERGENTE;
-  totalDivergente.textContent = formatadorMoeda.format(totais.erp.TOTAL_DIVERGENTE);
+  status = totalDivergente.closest('*[data-status]').dataset.status;
+  totalDivergente.dataset.valor = retornaValorBox(totais.erp.TOTAL_DIVERGENTE, status);
+  totalDivergente.textContent = formatadorMoeda.format(totalDivergente.dataset.valor);
+
+  status = totalManual.closest('*[data-status]').dataset.status;
+  totalManual.dataset.valor = retornaValorBox(totais.erp.TOTAL_MANUAL, status);
+  totalManual.textContent = formatadorMoeda.format(totalManual.dataset.valor);
   
-  totalManual.dataset.valor = totais.erp.TOTAL_MANUAL;
-  totalManual.textContent = formatadorMoeda.format(totais.erp.TOTAL_MANUAL);
+  status = totalJustificada.closest('*[data-status]').dataset.status;
+  totalJustificada.dataset.valor =  retornaValorBox(totais.erp.TOTAL_JUSTIFICADA, status);
+  totalJustificada.textContent = formatadorMoeda.format(totalJustificada.dataset.valor);
   
-  totalJustificada.dataset.valor = totais.erp.TOTAL_JUSTIFICADA;
-  totalJustificada.textContent = formatadorMoeda.format(totais.erp.TOTAL_JUSTIFICADA);
-  
-  totalNaoConciliada.dataset.valor = totais.erp.TOTAL_NAO_CONCILIADA;
-  totalNaoConciliada.textContent = formatadorMoeda.format(totais.erp.TOTAL_NAO_CONCILIADA);
+  status = totalNaoConciliada.closest('*[data-status]').dataset.status;
+  totalNaoConciliada.dataset.valor = retornaValorBox(totais.erp.TOTAL_NAO_CONCILIADA, status);
+  totalNaoConciliada.textContent = formatadorMoeda.format(totalNaoConciliada.dataset.valor);
   
   totalErp.textContent = formatadorMoeda.format(calcularTotalErpBrutoBox());
 
@@ -447,7 +510,7 @@ function renderizarTabela(tipo, vendas, totais) {
     const inputsDOM = tr.querySelectorAll('input[type="checkbox"][data-campo]');
 
     [...tooltipsDOM].forEach(tooltipDOM => {
-      tooltipDOM.dataset.title = venda[tooltipDOM.dataset.title] || 'Sem identificação';
+      tooltipDOM.dataset.title = venda[tooltipDOM.dataset.title] || tooltipDOM.dataset.defaultTitle || 'Sem identificação';
     });
     
     [...imagensDOM].forEach(imagemDOM => {
@@ -910,9 +973,20 @@ function desjustificar() {
 function abrirUrlExportacao(baseUrl, target =  '') {
   swal('Aguarde um momento...', 'A sua planilha está sendo gerada.', 'warning');
   const a = document.createElement('a');
-  a.href = api.urlBuilder(baseUrl, dados.filtros);
+  const subfiltros = baseUrl === urls.erp.exportar ? { ...dados.subfiltros.erp } : { ...dados.subfiltros.operadoras };
+
+  if(baseUrl === urls.operadoras.exportar && !naoConciliadaEstaSelecionada()) {
+    subfiltros.id_erp = [null];
+  }
+
+  a.href = api.urlBuilder(baseUrl, { 
+    ...{ ...dados.filtros, status_conciliacao: dados.statusFiltros }, 
+    ...subfiltros 
+  });
   a.target = target;
-  a.click();
+  setTimeout(() => {
+    a.click();
+  }, 500);
 }
 
 function exportarErp() {
@@ -958,7 +1032,10 @@ document.querySelector('#js-resultados .boxes .card[data-navigate]')
       
       iniciarRequisicao(async () => {
         const vendas = await requisitarVendas(urls[modalidadeVendas].filtrar, {
-          filtros: dados.filtros,
+          filtros: {
+            ...dados.filtros,
+            status_conciliacao: dados.statusFiltros
+          },
           subfiltros: dados.subfiltros[modalidadeVendas]
         },
         {

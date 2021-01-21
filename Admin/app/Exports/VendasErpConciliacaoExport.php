@@ -15,9 +15,11 @@ class VendasErpConciliacaoExport implements FromQuery, WithStrictNullComparison,
     use Exportable;
     
     protected $filters;
+    protected $subfilters;
 
-    public function __construct($filters) {
+    public function __construct($filters, $subfilters) {
         $this->filters = $filters;
+        $this->subfilters = $subfilters;
     }
 
     public function headings(): array
@@ -46,6 +48,7 @@ class VendasErpConciliacaoExport implements FromQuery, WithStrictNullComparison,
             'Produto',
             'Meio de Captura',
             'Status Conciliação',
+            'Divergência',
             'Status Financeiro',
             'Justificativa',
             'Campo 1',
@@ -84,6 +87,7 @@ class VendasErpConciliacaoExport implements FromQuery, WithStrictNullComparison,
             $venda->PRODUTO,
             $venda->MEIOCAPTURA,
             $venda->STATUS_CONCILIACAO,
+            $venda->DIVERGENCIA,
             $venda->STATUS_FINANCEIRO,
             $venda->JUSTIFICATIVA,
             $venda->CAMPO1,
@@ -98,6 +102,8 @@ class VendasErpConciliacaoExport implements FromQuery, WithStrictNullComparison,
 
     public function query()
     {
-        return VendasErpSubFilter::filter($this->filters, [])->getQuery()->orderBy('DATA_VENDA');
+        return VendasErpSubFilter::subfilter($this->filters, $this->subfilters)
+            ->getQuery()
+            ->orderBy('DATA_VENDA');
     }
 }
