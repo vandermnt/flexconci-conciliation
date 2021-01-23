@@ -20,7 +20,7 @@
           class="close"
           type="button"
           data-dismiss="modal"
-          data-acao="cancelar"
+          data-action="cancel"
           data-group="{{ $attributes->get('data-group') ?? $attributes->get('data-filter-group') }}"
           data-label="Close"
         >
@@ -41,25 +41,29 @@
         {{ $slot }}
       </main>
       <footer class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-danger font-weight-bold"
-          data-acao="cancelar"
-          data-group="{{ $attributes->get('data-group') ?? $attributes->get('data-filter-group') }}"
-          data-dismiss="modal"
-        >
-          Cancelar
-        </button>
+        @isset($footer)
+          {{ $footer }}
+        @else
+          <button
+            type="button"
+            class="btn btn-danger font-weight-bold"
+            data-action="cancel"
+            data-group="{{ $attributes->get('data-group') ?? $attributes->get('data-filter-group') }}"
+            data-dismiss="modal"
+          >
+            Cancelar
+          </button>
 
-        <button
-          type="button"
-          class="btn btn-success font-weight-bold"
-          data-acao="confirmar"
-          data-group="{{ $attributes->get('data-group') ?? $attributes->get('data-filter-group') }}"
-          data-dismiss="modal"
-        >
-          Confirmar
-        </button>
+          <button
+            type="button"
+            class="btn btn-success font-weight-bold"
+            data-action="confirm"
+            data-group="{{ $attributes->get('data-group') ?? $attributes->get('data-filter-group') }}"
+            data-dismiss="modal"
+          >
+            Confirmar
+          </button>
+        @endisset
       </footer>
     </div>
   </div>
