@@ -138,6 +138,22 @@ Checker.prototype.addGroup = function(name, options = {}, onChangeCallback = () 
     this._registerGroup(this.groups[name], onChangeCallback);
 }
 
+Checker.prototype.addGroups = function(groups = [], onChangeCallback = () => {}) {
+    groups.forEach(group => {
+      if(typeof group === 'string') {
+        return this.addGroup(group, {}, onChangeCallback);
+      }
+      
+      if(!group.onChangeCallback) {
+        group.onChangeCallback = onChangeCallback
+      }
+  
+      return this.addGroup(group.name, group.options, group.onChangeCallback);
+    });
+  
+    return this;
+}
+
 /**
  * @function getCheckedValues
  * Return an array with all checked values
