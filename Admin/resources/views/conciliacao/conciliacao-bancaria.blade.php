@@ -72,10 +72,10 @@
 
     <thead>
       <tr style="background: #2D5275; ">
-        <th style="color: white"  class=''> Data de Envio  </th>
-        <th style="color: white"  class=''> Hora de Envio   </th>
-        <th style="color: white"  class=''> Status </th>
-        <th style="color: white"  class=''> Histórico  </th>
+        <th style="color: white"> Data de Envio  </th>
+        <th style="color: white"> Hora de Envio   </th>
+        <th style="color: white"> Status </th>
+        <th style="color: white"> Histórico  </th>
       </tr>
     </thead>
     <tbody>
@@ -243,8 +243,6 @@ function enviarExtratos(){
         processData: false,
         contentType: false,
         success: function (response){
-          console.log(response.length);
-
           for(var i=0; i<response.length; i++){
 
             var data_envio = new Date(response[i].DATA_ENVIO);

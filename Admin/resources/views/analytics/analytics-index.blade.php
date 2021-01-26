@@ -124,19 +124,59 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
   </div>
   <div class="row">
-    <div class="col-lg-12" style="border-radius: 4px; border: 2px; margin-top: 15px; background: white">
+    <div class="col-lg-12" style="margin-top: 15px;">
       <div class="row" style="align-items: center; justify-content: center;">
-        <div class="col-sm-2">
-          <img src="{{ url('assets/images/user.jpg')}}" />
+        <div class="col-md-6 col-lg-3">
+          <div class="card report-card">
+            <div class="card-body">
+              <div class="row d-flex">
+                <div class="col-12">
+                  <p class="font-weight-semibold font-12">Suporte</p>
+                  <h6 style="font-size: 12px" id="total_taxa_cobrada" class="my-3">Não há divergências no momento</h6>
+                  <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="col-sm-10">
-          <?php $primeiro_nome = explode(' ', Auth::user()->NOME); ?>
-          <h3> Bem vindo de volta, {{$primeiro_nome[0]}}! </h3>
-          @if($frase->AVISO_GERAL)
-          <h6> {{$frase->AVISO_GERAL}} </h6>
-          @else
-          <h6> Comece o seu dia analisando os dados da sua empresa. </h6>
-          @endif
+        <div class="col-md-6 col-lg-3">
+          <div class="card report-card">
+            <div class="card-body">
+              <div class="row d-flex">
+                <div class="col-12">
+                  <p class="font-weight-semibold font-12">Divergências - Conc. de vendas</p>
+                  <h6 style="font-size: 12px" id="total_taxa_cobrada" class="my-3">Não há divergências no momento</h6>
+                  <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="card report-card">
+            <div class="card-body">
+              <div class="row d-flex">
+                <div class="col-12">
+                  <p class="font-weight-semibold font-12">Divergências - Taxas</p>
+                  <h6 style="font-size: 12px" id="total_taxa_cobrada" class="my-3">Não há divergências no momento</h6>
+                  <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="card report-card">
+            <div class="card-body">
+              <div class="row d-flex">
+                <div class="col-12">
+                  <p class="font-weight-semibold font-12">Divergências - Conc. Bancária</p>
+                  <h6 style="font-size: 12px" id="total_taxa_cobrada" class="my-3">Não há divergências no momento</h6>
+                  <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
