@@ -1,19 +1,17 @@
 function SalesProxy(values) {
-  return new Proxy({
+  this.proxy = new Proxy({
     id: values.id || '',
     type: values.type || '',
     sales: values.sales || [],
     totals: values.totals || {},
-    pagination: values.pagination || Pagination([], {
+    pagination: values.pagination || new Pagination([], {
       currentPage: 1,
       total: 0,
     }),
-    _links: values.links || {},
-    _events: {},
-  }, handler())
+  }, salesProxyHandler());
 }
 
-function handler() {
+function salesProxyHandler() {
   return {
     set: function(target, name, value) {
       if(['id', 'type'].includes(name) && typeof value === 'string') {
@@ -29,10 +27,22 @@ function handler() {
   }
 }
 
+SalesProxy.prototype.get = function(prop = null) {
+  if(!prop) {
+    return this.proxy;
+  }
+  
+  return this.proxy[prop];
+}
+
+SalesProxy.prototype.set = function(prop = '', value = null) {
+  this.proxy[prop] = value;
+}
+
 SalesProxy.prototype._defaultSerializer = function(data = {}) {
-  const sales = { ...data.sales };
-  const pagination = { ...data.pagination };
-  const totals = { ...data.totals };
+  const sales = [...(data.sales || [])];
+  const pagination = { ...(data.pagination || {}) };
+  const totals = { ...(data.totals || {}) };
   delete pagination.data;
 
   const serializedData = {
