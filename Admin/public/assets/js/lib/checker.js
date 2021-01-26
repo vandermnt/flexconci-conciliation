@@ -120,6 +120,7 @@ Checker.prototype.addGroup = function(name, options = {}, onChangeCallback = () 
 
     this.groups[name] = {
         name,
+        inputName: options.inputName || name || '',
         globalCheckbox,
         checkboxes,
     };
@@ -238,4 +239,23 @@ Checker.prototype.removeGroup = function(name) {
         globalCheckbox.removeEventListener('change', this._handleGlobalClick);
     }
     delete this.groups[name];
+}
+
+Checker.prototype.serialize = function(groupName = null) {
+    if(groupName) {
+        return { 
+            [this.groups[groupName].inputName]: this.getCheckedValues(groupName),
+        }
+    }
+
+    const serializedData = Object.keys(this.groups).reduce((data, groupName) => {
+        const values = this.getCheckedValues(groupName);
+        if(values.length > 0) {
+            data[this.groups[groupName].inputName] = values;
+        }
+
+        return data;
+    }, {});
+
+    return serializedData;
 }

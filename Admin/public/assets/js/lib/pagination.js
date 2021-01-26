@@ -224,13 +224,13 @@ Pagination.prototype.toArray = function(shouldFragment = false, fragmentOn = 10,
 
 Pagination.prototype.serialize = function (data, options) {
   return {
-    currentPage: data.current_page,
-    lastPage: data.last_page,
-    perPage: data.per_page,
-    total: data.total,
+    currentPage: data.current_page || 1,
+    lastPage: data.last_page || 1,
+    perPage: data.per_page || 10,
+    total: data.total || 0,
     paginationContainer: data.paginationContainer ? 
       document.querySelector(`${data.paginationContainer}`) : null,
-    baseUrl: data.path,
+    baseUrl: data.path || '',
     ...options
   }
 }
