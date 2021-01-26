@@ -4,8 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ConciliacaoBancariaModel extends Model{
+class DadosArquivoConciliacaoBancariaModel extends Model {
     public $timestamps = false;
-    protected $table = 'conciliacao_bancaria';
+    protected $table = 'dados_arquivo_conciliacao_bancaria';
     protected $primaryKey = 'CODIGO';
 }
