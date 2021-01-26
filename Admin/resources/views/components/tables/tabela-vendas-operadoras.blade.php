@@ -284,10 +284,10 @@
         <td></td>
         <td></td>
         <td></td>
-        <td data-key="TOTAL_BRUTO"></td>
+        <td data-column="TOTAL_BRUTO" data-format="currency"></td>
         <td></td>
-        <td data-key="TOTAL_TAXA" class="text-danger"></td>
-        <td data-key="TOTAL_LIQUIDO"></td>
+        <td data-column="TOTAL_TAXA" data-format="currency" class="text-danger"></td>
+        <td data-column="TOTAL_LIQUIDO" data-format="currency"></td>
         <td></td>
         <td></td>
         <td></td>

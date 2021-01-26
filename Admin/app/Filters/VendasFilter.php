@@ -111,6 +111,9 @@ class VendasFilter extends BaseFilter {
     if(Arr::has($filters, 'modalidades')) {
       $this->query->whereIn('modalidade.CODIGO', $filters['modalidades']);
     }
+    if(Arr::has($filters, 'estabelecimentos')) {
+      $this->query->whereIn('vendas.ESTABELECIMENTO', $filters['estabelecimentos']);
+    }
     if(Arr::has($filters, 'status_conciliacao')) {
       $this->query->whereIn('status_conciliacao.CODIGO', $filters['status_conciliacao']);
     }
