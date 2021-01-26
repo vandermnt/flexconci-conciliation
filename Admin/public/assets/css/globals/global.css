@@ -317,6 +317,10 @@ table tr.marcada td {
   grid-gap: 16px;
 }
 
+.search-form .input-group .form-group {
+  flex-grow: 1;
+}
+
 .search-form .input-group > *:first-child {
   grid-column: 1 / span 2;
 }
@@ -328,6 +332,7 @@ table tr.marcada td {
 .search-form .input-check-group .check-group {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .search-form .check-group .form-group {
@@ -343,6 +348,10 @@ table tr.marcada td {
 }
 
 /* Modais */
+.page-content-tab .modais .modal-dialog button > * {
+  pointer-events: none;
+}
+
 .page-content-tab .modais .modal-header {
   background: #2d5275;
 }

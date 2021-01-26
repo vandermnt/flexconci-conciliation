@@ -88,3 +88,19 @@ ModalFilter.prototype.addGroup = function(name, callback = () => {}) {
   this._registerHandler(name, callback);
   return this;
 }
+
+ModalFilter.prototype.addGroups = function(groups = [], callback = () => {}) {
+  groups.forEach(group => {
+    if(typeof group === 'string') {
+      return this.addGroup(group, callback);
+    }
+    
+    if(!group.callback) {
+      group.callback = callback
+    }
+
+    return this.addGroup(group.name, group.callback);
+  });
+
+  return this;
+}

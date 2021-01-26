@@ -221,3 +221,20 @@ Pagination.prototype.toArray = function(shouldFragment = false, fragmentOn = 10,
 
   return [...start, ...middle, ...end];
 }
+
+Pagination.prototype.serialize = function (data, options) {
+  return {
+    currentPage: data.current_page,
+    lastPage: data.last_page,
+    perPage: data.per_page,
+    total: data.total,
+    paginationContainer: data.paginationContainer ? 
+      document.querySelector(`${data.paginationContainer}`) : null,
+    baseUrl: data.path,
+    ...options
+  }
+}
+
+function createPagination(data = [], metadata = {}, options = {}) {
+  return new Pagination(data, Pagination.prototype.serialize(metadata, options));
+}
