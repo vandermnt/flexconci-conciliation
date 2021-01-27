@@ -22,6 +22,8 @@ function TableRender(options = {}) {
         }
       }
     },
+    selectedRows: [],
+    onRenderRow: () => {},
     onRenderCell: () => {},
     onSelectRow: () => {},
     onFilter: () => {},
@@ -78,12 +80,16 @@ TableRender.prototype.formatCell = function(value, type = 'text', defaultValue =
     return formatter.format(valueToFormat);
 }
 
+TableRender.prototype.onRenderRow = function(handler = (row = null) => {}) {
+  this.set('onRenderRow', handler);
+}
+
 TableRender.prototype.onRenderCell = function(handler = (element = null, data = {}) => {}) {
-    this.set('onRenderCell', handler);
+  this.set('onRenderCell', handler);
 }
 
 TableRender.prototype.onSelectRow = function(handler = (element) => {}) {
-    this.set('onSelectRow', handler);
+  this.set('onSelectRow', handler);
 }
 
 TableRender.prototype.onFilter = function(handler = (filters = {}) => {}) {
@@ -126,6 +132,7 @@ TableRender.prototype.serializeTableFilters = function() {
 
 TableRender.prototype.render = function() {
     const table = this.get('table');
+    const onRenderRow = this.get('onRenderRow');
     const onRenderCell = this.get('onRenderCell');
     const onSelectRow = this.get('onSelectRow');
 
@@ -156,12 +163,23 @@ TableRender.prototype.render = function() {
 
         if(onSelectRow && typeof onSelectRow === 'function') {
             tableRow.addEventListener('click', e => {
-                this.get('onSelectRow')(e.target);
+              const selectedRows = this.get('selectedRows');
+              if(selectedRows.includes(tableRow.dataset.id)) {
+                this.set('selectedRows', selectedRows.filter(value => value != tableRow.dataset.id));
+              } else {
+                selectedRows.push(tableRow.dataset.id);
+              }
+
+              this.get('onSelectRow')(e.target, this.get('selectedRows'));
             });
         }
 
         tableRow.classList.remove('hidden');
         tableRow.classList.remove('table-row-template');
+
+        if(onRenderRow && typeof onRenderRow === 'function') {
+          onRenderRow(tableRow);
+        }
 
         tbody.appendChild(tableRow);
     });

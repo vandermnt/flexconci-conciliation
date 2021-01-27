@@ -101,7 +101,6 @@ salesContainer.setPaginationConfig({
   }
 )
 
-
 searchForm.onSubmit(async (event) => {
   await salesContainer.search({
     params: {
@@ -109,6 +108,15 @@ searchForm.onSubmit(async (event) => {
     },
     body: { ...searchForm.serialize() },
   });
+});
+
+tableRender.onRenderRow(row => {
+  const selectedRows = tableRender.get('selectedRows');
+  
+  row.classList.remove('marcada');
+  if(selectedRows.includes(row.dataset.id)) {
+    row.classList.add('marcada');
+  }
 });
 
 tableRender.onRenderCell((cell, data) => {
@@ -143,10 +151,39 @@ tableRender.onRenderCell((cell, data) => {
   cell.textContent = value;
 });
 
+tableRender.onSelectRow((elementDOM, selectedRows) => {
+  let tr = elementDOM;
+  if(['a', 'i'].includes(elementDOM.tagName.toLowerCase())) {
+    return;
+  }
+  
+  if(elementDOM.tagName.toLowerCase() !== 'tr') {
+    tr = elementDOM.closest('tr');
+  }
+
+  if(!tr) { 
+    return;
+  }
+
+  tr.classList.remove('marcada');
+  if(selectedRows.includes(tr.dataset.id)) {
+    tr.classList.add('marcada');
+  } else {
+    tr.classList.remove('marcada');
+  }
+});
+
 tableRender.onFilter(async (filters) => {
   if(Object.keys(filters).length === 0) {
-    salesContainer.toggleActiveData('search');
-    salesContainer.dispatchEvent('fetch', salesContainer.get('data'));
+    await salesContainer.search({
+      params: {
+        page: 1,
+        por_pagina: document.querySelector('#js-por-pagina').value,
+      },
+      body: {
+        ...searchForm.serialize()
+      }
+    });
     return;
   }
   
@@ -197,6 +234,25 @@ function updateBoxes() {
   document.querySelector('#js-tarifa-box').textContent = currencyFormatter.format(totalTarifaMinima);
 }
 
+function openUrl(baseUrl, params) {
+  const url = api.urlBuilder(baseUrl, params);
+  const a = document.createElement('a');
+
+  a.href = url;
+  a.target = '_blank';
+  a.click();
+}
+
+function exportar() {
+  swal('Aguarde um momento...', 'A sua planilha está sendo gerada.', 'warning');
+  setTimeout(() => {
+    openUrl(searchForm.get('form').dataset.urlExportar, {
+      ...searchForm.serialize(),
+      ...tableRender.serializeTableFilters(),
+    });
+  }, 500);
+}
+
 Array.from(
   document.querySelectorAll('.modal button[data-action="confirm"]')
 ).forEach(buttonDOM => {
@@ -220,6 +276,8 @@ searchForm.get('form').querySelector('button[data-form-action="submit"')
 
 document.querySelector('#js-por-pagina')
   .addEventListener('change', async event => {
+    salesContainer.get('search').get('pagination').setOptions({ perPage: event.target.value });
+    salesContainer.get('filtered').get('pagination').setOptions({ perPage: event.target.value });
     if(salesContainer.get('active') === 'search') {
       await salesContainer.search({
         params: {
@@ -228,5 +286,19 @@ document.querySelector('#js-por-pagina')
         },
         body: { ...searchForm.serialize() }
       });
+    } else {
+      await salesContainer.filter({
+        params: {
+          por_pagina: event.target.value,
+          page: 1,
+        },
+        body: {
+          filters: { ...searchForm.serialize() },
+          subfilters: { ...tableRender.serializeTableFilters() }
+        }
+      });
     }
   });
+
+document.querySelector('#js-exportar')
+  .addEventListener('click', exportar);

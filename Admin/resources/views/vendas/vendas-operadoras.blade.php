@@ -24,7 +24,8 @@
           id="js-form-pesquisa"
           :urls="[
             ['operadoras' => route('vendas-operadoras.search')],
-            ['filtrar-operadoras' => route('vendas-operadoras.filter')]
+            ['filtrar-operadoras' => route('vendas-operadoras.filter')],
+            ['exportar' => route('vendas-operadoras.export')],
           ]"
           :form-data="[
             'empresas' => $empresas,
@@ -120,4 +121,5 @@
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/vendas/vendas-operadoras.js') }}"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 @endsection
