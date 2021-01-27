@@ -24,7 +24,7 @@
           id="js-form-pesquisa"
           :urls="[
             ['operadoras' => route('vendas-operadoras.search')],
-            ['filtrar-operadoras' => route('vendas-operadoras.index')]
+            ['filtrar-operadoras' => route('vendas-operadoras.filter')]
           ]"
           :form-data="[
             'empresas' => $empresas,
@@ -39,19 +39,19 @@
       </div>
     </div>
 
-    <div class="resultados">
+    <div class="resultados hidden">
       <div class="boxes">
         <x-box
           title="BRUTO"
           content-id="js-bruto-box"
-          content="R$ 337.204,53"
+          content="R$ 0,00"
           icon-path="assets/images/vendasoperadora/bruto.png"
           icon-description="Valor Bruto"
         />
         <x-box
           title="VALOR TAXA"
           content-id="js-taxa-box"
-          content="R$ -4.391,49"
+          content="R$ 0,00"
           content-class="text-danger"
           icon-path="assets/images/vendasoperadora/percentagem.png"
           icon-description="Valor Taxa"
@@ -67,7 +67,7 @@
         <x-box
           title="VALOR LÍQUIDO DE VENDAS"
           content-id="js-liquido-box"
-          content="R$ 332.813,04"
+          content="R$ 0,00"
           icon-path="assets/images/vendasoperadora/liquido.png"
           icon-description="Valor Líquido"
         />
