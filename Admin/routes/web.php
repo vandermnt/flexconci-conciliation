@@ -44,6 +44,7 @@ Route::group(['middleware' => 'auth'], function() {
   
   Route::get('/vendas-operadoras', 'VendasOperadorasController@index')->name('vendas-operadoras.index');
   Route::post('/vendas-operadoras/buscar', 'VendasOperadorasController@search')->name('vendas-operadoras.search');
+  Route::post('/vendas-operadoras/filtrar', 'VendasOperadorasController@filter')->name('vendas-operadoras.filter');
 
   //CONCILIAÇÃO AUTOMÁTICA
 //   Route::get('/conciliacao-automatica', 'ConciliacaoAutomaticaVendasController@conciliacaoAutomatica');
