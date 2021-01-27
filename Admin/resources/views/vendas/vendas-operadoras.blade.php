@@ -41,14 +41,14 @@
 
     <div class="resultados">
       <div class="boxes">
-        <x-box 
+        <x-box
           title="BRUTO"
           content-id="js-bruto-box"
           content="R$ 337.204,53"
           icon-path="assets/images/vendasoperadora/bruto.png"
           icon-description="Valor Bruto"
         />
-        <x-box 
+        <x-box
           title="VALOR TAXA"
           content-id="js-taxa-box"
           content="R$ -4.391,49"
@@ -56,7 +56,7 @@
           icon-path="assets/images/vendasoperadora/percentagem.png"
           icon-description="Valor Taxa"
         />
-        <x-box 
+        <x-box
           title="TARIFA MÍNIMA"
           content-id="js-tarifa-box"
           content="R$ 0,00"
@@ -64,7 +64,7 @@
           icon-path="assets/images/vendasoperadora/percentagem.png"
           icon-description="Tarifa Mínima"
         />
-        <x-box 
+        <x-box
           title="VALOR LÍQUIDO DE VENDAS"
           content-id="js-liquido-box"
           content="R$ 332.813,04"
@@ -114,6 +114,7 @@
   <script defer src="{{ URL::asset('assets/js/lib/pagination.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/modal-filters.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/checker.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/ui/table-render.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SalesProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SalesContainerProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>

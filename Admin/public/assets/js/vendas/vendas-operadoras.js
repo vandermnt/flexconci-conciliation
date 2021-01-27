@@ -12,6 +12,10 @@ const salesContainer = new SalesContainerProxy({
     filter: searchForm.get('form').dataset.urlFiltrarOperadoras,
   }
 });
+const tableRender = new TableRender({
+    id: '#js-tabela-operadoras',
+    locale: 'pt-br'
+});
 
 checker.addGroups([
   { name: 'empresa', options: { inputName: 'grupos_clientes' } },
@@ -64,10 +68,30 @@ searchForm.onSubmit(async (event) => {
   });
 });
 
+tableRender.onRenderCell((cell, data) => {
+    if(cell.dataset.image) {
+        const iconContainer = cell.querySelector('icon-image');
+        const imageUrl = data[cell.dataset.image];
+        const defaultImageUrl = cell.dataset.defaultImage;
+
+        if(imageUrl || defaultImageUrl) {
+            iconContainer.style.backgroundImage = imageUrl || defaultImageUrl;
+        } else {
+            const text = data[cell.dataset.text];
+            const defaultText = cell.dataset.defaultText;
+            const title = data[cell.dataset.title];
+            const defaultTitle = cell.dataset.defaultTitle;
+
+            cell.dataset.title = title || defaultTitle || '';
+            cell.textContent = text || defaultText || '';
+        }
+T   }
+});
+
 function onCancelModalSelection(event) {
   const buttonDOM = event.target;
   const groupName = buttonDOM.dataset.group;
-  
+
   checker.uncheckAll(groupName);
   checker.setValuesToTextElement(groupName, 'descricao');
 }
