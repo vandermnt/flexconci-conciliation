@@ -76,6 +76,10 @@
   background-color: #2d5275;
 }
 
+.table-responsive {
+  max-height: 450px;
+}
+
 table {
   white-space: nowrap;
   position: relative;
@@ -87,6 +91,7 @@ table {
 table thead th {
   position: sticky;
   top: 0;
+  z-index: 4;
 }
 
 table tr,
@@ -114,6 +119,11 @@ table td {
   z-index: 2;
   padding: 8px;
   margin: 0;
+}
+
+table th {
+  z-index: 4;
+  background-color: #FFF !important;
 }
 
 table th p {
@@ -153,6 +163,7 @@ table tfoot {
   background-color: #E6E6E6;
   position: sticky;
   bottom: 0;
+  z-index: 4;
 }
 
 table tfoot td { 
@@ -165,7 +176,7 @@ table td[data-image] {
 }
 
 table td[data-image] > .icon-image {
-  width: 90%;
+  width: 64%;
   background-image: url(../../images/adquirentes/pagseguro.svg);
   background-image: url(../../images/adquirentes/pagseguro-v2.png);
   background-image: url(../../images/adquirentes/cielo.svg);
@@ -321,7 +332,7 @@ table tr.marcada td {
   flex-grow: 1;
 }
 
-.search-form .input-group > *:first-child {
+.search-form .input-group:not(:first-of-type) > *:first-child {
   grid-column: 1 / span 2;
 }
 
