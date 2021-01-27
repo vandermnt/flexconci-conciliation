@@ -90,10 +90,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <style>
 /* body {
-  margin: 40px 10px;
-  padding: 0;
-  font-family: Arial, Helvetica Neue, Helvetica, sans-serif !important;
-  font-size: 14px;
+margin: 40px 10px;
+padding: 0;
+font-family: Arial, Helvetica Neue, Helvetica, sans-serif !important;
+font-size: 14px;
 } */
 
 #calendar {
@@ -423,7 +423,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="col-lg-5">
       <div class="card">
         <div class="card-body">
-          <div id="preloader" style="display: none" class="loaderDash"></div>
+          <div id="preloader" style="display: none" class="loader"></div>
 
           <div class="wallet-bal-usd">
             <div class="row recebimentos">
@@ -582,6 +582,7 @@ document.addEventListener('DOMContentLoaded', function() {
               </div>
             </div>
           </div>
+
         </div>
         @stop
 
@@ -590,7 +591,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <script src="{{ URL::asset('plugins/apexcharts/irregular-data-series.js')}}"></script>
         <script src="{{ URL::asset('plugins/apexcharts/ohlc.js')}}"></script>
         <script src="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.min.js') }}"></script>
-        <!-- <script src="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-us-aea-en.js') }}"></script> -->
+
         <script type="text/javascript">
         var param = <?php echo $dados_cliente ?>;
         var dados_dash_vendas = <?php echo $dados_dash_vendas ?>;
