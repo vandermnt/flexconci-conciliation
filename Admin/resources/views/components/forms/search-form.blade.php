@@ -4,6 +4,7 @@
   method="{{ $attributes->get('method') ?? 'GET' }}"
   {{ $renderUrls() }}
 >
+  @csrf
   @if($isFieldVisible('datas_venda'))
     <div class="input-group">
       <x-forms.form-group
@@ -128,7 +129,7 @@
     <x-forms.check-group 
       id="status-conciliacao" 
       label="Status Conciliação:" 
-      name="status_conciliacao"
+      name="status_conciliacao[]"
       item-value-key="CODIGO"
       item-description-key="STATUS_CONCILIACAO" 
       :options="$getData('status_conciliacao')"
@@ -142,7 +143,7 @@
     <x-forms.check-group
       id="status-financeiro"
       label="Status Financeiro:"
-      name="status_financeiro"
+      name="status_financeiro[]"
       item-value-key="CODIGO"
       item-description-key="STATUS_FINANCEIRO"
       :options="$getData('status_financeiro')"

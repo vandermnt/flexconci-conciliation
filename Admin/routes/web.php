@@ -43,7 +43,7 @@ Route::group(['middleware' => 'auth'], function() {
   Route::match(['get', 'post'], '/exportxls-vendas-operadora', 'VendasController@exportXls');
   
   Route::get('/vendas-operadoras', 'VendasOperadorasController@index')->name('vendas-operadoras.index');
-
+  Route::post('/vendas-operadoras/buscar', 'VendasOperadorasController@search')->name('vendas-operadoras.search');
 
   //CONCILIAÇÃO AUTOMÁTICA
 //   Route::get('/conciliacao-automatica', 'ConciliacaoAutomaticaVendasController@conciliacaoAutomatica');
