@@ -18,6 +18,8 @@ function SalesContainerProxy(options = {}) {
     },
     _links: options.links || { filter: null, search: null },
     _events: {},
+    paginationConfig: {},
+    paginationNavigateHandler: () => {}
   }, salesContainerProxyHandler());
 }
 
@@ -63,6 +65,11 @@ SalesContainerProxy.prototype.setupApi = function(options = { headers: {} }) {
   this.get('client').config.headers = options.headers || {};
 }
 
+SalesContainerProxy.prototype.setPaginationConfig = function(options = {}, onNavigateHandler = () => {}) {
+  this.set('paginationConfig', options);
+  this.set('paginationNavigateHandler', onNavigateHandler);
+}
+
 SalesContainerProxy.prototype._fetch = async function(urlBase, options = {
   method: 'GET',
   params: {},
@@ -92,11 +99,15 @@ SalesContainerProxy.prototype._fetch = async function(urlBase, options = {
       pagination: response.vendas,
       totals: response.totais,
     }, { id: this.get('id') });
-  
+
+    sales.get('pagination').setOptions({ ...this.get('paginationConfig') });
+    sales.get('pagination').setNavigateHandler(this.get('paginationNavigateHandler'));
     
     if(onFetch && typeof onFetch === 'function') {
       onFetch(sales);
     }
+
+
   
     return sales;
   } catch(err) {
@@ -121,6 +132,7 @@ SalesContainerProxy.prototype.search = async function(options) {
     this.set('search', sales);
     this.get('search').set('id', this.get('id'));
     this.get('search').set('type', 'search')
+    this.toggleActiveData('search');
 
     if(onSearch && typeof onSearch === 'function') {
       onSearch(sales);
@@ -145,6 +157,7 @@ SalesContainerProxy.prototype.filter = async function(options) {
     this.set('filtered', sales);
     this.get('filtered').set('id', this.get('id'));
     this.get('filtered').set('type', 'filter')
+    this.toggleActiveData('filtered');
 
     if(onFilter && typeof onFilter === 'function') {
       onFilter(sales);
@@ -154,4 +167,18 @@ SalesContainerProxy.prototype.filter = async function(options) {
   } catch(err) {
     throw err;
   }
+}
+
+SalesContainerProxy.prototype.toggleActiveData = function(currentActive) {
+  this.set('active', currentActive);
+}
+
+SalesContainerProxy.prototype.dispatchEvent = function(eventName, params = {}) {
+  const eventHandler = this.get('_events')[eventName];
+  
+  if(eventHandler && typeof eventHandler === 'function') {
+    eventHandler(params);
+  }
+
+  return;
 }

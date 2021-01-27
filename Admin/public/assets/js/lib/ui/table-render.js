@@ -13,12 +13,18 @@ function TableRender(options = {}) {
       }),
       date: options.dateFormatter || {
         format: function(date) {
-          return new Date(`${date} 00:00:00`).toLocaleDateString('pt-br');
+          const formattedDate = new Date(`${date} 00:00:00`).toLocaleDateString('pt-br');
+          if(formattedDate === 'Invalid Date') {
+            return '';
+          }
+
+          return formattedDate;
         }
       }
     },
     onRenderCell: () => {},
     onSelectRow: () => {},
+    onFilter: () => {},
   }, tableRenderHandler());
 }
 
@@ -46,7 +52,12 @@ TableRender.prototype.setFormatLocale = function(locale) {
     }),
     date: {
       format: function(date) {
-        return new Date(`${date} 00:00:00`).toLocaleDateString(locale);
+        const formattedDate = new Date(`${date} 00:00:00`).toLocaleDateString('pt-br');
+        if(formattedDate === 'Invalid Date') {
+          return '';
+        }
+
+        return formattedDate;
       }
     }
   });
@@ -54,16 +65,17 @@ TableRender.prototype.setFormatLocale = function(locale) {
 
 TableRender.prototype.formatCell = function(value, type = 'text', defaultValue = '') {
     const formatter = this.get('_formatters')[type];
+    let valueToFormat = value;
 
     if(!value) {
-        return defaultValue || '';
+        valueToFormat = defaultValue || '';
     }
 
     if(!formatter) {
-        return value;
+        return valueToFormat;
     }
 
-    return formatter.format(value);
+    return formatter.format(valueToFormat);
 }
 
 TableRender.prototype.onRenderCell = function(handler = (element = null, data = {}) => {}) {
@@ -72,6 +84,44 @@ TableRender.prototype.onRenderCell = function(handler = (element = null, data = 
 
 TableRender.prototype.onSelectRow = function(handler = (element) => {}) {
     this.set('onSelectRow', handler);
+}
+
+TableRender.prototype.onFilter = function(handler = (filters = {}) => {}) {
+  this.set('onFilter', handler);
+  this.addTableFiltersListener();
+}
+
+TableRender.prototype.addTableFiltersListener = function() {
+  const table = this.get('table');
+  const tableInputs = Array.from(table.querySelectorAll('thead input[name]'));
+  const onFilter = this.get('onFilter');
+
+  tableInputs.forEach(input => {
+    input.addEventListener('keyup', event => {
+      if(event.key === 'Enter') {
+        if(onFilter && typeof onFilter === 'function') {
+          onFilter({ ...this.serializeTableFilters() });
+        }
+      }
+    })
+  });
+}
+
+TableRender.prototype.serializeTableFilters = function() {
+  const table = this.get('table');
+  const tableInputs = Array.from(table.querySelectorAll('thead input[name]'));
+
+  const filters = tableInputs.reduce((data, input) => {
+    const value = input.value.trim();
+
+    if(value) {
+      data[input.name] = value;
+    }
+
+    return data;
+  }, {});
+
+  return filters;
 }
 
 TableRender.prototype.render = function() {
@@ -84,12 +134,19 @@ TableRender.prototype.render = function() {
     }
 
     const tbody = table.querySelector('tbody');
-    const tfooter = table.querySelector('tfooter');
+    const tfooter = table.querySelector('tfoot');
     const templateRow = table.querySelector('tbody .table-row-template').cloneNode(true);
+    
+    templateRow.classList.remove('hidden');
+    templateRow.classList.add('hidden');
 
+    tbody.innerHTML = '';
+    tbody.appendChild(templateRow);
     (this.get('data').body || []).forEach(data => {
         const tableRow = templateRow.cloneNode(true);
         const tableCells = Array.from(tableRow.querySelectorAll('td[data-column]'));
+
+        tableRow.dataset.id = data[tableRow.dataset.id];
 
         tableCells.forEach(tableCell => {
             if(onRenderCell && typeof onRenderCell === 'function') {
@@ -102,6 +159,9 @@ TableRender.prototype.render = function() {
                 this.get('onSelectRow')(e.target);
             });
         }
+
+        tableRow.classList.remove('hidden');
+        tableRow.classList.remove('table-row-template');
 
         tbody.appendChild(tableRow);
     });
