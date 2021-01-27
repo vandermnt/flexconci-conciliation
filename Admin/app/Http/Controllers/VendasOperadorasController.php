@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Filters\VendasFilter;
 use App\Filters\VendasSubFilter;
@@ -12,6 +13,7 @@ use App\StatusFinanceiroModel;
 use App\GruposClientesModel;
 use App\AdquirentesModel;
 use App\ClienteOperadoraModel;
+use App\Exports\VendasOperadorasExport;
 
 class VendasOperadorasController extends Controller
 {
@@ -144,6 +146,15 @@ class VendasOperadorasController extends Controller
                 'message' => 'Não foi possível realizar a consulta em Vendas Operadoras.',
             ], 500);
         }
+    }
+
+    public function export(Request $request) {
+        set_time_limit(300);
+
+        $filters = $request->except(['_token']);
+        $subfilters = $request->except(['_token']);
+        Arr::set($filters, 'cliente_id', session('codigologin'));
+        return (new VendasOperadorasExport($filters, $subfilters))->download('vendas_operadoras_'.time().'.xlsx');
     }
 
     /**
