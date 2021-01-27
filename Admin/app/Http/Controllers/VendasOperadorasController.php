@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Filters\VendasFilter;
+use App\Filters\VendasSubFilter;
 use App\VendasModel;
 use App\MeioCaptura;
 use App\StatusConciliacaoModel;
@@ -93,6 +94,37 @@ class VendasOperadorasController extends Controller
 
         try {
             $query = VendasFilter::filter($filters)
+                ->getQuery();
+            
+            $sales = (clone $query)->paginate($perPage);
+            $totals = [
+                'TOTAL_BRUTO' => (clone $query)->sum('VALOR_BRUTO'),
+                'TOTAL_LIQUIDO' => (clone $query)->sum('VALOR_LIQUIDO'),
+                'TOTAL_TARIFA_MINIMA' => (clone $query)->sum('TAXA_MINIMA') ?? 0,
+            ];
+            $totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
+
+            return response()->json([
+                'vendas' => $sales,
+                'totais' => $totals,
+            ]);
+        } catch(Exception $e) {
+            return response()->json([
+                'message' => 'Não foi possível realizar a consulta em Vendas Operadoras.',
+            ], 500);
+        }
+    }
+    
+    public function filter(Request $request) {
+        $allowedPerPage = [5, 10, 20, 50, 100, 200];
+        $perPage = $request->input('por_pagina', 5);
+        $perPage = in_array($perPage, $allowedPerPage) ? $perPage : 5;
+        $filters = $request->input('filters');
+        $filters['cliente_id'] = session('codigologin');
+        $subfilters = $request->input('subfilters');
+
+        try {
+            $query = VendasSubFilter::subfilter($filters, $subfilters)
                 ->getQuery();
             
             $sales = (clone $query)->paginate($perPage);

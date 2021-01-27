@@ -10,6 +10,7 @@ class VendasSubFilter extends BaseSubFilter {
   protected $query = null;
   protected $whiteList = [
     'ID',
+    'DESCRICAO_ERP',
     'NOME_EMPRESA',
     'DATA_VENDA',
     'DATA_PREVISAO',
