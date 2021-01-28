@@ -77,7 +77,7 @@
 }
 
 .table-responsive {
-  max-height: 450px;
+  max-height: 600px;
 }
 
 table {
@@ -136,10 +136,10 @@ table th input {
   height: 32px !important;
 }
 
-table th input[type="number"]::-webkit-inner-spin-button, 
-table th input[type="number"]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
+table th input[type="number"]::-webkit-inner-spin-button,
+table th input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 table th input[type="number"] {
@@ -166,7 +166,7 @@ table tfoot {
   z-index: 4;
 }
 
-table tfoot td { 
+table tfoot td {
   color: #6E6E6E;
   font-weight: bold;
 }
@@ -196,7 +196,7 @@ table td[data-image] > .icon-image {
   background-image: url(../../images/bancos/sicredi.png);
   background-image: url(../../images/bancos/topazio.png);
   background-image: url(../../images/bancos/tribanco.png);
-  
+
   background-image: url(../../images/bandeiras/alelo.svg);
   background-image: url(../../images/bandeiras/amex.png);
   background-image: url(../../images/bandeiras/amex.svg);
