@@ -4,65 +4,69 @@
   <!-- Navbar -->
   <nav class="navbar-custom">
     <ul class="list-unstyled topbar-nav float-right mb-0">
-      <!-- <li class="hidden-sm">
-      <a class="nav-link dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="javascript: void(0);" role="button"
+      <li class="hidden-sm">
+        <a class="nav-link" data-toggle="modal" data-target="#staticBackdrop" style="font-size: 12px; color: white; cursor: pointer">
+        Abrir chamado
+      </a>
+      </li>
+      <li class="hidden-sm">
+        <a class="nav-link dropdown-toggle waves-effect" data-toggle="dropdown" href="javascript: void(0);" role="button"
+        aria-haspopup="false" aria-expanded="false" style="font-size: 35px">
+        |
+      </a>
+    </li>
+
+    <li class="dropdown notification-list"  style="color: white;  z-index:999">
+      <a class="nav-link dropdown-toggle" onclick="checkNotification()" data-toggle="dropdown" href="www.google.com" role="button"
       aria-haspopup="false" aria-expanded="false">
-      English <img src="{{ URL::asset('assets/images/flags/us_flag.jpg')}}" class="ml-2" height="16" alt=""/> <i class="mdi mdi-chevron-down"></i>
+      <i class="ti-bell noti-icon"  style="color: white"></i>
+      @if(isset($qtde_projetos))
+      @if($qtde_projetos>0)
+      <span id="notification" class="badge badge-danger badge-pill noti-icon-badge">{{ $qtde_projetos }}</span>
+      @endif
+      @endif
     </a>
-    <div class="dropdown-menu dropdown-menu-right">
-    <a class="dropdown-item" href="javascript: void(0);"><span> German </span><img src="{{ URL::asset('assets/images/flags/germany_flag.jpg')}}" alt="" class="ml-2 float-right" height="14"/></a>
-    <a class="dropdown-item" href="javascript: void(0);"><span> Italian </span><img src="{{ URL::asset('assets/images/flags/italy_flag.jpg')}}" alt="" class="ml-2 float-right" height="14"/></a>
-    <a class="dropdown-item" href="javascript: void(0);"><span> French </span><img src="{{ URL::asset('assets/images/flags/french_flag.jpg')}}" alt="" class="ml-2 float-right" height="14"/></a>
-    <a class="dropdown-item" href="javascript: void(0);"><span> Spanish </span><img src="{{ URL::asset('assets/images/flags/spain_flag.jpg')}}" alt="" class="ml-2 float-right" height="14"/></a>
-    <a class="dropdown-item" href="javascript: void(0);"><span> Russian </span><img src="{{ URL::asset('assets/images/flags/russia_flag.jpg')}}" alt="" class="ml-2 float-right" height="14"/></a>
-  </div>
-</li> -->
+    <div class="dropdown-menu dropdown-menu-right dropdown-lg pt-0">
 
-<li class="dropdown notification-list"  style="color: white;  z-index:999">
-  <a class="nav-link dropdown-toggle" onclick="checkNotification()" data-toggle="dropdown" href="www.google.com" role="button"
-  aria-haspopup="false" aria-expanded="false">
-  <i class="ti-bell noti-icon"  style="color: white"></i>
-  @if(isset($qtde_projetos))
-  @if($qtde_projetos>0)
-  <span id="notification" class="badge badge-danger badge-pill noti-icon-badge">{{ $qtde_projetos }}</span>
-  @endif
-  @endif
-</a>
-<div class="dropdown-menu dropdown-menu-right dropdown-lg pt-0">
+      <h6 class="dropdown-item-text font-15 m-0 py-3 text-white d-flex justify-content-between align-items-center" style="background: #084B8A">
+        NOTIFICAÇÕES
+        @if(isset($qtde_projetos))
+        @if($qtde_projetos>0)
+        <span class="badge badge-light badge-pill">{{ $qtde_projetos }}</span>
+        @endif
+        @endif
+      </h6>
+      <div class="snotification-list">
+        <!-- <div class="slimscroll notification-list"> -->
 
-  <h6 class="dropdown-item-text font-15 m-0 py-3 text-white d-flex justify-content-between align-items-center" style="background: #084B8A">
-    NOTIFICAÇÕES
-    @if(isset($qtde_projetos))
-    @if($qtde_projetos>0)
-    <span class="badge badge-light badge-pill">{{ $qtde_projetos }}</span>
-    @endif
-    @endif
-  </h6>
-  <div class="snotification-list">
-    <!-- <div class="slimscroll notification-list"> -->
+        @if(isset($qtde_projetos) && $qtde_projetos > 0)
+        <a href="{{ url('/lista-projetos') }}" class="dropdown-item py-3">
+          <!-- <small class="float-right text-muted pl-2">2 min ago</small> -->
+          <div class="media">
+            <div class="avatar-md bg-primary">
+              <i style="color: white" class="fas fa-project-diagram"></i>
+            </div>
+            <div class="media-body align-self-center ml-2 text-truncate">
+              <h6 class="text-white d-flex justify-content-between align-items-center">PROJETOS <span class="badge badge-light badge-pill">{{ $qtde_projetos }}</span></h6>
 
-    @if(isset($qtde_projetos) && $qtde_projetos > 0)
-    <a href="{{ url('/lista-projetos') }}" class="dropdown-item py-3">
-      <!-- <small class="float-right text-muted pl-2">2 min ago</small> -->
-      <div class="media">
-        <div class="avatar-md bg-primary">
-          <i style="color: white" class="fas fa-project-diagram"></i>
+              <!-- <h6 class="dropdown-item-text font-15 m-0 py-3 bg-primary text-white d-flex justify-content-between align-items-center">
+              NOTIFICAÇÕES <span class="badge badge-light badge-pill">{{ $qtde_projetos }}</span>
+            </h6>
+            <small class="" style="color: white">Breve descrição</small> -->
+          </div>
         </div>
-        <div class="media-body align-self-center ml-2 text-truncate">
-          <h6 class="text-white d-flex justify-content-between align-items-center">PROJETOS <span class="badge badge-light badge-pill">{{ $qtde_projetos }}</span></h6>
+      </a>
+      @endif
 
-          <!-- <h6 class="dropdown-item-text font-15 m-0 py-3 bg-primary text-white d-flex justify-content-between align-items-center">
-          NOTIFICAÇÕES <span class="badge badge-light badge-pill">{{ $qtde_projetos }}</span>
-        </h6>
-        <small class="" style="color: white">Breve descrição</small> -->
-      </div>
     </div>
-  </a>
-  @endif
 
-</div>
-
-</div>
+  </div>
+</li>
+<li class="hidden-sm">
+  <a class="nav-link dropdown-toggle waves-effect" data-toggle="dropdown" href="javascript: void(0);" role="button"
+  aria-haspopup="false" aria-expanded="false" style="font-size: 35px">
+  |
+</a>
 </li>
 <li class="dropdown">
   <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
@@ -307,12 +311,12 @@ aria-haspopup="false" aria-expanded="false">
 </li>
 <!-- @if(Auth::user()->USUARIO_GLOBAL == 'S')
 <li>
-  <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
-  aria-haspopup="false" aria-expanded="false">
-  <span class="ml-1 nav-user-name hidden-sm">Administrativo <i class="mdi mdi-chevron-down"></i> </span>
+<a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
+aria-haspopup="false" aria-expanded="false">
+<span class="ml-1 nav-user-name hidden-sm">Administrativo <i class="mdi mdi-chevron-down"></i> </span>
 </a>
 <div class="dropdown-menu dropdown-menu-left" style="background: white;">
-  <a style="" class="dropdown-item" href="{{ url('/autorizacao-credenciadora') }}"> Autorização Cielo</a>
+<a style="" class="dropdown-item" href="{{ url('/autorizacao-credenciadora') }}"> Autorização Cielo</a>
 </div>
 </li>
 @endif -->
@@ -331,6 +335,48 @@ aria-haspopup="false" aria-expanded="false">
 
 </nav>
 
+</div>
+
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header fundo-modal">
+        <h5 class="modal-title" id="staticBackdropLabel">Abertura de chamado</h5>
+      </div>
+      <div class="modal-body tamanho-modal">
+        <div class="row">
+          <div class="col-sm-12">
+            <h6> Departamento: </h6>
+          </div>
+          <div class="col-sm-12">
+            <input class="form-control" name="departamento">
+          </div>
+          <div class="col-sm-12">
+            <h6> Categoria: </h6>
+          </div>
+          <div class="col-sm-12">
+            <input class="form-control" name="categoria">
+          </div>
+          <div class="col-sm-12">
+            <h6> Assunto: </h6>
+          </div>
+          <div class="col-sm-12">
+            <input class="form-control" name="assunto">
+          </div>
+          <div class="col-sm-12">
+            <h6> Mensagem: </h6>
+          </div>
+          <div class="col-sm-12">
+            <textarea class="form-control" name="mensagem"> </textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
+        <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addSelecionados({{$grupos_clientes}})"><b>Confirmar</b></button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
