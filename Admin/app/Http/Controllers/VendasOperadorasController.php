@@ -89,9 +89,9 @@ class VendasOperadorasController extends Controller
     }
 
     public function search(Request $request) {
-        $allowedPerPage = [5, 10, 20, 50, 100, 200];
-        $perPage = $request->input('por_pagina', 5);
-        $perPage = in_array($perPage, $allowedPerPage) ? $perPage : 5;
+        $allowedPerPage = [10, 20, 50, 100, 200];
+        $perPage = $request->input('por_pagina', 10);
+        $perPage = in_array($perPage, $allowedPerPage) ? $perPage : 10;
         $filters = $request->all();
         $filters['cliente_id'] = session('codigologin');
 
@@ -119,9 +119,9 @@ class VendasOperadorasController extends Controller
     }
 
     public function filter(Request $request) {
-        $allowedPerPage = [5, 10, 20, 50, 100, 200];
-        $perPage = $request->input('por_pagina', 5);
-        $perPage = in_array($perPage, $allowedPerPage) ? $perPage : 5;
+        $allowedPerPage = [10, 20, 50, 100, 200];
+        $perPage = $request->input('por_pagina', 10);
+        $perPage = in_array($perPage, $allowedPerPage) ? $perPage : 10;
         $filters = $request->input('filters');
         $filters['cliente_id'] = session('codigologin');
         $subfilters = $request->input('subfilters');
