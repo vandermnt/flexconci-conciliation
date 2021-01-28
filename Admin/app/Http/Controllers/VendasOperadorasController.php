@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Filters\VendasFilter;
@@ -28,7 +29,7 @@ class VendasOperadorasController extends Controller
             ->where('COD_CLIENTE', session('codigologin'))
             ->orderBy('NOME_EMPRESA')
             ->get();
-        
+
         $adquirentes = ClienteOperadoraModel::select([
                 'adquirentes.CODIGO',
                 'adquirentes.ADQUIRENTE',
@@ -68,13 +69,13 @@ class VendasOperadorasController extends Controller
             ->orderBy('ESTABELECIMENTO', 'asc')
             ->distinct()
             ->get();
-            
+
         $status_conciliacao = StatusConciliacaoModel::orderBy('STATUS_CONCILIACAO')
             ->get();
 
         $status_financeiro = StatusFinanceiroModel::orderBy('STATUS_FINANCEIRO')
             ->get();
-        
+
         return view('vendas.vendas-operadoras')
             ->with([
                 'empresas' => $empresas,
@@ -97,7 +98,7 @@ class VendasOperadorasController extends Controller
         try {
             $query = VendasFilter::filter($filters)
                 ->getQuery();
-            
+
             $sales = (clone $query)->paginate($perPage);
             $totals = [
                 'TOTAL_BRUTO' => (clone $query)->sum('VALOR_BRUTO'),
@@ -116,7 +117,7 @@ class VendasOperadorasController extends Controller
             ], 500);
         }
     }
-    
+
     public function filter(Request $request) {
         $allowedPerPage = [5, 10, 20, 50, 100, 200];
         $perPage = $request->input('por_pagina', 5);
@@ -128,7 +129,7 @@ class VendasOperadorasController extends Controller
         try {
             $query = VendasSubFilter::subfilter($filters, $subfilters)
                 ->getQuery();
-            
+
             $sales = (clone $query)->paginate($perPage);
             $totals = [
                 'TOTAL_BRUTO' => (clone $query)->sum('VALOR_BRUTO'),
@@ -155,6 +156,22 @@ class VendasOperadorasController extends Controller
         $subfilters = $request->except(['_token']);
         Arr::set($filters, 'cliente_id', session('codigologin'));
         return (new VendasOperadorasExport($filters, $subfilters))->download('vendas_operadoras_'.time().'.xlsx');
+    }
+
+    public function print(Request $request, $id) {
+        $sale = VendasFilter::filter([
+                'id' => [$id],
+                'data_inicial' => '0001-01-01',
+                'data_final' => date('Y-m-d'),
+                'cliente_id' => session('codigologin')
+            ])
+            ->getQuery()
+            ->first();
+        $customPaper = array(0, 0, 240.53, 210.28);
+
+        return \PDF::loadView('vendas.comprovante-venda-operadora', compact('sale'))
+            ->setPaper($customPaper, 'landscape')
+            ->stream('comprovante_venda_'.$id.'_'.time().'.pdf');
     }
 
     /**

@@ -11,6 +11,7 @@ use App\Filters\BaseFilter;
 class VendasFilter extends BaseFilter {
   protected $query = null;
   protected $whiteList = [
+    'id',
     'cliente_id',
     'data_inicial',
     'data_final',
@@ -19,7 +20,6 @@ class VendasFilter extends BaseFilter {
     'bandeiras',
     'modalidades',
     'meios_captura',
-    'id_erp',
     'status_conciliacao',
     'status_financeiro',
     'estabelecimentos'
@@ -95,7 +95,7 @@ class VendasFilter extends BaseFilter {
       ->where('vendas.COD_CLIENTE', $filters['cliente_id'])
       ->whereBetween('vendas.DATA_VENDA', $datas)
       ->orderBy('vendas.DATA_VENDA');
-    
+
     if(Arr::has($filters, 'id')) {
       $this->query->whereIn('vendas.CODIGO', $filters['id']);
     }
@@ -132,3 +132,6 @@ class VendasFilter extends BaseFilter {
     return $this->query;
   }
 }
+
+
+

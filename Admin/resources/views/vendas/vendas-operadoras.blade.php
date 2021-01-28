@@ -26,6 +26,7 @@
             ['operadoras' => route('vendas-operadoras.search')],
             ['filtrar-operadoras' => route('vendas-operadoras.filter')],
             ['exportar' => route('vendas-operadoras.export')],
+            ['imprimir' => route('vendas-operadoras.print', ['id' => ':id'])],
           ]"
           :form-data="[
             'empresas' => $empresas,
@@ -91,7 +92,12 @@
         >
           <x-slot name="actions">
             <td>
-              <a class="link-impressao tooltip-hint" data-title="Visualizar comprovante">
+              <a
+                class="link-impressao tooltip-hint"
+                data-title="Visualizar comprovante"
+                data-toggle="modal"
+                data-target="#comprovante-modal"
+              >
                 <i class="fas fa-print"></i>
               </a>
             </td>
@@ -104,6 +110,73 @@
           :options="['5', '10', '20', '50', '100', '200']"
         />
       </div>
+    </div>
+    <div class="modais">
+        <x-modal
+          id="comprovante-modal"
+          modal-label-id="comprovante"
+          modal-label="Comprovante"
+        >
+          <x-slot name="content">
+            <div class="comprovante">
+              <div class="header">
+                <h4 class="font-weight-bold">
+                    <span data-key="NOME_EMPRESA"></span>
+                </h4>
+                <h6>
+                    CNPJ: <span data-key="CNPJ"></span>
+                </h6>
+              </div>
+              <hr>
+              <div class="body">
+                <h6>
+                    DATA VENDA: <span data-key="DATA_VENDA" data-format="date"></span>
+                </h6>
+                <h6>
+                    OPERADORA: <span data-key="ADQUIRENTE"></span>
+                </h6>
+                <h6>
+                    BANDEIRA: <span data-key="BANDEIRA"></span>
+                </h6>
+                <h6>
+                    FORMA DE PAGAMENTO: <span data-key="MODALIDADE"></span>
+                </h6>
+                <h6>
+                    ESTABELECIMENTO: <span data-key="ESTABELECIMENTO"></span>
+                </h6>
+                <h6>
+                    CARTAO: <span data-key="CARTAO"></span>
+                </h6>
+                <h6 class="font-weight-bold">
+                    VALOR: <span data-key="VALOR_BRUTO" data-format="currency"></span>
+                </h6>
+                <h6>
+                    DATA PREVISÃO: <span data-key="DATA_PREVISAO" data-format="date"></span>
+                </h6>
+              </div>
+            </div>
+          </x-slot>
+
+          <x-slot name="footer">
+            <button
+            type="button"
+            class="btn btn-danger font-weight-bold"
+            data-action="close"
+            data-dismiss="modal"
+          >
+            Fechar
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-success font-weight-bold"
+            data-action="print"
+            data-dismiss="modal"
+          >
+            Imprimir
+          </button>
+        </x-slot>
+      </x-modal>
     </div>
   </main>
 
