@@ -85,7 +85,7 @@ class ConciliacaoAutomaticaController extends Controller
 
             $erp_base_query = clone VendasErpFilter::filter($filters)->getQuery();
 
-            $erp_query = (clone $erp_base_query)->whereIn('COD_STATUS_CONCILIACAO', $request->input('status_conciliacao'));
+            $erp_query = (clone $erp_base_query)->whereIn('vendas_erp.COD_STATUS_CONCILIACAO', $request->input('status_conciliacao'));
             $erp_totais = [
                 'TOTAL_BRUTO' => $erp_query->sum(DB::raw('coalesce(`vendas_erp`.`VALOR_VENDA_PARCELA`, `vendas_erp`.`TOTAL_VENDA`)')),
                 'TOTAL_LIQUIDO' => $erp_query->sum('VALOR_LIQUIDO_PARCELA'),
@@ -97,9 +97,9 @@ class ConciliacaoAutomaticaController extends Controller
             }
 
             $totais_conciliacao = (clone $erp_base_query)
-                ->select('COD_STATUS_CONCILIACAO')
+                ->select('vendas_erp.COD_STATUS_CONCILIACAO')
                 ->selectRaw('sum(coalesce(`vendas_erp`.`VALOR_VENDA_PARCELA`, `vendas_erp`.`TOTAL_VENDA`)) as TOTAL_BRUTO')
-                ->groupBy('COD_STATUS_CONCILIACAO')
+                ->groupBy('vendas_erp.COD_STATUS_CONCILIACAO')
                 ->get()
                 ->toArray();
 
@@ -134,7 +134,7 @@ class ConciliacaoAutomaticaController extends Controller
 
             $operadoras_query = VendasFilter::filter($filters)
                                     ->getQuery()
-                                    ->where('COD_STATUS_CONCILIACAO', $status_nao_conciliada);
+                                    ->where('vendas.COD_STATUS_CONCILIACAO', $status_nao_conciliada);
 
             $operadoras_totais = [
                 'TOTAL_BRUTO' => $operadoras_query->sum('VALOR_BRUTO'),
