@@ -36,7 +36,7 @@ Route::group(['middleware' => 'auth'], function() {
   Route::get('/projeto/{codprojeto}', 'ProjetosController@detalhamentoProjeto');
 
   //VENDAS
-  Route::get('/vendasoperadoras', 'VendasController@vendas');
+//   Route::get('/vendasoperadoras', 'VendasController@vendas');
   Route::match(['get', 'post'], '/vendasoperadorasfiltro', 'VendasController@buscarVendasFiltro');
   Route::get('/download', 'VendasController@downloadTable');
   Route::get('/desfazer-justificativa/{codigo}', 'VendasController@desfazerJustificativa');
