@@ -128,11 +128,22 @@ font-size: 14px;
       <div class="row" style="align-items: center; justify-content: center;">
         <div class="col-md-6 col-lg-3">
           <div class="card report-card">
-            <div class="card-body">
+            <div class="card-body" style="height: 140px">
               <div class="row d-flex">
                 <div class="col-12">
                   <p class="font-weight-semibold font-12">Suporte</p>
-                  <h6 style="font-size: 12px" id="total_taxa_cobrada" class="my-3">Não há divergências no momento</h6>
+                </div>
+                <div class="col-12" style="margin-top: -20px">
+                  <div class="row">
+                    <div class="col-12" align="center">
+                      <img src="{{ url('assets/images/suporte.png') }}" style="width: 23px; text-align: center" alt="">
+                      <h6 style="font-size: 10px" id="total_taxa_cobrada" class="my-3">(44) 3020-0220</h6>
+                    </div>
+                  </div>
+                  <div class="col-12" style="margin-top: -20px">
+                    <h6 style="font-size: 10px" id="total_taxa_cobrada" class="my-3">Atendimento | Segunda a sexta-feira - das 08:00h às 18:00h</h6>
+                  </div>
+
                   <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
                 </div>
               </div>
@@ -141,7 +152,7 @@ font-size: 14px;
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card report-card">
-            <div class="card-body">
+            <div class="card-body" style="height: 140px">
               <div class="row d-flex">
                 <div class="col-12">
                   <p class="font-weight-semibold font-12">Divergências - Conc. de vendas</p>
@@ -154,7 +165,7 @@ font-size: 14px;
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card report-card">
-            <div class="card-body">
+            <div class="card-body" style="height: 140px">
               <div class="row d-flex">
                 <div class="col-12">
                   <p class="font-weight-semibold font-12">Divergências - Taxas</p>
@@ -167,7 +178,7 @@ font-size: 14px;
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card report-card">
-            <div class="card-body">
+            <div class="card-body" style="height: 140px">
               <div class="row d-flex">
                 <div class="col-12">
                   <p class="font-weight-semibold font-12">Divergências - Conc. Bancária</p>

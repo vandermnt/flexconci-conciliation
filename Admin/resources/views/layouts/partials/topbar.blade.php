@@ -11,7 +11,7 @@
       </li>
       <li class="hidden-sm">
         <a class="nav-link dropdown-toggle waves-effect" data-toggle="dropdown" href="javascript: void(0);" role="button"
-        aria-haspopup="false" aria-expanded="false" style="font-size: 35px">
+        aria-haspopup="false" aria-expanded="false" style="font-size: 27px">
         |
       </a>
     </li>
@@ -64,7 +64,7 @@
 </li>
 <li class="hidden-sm">
   <a class="nav-link dropdown-toggle waves-effect" data-toggle="dropdown" href="javascript: void(0);" role="button"
-  aria-haspopup="false" aria-expanded="false" style="font-size: 35px">
+  aria-haspopup="false" aria-expanded="false" style="font-size: 27px">
   |
 </a>
 </li>
