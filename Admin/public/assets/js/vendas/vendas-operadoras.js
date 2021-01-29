@@ -63,14 +63,6 @@ salesContainer.onEvent('fetch', (sales) => {
   });
   tableRender.render();
   sales.get('pagination').render();
-  Array.from(
-    document.querySelectorAll('table a.link-impressao')
-  ).forEach(element => {
-    element.addEventListener('click', e => {
-      const id = e.target.closest('tr').dataset.id;
-      showTicket(id);
-    });
-  });
 });
 
 salesContainer.onEvent('search', (sales) => {
@@ -92,19 +84,33 @@ salesContainer.setPaginationConfig({
   paginationContainer: document.querySelector('#js-paginacao-operadoras')
 },
   async (page, pagination, event) => {
-    if (salesContainer.get('active') === 'search') {
+    await buildRequest({
+        page,
+        por_pagina: pagination.options.perPage,
+      })
+      .get();
+  }
+)
+
+function buildRequest(params) {
+  let requestHandler = () => {};
+
+  if(salesContainer.get('active') === 'search') {
+    requestHandler = async (params) => {
       await salesContainer.search({
         params: {
-          por_pagina: pagination.options.perPage,
-          page,
+          por_pagina: salesContainer.get('search').get('pagination').options.perPage,
+          ...params
         },
         body: { ...searchForm.serialize() }
       });
-    } else {
+    }
+  } else {
+    requestHandler = async (params) => {
       await salesContainer.filter({
         params: {
-          por_pagina: pagination.options.perPage,
-          page,
+          por_pagina: salesContainer.get('search').get('pagination').options.perPage,
+          ...params,
         },
         body: {
           filters: { ...searchForm.serialize() },
@@ -113,7 +119,15 @@ salesContainer.setPaginationConfig({
       });
     }
   }
-)
+
+  return {
+    requestHandler,
+    params,
+    get: async function() {
+      await this.requestHandler(this.params);
+    }
+  }
+}
 
 searchForm.onSubmit(async (event) => {
   await salesContainer.search({
@@ -128,7 +142,11 @@ searchForm.onSubmit(async (event) => {
 
 tableRender.onRenderRow(row => {
   const selectedRows = tableRender.get('selectedRows');
+  const printActionDOM = row.querySelector('td a.link-impressao');
 
+  printActionDOM.addEventListener('click', event => {
+    showTicket(row.dataset.id);
+  });
   row.classList.remove('marcada');
   if (selectedRows.includes(row.dataset.id)) {
     row.classList.add('marcada');
@@ -190,28 +208,17 @@ tableRender.onSelectRow((elementDOM, selectedRows) => {
 });
 
 tableRender.onFilter(async (filters) => {
+  const params = {
+    por_pagina: document.querySelector('#js-por-pagina').value,
+  };
+
+  salesContainer.toggleActiveData('filter');
   if (Object.keys(filters).length === 0) {
-    await salesContainer.search({
-      params: {
-        page: 1,
-        por_pagina: document.querySelector('#js-por-pagina').value,
-      },
-      body: {
-        ...searchForm.serialize()
-      }
-    });
-    return;
+    salesContainer.toggleActiveData('search');
+    params.page = 1;
   }
 
-  await salesContainer.filter({
-    params: {
-      por_pagina: document.querySelector('#js-por-pagina').value,
-    },
-    body: {
-      filters: { ...searchForm.serialize() },
-      subfilters: { ...filters }
-    }
-  });
+  await buildRequest(params).get();
 });
 
 function toggleElementVisibility(selector = '') {
@@ -317,26 +324,11 @@ document.querySelector('#js-por-pagina')
   .addEventListener('change', async event => {
     salesContainer.get('search').get('pagination').setOptions({ perPage: event.target.value });
     salesContainer.get('filtered').get('pagination').setOptions({ perPage: event.target.value });
-    if (salesContainer.get('active') === 'search') {
-      await salesContainer.search({
-        params: {
-          por_pagina: event.target.value,
-          page: 1,
-        },
-        body: { ...searchForm.serialize() }
-      });
-    } else {
-      await salesContainer.filter({
-        params: {
-          por_pagina: event.target.value,
-          page: 1,
-        },
-        body: {
-          filters: { ...searchForm.serialize() },
-          subfilters: { ...tableRender.serializeTableFilters() }
-        }
-      });
-    }
+    await buildRequest({
+        page: 1,
+        por_pagina: event.target.value,
+      })
+      .get();
   });
 
 document.querySelector('#js-exportar')
