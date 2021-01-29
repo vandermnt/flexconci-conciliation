@@ -1,5 +1,11 @@
 const checker = new Checker();
 const modalFilter = new ModalFilter();
+const formatter = new Formatter({
+  locale: 'pt-BR',
+  currencyOptions: {
+    type: 'BRL'
+  }
+});
 const searchForm = new SearchFormProxy({
   form: '#js-form-pesquisa',
   inputs: ['_token', 'data_inicial', 'data_final'],
@@ -14,7 +20,8 @@ const salesContainer = new SalesContainerProxy({
 });
 const tableRender = new TableRender({
   table: '#js-tabela-operadoras',
-  locale: 'pt-br'
+  locale: 'pt-br',
+  formatter,
 });
 
 checker.addGroups([
@@ -43,11 +50,11 @@ salesContainer.setupApi({
 });
 
 salesContainer.onEvent('beforeFetch', () => {
-  document.querySelector('#js-loader').classList.toggle('hidden');
+  toggleElementVisibility('#js-loader');
 });
 
 salesContainer.onEvent('fetch', (sales) => {
-  document.querySelector('#js-loader').classList.toggle('hidden');
+  toggleElementVisibility('#js-loader');
   document.querySelector('#js-quantidade-registros').textContent = `(${sales.get('pagination').options.total || 0} registros)`;
 
   tableRender.set('data', {
@@ -69,11 +76,10 @@ salesContainer.onEvent('fetch', (sales) => {
 salesContainer.onEvent('search', (sales) => {
   const resultadosDOM = document.querySelector('.resultados');
 
-  updateBoxes();
+  updateBoxes(sales.get('totals'));
 
   if (resultadosDOM.classList.contains('hidden')) {
     resultadosDOM.classList.remove('hidden');
-    window.scrollTo(0, document.querySelector('.resultados').offsetTop);
   }
 });
 
@@ -208,6 +214,14 @@ tableRender.onFilter(async (filters) => {
   });
 });
 
+function toggleElementVisibility(selector = '') {
+  const element = document.querySelector(selector);
+
+  if(element) {
+    element.classList.toggle('hidden');
+  }
+}
+
 function onCancelModalSelection(event) {
   const buttonDOM = event.target;
   const groupName = buttonDOM.dataset.group;
@@ -223,25 +237,20 @@ function onConfirmModalSelection(event) {
   checker.setValuesToTextElement(groupName, 'descricao');
 };
 
-function updateBoxes() {
-  const currencyFormatter = new Intl.NumberFormat('pt-br', {
-    style: 'currency',
-    currency: 'BRL'
-  });
-
-  const totalBruto = salesContainer.get('search').get('totals').TOTAL_BRUTO;
-  const totalLiquido = salesContainer.get('search').get('totals').TOTAL_LIQUIDO;
-  const totalTaxa = salesContainer.get('search').get('totals').TOTAL_TAXA;
-  const totalTarifaMinima = salesContainer.get('search').get('totals').TOTAL_TARIFA_MINIMA;
+function updateBoxes(totals) {
+  const totalBruto = totals.TOTAL_BRUTO;
+  const totalLiquido = totals.TOTAL_LIQUIDO;
+  const totalTaxa = totals.TOTAL_TAXA;
+  const totalTarifaMinima = totals.TOTAL_TARIFA_MINIMA;
 
   document.querySelector('#js-bruto-box').dataset.value = totalBruto;
-  document.querySelector('#js-bruto-box').textContent = currencyFormatter.format(totalBruto);
+  document.querySelector('#js-bruto-box').textContent = formatter.format('currency', totalBruto, 0);
   document.querySelector('#js-liquido-box').dataset.value = totalLiquido;
-  document.querySelector('#js-liquido-box').textContent = currencyFormatter.format(totalLiquido);
+  document.querySelector('#js-liquido-box').textContent = formatter.format('currency', totalLiquido, 0);
   document.querySelector('#js-taxa-box').dataset.value = totalTaxa;
-  document.querySelector('#js-taxa-box').textContent = currencyFormatter.format(totalTaxa);
+  document.querySelector('#js-taxa-box').textContent = formatter.format('currency', totalTaxa, 0);
   document.querySelector('#js-tarifa-box').dataset.value = totalTarifaMinima;
-  document.querySelector('#js-tarifa-box').textContent = currencyFormatter.format(totalTarifaMinima);
+  document.querySelector('#js-tarifa-box').textContent = formatter.format('currency', totalTarifaMinima, 0);
 }
 
 function openUrl(baseUrl, params) {
@@ -268,7 +277,7 @@ function showTicket(id) {
   Array.from(
     document.querySelectorAll('#comprovante-modal *[data-key]')
   ).forEach(element => {
-    element.textContent = tableRender.formatCell(sale[element.dataset.key], (element.dataset.format || 'text'), '');
+    element.textContent = formatter.format((element.dataset.format || 'text'), sale[element.dataset.key], '');
   });
 
   document.querySelector('#comprovante-modal').dataset.saleId = id;

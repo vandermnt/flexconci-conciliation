@@ -185,6 +185,7 @@
 
 @section('footerScript')
   <script defer src="{{ URL::asset('assets/js/lib/api.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/formatter.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/pagination.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/modal-filters.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/checker.js') }}"></script>

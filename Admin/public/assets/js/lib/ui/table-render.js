@@ -2,26 +2,12 @@ function TableRender(options = {}) {
   this.proxy = new Proxy({
     table: options.table || '#js-table',
     data: options.data || { body: {}, footer: {} },
-    locale: options.locale || 'pt-br',
-    _formatters: {
-      currency: options.currencyFormatter || new Intl.NumberFormat('pt-br', {
-        style: 'currency',
-        currency: 'BRL'
-      }),
-      number: options.numberFormatter || new Intl.NumberFormat('pt-br', {
-        maximumFractionDigits: 2
-      }),
-      date: options.dateFormatter || {
-        format: function(date) {
-          const formattedDate = new Date(`${date} 00:00:00`).toLocaleDateString('pt-br');
-          if(formattedDate === 'Invalid Date') {
-            return '';
-          }
-
-          return formattedDate;
-        }
+    formatter: options.formatter || new Formatter({
+      locale: options.locale || 'en-US',
+      currencyOptions: {
+        type: 'USD',
       }
-    },
+    }),
     selectedRows: [],
     onRenderRow: () => {},
     onRenderCell: () => {},
@@ -42,42 +28,11 @@ TableRender.prototype.set = function(prop = '', value = null) {
   this.proxy[prop] = value;
 }
 
-TableRender.prototype.setFormatLocale = function(locale) {
-  this.set('locale', locale);
-  this.set('_formatters', {
-    currency: new Intl.NumberFormat(locale, {
-      style: 'currency',
-      currency: 'BRL'
-    }),
-    number: new Intl.NumberFormat(locale, {
-      maximumFractionDigits: 2
-    }),
-    date: {
-      format: function(date) {
-        const formattedDate = new Date(`${date} 00:00:00`).toLocaleDateString('pt-br');
-        if(formattedDate === 'Invalid Date') {
-          return '';
-        }
-
-        return formattedDate;
-      }
-    }
-  });
-}
-
 TableRender.prototype.formatCell = function(value, type = 'text', defaultValue = '') {
-    const formatter = this.get('_formatters')[type];
-    let valueToFormat = value;
+    const formatter = this.get('formatter');
+    const formatedValue = formatter.format(type, value, defaultValue);
 
-    if(!value) {
-        valueToFormat = defaultValue || '';
-    }
-
-    if(!formatter) {
-        return valueToFormat;
-    }
-
-    return formatter.format(valueToFormat);
+    return formatedValue;
 }
 
 TableRender.prototype.onRenderRow = function(handler = (row = null) => {}) {
@@ -195,17 +150,13 @@ TableRender.prototype.render = function() {
 function tableRenderHandler() {
   return {
     set: function(target, name, value) {
-        if(['_formatters'].includes(name)) {
+        if(['formatter'].includes(name)) {
             return;
         }
 
         target[name] = value;
     },
     get: function(target, name) {
-      if(['currency', 'number', 'date'].includes(name)) {
-        return target._formatters[name];
-      }
-
       if(name === 'table') {
           if(typeof target[name] !== 'string') {
               return target[name];
