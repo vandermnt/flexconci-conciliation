@@ -277,7 +277,7 @@ aria-haspopup="false" aria-expanded="false">
     <span dropzone=""class="ml-1 nav-user-name hidden-sm">Vendas <i class="mdi mdi-chevron-down"></i> </span>
   </a>
   <div class="dropdown-menu dropdown-menu-left" style="background: white;">
-    <a style="" class="dropdown-item" href="{{ url('/vendasoperadoras') }}"> Vendas Operadoras</a>
+    <a style="" class="dropdown-item" href="{{ url('/vendas-operadoras') }}"> Vendas Operadoras</a>
     <a style="" class="dropdown-item" href="{{ url('/vendas-sistema-erp')}}"> Vendas sistema de gestão (ERP) </a>
   </div>
 </li>

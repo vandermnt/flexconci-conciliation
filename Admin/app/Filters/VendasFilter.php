@@ -11,6 +11,7 @@ use App\Filters\BaseFilter;
 class VendasFilter extends BaseFilter {
   protected $query = null;
   protected $whiteList = [
+    'id',
     'cliente_id',
     'data_inicial',
     'data_final',
@@ -19,9 +20,9 @@ class VendasFilter extends BaseFilter {
     'bandeiras',
     'modalidades',
     'meios_captura',
-    'id_erp',
     'status_conciliacao',
     'status_financeiro',
+    'estabelecimentos'
   ];
 
   public static function filter($filters) {
@@ -43,6 +44,7 @@ class VendasFilter extends BaseFilter {
     $this->query = VendasModel::select(
         [
           'vendas.CODIGO as ID',
+          'vendas_erp.DESCRICAO_TIPO_PRODUTO as DESCRICAO_ERP',
           'vendas.EMPRESA as NOME_EMPRESA',
           'vendas.CNPJ',
           'vendas.DATA_VENDA',
@@ -61,6 +63,7 @@ class VendasFilter extends BaseFilter {
           DB::raw('
             (`vendas`.`VALOR_BRUTO` - `vendas`.`VALOR_LIQUIDO`)
               as `VALOR_TAXA`'),
+          'vendas.TAXA_MINIMA',
           'vendas.VALOR_LIQUIDO',
           'vendas.PARCELA',
           'vendas.TOTAL_PARCELAS',
@@ -80,6 +83,7 @@ class VendasFilter extends BaseFilter {
           'vendas.JUSTIFICATIVA'
         ]
       )
+      ->leftJoin('vendas_erp', 'vendas_erp.CODIGO', 'vendas.COD_VENDA_ERP')
       ->leftJoin('adquirentes', 'adquirentes.CODIGO', 'vendas.ADQID')
       ->leftJoin('bandeira', 'bandeira.CODIGO', 'vendas.COD_BANDEIRA')
       ->leftJoin('modalidade', 'modalidade.CODIGO', 'vendas.CODIGO_MODALIDADE')
@@ -91,9 +95,9 @@ class VendasFilter extends BaseFilter {
       ->where('vendas.COD_CLIENTE', $filters['cliente_id'])
       ->whereBetween('vendas.DATA_VENDA', $datas)
       ->orderBy('vendas.DATA_VENDA');
-    
-    if(Arr::has($filters, 'id_erp')) {
-      $this->query->whereIn('vendas.CODIGO', $filters['id_erp']);
+
+    if(Arr::has($filters, 'id')) {
+      $this->query->whereIn('vendas.CODIGO', $filters['id']);
     }
     if(Arr::has($filters, 'grupos_clientes')) {
       $this->query->whereIn('vendas.EMPRESA', function($query) use ($filters) {
@@ -128,3 +132,6 @@ class VendasFilter extends BaseFilter {
     return $this->query;
   }
 }
+
+
+

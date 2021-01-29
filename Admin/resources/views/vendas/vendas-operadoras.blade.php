@@ -24,7 +24,9 @@
           id="js-form-pesquisa"
           :urls="[
             ['operadoras' => route('vendas-operadoras.search')],
-            ['filtrar-operadoras' => route('vendas-operadoras.index')]
+            ['filtrar-operadoras' => route('vendas-operadoras.filter')],
+            ['exportar' => route('vendas-operadoras.export')],
+            ['imprimir' => route('vendas-operadoras.print', ['id' => ':id'])],
           ]"
           :form-data="[
             'empresas' => $empresas,
@@ -39,24 +41,24 @@
       </div>
     </div>
 
-    <div class="resultados">
+    <div class="resultados hidden">
       <div class="boxes">
-        <x-box 
+        <x-box
           title="BRUTO"
           content-id="js-bruto-box"
-          content="R$ 337.204,53"
+          content="R$ 0,00"
           icon-path="assets/images/vendasoperadora/bruto.png"
           icon-description="Valor Bruto"
         />
-        <x-box 
+        <x-box
           title="VALOR TAXA"
           content-id="js-taxa-box"
-          content="R$ -4.391,49"
+          content="R$ 0,00"
           content-class="text-danger"
           icon-path="assets/images/vendasoperadora/percentagem.png"
           icon-description="Valor Taxa"
         />
-        <x-box 
+        <x-box
           title="TARIFA MÍNIMA"
           content-id="js-tarifa-box"
           content="R$ 0,00"
@@ -64,10 +66,10 @@
           icon-path="assets/images/vendasoperadora/percentagem.png"
           icon-description="Tarifa Mínima"
         />
-        <x-box 
+        <x-box
           title="VALOR LÍQUIDO DE VENDAS"
           content-id="js-liquido-box"
-          content="R$ 332.813,04"
+          content="R$ 0,00"
           icon-path="assets/images/vendasoperadora/liquido.png"
           icon-description="Valor Líquido"
         />
@@ -90,7 +92,12 @@
         >
           <x-slot name="actions">
             <td>
-              <a class="link-impressao tooltip-hint" data-title="Visualizar comprovante">
+              <a
+                class="link-impressao tooltip-hint"
+                data-title="Visualizar comprovante"
+                data-toggle="modal"
+                data-target="#comprovante-modal"
+              >
                 <i class="fas fa-print"></i>
               </a>
             </td>
@@ -100,9 +107,76 @@
         <x-tables.table-navigation
           pagination-id="js-paginacao-operadoras"
           per-page-select-id="js-por-pagina"
-          :options="['5', '10', '20', '50', '100', '200']"
+          :options="['10', '20', '50', '100', '200']"
         />
       </div>
+    </div>
+    <div class="modais">
+        <x-modal
+          id="comprovante-modal"
+          modal-label-id="comprovante"
+          modal-label="Comprovante"
+        >
+          <x-slot name="content">
+            <div class="comprovante">
+              <div class="header">
+                <h4 class="font-weight-bold">
+                    <span data-key="NOME_EMPRESA"></span>
+                </h4>
+                <h6>
+                    CNPJ: <span data-key="CNPJ"></span>
+                </h6>
+              </div>
+              <hr>
+              <div class="body">
+                <h6>
+                    DATA VENDA: <span data-key="DATA_VENDA" data-format="date"></span>
+                </h6>
+                <h6>
+                    OPERADORA: <span data-key="ADQUIRENTE"></span>
+                </h6>
+                <h6>
+                    BANDEIRA: <span data-key="BANDEIRA"></span>
+                </h6>
+                <h6>
+                    FORMA DE PAGAMENTO: <span data-key="MODALIDADE"></span>
+                </h6>
+                <h6>
+                    ESTABELECIMENTO: <span data-key="ESTABELECIMENTO"></span>
+                </h6>
+                <h6>
+                    CARTAO: <span data-key="CARTAO"></span>
+                </h6>
+                <h6 class="font-weight-bold">
+                    VALOR: <span data-key="VALOR_BRUTO" data-format="currency"></span>
+                </h6>
+                <h6>
+                    DATA PREVISÃO: <span data-key="DATA_PREVISAO" data-format="date"></span>
+                </h6>
+              </div>
+            </div>
+          </x-slot>
+
+          <x-slot name="footer">
+            <button
+            type="button"
+            class="btn btn-danger font-weight-bold"
+            data-action="close"
+            data-dismiss="modal"
+          >
+            Fechar
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-success font-weight-bold"
+            data-action="print"
+            data-dismiss="modal"
+          >
+            Imprimir
+          </button>
+        </x-slot>
+      </x-modal>
     </div>
   </main>
 
@@ -114,9 +188,11 @@
   <script defer src="{{ URL::asset('assets/js/lib/pagination.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/modal-filters.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/checker.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/ui/table-render.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SalesProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SalesContainerProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/vendas/vendas-operadoras.js') }}"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 @endsection

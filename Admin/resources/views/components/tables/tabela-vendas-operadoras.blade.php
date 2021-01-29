@@ -16,7 +16,7 @@
           <th>
             <div class="d-flex flex-column align-items-center">
               <p>ID. ERP</p>
-              <input type="text" class="form-control" name="ID_ERP">
+              <input type="text" class="form-control" name="DESCRICAO_ERP">
             </div>
           </th>
         @endif
@@ -197,38 +197,41 @@
       </tr>
     </thead>
     <tbody>
-      <tr data-id="ID" class="table-row-template">
+      <tr data-id="ID" class="table-row-template hidden">
         @isset($actions)
           {{ $actions }}
         @endisset
         @if($isColumnVisible('ID_ERP'))
-          <td data-column="ID_ERP"></td>
+          <td data-column="DESCRICAO_ERP"></td>
         @endif
         <td data-column="NOME_EMPRESA"></td>
         <td data-column="CNPJ"></td>
         <td data-column="DATA_VENDA" data-format="date"></td>
         <td data-column="DATA_PREVISAO" data-format="date"></td>
         <td
-          class="tooltip-hint" 
           data-image="ADQUIRENTE_IMAGEM"
           data-default-image="assets/images/iconCart.jpeg"
-          data-text="ADQUIRENTE"
-          data-default-text="Sem identificação"
-          data-title="ADQUIRENTE"
-          data-default-title="Sem identificação"
+          data-column="ADQUIRENTE"
+          data-default-value="Sem identificação"
         >
-          <div class="icon-image"></div>
+          <div 
+            class="icon-image tooltip-hint"
+            data-title="ADQUIRENTE"
+            data-default-title="Sem identificação">
+          </div>
         </td>
         <td
-          class="tooltip-hint" 
           data-image="BANDEIRA_IMAGEM"
           data-default-image="assets/images/iconCart.jpeg"
-          data-text="BANDEIRA"
-          data-default-text="Sem identificação"
-          data-title="BANDEIRA"
-          data-default-title="Sem identificação"
+          data-column="BANDEIRA"
+          data-default-value="Sem identificação"
         >
-          <div class="icon-image"></div>
+          <div
+            class="icon-image tooltip-hint"
+            data-title="BANDEIRA"
+            data-default-title="Sem identificação"
+          >
+          </div>
         </td>
         <td data-column="MODALIDADE"></td>
         <td data-column="NSU"></td>
@@ -244,15 +247,17 @@
         <td data-column="HORA_TRANSACAO" data-format="time"></td>
         <td data-column="ESTABELECIMENTO"></td>
         <td
-          class="tooltip-hint" 
           data-image="BANCO_IMAGEM"
           data-default-image="assets/images/iconCart.jpeg"
-          data-text="BANCO"
-          data-default-text="Sem identificação"
-          data-title="BANCO"
-          data-default-title="Sem identificação"
+          data-column="BANCO"
+          data-default-value="Sem identificação"
         >
-          <div class="icon-image"></div>
+          <div
+            class="icon-image tooltip-hint"
+            data-title="BANCO"
+            data-default-title="Sem identificação"
+          >
+          </div>
         </td>
         <td data-column="AGENCIA"></td>
         <td data-column="CONTA"></td>

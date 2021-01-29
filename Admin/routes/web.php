@@ -36,14 +36,17 @@ Route::group(['middleware' => 'auth'], function() {
   Route::get('/projeto/{codprojeto}', 'ProjetosController@detalhamentoProjeto');
 
   //VENDAS
-  Route::get('/vendasoperadoras', 'VendasController@vendas');
+//   Route::get('/vendasoperadoras', 'VendasController@vendas');
   Route::match(['get', 'post'], '/vendasoperadorasfiltro', 'VendasController@buscarVendasFiltro');
   Route::get('/download', 'VendasController@downloadTable');
   Route::get('/desfazer-justificativa/{codigo}', 'VendasController@desfazerJustificativa');
   Route::match(['get', 'post'], '/exportxls-vendas-operadora', 'VendasController@exportXls');
-  
+
   Route::get('/vendas-operadoras', 'VendasOperadorasController@index')->name('vendas-operadoras.index');
   Route::post('/vendas-operadoras/buscar', 'VendasOperadorasController@search')->name('vendas-operadoras.search');
+  Route::post('/vendas-operadoras/filtrar', 'VendasOperadorasController@filter')->name('vendas-operadoras.filter');
+  Route::get('/vendas-operadoras/exportar', 'VendasOperadorasController@export')->name('vendas-operadoras.export');
+  Route::get('/vendas-operadoras/imprimir/{id}', 'VendasOperadorasController@print')->name('vendas-operadoras.print');
 
   //CONCILIAÇÃO AUTOMÁTICA
 //   Route::get('/conciliacao-automatica', 'ConciliacaoAutomaticaVendasController@conciliacaoAutomatica');

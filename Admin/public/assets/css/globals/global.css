@@ -76,6 +76,10 @@
   background-color: #2d5275;
 }
 
+.table-responsive {
+  max-height: 600px;
+}
+
 table {
   white-space: nowrap;
   position: relative;
@@ -87,6 +91,7 @@ table {
 table thead th {
   position: sticky;
   top: 0;
+  z-index: 4;
 }
 
 table tr,
@@ -116,6 +121,11 @@ table td {
   margin: 0;
 }
 
+table th {
+  z-index: 4;
+  background-color: #FFF !important;
+}
+
 table th p {
   margin-bottom: 8px;
 }
@@ -126,10 +136,10 @@ table th input {
   height: 32px !important;
 }
 
-table th input[type="number"]::-webkit-inner-spin-button, 
-table th input[type="number"]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
+table th input[type="number"]::-webkit-inner-spin-button,
+table th input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 table th input[type="number"] {
@@ -153,9 +163,10 @@ table tfoot {
   background-color: #E6E6E6;
   position: sticky;
   bottom: 0;
+  z-index: 4;
 }
 
-table tfoot td { 
+table tfoot td {
   color: #6E6E6E;
   font-weight: bold;
 }
@@ -165,7 +176,7 @@ table td[data-image] {
 }
 
 table td[data-image] > .icon-image {
-  width: 90%;
+  width: 64%;
   background-image: url(../../images/adquirentes/pagseguro.svg);
   background-image: url(../../images/adquirentes/pagseguro-v2.png);
   background-image: url(../../images/adquirentes/cielo.svg);
@@ -185,7 +196,7 @@ table td[data-image] > .icon-image {
   background-image: url(../../images/bancos/sicredi.png);
   background-image: url(../../images/bancos/topazio.png);
   background-image: url(../../images/bancos/tribanco.png);
-  
+
   background-image: url(../../images/bandeiras/alelo.svg);
   background-image: url(../../images/bandeiras/amex.png);
   background-image: url(../../images/bandeiras/amex.svg);
@@ -321,7 +332,7 @@ table tr.marcada td {
   flex-grow: 1;
 }
 
-.search-form .input-group > *:first-child {
+.search-form .input-group:not(:first-of-type) > *:first-child {
   grid-column: 1 / span 2;
 }
 
