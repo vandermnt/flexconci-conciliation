@@ -83,6 +83,10 @@ Route::group(['middleware' => 'auth'], function() {
   Route::match(['get', 'post'], '/consultar-recebimentos-operadora', 'RecebimentosOperadoraController@consultarRecebimentosOperadoras');
   Route::get('/download-vendas-operadora', 'RecebimentosOperadoraController@downloadTable');
 
+  Route::get('/recebimentos-operadoras', function() {
+    return view('recebimentos.recebimentos-operadoras');
+  });
+
 
   //VENDAS SISTEMA ERP
   Route::get('/vendas-sistema-erp', 'VendasErpController@vendaserp');
