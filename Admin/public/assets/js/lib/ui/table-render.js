@@ -85,6 +85,15 @@ TableRender.prototype.serializeTableFilters = function() {
   return filters;
 }
 
+TableRender.prototype.clearFilters = function() {
+  const table = this.get('table');
+  const tableInputs = Array.from(table.querySelectorAll('thead input[name]'));
+
+  tableInputs.forEach(inputDOM => {
+    inputDOM.value = '';
+  });
+}
+
 TableRender.prototype.render = function() {
     const table = this.get('table');
     const onRenderRow = this.get('onRenderRow');
