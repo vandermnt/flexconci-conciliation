@@ -23,6 +23,7 @@ const tableRender = new TableRender({
   locale: 'pt-br',
   formatter,
 });
+const boxes = getBoxes();
 
 checker.addGroups([
   { name: 'empresa', options: { inputName: 'grupos_clientes' } },
@@ -137,6 +138,7 @@ searchForm.onSubmit(async (event) => {
     body: { ...searchForm.serialize() },
   });
 
+  tableRender.clearFilters();
   window.scrollTo(0, document.querySelector('.resultados').offsetTop);
 });
 
@@ -244,20 +246,37 @@ function onConfirmModalSelection(event) {
   checker.setValuesToTextElement(groupName, 'descricao');
 };
 
-function updateBoxes(totals) {
-  const totalBruto = totals.TOTAL_BRUTO;
-  const totalLiquido = totals.TOTAL_LIQUIDO;
-  const totalTaxa = totals.TOTAL_TAXA;
-  const totalTarifaMinima = totals.TOTAL_TARIFA_MINIMA;
+async function onPerPageChanged(event) {
+  salesContainer.get('search').get('pagination').setOptions({ perPage: event.target.value });
+  salesContainer.get('filtered').get('pagination').setOptions({ perPage: event.target.value });
+  await buildRequest({
+      page: 1,
+      por_pagina: event.target.value,
+    })
+    .get();
+}
 
-  document.querySelector('#js-bruto-box').dataset.value = totalBruto;
-  document.querySelector('#js-bruto-box').textContent = formatter.format('currency', totalBruto, 0);
-  document.querySelector('#js-liquido-box').dataset.value = totalLiquido;
-  document.querySelector('#js-liquido-box').textContent = formatter.format('currency', totalLiquido, 0);
-  document.querySelector('#js-taxa-box').dataset.value = totalTaxa;
-  document.querySelector('#js-taxa-box').textContent = formatter.format('currency', totalTaxa, 0);
-  document.querySelector('#js-tarifa-box').dataset.value = totalTarifaMinima;
-  document.querySelector('#js-tarifa-box').textContent = formatter.format('currency', totalTarifaMinima, 0);
+function getBoxes() {
+  const boxes = [];
+
+  Array.from(document.querySelectorAll('.box')).forEach(boxDOM => {
+    const box = new Box({
+      element: boxDOM,
+      defaultValue: 0,
+      format: boxDOM.dataset.format,
+      formatter,
+    });
+    boxes.push(box);
+  });
+
+  return boxes;
+}
+
+function updateBoxes(totals) {
+  boxes.forEach(box => {
+    box.set('value', totals[box.get('element').dataset.key]);
+    box.render();
+  });
 }
 
 function openUrl(baseUrl, params) {
@@ -321,15 +340,7 @@ Array.from(
 });
 
 document.querySelector('#js-por-pagina')
-  .addEventListener('change', async event => {
-    salesContainer.get('search').get('pagination').setOptions({ perPage: event.target.value });
-    salesContainer.get('filtered').get('pagination').setOptions({ perPage: event.target.value });
-    await buildRequest({
-        page: 1,
-        por_pagina: event.target.value,
-      })
-      .get();
-  });
+  .addEventListener('change', onPerPageChanged);
 
 document.querySelector('#js-exportar')
   .addEventListener('click', exportar);
