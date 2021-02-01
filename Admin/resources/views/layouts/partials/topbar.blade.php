@@ -6,12 +6,12 @@
     <ul class="list-unstyled topbar-nav float-right mb-0">
       <li class="hidden-sm">
         <a class="nav-link" data-toggle="modal" data-target="#staticBackdrop" style="font-size: 12px; color: white; cursor: pointer">
-        Abrir chamado
-      </a>
+          Abrir chamado
+        </a>
       </li>
       <li class="hidden-sm">
         <a class="nav-link dropdown-toggle waves-effect" data-toggle="dropdown" href="javascript: void(0);" role="button"
-        aria-haspopup="false" aria-expanded="false" style="font-size: 27px">
+        aria-haspopup="false" aria-expanded="false" style="font-size: 25px">
         |
       </a>
     </li>
@@ -64,7 +64,7 @@
 </li>
 <li class="hidden-sm">
   <a class="nav-link dropdown-toggle waves-effect" data-toggle="dropdown" href="javascript: void(0);" role="button"
-  aria-haspopup="false" aria-expanded="false" style="font-size: 27px">
+  aria-haspopup="false" aria-expanded="false" style="font-size: 25px">
   |
 </a>
 </li>
@@ -245,59 +245,64 @@ aria-haspopup="false" aria-expanded="false">
   <nav class="navbar-custom" style="background: white; min-height: 50px !important; border-bottom: 4px solid #2d5275">
     <ul class="list-unstyled topbar-nav mb-0" style="margin-left: 30px">
       <li>
-        <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user"  data-toggle="dropdown" href="#" role="button"
-        aria-haspopup="false" aria-expanded="false">
-        <span class="ml-1 nav-user-name hidden-sm">Dashboard <i class="mdi mdi-chevron-down"></i> </span>
-      </a>
-      <div class="dropdown-menu dropdown-menu-left" style="background: white;">
+        <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user"  href="{{ url('/') }}" role="button">
+          <span class="ml-1 nav-user-name hidden-sm"><i style="font-size: 23px; vertical-align: middle;" class="fas fa-chart-bar"></i> Dashboard </span>
+        </a>
+        <!-- <div class="dropdown-menu dropdown-menu-left" style="background: white;">
         <a  class="dropdown-item" href="{{ url('/') }}"> Gerencial</a>
         <a  class="dropdown-item" href="#"> Diagnóstico Financeiro </a>
-      </div>
+      </div> -->
     </li>
 
     <li>
-      <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
+      <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/conciliacao-automatica') }}" role="button"
       aria-haspopup="false" aria-expanded="false">
-      <span class="ml-1 nav-user-name hidden-sm">Conciliação<i class="mdi mdi-chevron-down"></i> </span>
+      <span class="ml-1 nav-user-name hidden-sm"><i style="font-size: 23px; vertical-align: middle;" class="far fa-handshake"></i> Conciliação de Vendas </span>
     </a>
-    <div class="dropdown-menu dropdown-menu-left" style="background: white;">
-      <a style="" class="dropdown-item" href="#"> Conferência Manual de Vendas</a>
-      <a style="" class="dropdown-item" href="{{ url('/conciliacao-automatica') }}"> Conciliação Automática de Vendas </a>
-      <a style="" class="dropdown-item" href="#"> Conciliação de Pagamentos </a>
-      <a style="" class="dropdown-item" href="{{ url('/conciliacao-bancaria') }}"> Conciliação Bancária </a>
-      <a style="" class="dropdown-item" href="#"> Conciliação de Taxas </a>
-      <a style="" class="dropdown-item" href="#"> Conciliação de Aluguel e Outras Despesas </a>
+    <!-- <div class="dropdown-menu dropdown-menu-left" style="background: white;">
+    <a style="" class="dropdown-item" href="#"> Conferência Manual de Vendas</a>
+    <a style="" class="dropdown-item" href="{{ url('/conciliacao-automatica') }}"> Conciliação Automática de Vendas </a>
+    <a style="" class="dropdown-item" href="#"> Conciliação de Pagamentos </a>
+    <a style="" class="dropdown-item" href="{{ url('/conciliacao-bancaria') }}"> Conciliação Bancária </a>
+    <a style="" class="dropdown-item" href="#"> Conciliação de Taxas </a>
+    <a style="" class="dropdown-item" href="#"> Conciliação de Aluguel e Outras Despesas </a>
 
-    </div>
-  </li>
-
-  <li>
-    <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
-    aria-haspopup="false" aria-expanded="false">
-    <span dropzone=""class="ml-1 nav-user-name hidden-sm">Vendas <i class="mdi mdi-chevron-down"></i> </span>
-  </a>
-  <div class="dropdown-menu dropdown-menu-left" style="background: white;">
-    <a style="" class="dropdown-item" href="{{ url('/vendas-operadoras') }}"> Vendas Operadoras</a>
-    <a style="" class="dropdown-item" href="{{ url('/vendas-sistema-erp')}}"> Vendas sistema de gestão (ERP) </a>
-  </div>
+  </div> -->
 </li>
 
 <li>
-  <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
-  aria-haspopup="false" aria-expanded="false">
-  <span class="ml-1 nav-user-name hidden-sm">Recebimentos <i class="mdi mdi-chevron-down"></i> </span>
-</a>
-<div class="dropdown-menu dropdown-menu-left" style="background: white;">
-  <a style="" class="dropdown-item" href="{{ url('/recebimentos-operadora') }}"> Recebimentos Operadoras</a>
-  <a style="" class="dropdown-item" href="#"> Recebimentos Antecipados </a>
-  <a style="" class="dropdown-item" href="#"> Despesas Extras (DOC/TEC/Aluguel/Outras/Tarifas)</a>
-  <a style="" class="dropdown-item" href="{{ url('/previsao-recebimentos') }}"> Previsão de Recebimentos Futuros</a>
-  <a style="" class="dropdown-item" href="{{ url('/antecipacao')}}"> Antecipação Trava Livre</a>
-
-
-</div>
+  <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/vendas-sistema-erp')}}" role="button">
+    <span dropzone=""class="ml-1 nav-user-name hidden-sm"><i style="font-size: 21px; vertical-align: middle;" class="fas fa-laptop"></i> Vendas ERP </span>
+  </a>
 </li>
 
+<li>
+  <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/vendas-operadoras') }}" role="button">
+    <span dropzone=""class="ml-1 nav-user-name hidden-sm"><i style="font-size: 21px; vertical-align: middle;" class="fas fa-money-check-alt"></i> Vendas Operadora </span>
+  </a>
+</li>
+
+<li>
+  <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/recebimentos-operadora') }}" role="button">
+    <span class="ml-1 nav-user-name hidden-sm"><i style="font-size: 21px; vertical-align: middle;"class="fas fa-donate"></i> Recebimentos</span>
+  </a>
+  <!-- <div class="dropdown-menu dropdown-menu-left" style="background: white;">
+    <a style="" class="dropdown-item" href="{{ url('/recebimentos-operadora') }}"> Recebimentos Operadoras</a>
+    <a style="" class="dropdown-item" href="#"> Recebimentos Antecipados </a>
+    <a style="" class="dropdown-item" href="#"> Despesas Extras (DOC/TEC/Aluguel/Outras/Tarifas)</a>
+    <a style="" class="dropdown-item" href="{{ url('/previsao-recebimentos') }}"> Previsão de Recebimentos Futuros</a>
+    <a style="" class="dropdown-item" href="{{ url('/antecipacao')}}"> Antecipação Trava Livre</a>
+
+
+  </div> -->
+</li>
+
+<li>
+  <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/previsao-recebimentos') }}" role="button">
+    <span class="ml-1 nav-user-name hidden-sm"><i  style="font-size: 21px; vertical-align: middle;" class="far fa-calendar-alt"></i> Recebimentos Futuros </span>
+  </a>
+</li>
+<!--
 <li>
   <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
   aria-haspopup="false" aria-expanded="false">
@@ -308,7 +313,7 @@ aria-haspopup="false" aria-expanded="false">
   <a style="" class="dropdown-item" href="{{ url('/justificativas') }}"> Justificativas</a>
 
 </div>
-</li>
+</li> -->
 <!-- @if(Auth::user()->USUARIO_GLOBAL == 'S')
 <li>
 <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
