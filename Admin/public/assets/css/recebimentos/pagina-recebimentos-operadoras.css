@@ -1,0 +1,8 @@
+#pagina-recebimentos-operadoras .boxes {
+  grid-gap: 8px;
+  margin-bottom: 24px;
+}
+
+#pagina-recebimentos-operadoras .boxes .card.box {
+  margin: 0;
+}
