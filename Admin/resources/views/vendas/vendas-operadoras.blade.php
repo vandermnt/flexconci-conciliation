@@ -45,31 +45,35 @@
       <div class="boxes">
         <x-box
           title="BRUTO"
-          content-id="js-bruto-box"
           content="R$ 0,00"
+          data-format="currency"
+          data-key="TOTAL_BRUTO"
           icon-path="assets/images/vendasoperadora/bruto.png"
           icon-description="Valor Bruto"
         />
         <x-box
           title="VALOR TAXA"
-          content-id="js-taxa-box"
           content="R$ 0,00"
+          data-format="currency"
+          data-key="TOTAL_TAXA"
           content-class="text-danger"
           icon-path="assets/images/vendasoperadora/percentagem.png"
           icon-description="Valor Taxa"
         />
         <x-box
           title="TARIFA MÍNIMA"
-          content-id="js-tarifa-box"
           content="R$ 0,00"
           content-class="text-danger"
+          data-format="currency"
+          data-key="TOTAL_TARIFA_MINIMA"
           icon-path="assets/images/vendasoperadora/percentagem.png"
           icon-description="Tarifa Mínima"
         />
         <x-box
           title="VALOR LÍQUIDO DE VENDAS"
-          content-id="js-liquido-box"
           content="R$ 0,00"
+          data-format="currency"
+          data-key="TOTAL_LIQUIDO"
           icon-path="assets/images/vendasoperadora/liquido.png"
           icon-description="Valor Líquido"
         />
@@ -185,10 +189,12 @@
 
 @section('footerScript')
   <script defer src="{{ URL::asset('assets/js/lib/api.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/formatter.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/pagination.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/modal-filters.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/checker.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/ui/table-render.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/ui/box.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SalesProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SalesContainerProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>

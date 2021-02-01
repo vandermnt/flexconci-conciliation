@@ -1,5 +1,11 @@
 const checker = new Checker();
 const modalFilter = new ModalFilter();
+const formatter = new Formatter({
+  locale: 'pt-BR',
+  currencyOptions: {
+    type: 'BRL'
+  }
+});
 const searchForm = new SearchFormProxy({
   form: '#js-form-pesquisa',
   inputs: ['_token', 'data_inicial', 'data_final'],
@@ -14,8 +20,10 @@ const salesContainer = new SalesContainerProxy({
 });
 const tableRender = new TableRender({
   table: '#js-tabela-operadoras',
-  locale: 'pt-br'
+  locale: 'pt-br',
+  formatter,
 });
+const boxes = getBoxes();
 
 checker.addGroups([
   { name: 'empresa', options: { inputName: 'grupos_clientes' } },
@@ -43,11 +51,11 @@ salesContainer.setupApi({
 });
 
 salesContainer.onEvent('beforeFetch', () => {
-  document.querySelector('#js-loader').classList.toggle('hidden');
+  toggleElementVisibility('#js-loader');
 });
 
 salesContainer.onEvent('fetch', (sales) => {
-  document.querySelector('#js-loader').classList.toggle('hidden');
+  toggleElementVisibility('#js-loader');
   document.querySelector('#js-quantidade-registros').textContent = `(${sales.get('pagination').options.total || 0} registros)`;
 
   tableRender.set('data', {
@@ -56,24 +64,15 @@ salesContainer.onEvent('fetch', (sales) => {
   });
   tableRender.render();
   sales.get('pagination').render();
-  Array.from(
-    document.querySelectorAll('table a.link-impressao')
-  ).forEach(element => {
-    element.addEventListener('click', e => {
-      const id = e.target.closest('tr').dataset.id;
-      showTicket(id);
-    });
-  });
 });
 
 salesContainer.onEvent('search', (sales) => {
   const resultadosDOM = document.querySelector('.resultados');
 
-  updateBoxes();
+  updateBoxes(sales.get('totals'));
 
   if (resultadosDOM.classList.contains('hidden')) {
     resultadosDOM.classList.remove('hidden');
-    window.scrollTo(0, document.querySelector('.resultados').offsetTop);
   }
 });
 
@@ -86,19 +85,33 @@ salesContainer.setPaginationConfig({
   paginationContainer: document.querySelector('#js-paginacao-operadoras')
 },
   async (page, pagination, event) => {
-    if (salesContainer.get('active') === 'search') {
+    await buildRequest({
+        page,
+        por_pagina: pagination.options.perPage,
+      })
+      .get();
+  }
+)
+
+function buildRequest(params) {
+  let requestHandler = () => {};
+
+  if(salesContainer.get('active') === 'search') {
+    requestHandler = async (params) => {
       await salesContainer.search({
         params: {
-          por_pagina: pagination.options.perPage,
-          page,
+          por_pagina: salesContainer.get('search').get('pagination').options.perPage,
+          ...params
         },
         body: { ...searchForm.serialize() }
       });
-    } else {
+    }
+  } else {
+    requestHandler = async (params) => {
       await salesContainer.filter({
         params: {
-          por_pagina: pagination.options.perPage,
-          page,
+          por_pagina: salesContainer.get('search').get('pagination').options.perPage,
+          ...params,
         },
         body: {
           filters: { ...searchForm.serialize() },
@@ -107,7 +120,15 @@ salesContainer.setPaginationConfig({
       });
     }
   }
-)
+
+  return {
+    requestHandler,
+    params,
+    get: async function() {
+      await this.requestHandler(this.params);
+    }
+  }
+}
 
 searchForm.onSubmit(async (event) => {
   await salesContainer.search({
@@ -117,12 +138,17 @@ searchForm.onSubmit(async (event) => {
     body: { ...searchForm.serialize() },
   });
 
+  tableRender.clearFilters();
   window.scrollTo(0, document.querySelector('.resultados').offsetTop);
 });
 
 tableRender.onRenderRow(row => {
   const selectedRows = tableRender.get('selectedRows');
+  const printActionDOM = row.querySelector('td a.link-impressao');
 
+  printActionDOM.addEventListener('click', event => {
+    showTicket(row.dataset.id);
+  });
   row.classList.remove('marcada');
   if (selectedRows.includes(row.dataset.id)) {
     row.classList.add('marcada');
@@ -184,29 +210,26 @@ tableRender.onSelectRow((elementDOM, selectedRows) => {
 });
 
 tableRender.onFilter(async (filters) => {
+  const params = {
+    por_pagina: document.querySelector('#js-por-pagina').value,
+  };
+
+  salesContainer.toggleActiveData('filter');
   if (Object.keys(filters).length === 0) {
-    await salesContainer.search({
-      params: {
-        page: 1,
-        por_pagina: document.querySelector('#js-por-pagina').value,
-      },
-      body: {
-        ...searchForm.serialize()
-      }
-    });
-    return;
+    salesContainer.toggleActiveData('search');
+    params.page = 1;
   }
 
-  await salesContainer.filter({
-    params: {
-      por_pagina: document.querySelector('#js-por-pagina').value,
-    },
-    body: {
-      filters: { ...searchForm.serialize() },
-      subfilters: { ...filters }
-    }
-  });
+  await buildRequest(params).get();
 });
+
+function toggleElementVisibility(selector = '') {
+  const element = document.querySelector(selector);
+
+  if(element) {
+    element.classList.toggle('hidden');
+  }
+}
 
 function onCancelModalSelection(event) {
   const buttonDOM = event.target;
@@ -223,25 +246,37 @@ function onConfirmModalSelection(event) {
   checker.setValuesToTextElement(groupName, 'descricao');
 };
 
-function updateBoxes() {
-  const currencyFormatter = new Intl.NumberFormat('pt-br', {
-    style: 'currency',
-    currency: 'BRL'
+async function onPerPageChanged(event) {
+  salesContainer.get('search').get('pagination').setOptions({ perPage: event.target.value });
+  salesContainer.get('filtered').get('pagination').setOptions({ perPage: event.target.value });
+  await buildRequest({
+      page: 1,
+      por_pagina: event.target.value,
+    })
+    .get();
+}
+
+function getBoxes() {
+  const boxes = [];
+
+  Array.from(document.querySelectorAll('.box')).forEach(boxDOM => {
+    const box = new Box({
+      element: boxDOM,
+      defaultValue: 0,
+      format: boxDOM.dataset.format,
+      formatter,
+    });
+    boxes.push(box);
   });
 
-  const totalBruto = salesContainer.get('search').get('totals').TOTAL_BRUTO;
-  const totalLiquido = salesContainer.get('search').get('totals').TOTAL_LIQUIDO;
-  const totalTaxa = salesContainer.get('search').get('totals').TOTAL_TAXA;
-  const totalTarifaMinima = salesContainer.get('search').get('totals').TOTAL_TARIFA_MINIMA;
+  return boxes;
+}
 
-  document.querySelector('#js-bruto-box').dataset.value = totalBruto;
-  document.querySelector('#js-bruto-box').textContent = currencyFormatter.format(totalBruto);
-  document.querySelector('#js-liquido-box').dataset.value = totalLiquido;
-  document.querySelector('#js-liquido-box').textContent = currencyFormatter.format(totalLiquido);
-  document.querySelector('#js-taxa-box').dataset.value = totalTaxa;
-  document.querySelector('#js-taxa-box').textContent = currencyFormatter.format(totalTaxa);
-  document.querySelector('#js-tarifa-box').dataset.value = totalTarifaMinima;
-  document.querySelector('#js-tarifa-box').textContent = currencyFormatter.format(totalTarifaMinima);
+function updateBoxes(totals) {
+  boxes.forEach(box => {
+    box.set('value', totals[box.get('element').dataset.key]);
+    box.render();
+  });
 }
 
 function openUrl(baseUrl, params) {
@@ -268,7 +303,7 @@ function showTicket(id) {
   Array.from(
     document.querySelectorAll('#comprovante-modal *[data-key]')
   ).forEach(element => {
-    element.textContent = tableRender.formatCell(sale[element.dataset.key], (element.dataset.format || 'text'), '');
+    element.textContent = formatter.format((element.dataset.format || 'text'), sale[element.dataset.key], '');
   });
 
   document.querySelector('#comprovante-modal').dataset.saleId = id;
@@ -305,30 +340,7 @@ Array.from(
 });
 
 document.querySelector('#js-por-pagina')
-  .addEventListener('change', async event => {
-    salesContainer.get('search').get('pagination').setOptions({ perPage: event.target.value });
-    salesContainer.get('filtered').get('pagination').setOptions({ perPage: event.target.value });
-    if (salesContainer.get('active') === 'search') {
-      await salesContainer.search({
-        params: {
-          por_pagina: event.target.value,
-          page: 1,
-        },
-        body: { ...searchForm.serialize() }
-      });
-    } else {
-      await salesContainer.filter({
-        params: {
-          por_pagina: event.target.value,
-          page: 1,
-        },
-        body: {
-          filters: { ...searchForm.serialize() },
-          subfilters: { ...tableRender.serializeTableFilters() }
-        }
-      });
-    }
-  });
+  .addEventListener('change', onPerPageChanged);
 
 document.querySelector('#js-exportar')
   .addEventListener('click', exportar);
