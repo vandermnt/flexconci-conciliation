@@ -12,7 +12,7 @@
         id="data-inicial"
         type="date"
         name="data_inicial"
-        :value="$getData('data_venda_inicial') ?? date('Y-m-01')"
+        :value="$getData('data_inicial') ?? date('Y-m-01')"
         required 
       />
       <x-forms.form-group
@@ -20,7 +20,7 @@
         id="data-final"
         type="date"
         name="data_final"
-        :value="$getData('data_venda_final') ?? date('Y-m-d')"
+        :value="$getData('data_final') ?? date('Y-m-d')"
         required
       />
     </div>
