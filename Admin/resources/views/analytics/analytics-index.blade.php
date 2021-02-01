@@ -136,12 +136,12 @@ font-size: 14px;
                 <div class="col-12" style="margin-top: -20px">
                   <div class="row">
                     <div class="col-12" align="center">
-                      <img src="{{ url('assets/images/suporte.png') }}" style="width: 23px; text-align: center" alt="">
-                      <h6 style="font-size: 10px" id="total_taxa_cobrada" class="my-3">(44) 3020-0220</h6>
+                      <img src="{{ url('assets/images/suporte.png') }}" style="width: 27px; text-align: center" alt="">
+                      <h5 style="font-size: 13px" id="total_taxa_cobrada" class="my-3">(44) 3020-0220</h5>
                     </div>
                   </div>
                   <div class="col-12" style="margin-top: -20px">
-                    <h6 style="font-size: 10px" id="total_taxa_cobrada" class="my-3">Atendimento | Segunda a sexta-feira - das 08:00h às 18:00h</h6>
+                    <h6 style="font-size: 12px" id="total_taxa_cobrada" class="my-3">Atendimento | Segunda a sexta-feira - das 08:00h às 18:00h</h6>
                   </div>
 
                   <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
