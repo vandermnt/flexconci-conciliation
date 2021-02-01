@@ -2,11 +2,11 @@
 
 namespace App\View\Components\Tables;
 
-use App\View\Components\Tables\Table;
 use Illuminate\View\Component;
 
-class TabelaVendasOperadoras extends Table
+class Table extends Component
 {
+    public $hiddenColumns;
     /**
      * Create a new component instance.
      *
@@ -14,7 +14,11 @@ class TabelaVendasOperadoras extends Table
      */
     public function __construct($hiddenColumns = [])
     {
-        parent::__construct($hiddenColumns);
+        $this->hiddenColumns = $hiddenColumns;
+    }
+
+    public function isColumnVisible($columnName = '') {
+        return !in_array($columnName, $this->hiddenColumns);
     }
 
     /**
@@ -22,8 +26,5 @@ class TabelaVendasOperadoras extends Table
      *
      * @return \Illuminate\View\View|string
      */
-    public function render()
-    {
-        return view('components.tables.tabela-vendas-operadoras');
-    }
+    public function render() {}
 }
