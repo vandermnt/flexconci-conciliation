@@ -125,6 +125,26 @@
     </div>
   @endif
   
+  @if($isFieldVisible('domicilios-bancarios'))
+    <div class="input-group">
+      <x-forms.form-group 
+        label="Domicílio Bancário:" 
+        id="domicilio-bancario" 
+        type="text"
+        data-group="domicilio-bancario"
+        data-checker="to-text-element"
+      />
+      <button 
+        class="btn btn-sm form-button" 
+        type="button" 
+        data-toggle="modal" 
+        data-target="#domicilios-bancarios-modal"
+      >
+        Selecionar
+      </button>
+    </div>
+  @endif
+  
   @if($isFieldVisible('status-conciliacao'))
     <x-forms.check-group 
       id="status-conciliacao" 
@@ -394,6 +414,53 @@
                   data-checker="checkbox"
                   data-group="estabelecimento"
                   data-descricao="{{ $estabelecimento->ESTABELECIMENTO }}"
+                >
+              </div>
+            </div>
+          @endforeach
+        </div>
+      </x-selection-modal>
+    @endif
+    
+    @if($isFieldVisible('domicilios-bancarios'))
+      <x-selection-modal
+        id="domicilios-bancarios-modal"
+        modal-label-id="domicilios-bancarios-label"
+        modal-label="Domicílio Bancário"
+        data-group="domicilio-bancario"
+        data-filter-group="domicilio-bancario"
+        data-filter-fields="domicilio-bancario"
+      >
+        <div class="modal-checkboxes">
+          <div class="row">
+            <div class="col-sm-10 pl-0">
+              <p>Domicílio Bancário</p>
+            </div>
+            <div class="col-sm-2 pl-0 d-flex align-items-start px-0 justify-content-end">
+              <input
+                type="checkbox"
+                data-checker="global"
+                data-group="domicilio-bancario"
+              >
+            </div>
+          </div>
+          @foreach(($getData('domicilios_bancarios') ?? []) as $domicilio)
+            <div
+              class="row"
+              data-filter-item-container="domicilio-bancario"
+              data-filter-estabelecimento="{{ $domicilio->ESTABELECIMENTO }}"
+            >
+              <div class="col-sm-10 pl-0">
+                <p>{{ $domicilio->ESTABELECIMENTO }}</p>
+              </div>
+              <div class="col-sm-2 d-flex align-items-start px-0 justify-content-end">
+                <input
+                  type="checkbox"
+                  name="estabelecimentos[]"
+                  value="{{ $domicilio->ESTABELECIMENTO }}"
+                  data-checker="checkbox"
+                  data-group="estabelecimento"
+                  data-descricao="{{ $domicilio->ESTABELECIMENTO }}"
                 >
               </div>
             </div>
