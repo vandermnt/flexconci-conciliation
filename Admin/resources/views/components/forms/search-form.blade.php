@@ -421,7 +421,6 @@
         </div>
       </x-selection-modal>
     @endif
-    
     @if($isFieldVisible('domicilios-bancarios'))
       <x-selection-modal
         id="domicilios-bancarios-modal"
@@ -429,38 +428,47 @@
         modal-label="Domicílio Bancário"
         data-group="domicilio-bancario"
         data-filter-group="domicilio-bancario"
-        data-filter-fields="domicilio-bancario"
+        data-filter-fields="banco,agencia,conta"
       >
         <div class="modal-checkboxes">
           <div class="row">
-            <div class="col-sm-10 pl-0">
-              <p>Domicílio Bancário</p>
+            <div class="col-sm-4 pl-0">
+              <p>Banco</p>
             </div>
-            <div class="col-sm-2 pl-0 d-flex align-items-start px-0 justify-content-end">
-              <input
-                type="checkbox"
-                data-checker="global"
-                data-group="domicilio-bancario"
-              >
+            <div class="col-sm-3 px-0">
+              <p>Agência</p>
+            </div>
+            <div class="col-sm-3 px-0">
+              <p>Conta</p>
+            </div>
+            <div class="col-sm-2 d-flex align-items-start px-0 justify-content-end">
+              <input type="checkbox" data-group="domicilio-bancario" data-checker="global">
             </div>
           </div>
           @foreach(($getData('domicilios_bancarios') ?? []) as $domicilio)
-            <div
-              class="row"
-              data-filter-item-container="domicilio-bancario"
-              data-filter-estabelecimento="{{ $domicilio->ESTABELECIMENTO }}"
+            <div 
+              class="row" 
+              data-filter-item-container="domicilio-bancario" 
+              data-filter-banco="{{ $domicilio->BANCO }}"
+              data-filter-agencia="{{ $domicilio->AGENCIA }}"
+              data-filter-conta="{{ $domicilio->CONTA }}"
             >
-              <div class="col-sm-10 pl-0">
-                <p>{{ $domicilio->ESTABELECIMENTO }}</p>
+              <div class="col-sm-4 pl-0">
+                <p>{{ $domicilio->BANCO }}</p>
+              </div>
+              <div class="col-sm-3 px-0">
+                <p>{{ $domicilio->AGENCIA }}</p>
+              </div>
+              <div class="col-sm-3 px-0">
+                <p>{{ $domicilio->CONTA }}</p>
               </div>
               <div class="col-sm-2 d-flex align-items-start px-0 justify-content-end">
                 <input
-                  type="checkbox"
-                  name="estabelecimentos[]"
-                  value="{{ $domicilio->ESTABELECIMENTO }}"
+                  type="checkbox" name="domicilios_bancarios[]"
+                  value="{{ $domicilio->CODIGO }}"
                   data-checker="checkbox"
-                  data-group="estabelecimento"
-                  data-descricao="{{ $domicilio->ESTABELECIMENTO }}"
+                  data-group="domicilio-bancario"
+                  data-descricao="{{ $domicilio->BANCO }}"
                 >
               </div>
             </div>
