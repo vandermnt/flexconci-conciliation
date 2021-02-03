@@ -38,6 +38,12 @@
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
+            <p>Pagamento</p>
+            <input type="date" class="form-control" name="DATA_PAGAMENTO">
+          </div>
+        </th>
+        <th>
+          <div class="d-flex flex-column align-items-center">
             <p>Operadora</p>
             <input type="text" class="form-control" name="ADQUIRENTE">
           </div>
@@ -87,7 +93,7 @@
         <th>
           <div class="d-flex flex-column align-items-center">
             <p>Taxa %</p>
-            <input type="number" min="0" step="0.01" class="form-control" name="PERCENTUAL_TAXA">
+            <input type="number" min="0" step="0.01" class="form-control" name="TAXA_PERCENTUAL">
           </div>
         </th>
         <th>
@@ -99,7 +105,7 @@
         <th>
           <div class="d-flex flex-column align-items-center">
             <p>Taxa Antec. %</p>
-            <input type="number" min="0" step="0.01" class="form-control" name="VALOR_TAXA">
+            <input type="number" min="0" step="0.01" class="form-control" name="PERCENTUAL_TAXA_ANTECIPACAO">
           </div>
         </th>
         <th>
@@ -195,7 +201,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr data-id="ID" class="table-row-template">
+      <tr data-id="ID" class="table-row-template hidden">
         @isset($actions)
           {{ $actions }}
         @endisset
@@ -203,6 +209,7 @@
         <td data-column="CNPJ"></td>
         <td data-column="DATA_VENDA" data-format="date"></td>
         <td data-column="DATA_PREVISAO" data-format="date"></td>
+        <td data-column="DATA_PAGAMENTO" data-format="date"></td>
         <td
           data-image="ADQUIRENTE_IMAGEM"
           data-default-image="assets/images/iconCart.jpeg"
@@ -234,9 +241,9 @@
         <td data-column="TID"></td>
         <td data-column="CARTAO"></td>
         <td data-column="VALOR_BRUTO" data-format="currency"></td>
-        <td data-column="PERCENTUAL_TAXA" data-format="decimal"></td>
+        <td data-column="TAXA_PERCENTUAL" data-format="decimal"></td>
         <td class="text-danger" data-column="VALOR_TAXA" data-format="currency"></td>
-        <td class="text-danger" data-column="VALOR_TAXA" data-format="currency"></td>
+        <td class="text-danger" data-column="PERCENTUAL_TAXA_ANTECIPACAO" data-format="decimal"></td>
         <td data-column="VALOR_LIQUIDO" data-format="currency"></td>
         <td data-column="PARCELA"></td>
         <td data-column="TOTAL_PARCELAS"></td>
@@ -282,9 +289,11 @@
         <td></td>
         <td></td>
         <td></td>
+        <td></td>
         <td data-column="TOTAL_BRUTO" data-format="currency"></td>
         <td></td>
         <td data-column="TOTAL_TAXA" data-format="currency" class="text-danger"></td>
+        <td></td>
         <td data-column="TOTAL_LIQUIDO" data-format="currency"></td>
         <td></td>
         <td></td>

@@ -22,7 +22,11 @@
       <div class="card-body">
         <x-forms.search-form
           id="js-form-pesquisa"
-          :urls="[]"
+          :urls="[
+            ['buscar-recebimentos' => route('recebimentos-operadoras.search')],
+            ['filtrar-recebimentos' => route('recebimentos-operadoras.filter')],
+            ['exportar' => route('recebimentos-operadoras.export')],
+          ]"
           :hidden-fields="[
             'bandeiras',
             'modalidades',
@@ -32,15 +36,15 @@
             'status-financeiro',
           ]"
           :form-data="[
-            'empresas' => [],
-            'adquirentes' => [],
-            'domicilios_bancarios' => [],
+            'empresas' => $empresas,
+            'adquirentes' => $adquirentes,
+            'domicilios_bancarios' => $domicilios_bancarios,
           ]"
         />
       </div>
     </div>
 
-    <div class="resultados">
+    <div class="resultados hidden">
       <div class="boxes">
         <x-box
           title="BRUTO"
@@ -63,7 +67,7 @@
           content="R$ 0,00"
           data-format="currency"
           data-key=""
-          icon-path="assets/images/financeiro/pagamentos.svg"
+          icon-path="assets/images/financeiro/pag-antecipado.svg"
           icon-description="Pag. Antecipado"
         />
         <x-box
@@ -79,8 +83,8 @@
           content="-R$ 0,00"
           content-class="text-danger"
           data-format="currency"
-          data-key=""
-          icon-path="assets/images/financeiro/taxas.svg"
+          data-key="TOTAL_TAXA"
+          icon-path="assets/images/financeiro/taxa-adm.svg"
           icon-description="Taxa Adm."
         />
         <x-box
@@ -94,7 +98,8 @@
         />
         <x-box
           title="OUTRAS DESPESAS"
-          content="R$ 0,00"
+          content="-R$ 0,00"
+          content-class="text-danger"
           data-format="currency"
           data-key=""
           icon-path="assets/images/financeiro/despesas.svg"
@@ -104,7 +109,7 @@
           title="LÍQUIDO"
           content="R$ 0,00"
           data-format="currency"
-          data-key=""
+          data-key="TOTAL_LIQUIDO"
           icon-path="assets/images/financeiro/liquido.svg"
           icon-description="Valor Líquido"
         />
@@ -124,7 +129,11 @@
         <x-tables.tabela-recebimentos-operadoras
           id="js-tabela-recebimentos"
           class="mt-3"
-        />
+        >
+          <x-slot name="actions">
+            <td></td>
+          </x-slot>
+        </x-tables.tabela-recebimentos-operadoras>
         <x-tables.table-navigation
           pagination-id="js-paginacao-recebimentos"
           per-page-select-id="js-por-pagina"
@@ -135,4 +144,21 @@
   </main>
 
   <div id="js-loader" class="loader hidden"></div>
+@endsection
+
+@section('footerScript')
+  <script defer src="{{ URL::asset('assets/js/lib/api.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/formatter.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/pagination.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/modal-filters.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/checker.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/ui/table-render.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/ui/box.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/ui/index.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/proxy/PaymentsProxy.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/proxy/PaymentsContainerProxy.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/recebimentos/recebimentos-operadoras.js') }}"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 @endsection
