@@ -382,11 +382,14 @@
         modal-label="Código de Estabelecimento"
         data-group="estabelecimento"
         data-filter-group="estabelecimento"
-        data-filter-fields="estabelecimento"
+        data-filter-fields="estabelecimento,adquirente"
       >
         <div class="modal-checkboxes">
           <div class="row">
-            <div class="col-sm-10 pl-0">
+            <div class="col-sm-4 pl-0">
+              <p>Operadora</p>
+            </div>
+            <div class="col-sm-6 pl-0">
               <p>Código de Estabelec.</p>
             </div>
             <div class="col-sm-2 pl-0 d-flex align-items-start px-0 justify-content-end">
@@ -402,8 +405,12 @@
               class="row"
               data-filter-item-container="estabelecimento"
               data-filter-estabelecimento="{{ $estabelecimento->ESTABELECIMENTO }}"
+              data-filter-adquirente="{{ $estabelecimento->ADQUIRENTE }}"
             >
-              <div class="col-sm-10 pl-0">
+              <div class="col-sm-4 pl-0">
+                <p>{{ $estabelecimento->ADQUIRENTE }}</p>
+              </div>
+              <div class="col-sm-6 pl-0">
                 <p>{{ $estabelecimento->ESTABELECIMENTO }}</p>
               </div>
               <div class="col-sm-2 d-flex align-items-start px-0 justify-content-end">

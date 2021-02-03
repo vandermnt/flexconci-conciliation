@@ -28,6 +28,9 @@
             ['exportar' => route('vendas-operadoras.export')],
             ['imprimir' => route('vendas-operadoras.print', ['id' => ':id'])],
           ]"
+          :hidden-fields="[
+            'domicilios-bancarios'
+          ]"
           :form-data="[
             'empresas' => $empresas,
             'adquirentes' => $adquirentes,
