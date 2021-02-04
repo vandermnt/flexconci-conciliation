@@ -45,7 +45,10 @@ class ConciliacaoAutomaticaController extends Controller
         $status_conciliacao = StatusConciliacaoModel::orderBy('STATUS_CONCILIACAO')
             ->get();
 
-        $justificativas = JustificativaModel::select('JUSTIFICATIVA')
+        $justificativas = JustificativaModel::select([
+                'CODIGO',
+                'JUSTIFICATIVA'
+            ])
             ->where('JUSTIFICATIVA_GLOBAL', 'S')
             ->orWhere('COD_CLIENTE', session('codigologin'))
             ->get();
@@ -299,9 +302,11 @@ class ConciliacaoAutomaticaController extends Controller
 
     public function justificar(Request $request) {
         $id_erp = $request->input('id_erp') ?? '';
-        $justificativa = $request->input('justificativa') ?? null;
+        $id_justificativa = $request->input('justificativa') ?? null;
 
-        if(strlen(trim($justificativa)) === 0) {
+        $justificativa = JustificativaModel::find($id_justificativa)->JUSTIFICATIVA;
+
+        if(is_null($justificativa)) {
             return response()->json([
                 'status' => 'erro',
                 'mensagem' => 'A justificativa deve ser informada.'

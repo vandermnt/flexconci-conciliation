@@ -1063,16 +1063,15 @@
               <main class="modal-body">
                 <div class="form-group">
                   <h6>Justificativa</h6>
-                  <input
-                    name="justificativa"
+                  <select
                     class="form-control"
-                    type="text"
+                    name="justificativa"
                   >
-                  <ul id="js-justificativas-lista" class="modal-options list-group mt-3">
+                    <option value="">Selecione uma justificativa</option>
                     @foreach ($justificativas as $justificativa)
-                      <li class="list-group-item">{{ $justificativa->JUSTIFICATIVA }}</li>
+                      <option value="{{ $justificativa->CODIGO }}">{{ $justificativa->JUSTIFICATIVA }}</option>
                     @endforeach
-                  </ul>
+                  </select>
                 </div>
               </main>
               <footer class="modal-footer">
