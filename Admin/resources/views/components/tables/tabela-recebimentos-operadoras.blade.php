@@ -241,9 +241,9 @@
         <td data-column="TID"></td>
         <td data-column="CARTAO"></td>
         <td data-column="VALOR_BRUTO" data-format="currency"></td>
-        <td class="text-danger" data-column="TAXA_PERCENTUAL" data-format="number"></td>
-        <td class="text-danger" data-column="VALOR_TAXA" data-format="currency"></td>
-        <td class="text-danger" data-column="TAXA_ANTECIPACAO_PERCENTUAL" data-format="number"></td>
+        <td class="text-danger" data-reverse-value="true" data-column="TAXA_PERCENTUAL" data-format="number"></td>
+        <td class="text-danger" data-reverse-value="true" data-column="VALOR_TAXA" data-format="currency"></td>
+        <td class="text-danger" data-reverse-value="true" data-column="TAXA_ANTECIPACAO_PERCENTUAL" data-format="number"></td>
         <td data-column="VALOR_LIQUIDO" data-format="currency"></td>
         <td data-column="PARCELA"></td>
         <td data-column="TOTAL_PARCELAS"></td>
@@ -292,7 +292,7 @@
         <td></td>
         <td data-column="TOTAL_BRUTO" data-format="currency"></td>
         <td></td>
-        <td data-column="TOTAL_TAXA" data-format="currency" class="text-danger"></td>
+        <td data-column="TOTAL_TAXA" data-reverse-value="true" data-format="currency" class="text-danger"></td>
         <td></td>
         <td data-column="TOTAL_LIQUIDO" data-format="currency"></td>
         <td></td>

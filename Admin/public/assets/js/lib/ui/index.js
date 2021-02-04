@@ -56,8 +56,14 @@ function createTableRender({ table = '', locale = 'pt-br', formatter }) {
     const cellValue = data[cell.dataset.column];
     const defaultCellValue = data[cell.dataset.defaultValue];
     const format = cell.dataset.format || 'text';
-    const value = tableRender.formatCell(cellValue, format, defaultCellValue);
-  
+
+    if(cell.dataset.reverseValue) {
+      const reverseValue = tableRender.formatCell(cellValue * -1, format, defaultCellValue * -1);
+      cell.textContent = reverseValue;
+      return;
+    }
+
+    const value =  tableRender.formatCell(cellValue, format, defaultCellValue);
     cell.textContent = value;
   });
 

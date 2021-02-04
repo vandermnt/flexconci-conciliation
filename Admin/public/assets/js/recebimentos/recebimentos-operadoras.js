@@ -70,11 +70,6 @@ paymentsContainer.onEvent('fetch', (payments) => {
   toggleElementVisibility('#js-loader');
   document.querySelector('#js-quantidade-registros').textContent = `(${payments.get('pagination').options.total || 0} registros)`;
 
-  payments.set('totals', {
-    ...payments.get('totals'),
-    TOTAL_TAXA: payments.get('totals').TOTAL_TAXA * -1
-  });
-
   tableRender.set('data', {
     body: (payments.get('payments') || []),
     footer: (payments.get('totals') || {}),
@@ -84,7 +79,13 @@ paymentsContainer.onEvent('fetch', (payments) => {
 });
 
 paymentsContainer.onEvent('search', (payments) => {
-  updateBoxes(boxes, payments.get('totals'));
+  const totals = payments.get('totals');
+  updateBoxes(boxes, {
+    ...totals,
+    TOTAL_TAXA: (totals.TOTAL_TAXA || 0) * -1,
+    TOTAL_ANTECIPACAO: (totals.TOTAL_ANTECIPACAO || 0) * -1,
+    TOTAL_DESPESAS: (totals.TOTAL_DESPESAS || 0) * -1,
+  });
 });
 
 paymentsContainer.onEvent('fail', (err) => {
