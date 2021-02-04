@@ -58,7 +58,7 @@
           title="PAG. NORMAL"
           content="R$ 0,00"
           data-format="currency"
-          data-key=""
+          data-key="PAG_NORMAL"
           icon-path="assets/images/financeiro/pagamentos.svg"
           icon-description="Pag. Normal"
         />
@@ -66,7 +66,7 @@
           title="PAG. ANTECIPADO"
           content="R$ 0,00"
           data-format="currency"
-          data-key=""
+          data-key="PAG_ANTECIPADO"
           icon-path="assets/images/financeiro/pag-antecipado.svg"
           icon-description="Pag. Antecipado"
         />
@@ -74,7 +74,7 @@
           title="PAG. AVULSO"
           content="R$ 0,00"
           data-format="currency"
-          data-key=""
+          data-key="PAG_AVULSO"
           icon-path="assets/images/financeiro/pagamentos.svg"
           icon-description="Pag. Avulso"
         />
@@ -92,7 +92,7 @@
           content="-R$ 0,00"
           content-class="text-danger"
           data-format="currency"
-          data-key=""
+          data-key="TOTAL_ANTECIPACAO"
           icon-path="assets/images/financeiro/taxas.svg"
           icon-description="Antecipação"
         />
@@ -101,7 +101,7 @@
           content="-R$ 0,00"
           content-class="text-danger"
           data-format="currency"
-          data-key=""
+          data-key="TOTAL_DESPESAS"
           icon-path="assets/images/financeiro/despesas.svg"
           icon-description="Outras Despesas"
         />

@@ -54,7 +54,8 @@ class RecebimentosFilter extends BaseFilter {
         DB::raw('
           (`pagamentos_operadoras`.`VALOR_BRUTO` - `pagamentos_operadoras`.`VALOR_LIQUIDO`)
             as `VALOR_TAXA`'),
-        DB::raw('null as TAXA_ANTECIPACAO_PERCENTUAL'),
+        DB::raw('null as `TAXA_ANTECIPACAO_PERCENTUAL`'),
+        DB::raw('null as `VALOR_ANTECIPACAO`'),
         'pagamentos_operadoras.VALOR_LIQUIDO',
         'pagamentos_operadoras.PARCELA',
         'pagamentos_operadoras.TOTAL_PARCELAS',
@@ -71,6 +72,7 @@ class RecebimentosFilter extends BaseFilter {
         'vendas.DIVERGENCIA',
         'status_financeiro.STATUS_FINANCEIRO',
         'vendas.JUSTIFICATIVA',
+        'pagamentos_operadoras.COD_TIPO_PAGAMENTO'
       ])
         ->leftJoin('vendas', 'vendas.CODIGO', 'pagamentos_operadoras.COD_VENDA')
         ->leftJoin('produto_web', 'produto_web.CODIGO', 'vendas.COD_PRODUTO') 
@@ -119,7 +121,7 @@ class RecebimentosFilter extends BaseFilter {
           ->whereIn('domicilio_cliente.CODIGO', $filters['domicilios_bancarios']);
       });
     }
-  
+
     return $this;
   }
 
