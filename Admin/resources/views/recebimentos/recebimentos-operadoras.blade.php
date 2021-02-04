@@ -88,7 +88,7 @@
           icon-description="Taxa Adm."
         />
         <x-box
-          title="ANTECIPAÇÃO"
+          title="CUSTO ANTECIPAÇÃO"
           content="-R$ 0,00"
           content-class="text-danger"
           data-format="currency"

@@ -72,8 +72,8 @@ class RecebimentosOperadorasController extends Controller
 
       $payments = (clone $query)->paginate($perPage);
       $totals = [
-        'TOTAL_BRUTO' => (clone $query)->sum('VALOR_BRUTO'),
-        'TOTAL_LIQUIDO' => (clone $query)->sum('VALOR_LIQUIDO'),
+        'TOTAL_BRUTO' => (clone $query)->sum('pagamentos_operadoras.VALOR_BRUTO'),
+        'TOTAL_LIQUIDO' => (clone $query)->sum('pagamentos_operadoras.VALOR_LIQUIDO'),
         'PAG_NORMAL' => 0,
         'PAG_ANTECIPADO' => 0,
         'PAG_AVULSO' => 0,

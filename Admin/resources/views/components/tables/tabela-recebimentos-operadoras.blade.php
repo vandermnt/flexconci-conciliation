@@ -105,7 +105,7 @@
         <th>
           <div class="d-flex flex-column align-items-center">
             <p>Taxa Antec. %</p>
-            <input type="number" min="0" step="0.01" class="form-control" name="PERCENTUAL_TAXA_ANTECIPACAO">
+            <input type="number" min="0" step="0.01" class="form-control" name="TAXA_ANTECIPACAO_PERCENTUAL">
           </div>
         </th>
         <th>
@@ -241,9 +241,9 @@
         <td data-column="TID"></td>
         <td data-column="CARTAO"></td>
         <td data-column="VALOR_BRUTO" data-format="currency"></td>
-        <td data-column="TAXA_PERCENTUAL" data-format="decimal"></td>
+        <td class="text-danger" data-column="TAXA_PERCENTUAL" data-format="number"></td>
         <td class="text-danger" data-column="VALOR_TAXA" data-format="currency"></td>
-        <td class="text-danger" data-column="PERCENTUAL_TAXA_ANTECIPACAO" data-format="decimal"></td>
+        <td class="text-danger" data-column="TAXA_ANTECIPACAO_PERCENTUAL" data-format="number"></td>
         <td data-column="VALOR_LIQUIDO" data-format="currency"></td>
         <td data-column="PARCELA"></td>
         <td data-column="TOTAL_PARCELAS"></td>

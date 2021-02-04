@@ -44,38 +44,44 @@ class RecebimentosFilter extends BaseFilter {
         'modalidade.DESCRICAO as MODALIDADE',
         'pagamentos_operadoras.NSU',
         'pagamentos_operadoras.CODIGO_AUTORIZACAO as AUTORIZACAO',
-        DB::raw('null as TID'),
+        'vendas.TID',
         'pagamentos_operadoras.NUMERO_CARTAO as CARTAO',
         'pagamentos_operadoras.VALOR_BRUTO',
-        'pagamentos_operadoras.TAXA_PERCENTUAL',
+        DB::raw('(
+          (`pagamentos_operadoras`.`VALOR_BRUTO` - `pagamentos_operadoras`.`VALOR_LIQUIDO`) * 100) 
+            / `pagamentos_operadoras`.`VALOR_BRUTO`
+            as `TAXA_PERCENTUAL`'),
         DB::raw('
           (`pagamentos_operadoras`.`VALOR_BRUTO` - `pagamentos_operadoras`.`VALOR_LIQUIDO`)
             as `VALOR_TAXA`'),
+        DB::raw('null as TAXA_ANTECIPACAO_PERCENTUAL'),
         'pagamentos_operadoras.VALOR_LIQUIDO',
         'pagamentos_operadoras.PARCELA',
         'pagamentos_operadoras.TOTAL_PARCELAS',
-        DB::raw('null as HORA'),
-        DB::raw('null as ESTABELECIMENTO'),
+        'vendas.HORA_TRANSACAO',
+        'vendas.ESTABELECIMENTO',
         'lista_bancos.NOME_WEB as BANCO',
         'lista_bancos.IMAGEM_LINK as BANCO_IMAGEM',
         'pagamentos_operadoras.AGENCIA',
         'pagamentos_operadoras.CONTA',
-        DB::raw('null as OBSERVACOES'),
-        DB::raw('null as PRODUTO'),
+        'vendas.OBSERVACOES',
+        'produto_web.PRODUTO_WEB as PRODUTO',
         'meio_captura.DESCRICAO as MEIOCAPTURA',
         'status_conciliacao.STATUS_CONCILIACAO',
-        DB::raw('null as DIVERGENCIA'),
+        'vendas.DIVERGENCIA',
         'status_financeiro.STATUS_FINANCEIRO',
-        DB::raw('null as JUSTIFICATIVA'),
+        'vendas.JUSTIFICATIVA',
       ])
-        ->leftJoin('grupos_clientes', 'grupos_clientes.CODIGO', 'COD_GRUPO_CLIENTE')
-        ->leftJoin('adquirentes', 'adquirentes.CODIGO', 'COD_ADQUIRENTE')
-        ->leftJoin('bandeira', 'bandeira.CODIGO', 'COD_BANDEIRA')
-        ->leftJoin('modalidade', 'modalidade.CODIGO', 'COD_FORMA_PAGAMENTO')
-        ->leftJoin('lista_bancos', 'lista_bancos.CODIGO', 'COD_BANCO')
-        ->leftJoin('meio_captura', 'meio_captura.CODIGO', 'COD_MEIO_CAPTURA')
-        ->leftJoin('status_conciliacao', 'status_conciliacao.CODIGO', 'COD_STATUS')
-        ->leftJoin('status_financeiro', 'status_financeiro.CODIGO', 'COD_STATUS_FINANCEIRO')
+        ->leftJoin('vendas', 'vendas.CODIGO', 'pagamentos_operadoras.COD_VENDA')
+        ->leftJoin('produto_web', 'produto_web.CODIGO', 'vendas.COD_PRODUTO') 
+        ->leftJoin('grupos_clientes', 'grupos_clientes.CODIGO', 'pagamentos_operadoras.COD_GRUPO_CLIENTE')
+        ->leftJoin('adquirentes', 'adquirentes.CODIGO', 'pagamentos_operadoras.COD_ADQUIRENTE')
+        ->leftJoin('bandeira', 'bandeira.CODIGO', 'pagamentos_operadoras.COD_BANDEIRA')
+        ->leftJoin('modalidade', 'modalidade.CODIGO', 'pagamentos_operadoras.COD_FORMA_PAGAMENTO')
+        ->leftJoin('lista_bancos', 'lista_bancos.CODIGO', 'pagamentos_operadoras.COD_BANCO')
+        ->leftJoin('meio_captura', 'meio_captura.CODIGO', 'pagamentos_operadoras.COD_MEIO_CAPTURA')
+        ->leftJoin('status_conciliacao', 'status_conciliacao.CODIGO', 'pagamentos_operadoras.COD_STATUS')
+        ->leftJoin('status_financeiro', 'status_financeiro.CODIGO', 'pagamentos_operadoras.COD_STATUS_FINANCEIRO')
         ->where('pagamentos_operadoras.COD_CLIENTE', $filters['cliente_id']);
 
     if(Arr::has($filters, 'id')) {
@@ -113,7 +119,7 @@ class RecebimentosFilter extends BaseFilter {
           ->whereIn('domicilio_cliente.CODIGO', $filters['domicilios_bancarios']);
       });
     }
-
+  
     return $this;
   }
 
