@@ -1,7 +1,7 @@
 <div class="table-responsive {{ $attributes->get('class') }}">
   <table
     class="table table-striped"
-    id="{{ $attributes->get('id') ?? 'js-tabela-vendas-operadoras' }}"
+    id="{{ $attributes->get('id') ?? 'js-tabela' }}"
   >
     <thead>
       <tr>
