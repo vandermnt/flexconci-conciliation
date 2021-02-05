@@ -12,6 +12,7 @@ class VendasSubFilter extends BaseSubFilter {
     'ID',
     'DESCRICAO_ERP',
     'NOME_EMPRESA',
+    'CNPJ',
     'DATA_VENDA',
     'DATA_PREVISAO',
     'ADQUIRENTE',
