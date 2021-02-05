@@ -119,6 +119,9 @@ Route::group(['middleware' => 'auth'], function() {
   Route::post('/enviar-extrato', 'ConciliacaoController@conciliacaoBancaria');
   Route::get('/atualizar-conciliacoes-processadas', 'ConciliacaoController@atualizarConciliacoesProcessadas');
 
+  //ENVIO EMAIL CHAMADO
+  Route::get('/enviar-email', 'DashboardController@enviaEmail');
+
 
   //IMPRESSAO VENDAS
   Route::get('/impressao-vendas/{codigo}', 'VendasController@impressaoCupom');

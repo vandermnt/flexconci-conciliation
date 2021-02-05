@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Request;
 use DB;
+use Mail;
 use App\DashboardVendasModel;
 use App\ClienteModel;
 use App\Http\Controllers\DOMPDF;
@@ -85,6 +86,9 @@ class DashboardController extends Controller{
     ->where('vendas.COD_CLIENTE', '=', session('codigologin'))
     ->first();
 
+    $departamento_chamado = DB::table('departamento_chamado')->get();
+    $categoria_chamado = DB::table('categoria_chamado')->get();
+
     $dados_bancos = DB::table('vendas')
     ->leftJoin('lista_bancos', 'vendas.BANCO', 'lista_bancos.CODIGO')
     ->leftJoin('adquirentes', 'vendas.ADQID', 'adquirentes.CODIGO')
@@ -132,6 +136,8 @@ class DashboardController extends Controller{
     ->with('dados_dash_vendas_modalidade', $dados_dash_vendas_modalidade)
     ->with('dados_dash_vendas', $dados_dash_vendas)
     ->with('dados_dash_vendas_produto', $dados_dash_vendas_produto)
+    ->with('departamento_chamado', $departamento_chamado)
+    ->with('categoria_chamado', $categoria_chamado)
     ->with('dados_cliente', $dados_cliente)
     ->with('data', $data)
     ->with('dados_calendario', $dados_calendario)
@@ -313,5 +319,22 @@ class DashboardController extends Controller{
     ->get();
 
     return json_encode([$bancos, $operadoras]);
+  }
+
+  public function enviaEmail(){
+    $departamento_chamado = Request::input('departamento');
+    $categoria_chamado = Request::input('categoria');
+    $mensagem = Request::input('mensagem');
+
+    $data = ['mensagem' => $mensagem];
+
+    Mail::send('emails.chamado', $data, function ($message) {
+      $assunto = "Chamado " . session('nome_fantasia') . " | " . Request::input('categoria');
+      $message->from('chamados@conciflex.com.br');
+      $message->subject($assunto);
+      $message->to(Request::input('departamento'));
+    });
+
+    return response()->json(200);
   }
 }
