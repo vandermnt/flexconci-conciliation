@@ -128,9 +128,12 @@ Route::group(['middleware' => 'auth'], function() {
   Route::post('/dados-cliente', 'ClienteController@dadosCliente');
 
   //RECEBIMENTOS - PREVISÃO RECEBIMENTOS
-  Route::get('/previsao-recebimentos', 'PrevisaoRecebimentosController@previsaoRecebimentos');
-  Route::post('/previsaorecebimentos', 'PrevisaoRecebimentosController@loadPrevisaoRecebimentos');
-
+  // Route::get('/previsao-recebimentos', 'PrevisaoRecebimentosController@previsaoRecebimentos');
+  // Route::post('/previsaorecebimentos', 'PrevisaoRecebimentosController@loadPrevisaoRecebimentos');
+  Route::get('/recebimentos-futuros', 'RecebimentosFuturosController@index')->name('recebimentos-futuros.index');
+  Route::post('/recebimentos-futuros/buscar', 'RecebimentosFuturosController@search')->name('recebimentos-futuros.search');
+  Route::post('/recebimentos-futuros/filtrar', 'RecebimentosFuturosController@filter')->name('recebimentos-futuros.filter');
+  Route::get('/recebimentos-futuros/exportar', 'RecebimentosFuturosController@export')->name('recebimentos-futuros.export');
 });
 
 Route::get('/credenciamento-cielo', function() {
