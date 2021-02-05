@@ -51,7 +51,7 @@
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_BRUTO"
-          icon-path="assets/images/vendasoperadora/bruto.png"
+          icon-path="assets/images/financeiro/bruto.svg"
           icon-description="Valor Bruto"
         />
         <x-box
@@ -60,7 +60,7 @@
           data-format="currency"
           data-key="TOTAL_TAXA"
           content-class="text-danger"
-          icon-path="assets/images/vendasoperadora/percentagem.png"
+          icon-path="assets/images/financeiro/taxas.svg"
           icon-description="Valor Taxa"
         />
         <x-box
@@ -69,7 +69,7 @@
           content-class="text-danger"
           data-format="currency"
           data-key="TOTAL_TARIFA_MINIMA"
-          icon-path="assets/images/vendasoperadora/percentagem.png"
+          icon-path="assets/images/financeiro/taxas.svg"
           icon-description="Tarifa Mínima"
         />
         <x-box
@@ -77,7 +77,7 @@
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_LIQUIDO"
-          icon-path="assets/images/vendasoperadora/liquido.png"
+          icon-path="assets/images/financeiro/liquido.svg"
           icon-description="Valor Líquido"
         />
       </div>
