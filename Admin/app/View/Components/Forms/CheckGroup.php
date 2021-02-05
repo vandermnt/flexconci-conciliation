@@ -24,6 +24,10 @@ class CheckGroup extends Component
     }
 
     public function getOptions() {
+        if(is_null($this->options)) {
+            return [];
+        }
+        
         if(is_array($this->options)) {
             return $this->options;
         }

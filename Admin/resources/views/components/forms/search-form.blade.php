@@ -12,7 +12,7 @@
         id="data-inicial"
         type="date"
         name="data_inicial"
-        :value="$getData('data_venda_inicial') ?? date('Y-m-01')"
+        :value="$getData('data_inicial') ?? date('Y-m-01')"
         required 
       />
       <x-forms.form-group
@@ -20,7 +20,7 @@
         id="data-final"
         type="date"
         name="data_final"
-        :value="$getData('data_venda_final') ?? date('Y-m-d')"
+        :value="$getData('data_final') ?? date('Y-m-d')"
         required
       />
     </div>
@@ -119,6 +119,26 @@
         type="button" 
         data-toggle="modal" 
         data-target="#estabelecimentos-modal"
+      >
+        Selecionar
+      </button>
+    </div>
+  @endif
+  
+  @if($isFieldVisible('domicilios-bancarios'))
+    <div class="input-group">
+      <x-forms.form-group 
+        label="Domicílio Bancário:" 
+        id="domicilio-bancario" 
+        type="text"
+        data-group="domicilio-bancario"
+        data-checker="to-text-element"
+      />
+      <button 
+        class="btn btn-sm form-button" 
+        type="button" 
+        data-toggle="modal" 
+        data-target="#domicilios-bancarios-modal"
       >
         Selecionar
       </button>
@@ -362,11 +382,14 @@
         modal-label="Código de Estabelecimento"
         data-group="estabelecimento"
         data-filter-group="estabelecimento"
-        data-filter-fields="estabelecimento"
+        data-filter-fields="estabelecimento,adquirente"
       >
         <div class="modal-checkboxes">
           <div class="row">
-            <div class="col-sm-10 pl-0">
+            <div class="col-sm-4 pl-0">
+              <p>Operadora</p>
+            </div>
+            <div class="col-sm-6 pl-0">
               <p>Código de Estabelec.</p>
             </div>
             <div class="col-sm-2 pl-0 d-flex align-items-start px-0 justify-content-end">
@@ -382,8 +405,12 @@
               class="row"
               data-filter-item-container="estabelecimento"
               data-filter-estabelecimento="{{ $estabelecimento->ESTABELECIMENTO }}"
+              data-filter-adquirente="{{ $estabelecimento->ADQUIRENTE }}"
             >
-              <div class="col-sm-10 pl-0">
+              <div class="col-sm-4 pl-0">
+                <p>{{ $estabelecimento->ADQUIRENTE }}</p>
+              </div>
+              <div class="col-sm-6 pl-0">
                 <p>{{ $estabelecimento->ESTABELECIMENTO }}</p>
               </div>
               <div class="col-sm-2 d-flex align-items-start px-0 justify-content-end">
@@ -394,6 +421,61 @@
                   data-checker="checkbox"
                   data-group="estabelecimento"
                   data-descricao="{{ $estabelecimento->ESTABELECIMENTO }}"
+                >
+              </div>
+            </div>
+          @endforeach
+        </div>
+      </x-selection-modal>
+    @endif
+    @if($isFieldVisible('domicilios-bancarios'))
+      <x-selection-modal
+        id="domicilios-bancarios-modal"
+        modal-label-id="domicilios-bancarios-label"
+        modal-label="Domicílio Bancário"
+        data-group="domicilio-bancario"
+        data-filter-group="domicilio-bancario"
+        data-filter-fields="banco,agencia,conta"
+      >
+        <div class="modal-checkboxes">
+          <div class="row">
+            <div class="col-sm-4 pl-0">
+              <p>Banco</p>
+            </div>
+            <div class="col-sm-3 px-0">
+              <p>Agência</p>
+            </div>
+            <div class="col-sm-3 px-0">
+              <p>Conta</p>
+            </div>
+            <div class="col-sm-2 d-flex align-items-start px-0 justify-content-end">
+              <input type="checkbox" data-group="domicilio-bancario" data-checker="global">
+            </div>
+          </div>
+          @foreach(($getData('domicilios_bancarios') ?? []) as $domicilio)
+            <div 
+              class="row" 
+              data-filter-item-container="domicilio-bancario" 
+              data-filter-banco="{{ $domicilio->BANCO }}"
+              data-filter-agencia="{{ $domicilio->AGENCIA }}"
+              data-filter-conta="{{ $domicilio->CONTA }}"
+            >
+              <div class="col-sm-4 pl-0">
+                <p>{{ $domicilio->BANCO }}</p>
+              </div>
+              <div class="col-sm-3 px-0">
+                <p>{{ $domicilio->AGENCIA }}</p>
+              </div>
+              <div class="col-sm-3 px-0">
+                <p>{{ $domicilio->CONTA }}</p>
+              </div>
+              <div class="col-sm-2 d-flex align-items-start px-0 justify-content-end">
+                <input
+                  type="checkbox" name="domicilios_bancarios[]"
+                  value="{{ $domicilio->CODIGO }}"
+                  data-checker="checkbox"
+                  data-group="domicilio-bancario"
+                  data-descricao="{{ $domicilio->BANCO }}"
                 >
               </div>
             </div>

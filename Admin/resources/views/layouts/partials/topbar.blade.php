@@ -283,8 +283,13 @@ aria-haspopup="false" aria-expanded="false">
 </li>
 
 <li>
+<<<<<<< HEAD
   <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/recebimentos-operadora') }}" role="button">
     <span class="ml-1 nav-user-name hidden-sm"><i style="font-size: 21px; vertical-align: middle;" class="fas fa-donate"></i> Recebimentos</span>
+=======
+  <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/recebimentos-operadoras') }}" role="button">
+    <span class="ml-1 nav-user-name hidden-sm"><i style="font-size: 21px; vertical-align: middle;"class="fas fa-donate"></i> Recebimentos</span>
+>>>>>>> 50aa8e09bcf308c2b3dc0ace3fb660e881549f01
   </a>
   <!-- <div class="dropdown-menu dropdown-menu-left" style="background: white;">
   <a style="" class="dropdown-item" href="{{ url('/recebimentos-operadora') }}"> Recebimentos Operadoras</a>

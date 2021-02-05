@@ -36,7 +36,9 @@ Formatter.prototype.set = function(prop = '', value = null) {
 }
 
 Formatter.prototype.format = function(type = 'text', value = '', defaultValue = '') {
-  const valueToFormat = value || defaultValue;
+  const sanitizedValues = this._sanitize(value, defaultValue, type);
+
+  const valueToFormat = sanitizedValues.value || sanitizedValues.defaultValue;
   const formatter = this.get(type) || this._createFormatter(type);
 
   if(!formatter) {
@@ -111,4 +113,25 @@ Formatter.prototype._createDateFormatter = function() {
 
   this.set('date', dateFormatter);
   return dateFormatter;
+}
+
+Formatter.prototype._sanitize = function(value, defaultValue, format) {
+  const sanitizedValues = { value, defaultValue };
+
+  if(!value) {
+    if(['number', 'currency'].includes(format)) {
+      sanitizedValues.value = 0;
+    } else {
+      sanitizedValues.value = '';
+    }
+  }
+  if(!defaultValue) {
+    if(['number', 'currency'].includes(format)) {
+      sanitizedValues.defaultValue = 0;
+    } else {
+      sanitizedValues.defaultValue = '';
+    }
+  }
+
+  return sanitizedValues;
 }

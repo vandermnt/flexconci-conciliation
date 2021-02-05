@@ -5,7 +5,7 @@ namespace App\View\Components\Tables;
 use App\View\Components\Tables\Table;
 use Illuminate\View\Component;
 
-class TabelaVendasOperadoras extends Table
+class TabelaRecebimentosOperadoras extends Table
 {
     /**
      * Create a new component instance.
@@ -24,6 +24,6 @@ class TabelaVendasOperadoras extends Table
      */
     public function render()
     {
-        return view('components.tables.tabela-vendas-operadoras');
+        return view('components.tables.tabela-recebimentos-operadoras');
     }
 }

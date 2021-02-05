@@ -358,6 +358,35 @@ table tr.marcada td {
   margin-left: 4px;
 }
 
+.resultados {
+  margin-top: 48px;
+}
+
+/* Box */
+.boxes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 24px;
+}
+
+.boxes .box h4 {
+  font-size: 0.845rem;
+  font-weight: 700;
+  color: #000444;
+  margin: 0;
+  padding: 0;
+}
+
+.boxes .box p {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.boxes .box img {
+  width: 40px;
+  max-width: 100%;
+}
+
 /* Modais */
 .page-content-tab .modais .modal-dialog button > * {
   pointer-events: none;

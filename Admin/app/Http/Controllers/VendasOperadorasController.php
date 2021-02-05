@@ -64,8 +64,12 @@ class VendasOperadorasController extends Controller
             ->orderBy('DESCRICAO')
             ->get();
 
-        $estabelecimentos = VendasModel::select('ESTABELECIMENTO')
+        $estabelecimentos = VendasModel::select([
+                'ESTABELECIMENTO',
+                'adquirentes.ADQUIRENTE'
+            ])
             ->where('COD_CLIENTE', session('codigologin'))
+            ->leftJoin('adquirentes', 'vendas.ADQID', 'adquirentes.CODIGO')
             ->orderBy('ESTABELECIMENTO', 'asc')
             ->distinct()
             ->get();

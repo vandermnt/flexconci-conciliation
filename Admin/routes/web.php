@@ -79,10 +79,13 @@ Route::group(['middleware' => 'auth'], function() {
   Route::match(['get', 'post'], '/conciliar', 'ConciliacaoAutomaticaVendasController@saveConciliacao');
 
   //VENDAS - RECEBIMENTOS OPERADORAS
-  Route::get('/recebimentos-operadora', 'RecebimentosOperadoraController@recebimentosOperadora');
-  Route::match(['get', 'post'], '/consultar-recebimentos-operadora', 'RecebimentosOperadoraController@consultarRecebimentosOperadoras');
-  Route::get('/download-vendas-operadora', 'RecebimentosOperadoraController@downloadTable');
-
+  // Route::get('/recebimentos-operadora', 'RecebimentosOperadoraController@recebimentosOperadora');
+  // Route::match(['get', 'post'], '/consultar-recebimentos-operadora', 'RecebimentosOperadoraController@consultarRecebimentosOperadoras');
+  // Route::get('/download-vendas-operadora', 'RecebimentosOperadoraController@downloadTable');
+  Route::get('/recebimentos-operadoras', 'RecebimentosOperadorasController@index')->name('recebimentos-operadoras.index');
+  Route::post('/recebimentos-operadoras/buscar', 'RecebimentosOperadorasController@search')->name('recebimentos-operadoras.search');
+  Route::post('/recebimentos-operadoras/filtrar', 'RecebimentosOperadorasController@filter')->name('recebimentos-operadoras.filter');
+  Route::get('/recebimentos-operadoras/exportar', 'RecebimentosOperadorasController@export')->name('recebimentos-operadoras.export');
 
   //VENDAS SISTEMA ERP
   Route::get('/vendas-sistema-erp', 'VendasErpController@vendaserp');
