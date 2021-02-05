@@ -283,10 +283,10 @@ aria-haspopup="false" aria-expanded="false">
 </li>
 
 <li>
-  <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/recebimentos-operadora') }}" role="button">
+  <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/recebimentos-operadoras') }}" role="button">
     <span class="ml-1 nav-user-name hidden-sm"><i style="font-size: 21px; vertical-align: middle;" class="fas fa-donate"></i> Recebimentos</span>
   <!-- <div class="dropdown-menu dropdown-menu-left" style="background: white;">
-  <a style="" class="dropdown-item" href="{{ url('/recebimentos-operadora') }}"> Recebimentos Operadoras</a>
+  <a style="" class="dropdown-item" href="{{ url('/recebimentos-operadoras') }}"> Recebimentos Operadoras</a>
   <a style="" class="dropdown-item" href="#"> Recebimentos Antecipados </a>
   <a style="" class="dropdown-item" href="#"> Despesas Extras (DOC/TEC/Aluguel/Outras/Tarifas)</a>
   <a style="" class="dropdown-item" href="{{ url('/previsao-recebimentos') }}"> Previsão de Recebimentos Futuros</a>
