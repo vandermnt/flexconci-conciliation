@@ -69,7 +69,12 @@ salesContainer.onEvent('fetch', (sales) => {
 salesContainer.onEvent('search', (sales) => {
   const resultadosDOM = document.querySelector('.resultados');
 
-  updateBoxes(sales.get('totals'));
+  const totals = sales.get('totals');
+  updateBoxes({
+    ...totals,
+    TOTAL_TAXA: totals.TOTAL_TAXA * -1,
+    TOTAL_TARIFA_MINIMA: totals.TOTAL_TARIFA_MINIMA * -1
+  });
 
   if (resultadosDOM.classList.contains('hidden')) {
     resultadosDOM.classList.remove('hidden');
@@ -182,6 +187,13 @@ tableRender.onRenderCell((cell, data) => {
   const cellValue = data[cell.dataset.column];
   const defaultCellValue = data[cell.dataset.defaultValue];
   const format = cell.dataset.format || 'text';
+
+  if(cell.dataset.reverseValue) {
+    const reverseValue = tableRender.formatCell(cellValue * -1, format, defaultCellValue * -1);
+    cell.textContent = reverseValue;
+    return;
+  }
+
   const value = tableRender.formatCell(cellValue, format, defaultCellValue);
 
   cell.textContent = value;
