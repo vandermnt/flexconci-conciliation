@@ -271,7 +271,7 @@
             <h6 class="text-dark text-left font-weight-semibold font-12">DIVERGENTE</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="TOTAL_DIVERGENTE">0</p>
-              <img src="assets/images/conciliacao/conciliadodiv.png" alt="Divergente">
+              <img src="assets/images/conciliacao/conciliacao-div.svg" alt="Divergente">
             </div>
           </div>
         </div>
