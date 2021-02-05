@@ -5,7 +5,7 @@
   <nav class="navbar-custom">
     <ul class="list-unstyled topbar-nav float-right mb-0">
       <li class="hidden-sm">
-        <a class="nav-link" data-toggle="modal" data-target="#staticBackdrop" style="font-size: 12px; color: white; cursor: pointer">
+        <a class="nav-link" data-toggle="modal" data-target="#chamado" style="font-size: 12px; color: white; cursor: pointer">
           Abrir chamado
         </a>
       </li>
@@ -242,7 +242,7 @@ aria-haspopup="false" aria-expanded="false">
 </div>
 
 <div class="topbarr" style="margin-top: 70px;">
-  <nav class="navbar-custom" style="background: white; min-height: 50px !important; border-bottom: 4px solid #2d5275">
+  <nav class="navbar-custom" style="background: white; min-height: 50px !important; border-bottom: 2px solid #2d5275">
     <ul class="list-unstyled topbar-nav mb-0" style="margin-left: 30px">
       <li>
         <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user"  href="{{ url('/') }}" role="button">
@@ -278,39 +278,39 @@ aria-haspopup="false" aria-expanded="false">
 
 <li>
   <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/vendas-operadoras') }}" role="button">
-    <span dropzone=""class="ml-1 nav-user-name hidden-sm"><i style="font-size: 21px; vertical-align: middle;" class="fas fa-money-check-alt"></i> Vendas Operadora </span>
+    <span dropzone=""class="ml-1 nav-user-name hidden-sm"><i style="font-size: 21px; vertical-align: middle;" class="fas fa-money-check-alt"></i> Vendas Operadoras </span>
   </a>
 </li>
 
 <li>
   <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/recebimentos-operadora') }}" role="button">
-    <span class="ml-1 nav-user-name hidden-sm"><i style="font-size: 21px; vertical-align: middle;"class="fas fa-donate"></i> Recebimentos</span>
+    <span class="ml-1 nav-user-name hidden-sm"><i style="font-size: 21px; vertical-align: middle;" class="fas fa-donate"></i> Recebimentos</span>
   </a>
   <!-- <div class="dropdown-menu dropdown-menu-left" style="background: white;">
-    <a style="" class="dropdown-item" href="{{ url('/recebimentos-operadora') }}"> Recebimentos Operadoras</a>
-    <a style="" class="dropdown-item" href="#"> Recebimentos Antecipados </a>
-    <a style="" class="dropdown-item" href="#"> Despesas Extras (DOC/TEC/Aluguel/Outras/Tarifas)</a>
-    <a style="" class="dropdown-item" href="{{ url('/previsao-recebimentos') }}"> Previsão de Recebimentos Futuros</a>
-    <a style="" class="dropdown-item" href="{{ url('/antecipacao')}}"> Antecipação Trava Livre</a>
+  <a style="" class="dropdown-item" href="{{ url('/recebimentos-operadora') }}"> Recebimentos Operadoras</a>
+  <a style="" class="dropdown-item" href="#"> Recebimentos Antecipados </a>
+  <a style="" class="dropdown-item" href="#"> Despesas Extras (DOC/TEC/Aluguel/Outras/Tarifas)</a>
+  <a style="" class="dropdown-item" href="{{ url('/previsao-recebimentos') }}"> Previsão de Recebimentos Futuros</a>
+  <a style="" class="dropdown-item" href="{{ url('/antecipacao')}}"> Antecipação Trava Livre</a>
 
 
-  </div> -->
+</div> -->
 </li>
 
 <li>
   <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/previsao-recebimentos') }}" role="button">
-    <span class="ml-1 nav-user-name hidden-sm"><i  style="font-size: 21px; vertical-align: middle;" class="far fa-calendar-alt"></i> Recebimentos Futuros </span>
+    <span class="ml-1 nav-user-name hidden-sm"><i style="font-size: 21px; vertical-align: middle;" class="far fa-calendar-alt"></i> Recebimentos Futuros </span>
   </a>
 </li>
 <!--
 <li>
-  <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
-  aria-haspopup="false" aria-expanded="false">
-  <span dropzone=""class="ml-1 nav-user-name hidden-sm">Cadastros <i class="mdi mdi-chevron-down"></i> </span>
+<a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
+aria-haspopup="false" aria-expanded="false">
+<span dropzone=""class="ml-1 nav-user-name hidden-sm">Cadastros <i class="mdi mdi-chevron-down"></i> </span>
 </a>
 <div class="dropdown-menu dropdown-menu-left" style="background: white;">
-  <a style="" class="dropdown-item" href="{{ url('/historico-bancario') }}"> Histórico Bancário</a>
-  <a style="" class="dropdown-item" href="{{ url('/justificativas') }}"> Justificativas</a>
+<a style="" class="dropdown-item" href="{{ url('/historico-bancario') }}"> Histórico Bancário</a>
+<a style="" class="dropdown-item" href="{{ url('/justificativas') }}"> Justificativas</a>
 
 </div>
 </li> -->
@@ -342,31 +342,37 @@ aria-haspopup="false" aria-expanded="false">
 
 </div>
 
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="chamado" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header fundo-modal">
         <h5 class="modal-title" id="staticBackdropLabel">Abertura de chamado</h5>
       </div>
+      <div class="alert alert-success" role="alert">
+        <strong><i class="fas fa-check-circle"></i> Chamado aberto com sucesso! Em breve entraremos em contato.</strong>
+      </div>
       <div class="modal-body tamanho-modal">
         <div class="row">
           <div class="col-sm-12">
             <h6> Departamento: </h6>
+
           </div>
           <div class="col-sm-12">
-            <input class="form-control" name="departamento">
+            <select id="departamento_chamado" class="form-control" name="departamento">
+              @foreach($departamento_chamado as $departamento)
+              <option value="{{ $departamento->EMAIL_DEPARTAMENTO }}">{{ $departamento->DEPARTAMENTO_CHAMADO}}</option>
+              @endforeach
+            </select>
           </div>
           <div class="col-sm-12">
             <h6> Categoria: </h6>
           </div>
           <div class="col-sm-12">
-            <input class="form-control" name="categoria">
-          </div>
-          <div class="col-sm-12">
-            <h6> Assunto: </h6>
-          </div>
-          <div class="col-sm-12">
-            <input class="form-control" name="assunto">
+            <select id="categoria_chamado" class="form-control" name="categoria">
+              @foreach($categoria_chamado as $categoria)
+              <option value="{{ $categoria->CATEGORIA_CHAMADO}}">{{ $categoria->CATEGORIA_CHAMADO}}</option>
+              @endforeach
+            </select>
           </div>
           <div class="col-sm-12">
             <h6> Mensagem: </h6>
@@ -378,13 +384,46 @@ aria-haspopup="false" aria-expanded="false">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
-        <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addSelecionados({{$grupos_clientes}})"><b>Confirmar</b></button>
+        <button id="enviar_email" type="button" class="btn btn-success"><b>Confirmar</b></button>
       </div>
     </div>
   </div>
 </div>
 
 <script>
+document.querySelector('.alert-success').style.display = 'none';
+
+document.getElementById("enviar_email").addEventListener('click', function(){
+  const departamento = document.querySelector('#departamento_chamado').value;
+  const categoria = document.querySelector('#categoria_chamado').value;
+  const mensagem = document.querySelector('textarea[name="mensagem"]').value;
+
+  const email = {
+    departamento,
+    categoria,
+    mensagem
+  }
+
+  $.ajax({
+    url: "{{ url('enviar-email')}}",
+    type: 'GET',
+    headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+    data: email,
+    success: function(response){
+      document.querySelector('.alert-success').style.display = 'block';
+
+      setTimeout(function() {
+        $('#chamado').modal('hide');
+        document.querySelector('.alert-success').style.display = 'none';
+        document.querySelector('textarea[name="mensagem"]').value = "";
+      }, 3000);
+    },
+    error: function(response){
+      alert("Algo deu errado!");
+    }
+  })
+})
+
 
 function checkNotification(){
   document.getElementById("notification").style.display = "none";
