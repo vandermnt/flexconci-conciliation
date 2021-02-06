@@ -6,6 +6,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use DB;
 
+use App\Filters\VendasErpFilter;
+use App\Filters\VendasErpSubFilter;
 use App\ClienteModel;
 use App\VendasErpModel;
 use App\MeioCaptura;
@@ -142,6 +144,65 @@ class VendasErpController extends Controller {
         'erp' => $erp,
       ]);
   }
+
+  public function search(Request $request) {
+    $allowedPerPage = [10, 20, 50, 100, 200];
+    $perPage = $request->input('por_pagina', 10);
+    $perPage = in_array($perPage, $allowedPerPage) ? $perPage : 10;
+    $filters = $request->all();
+    $filters['cliente_id'] = session('codigologin');
+
+    try {
+        $query = VendasErpFilter::filter($filters)
+            ->getQuery();
+
+        $sales = (clone $query)->paginate($perPage);
+        $totals = [
+            'TOTAL_BRUTO' => (clone $query)->sum(DB::raw('coalesce(`vendas_erp`.`VALOR_VENDA_PARCELA`, `vendas_erp`.`TOTAL_VENDA`)')),
+            'TOTAL_LIQUIDO' => (clone $query)->sum('VALOR_LIQUIDO_PARCELA'),
+        ];
+        $totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
+
+        return response()->json([
+            'vendas' => $sales,
+            'totais' => $totals,
+        ]);
+    } catch(Exception $e) {
+        return response()->json([
+            'message' => 'Não foi possível realizar a consulta em Vendas ERP.',
+        ], 500);
+    }
+}
+
+public function filter(Request $request) {
+    $allowedPerPage = [10, 20, 50, 100, 200];
+    $perPage = $request->input('por_pagina', 10);
+    $perPage = in_array($perPage, $allowedPerPage) ? $perPage : 10;
+    $filters= $request->input('filters'); 
+    $filters['cliente_id'] = session('codigologin');
+    $subfilters = $request->input('subfilters');
+
+    try {
+        $query = VendasErpSubFilter::subfilter($filters, $subfilters)
+            ->getQuery();
+
+        $sales = (clone $query)->paginate($perPage);
+        $totals = [
+          'TOTAL_BRUTO' => (clone $query)->sum(DB::raw('coalesce(`vendas_erp`.`VALOR_VENDA_PARCELA`, `vendas_erp`.`TOTAL_VENDA`)')),
+          'TOTAL_LIQUIDO' => (clone $query)->sum('VALOR_LIQUIDO_PARCELA'),
+        ];
+        $totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
+
+        return response()->json([
+            'vendas' => $sales,
+            'totais' => $totals,
+        ]);
+    } catch(Exception $e) {
+        return response()->json([
+            'message' => 'Não foi possível realizar a consulta em Vendas ERP.',
+        ], 500);
+    }
+}
 
   public function buscarVendasErp(Request $request) {
     $quantidadesPermitidas = [10, 20, 50, 100, 200, '*'];

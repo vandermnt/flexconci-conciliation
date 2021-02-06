@@ -95,8 +95,8 @@ Route::group(['middleware' => 'auth'], function() {
 
   Route::get('/vendas-erp', 'VendasErpController@index')->name('vendas-erp.index');
   Route::get('/vendas-erp/buscar', 'VendasErpController@index')->name('vendas-erp.search');
-  Route::get('/vendas-erp/filtrar', 'VendasErpController@index')->name('vendas-erp.filter');
-  Route::get('/vendas-erp/exportar', 'VendasErpController@index')->name('vendas-erp.export');
+  Route::get('/vendas-erp/filtrar', 'VendasErpController@search')->name('vendas-erp.filter');
+  Route::get('/vendas-erp/exportar', 'VendasErpController@filter')->name('vendas-erp.export');
   //USUARIO
   Route::get('/logout', 'Auth\LoginController@logout');
 
