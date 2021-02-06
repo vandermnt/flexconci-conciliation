@@ -1,0 +1,13 @@
+#pagina-vendas-erp .resultados {
+  margin-top: 48px;
+}
+
+#pagina-vendas-erp .boxes {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+#pagina-vendas-erp table i {
+  font-size: 18px;
+  color: #2d5275;
+  cursor: pointer;
+}
