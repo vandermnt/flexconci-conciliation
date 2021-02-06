@@ -5,7 +5,7 @@
   {{ $renderUrls() }}
 >
   @csrf
-  @if($isFieldVisible('datas_venda'))
+  @if($isFieldVisible('datas'))
     <div class="input-group">
       <x-forms.form-group
         label="Data Inicial:"
@@ -142,6 +142,17 @@
       >
         Selecionar
       </button>
+    </div>
+  @endif
+
+  @if($isFieldVisible('descricao-erp'))
+    <div class="input-group">
+      <x-forms.form-group
+        label="ID. ERP:"
+        id="descricao-erp"
+        type="text"
+        name="descricao_erp"
+      />
     </div>
   @endif
   

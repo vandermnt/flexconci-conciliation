@@ -34,6 +34,7 @@
             'modalidades',
             'status-conciliacao',
             'status-financeiro',
+            'descricao-erp'
           ]"
           :form-data="[
             'empresas' => $empresas,

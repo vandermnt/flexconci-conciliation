@@ -29,7 +29,8 @@
             ['imprimir' => route('vendas-operadoras.print', ['id' => ':id'])],
           ]"
           :hidden-fields="[
-            'domicilios-bancarios'
+            'domicilios-bancarios',
+            'descricao-erp'
           ]"
           :form-data="[
             'empresas' => $empresas,
