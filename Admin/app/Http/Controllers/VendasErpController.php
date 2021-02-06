@@ -6,6 +6,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use DB;
 
+use App\ClienteModel;
 use App\VendasErpModel;
 use App\MeioCaptura;
 use App\StatusConciliacaoModel;
@@ -70,6 +71,75 @@ class VendasErpController extends Controller {
         'adquirentes' => $adquirentes,
         'bandeiras' => $bandeiras,
         'modalidades' => $modalidades,
+      ]);
+  }
+
+  public function index(){
+    $erp = ClienteModel::select(
+      [
+        'erp.ERP',
+        'erp.TITULO_CAMPO_ADICIONAL1 as TITULO_CAMPO1',
+        'erp.TITULO_CAMPO_ADICIONAL2 as TITULO_CAMPO2',
+        'erp.TITULO_CAMPO_ADICIONAL3 as TITULO_CAMPO3'
+      ])
+      ->leftJoin('erp', 'clientes.COD_ERP', 'erp.CODIGO')
+      ->where('clientes.CODIGO', session('codigologin'))
+      ->first();
+    
+    $status_conciliacao = StatusConciliacaoModel::orderBy('STATUS_CONCILIACAO')
+      ->get();
+
+    $status_financeiro = StatusFinanceiroModel::orderBy('STATUS_FINANCEIRO')
+      ->get();
+
+    $empresas = GruposClientesModel::select(['CODIGO', 'NOME_EMPRESA', 'CNPJ'])
+      ->where('COD_CLIENTE', session('codigologin'))
+      ->orderBy('NOME_EMPRESA')
+      ->get();
+
+    $adquirentes = ClienteOperadoraModel::select([
+        'adquirentes.CODIGO',
+        'adquirentes.ADQUIRENTE',
+        'adquirentes.IMAGEM'
+      ])
+      ->join('adquirentes', 'COD_ADQUIRENTE', 'adquirentes.CODIGO')
+      ->where('COD_CLIENTE', '=', session('codigologin'))
+      ->distinct()
+      ->orderBy('ADQUIRENTE')
+      ->get();
+
+    $bandeiras = VendasErpModel::select([
+        'bandeira.CODIGO',
+        'bandeira.BANDEIRA',
+        'bandeira.IMAGEM'
+      ])
+      ->leftJoin('bandeira', 'COD_BANDEIRA', 'bandeira.CODIGO')
+      ->where('COD_CLIENTE', session('codigologin'))
+      ->whereNotNull('bandeira.BANDEIRA')
+      ->distinct()
+      ->orderBy('BANDEIRA')
+      ->get();
+
+    $modalidades = VendasErpModel::select([
+        'modalidade.CODIGO',
+        'modalidade.DESCRICAO'
+      ])
+      ->leftJoin('modalidade', 'modalidade.CODIGO', 'COD_MODALIDADE')
+      ->where('COD_CLIENTE', session('codigologin'))
+      ->whereNotNull('modalidade.DESCRICAO')
+      ->distinct()
+      ->orderBy('DESCRICAO')
+      ->get();
+
+    return view('vendas.vendas-erp')
+      ->with([
+        'status_conciliacao' => $status_conciliacao,
+        'status_financeiro' => $status_financeiro,
+        'empresas' => $empresas,
+        'adquirentes' => $adquirentes,
+        'bandeiras' => $bandeiras,
+        'modalidades' => $modalidades,
+        'erp' => $erp,
       ]);
   }
 

@@ -93,6 +93,10 @@ Route::group(['middleware' => 'auth'], function() {
   // Route::match(['get', 'post'], '/vendass-operadoras', 'VendasController@itensVis');
   // Route::get('/download', 'VendasController@downloadTable');
 
+  Route::get('/vendas-erp', 'VendasErpController@index')->name('vendas-erp.index');
+  Route::get('/vendas-erp/buscar', 'VendasErpController@index')->name('vendas-erp.search');
+  Route::get('/vendas-erp/filtrar', 'VendasErpController@index')->name('vendas-erp.filter');
+  Route::get('/vendas-erp/exportar', 'VendasErpController@index')->name('vendas-erp.export');
   //USUARIO
   Route::get('/logout', 'Auth\LoginController@logout');
 
