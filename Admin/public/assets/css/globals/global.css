@@ -369,6 +369,10 @@ table tr.marcada td {
   grid-gap: 24px;
 }
 
+.boxes .box .card-body {
+  padding: 0.8rem;
+}
+
 .boxes .box h4 {
   font-size: 0.845rem;
   font-weight: 700;
