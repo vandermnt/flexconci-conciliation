@@ -43,7 +43,7 @@
       </div>
     </div>
 
-    <div class="resultados">
+    <div class="resultados hidden">
       <div class="boxes">
         <x-box
           title="BRUTO"

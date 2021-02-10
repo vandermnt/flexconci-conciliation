@@ -83,7 +83,7 @@
           <th>
             <div class="d-flex flex-column align-items-center">
               <p>Cartão</p>
-              <input type="text" class="form-control" name="">
+              <input type="text" class="form-control" name="CARTÃO">
             </div>
           </th>
           <th>
@@ -125,13 +125,13 @@
           <th>
             <div class="d-flex flex-column align-items-center">
               <p>Hora</p>
-              <input type="text" class="form-control" name="">
+              <input type="text" class="form-control" name="HORA">
             </div>
           </th>
           <th>
             <div class="d-flex flex-column align-items-center">
               <p>Estabelecimento</p>
-              <input type="text" class="form-control" name="">
+              <input type="text" class="form-control" name="ESTABELECIMENTO">
             </div>
           </th>
           <th>
@@ -245,7 +245,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr data-id="ID_ERP" class="table-row-template">
+        <tr data-id="ID_ERP" class="table-row-template hidden">
           @isset($actions)
             {{ $actions }}
           @endisset
@@ -292,8 +292,8 @@
           <td data-column="VALOR_LIQUIDO_PARCELA" data-format="currency"></td>
           <td data-column="PARCELA"></td>
           <td data-column="TOTAL_PARCELAS"></td>
-          <td data-column="" data-format="time"></td>
-          <td data-column=""></td>
+          <td data-column="HORA"></td>
+          <td data-column="ESTABELECIMENTO"></td>
           <td
             data-image="BANCO_IMAGEM"
             data-default-image="assets/images/iconCart.jpeg"
