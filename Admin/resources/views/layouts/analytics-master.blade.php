@@ -12,7 +12,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
         <!-- App favicon -->
-        <link rel="shortcut icon" href="{{ URL::asset('assets/images/favconci.jpeg') }}">
+        <link rel="shortcut icon" href="{{ URL::asset('assets/images/favicon.png') }}">
 
         <!-- <script type="module" src = "../node_modules/table-dragger/dist/table-dragger.min.js "> </script> -->
 
