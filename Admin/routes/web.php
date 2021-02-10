@@ -88,15 +88,11 @@ Route::group(['middleware' => 'auth'], function() {
   Route::get('/recebimentos-operadoras/exportar', 'RecebimentosOperadorasController@export')->name('recebimentos-operadoras.export');
 
   //VENDAS SISTEMA ERP
-  Route::get('/vendas-sistema-erp', 'VendasErpController@vendaserp');
-  Route::match(['get', 'post'], '/vendaserpfiltro', 'VendasErpController@buscarVendasErp');
-  // Route::match(['get', 'post'], '/vendass-operadoras', 'VendasController@itensVis');
-  // Route::get('/download', 'VendasController@downloadTable');
-
-  Route::get('/vendas-erp', 'VendasErpController@index')->name('vendas-erp.index');
-  Route::post('/vendas-erp/buscar', 'VendasErpController@search')->name('vendas-erp.search');
-  Route::post('/vendas-erp/filtrar', 'VendasErpController@filter')->name('vendas-erp.filter');
-  Route::get('/vendas-erp/exportar', 'VendasErpController@export')->name('vendas-erp.export');
+  Route::get('/vendas-sistema-erp', 'VendasErpController@index')->name('vendas-erp.index');
+  Route::post('/vendas-sistema-erp/buscar', 'VendasErpController@search')->name('vendas-erp.search');
+  Route::post('/vendas-sistema-erp/filtrar', 'VendasErpController@filter')->name('vendas-erp.filter');
+  Route::get('/vendas-sistema-erp/exportar', 'VendasErpController@export')->name('vendas-erp.export');
+  
   //USUARIO
   Route::get('/logout', 'Auth\LoginController@logout');
 
