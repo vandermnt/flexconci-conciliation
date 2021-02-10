@@ -94,9 +94,9 @@ Route::group(['middleware' => 'auth'], function() {
   // Route::get('/download', 'VendasController@downloadTable');
 
   Route::get('/vendas-erp', 'VendasErpController@index')->name('vendas-erp.index');
-  Route::get('/vendas-erp/buscar', 'VendasErpController@index')->name('vendas-erp.search');
-  Route::get('/vendas-erp/filtrar', 'VendasErpController@search')->name('vendas-erp.filter');
-  Route::get('/vendas-erp/exportar', 'VendasErpController@filter')->name('vendas-erp.export');
+  Route::post('/vendas-erp/buscar', 'VendasErpController@search')->name('vendas-erp.search');
+  Route::post('/vendas-erp/filtrar', 'VendasErpController@filter')->name('vendas-erp.filter');
+  Route::get('/vendas-erp/exportar', 'VendasErpController@export')->name('vendas-erp.export');
   //USUARIO
   Route::get('/logout', 'Auth\LoginController@logout');
 

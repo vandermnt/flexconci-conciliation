@@ -8,6 +8,7 @@ use DB;
 
 use App\Filters\VendasErpFilter;
 use App\Filters\VendasErpSubFilter;
+use App\Exports\VendasErpExport;
 use App\ClienteModel;
 use App\VendasErpModel;
 use App\MeioCaptura;
@@ -153,28 +154,28 @@ class VendasErpController extends Controller {
     $filters['cliente_id'] = session('codigologin');
 
     try {
-        $query = VendasErpFilter::filter($filters)
-            ->getQuery();
+      $query = VendasErpFilter::filter($filters)
+          ->getQuery();
 
-        $sales = (clone $query)->paginate($perPage);
-        $totals = [
-            'TOTAL_BRUTO' => (clone $query)->sum(DB::raw('coalesce(`vendas_erp`.`VALOR_VENDA_PARCELA`, `vendas_erp`.`TOTAL_VENDA`)')),
-            'TOTAL_LIQUIDO' => (clone $query)->sum('VALOR_LIQUIDO_PARCELA'),
-        ];
-        $totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
+      $sales = (clone $query)->paginate($perPage);
+      $totals = [
+          'TOTAL_BRUTO' => (clone $query)->sum(DB::raw('coalesce(`vendas_erp`.`VALOR_VENDA_PARCELA`, `vendas_erp`.`TOTAL_VENDA`)')),
+          'TOTAL_LIQUIDO' => (clone $query)->sum('VALOR_LIQUIDO_PARCELA'),
+      ];
+      $totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
 
-        return response()->json([
-            'vendas' => $sales,
-            'totais' => $totals,
-        ]);
+      return response()->json([
+          'vendas' => $sales,
+          'totais' => $totals,
+      ]);
     } catch(Exception $e) {
-        return response()->json([
-            'message' => 'Não foi possível realizar a consulta em Vendas ERP.',
-        ], 500);
+      return response()->json([
+          'message' => 'Não foi possível realizar a consulta em Vendas ERP.',
+      ], 500);
     }
 }
 
-public function filter(Request $request) {
+  public function filter(Request $request) {
     $allowedPerPage = [10, 20, 50, 100, 200];
     $perPage = $request->input('por_pagina', 10);
     $perPage = in_array($perPage, $allowedPerPage) ? $perPage : 10;
@@ -188,7 +189,7 @@ public function filter(Request $request) {
 
         $sales = (clone $query)->paginate($perPage);
         $totals = [
-          'TOTAL_BRUTO' => (clone $query)->sum(DB::raw('coalesce(`vendas_erp`.`VALOR_VENDA_PARCELA`, `vendas_erp`.`TOTAL_VENDA`)')),
+          'TOTAL_BRUTO' => (clone $query)->sum(DB::raw('coalesce(`VALOR_VENDA_PARCELA`, `TOTAL_VENDA`)')),
           'TOTAL_LIQUIDO' => (clone $query)->sum('VALOR_LIQUIDO_PARCELA'),
         ];
         $totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
@@ -202,6 +203,25 @@ public function filter(Request $request) {
             'message' => 'Não foi possível realizar a consulta em Vendas ERP.',
         ], 500);
     }
+  }
+
+  public function export(Request $request) {
+    set_time_limit(300);
+
+    $headers = ClienteModel::select(
+      [
+        'erp.TITULO_CAMPO_ADICIONAL1 as TITULO_CAMPO1',
+        'erp.TITULO_CAMPO_ADICIONAL2 as TITULO_CAMPO2',
+        'erp.TITULO_CAMPO_ADICIONAL3 as TITULO_CAMPO3'
+      ])
+      ->leftJoin('erp', 'clientes.COD_ERP', 'erp.CODIGO')
+      ->where('clientes.CODIGO', session('codigologin'))
+      ->first();
+
+    $filters = $request->except(['_token']);
+    $subfilters = $request->except(['_token']);
+    Arr::set($filters, 'cliente_id', session('codigologin'));
+    return (new VendasErpExport($filters, $subfilters, $headers))->download('vendas_erp_'.time().'.xlsx');
 }
 
   public function buscarVendasErp(Request $request) {
