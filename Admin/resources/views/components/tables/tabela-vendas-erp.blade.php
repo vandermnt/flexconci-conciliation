@@ -8,7 +8,7 @@
           @isset($actions)
             <th>
               <div class="d-flex flex-column justify-content-end">
-                <p class="m-0">Ações</p>
+                <p class="m-0">{{ $getHeader('actions') ?? 'Ações' }}</p>
               </div>
             </th>
           @endisset

@@ -90,17 +90,17 @@
             'TITULO_CAMPO1' => $erp->TITULO_CAMPO1,
             'TITULO_CAMPO2' => $erp->TITULO_CAMPO2,
             'TITULO_CAMPO3' => $erp->TITULO_CAMPO3,
+            'actions' => 'Ações | Status'
           ]"
         >
           <x-slot name="actions">
-            <td>
-              <a
-                class="link-impressao tooltip-hint"
-                data-title="Visualizar comprovante"
-                data-toggle="modal"
-                data-target="#comprovante-modal"
-              >
-                <i class="fas fa-print"></i>
+            <td class="actions-cell d-flex align-items-center justify-content-center">
+              <div class="tooltip-hint d-flex align-items-center" data-default-title="Visualizar Detalhes">
+                <i class="fas fa-eye"></i>
+              </div>
+              <div class="tooltip-hint" data-title="STATUS_CONCILIACAO">
+                <img data-image="STATUS_CONCILIACAO_IMAGEM">
+              </div>
               </a>
             </td>
           </x-slot>
