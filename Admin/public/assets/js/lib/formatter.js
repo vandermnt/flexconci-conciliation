@@ -102,12 +102,12 @@ Formatter.prototype._createNumberFormatter = function() {
 }
 
 Formatter.prototype._createDateFormatter = function() {
-  const errorRegex = new RegExp(/invalid/gi);
   const locale = this.get('locale');
   const dateFormatter = {
     format: function(date) {
+      const errorRegex = /invalid/gi;
       const formattedDate = new Date(`${date} 00:00:00`).toLocaleDateString(locale);
-      return errorRegex.test(formattedDate) ? null : formattedDate;
+      return formattedDate.match(errorRegex) ? null : formattedDate;
     },
   }
 
