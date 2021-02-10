@@ -391,6 +391,15 @@ table tr.marcada td {
   max-width: 100%;
 }
 
+.table-description h4 {
+  margin: 0;
+}
+
+.table-description img {
+  width: 24px;
+  margin-left: 8px;
+}
+
 /* Modais */
 .page-content-tab .modais .modal-dialog button > * {
   pointer-events: none;

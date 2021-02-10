@@ -74,8 +74,11 @@
 
       <div class="vendas">
         <div class="tabela-info d-flex align-items-center justify-content-between">
-          <h4>Vendas {{ $erp->ERP ?? 'ERP' }} <span id="js-quantidade-registros">(0 registros)</span></h4>
-          <div class="acoes d-flex align-items-center justify-content-end">
+          <div class="table-description d-flex align-items-center justify-content-end">
+            <h4>Vendas {{ $erp->ERP ?? 'ERP' }} <span id="js-quantidade-registros">(0 registros)</span></h4>
+            <img src="assets/images/widgets/arrow-down.svg" alt="Vendas ERP">
+          </div>
+          <div class="acoes d-flex align-items-center justify-content-between">
             <button id="js-exportar" class="btn button no-hover">
               <i class="fas fa-file-download"></i>
               Exportar
@@ -101,7 +104,6 @@
               <div class="tooltip-hint" data-title="STATUS_CONCILIACAO">
                 <img data-image="STATUS_CONCILIACAO_IMAGEM">
               </div>
-              </a>
             </td>
           </x-slot>
         </x-tables.tabela-vendas-erp>
