@@ -43,6 +43,7 @@ class RecebimentosFilter extends BaseFilter {
         'bandeira.BANDEIRA',
         'bandeira.IMAGEM as BANDEIRA_IMAGEM',
         'modalidade.DESCRICAO as MODALIDADE',
+        'tipo_pagamento.TIPO_PAGAMENTO',
         'pagamentos_operadoras.NSU',
         'pagamentos_operadoras.CODIGO_AUTORIZACAO as AUTORIZACAO',
         'vendas.TID',
@@ -81,6 +82,7 @@ class RecebimentosFilter extends BaseFilter {
         ->leftJoin('adquirentes', 'adquirentes.CODIGO', 'pagamentos_operadoras.COD_ADQUIRENTE')
         ->leftJoin('bandeira', 'bandeira.CODIGO', 'pagamentos_operadoras.COD_BANDEIRA')
         ->leftJoin('modalidade', 'modalidade.CODIGO', 'pagamentos_operadoras.COD_FORMA_PAGAMENTO')
+        ->leftJoin('tipo_pagamento', 'tipo_pagamento.CODIGO', 'pagamentos_operadoras.COD_TIPO_PAGAMENTO')
         ->leftJoin('lista_bancos', 'lista_bancos.CODIGO', 'pagamentos_operadoras.COD_BANCO')
         ->leftJoin('meio_captura', 'meio_captura.CODIGO', 'pagamentos_operadoras.COD_MEIO_CAPTURA')
         ->leftJoin('status_conciliacao', 'status_conciliacao.CODIGO', 'pagamentos_operadoras.COD_STATUS')

@@ -68,6 +68,12 @@
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
+            <p>Tipo Recebimento</p>
+            <input type="text" class="form-control" name="TIPO_PAGAMENTO">
+          </div>
+        </th>
+        <th>
+          <div class="d-flex flex-column align-items-center">
             <p>NSU</p>
             <input type="text" class="form-control" name="NSU">
           </div>
@@ -243,6 +249,7 @@
           </div>
         </td>
         <td data-column="MODALIDADE"></td>
+        <td data-column="TIPO_PAGAMENTO"></td>
         <td data-column="NSU"></td>
         <td data-column="AUTORIZACAO"></td>
         <td data-column="TID"></td>
@@ -286,6 +293,7 @@
         @isset($actions)
           <td></td>
         @endisset
+        <td></td>
         <td></td>
         <td></td>
         <td></td>
