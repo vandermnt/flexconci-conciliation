@@ -32,6 +32,7 @@ class RecebimentosFilter extends BaseFilter {
     $this->query = DB::table('pagamentos_operadoras')
       ->select([
         'pagamentos_operadoras.CODIGO as ID',
+        'vendas.ID_VENDAS_ERP as DESCRICAO_ERP',
         'grupos_clientes.NOME_EMPRESA',
         'grupos_clientes.CNPJ',
         'pagamentos_operadoras.DATA_VENDA',

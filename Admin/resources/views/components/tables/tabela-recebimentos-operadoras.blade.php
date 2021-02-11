@@ -14,6 +14,12 @@
         @endisset
         <th>
           <div class="d-flex flex-column align-items-center">
+            <p>ID. ERP</p>
+            <input type="text" class="form-control" name="DESCRICAO_ERP">
+          </div>
+        </th>
+        <th>
+          <div class="d-flex flex-column align-items-center">
             <p>Empresa</p>
             <input type="text" class="form-control" name="NOME_EMPRESA">
           </div>
@@ -205,6 +211,7 @@
         @isset($actions)
           {{ $actions }}
         @endisset
+        <td data-column="DESCRICAO_ERP"></td>
         <td data-column="NOME_EMPRESA"></td>
         <td data-column="CNPJ"></td>
         <td data-column="DATA_VENDA" data-format="date"></td>
@@ -279,6 +286,7 @@
         @isset($actions)
           <td></td>
         @endisset
+        <td></td>
         <td></td>
         <td></td>
         <td></td>
