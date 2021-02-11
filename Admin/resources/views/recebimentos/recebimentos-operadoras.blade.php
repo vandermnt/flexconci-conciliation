@@ -30,16 +30,19 @@
           :hidden-fields="[
             'bandeiras',
             'modalidades',
-            'estabelecimentos',
             'modalidades',
-            'status-conciliacao',
             'status-financeiro',
             'descricao-erp'
           ]"
           :form-data="[
             'empresas' => $empresas,
             'adquirentes' => $adquirentes,
+            'estabelecimentos' => $estabelecimentos,
             'domicilios_bancarios' => $domicilios_bancarios,
+            'status_conciliacao' => $status_conciliacao,
+          ]"
+          :labels="[
+            'status_conciliacao' => 'Status Conciliação Venda:'
           ]"
         />
       </div>
