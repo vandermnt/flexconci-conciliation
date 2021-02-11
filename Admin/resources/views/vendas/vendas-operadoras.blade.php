@@ -85,8 +85,11 @@
 
       <div class="vendas">
         <div class="tabela-info d-flex align-items-center justify-content-between">
-          <h4>Vendas Operadoras <span id="js-quantidade-registros">(0 registros)</span></h4>
-          <div class="acoes d-flex align-items-center justify-content-end">
+          <div class="table-description d-flex align-items-center justify-content-end">
+            <h4>Vendas Operadoras <span id="js-quantidade-registros">(0 registros)</span></h4>
+            <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras">
+          </div>
+          <div class="d-flex align-items-center justify-content-end">
             <button id="js-exportar" class="btn button no-hover">
               <i class="fas fa-file-download"></i>
               Exportar
@@ -97,17 +100,26 @@
         <x-tables.tabela-vendas-operadoras
           id="js-tabela-operadoras"
           class="mt-3"
+          :headers="[
+            'actions' => 'Ações | Status',
+          ]"
         >
           <x-slot name="actions">
-            <td>
+            <td class="actions-cell d-flex align-items-center justify-content-between">
               <a
                 class="link-impressao tooltip-hint"
-                data-title="Visualizar comprovante"
+                data-default-title="Visualizar comprovante"
                 data-toggle="modal"
                 data-target="#comprovante-modal"
               >
                 <i class="fas fa-print"></i>
               </a>
+              <div class="tooltip-hint d-flex align-items-center" data-default-title="Visualizar Detalhes">
+                <i class="fas fa-eye"></i>
+              </div>
+              <div class="tooltip-hint" data-title="STATUS_CONCILIACAO">
+                <img data-image="STATUS_CONCILIACAO_IMAGEM">
+              </div>
             </td>
           </x-slot>
         </x-tables.tabela-vendas-operadoras>
@@ -199,6 +211,7 @@
   <script defer src="{{ URL::asset('assets/js/lib/checker.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/ui/table-render.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/ui/box.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/ui/index.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SalesProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SalesContainerProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
