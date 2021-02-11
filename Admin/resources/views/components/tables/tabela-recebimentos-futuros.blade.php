@@ -241,7 +241,7 @@
           <td data-column="TID"></td>
           <td data-column="CARTAO"></td>
           <td data-column="VALOR_BRUTO" data-format="currency"></td>
-          <td class="text-danger" data-reverse-value="true" data-column="TAXA_PERCENTUAL" data-format="number"></td>
+          <td class="text-danger" data-column="TAXA_PERCENTUAL" data-format="number"></td>
           <td class="text-danger" data-reverse-value="true" data-column="VALOR_TAXA" data-format="currency"></td>
           <td class="text-danger" data-reverse-value="true" data-column="TAXA_ANTECIPACAO_PERCENTUAL" data-format="number"></td>
           <td data-column="VALOR_LIQUIDO" data-format="currency"></td>
