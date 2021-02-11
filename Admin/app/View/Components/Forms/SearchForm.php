@@ -9,17 +9,19 @@ class SearchForm extends Component
     public $hiddenFields;
     public $formData;
     public $urls;
+    public $labels;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($hiddenFields = [], $formData = [], $urls = [])
+    public function __construct($hiddenFields = [], $formData = [], $urls = [], $labels = [])
     {
         $this->hiddenFields = $hiddenFields;
         $this->formData = $formData;
         $this->urls = $urls;
+        $this->labels = $labels;
     }
 
     public function isFieldVisible($fieldName) {
@@ -28,6 +30,10 @@ class SearchForm extends Component
 
     public function getData($dataKey) {
         return $this->formData[$dataKey] ?? null;
+    }
+    
+    public function getLabel($dataKey) {
+        return $this->labels[$dataKey] ?? null;
     }
 
     public function renderUrls() {

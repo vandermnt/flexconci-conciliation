@@ -8,7 +8,7 @@
   @if($isFieldVisible('datas'))
     <div class="input-group">
       <x-forms.form-group
-        label="Data Inicial:"
+        :label="$getLabel('data_inicial') ?? 'Data Inicial:'"
         id="data-inicial"
         type="date"
         name="data_inicial"
@@ -16,7 +16,7 @@
         required 
       />
       <x-forms.form-group
-        label="Data Final:"
+        :label="$getLabel('data_final') ?? 'Data Final:'"
         id="data-final"
         type="date"
         name="data_final"
@@ -29,7 +29,7 @@
   @if($isFieldVisible('empresas'))
     <div class="input-group">
       <x-forms.form-group
-        label="Empresa:"
+        :label="$getLabel('empresa') ?? 'Empresa:'"
         id="empresa"
         type="text"
         data-group="empresa"
@@ -49,7 +49,7 @@
   @if($isFieldVisible('adquirentes'))
     <div class="input-group">
       <x-forms.form-group
-        label="Adquirente:"
+        :label="$getLabel('adquirente') ?? 'Adquirente:'"
         id="adquirente"
         type="text"
         data-group="adquirente"
@@ -69,7 +69,7 @@
   @if($isFieldVisible('bandeiras'))
     <div class="input-group">
       <x-forms.form-group 
-        label="Bandeira:" 
+        :label="$getLabel('bandeira') ?? 'Bandeira:'"
         id="bandeira" 
         type="text"
         data-group="bandeira"
@@ -87,8 +87,8 @@
 
   @if($isFieldVisible('modalidades'))
     <div class="input-group">
-      <x-forms.form-group 
-        label="Forma de Pagamento:" 
+      <x-forms.form-group
+        :label="$getLabel('modalidade') ?? 'Forma de Pagamento:'"
         id="modalidade" 
         type="text"
         data-group="modalidade"
@@ -108,7 +108,7 @@
   @if($isFieldVisible('estabelecimentos'))
     <div class="input-group">
       <x-forms.form-group 
-        label="Código de Estabelecimento:" 
+        :label="$getLabel('estabelecimento') ?? 'Código de Estabelecimento:'"
         id="estabelecimento" 
         type="text"
         data-group="estabelecimento"
@@ -128,7 +128,7 @@
   @if($isFieldVisible('domicilios-bancarios'))
     <div class="input-group">
       <x-forms.form-group 
-        label="Domicílio Bancário:" 
+        :label="$getLabel('domicilio_bancario') ?? 'Domicílio Bancário:'"
         id="domicilio-bancario" 
         type="text"
         data-group="domicilio-bancario"
@@ -148,7 +148,7 @@
   @if($isFieldVisible('descricao-erp'))
     <div class="input-group">
       <x-forms.form-group
-        label="ID. ERP:"
+        :label="$getLabel('descricao_erp') ?? 'ID. ERP:'"
         id="descricao-erp"
         type="text"
         name="descricao_erp"
@@ -158,8 +158,8 @@
   
   @if($isFieldVisible('status-conciliacao'))
     <x-forms.check-group 
-      id="status-conciliacao" 
-      label="Status Conciliação:" 
+      id="status-conciliacao"
+      :label="$getLabel('status_conciliacao') ?? 'Status Conciliação:'"
       name="status_conciliacao[]"
       item-value-key="CODIGO"
       item-description-key="STATUS_CONCILIACAO" 
@@ -173,7 +173,7 @@
   @if($isFieldVisible('status-financeiro'))
     <x-forms.check-group
       id="status-financeiro"
-      label="Status Financeiro:"
+      :label="$getLabel('status_financeiro') ?? 'Status Financeiro:'"
       name="status_financeiro[]"
       item-value-key="CODIGO"
       item-description-key="STATUS_FINANCEIRO"
