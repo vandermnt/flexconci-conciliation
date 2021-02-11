@@ -284,7 +284,8 @@ aria-haspopup="false" aria-expanded="false">
 
 <li>
   <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/recebimentos-operadoras') }}" role="button">
-    <span class="ml-1 nav-user-name hidden-sm"><i style="font-size: 21px; vertical-align: middle;" class="fas fa-donate"></i> Recebimentos</span>
+    <span class="ml-1 nav-user-name hidden-sm"><i style="font-size: 21px; vertical-align: middle;" class="fas fa-donate"></i> Recebimentos & Despesas</span>
+  </a>
   <!-- <div class="dropdown-menu dropdown-menu-left" style="background: white;">
   <a style="" class="dropdown-item" href="{{ url('/recebimentos-operadoras') }}"> Recebimentos Operadoras</a>
   <a style="" class="dropdown-item" href="#"> Recebimentos Antecipados </a>
