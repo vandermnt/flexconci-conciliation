@@ -70,7 +70,11 @@ salesContainer.onEvent('search', (sales) => {
   const resultadosDOM = document.querySelector('.resultados');
 
   const totals = sales.get('totals');
-  updateBoxes(boxes, { ...totals });
+  updateBoxes(boxes, { 
+    ...totals,
+    TOTAL_TAXA: totals.TOTAL_TAXA * -1,
+    TOTAL_TARIFA_MINIMA: totals.TOTAL_TARIFA_MINIMA * -1,
+  });
 
   if (resultadosDOM.classList.contains('hidden')) {
     resultadosDOM.classList.remove('hidden');

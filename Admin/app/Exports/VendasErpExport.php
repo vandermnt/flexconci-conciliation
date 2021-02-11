@@ -85,7 +85,7 @@ class VendasErpExport implements FromQuery, WithStrictNullComparison, ShouldAuto
             $venda->CARTAO." ",
             $venda->VALOR_VENDA ?? 0,
             $venda->TAXA ?? 0,
-            $venda->VALOR_TAXA ?? 0,
+            ($venda->VALOR_TAXA ?? 0) * -1,
             $venda->VALOR_LIQUIDO_PARCELA ?? 0,
             $venda->PARCELA,
             $venda->TOTAL_PARCELAS,
