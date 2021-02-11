@@ -217,7 +217,7 @@ table td[data-image] > .icon-image {
   background-image: url(../../images/bandeiras/vr.png);
   background-image: url(../../images/iconCart.jpeg);
   background-origin: border-box;
-  padding: 20px !important;
+  padding: 12px !important;
   margin: 2px auto;
 }
 
@@ -231,6 +231,10 @@ table tr.marcada {
 
 table tr.marcada td {
   color: white;
+}
+
+td.actions-cell img {
+  width: 16px;
 }
 
 /* Form */
