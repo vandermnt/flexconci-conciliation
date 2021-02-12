@@ -5,7 +5,7 @@
  */
 
 
- 
+
 !function ($) {
   "use strict";
 
@@ -40,9 +40,9 @@
       });
 
       //Warning Message
-      
+
       $('#sa-warning').click(function () {
-          
+
           swal.fire({
               title: 'Are you sure?',
               text: "You won't be able to revert this!",
@@ -75,9 +75,8 @@
       $('#sa-footer').click(function () {
         Swal.fire({
           icon: 'error',
-          title: 'Oops...',
-          text: 'Something went wrong!',
-          footer: '<a href>Why do I have this issue?</a>'
+          title: 'Algo deu errado!',
+          text: 'Credenciais incorretas! E-mail informado não está cadastrado ou a senha está incorreta. Verifique os dados digitados e tente entrar novamente.',
         })
       });
 
@@ -104,7 +103,7 @@
           }
         })
       });
-      
+
       //Parameter
       $('#sa-params').click(function () {
 
@@ -135,10 +134,10 @@
               imageUrl: '../../assets/images/logo-sm.png',
               imageHeight: 80,
               animation: false
-          })            
+          })
       });
 
-      
+
 
       //custom html alert
       $('#custom-html-alert').click(function () {
@@ -298,7 +297,7 @@
             toast.addEventListener('mouseleave', Swal.resumeTimer)
           }
         })
-        
+
         Toast.fire({
           icon: 'success',
           title: 'Signed in successfully'
