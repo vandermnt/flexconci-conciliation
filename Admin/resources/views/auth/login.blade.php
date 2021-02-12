@@ -56,7 +56,7 @@
                                             @csrf
 
                                             <div class="form-group">
-                                                <label for="username">Usuário</label>
+                                                <label for="username">Usuário <label style="color:red; margin-bottom: 0">*</label></label>
                                                 <div class="input-group mb-3">
                                                     <span class="auth-form-icon">
                                                         <i class="dripicons-user"></i>
@@ -67,7 +67,7 @@
                                             <!--end form-group-->
 
                                             <div class="form-group">
-                                                <label for="userpassword">Senha</label>
+                                                <label for="userpassword">Senha <label style="color:red; margin-bottom: 0">*</label></label>
                                                 <div class="input-group mb-3">
                                                     <span class="auth-form-icon">
                                                         <i class="dripicons-lock"></i>
