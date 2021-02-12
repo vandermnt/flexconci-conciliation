@@ -94,7 +94,7 @@
 
                                             <div class="form-group mb-0 row">
                                                 <div class="col-12 mt-2">
-                                                    <a id="submitFormLogin" type="submit" class="btn btn-gradient-primary btn-round btn-block" style="background: #2D5275; color: white" type="button">Log In <i class="fas fa-sign-in-alt ml-1"></i></a>
+                                                    <a id="submitFormLogin" type="submit" class="btn btn-gradient-primary btn-round btn-block" style="background: #2D5275; color: white" type="button">Entrar <i class="fas fa-sign-in-alt ml-1"></i></a>
                                                     <!-- <button id="submitFormLogin" type="submit" class="btn btn-gradient-primary btn-round btn-block" style="background: #2D5275" type="button">Log In <i class="fas fa-sign-in-alt ml-1"></i></button> -->
 
                                                 </div>
