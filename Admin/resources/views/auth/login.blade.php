@@ -8,7 +8,9 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
 
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script> -->
+<link href="{{ URL::asset('plugins/sweet-alert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css">
+<link href="{{ URL::asset('plugins/animate/animate.css')}}" rel="stylesheet" type="text/css">
+
 
 @stop
 
@@ -189,7 +191,30 @@ Launch static backdrop modal
             </div>
         </form>
 
+        <div class="modal fade" id="error-login" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="error-login" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div style="max-height:500px" class="modal-content">
+                        <div class="modal-header" style="background: #2D5275">
+                            <h5 class="modal-title" style="color: white">Clientes</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h6> Credenciais incorretas O e-mail informado não está cadastrado ou a senha está incorreta. Verifique os dados digitados e tente entrar novamente. </h6>
+                        </div>
+                        <!-- <div class="modal-footer" style="background: #2D5275"> -->
+                        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                        <button type="button" class="btn btn-warning"><b>FECHAR</b></button>
+                        <!-- </div> -->
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-gradient-primary waves-effect waves-light" style="display:none" id="sa-footer">Click me</button>
+
     </div>
+    <script src="{{ URL::asset('plugins/sweet-alert2/sweetalert2.min.js')}}"></script>
+    <script src="{{ URL::asset('assets/pages/jquery.sweet-alert.init.js')}}"></script>
     <script>
         var clientes = null;
 
@@ -289,7 +314,14 @@ Launch static backdrop modal
                         }
 
                     } else {
-                        window.location.href = "{{ url('/ ')}}";
+                        console.log("deu ruim");
+
+                        document.getElementById("sa-footer").click();
+
+                        // $("#error-login").modal({
+                        //         show: true
+                        //     });
+                        // window.location.href = "{{ url('/ ')}}";
                     }
                 }
             });
