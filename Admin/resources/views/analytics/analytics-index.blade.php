@@ -444,7 +444,12 @@ font-size: 14px;
                 <h4 id="label_recebimentos">R$ <?php echo number_format($total_mes->val_liquido, 2, ",", ".");  ?> </h4>
               </div>
               <div class="col-6" class="recebimentos">
-                <h4 class="wallet-title m-0">Recebimentos Futuros</h4> <br>
+                <div class="tooltip-hint" data-title='São todos os recebimentos previstos a partir da data atual em diante'>
+                  <h4 class="wallet-title m-0">
+                    <i class="fas fa-info-circle" ></i> Recebimentos Futuros
+                  </h4>
+                </div>
+                <br>
                 <h4>R$ <?php echo number_format($total_futuro->val_liquido, 2, ",", ".");  ?> </h4>
               </div>
             </div>
