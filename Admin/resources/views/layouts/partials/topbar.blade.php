@@ -358,7 +358,7 @@ aria-haspopup="false" aria-expanded="false">
           </div>
           <div class="col-sm-12">
             <select id="departamento_chamado" class="form-control" name="departamento">
-              @foreach($departamento_chamado as $departamento)
+              @foreach( Session::get('departamento_chamado') as $departamento)
               <option value="{{ $departamento->EMAIL_DEPARTAMENTO }}">{{ $departamento->DEPARTAMENTO_CHAMADO}}</option>
               @endforeach
             </select>
@@ -368,7 +368,7 @@ aria-haspopup="false" aria-expanded="false">
           </div>
           <div class="col-sm-12">
             <select id="categoria_chamado" class="form-control" name="categoria">
-              @foreach($categoria_chamado as $categoria)
+              @foreach(Session::get('categoria_chamado') as $categoria)
               <option value="{{ $categoria->CATEGORIA_CHAMADO}}">{{ $categoria->CATEGORIA_CHAMADO}}</option>
               @endforeach
             </select>
