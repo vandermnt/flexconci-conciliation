@@ -73,6 +73,10 @@ Route::group(['middleware' => 'auth'], function() {
   Route::get('/conciliacao-automatica/exportar/operadoras', 'ConciliacaoAutomaticaController@exportarOperadoras')
     ->name('conciliacao-automatica.exportar.operadoras');
 
+  Route::get('/conciliacao-vendas', 'ConciliacaoVendasController@index');
+  Route::post('/conciliacao-vendas/buscar/erp', 'ConciliacaoVendasController@searchErp')->name('conciliacao-vendas.buscarErp');
+  Route::post('/conciliacao-vendas/buscar/operadoras', 'ConciliacaoVendasController@searchOperadoras')->name('conciliacao-vendas.buscarOperadoras');
+
   Route::match(['get', 'post'], '/conciliacao-manual', 'ConciliacaoAutomaticaVendasController@conciliarManualmente');
   Route::match(['get', 'post'], '/conciliacao-justificada-venda', 'ConciliacaoAutomaticaVendasController@conciliacaoJustificadaVenda');
   Route::match(['get', 'post'], '/conciliacao-justificada-vendaerp', 'ConciliacaoAutomaticaVendasController@conciliacaoJustificadaVendaErp');

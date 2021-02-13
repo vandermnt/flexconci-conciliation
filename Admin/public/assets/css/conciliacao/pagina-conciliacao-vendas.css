@@ -1,0 +1,24 @@
+#pagina-conciliacao-vendas .boxes {
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 8px;
+  margin-bottom: 24px;
+}
+
+#pagina-conciliacao-vendas .boxes .box {
+  cursor: pointer;
+  margin: 0;
+}
+
+#pagina-conciliacao-vendas .box img {
+  width: 24px;
+}
+
+#pagina-conciliacao-vendas .box h4,
+#pagina-conciliacao-vendas .box .content {
+  font-size: 0.8rem;
+}
+
+#pagina-conciliacao-vendas .resultados button i {
+  font-size: 16px;
+  margin-right: 4px;
+}

@@ -653,10 +653,10 @@
                 <td data-campo="CAMPO1"></td>
                 <td data-campo="CAMPO2"></td>
                 <td data-campo="CAMPO3"></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td data-campo="DATA_IMPORTACAO" data-format="date"></td>
+                <td data-campo="HORA_IMPORTACAO"></td>
+                <td data-campo="DATA_CONCILIACAO" data-format="date"></td>
+                <td data-campo="HORA_CONCILIACAO"></td>
               </tr>
             </tbody>
             <tfoot>
