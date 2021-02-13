@@ -20,6 +20,7 @@
         </tr>
         <tbody>
           @foreach($dados_vendas as $dado_venda)
+          @if($dado_venda->QUANTIDADE > 0)
           <tr>
             <td> {{ $dado_venda->BANDEIRA }}</td>
             <td> {{ $dado_venda->QUANTIDADE_REAL }}</td>
@@ -28,6 +29,7 @@
             <td> <?php $liquido =  number_format($dado_venda->TOTAL_LIQUIDO, 2, ',', '.'); ?>R$ {{ $liquido }}</td>
             <td> <?php $ticket =  number_format($dado_venda->TICKET_MEDIO, 2, ',', '.'); ?>R$ {{ $ticket }}</td>
           </tr>
+          @endif
           @endforeach
         </tbody>
         <tfoot style="font-weight: bolder">
