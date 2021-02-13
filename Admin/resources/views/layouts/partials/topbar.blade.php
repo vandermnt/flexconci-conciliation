@@ -285,15 +285,15 @@ aria-haspopup="false" aria-expanded="false">
 <li>
   <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/recebimentos-operadora') }}" role="button">
     <span class="ml-1 nav-user-name hidden-sm"><i style="font-size: 21px; vertical-align: middle;" class="fas fa-donate"></i> Recebimentos</span>
-  <!-- <div class="dropdown-menu dropdown-menu-left" style="background: white;">
-  <a style="" class="dropdown-item" href="{{ url('/recebimentos-operadora') }}"> Recebimentos Operadoras</a>
-  <a style="" class="dropdown-item" href="#"> Recebimentos Antecipados </a>
-  <a style="" class="dropdown-item" href="#"> Despesas Extras (DOC/TEC/Aluguel/Outras/Tarifas)</a>
-  <a style="" class="dropdown-item" href="{{ url('/previsao-recebimentos') }}"> Previsão de Recebimentos Futuros</a>
-  <a style="" class="dropdown-item" href="{{ url('/antecipacao')}}"> Antecipação Trava Livre</a>
+    <!-- <div class="dropdown-menu dropdown-menu-left" style="background: white;">
+    <a style="" class="dropdown-item" href="{{ url('/recebimentos-operadora') }}"> Recebimentos Operadoras</a>
+    <a style="" class="dropdown-item" href="#"> Recebimentos Antecipados </a>
+    <a style="" class="dropdown-item" href="#"> Despesas Extras (DOC/TEC/Aluguel/Outras/Tarifas)</a>
+    <a style="" class="dropdown-item" href="{{ url('/previsao-recebimentos') }}"> Previsão de Recebimentos Futuros</a>
+    <a style="" class="dropdown-item" href="{{ url('/antecipacao')}}"> Antecipação Trava Livre</a>
 
 
-</div> -->
+  </div> -->
 </li>
 
 <li>
@@ -357,7 +357,7 @@ aria-haspopup="false" aria-expanded="false">
 
           </div>
           <div class="col-sm-12">
-            <select id="departamento_chamado" class="form-control" name="departamento">
+            <select id="departamento_chamado" onchange="listarCategorias({{Session::get('departamento_chamado')}}, {{Session::get(categoria_chamado)}})" class="form-control" name="departamento">
               @foreach( Session::get('departamento_chamado') as $departamento)
               <option value="{{ $departamento->EMAIL_DEPARTAMENTO }}">{{ $departamento->DEPARTAMENTO_CHAMADO}}</option>
               @endforeach
@@ -368,9 +368,9 @@ aria-haspopup="false" aria-expanded="false">
           </div>
           <div class="col-sm-12">
             <select id="categoria_chamado" class="form-control" name="categoria">
-              @foreach(Session::get('categoria_chamado') as $categoria)
+              <!-- @foreach(Session::get('categoria_chamado') as $categoria)
               <option value="{{ $categoria->CATEGORIA_CHAMADO}}">{{ $categoria->CATEGORIA_CHAMADO}}</option>
-              @endforeach
+              @endforeach -->
             </select>
           </div>
           <div class="col-sm-12">
@@ -390,6 +390,7 @@ aria-haspopup="false" aria-expanded="false">
 </div>
 
 <script>
+
 document.querySelector('.alert-success').style.display = 'none';
 
 document.getElementById("enviar_email").addEventListener('click', function(){
@@ -421,8 +422,26 @@ document.getElementById("enviar_email").addEventListener('click', function(){
       alert("Algo deu errado!");
     }
   })
-})
+});
 
+function listarCategorias(departamentos, categorias){
+  $("#categoria_chamado").empty();
+
+  let select = document.getElementById('departamento_chamado');
+  let value = select.options[select.selectedIndex].value;
+
+  departamentos.forEach((departamento) => {
+    if (departamento.EMAIL_DEPARTAMENTO == value) {
+      categorias.forEach((categoria) => {
+        if (categoria.COD_DEPARTAMENTO == departamento.CODIGO) {
+          let option = new Option(categoria.CATEGORIA_CHAMADO, categoria.CATEGORIA_CHAMADO);
+          let select = document.getElementById("categoria_chamado");
+          select.add(option);
+        }
+      });
+    }
+  });
+}
 
 function checkNotification(){
   document.getElementById("notification").style.display = "none";

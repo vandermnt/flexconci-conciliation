@@ -86,12 +86,11 @@ class DashboardController extends Controller{
     ->where('vendas.COD_CLIENTE', '=', session('codigologin'))
     ->first();
 
-    $departamento_chamado = DB::table('departamento_chamado')->get();
-    $categoria_chamado = DB::table('categoria_chamado')->get();
+    $departamento_chamado = DB::table('departamento_chamado')->orderBy('DEPARTAMENTO_CHAMADO')->get();
+    $categoria_chamado = DB::table('categoria_chamado')->orderBy('CATEGORIA_CHAMADO')->get();
     session()->put('departamento_chamado', $departamento_chamado);
     session()->put('categoria_chamado', $categoria_chamado);
 
-    // dd(session('categoria_chamado'));
     $dados_bancos = DB::table('vendas')
     ->leftJoin('lista_bancos', 'vendas.BANCO', 'lista_bancos.CODIGO')
     ->leftJoin('adquirentes', 'vendas.ADQID', 'adquirentes.CODIGO')
@@ -139,6 +138,7 @@ class DashboardController extends Controller{
     ->with('dados_dash_vendas_modalidade', $dados_dash_vendas_modalidade)
     ->with('dados_dash_vendas', $dados_dash_vendas)
     ->with('dados_dash_vendas_produto', $dados_dash_vendas_produto)
+    ->with('departamento_chamado', $departamento_chamado)
     ->with('dados_cliente', $dados_cliente)
     ->with('data', $data)
     ->with('dados_calendario', $dados_calendario)
