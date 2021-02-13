@@ -473,7 +473,7 @@ font-size: 14px;
                 @foreach($dados_bancos as $bancos)
                 <li class="list-group-item align-items-center d-flex justify-content-between">
                   <div class="col-12 row" style="text-align: center">
-                    <div class="col-2" style="margin: 0">
+                    <div class="col-2 tooltip-hint" data-title="{{ $bancos->BANCO }}" style="margin: 0">
                       <img src="{{ $bancos->IMAGEM}}" class="align-self-center" style="width: 45px; margin-left: -20px;">
                     </div>
                     <div class="col-4 media-body align-self-center">
@@ -1358,13 +1358,14 @@ font-size: 14px;
                 success: function(response) {
                   bancos_dados = response[0];
                   operadoras_dados = response[1];
+                  console.log(bancos_dados);
                   // $('#ul_bancos').empty();
                   response[0].forEach((bancos) => {
                     var html = "<li class='list-group-item align-items-center d-flex justify-content-between'>"
 
                     html += "<div class='col-12 row' style='text-align: center'>"
                     html += "<div class='col-2' style='margin: 0'>"
-                    html += "<img src='" + bancos.IMAGEM + "' class='align-self-center' style='width: 45px; margin-left: -20px;'>"
+                    html += "<div class='tooltip-hint' data-title='"+ bancos.BANCO_NOME + "'><img src='" + bancos.IMAGEM + "' class='align-self-center' style='width: 45px; margin-left: -20px;'></div>"
                     html += "</div>"
                     html += "<div class='col-4 media-body align-self-center'>"
                     html += "<h4 style='font-size: 13px; margin-left: -30px'>" + "AG: " + bancos.AGENCIA + "- C/C: " + bancos.CONTA + "</h4>"
@@ -1389,7 +1390,7 @@ font-size: 14px;
                     var html = "<li class='list-group-item align-items-center d-flex justify-content-between'>"
 
                     html += "<div class='col-12 row'>"
-                    html += "<img src='" + bancos.IMAGEMAD + "' style='width: 60px; ;' class='align-self-center'>"
+                    html += "<div class='tooltip-hint' data-title='"+ bancos.NOME_AD + "'>" + "<img src='" + bancos.IMAGEMAD + "' style='width: 60px; ;' class='align-self-center'></div>"
                     html += "<div class='col-7 media-body align-self-center'>"
                     html += "<h4 class='m-0' style='font-size: 14px; text-align:right; color: #257E4A'>" + Intl.NumberFormat('pt-br', {
                       style: 'currency',
