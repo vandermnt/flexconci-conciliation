@@ -22,7 +22,7 @@
           @foreach($dados_vendas as $dado_venda)
           <tr>
             <td> {{ $dado_venda->BANDEIRA }}</td>
-            <td> {{ $dado_venda->QUANTIDADE }}</td>
+            <td> {{ $dado_venda->QUANTIDADE_REAL }}</td>
             <td> <?php $bruto =  number_format($dado_venda->TOTAL_BRUTO, 2, ',', '.'); ?> R$ {{ $bruto }}</td>
             <td style="color: red"> <?php $taxa =  number_format($dado_venda->TOTAL_TAXA, 2, ',', '.'); ?> R$ {{ $taxa }}</td>
             <td> <?php $liquido =  number_format($dado_venda->TOTAL_LIQUIDO, 2, ',', '.'); ?>R$ {{ $liquido }}</td>

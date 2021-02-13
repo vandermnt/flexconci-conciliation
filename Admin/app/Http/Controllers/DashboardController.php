@@ -163,7 +163,7 @@ class DashboardController extends Controller{
     ];
 
     foreach ($dados_vendas as $vendas) {
-      $total['total_qtde'] += $vendas->QUANTIDADE;
+      $total['total_qtde'] += $vendas->QUANTIDADE_REAL;
       $total['total_bruto'] += $vendas->TOTAL_BRUTO;
       $total['total_taxa'] += $vendas->TOTAL_TAXA;
       $total['total_liquido'] += $vendas->TOTAL_LIQUIDO;
@@ -194,7 +194,7 @@ class DashboardController extends Controller{
     ];
 
     foreach ($dados_vendas as $vendas) {
-      $total['total_qtde'] += $vendas->QUANTIDADE;
+      $total['total_qtde'] += $vendas->QUANTIDADE_REAL;
       $total['total_bruto'] += $vendas->TOTAL_BRUTO;
       $total['total_taxa'] += $vendas->TOTAL_TAXA;
       $total['total_liquido'] += $vendas->TOTAL_LIQUIDO;
@@ -225,7 +225,7 @@ class DashboardController extends Controller{
     ];
 
     foreach ($dados_vendas as $vendas) {
-      $total['total_qtde'] += $vendas->QUANTIDADE;
+      $total['total_qtde'] += $vendas->QUANTIDADE_REAL;
       $total['total_bruto'] += $vendas->TOTAL_BRUTO;
       $total['total_taxa'] += $vendas->TOTAL_TAXA;
       $total['total_liquido'] += $vendas->TOTAL_LIQUIDO;
@@ -256,7 +256,7 @@ class DashboardController extends Controller{
     ];
 
     foreach ($dados_vendas as $vendas) {
-      $total['total_qtde'] += $vendas->QUANTIDADE;
+      $total['total_qtde'] += $vendas->QUANTIDADE_REAL;
       $total['total_bruto'] += $vendas->TOTAL_BRUTO;
       $total['total_taxa'] += $vendas->TOTAL_TAXA;
       $total['total_liquido'] += $vendas->TOTAL_LIQUIDO;
