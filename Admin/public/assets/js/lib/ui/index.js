@@ -143,8 +143,12 @@ function getBoxes() {
 }
 
 function updateBoxes(boxes, totals) {
-  boxes.forEach(box => {
-    box.set('value', totals[box.get('element').dataset.key]);
+  Object.keys(totals).forEach(key => {
+    const box = boxes.find(box => box.get('element').dataset.key.toLowerCase() === key.toLowerCase());
+    if(!box) {
+      return;
+    }
+    box.set('value', totals[key]);
     box.render();
   });
 }
