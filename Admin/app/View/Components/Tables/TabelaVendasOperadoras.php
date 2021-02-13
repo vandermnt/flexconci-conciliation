@@ -12,9 +12,9 @@ class TabelaVendasOperadoras extends Table
      *
      * @return void
      */
-    public function __construct($hiddenColumns = [])
+    public function __construct($hiddenColumns = [], $headers = [])
     {
-        parent::__construct($hiddenColumns);
+        parent::__construct($hiddenColumns, $headers);
     }
 
     /**

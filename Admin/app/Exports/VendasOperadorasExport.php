@@ -75,7 +75,7 @@ class VendasOperadorasExport implements FromQuery, WithStrictNullComparison, Sho
             $venda->CARTAO." ",
             $venda->VALOR_BRUTO ?? 0,
             $venda->PERCENTUAL_TAXA ?? 0,
-            $venda->VALOR_TAXA ?? 0,
+            ($venda->VALOR_TAXA ?? 0) * -1,
             $venda->VALOR_LIQUIDO ?? 0,
             $venda->PARCELA,
             $venda->TOTAL_PARCELAS,

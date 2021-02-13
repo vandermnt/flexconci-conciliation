@@ -217,7 +217,7 @@ table td[data-image] > .icon-image {
   background-image: url(../../images/bandeiras/vr.png);
   background-image: url(../../images/iconCart.jpeg);
   background-origin: border-box;
-  padding: 20px !important;
+  padding: 12px !important;
   margin: 2px auto;
 }
 
@@ -231,6 +231,10 @@ table tr.marcada {
 
 table tr.marcada td {
   color: white;
+}
+
+td.actions-cell img {
+  width: 16px;
 }
 
 /* Form */
@@ -369,6 +373,10 @@ table tr.marcada td {
   grid-gap: 24px;
 }
 
+.boxes .box .card-body {
+  padding: 0.8rem;
+}
+
 .boxes .box h4 {
   font-size: 0.845rem;
   font-weight: 700;
@@ -385,6 +393,15 @@ table tr.marcada td {
 .boxes .box img {
   width: 40px;
   max-width: 100%;
+}
+
+.table-description h4 {
+  margin: 0;
+}
+
+.table-description img {
+  width: 24px;
+  margin-left: 8px;
 }
 
 /* Modais */

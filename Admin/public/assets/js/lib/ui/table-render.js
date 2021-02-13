@@ -142,7 +142,7 @@ TableRender.prototype.render = function() {
         tableRow.classList.remove('table-row-template');
 
         if(onRenderRow && typeof onRenderRow === 'function') {
-          onRenderRow(tableRow);
+          onRenderRow(tableRow, data);
         }
 
         tbody.appendChild(tableRow);

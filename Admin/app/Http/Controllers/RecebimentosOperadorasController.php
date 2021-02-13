@@ -7,6 +7,7 @@ use App\Filters\RecebimentosSubFilter;
 use App\GruposClientesModel;
 use App\ClienteOperadoraModel;
 use App\DomicilioClienteModel;
+use App\StatusConciliacaoModel;
 use App\Exports\RecebimentosOperadorasExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -39,6 +40,15 @@ class RecebimentosOperadorasController extends Controller
       ->distinct()
       ->orderBy('ADQUIRENTE')
       ->get();
+    
+    $estabelecimentos = ClienteOperadoraModel::select([
+        'CODIGO_ESTABELECIMENTO as ESTABELECIMENTO',
+        'adquirentes.ADQUIRENTE'
+      ])
+      ->where('COD_CLIENTE', session('codigologin'))
+      ->leftJoin('adquirentes', 'cliente_operadora.COD_ADQUIRENTE', 'adquirentes.CODIGO')
+      ->orderBy('CODIGO_ESTABELECIMENTO', 'asc')
+      ->get();
 
     $domicilios_bancarios = DomicilioClienteModel::select([
       'domicilio_cliente.CODIGO',
@@ -50,11 +60,16 @@ class RecebimentosOperadorasController extends Controller
       ->where('COD_CLIENTE', session('codigologin'))
       ->orderBy('lista_bancos.NOME_WEB')
       ->get();
+
+    $status_conciliacao = StatusConciliacaoModel::orderBy('STATUS_CONCILIACAO')
+      ->get();
     
     return view('recebimentos.recebimentos-operadoras')->with([
       'empresas' => $empresas,
       'adquirentes' => $adquirentes,
+      'estabelecimentos' => $estabelecimentos,
       'domicilios_bancarios' => $domicilios_bancarios,
+      'status_conciliacao' => $status_conciliacao
     ]);
   }
 

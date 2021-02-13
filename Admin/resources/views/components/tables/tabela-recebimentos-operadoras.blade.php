@@ -1,7 +1,7 @@
 <div class="table-responsive {{ $attributes->get('class') }}">
   <table
     class="table table-striped"
-    id="{{ $attributes->get('id') ?? 'js-tabela-vendas-operadoras' }}"
+    id="{{ $attributes->get('id') ?? 'js-table' }}"
   >
     <thead>
       <tr>
@@ -12,6 +12,12 @@
             </div>
           </th>
         @endisset
+        <th>
+          <div class="d-flex flex-column align-items-center">
+            <p>ID. ERP</p>
+            <input type="text" class="form-control" name="DESCRICAO_ERP">
+          </div>
+        </th>
         <th>
           <div class="d-flex flex-column align-items-center">
             <p>Empresa</p>
@@ -58,6 +64,12 @@
           <div class="d-flex flex-column align-items-center">
             <p>Forma de Pagamento</p>
             <input type="text" class="form-control" name="MODALIDADE">
+          </div>
+        </th>
+        <th>
+          <div class="d-flex flex-column align-items-center">
+            <p>Tipo Recebimento</p>
+            <input type="text" class="form-control" name="TIPO_PAGAMENTO">
           </div>
         </th>
         <th>
@@ -205,6 +217,7 @@
         @isset($actions)
           {{ $actions }}
         @endisset
+        <td data-column="DESCRICAO_ERP"></td>
         <td data-column="NOME_EMPRESA"></td>
         <td data-column="CNPJ"></td>
         <td data-column="DATA_VENDA" data-format="date"></td>
@@ -236,12 +249,13 @@
           </div>
         </td>
         <td data-column="MODALIDADE"></td>
+        <td data-column="TIPO_PAGAMENTO"></td>
         <td data-column="NSU"></td>
         <td data-column="AUTORIZACAO"></td>
         <td data-column="TID"></td>
         <td data-column="CARTAO"></td>
         <td data-column="VALOR_BRUTO" data-format="currency"></td>
-        <td class="text-danger" data-reverse-value="true" data-column="TAXA_PERCENTUAL" data-format="number"></td>
+        <td class="text-danger" data-column="TAXA_PERCENTUAL" data-format="number"></td>
         <td class="text-danger" data-reverse-value="true" data-column="VALOR_TAXA" data-format="currency"></td>
         <td class="text-danger" data-reverse-value="true" data-column="TAXA_ANTECIPACAO_PERCENTUAL" data-format="number"></td>
         <td data-column="VALOR_LIQUIDO" data-format="currency"></td>
@@ -279,6 +293,8 @@
         @isset($actions)
           <td></td>
         @endisset
+        <td></td>
+        <td></td>
         <td></td>
         <td></td>
         <td></td>

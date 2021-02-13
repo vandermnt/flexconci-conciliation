@@ -21,12 +21,31 @@ function createTableRender({ table = '', locale = 'pt-br', formatter }) {
     formatter,
   });
 
-  tableRender.onRenderRow(row => {
+  tableRender.onRenderRow((row, data) => {
     const selectedRows = tableRender.get('selectedRows');
     row.classList.remove('marcada');
     if (selectedRows.includes(row.dataset.id)) {
       row.classList.add('marcada');
     }
+
+    Array.from(row.querySelectorAll('.actions-cell .tooltip-hint')).forEach((element) => {
+      const title = data[element.dataset.title];
+      const defaultTitle = element.dataset.defaultTitle;
+  
+      element.dataset.title = tableRender.formatCell(title, 'text', defaultTitle);
+    });
+    
+    Array.from(row.querySelectorAll('.actions-cell img[data-image]')).forEach((element) => {
+      const image = data[element.dataset.image];
+      const defaultImage = element.dataset.defaultImage;
+
+      const src = image || defaultImage;
+
+      if(src) {
+        element.dataset.image = src;
+        element.src = src;
+      }
+    });
   });
 
   tableRender.onRenderCell((cell, data) => {
@@ -36,6 +55,13 @@ function createTableRender({ table = '', locale = 'pt-br', formatter }) {
   
       cell.dataset.title = tableRender.formatCell(title, 'text', defaultTitle);
     }
+
+    Array.from(cell.querySelectorAll('.tooltip')).forEach((element) => {
+      const title = data[element.dataset.title];
+      const defaultTitle = element.dataset.defaultTitle;
+  
+      element.dataset.title = tableRender.formatCell(title, 'text', defaultTitle);
+    });
   
     if (cell.dataset.image) {
       const iconContainer = cell.querySelector('.icon-image');

@@ -10,6 +10,7 @@ class RecebimentosSubFilter extends BaseSubFilter {
   protected $query = null;
   protected $whiteList = [
     'ID',
+    'DESCRICAO_ERP',
     'NOME_EMPRESA',
     'CNPJ',
     'DATA_VENDA',
@@ -18,6 +19,7 @@ class RecebimentosSubFilter extends BaseSubFilter {
     'ADQUIRENTE',
     'BANDEIRA',
     'MODALIDADE',
+    'TIPO_PAGAMENTO',
     'NSU',
     'AUTORIZACAO',
     'TID',

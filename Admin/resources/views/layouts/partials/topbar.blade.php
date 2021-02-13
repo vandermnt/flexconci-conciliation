@@ -291,13 +291,23 @@ aria-haspopup="false" aria-expanded="false">
     <a style="" class="dropdown-item" href="#"> Despesas Extras (DOC/TEC/Aluguel/Outras/Tarifas)</a>
     <a style="" class="dropdown-item" href="{{ url('/previsao-recebimentos') }}"> Previsão de Recebimentos Futuros</a>
     <a style="" class="dropdown-item" href="{{ url('/antecipacao')}}"> Antecipação Trava Livre</a>
+=======
+  <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/recebimentos-operadoras') }}" role="button">
+    <span class="ml-1 nav-user-name hidden-sm"><i style="font-size: 21px; vertical-align: middle;" class="fas fa-donate"></i> Recebimentos & Despesas</span>
+  </a>
+   <div class="dropdown-menu dropdown-menu-left" style="background: white;">
+  <a style="" class="dropdown-item" href="{{ url('/recebimentos-operadoras') }}"> Recebimentos Operadoras</a>
+  <a style="" class="dropdown-item" href="#"> Recebimentos Antecipados </a>
+  <a style="" class="dropdown-item" href="#"> Despesas Extras (DOC/TEC/Aluguel/Outras/Tarifas)</a>
+  <a style="" class="dropdown-item" href="{{ route('recebimentos-futuros.index') }}"> Previsão de Recebimentos Futuros</a>
+  <a style="" class="dropdown-item" href="{{ url('/antecipacao')}}"> Antecipação Trava Livre</a>
 
 
   </div> -->
 </li>
 
 <li>
-  <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/previsao-recebimentos') }}" role="button">
+  <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('recebimentos-futuros.index') }}" role="button">
     <span class="ml-1 nav-user-name hidden-sm"><i style="font-size: 21px; vertical-align: middle;" class="far fa-calendar-alt"></i> Recebimentos Futuros </span>
   </a>
 </li>

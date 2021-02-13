@@ -12,7 +12,7 @@
 
 
         <!-- App favicon -->
-        <link rel="shortcut icon" href="{{ URL::asset('assets/images/favconci.jpeg') }}">
+        <link rel="shortcut icon" href="{{ URL::asset('assets/images/favicon.png') }}">
 
         <!-- App css -->
         <link href="{{ URL::asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />

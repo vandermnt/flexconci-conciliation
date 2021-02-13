@@ -88,11 +88,11 @@ Route::group(['middleware' => 'auth'], function() {
   Route::get('/recebimentos-operadoras/exportar', 'RecebimentosOperadorasController@export')->name('recebimentos-operadoras.export');
 
   //VENDAS SISTEMA ERP
-  Route::get('/vendas-sistema-erp', 'VendasErpController@vendaserp');
-  Route::match(['get', 'post'], '/vendaserpfiltro', 'VendasErpController@buscarVendasErp');
-  // Route::match(['get', 'post'], '/vendass-operadoras', 'VendasController@itensVis');
-  // Route::get('/download', 'VendasController@downloadTable');
-
+  Route::get('/vendas-sistema-erp', 'VendasErpController@index')->name('vendas-erp.index');
+  Route::post('/vendas-sistema-erp/buscar', 'VendasErpController@search')->name('vendas-erp.search');
+  Route::post('/vendas-sistema-erp/filtrar', 'VendasErpController@filter')->name('vendas-erp.filter');
+  Route::get('/vendas-sistema-erp/exportar', 'VendasErpController@export')->name('vendas-erp.export');
+  
   //USUARIO
   Route::get('/logout', 'Auth\LoginController@logout');
 
@@ -128,9 +128,12 @@ Route::group(['middleware' => 'auth'], function() {
   Route::post('/dados-cliente', 'ClienteController@dadosCliente');
 
   //RECEBIMENTOS - PREVISÃO RECEBIMENTOS
-  Route::get('/previsao-recebimentos', 'PrevisaoRecebimentosController@previsaoRecebimentos');
-  Route::post('/previsaorecebimentos', 'PrevisaoRecebimentosController@loadPrevisaoRecebimentos');
-
+  // Route::get('/previsao-recebimentos', 'PrevisaoRecebimentosController@previsaoRecebimentos');
+  // Route::post('/previsaorecebimentos', 'PrevisaoRecebimentosController@loadPrevisaoRecebimentos');
+  Route::get('/recebimentos-futuros', 'RecebimentosFuturosController@index')->name('recebimentos-futuros.index');
+  Route::post('/recebimentos-futuros/buscar', 'RecebimentosFuturosController@search')->name('recebimentos-futuros.search');
+  Route::post('/recebimentos-futuros/filtrar', 'RecebimentosFuturosController@filter')->name('recebimentos-futuros.filter');
+  Route::get('/recebimentos-futuros/exportar', 'RecebimentosFuturosController@export')->name('recebimentos-futuros.export');
 });
 
 Route::get('/credenciamento-cielo', function() {

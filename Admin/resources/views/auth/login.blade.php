@@ -116,7 +116,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-9 p-0 h-100vh d-flex justify-content-center" style="background: url('assets/images/fundoLog.png'); background-size: cover;">
+            <div class="col-lg-9 p-0 h-100vh d-flex justify-content-center" style="background: url('assets/images/login-cover.jpg'); background-size: cover; background-repeat: no-repeat;">
                 <div class="align-items-center">
                     <div>
                         <!-- <img src="{{ URL::asset('assets/images/logo-sm.png')}}" alt="" class="thumb-sm">

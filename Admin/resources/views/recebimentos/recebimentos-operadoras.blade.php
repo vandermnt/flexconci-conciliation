@@ -30,15 +30,19 @@
           :hidden-fields="[
             'bandeiras',
             'modalidades',
-            'estabelecimentos',
             'modalidades',
-            'status-conciliacao',
             'status-financeiro',
+            'descricao-erp'
           ]"
           :form-data="[
             'empresas' => $empresas,
             'adquirentes' => $adquirentes,
+            'estabelecimentos' => $estabelecimentos,
             'domicilios_bancarios' => $domicilios_bancarios,
+            'status_conciliacao' => $status_conciliacao,
+          ]"
+          :labels="[
+            'status_conciliacao' => 'Status Conciliação Venda:'
           ]"
         />
       </div>
@@ -117,7 +121,10 @@
 
       <div class="content">
         <div class="d-flex align-items-center justify-content-between">
-          <h4>Recebimentos Operadoras <span id="js-quantidade-registros">(0 registros)</span></h4>
+          <div class="table-description d-flex align-items-center justify-content-end">
+            <h4>Recebimentos Operadoras <span id="js-quantidade-registros">(0 registros)</span></h4>
+            <img src="assets/images/widgets/arrow-down.svg" alt="Vendas ERP">
+          </div>
           <div class="actions d-flex align-items-center justify-content-end">
             <button id="js-exportar" class="btn button no-hover">
               <i class="fas fa-file-download"></i>
