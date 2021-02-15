@@ -109,8 +109,47 @@ searchForm.onSubmit(async (event) => {
   if (resultadosDOM.classList.contains('hidden')) {
     resultadosDOM.classList.remove('hidden');
   }
+
+  tableRender.clearFilters();
+  tableRenderErp.clearFilters();
   window.scrollTo(0, document.querySelector('.resultados').offsetTop);
   console.log(responses);
+});
+
+tableRender.onFilter(async (filters) => {
+  toggleElementVisibility('#js-loader');
+
+  const params = {
+    por_pagina: document.querySelector('#js-por-pagina-operadoras').value,
+  };
+
+  salesContainer.toggleActiveData('filter');
+  if (Object.keys(filters).length === 0) {
+    salesContainer.toggleActiveData('search');
+    params.page = 1;
+  }
+
+  await buildRequest('operadoras', params).get();
+  
+  toggleElementVisibility('#js-loader');
+});
+
+tableRenderErp.onFilter(async (filters) => {
+  toggleElementVisibility('#js-loader');
+
+  const params = {
+    por_pagina: document.querySelector('#js-por-pagina-erp').value,
+  };
+
+  salesErpContainer.toggleActiveData('filter');
+  if (Object.keys(filters).length === 0) {
+    salesErpContainer.toggleActiveData('search');
+    params.page = 1;
+  }
+
+  await buildRequest('erp', params).get();
+
+  toggleElementVisibility('#js-loader');
 });
 
 salesContainer.onEvent('fetch', (sales) => {

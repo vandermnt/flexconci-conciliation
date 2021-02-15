@@ -24,7 +24,9 @@
           id="js-form-pesquisa"
           :urls="[
             ['buscar-erp' => route('conciliacao-vendas.buscarErp')],
+            ['filtrar-erp' => route('conciliacao-vendas.filtrarErp')],
             ['buscar-operadoras' => route('conciliacao-vendas.buscarOperadoras')],
+            ['filtrar-operadoras' => route('conciliacao-vendas.filtrarOperadoras')],
           ]"
           :hidden-fields="[
             'adquirentes',

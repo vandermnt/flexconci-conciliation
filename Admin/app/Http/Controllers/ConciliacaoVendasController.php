@@ -108,14 +108,14 @@ class ConciliacaoVendasController extends Controller
         $subfilters = $request->input('subfilters');
 
         try {
-            $query = VendasErpSubFilter::subfilter($filtros, $subfiltros)->getQuery();
+            $query = VendasErpSubFilter::subfilter($filters, $subfilters)->getQuery();
 
             $sales = (clone $query)->paginate($per_page);
             $totals = [
                 'TOTAL_BRUTO' => $query->sum('VALOR_VENDA'),
                 'TOTAL_LIQUIDO' => $query->sum('VALOR_LIQUIDO_PARCELA')
             ];
-            $totals['TOTAL_TAXA'] = $totais['TOTAL_BRUTO'] - $totais['TOTAL_LIQUIDO'];
+            $totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
 
             return response()->json([
                 'vendas' => $sales,
@@ -156,6 +156,40 @@ class ConciliacaoVendasController extends Controller
                 'totais' => $totals
             ]);
         } catch(Exception $e) {
+            return response()->json([
+                'mensagem' => 'Não foi possível realizar a consulta em Vendas Operadoras.'
+            ], 500);
+        }
+    }
+
+    public function filterOperadoras(Request $request) {
+        $per_page = $this->getPerPage(
+            $request->input('por_pagina', null), 
+            [5, 10, 20, 50, 100, 200]
+        );
+        $filters = $filters = $request->input('filters');
+        $filters['cliente_id'] = session('codigologin');
+        $subfilters = $request->input('subfilters');
+
+        try {
+            $status_nao_conciliada = StatusConciliacaoModel::naoConciliada()->first()->CODIGO;
+            $filters['status_conciliacao'] = [$status_nao_conciliada];
+            
+            $query = VendasSubFilter::subfilter($filters, $subfilters)
+                        ->getQuery();
+
+            $sales = (clone $query)->paginate($per_page);
+            $totals = [
+                'TOTAL_BRUTO' => $query->sum('VALOR_BRUTO'),
+                'TOTAL_LIQUIDO' => $query->sum('VALOR_LIQUIDO')
+            ];
+            $totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
+
+            return response()->json([
+                'vendas' => $sales,
+                'totais' => $totals,
+            ]);
+        } catch (Exception $e) {
             return response()->json([
                 'mensagem' => 'Não foi possível realizar a consulta em Vendas Operadoras.'
             ], 500);

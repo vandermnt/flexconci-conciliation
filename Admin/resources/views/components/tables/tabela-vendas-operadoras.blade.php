@@ -267,7 +267,9 @@
         <td data-column="PRODUTO"></td>
         <td data-column="MEIOCAPTURA"></td>
         <td data-column="STATUS_CONCILIACAO"></td>
-        <td data-column="DIVERGENCIA"></td>
+        @if($isColumnVisible('DIVERGENCIA'))
+          <td data-column="DIVERGENCIA"></td>
+        @endif
         <td data-column="STATUS_FINANCEIRO"></td>
         <td data-column="JUSTIFICATIVA"></td>
       </tr>
