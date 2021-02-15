@@ -1002,6 +1002,8 @@ function retornoErp() {
     })
     .finally(() => {
       alternarVisibilidade(loader);
+      const dataInicial = document.querySelector('#modal-retorno-erp #js-data-inicial').value = "";
+      const dataFinal = document.querySelector('#modal-retorno-erp #js-data-final').value = "";
     });
 }
 
