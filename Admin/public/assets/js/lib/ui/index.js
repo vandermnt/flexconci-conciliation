@@ -1,3 +1,99 @@
+const _defaultEvents = {
+  table: {
+    onRenderRow: function(row, data) {
+      const selectedRows = tableRender.get('selectedRows');
+      row.classList.remove('marcada');
+      if (selectedRows.includes(row.dataset.id)) {
+        row.classList.add('marcada');
+      }
+  
+      Array.from(row.querySelectorAll('.actions-cell .tooltip-hint')).forEach((element) => {
+        const title = data[element.dataset.title];
+        const defaultTitle = element.dataset.defaultTitle;
+    
+        element.dataset.title = tableRender.formatCell(title, 'text', defaultTitle);
+      });
+      
+      Array.from(row.querySelectorAll('.actions-cell img[data-image]')).forEach((element) => {
+        const image = data[element.dataset.image];
+        const defaultImage = element.dataset.defaultImage;
+  
+        const src = image || defaultImage;
+  
+        if(src) {
+          element.dataset.image = src;
+          element.src = src;
+        }
+      });
+    },
+    onRenderCell: function(cell, data) {
+      if (cell.classList.contains('tooltip-hint')) {
+        const title = data[cell.dataset.title];
+        const defaultTitle = cell.dataset.defaultTitle;
+    
+        cell.dataset.title = tableRender.formatCell(title, 'text', defaultTitle);
+      }
+  
+      Array.from(cell.querySelectorAll('.tooltip')).forEach((element) => {
+        const title = data[element.dataset.title];
+        const defaultTitle = element.dataset.defaultTitle;
+    
+        element.dataset.title = tableRender.formatCell(title, 'text', defaultTitle);
+      });
+    
+      if (cell.dataset.image) {
+        const iconContainer = cell.querySelector('.icon-image');
+        const imageUrl = data[cell.dataset.image];
+        const defaultImageUrl = cell.dataset.defaultImage;
+    
+        if (imageUrl || defaultImageUrl) {
+          iconContainer.style.backgroundImage = `url("${imageUrl || defaultImageUrl}")`;
+          const title = data[iconContainer.dataset.title];
+          const defaultTitle = iconContainer.dataset.defaultTitle;
+    
+          iconContainer.dataset.title = tableRender.formatCell(title, 'text', defaultTitle);
+          return;
+        }
+        iconContainer.classList.toggle('hidden');
+      }
+    
+      const cellValue = data[cell.dataset.column];
+      const defaultCellValue = data[cell.dataset.defaultValue];
+      const format = cell.dataset.format || 'text';
+  
+      if(cell.dataset.reverseValue) {
+        const reverseValue = tableRender.formatCell(cellValue * -1, format, defaultCellValue * -1);
+        cell.textContent = reverseValue;
+        return;
+      }
+  
+      const value =  tableRender.formatCell(cellValue, format, defaultCellValue);
+      cell.textContent = value;
+    },
+    onSelectRow: function(elementDOM, selectedRows) {
+      let tr = elementDOM;
+      if (['a', 'i'].includes(elementDOM.tagName.toLowerCase())) {
+        return;
+      }
+    
+      if (elementDOM.tagName.toLowerCase() !== 'tr') {
+        tr = elementDOM.closest('tr');
+      }
+    
+      if (!tr) {
+        return;
+      }
+    
+      tr.classList.remove('marcada');
+      if (selectedRows.includes(tr.dataset.id)) {
+        tr.classList.add('marcada');
+      } else {
+        tr.classList.remove('marcada');
+      }
+    }
+  }
+}
+
 function createSearchForm({ form, inputs, checker }) {
   const searchForm = new SearchFormProxy({
     form,
@@ -21,99 +117,11 @@ function createTableRender({ table = '', locale = 'pt-br', formatter }) {
     formatter,
   });
 
-  tableRender.onRenderRow((row, data) => {
-    const selectedRows = tableRender.get('selectedRows');
-    row.classList.remove('marcada');
-    if (selectedRows.includes(row.dataset.id)) {
-      row.classList.add('marcada');
-    }
+  tableRender.onRenderRow(_defaultEvents.table.onRenderRow);
 
-    Array.from(row.querySelectorAll('.actions-cell .tooltip-hint')).forEach((element) => {
-      const title = data[element.dataset.title];
-      const defaultTitle = element.dataset.defaultTitle;
-  
-      element.dataset.title = tableRender.formatCell(title, 'text', defaultTitle);
-    });
-    
-    Array.from(row.querySelectorAll('.actions-cell img[data-image]')).forEach((element) => {
-      const image = data[element.dataset.image];
-      const defaultImage = element.dataset.defaultImage;
+  tableRender.onRenderCell(_defaultEvents.table.onRenderCell);
 
-      const src = image || defaultImage;
-
-      if(src) {
-        element.dataset.image = src;
-        element.src = src;
-      }
-    });
-  });
-
-  tableRender.onRenderCell((cell, data) => {
-    if (cell.classList.contains('tooltip-hint')) {
-      const title = data[cell.dataset.title];
-      const defaultTitle = cell.dataset.defaultTitle;
-  
-      cell.dataset.title = tableRender.formatCell(title, 'text', defaultTitle);
-    }
-
-    Array.from(cell.querySelectorAll('.tooltip')).forEach((element) => {
-      const title = data[element.dataset.title];
-      const defaultTitle = element.dataset.defaultTitle;
-  
-      element.dataset.title = tableRender.formatCell(title, 'text', defaultTitle);
-    });
-  
-    if (cell.dataset.image) {
-      const iconContainer = cell.querySelector('.icon-image');
-      const imageUrl = data[cell.dataset.image];
-      const defaultImageUrl = cell.dataset.defaultImage;
-  
-      if (imageUrl || defaultImageUrl) {
-        iconContainer.style.backgroundImage = `url("${imageUrl || defaultImageUrl}")`;
-        const title = data[iconContainer.dataset.title];
-        const defaultTitle = iconContainer.dataset.defaultTitle;
-  
-        iconContainer.dataset.title = tableRender.formatCell(title, 'text', defaultTitle);
-        return;
-      }
-      iconContainer.classList.toggle('hidden');
-    }
-  
-    const cellValue = data[cell.dataset.column];
-    const defaultCellValue = data[cell.dataset.defaultValue];
-    const format = cell.dataset.format || 'text';
-
-    if(cell.dataset.reverseValue) {
-      const reverseValue = tableRender.formatCell(cellValue * -1, format, defaultCellValue * -1);
-      cell.textContent = reverseValue;
-      return;
-    }
-
-    const value =  tableRender.formatCell(cellValue, format, defaultCellValue);
-    cell.textContent = value;
-  });
-
-  tableRender.onSelectRow((elementDOM, selectedRows) => {
-    let tr = elementDOM;
-    if (['a', 'i'].includes(elementDOM.tagName.toLowerCase())) {
-      return;
-    }
-  
-    if (elementDOM.tagName.toLowerCase() !== 'tr') {
-      tr = elementDOM.closest('tr');
-    }
-  
-    if (!tr) {
-      return;
-    }
-  
-    tr.classList.remove('marcada');
-    if (selectedRows.includes(tr.dataset.id)) {
-      tr.classList.add('marcada');
-    } else {
-      tr.classList.remove('marcada');
-    }
-  });
+  tableRender.onSelectRow(_defaultEvents.table.onSelectRow);
 
   return tableRender;
 }
