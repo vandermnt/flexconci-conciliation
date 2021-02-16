@@ -707,7 +707,7 @@ background: #0B173B;
   }
 
   .topbar .navbar-custom {
-    margin-left: 70px;
+    /* margin-left: 70px; */
   }
 
   .topbar .app-search .form-control,
@@ -2632,7 +2632,7 @@ File: leftbar-tab Css
   }
 
   .navbar-custom {
-    margin-left: 70px;
+    /* margin-left: 70px; */
   }
 
   .navbar-custom .responsive-logo {

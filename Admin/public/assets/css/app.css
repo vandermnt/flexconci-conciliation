@@ -663,7 +663,7 @@ File: Topbar
   }
 
   .topbar .navbar-custom {
-    margin-left: 70px;
+    /* margin-left: 70px; */
   }
 
   .topbar .app-search .form-control,
