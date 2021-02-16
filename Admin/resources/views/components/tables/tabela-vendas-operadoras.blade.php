@@ -176,12 +176,14 @@
             <input type="text" class="form-control" name="STATUS_CONCILIACAO">
           </div>
          </th>
-        <th>
-          <div class="d-flex flex-column align-items-center">
-            <p>Divergência</p>
-            <input type="text" class="form-control" name="DIVERGENCIA">
-          </div>
-         </th>
+         @if($isColumnVisible('DIVERGENCIA'))
+          <th>
+            <div class="d-flex flex-column align-items-center">
+              <p>Divergência</p>
+              <input type="text" class="form-control" name="DIVERGENCIA">
+            </div>
+          </th>
+         @endif
         <th>
           <div class="d-flex flex-column align-items-center">
             <p>Status Financeiro</p>
@@ -265,7 +267,9 @@
         <td data-column="PRODUTO"></td>
         <td data-column="MEIOCAPTURA"></td>
         <td data-column="STATUS_CONCILIACAO"></td>
-        <td data-column="DIVERGENCIA"></td>
+        @if($isColumnVisible('DIVERGENCIA'))
+          <td data-column="DIVERGENCIA"></td>
+        @endif
         <td data-column="STATUS_FINANCEIRO"></td>
         <td data-column="JUSTIFICATIVA"></td>
       </tr>
@@ -304,7 +308,9 @@
         <td></td>
         <td></td>
         <td></td>
-        <td></td>
+        @if($isColumnVisible('DIVERGENCIA'))
+          <td></td>
+         @endif
         <td></td>
         <td></td>
       </tr>

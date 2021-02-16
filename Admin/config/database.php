@@ -94,7 +94,20 @@ return [
       'schema' => 'public',
       'sslmode' => 'prefer',
     ],
-
+    'pgsql_conciflex_seta' => [
+      'driver' => 'pgsql',
+      'url' => env('DATABASE_URL'),
+      'host' => env('DB_HOST_SETA', '127.0.0.1'),
+      'port' => env('DB_PORT_SETA', '5432'),
+      'database' => env('DB_DATABASE_SETA', 'forge'),
+      'username' => env('DB_USERNAME_SETA', 'forge'),
+      'password' => env('DB_PASSWORD_SETA', ''),
+      'charset' => 'utf8',
+      'prefix' => '',
+      'prefix_indexes' => true,
+      'schema' => 'public', 
+      'sslmode' => 'prefer',
+    ],
     'sqlsrv' => [
       'driver' => 'sqlsrv',
       'url' => env('DATABASE_URL'),
