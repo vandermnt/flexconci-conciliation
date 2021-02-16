@@ -160,7 +160,7 @@
               <input
                 name="id_erp[]"
                 type="checkbox"
-                data-campo="ID_ERP"
+                data-column="ID_ERP"
               >
               <div class="tooltip-hint d-flex align-items-center" data-default-title="Visualizar Detalhes">
                 <i class="fas fa-eye"></i>
@@ -206,9 +206,9 @@
           <x-slot name="actions">
             <td class="actions-cell d-flex align-items-center justify-content-between">
               <input
-                name="id_erp[]"
+                name="id_operadoras[]"
                 type="checkbox"
-                data-campo="ID_ERP"
+                data-column="ID"
               >
               <div class="tooltip-hint d-flex align-items-center" data-default-title="Visualizar Detalhes">
                 <i class="fas fa-eye"></i>

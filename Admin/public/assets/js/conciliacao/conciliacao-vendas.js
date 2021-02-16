@@ -42,6 +42,8 @@ const apiConfig = {
     'Content-Type': 'application/json',
   }
 };
+const selectedErps = [];
+const selectedOperadoras = [];
 
 checker.addGroups([
   { name: 'empresa', options: { inputName: 'grupos_clientes' } },
@@ -185,6 +187,10 @@ salesErpContainer.onEvent('search', (sales) => {
     ...totals,
     TOTAL_TAXA: totals.TOTAL_TAXA * -1,
   });
+});
+
+tableRenderErp.onRenderRow((row, data) => {
+  _defaultEvents.table.onRenderRow(row, data);
 });
 
 function buildRequest(type = 'erp', params) {
