@@ -27,6 +27,7 @@
       data-url-desjustificar="{{ route('conciliacao-automatica.conciliar.desjustificar') }}"
       data-url-exportar-erp="{{ route('conciliacao-automatica.exportar.erp') }}"
       data-url-exportar-operadoras="{{ route('conciliacao-automatica.exportar.operadoras') }}"
+      data-url-retorno-erp="{{ route('conciliacao-automatica.retornoErp') }}"
       class="card" method="POST"
     >
       <div class="card-body">
@@ -316,6 +317,14 @@
         <div class="tabela-info d-flex align-items-center justify-content-between">
           <h4>Vendas {{ $erp->ERP }} <span id="js-vendas-erp-info"></span></h4>
           <div class="acoes d-flex align-items-center justify-content-end">
+            <button
+              class="btn mr-1"
+              data-toggle="modal"
+              data-target="#modal-retorno-erp"
+            >
+              <i class="fas fa-undo"></i>
+              Retorno ERP
+            </button>
             <button id="js-conciliar" class="btn mr-1">
               <i class="far fa-handshake"></i>
               Conciliar
@@ -653,10 +662,10 @@
                 <td data-campo="CAMPO1"></td>
                 <td data-campo="CAMPO2"></td>
                 <td data-campo="CAMPO3"></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td data-campo="DATA_IMPORTACAO" data-format="date"></td>
+                <td data-campo="HORA_IMPORTACAO"></td>
+                <td data-campo="DATA_CONCILIACAO" data-format="date"></td>
+                <td data-campo="HORA_CONCILIACAO"></td>
               </tr>
             </tbody>
             <tfoot>
@@ -1095,6 +1104,44 @@
             </div>
           </div>
         </form>
+
+        <x-modal
+          id="modal-retorno-erp"
+          modal-label-id="modal-retorno-label"
+          modal-label="Retorno ERP"
+        >
+          <x-slot name="content">
+            <div class="form-group">
+              <label for="js-data-inicial">Data Inicial:</label>
+              <input id="js-data-inicial" type="date" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="js-data-final">Data Final:</label>
+              <input id="js-data-final" type="date" class="form-control" required>
+            </div>
+          </x-slot>
+
+          <x-slot name="footer">
+            <button
+              type="button"
+              class="btn btn-danger font-weight-bold"
+              data-action="cancel"
+              data-dismiss="modal"
+            >
+              Cancelar
+            </button>
+
+            <button
+              id="js-retorno-erp"
+              type="button"
+              class="btn btn-success font-weight-bold"
+              data-action="confirm"
+              data-dismiss="modal"
+            >
+              Confirmar
+            </button>
+          </x-slot>
+        </x-modal>
       </div>
 
     </section>

@@ -65,17 +65,6 @@ class RecebimentosFuturosController extends Controller
         ->distinct()
         ->orderBy('DESCRICAO')
         ->get();
-  
-      $domicilios_bancarios = DomicilioClienteModel::select([
-          'domicilio_cliente.CODIGO',
-          'lista_bancos.NOME_WEB as BANCO',
-          'AGENCIA',
-          'CONTA'
-        ])
-        ->leftJoin('lista_bancos', 'lista_bancos.CODIGO', 'COD_BANCO')
-        ->where('COD_CLIENTE', session('codigologin'))
-        ->orderBy('lista_bancos.NOME_WEB')
-        ->get();
 
         return view('recebimentos.recebimentos-futuros')->with([
           'empresas' => $empresas,

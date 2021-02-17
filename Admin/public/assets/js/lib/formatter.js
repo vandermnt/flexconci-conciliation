@@ -94,6 +94,8 @@ Formatter.prototype._createCurrencyFormatter = function() {
 
 Formatter.prototype._createNumberFormatter = function() {
   const numberFormatter = new Intl.NumberFormat(this.get('locale'), {
+    style: 'decimal',
+    minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
 

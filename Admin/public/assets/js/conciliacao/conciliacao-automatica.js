@@ -103,6 +103,7 @@ function getUrls() {
     desconciliar: form.dataset.urlDesconciliarManualmente,
     justificar: form.dataset.urlJustificar,
     desjustificar: form.dataset.urlDesjustificar,
+    retornoErp: form.dataset.urlRetornoErp,
   }
 }
 
@@ -975,6 +976,37 @@ function exportarOperadoras() {
   abrirUrlExportacao(urls.operadoras.exportar, '_blank');
 }
 
+function retornoErp() {
+  const loader = document.querySelector('#js-loader');
+  const dataInicial = document.querySelector('#modal-retorno-erp #js-data-inicial');
+  const dataFinal = document.querySelector('#modal-retorno-erp #js-data-final');
+
+  alternarVisibilidade(loader);
+
+    api.get(urls.retornoErp, {
+      params: {
+        data_inicial: dataInicial.value,
+        data_final: dataFinal.value,
+      },
+    })
+    .then(res => {
+      if(res.mensagem) {
+        swal("Ooops...", res.mensagem, "error");
+        return;
+      }
+
+      swal("Retorno ERP realizado!", "O Retorno ERP foi realizado com êxito.", "success");
+    })
+    .catch(err => {
+      swal("Ooops...", "Um erro inesperado ocorreu. Tente novamente mais tarde!", "error");
+    })
+    .finally(() => {
+      alternarVisibilidade(loader);
+      const dataInicial = document.querySelector('#modal-retorno-erp #js-data-inicial').value = "";
+      const dataFinal = document.querySelector('#modal-retorno-erp #js-data-final').value = "";
+    });
+}
+
 window.addEventListener('load', () => {
   document.querySelector('#pagina-conciliacao').classList.remove('hidden');
   window.scrollTo(0, 0);
@@ -1063,3 +1095,6 @@ document.querySelector('#js-exportar-erp')
 
 document.querySelector('#js-exportar-operadoras')
   .addEventListener('click', exportarOperadoras);
+
+document.querySelector('#js-retorno-erp')
+  .addEventListener('click', retornoErp);

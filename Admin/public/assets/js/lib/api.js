@@ -42,13 +42,12 @@ API.prototype.urlBuilder = function(urlBase, params = {}, toString = true) {
  * 
  * @returns {Promise} - When resolved returns the response data as JSON Object
  */
-API.prototype.sendRequest = async function(urlBase, { method, headers = {}, body = {}, params = {}, ...rest }) {
+API.prototype.sendRequest = async function(urlBase, { method, headers = {}, params = {}, ...rest }) {
     const url = this.urlBuilder(urlBase, params);
 
     const response = await fetch(url, {
         method,
         headers,
-        body,
         ...rest,
     })
     .catch(err => { throw err });
@@ -70,7 +69,6 @@ API.prototype.get = async function(urlBase, options) {
     const json = await this.sendRequest(urlBase, {
         ...options,
         method: 'GET',
-        body: '',
     })
     .catch(err =>  { throw err });
 
