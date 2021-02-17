@@ -34,6 +34,7 @@ checker.addGroups([
 modalFilter.addGroups([
   'empresa',
   'adquirente',
+  'estabelecimento',
 ]);
 
 searchForm.onSubmit(async (event) => {
