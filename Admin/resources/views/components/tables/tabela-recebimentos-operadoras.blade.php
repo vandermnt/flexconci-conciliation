@@ -140,12 +140,6 @@
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Hora</p>
-            <input type="text" class="form-control" name="HORA_TRANSACAO">
-          </div>
-        </th>
-        <th>
-          <div class="d-flex flex-column align-items-center">
             <p>Estabelecimento</p>
             <input type="text" class="form-control" name="ESTABELECIMENTO">
           </div>
@@ -255,7 +249,6 @@
         <td data-column="VALOR_LIQUIDO" data-format="currency"></td>
         <td data-column="PARCELA"></td>
         <td data-column="TOTAL_PARCELAS"></td>
-        <td data-column="HORA_TRANSACAO" data-format="time"></td>
         <td data-column="ESTABELECIMENTO"></td>
         <td
           data-image="BANCO_IMAGEM"
@@ -304,7 +297,6 @@
         <td data-column="TOTAL_TAXA" data-reverse-value="true" data-format="currency" class="text-danger"></td>
         <td></td>
         <td data-column="TOTAL_LIQUIDO" data-format="currency"></td>
-        <td></td>
         <td></td>
         <td></td>
         <td></td>
