@@ -39,8 +39,8 @@ class RecebimentosSubFilter extends BaseSubFilter {
     'PRODUTO',
     'MEIOCAPTURA',
     'STATUS_CONCILIACAO',
+    'STATUS_CONCILIADO',
     'DIVERGENCIA',
-    'STATUS_FINANCEIRO',
     'JUSTIFICATIVA'
   ];
   protected $numericFilters = [
