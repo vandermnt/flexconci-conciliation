@@ -31,6 +31,7 @@
             'bandeiras',
             'modalidades',
             'modalidades',
+            'status-conciliacao',
             'status-financeiro',
             'domicilios-bancarios',
             'descricao-erp'
@@ -39,9 +40,25 @@
             'empresas' => $empresas,
             'adquirentes' => $adquirentes,
             'estabelecimentos' => $estabelecimentos,
-            'status_conciliacao' => $status_conciliacao,
           ]"
-        />
+        >
+        <x-slot name="fields">
+          <x-forms.check-group
+            id="recebimento-conciliado-erp"
+            label="Filtrar recebimentos com a venda ERP conciliada?"
+            name="recebimento_conciliado_erp[]"
+            item-value-key="value"
+            item-description-key="description"
+            :options="[
+              ['description' => 'Sim', 'value' => 'true'],
+              ['description' => 'Não', 'value' => 'false'],
+            ]"
+            data-group="recebimento-conciliado-erp"
+            data-checker="checkbox"
+            checked
+          />
+        </x-slot>
+      </x-forms.search-form>
       </div>
     </div>
 

@@ -16,7 +16,7 @@ class RecebimentosFilter extends BaseFilter {
     'grupos_clientes',
     'adquirentes',
     'domicilios_bancarios',
-    'status_conciliacao'
+    'recebimento_conciliado_erp'
   ];
 
   public static function filter($filters) {
@@ -25,11 +25,14 @@ class RecebimentosFilter extends BaseFilter {
   }
 
   public function apply($filters) {
+    $STATUS_CONCILIADO = 1;
+
     $filters = Arr::only($filters, $this->whiteList);
     $filters = Arr::where($filters, function($value, $key) {
       return boolval($value);
     });
-    $STATUS_CONCILIADO = 1;
+    $recebimento_conciliado_erp = $filters['recebimento_conciliado_erp'] ?? null;
+
     $this->query = DB::table('pagamentos_operadoras')
       ->select([
         'pagamentos_operadoras.CODIGO as ID',
@@ -111,6 +114,12 @@ class RecebimentosFilter extends BaseFilter {
     }
     if(Arr::has($filters, 'status_conciliacao')) {
       $this->query->whereIn('pagamentos_operadoras.COD_STATUS', $filters['status_conciliacao']);
+    }
+    if(!is_null($recebimento_conciliado_erp) && count($recebimento_conciliado_erp) < 2) {
+      $filterValue = $recebimento_conciliado_erp[0];
+      $whereOperator = $filterValue === 'true' ? '!=' : "=";
+
+      $this->query->where('ID_VENDA_ERP', $whereOperator, null);
     }
     if(Arr::has($filters, 'domicilios_bancarios')) {
       $this->query->whereIn('lista_bancos.CODIGO', function($query) use ($filters) {
