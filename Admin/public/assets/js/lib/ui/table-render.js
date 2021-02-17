@@ -11,6 +11,7 @@ function TableRender(options = {}) {
     selectedRows: [],
     onRenderRow: () => {},
     onRenderCell: () => {},
+    shouldSelectRow: () => true,
     onSelectRow: () => {},
     onFilter: () => {},
   }, tableRenderHandler());
@@ -41,6 +42,10 @@ TableRender.prototype.onRenderRow = function(handler = (row = null) => {}) {
 
 TableRender.prototype.onRenderCell = function(handler = (element = null, data = {}) => {}) {
   this.set('onRenderCell', handler);
+}
+
+TableRender.prototype.shouldSelectRow = function(handler = (element) => true) {
+  this.set('shouldSelectRow', handler);
 }
 
 TableRender.prototype.onSelectRow = function(handler = (element) => {}) {
@@ -127,6 +132,10 @@ TableRender.prototype.render = function() {
 
         if(onSelectRow && typeof onSelectRow === 'function') {
             tableRow.addEventListener('click', e => {
+              const shouldUpdate = this.get('shouldSelectRow')(e.target);
+
+              if(!shouldUpdate) return;
+              
               const selectedRows = this.get('selectedRows');
               if(selectedRows.includes(tableRow.dataset.id)) {
                 this.set('selectedRows', selectedRows.filter(value => value != tableRow.dataset.id));
