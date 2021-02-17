@@ -48,7 +48,7 @@
     <div class="resultados hidden">
       <div class="boxes">
         <x-box
-          title="VENDAS SISTEMA"
+          :title="'VENDAS '.($erp->ERP ? mb_strtoupper($erp->ERP, 'utf-8') : 'SISTEMA')"
           content="R$ 18.434,51"
           data-format="currency"
           data-key="TOTAL_BRUTO"
