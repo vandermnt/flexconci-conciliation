@@ -67,7 +67,7 @@ class VendasErpFilter extends BaseFilter {
           'vendas_erp.PARCELA',
           'vendas_erp.TOTAL_PARCELAS',
           DB::raw('null as HORA'),
-          DB::raw('null as ESTABELECIMENTO'),
+          'vendas_erp.ESTABELECIMENTO',
           'lista_bancos.BANCO as BANCO',
           'lista_bancos.IMAGEM_LINK as BANCO_IMAGEM',
           'vendas_erp.AGENCIA',
