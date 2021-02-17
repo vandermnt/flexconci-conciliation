@@ -83,7 +83,7 @@ class RecebimentosFilter extends BaseFilter {
         'pagamentos_operadoras.COD_TIPO_PAGAMENTO'
       ])
         ->leftJoin('vendas', 'vendas.CODIGO', 'pagamentos_operadoras.COD_VENDA')
-        ->leftJoin('produto_web', 'produto_web.CODIGO', 'vendas.COD_PRODUTO') 
+        ->leftJoin('produto_web', 'produto_web.CODIGO', 'pagamentos_operadoras.COD_PRODUTO')
         ->leftJoin('grupos_clientes', 'grupos_clientes.CODIGO', 'pagamentos_operadoras.COD_GRUPO_CLIENTE')
         ->leftJoin('adquirentes', 'adquirentes.CODIGO', 'pagamentos_operadoras.COD_ADQUIRENTE')
         ->leftJoin('bandeira', 'bandeira.CODIGO', 'pagamentos_operadoras.COD_BANDEIRA')
