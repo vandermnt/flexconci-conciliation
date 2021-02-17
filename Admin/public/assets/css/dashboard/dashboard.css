@@ -100,6 +100,51 @@
   color: #6E6E6E;
 }
 
+#dashboard_styles .boxs {
+   margin-top: 15px;
+}
+
+#dashboard_styles .body-box {
+  height: 140px;
+}
+
+#dashboard_styles .img-card-suport {
+  width: 27px; text-align: center;
+}
+
+#dashboard_styles .tel {
+  font-size: 13px;
+}
+
+#dashboard_styles .label-atendimento {
+  font-size: 12px;
+  text-align: center;
+}
+
+#dashboard_styles .img-bancos-detalhamento {
+  width: 45px;
+  margin-left: -20px;
+}
+
+#dashboard_styles .label-banco-detalhamento {
+  font-size: 13px;
+  margin-left: -30px;
+}
+
+#dashboard_styles .label-val-liquido {
+   text-align: right;
+   font-size: 14px;
+   color: #257E4A;
+}
+
+#dashboard_styles .img-operadora {
+  width: 60px;
+}
+
+#preloader {
+  display: none;
+}
+
 .recebimentos h4 {
   font-weight: 600 !important;
   color: #257E4A;

@@ -94,11 +94,11 @@ class DashboardController extends Controller{
     $dados_bancos = DB::table('vendas')
     ->leftJoin('lista_bancos', 'vendas.BANCO', 'lista_bancos.CODIGO')
     ->leftJoin('adquirentes', 'vendas.ADQID', 'adquirentes.CODIGO')
-    ->select('vendas.*', 'vendas.DATA_PAGAMENTO', 'lista_bancos.IMAGEM_LINK as IMAGEM', 'adquirentes.IMAGEM as IMAGEMAD', 'lista_bancos.NOME_WEB as BANCO_NOME')
+    ->select('vendas.*', 'vendas.DATA_PAGAMENTO', 'lista_bancos.IMAGEM_LINK as IMAGEM', 'adquirentes.IMAGEM as IMAGEMAD', 'lista_bancos.NOME_WEB as BANCO_NOME', 'adquirentes.ADQUIRENTE as NOME_AD')
     ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
     ->selectRaw('sum(VALOR_BRUTO) as val_bruto')
     ->selectRaw('sum(VALOR_TAXA) as val_tx')
-    // ->where('vendas.DATA_PREVISTA_PAGTO', '=', $hoje1)
+    ->where('vendas.DATA_PREVISTA_PAGTO', '=', $hoje1)
     ->where('vendas.COD_CLIENTE', '=', session('codigologin'));
 
     $dados_operadora = $dados_bancos->groupBy('vendas.ADQID')
@@ -106,7 +106,7 @@ class DashboardController extends Controller{
 
     $dados_bancos = $dados_bancos->groupBy('vendas.BANCO')
     ->get();
-    // dd($dados_bancos);
+    // dd($dados_operadora);
     $total_banco = 0;
     foreach($dados_bancos as $bancos){
       $total_banco += $bancos->val_liquido;
@@ -114,7 +114,7 @@ class DashboardController extends Controller{
 
     $data = date('Y-m-d');
 
-
+    // dd($dados_operadora);
     $dados_cliente = ClienteModel::where('CODIGO', '=', session('codigologin'))->first();
 
     session()->put('nome_fantasia', $dados_cliente->NOME_FANTASIA);

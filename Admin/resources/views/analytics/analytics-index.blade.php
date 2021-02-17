@@ -1,60 +1,49 @@
 @extends('layouts.analytics-master')
 
-@section('title', 'Metrica - Admin & Dashboard Template')
-
 @section('headerStyle')
 <link href="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.css')}}" rel="stylesheet">
-<link href="{{ URL::asset('assets/css/teste.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ URL::asset('assets/css/dashboard/dashboard.css')}}" rel="stylesheet" type="text/css" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/table-dragger@1.0.3/dist/table-dragger.js"></script>
 <link href='lib/main.css' rel='stylesheet' />
 <script src='lib/main.js'></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const calendarEl = document.getElementById('calendar');
-  const dados_prev_pagamento = <?php echo $dados_calendario ?>;
-  const dados_pagamento = <?php echo $dados_calendario_pagamento ?>;
+  const venda_prevista_pagamento = <?php echo $dados_calendario ?>;
+  const venda_paga = <?php echo $dados_calendario_pagamento ?>;
   const data_atual = "{{ $data }}";
-
   let eventsList = [];
 
-  dados_pagamento.forEach((pagamento) => {
-    const hoje = new Date().toISOString().slice(0,10);
+  venda_paga.forEach((pagamento) => {
+    if(pagamento.DATA_PAGAMENTO != data_atual) {
+      const total_liq = formataMoeda(pagamento.val_liquido);
 
-    if (pagamento.DATA_PAGAMENTO != hoje){
-      const total_liq = Intl.NumberFormat('pt-br', {
-        style: 'currency',
-        currency: 'BRL'
-      }).format(pagamento.val_liquido);
-      eventsList.push({
-        title: total_liq,
-        description: pagamento.CODIGO,
-        start: pagamento.DATA_PAGAMENTO,
-        color: '#257e4a',
-        background: '#FF4000',
-        publicId: pagamento.DATA_PAGAMENTO
-      }, );
+      eventsList.push(
+        {
+          title: total_liq,
+          description: pagamento.CODIGO,
+          start: pagamento.DATA_PAGAMENTO,
+          color: '#257e4a',
+          background: '#FF4000',
+          publicId: pagamento.DATA_PAGAMENTO
+        },
+      );
     }
   });
 
-  let eventos = eventsList;
+  venda_prevista_pagamento.forEach((previsao_pagamento) => {
+    if(previsao_pagamento.DATA_PREVISTA_PAGTO >= data_atual) {
+      const total_liq_prev_pagt = formataMoeda(previsao_pagamento.val_liquido);
 
-  dados_prev_pagamento.forEach((previsao_pagamento) => {
-    const total_liq_prev_pagt = Intl.NumberFormat('pt-br', {
-      style: 'currency',
-      currency: 'BRL'
-    }).format(previsao_pagamento.val_liquido);
-
-    if (previsao_pagamento.DATA_PREVISTA_PAGTO >= data_atual) {
-      eventsList.push({
-        title: total_liq_prev_pagt,
-        description: previsao_pagamento.CODIGO,
-        start: previsao_pagamento.DATA_PREVISTA_PAGTO,
-        color: '#2D93AD',
-        publicId: previsao_pagamento.DATA_PREVISTA_PAGTO
-      }, );
+      eventsList.push(
+        {
+          title: total_liq_prev_pagt,
+          description: previsao_pagamento.CODIGO,
+          start: previsao_pagamento.DATA_PREVISTA_PAGTO,
+          color: '#2D93AD',
+          publicId: previsao_pagamento.DATA_PREVISTA_PAGTO
+        },
+      );
     }
   });
 
@@ -67,9 +56,6 @@ document.addEventListener('DOMContentLoaded', function() {
     height: 550,
     navLinks: false,
     businessHours: true,
-    // editable: true,
-    // selectable: true,
-
     events: eventsList,
     eventClick: function(calEvent, jsEvent, view) {
       if (calEvent.event._def.extendedProps.publicId) {
@@ -86,6 +72,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
   calendar.render();
 });
+
+function formataMoeda(valor) {
+  return Intl.NumberFormat('pt-br', {
+    style: 'currency',
+    currency: 'BRL'
+  }).format(valor);
+}
 </script>
 
 <style>
@@ -105,30 +98,14 @@ font-size: 14px;
 
 @section('content')
 <div id="dashboard_styles" class="container-fluid">
-  <div class="modal fade" id="modal-alerta-global" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="modalCupom" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 class="modal-title" id="modalCupom">AVISO GERAL</h3>
-          <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <h4>{{ $frase->ALERTA_GLOBAL }}</h4>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Fechar</b></button>
-        </div>
-      </div>
-    </div>
-  </div>
+  @component('analytics.component.modal-aviso-geral')
+  @endcomponent
   <div class="row">
-    <div class="col-lg-12" style="margin-top: 15px;">
-      <div class="row" style="align-items: center; justify-content: center;">
+    <div class="col-lg-12 boxs">
+      <div class="row">
         <div class="col-md-6 col-lg-3">
           <div class="card report-card">
-            <div class="card-body" style="height: 140px">
+            <div class="card-body body-box">
               <div class="row d-flex">
                 <div class="col-12">
                   <p class="font-weight-semibold font-12">Suporte</p>
@@ -136,59 +113,42 @@ font-size: 14px;
                 <div class="col-12" style="margin-top: -20px">
                   <div class="row">
                     <div class="col-12" align="center">
-                      <img src="{{ url('assets/images/suporte.png') }}" style="width: 27px; text-align: center" alt="">
-                      <h5 style="font-size: 13px" id="total_taxa_cobrada" class="my-3">(44) 3020-0220</h5>
+                      <img class="img-card-suport" src="{{ url('assets/images/suporte.png') }}">
+                      <h5 class="my-3 tel">(44) 3020-0220</h5>
                     </div>
                   </div>
                   <div class="col-12" style="margin-top: -20px">
-                    <h6 style="font-size: 12px; text-align: center" id="total_taxa_cobrada" class="my-3">Atendimento | Segunda a sexta-feira - das 08:00h às 18:00h</h6>
+                    <h6 class="my-3 label-atendimento">Atendimento | Segunda a sexta-feira - das 08:00h às 18:00h</h6>
                   </div>
-
-                  <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-md-6 col-lg-3">
-          <div class="card report-card">
-            <div class="card-body" style="height: 140px">
-              <div class="row d-flex">
-                <div class="col-12">
-                  <p class="font-weight-semibold font-12">Divergências - Conc. de vendas</p>
-                  <h6 style="font-size: 12px" id="total_taxa_cobrada" class="my-3">Não há divergências no momento</h6>
-                  <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-3">
-          <div class="card report-card">
-            <div class="card-body" style="height: 140px">
-              <div class="row d-flex">
-                <div class="col-12">
-                  <p class="font-weight-semibold font-12">Divergências - Taxas</p>
-                  <h6 style="font-size: 12px" id="total_taxa_cobrada" class="my-3">Não há divergências no momento</h6>
-                  <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-3">
-          <div class="card report-card">
-            <div class="card-body" style="height: 140px">
-              <div class="row d-flex">
-                <div class="col-12">
-                  <p class="font-weight-semibold font-12">Divergências - Conc. Bancária</p>
-                  <h6 style="font-size: 12px" id="total_taxa_cobrada" class="my-3">Não há divergências no momento</h6>
-                  <!-- <p class="mb-0 text-truncate"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> -->
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        @component('analytics.component.box-aviso')
+        @slot('titulo_box')
+        Divergências - Conc. de vendas
+        @endslot
+        @slot('body_box')
+        Não há divergências no momento
+        @endslot
+        @endcomponent
+        @component('analytics.component.box-aviso')
+        @slot('titulo_box')
+        Divergências - Taxas
+        @endslot
+        @slot('body_box')
+        Não há divergências no momento
+        @endslot
+        @endcomponent
+        @component('analytics.component.box-aviso')
+        @slot('titulo_box')
+        Divergências - Conc. Bancária
+        @endslot
+        @slot('body_box')
+        Não há divergências no momento
+        @endslot
+        @endcomponent
       </div>
     </div>
   </div>
@@ -434,28 +394,29 @@ font-size: 14px;
     <div class="col-lg-5">
       <div class="card">
         <div class="card-body">
-          <div id="preloader" style="display: none" class="loader"></div>
-
+          <div id="preloader" class="loader"></div>
           <div class="wallet-bal-usd">
             <div class="row recebimentos">
               <div class="col-6">
                 <h4 class="wallet-title m-0">Recebimentos</h4>
-                <span id="label_data_recebimento" class="text-muted font-12"><b><?php echo date("d/m/Y") ?></b></span>
-                <h4 id="label_recebimentos">R$ <?php echo number_format($total_mes->val_liquido, 2, ",", ".");  ?> </h4>
+                <span id="label_data_recebimento" class="text-muted font-12">
+                  <b><?php echo date("d/m/Y") ?></b>
+                </span>
+                <h4 id="label_recebimentos">
+                  R$ <?php echo number_format($total_mes->val_liquido, 2, ",", ".");  ?>
+                </h4>
               </div>
               <div class="col-6" class="recebimentos">
                 <div class="tooltip-hint" data-title='São todos os recebimentos previstos a partir da data atual em diante'>
                   <h4 class="wallet-title m-0">
-                    <i class="fas fa-info-circle" ></i> Recebimentos Futuros
+                    <i class="fas fa-info-circle"></i> Recebimentos Futuros
                   </h4>
                 </div>
                 <br>
                 <h4>R$ <?php echo number_format($total_futuro->val_liquido, 2, ",", ".");  ?> </h4>
               </div>
             </div>
-
           </div> <br>
-          <!-- <p class="font-15 text-success text-center mb-4"> + $455.00 <span class="font-12 text-muted">(6.2% <i class="mdi mdi-trending-up text-success"></i>)</span></p> -->
           <ul class="nav nav-pills nav-justified" role="tablist">
             <li class="nav-item waves-effect waves-light">
               <a class="active nav-link  py-3 font-weight-semibold" data-toggle="tab" data-target="#Wallet" role="tab" aria-selected="false"><i data-feather="credit-card" class="align-self-center icon-md mr-2"></i>Operadora</a>
@@ -467,36 +428,32 @@ font-size: 14px;
 
           <div class="tab-content">
             <div class="tab-pane p-3" id="Total" role="tabpanel">
-              <div class="row">
-              </div>
               <ul class="list-group wallet-bal-crypto mt-3" id="ul_bancos">
                 @foreach($dados_bancos as $bancos)
                 <li class="list-group-item align-items-center d-flex justify-content-between">
                   <div class="col-12 row" style="text-align: center">
-                    <div class="col-2 tooltip-hint" data-title="{{ $bancos->BANCO }}" style="margin: 0">
-                      <img src="{{ $bancos->IMAGEM}}" class="align-self-center" style="width: 45px; margin-left: -20px;">
+                    <div class="col-2 tooltip-hint" data-title="{{ $bancos->BANCO_NOME }}">
+                      <img src="{{ $bancos->IMAGEM}}" class="align-self-center img-bancos-detalhamento">
                     </div>
                     <div class="col-4 media-body align-self-center">
-                      <h4 class="" style="font-size: 13px; margin-left: -30px"> AG: {{ $bancos->AGENCIA}} - C/C: {{ $bancos->CONTA }} </h4>
+                      <h4 class="label-banco-detalhamento">
+                        AG: {{ $bancos->AGENCIA}} - C/C: {{ $bancos->CONTA }}
+                      </h4>
+                    </div>
+                    <div class="col-5 media-body align-self-center">
+                      <h4 class="label-val-liquido">
+                        R$ <?php echo number_format($bancos->val_liquido, 2, ",", ".");?>
+                      </h4>
                     </div>
 
-                    <div class="col-5 media-body align-self-center" style="margin: 0">
-                      <h4 class="" style="text-align: right; font-size: 14px; color: #257E4A">R$ <?php
-                      echo number_format($bancos->val_liquido, 2, ",", ".");
-                      ?> </h4>
-                    </div>
-
-                    <?php $teste = $bancos->CODIGO ?>
                     <div class="col-1 media-body align-self-center">
-                      <!-- <a style="margin-right: -60px" onclick="showTableBancoSelecionado({{$teste}})" data-toggle="tab" href="#div_banco_selecionado"><i class="thumb-lg mdi mdi-chevron-right"></i> </a> -->
-                      <!-- <a data-toggle="tab" href="#div_banco_selecionado" role="tab" aria-selected="true"><i class="thumb-lg mdi mdi-chevron-right"></i></a> -->
-                      <a id="{{$bancos->CODIGO}}" data-toggle="tab" data-target="#div_banco_selecionado" onclick="showTableBancoSelecionadoInicial({{$teste}})" role="tab" aria-selected="false" style="display: block"><i class="thumb-lg mdi mdi-chevron-right"></i> </a>
+                      <a id="{{$bancos->CODIGO}}" data-toggle="tab" data-target="#div_banco_selecionado" onclick="showTableBancoSelecionadoInicial({{$bancos->CODIGO}})" role="tab" aria-selected="false">
+                        <i class="thumb-lg mdi mdi-chevron-right"></i>
+                      </a>
                     </div>
                   </div>
-                  <!-- <span class="badge badge-soft-pink">Bitcoin</span> -->
                 </li>
                 @endforeach
-
               </ul>
             </div>
 
@@ -526,1099 +483,658 @@ font-size: 14px;
                   <br>
                   <ul class="nav nav-pills nav-justified" role="tablist">
                     <a type="button" id="voltar_operadora" data-target="#Wallet" data-toggle="tab" aria-label="Close">
-                      < Voltar </a> </ul> </ul>
-                    </div>
-                    <div class="tab-pane p-3 active" id="Wallet" role="tabpanel">
-                      <ul id="ul_operadora" class="list-group wallet-bal-crypto mt-3">
-                        @foreach($dados_operadora as $operadora)
-                        <li class="list-group-item align-items-center d-flex justify-content-between">
-                          <div class="col-12 row">
-                            <img src="{{ $operadora->IMAGEMAD}}" class="align-self-center" style="width: 60px">
-                            <div class="col-7 media-body align-self-center">
-                              <!-- <div class="coin-bal row"> -->
-                              <h4 class="m-0" style="text-align: right; font-size: 14px; color: #257E4A">R$ <?php
-                              echo number_format($operadora->val_liquido, 2, ",", ".");
-                              ?> </h4>
+                      < Voltar </a>
+                    </ul>
+                  </ul>
+                </div>
+                <div class="tab-pane p-3 active" id="Wallet" role="tabpanel">
+                  <ul id="ul_operadora" class="list-group wallet-bal-crypto mt-3">
 
-                            </div>
-                            <!--end media body-->
-                            <div class="col-1 media-body align-self-center">
-                              <!-- <a style="margin-right: -60px" onclick="showTableBancoSelecionado({{$teste}})" data-toggle="tab" href="#div_banco_selecionado"><i class="thumb-lg mdi mdi-chevron-right"></i> </a> -->
-                              <!-- <a data-toggle="tab" href="#div_banco_selecionado" role="tab" aria-selected="true"><i class="thumb-lg mdi mdi-chevron-right"></i></a> -->
-                              <?php $ad = $operadora->CODIGO ?>
-
-                              <a id="{{ "operadora".$operadora->CODIGO}}" data-toggle="tab" data-target="#div_operadora_selecionada" onclick="showTableOperadoraSelecionadaInicial({{$ad}})" role="tab" aria-selected="false" style="display: block"><i class="thumb-lg mdi mdi-chevron-right"></i> </a>
-
-                            </div>
-                          </div>
-                        </li>
-                        @endforeach
-                      </ul>
-                    </div>
-                  </div>
+                    @foreach($dados_operadora as $operadora)
+                    <li class="list-group-item align-items-center d-flex justify-content-between">
+                      <div class="col-12 row">
+                        <div class="col-2 tooltip-hint" data-title="{{ $operadora->NOME_AD }}">
+                          <img src="{{ $operadora->IMAGEMAD}}" class="align-self-center img-bancos-detalhamento">
+                        </div>
+                        <div class="col-7 media-body align-self-center">
+                          <h4 class="m-0 label-val-liquido">
+                            R$ <?php echo number_format($operadora->val_liquido, 2, ",", ".");?>
+                          </h4>
+                        </div>
+                        <div class="col-1 media-body align-self-center">
+                          <a id="{{ "operadora".$operadora->CODIGO}}" data-toggle="tab" data-target="#div_operadora_selecionada" onclick="showTableOperadoraSelecionadaInicial({{$operadora->CODIGO}})" role="tab" aria-selected="false" style="display: block"><i class="thumb-lg mdi mdi-chevron-right"></i> </a>
+                        </div>
+                      </div>
+                    </li>
+                    @endforeach
+                  </ul>
                 </div>
               </div>
             </div>
           </div>
-
-          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header" style="background: #2d5275;">
-                  <h5 class="modal-title" id="exampleModalLabel" style="color: white">Autorização Cielo</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  Autorização e Credenciamento EDI feito com sucesso!
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="modal fade" id="exampleModalErro" tabindex="-1" aria-labelledby="exampleModalLabelErro" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header" style="background: #2d5275;">
-                  <h5 class="modal-title" id="exampleModalLabelErro" style="color: white">ERRO</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  Não foi possivel realizar seu Credenciamento EDI, tente novamente!
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
         </div>
-        @stop
+      </div>
+      @component('analytics.component.modal-credenciamento-success')
+      @endcomponent
+      @component('analytics.component.modal-credenciamento-error')
+      @endcomponent
+    </div>
+    @stop
 
-        @section('footerScript')
-        <script src="{{ URL::asset('plugins/moment/moment.js')}}"></script>
-        <script src="{{ URL::asset('plugins/apexcharts/irregular-data-series.js')}}"></script>
-        <script src="{{ URL::asset('plugins/apexcharts/ohlc.js')}}"></script>
-        <script src="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.min.js') }}"></script>
+    @section('footerScript')
+    <script src="{{ URL::asset('plugins/apexcharts/irregular-data-series.js')}}"></script>
+    <script src="{{ URL::asset('plugins/apexcharts/ohlc.js')}}"></script>
+    <script src="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.min.js') }}"></script>
+    <link href="{{ URL::asset('assets/js/dashboard/export-pdf.js')}}" rel="stylesheet" type="text/css" />
+    <script src="{{ URL::asset('assets/js/dashboard/tabelas.js')}}"></script>
+    <script type="text/javascript">
+    var param = <?php echo $dados_cliente ?>;
+    var dados_dash_vendas = <?php echo $dados_dash_vendas ?>;
+    var dados_dash_vendas_modalidade = <?php echo $dados_dash_vendas_modalidade ?>;
+    var dados_dash_vendas_bandeira = <?php echo $dados_dash_vendas_bandeira ?>;
+    </script>
+    <script type="text/javascript" src="assets/js/grafico-dash-vendas.js"> </script>
 
-        <script type="text/javascript">
-        var param = <?php echo $dados_cliente ?>;
-        var dados_dash_vendas = <?php echo $dados_dash_vendas ?>;
-        var dados_dash_vendas_modalidade = <?php echo $dados_dash_vendas_modalidade ?>;
-        var dados_dash_vendas_bandeira = <?php echo $dados_dash_vendas_bandeira ?>;
-        </script>
-        <!-- <script type="text/javascript" src="assets/js/autorizacao-cielo.js">  </script> -->
-        <script type="text/javascript" src="assets/js/grafico-dash-vendas.js"> </script>
+    <script>
+    $(window).on("load", function() {
+      console.log(<?php echo $dados_operadora ?>);
 
-        <script>
-        $(window).on("load", function() {
-          const alerta_global = "<?= $frase->ALERTA_GLOBAL ?>";
-          if (alerta_global) {
-            $("#modal-alerta-global").modal({
-              show: true
-            });
-          }
-          preCarregarGraficoVendas();
-          preCarregarGraficoVendasBandeira();
-          preCarregarGraficoVendasModalidade();
-          preCarregarGraficoVendasProduto();
+      const alerta_global = "<?= $frase->ALERTA_GLOBAL ?>";
+      if (alerta_global) {
+        $("#modal-alerta-global").modal({
+          show: true
         });
+      }
+      preCarregarGraficoVendas();
+      preCarregarGraficoVendasBandeira();
+      preCarregarGraficoVendasModalidade();
+      preCarregarGraficoVendasProduto();
+    });
 
-        let periodo = null;
-        let grafico_vendas_operadora = null;
-        let grafico_vendas_modalidade = null;
-        let grafico_vendas_bandeira = null;
-        let grafico_vendas_produto = null;
-        let bancos_dados = null
-        let operadoras_dados = null;
+    let periodo = null;
+    let grafico_vendas_operadora = null;
+    let grafico_vendas_modalidade = null;
+    let grafico_vendas_bandeira = null;
+    let grafico_vendas_produto = null;
+    let bancos_dados = null
+    let operadoras_dados = null;
 
-        function preCarregarGraficoVendas() {
-          let dados_grafico = [];
-          let totalQtd = 0;
-          let totalBruto = 0;
-          let totalTx = 0;
-          let totalLiq = 0;
-          let totalTicket = 0;
+    function preCarregarGraficoVendas() {
+      const dash_vendas = <?php echo $dados_dash_vendas ?>;
+      let dados_grafico = [];
+      let totalQtd = 0;
+      let totalBruto = 0;
+      let totalTx = 0;
+      let totalLiq = 0;
+      let html;
 
-          const dash_vendas = <?php echo $dados_dash_vendas ?>;
-          dash_vendas.forEach((dados_dash) => {
-            if (dados_dash.COD_PERIODO == 2 && dados_dash.QUANTIDADE > 0) {
-              dados_grafico.push(dados_dash);
+      dash_vendas.forEach((dados_dash) => {
+        if (dados_dash.COD_PERIODO == 2 && dados_dash.QUANTIDADE > 0) {
+          dados_grafico.push(dados_dash);
 
-              let html = "<tr>";
-              html += "<td style='padding: 2px !important'>" + "<div class='tooltip-hint' data-title='" + dados_dash.ADQUIRENTE + "'>" +
-              "<img style='width:80px' src='" + dados_dash.IMAGEM + "'/>" + "</div>" + "</td>";
-              html += "<td>" + dados_dash.QUANTIDADE_REAL + "</td>";
-              html += "<td>" + Intl.NumberFormat('pt-br', {
-                style: 'currency',
-                currency: 'BRL'
-              }).format(dados_dash.TOTAL_BRUTO) + "</td>";
-              html += "<td>" + Intl.NumberFormat('pt-br', {
-                style: 'currency',
-                currency: 'BRL'
-              }).format(dados_dash.TOTAL_TAXA) + "</td>";
-              html += "<td>" + Intl.NumberFormat('pt-br', {
-                style: 'currency',
-                currency: 'BRL'
-              }).format(dados_dash.TOTAL_LIQUIDO) + "</td>";
+          html = geraTabela(
+            dados_dash.IMAGEM,
+            dados_dash.ADQUIRENTE,
+            dados_dash.QUANTIDADE_REAL,
+            dados_dash.TOTAL_BRUTO,
+            dados_dash.TOTAL_TAXA,
+            dados_dash.TOTAL_LIQUIDO
+          )
 
-              html += "</tr>";
+          totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
+          totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
+          totalTx += parseFloat(dados_dash.TOTAL_TAXA);
+          totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
 
-              totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
-              totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
-              totalTx += parseFloat(dados_dash.TOTAL_TAXA);
-              totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
-              totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
+          $('#table_vendas_operadora').append(html);
+          document.getElementById("dropdownMenuButton").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
+        }
+      })
 
-              $('#table_vendas_operadora').append(html);
+      geraRodapeTabelaComTotais("#table_vendas_operadora tfoot", totalQtd, totalBruto, totalTx, totalLiq);
 
-              document.getElementById("dropdownMenuButton").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
-            }
-          })
+      periodo = 2;
+      localStorage.setItem('periodo_venda_operadora', 2);
+      geraGraficoVendas(dados_grafico, 1);
+    }
 
-          let htmlSubTotal = "<tr class='subtotal-dash'>";
-          htmlSubTotal += "<td>" + "Total" + "</td>";
-          htmlSubTotal += "<td>" + totalQtd + "</td>";
-          htmlSubTotal += "<td>" + Intl.NumberFormat('pt-br', {
-            style: 'currency',
-            currency: 'BRL'
-          }).format(totalBruto) + "</td>";
-          htmlSubTotal += "<td>" + Intl.NumberFormat('pt-br', {
-            style: 'currency',
-            currency: 'BRL'
-          }).format(totalTx) + "</td>";
-          htmlSubTotal += "<td>" + Intl.NumberFormat('pt-br', {
-            style: 'currency',
-            currency: 'BRL'
-          }).format(totalLiq) + "</td>";
-          htmlSubTotal += "</tr>";
+    function preCarregarGraficoVendasBandeira() {
+      let dados_grafico = [];
+      let totalQtd = 0;
+      let totalBruto = 0;
+      let totalTx = 0;
+      let totalLiq = 0;
+      let totalTicket = 0;
+      let html;
 
-          $('#table_vendas_operadora tfoot').append(htmlSubTotal);
+      const dash_vendas = <?php echo $dados_dash_vendas_bandeira ?>;
 
-          periodo = 2;
-          localStorage.setItem('periodo_venda_operadora', 2);
-          geraGraficoVendas(dados_grafico, 1);
+      dash_vendas.forEach((dados_dash) => {
+        if (dados_dash.COD_PERIODO == 2 && dados_dash.QUANTIDADE > 0) {
+          dados_grafico.push(dados_dash);
+
+          html = geraTabela(
+            dados_dash.IMAGEM,
+            dados_dash.BANDEIRA,
+            dados_dash.QUANTIDADE_REAL,
+            dados_dash.TOTAL_BRUTO,
+            dados_dash.TOTAL_TAXA,
+            dados_dash.TOTAL_LIQUIDO
+          )
+
+          totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
+          totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
+          totalTx += parseFloat(dados_dash.TOTAL_TAXA);
+          totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
+          totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
+
+          $('#table_vendas_bandeira').append(html);
+          document.getElementById("dropdownMenuButtonBandeira").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
+        }
+      })
+
+      geraRodapeTabelaComTotais("#table_vendas_bandeira tfoot", totalQtd, totalBruto, totalTx, totalLiq);
+
+      periodo = 2;
+      localStorage.setItem('periodo_venda_bandeira', 2);
+      geraGraficoVendasBandeira(dados_grafico, 1);
+    }
+
+    function preCarregarGraficoVendasProduto() {
+      const dash_vendas_produto = <?php echo $dados_dash_vendas_produto ?>;
+      let dados_grafico = [];
+      let totalQtd = 0;
+      let totalBruto = 0;
+      let totalTx = 0;
+      let totalLiq = 0;
+      let totalTicket = 0;
+
+      dash_vendas_produto.forEach((dados_dash) => {
+        if (dados_dash.COD_PERIODO == 2 && dados_dash.QUANTIDADE > 0) {
+          dados_grafico.push(dados_dash);
+
+          html = geraTabelaSemImagem(
+            dados_dash.PRODUTO_WEB,
+            dados_dash.QUANTIDADE_REAL,
+            dados_dash.TOTAL_BRUTO,
+            dados_dash.TOTAL_TAXA,
+            dados_dash.TOTAL_LIQUIDO
+          )
+
+          totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
+          totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
+          totalTx += parseFloat(dados_dash.TOTAL_TAXA);
+          totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
+          totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
+
+          $('#table_vendas_produto').append(html);
+
+          document.getElementById("dropdownMenuButtonProduto").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
+        }
+      })
+
+      geraRodapeTabelaComTotais("#table_vendas_produto tfoot", totalQtd, totalBruto, totalTx, totalLiq);
+
+      periodo = 2;
+      localStorage.setItem('periodo_venda_produto', 2);
+      geraGraficoVendasProduto(dados_grafico, 1);
+    }
+
+    function preCarregarGraficoVendasModalidade() {
+      let dados_grafico = [];
+      let totalQtd = 0;
+      let totalBruto = 0;
+      let totalTx = 0;
+      let totalLiq = 0;
+      let totalTicket = 0
+
+      const dashboard_vendas_modalidade = <?php echo $dados_dash_vendas_modalidade ?>;
+
+      $('#table_vendas_modalidade tbody').empty();
+
+      dashboard_vendas_modalidade.forEach((dados_dash) => {
+        if (dados_dash.COD_PERIODO == 2 && dados_dash.QUANTIDADE > 0) {
+
+          html = geraTabelaSemImagem(
+            dados_dash.DESCRICAO,
+            dados_dash.QUANTIDADE_REAL,
+            dados_dash.TOTAL_BRUTO,
+            dados_dash.TOTAL_TAXA,
+            dados_dash.TOTAL_LIQUIDO
+          )
+
+          $('#table_vendas_modalidade').append(html);
+
+          totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
+          totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
+          totalTx += parseFloat(dados_dash.TOTAL_TAXA);
+          totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
+          totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
+
+          dados_grafico.push(dados_dash);
+          document.getElementById("dropdownMenuButtonModalidade").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
+        }
+      })
+
+      geraRodapeTabelaComTotais("#table_vendas_modalidade tfoot", totalQtd, totalBruto, totalTx, totalLiq);
+
+      periodo = 2;
+      localStorage.setItem('periodo_venda_modalidade', 2);
+      geraGraficoVendasModalidade(dados_grafico);
+    }
+
+    function trocaPeriodo(cod_periodo, tipo, label_button) {
+      let dados_grafico = [];
+      let totalQtd = 0;
+      let totalBruto = 0;
+      let totalTx = 0;
+      let totalLiq = 0;
+      let totalTicket = 0;
+
+      let dash_vendas = <?php echo $dados_dash_vendas ?>;
+
+      if (tipo == 'operadora') {
+        dash_vendas = <?php echo $dados_dash_vendas ?>;
+
+        $('#table_vendas_operadora tbody').empty();
+        $('#table_vendas_operadora tfoot').empty();
+
+        dash_vendas.forEach((dados_dash) => {
+          if (dados_dash.COD_PERIODO == cod_periodo && dados_dash.QUANTIDADE > 0) {
+
+            html = geraTabela(
+              dados_dash.IMAGEM,
+              dados_dash.ADQUIRENTE,
+              dados_dash.QUANTIDADE_REAL,
+              dados_dash.TOTAL_BRUTO,
+              dados_dash.TOTAL_TAXA,
+              dados_dash.TOTAL_LIQUIDO
+            )
+
+            totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
+            totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
+            totalTx += parseFloat(dados_dash.TOTAL_TAXA);
+            totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
+
+            $('#table_vendas_operadora').append(html);
+            document.getElementById("dropdownMenuButton").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
+            dados_grafico.push(dados_dash);
+          }
+        })
+
+        geraRodapeTabelaComTotais("#table_vendas_operadora tfoot", totalQtd, totalBruto, totalTx, totalLiq);
+        document.getElementById("dropdownMenuButton").innerHTML = label_button + ' ' + '<i class="mdi mdi-chevron-down"></i>';
+
+        if (dados_grafico.length == 0) {
+          grafico_vendas_operadora.destroy();
+        } else {
+          grafico_vendas_operadora.destroy();
+
+          periodo = cod_periodo;
+          localStorage.setItem('periodo_venda_operadora', cod_periodo);
+          geraGraficoVendas(dados_grafico);
         }
 
-        function preCarregarGraficoVendasBandeira() {
-          let dados_grafico = [];
-          let totalQtd = 0;
-          let totalBruto = 0;
-          let totalTx = 0;
-          let totalLiq = 0;
-          let totalTicket = 0;
+      } else if (tipo == 'bandeira') {
+        dash_vendas = <?php echo $dados_dash_vendas_bandeira ?>;
 
-          const dash_vendas = <?php echo $dados_dash_vendas_bandeira ?>;
+        $('#table_vendas_bandeira tbody').empty();
+        $('#table_vendas_bandeira tfoot').empty();
 
-          dash_vendas.forEach((dados_dash) => {
-            if (dados_dash.COD_PERIODO == 2 && dados_dash.QUANTIDADE > 0) {
-              dados_grafico.push(dados_dash);
+        dash_vendas.forEach((dados_dash) => {
+          if (dados_dash.COD_PERIODO == cod_periodo && dados_dash.QUANTIDADE > 0) {
 
-              let html = "<tr>";
-              html += "<td style='padding: 2px !important'>" + "<div class='tooltip-hint' data-title='" + dados_dash.BANDEIRA + "'>" +
-              "<img style='position: static; width:80px' src='" + dados_dash.IMAGEM + "'/>" + "</div>" + "</td>";
-              // html += "<td>" + "<img src='" + `${dados_dash.IMAGEM || 'assets/images/iconCart.jpeg'}` + "' data-toggle='tooltip' title='" + dados_dash.BANDEIRA + "'/>" + "</td>";
-              html += "<td>" + dados_dash.QUANTIDADE_REAL + "</td>";
-              html += "<td>" + Intl.NumberFormat('pt-br', {
-                style: 'currency',
-                currency: 'BRL'
-              }).format(dados_dash.TOTAL_BRUTO) + "</td>";
-              html += "<td>" + Intl.NumberFormat('pt-br', {
-                style: 'currency',
-                currency: 'BRL'
-              }).format(dados_dash.TOTAL_TAXA) + "</td>";
-              html += "<td>" + Intl.NumberFormat('pt-br', {
-                style: 'currency',
-                currency: 'BRL'
-              }).format(dados_dash.TOTAL_LIQUIDO) + "</td>";
-              html += "</tr>";
+            html = geraTabela(
+              dados_dash.IMAGEM,
+              dados_dash.BANDEIRA,
+              dados_dash.QUANTIDADE_REAL,
+              dados_dash.TOTAL_BRUTO,
+              dados_dash.TOTAL_TAXA,
+              dados_dash.TOTAL_LIQUIDO
+            )
 
-              totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
-              totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
-              totalTx += parseFloat(dados_dash.TOTAL_TAXA);
-              totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
-              totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
+            $('#table_vendas_bandeira').append(html);
 
-              $('#table_vendas_bandeira').append(html);
+            totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
+            totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
+            totalTx += parseFloat(dados_dash.TOTAL_TAXA);
+            totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
+            totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
 
-              document.getElementById("dropdownMenuButtonBandeira").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
-            }
-          })
+            dados_grafico.push(dados_dash);
 
-          let htmlSubTotal = "<tr class='subtotal-dash'>";
-          htmlSubTotal += "<td>" + "Total" + "</td>";
-          htmlSubTotal += "<td>" + totalQtd + "</td>";
-          htmlSubTotal += "<td>" + Intl.NumberFormat('pt-br', {
-            style: 'currency',
-            currency: 'BRL'
-          }).format(totalBruto) + "</td>";
-          htmlSubTotal += "<td>" + Intl.NumberFormat('pt-br', {
-            style: 'currency',
-            currency: 'BRL'
-          }).format(totalTx) + "</td>";
-          htmlSubTotal += "<td>" + Intl.NumberFormat('pt-br', {
-            style: 'currency',
-            currency: 'BRL'
-          }).format(totalLiq) + "</td>";
-          htmlSubTotal += "</tr>";
+            document.getElementById("dropdownMenuButtonBandeira").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
+          }
+        })
 
-          $('#table_vendas_bandeira tfoot').append(htmlSubTotal);
+        geraRodapeTabelaComTotais("#table_vendas_bandeira tfoot", totalQtd, totalBruto, totalTx, totalLiq);
+        document.getElementById("dropdownMenuButtonBandeira").innerHTML = label_button + ' ' + '<i class="mdi mdi-chevron-down"></i>';
 
-          periodo = 2;
+        $('#table_vendas_bandeira tfoot').append(htmlSubTotal);
+
+        if (dados_grafico.length == 0) {
+          grafico_vendas_bandeira.destroy();
+        } else {
+          grafico_vendas_bandeira.destroy();
+
+          periodo = cod_periodo;
           localStorage.setItem('periodo_venda_bandeira', 2);
-          geraGraficoVendasBandeira(dados_grafico, 1);
+          geraGraficoVendasBandeira(dados_grafico);
         }
+      } else if (tipo == 'modalidade') {
 
-        function preCarregarGraficoVendasProduto() {
-          let dados_grafico = [];
-          let totalQtd = 0;
-          let totalBruto = 0;
-          let totalTx = 0;
-          let totalLiq = 0;
-          let totalTicket = 0;
+        dash_vendas = <?php echo $dados_dash_vendas_modalidade ?>;
 
-          const dash_vendas_produto = <?php echo $dados_dash_vendas_produto ?>;
+        $('#table_vendas_modalidade tbody').empty();
+        $('#table_vendas_modalidade tfoot').empty();
 
-          dash_vendas_produto.forEach((dados_dash) => {
-            if (dados_dash.COD_PERIODO == 2 && dados_dash.QUANTIDADE > 0) {
-              dados_grafico.push(dados_dash);
+        dash_vendas.forEach((dados_dash) => {
+          if (dados_dash.COD_PERIODO == cod_periodo && dados_dash.QUANTIDADE > 0) {
 
-              var html = "<tr>";
-              html += "<td style='color: #231F20'>" + dados_dash.PRODUTO_WEB + "</td>";
-              html += "<td style='color: #231F20'>" + dados_dash.QUANTIDADE_REAL + "</td>";
-              html += "<td style='color: #231F20'>" + Intl.NumberFormat('pt-br', {
-                style: 'currency',
-                currency: 'BRL'
-              }).format(dados_dash.TOTAL_BRUTO) + "</td>";
-              html += "<td style='color: red'>" + Intl.NumberFormat('pt-br', {
-                style: 'currency',
-                currency: 'BRL'
-              }).format(dados_dash.TOTAL_TAXA) + "</td>";
-              html += "<td style='color: #231F20'>" + Intl.NumberFormat('pt-br', {
-                style: 'currency',
-                currency: 'BRL'
-              }).format(dados_dash.TOTAL_LIQUIDO) + "</td>";
-              html += "</tr>";
+            html = geraTabelaSemImagem(
+              dados_dash.DESCRICAO,
+              dados_dash.QUANTIDADE_REAL,
+              dados_dash.TOTAL_BRUTO,
+              dados_dash.TOTAL_TAXA,
+              dados_dash.TOTAL_LIQUIDO
+            )
 
-              totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
-              totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
-              totalTx += parseFloat(dados_dash.TOTAL_TAXA);
-              totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
-              totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
+            $('#table_vendas_modalidade').append(html);
 
-              $('#table_vendas_produto').append(html);
+            totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
+            totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
+            totalTx += parseFloat(dados_dash.TOTAL_TAXA);
+            totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
+            totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
 
-              document.getElementById("dropdownMenuButtonProduto").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
-            }
-          })
+            dados_grafico.push(dados_dash);
+            document.getElementById("dropdownMenuButtonModalidade").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
+          }
+        })
 
-          let htmlSubTotal = "<tr class='subtotal-dash'>";
-          htmlSubTotal += "<td>" + "Total" + "</td>";
-          htmlSubTotal += "<td>" + totalQtd + "</td>";
-          htmlSubTotal += "<td>" + Intl.NumberFormat('pt-br', {
-            style: 'currency',
-            currency: 'BRL'
-          }).format(totalBruto) + "</td>";
-          htmlSubTotal += "<td>" + Intl.NumberFormat('pt-br', {
-            style: 'currency',
-            currency: 'BRL'
-          }).format(totalTx) + "</td>";
-          htmlSubTotal += "<td>" + Intl.NumberFormat('pt-br', {
-            style: 'currency',
-            currency: 'BRL'
-          }).format(totalLiq) + "</td>";
-          htmlSubTotal += "</tr>";
+        geraRodapeTabelaComTotais("#table_vendas_modalidade tfoot", totalQtd, totalBruto, totalTx, totalLiq);
+        document.getElementById("dropdownMenuButtonModalidade").innerHTML = label_button + ' ' + '<i class="mdi mdi-chevron-down"></i>';
 
-          $('#table_vendas_produto tfoot').append(htmlSubTotal);
+        if (dados_grafico.length == 0) {
+          grafico_vendas_modalidade.destroy();
+        } else {
+          grafico_vendas_modalidade.destroy();
 
-          periodo = 2;
-          localStorage.setItem('periodo_venda_produto', 2);
-          geraGraficoVendasProduto(dados_grafico, 1);
-        }
-
-        function preCarregarGraficoVendasModalidade() {
-          let dados_grafico = [];
-          let totalQtd = 0;
-          let totalBruto = 0;
-          let totalTx = 0;
-          let totalLiq = 0;
-          let totalTicket = 0
-
-          const dashboard_vendas_modalidade = <?php echo $dados_dash_vendas_modalidade ?>;
-
-          $('#table_vendas_modalidade tbody').empty();
-
-          dashboard_vendas_modalidade.forEach((dados_dash) => {
-            if (dados_dash.COD_PERIODO == 2 && dados_dash.QUANTIDADE > 0) {
-
-              var html = "<tr>";
-              html += "<td>" + dados_dash.DESCRICAO + "</td>";
-              html += "<td style='color: #231F20'>" + dados_dash.QUANTIDADE_REAL + "</td>";
-              html += "<td style='color: #231F20'>" + Intl.NumberFormat('pt-br', {
-                style: 'currency',
-                currency: 'BRL'
-              }).format(dados_dash.TOTAL_BRUTO) + "</td>";
-              html += "<td style='color: red'>" + Intl.NumberFormat('pt-br', {
-                style: 'currency',
-                currency: 'BRL'
-              }).format(dados_dash.TOTAL_TAXA) + "</td>";
-              html += "<td style='color: #231F20'>" + Intl.NumberFormat('pt-br', {
-                style: 'currency',
-                currency: 'BRL'
-              }).format(dados_dash.TOTAL_LIQUIDO) + "</td>";
-              html += "</tr>";
-
-              $('#table_vendas_modalidade').append(html);
-
-              totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
-              totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
-              totalTx += parseFloat(dados_dash.TOTAL_TAXA);
-              totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
-              totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
-
-              dados_grafico.push(dados_dash);
-              document.getElementById("dropdownMenuButtonModalidade").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
-            }
-          })
-
-          let htmlSubTotal = "<tr class='subtotal-dash'>";
-          htmlSubTotal += "<td>" + "Total" + "</td>";
-          htmlSubTotal += "<td>" + totalQtd + "</td>";
-          htmlSubTotal += "<td>" + Intl.NumberFormat('pt-br', {
-            style: 'currency',
-            currency: 'BRL'
-          }).format(totalBruto) + "</td>";
-          htmlSubTotal += "<td>" + Intl.NumberFormat('pt-br', {
-            style: 'currency',
-            currency: 'BRL'
-          }).format(totalTx) + "</td>";
-          htmlSubTotal += "<td>" + Intl.NumberFormat('pt-br', {
-            style: 'currency',
-            currency: 'BRL'
-          }).format(totalLiq) + "</td>";
-          htmlSubTotal += "</tr>";
-
-          $('#table_vendas_modalidade tfoot').append(htmlSubTotal);
-
-          periodo = 2;
-          localStorage.setItem('periodo_venda_modalidade', 2);
+          periodo = cod_periodo;
+          localStorage.setItem('periodo_venda_modalidade', cod_periodo);
           geraGraficoVendasModalidade(dados_grafico);
         }
 
-        function trocaPeriodo(cod_periodo, tipo, label_button) {
-          let dados_grafico = [];
-          let totalQtd = 0;
-          let totalBruto = 0;
-          let totalTx = 0;
-          let totalLiq = 0;
-          let totalTicket = 0;
+      } else if (tipo == 'produto') {
+        dash_vendas = <?php echo $dados_dash_vendas_produto ?>;
 
-          let dash_vendas = <?php echo $dados_dash_vendas ?>;
+        $('#table_vendas_produto tbody').empty();
+        $('#table_vendas_produto tfoot').empty();
 
-          if (tipo == 'operadora') {
-            dash_vendas = <?php echo $dados_dash_vendas ?>;
+        dash_vendas.forEach((dados_dash) => {
+          if (dados_dash.COD_PERIODO == cod_periodo && dados_dash.QUANTIDADE > 0) {
 
-            $('#table_vendas_operadora tbody').empty();
-            $('#table_vendas_operadora tfoot').empty();
+            html = geraTabelaSemImagem(
+              dados_dash.PRODUTO_WEB,
+              dados_dash.QUANTIDADE_REAL,
+              dados_dash.TOTAL_BRUTO,
+              dados_dash.TOTAL_TAXA,
+              dados_dash.TOTAL_LIQUIDO
+            )
 
-            dash_vendas.forEach((dados_dash) => {
-              if (dados_dash.COD_PERIODO == cod_periodo && dados_dash.QUANTIDADE > 0) {
+            $('#table_vendas_produto').append(html);
 
-                let html = "<tr>";
-                html += "<td>" + "<img src='" + dados_dash.IMAGEM + "' style='width: 35px'/>" + "</td>";
-                html += "<td style='color: #231F20'>" + dados_dash.QUANTIDADE_REAL + "</td>";
-                html += "<td style='color: #231F20'>" + Intl.NumberFormat('pt-br', {
-                  style: 'currency',
-                  currency: 'BRL'
-                }).format(dados_dash.TOTAL_BRUTO) + "</td>";
-                html += "<td style='color: red'>" + Intl.NumberFormat('pt-br', {
-                  style: 'currency',
-                  currency: 'BRL'
-                }).format(dados_dash.TOTAL_TAXA) + "</td>";
-                html += "<td style='color: #231F20'>" + Intl.NumberFormat('pt-br', {
-                  style: 'currency',
-                  currency: 'BRL'
-                }).format(dados_dash.TOTAL_LIQUIDO) + "</td>";
-                html += "</tr>";
+            totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
+            totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
+            totalTx += parseFloat(dados_dash.TOTAL_TAXA);
+            totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
+            totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
 
-                $('#table_vendas_operadora').append(html);
+            dados_grafico.push(dados_dash);
 
-                totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
-                totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
-                totalTx += parseFloat(dados_dash.TOTAL_TAXA);
-                totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
-                totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
-                dados_grafico.push(dados_dash);
-                document.getElementById("dropdownMenuButton").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
-              }
-            })
-
-            let htmlSubTotal = "<tr class='subtotal-dash'>";
-            htmlSubTotal += "<td>" + "Total" + "</td>";
-            htmlSubTotal += "<td>" + totalQtd + "</td>";
-            htmlSubTotal += "<td>" + Intl.NumberFormat('pt-br', {
-              style: 'currency',
-              currency: 'BRL'
-            }).format(totalBruto) + "</td>";
-            htmlSubTotal += "<td>" + Intl.NumberFormat('pt-br', {
-              style: 'currency',
-              currency: 'BRL'
-            }).format(totalTx) + "</td>";
-            htmlSubTotal += "<td>" + Intl.NumberFormat('pt-br', {
-              style: 'currency',
-              currency: 'BRL'
-            }).format(totalLiq) + "</td>";
-            htmlSubTotal += "</tr>";
-
-            document.getElementById("dropdownMenuButton").innerHTML = label_button + ' ' + '<i class="mdi mdi-chevron-down"></i>';
-
-            $('#table_vendas_operadora tfoot').append(htmlSubTotal);
-
-            if (dados_grafico.length == 0) {
-              grafico_vendas_operadora.destroy();
-            } else {
-              grafico_vendas_operadora.destroy();
-
-              periodo = cod_periodo;
-              localStorage.setItem('periodo_venda_operadora', cod_periodo);
-              geraGraficoVendas(dados_grafico);
-            }
-
-          } else if (tipo == 'bandeira') {
-            dash_vendas = <?php echo $dados_dash_vendas_bandeira ?>;
-
-            $('#table_vendas_bandeira tbody').empty();
-            $('#table_vendas_bandeira tfoot').empty();
-
-            dash_vendas.forEach((dados_dash) => {
-              if (dados_dash.COD_PERIODO == cod_periodo && dados_dash.QUANTIDADE > 0) {
-
-                var html = "<tr>";
-                html += "<td>" + "<img src='" + dados_dash.IMAGEM + "' style='width: 28px'/>" + "</td>";
-                html += "<td style='color: #231F20'>" + dados_dash.QUANTIDADE_REAL + "</td>";
-                html += "<td style='color: #231F20'>" + Intl.NumberFormat('pt-br', {
-                  style: 'currency',
-                  currency: 'BRL'
-                }).format(dados_dash.TOTAL_BRUTO) + "</td>";
-                html += "<td style='color: red'>" + Intl.NumberFormat('pt-br', {
-                  style: 'currency',
-                  currency: 'BRL'
-                }).format(dados_dash.TOTAL_TAXA) + "</td>";
-                html += "<td style='color: #231F20'>" + Intl.NumberFormat('pt-br', {
-                  style: 'currency',
-                  currency: 'BRL'
-                }).format(dados_dash.TOTAL_LIQUIDO) + "</td>";
-                html += "</tr>";
-
-                $('#table_vendas_bandeira').append(html);
-
-                totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
-                totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
-                totalTx += parseFloat(dados_dash.TOTAL_TAXA);
-                totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
-                totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
-
-                dados_grafico.push(dados_dash);
-
-                document.getElementById("dropdownMenuButtonBandeira").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
-              }
-            })
-
-            var htmlSubTotal = "<tr class='subtotal-dash'>";
-            htmlSubTotal += "<td>" + "Total" + "</td>";
-            htmlSubTotal += "<td>" + totalQtd + "</td>";
-            htmlSubTotal += "<td>" + Intl.NumberFormat('pt-br', {
-              style: 'currency',
-              currency: 'BRL'
-            }).format(totalBruto) + "</td>";
-            htmlSubTotal += "<td>" + Intl.NumberFormat('pt-br', {
-              style: 'currency',
-              currency: 'BRL'
-            }).format(totalTx) + "</td>";
-            htmlSubTotal += "<td>" + Intl.NumberFormat('pt-br', {
-              style: 'currency',
-              currency: 'BRL'
-            }).format(totalLiq) + "</td>";
-            htmlSubTotal += "</tr>";
-
-            document.getElementById("dropdownMenuButtonBandeira").innerHTML = label_button + ' ' + '<i class="mdi mdi-chevron-down"></i>';
-
-            $('#table_vendas_bandeira tfoot').append(htmlSubTotal);
-
-            if (dados_grafico.length == 0) {
-              grafico_vendas_bandeira.destroy();
-            } else {
-              grafico_vendas_bandeira.destroy();
-
-              periodo = cod_periodo;
-              localStorage.setItem('periodo_venda_bandeira', 2);
-              geraGraficoVendasBandeira(dados_grafico);
-            }
-
-          } else if (tipo == 'modalidade') {
-
-            dash_vendas = <?php echo $dados_dash_vendas_modalidade ?>;
-
-            $('#table_vendas_modalidade tbody').empty();
-            $('#table_vendas_modalidade tfoot').empty();
-
-            dash_vendas.forEach((dados_dash) => {
-              if (dados_dash.COD_PERIODO == cod_periodo && dados_dash.QUANTIDADE > 0) {
-
-                var html = "<tr>";
-                html += "<td>" + dados_dash.DESCRICAO + "</td>";
-                html += "<td>" + dados_dash.QUANTIDADE_REAL + "</td>";
-                html += "<td>" + Intl.NumberFormat('pt-br', {
-                  style: 'currency',
-                  currency: 'BRL'
-                }).format(dados_dash.TOTAL_BRUTO) + "</td>";
-                html += "<td style='color: red'>" + Intl.NumberFormat('pt-br', {
-                  style: 'currency',
-                  currency: 'BRL'
-                }).format(dados_dash.TOTAL_TAXA) + "</td>";
-                html += "<td>" + Intl.NumberFormat('pt-br', {
-                  style: 'currency',
-                  currency: 'BRL'
-                }).format(dados_dash.TOTAL_LIQUIDO) + "</td>";
-                html += "</tr>";
-
-                $('#table_vendas_modalidade').append(html);
-
-                totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
-                totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
-                totalTx += parseFloat(dados_dash.TOTAL_TAXA);
-                totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
-                totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
-
-                dados_grafico.push(dados_dash);
-
-                document.getElementById("dropdownMenuButtonModalidade").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
-              }
-            })
-
-            var htmlSubTotal = "<tr class='subtotal-dash'>";
-            htmlSubTotal += "<td>" + "Total" + "</td>";
-            htmlSubTotal += "<td>" + totalQtd + "</td>";
-            htmlSubTotal += "<td>" + Intl.NumberFormat('pt-br', {
-              style: 'currency',
-              currency: 'BRL'
-            }).format(totalBruto) + "</td>";
-            htmlSubTotal += "<td>" + Intl.NumberFormat('pt-br', {
-              style: 'currency',
-              currency: 'BRL'
-            }).format(totalTx) + "</td>";
-            htmlSubTotal += "<td>" + Intl.NumberFormat('pt-br', {
-              style: 'currency',
-              currency: 'BRL'
-            }).format(totalLiq) + "</td>";
-            htmlSubTotal += "</tr>";
-
-            document.getElementById("dropdownMenuButtonModalidade").innerHTML = label_button + ' ' + '<i class="mdi mdi-chevron-down"></i>';
-
-            $('#table_vendas_modalidade tfoot').append(htmlSubTotal);
-
-            if (dados_grafico.length == 0) {
-              grafico_vendas_modalidade.destroy();
-            } else {
-              grafico_vendas_modalidade.destroy();
-
-              periodo = cod_periodo;
-              localStorage.setItem('periodo_venda_modalidade', cod_periodo);
-              geraGraficoVendasModalidade(dados_grafico);
-            }
-
-          } else if (tipo == 'produto') {
-            dash_vendas = <?php echo $dados_dash_vendas_produto ?>;
-
-            $('#table_vendas_produto tbody').empty();
-            $('#table_vendas_produto tfoot').empty();
-
-            dash_vendas.forEach((dados_dash) => {
-              if (dados_dash.COD_PERIODO == cod_periodo && dados_dash.QUANTIDADE > 0) {
-
-                var html = "<tr>";
-                html += "<td>" + dados_dash.PRODUTO_WEB + "</td>";
-                html += "<td>" + dados_dash.QUANTIDADE_REAL + "</td>";
-                html += "<td>" + Intl.NumberFormat('pt-br', {
-                  style: 'currency',
-                  currency: 'BRL'
-                }).format(dados_dash.TOTAL_BRUTO) + "</td>";
-                html += "<td style='color: red'>" + Intl.NumberFormat('pt-br', {
-                  style: 'currency',
-                  currency: 'BRL'
-                }).format(dados_dash.TOTAL_TAXA) + "</td>";
-                html += "<td>" + Intl.NumberFormat('pt-br', {
-                  style: 'currency',
-                  currency: 'BRL'
-                }).format(dados_dash.TOTAL_LIQUIDO) + "</td>";
-                html += "</tr>";
-
-                $('#table_vendas_produto').append(html);
-
-                totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
-                totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
-                totalTx += parseFloat(dados_dash.TOTAL_TAXA);
-                totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
-                totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
-
-                dados_grafico.push(dados_dash);
-
-                document.getElementById("dropdownMenuButtonProduto").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
-              }
-            })
-
-            var htmlSubTotal = "<tr class='subtotal-dash'>";
-            htmlSubTotal += "<td>" + "Total" + "</td>";
-            htmlSubTotal += "<td>" + totalQtd + "</td>";
-            htmlSubTotal += "<td>" + Intl.NumberFormat('pt-br', {
-              style: 'currency',
-              currency: 'BRL'
-            }).format(totalBruto) + "</td>";
-            htmlSubTotal += "<td>" + Intl.NumberFormat('pt-br', {
-              style: 'currency',
-              currency: 'BRL'
-            }).format(totalTx) + "</td>";
-            htmlSubTotal += "<td>" + Intl.NumberFormat('pt-br', {
-              style: 'currency',
-              currency: 'BRL'
-            }).format(totalLiq) + "</td>";
-            htmlSubTotal += "</tr>";
-
-            document.getElementById("dropdownMenuButtonProduto").innerHTML = label_button + ' ' + '<i class="mdi mdi-chevron-down"></i>';
-
-            $('#table_vendas_produto tfoot').append(htmlSubTotal);
-
-            if (dados_grafico.length == 0) {
-              grafico_vendas_produto.destroy();
-            } else {
-              grafico_vendas_produto.destroy();
-
-              periodo = cod_periodo;
-              localStorage.setItem('periodo_venda_produto', cod_periodo);
-              geraGraficoVendasProduto(dados_grafico);
-            }
-
+            document.getElementById("dropdownMenuButtonProduto").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
           }
+        })
 
+        geraRodapeTabelaComTotais("#table_vendas_produto tfoot", totalQtd, totalBruto, totalTx, totalLiq);
+        document.getElementById("dropdownMenuButtonProduto").innerHTML = label_button + ' ' + '<i class="mdi mdi-chevron-down"></i>';
+
+        $('#table_vendas_produto tfoot').append(htmlSubTotal);
+
+        if (dados_grafico.length == 0) {
+          grafico_vendas_produto.destroy();
+        } else {
+          grafico_vendas_produto.destroy();
+
+          periodo = cod_periodo;
+          localStorage.setItem('periodo_venda_produto', cod_periodo);
+          geraGraficoVendasProduto(dados_grafico);
         }
+      }
+    }
 
-        function showTableBancoSelecionado(codigo) {
-          $("#table_banco_selecionado tbody").empty();
+    function showTableBancoSelecionado(codigo) {
+      $("#table_banco_selecionado tbody").empty();
 
-          var bancos = bancos_dados;
+      const bancos = bancos_dados;
+      const result = bancos.find(banco => banco.CODIGO == codigo);
+      const val_bruto = parseFloat(result.val_bruto);
+      const val_liquido = parseFloat(result.val_liquido);
+      const tx = parseInt(result.val_taxa);
+      const t = Number(tx).toFixed(2);
 
-          var result = bancos.find(banco => banco.CODIGO == codigo);
+      geraTabelaDetalhamentoCalendario("#table_banco_selecionado tbody", val_bruto, val_liquido);
 
-          var val_bruto = parseFloat(result.val_bruto);
-          var val_liquido = parseFloat(result.val_liquido);
-          var tx = parseInt(result.val_taxa);
-          var t = Number(tx).toFixed(2);
-          var html = "<tr>";
+      document.getElementById(result.CODIGO).classList.remove('active');
+      document.getElementById("voltar").classList.remove('active');
+    }
 
-          html += "<td>" + "<b text-align='left'>Recebíveis Bruto:  </b>" + Intl.NumberFormat('pt-br', {
-            style: 'currency',
-            currency: 'BRL'
-          }).format(val_bruto) + "</td>";
+    function showTableOperadoraSelecionada(codigo) {
+      $("#table_operadora_selecionado tbody").empty();
 
+      const operadoras = operadoras_dados;
+      const result = operadoras.find(operadora => operadora.CODIGO == codigo);
+      const val_bruto = parseFloat(result.val_bruto);
+      const val_liquido = parseFloat(result.val_liquido);
+      const tx = parseFloat(result.val_taxa);
+      const t = Number(tx).toFixed(2);
 
-          html += "</tr>";
+      geraTabelaDetalhamentoCalendario("#table_operadora_selecionado tbody", val_bruto, val_liquido);
 
-          html += "<tr>";
+      document.getElementById("operadora" + result.CODIGO).classList.remove('active');
+      document.getElementById("voltar_operadora").classList.remove('active');
+    }
 
-          html += "<td style='color: red'>" + "<b style='color: black'>Taxas: </b> " + Intl.NumberFormat('pt-br', {
-            style: 'currency',
-            currency: 'BRL'
-          }).format(tx) + "</b>" + "</td>";
+    function showRecebiveis(data, title, color, jsEvent) {
+      document.getElementById("voltar").click();
+      document.getElementById("voltar_operadora").click();
+      document.getElementById("preloader").style.display = "block";
 
+      const data_v = new Date(data);
+      const data_venda = data_v.toLocaleDateString('pt-BR', {
+        timeZone: 'UTC'
+      });
 
-          html += "</tr>";
+      if (color) {
+        if (color == '#257e4a') {
+          localStorage.setItem('situacao_pgto', 'Depositado');
 
-          html += "<tr>";
+          document.getElementById("label_recebimentos").innerHTML = title;
+          document.getElementById("label_data_recebimento").innerHTML = '<b style="color: #6E6E6E">' + data_venda + '</b>';
+          $("#ul_bancos li").remove();
+          $("#ul_operadora li").remove();
 
-          html += "<td>" + "<b> Tarifas Extras: </b>" + "</td>";
+          var url = "{{ url('detalhe-calendario') }}" + "/" + data;
 
+          $.ajax({
+            url: url,
+            type: "GET",
+            dataType: 'json',
+            success: function(response) {
+              bancos_dados = response[0];
+              operadoras_dados = response[1];
+              console.log(bancos_dados);
+              // $('#ul_bancos').empty();
+              response[0].forEach((bancos) => {
+                var html = "<li class='list-group-item align-items-center d-flex justify-content-between'>"
 
-          html += "</tr>";
+                html += "<div class='col-12 row' style='text-align: center'>"
+                html += "<div class='col-2' style='margin: 0'>"
+                html += "<div class='tooltip-hint' data-title='"+ bancos.BANCO_NOME + "'><img src='" + bancos.IMAGEM + "' class='align-self-center' style='width: 45px; margin-left: -20px;'></div>"
+                html += "</div>"
+                html += "<div class='col-4 media-body align-self-center'>"
+                html += "<h4 style='font-size: 13px; margin-left: -30px'>" + "AG: " + bancos.AGENCIA + "- C/C: " + bancos.CONTA + "</h4>"
+                html += "</div>"
+                html += "<div class='col-5 media-body align-self-center' style='margin: 0'>"
+                html += "<h4 style='text-align: right; font-size: 14px; color: #257E4A'>" + Intl.NumberFormat('pt-br', {
+                  style: 'currency',
+                  currency: 'BRL'
+                }).format(bancos.val_liquido) + "</h4>"
+                html += "</div>"
+                html += "<div class='col-1 media-body align-self-center'>"
+                html += "<a id='" + bancos.CODIGO + "' data-toggle='tab' data-target='#div_banco_selecionado' onclick='showTableBancoSelecionado(" + bancos.CODIGO + ")' role='tab' aria-selected='false' style='display: block'><i class='thumb-lg mdi mdi-chevron-right'></i> </a>"
+                html += "</div>"
+                html += "</div>"
+                html += "</li>"
 
-          html += "<tr>";
+                $('#ul_bancos').append(html);
 
+              })
 
-          html += "<td>" + "<b>Valor Líquido: </b>" + Intl.NumberFormat('pt-br', {
-            style: 'currency',
-            currency: 'BRL'
-          }).format(val_liquido) + "</td>";
+              response[1].forEach((bancos) => {
+                var html = "<li class='list-group-item align-items-center d-flex justify-content-between'>"
 
-          html += "</tr>";
+                html += "<div class='col-12 row'>"
+                html += "<div class='tooltip-hint' data-title='"+ bancos.NOME_AD + "'>" + "<img src='" + bancos.IMAGEMAD + "' style='width: 60px; ;' class='align-self-center'></div>"
+                html += "<div class='col-7 media-body align-self-center'>"
+                html += "<h4 class='m-0' style='font-size: 14px; text-align:right; color: #257E4A'>" + Intl.NumberFormat('pt-br', {
+                  style: 'currency',
+                  currency: 'BRL'
+                }).format(bancos.val_liquido) + "</h4>"
+                html += "</div>"
+                html += "<div class='col-1 media-body align-self-center'>"
+                html += "<a id='operadora" + bancos.CODIGO + "' data-toggle='tab' data-target='#div_operadora_selecionada' onclick='showTableOperadoraSelecionada(" + bancos.CODIGO + ")' role='tab' aria-selected='false' style='display: block'><i class='thumb-lg mdi mdi-chevron-right'></i> </a>"
+                html += "</div>"
+                html += "</div>"
+                html += "</li>"
 
-          html += "<tr>";
+                $('#ul_operadora').append(html);
 
+                document.getElementById("preloader").style.display = "none";
 
-          html += "<td style='background: #BDBDBD '>" + "<b>Situação de Pagamento: " + localStorage.getItem('situacao_pgto') + "</td>";
+              })
 
-          html += "</tr>";
-
-          $('#table_banco_selecionado').append(html);
-          document.getElementById(result.CODIGO).classList.remove('active');
-          document.getElementById("voltar").classList.remove('active');
-        }
-
-        function showTableOperadoraSelecionada(codigo) {
-          $("#table_operadora_selecionado tbody").empty();
-
-          var operadoras = operadoras_dados;
-
-          var result = operadoras.find(operadora => operadora.CODIGO == codigo);
-
-          var val_bruto = parseFloat(result.val_bruto);
-          var val_liquido = parseFloat(result.val_liquido);
-          var tx = parseFloat(result.val_taxa);
-          var t = Number(tx).toFixed(2);
-
-          var html = "<tr>";
-
-          html += "<td>" + "<b text-align='left'>Recebíveis Bruto:  </b>" + Intl.NumberFormat('pt-br', {
-            style: 'currency',
-            currency: 'BRL'
-          }).format(val_bruto) + "</td>";
-
-
-          html += "</tr>";
-
-          html += "<tr>";
-
-          html += "<td style='color: red'>" + "<b style='color: black'>Taxas: </b> " + Intl.NumberFormat('pt-br', {
-            style: 'currency',
-            currency: 'BRL'
-          }).format(tx) + "</b>" + "</td>";
-
-
-          html += "</tr>";
-
-          html += "<tr>";
-
-          html += "<td>" + "<b> Tarifas Extras: </b>" + "</td>";
-
-
-          html += "</tr>";
-
-          html += "<tr>";
-
-
-          html += "<td>" + "<b>Valor Líquido: </b>" + Intl.NumberFormat('pt-br', {
-            style: 'currency',
-            currency: 'BRL'
-          }).format(val_liquido) + "</td>";
-
-          html += "</tr>";
-
-          html += "<tr>";
-
-
-          html += "<td style='background: #BDBDBD '>" + "<b>Situação de Pagamento: " + localStorage.getItem('situacao_pgto') + "</td>";
-
-          html += "</tr>";
-
-          $('#table_operadora_selecionado').append(html);
-          document.getElementById("operadora" + result.CODIGO).classList.remove('active');
-          document.getElementById("voltar_operadora").classList.remove('active');
-        }
-
-        function showRecebiveis(data, title, color, jsEvent) {
-          document.getElementById("voltar").click();
-          document.getElementById("voltar_operadora").click();
-          document.getElementById("preloader").style.display = "block";
-
-          const data_v = new Date(data);
-          const data_venda = data_v.toLocaleDateString('pt-BR', {
-            timeZone: 'UTC'
+              // })
+            }
+          }).fail(function() {
+            alert("Erro, tente novamente!");
+            document.getElementById("preloader").style.display = "none";
+            return;
           });
+        } else if (color == '#2D93AD') {
+          localStorage.setItem('situacao_pgto', 'Previsto');
 
-          if (color) {
-            if (color == '#257e4a') {
-              localStorage.setItem('situacao_pgto', 'Depositado');
+          document.getElementById("label_recebimentos").innerHTML = title;
+          document.getElementById("label_data_recebimento").innerHTML = '<b style="color: #6E6E6E">' + data_venda + '</b>';
+          $("#ul_bancos li").remove();
+          $("#ul_operadora li").remove();
 
-              document.getElementById("label_recebimentos").innerHTML = title;
-              document.getElementById("label_data_recebimento").innerHTML = '<b style="color: #6E6E6E">' + data_venda + '</b>';
-              $("#ul_bancos li").remove();
-              $("#ul_operadora li").remove();
+          var url = "{{ url('detalhe-calendario-prev') }}" + "/" + data;
 
-              var url = "{{ url('detalhe-calendario') }}" + "/" + data;
+          $.ajax({
+            url: url,
+            type: "GET",
+            dataType: 'json',
+            success: function(response) {
+              bancos_dados = response[0];
+              operadoras_dados = response[1];
+              // $('#ul_bancos').empty();
 
-              $.ajax({
-                url: url,
-                type: "GET",
-                dataType: 'json',
-                success: function(response) {
-                  bancos_dados = response[0];
-                  operadoras_dados = response[1];
-                  console.log(bancos_dados);
-                  // $('#ul_bancos').empty();
-                  response[0].forEach((bancos) => {
-                    var html = "<li class='list-group-item align-items-center d-flex justify-content-between'>"
 
-                    html += "<div class='col-12 row' style='text-align: center'>"
-                    html += "<div class='col-2' style='margin: 0'>"
-                    html += "<div class='tooltip-hint' data-title='"+ bancos.BANCO_NOME + "'><img src='" + bancos.IMAGEM + "' class='align-self-center' style='width: 45px; margin-left: -20px;'></div>"
-                    html += "</div>"
-                    html += "<div class='col-4 media-body align-self-center'>"
-                    html += "<h4 style='font-size: 13px; margin-left: -30px'>" + "AG: " + bancos.AGENCIA + "- C/C: " + bancos.CONTA + "</h4>"
-                    html += "</div>"
-                    html += "<div class='col-5 media-body align-self-center' style='margin: 0'>"
-                    html += "<h4 style='text-align: right; font-size: 14px; color: #257E4A'>" + Intl.NumberFormat('pt-br', {
-                      style: 'currency',
-                      currency: 'BRL'
-                    }).format(bancos.val_liquido) + "</h4>"
-                    html += "</div>"
-                    html += "<div class='col-1 media-body align-self-center'>"
-                    html += "<a id='" + bancos.CODIGO + "' data-toggle='tab' data-target='#div_banco_selecionado' onclick='showTableBancoSelecionado(" + bancos.CODIGO + ")' role='tab' aria-selected='false' style='display: block'><i class='thumb-lg mdi mdi-chevron-right'></i> </a>"
-                    html += "</div>"
-                    html += "</div>"
-                    html += "</li>"
+              response[0].forEach((bancos) => {
+                var html = "<li class='list-group-item align-items-center d-flex justify-content-between'>"
 
-                    $('#ul_bancos').append(html);
+                html += "<div class='col-12 row' style='text-align: center'>"
+                html += "<div class='col-2' style='margin: 0'>"
+                html += "<img src='" + bancos.IMAGEM + "' class='align-self-center' style='width: 45px; margin-left: -20px;'>"
+                html += "</div>"
+                html += "<div class='col-4 media-body align-self-center'>"
+                html += "<h4 style='font-size: 13px; margin-left: -30px'>" + "AG: " + bancos.AGENCIA + "- C/C: " + bancos.CONTA + "</h4>"
+                html += "</div>"
+                html += "<div class='col-5 media-body align-self-center' style='margin: 0'>"
+                html += "<h4 style='text-align: right; font-size: 14px; color: #257E4A'>" + Intl.NumberFormat('pt-br', {
+                  style: 'currency',
+                  currency: 'BRL'
+                }).format(bancos.val_liquido) + "</h4>"
+                html += "</div>"
+                html += "<div class='col-1 media-body align-self-center'>"
+                html += "<a id='" + bancos.CODIGO + "' data-toggle='tab' data-target='#div_banco_selecionado' onclick='showTableBancoSelecionado(" + bancos.CODIGO + ")' role='tab' aria-selected='false' style='display: block'><i class='thumb-lg mdi mdi-chevron-right'></i> </a>"
+                html += "</div>"
+                html += "</div>"
+                html += "</li>"
 
-                  })
+                $('#ul_bancos').append(html);
+              })
 
-                  response[1].forEach((bancos) => {
-                    var html = "<li class='list-group-item align-items-center d-flex justify-content-between'>"
+              response[1].forEach((bancos) => {
+                var html = "<li class='list-group-item align-items-center d-flex justify-content-between'>"
 
-                    html += "<div class='col-12 row'>"
-                    html += "<div class='tooltip-hint' data-title='"+ bancos.NOME_AD + "'>" + "<img src='" + bancos.IMAGEMAD + "' style='width: 60px; ;' class='align-self-center'></div>"
-                    html += "<div class='col-7 media-body align-self-center'>"
-                    html += "<h4 class='m-0' style='font-size: 14px; text-align:right; color: #257E4A'>" + Intl.NumberFormat('pt-br', {
-                      style: 'currency',
-                      currency: 'BRL'
-                    }).format(bancos.val_liquido) + "</h4>"
-                    html += "</div>"
-                    html += "<div class='col-1 media-body align-self-center'>"
-                    html += "<a id='operadora" + bancos.CODIGO + "' data-toggle='tab' data-target='#div_operadora_selecionada' onclick='showTableOperadoraSelecionada(" + bancos.CODIGO + ")' role='tab' aria-selected='false' style='display: block'><i class='thumb-lg mdi mdi-chevron-right'></i> </a>"
-                    html += "</div>"
-                    html += "</div>"
-                    html += "</li>"
+                html += "<div class='col-12 row'>"
+                html += "<img src='" + bancos.IMAGEMAD + "' class='align-self-center' style='width: 70px;'>"
+                html += "<div class='col-7 media-body align-self-center'>"
+                html += "<h4 class='m-0' style='font-size: 14px; text-align:right; color: #257E4A'>" + formataMoeda(val_liquido) + "</h4>"
+                html += "</div>"
+                html += "<div class='col-1 media-body align-self-center'>"
+                html += "<a id='operadora" + bancos.CODIGO + "' data-toggle='tab' data-target='#div_operadora_selecionada' onclick='showTableOperadoraSelecionada(" + bancos.CODIGO + ")' role='tab' aria-selected='false' style='display: block'><i class='thumb-lg mdi mdi-chevron-right'></i> </a>"
+                html += "</div>"
+                html += "</div>"
+                html += "</li>"
 
-                    $('#ul_operadora').append(html);
+                $('#ul_operadora').append(html);
 
-                    document.getElementById("preloader").style.display = "none";
-
-                  })
-
-                  // })
-                }
-              }).fail(function() {
-                alert("Erro, tente novamente!");
                 document.getElementById("preloader").style.display = "none";
-                return;
-              });
-            } else if (color == '#2D93AD') {
-              localStorage.setItem('situacao_pgto', 'Previsto');
 
-              document.getElementById("label_recebimentos").innerHTML = title;
-              document.getElementById("label_data_recebimento").innerHTML = '<b style="color: #6E6E6E">' + data_venda + '</b>';
-              $("#ul_bancos li").remove();
-              $("#ul_operadora li").remove();
-
-              var url = "{{ url('detalhe-calendario-prev') }}" + "/" + data;
-
-              $.ajax({
-                url: url,
-                type: "GET",
-                dataType: 'json',
-                success: function(response) {
-                  bancos_dados = response[0];
-                  operadoras_dados = response[1];
-                  // $('#ul_bancos').empty();
-
-
-                  response[0].forEach((bancos) => {
-                    var html = "<li class='list-group-item align-items-center d-flex justify-content-between'>"
-
-                    html += "<div class='col-12 row' style='text-align: center'>"
-                    html += "<div class='col-2' style='margin: 0'>"
-                    html += "<img src='" + bancos.IMAGEM + "' class='align-self-center' style='width: 45px; margin-left: -20px;'>"
-                    html += "</div>"
-                    html += "<div class='col-4 media-body align-self-center'>"
-                    html += "<h4 style='font-size: 13px; margin-left: -30px'>" + "AG: " + bancos.AGENCIA + "- C/C: " + bancos.CONTA + "</h4>"
-                    html += "</div>"
-                    html += "<div class='col-5 media-body align-self-center' style='margin: 0'>"
-                    html += "<h4 style='text-align: right; font-size: 14px; color: #257E4A'>" + Intl.NumberFormat('pt-br', {
-                      style: 'currency',
-                      currency: 'BRL'
-                    }).format(bancos.val_liquido) + "</h4>"
-                    html += "</div>"
-                    html += "<div class='col-1 media-body align-self-center'>"
-                    html += "<a id='" + bancos.CODIGO + "' data-toggle='tab' data-target='#div_banco_selecionado' onclick='showTableBancoSelecionado(" + bancos.CODIGO + ")' role='tab' aria-selected='false' style='display: block'><i class='thumb-lg mdi mdi-chevron-right'></i> </a>"
-                    html += "</div>"
-                    html += "</div>"
-                    html += "</li>"
-
-                    $('#ul_bancos').append(html);
-                  })
-
-                  response[1].forEach((bancos) => {
-                    var html = "<li class='list-group-item align-items-center d-flex justify-content-between'>"
-
-                    html += "<div class='col-12 row'>"
-                    html += "<img src='" + bancos.IMAGEMAD + "' class='align-self-center' style='width: 70px;'>"
-                    html += "<div class='col-7 media-body align-self-center'>"
-                    html += "<h4 class='m-0' style='font-size: 14px; text-align:right; color: #257E4A'>" + Intl.NumberFormat('pt-br', {
-                      style: 'currency',
-                      currency: 'BRL'
-                    }).format(bancos.val_liquido) + "</h4>"
-                    html += "</div>"
-                    html += "<div class='col-1 media-body align-self-center'>"
-                    html += "<a id='operadora" + bancos.CODIGO + "' data-toggle='tab' data-target='#div_operadora_selecionada' onclick='showTableOperadoraSelecionada(" + bancos.CODIGO + ")' role='tab' aria-selected='false' style='display: block'><i class='thumb-lg mdi mdi-chevron-right'></i> </a>"
-                    html += "</div>"
-                    html += "</div>"
-                    html += "</li>"
-
-                    $('#ul_operadora').append(html);
-
-                    document.getElementById("preloader").style.display = "none";
-
-                  })
-
-                  // })
-                }
-              }).fail(function() {
-                alert("Erro, tente novamente");
-                document.getElementById("preloader").style.display = "none";
-              });
+              })
             }
-          }
+          }).fail(function() {
+            alert("Erro, tente novamente");
+            document.getElementById("preloader").style.display = "none";
+          });
         }
+      }
+    }
 
-        function gerarPdfVendasOperadora() {
-          var codigo_periodo = localStorage.getItem('periodo_venda_operadora');
-          var url = "{{ url('export-vendasoperadora')}}" + "/" + codigo_periodo;
+    function showTableBancoSelecionadoInicial(codigo) {
+      $("#table_banco_selecionado tbody").empty();
 
-          window.location.href = url;
-        }
+      const bancos = <?php echo $dados_bancos ?>;
+      const result = bancos.find(banco => banco.CODIGO == codigo);
+      const val_bruto = parseFloat(result.val_bruto);
+      const val_liquido = parseFloat(result.val_liquido);
+      const tx = parseFloat(result.val_tx);
 
-        function gerarPdfVendasBandeira() {
-          var codigo_periodo = localStorage.getItem('periodo_venda_bandeira');
-          var url = "{{ url('export-vendasbandeira')}}" + "/" + codigo_periodo;
+      geraTabelaDetalhamentoCalendario("#table_banco_selecionado tbody", val_bruto, val_liquido);
 
-          window.location.href = url;
-        }
+      document.getElementById(result.CODIGO).classList.remove('active');
+      document.getElementById("voltar").classList.remove('active');
+    }
 
-        function gerarPdfVendasModalidade() {
-          var codigo_periodo = localStorage.getItem('periodo_venda_modalidade');
-          var url = "{{ url('export-vendasmodalidade')}}" + "/" + codigo_periodo;
+    function showTableOperadoraSelecionadaInicial(codigo) {
+      $("#table_operadora_selecionado tbody").empty();
 
-          window.location.href = url;
-        }
+      const operadoras = <?php echo $dados_operadora ?>;
+      const result = operadoras.find(operadora => operadora.CODIGO == codigo);
+      const val_bruto = parseFloat(result.val_bruto);
+      const val_liquido = parseFloat(result.val_liquido);
+      const tx = parseInt(result.val_tx);
 
-        function gerarPdfVendasProduto() {
-          var codigo_periodo = localStorage.getItem('periodo_venda_produto');
-          var url = "{{ url('export-vendasproduto')}}" + "/" + codigo_periodo;
+      geraTabelaDetalhamentoCalendario("#table_operadora_selecionado tbody", val_bruto, val_liquido);
 
-          window.location.href = url;
-        }
+      document.getElementById("operadora" + result.CODIGO).classList.remove('active');
+      document.getElementById("voltar_operadora").classList.remove('active');
+    }
 
-
-        function showTableBancoSelecionadoInicial(codigo) {
-          $("#table_banco_selecionado tbody").empty();
-
-          var bancos = <?php echo $dados_bancos ?>;
-
-          var result = bancos.find(banco => banco.CODIGO == codigo);
-          var val_bruto = parseFloat(result.val_bruto);
-          var val_liquido = parseFloat(result.val_liquido);
-          var tx = parseFloat(result.val_tx);
-          var html = "<tr>";
-
-          html += "<td>" + "<b text-align='left'>Recebíveis Bruto:  </b>" + Intl.NumberFormat('pt-br', {
-            style: 'currency',
-            currency: 'BRL'
-          }).format(val_bruto) + "</td>";
+    </script>
 
 
-          html += "</tr>";
-
-          html += "<tr>";
-
-          html += "<td style='color: red'>" + "<b style='color: black'>Taxas: </b> " + Intl.NumberFormat('pt-br', {
-            style: 'currency',
-            currency: 'BRL'
-          }).format(tx) + "</b>" + "</td>";
-
-
-          html += "</tr>";
-
-          html += "<tr>";
-
-          html += "<td>" + "<b> Tarifas Extras: </b>" + "</td>";
-
-
-          html += "</tr>";
-
-          html += "<tr>";
-
-
-          html += "<td>" + "<b>Valor Líquido: </b>" + Intl.NumberFormat('pt-br', {
-            style: 'currency',
-            currency: 'BRL'
-          }).format(val_liquido) + "</td>";
-
-          html += "</tr>";
-
-          html += "<tr>";
-
-
-          html += "<td style='background: #BDBDBD '>" + "<b>Situação de Pagamento: " + localStorage.getItem('situacao_pgto') + "</td>";
-
-          html += "</tr>";
-
-          $('#table_banco_selecionado').append(html);
-          document.getElementById(result.CODIGO).classList.remove('active');
-          document.getElementById("voltar").classList.remove('active');
-
-        }
-
-        function showTableOperadoraSelecionadaInicial(codigo) {
-          $("#table_operadora_selecionado tbody").empty();
-
-          const operadoras = <?php echo $dados_operadora ?>;
-          const result = operadoras.find(operadora => operadora.CODIGO == codigo);
-          const val_bruto = parseFloat(result.val_bruto);
-          const val_liquido = parseFloat(result.val_liquido);
-          const tx = parseInt(result.val_tx);
-
-          var html = "<tr>";
-          html += "<td>" + "<b text-align='left'>Recebíveis Bruto:  </b>" + Intl.NumberFormat('pt-br', {
-            style: 'currency',
-            currency: 'BRL'
-          }).format(val_bruto) + "</td>";
-          html += "</tr>";
-          html += "<tr>";
-          html += "<td style='color: red'>" + "<b style='color: black'>Taxas: </b> " + Intl.NumberFormat('pt-br', {
-            style: 'currency',
-            currency: 'BRL'
-          }).format(tx) + "</b>" + "</td>";
-          html += "</tr>";
-          html += "<tr>";
-          html += "<td>" + "<b> Tarifas Extras: </b>" + "</td>";
-          html += "</tr>";
-          html += "<tr>";
-          html += "<td>" + "<b>Valor Líquido: </b>" + Intl.NumberFormat('pt-br', {
-            style: 'currency',
-            currency: 'BRL'
-          }).format(val_liquido) + "</td>";
-          html += "</tr>";
-          html += "<tr>";
-          html += "<td style='background: #BDBDBD '>" + "<b>Situação de Pagamento: " + localStorage.getItem('situacao_pgto') + "</td>";
-          html += "</tr>";
-
-          $('#table_operadora_selecionado').append(html);
-          document.getElementById("operadora" + result.CODIGO).classList.remove('active');
-          document.getElementById("voltar_operadora").classList.remove('active');
-        }
-        </script>
-        @stop
+    @stop
