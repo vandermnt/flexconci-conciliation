@@ -183,7 +183,7 @@
         <th>
           <div class="d-flex flex-column align-items-center">
             <p>Status Conciliação</p>
-            <input type="text" class="form-control" name="STATUS_CONCILIADO">
+            <input type="text" class="form-control" name="STATUS_CONCILIACAO">
           </div>
          </th>
         <th>
@@ -268,7 +268,7 @@
         <td data-column="OBSERVACOES"></td>
         <td data-column="PRODUTO"></td>
         <td data-column="MEIOCAPTURA"></td>
-        <td data-column="STATUS_CONCILIADO"></td>
+        <td data-column="STATUS_CONCILIACAO"></td>
         <td data-column="DIVERGENCIA"></td>
         <td data-column="JUSTIFICATIVA"></td>
       </tr>

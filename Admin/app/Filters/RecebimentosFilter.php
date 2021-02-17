@@ -25,8 +25,6 @@ class RecebimentosFilter extends BaseFilter {
   }
 
   public function apply($filters) {
-    $STATUS_CONCILIADO = 1;
-
     $filters = Arr::only($filters, $this->whiteList);
     $filters = Arr::where($filters, function($value, $key) {
       return boolval($value);
@@ -75,9 +73,6 @@ class RecebimentosFilter extends BaseFilter {
         'produto_web.PRODUTO_WEB as PRODUTO',
         'meio_captura.DESCRICAO as MEIOCAPTURA',
         'status_conciliacao.STATUS_CONCILIACAO',
-        DB::raw("IF(
-            pagamentos_operadoras.COD_STATUS = ".$STATUS_CONCILIADO.", 'Sim', 'Não'
-          ) as STATUS_CONCILIADO"),
         'vendas.DIVERGENCIA',
         'vendas.JUSTIFICATIVA',
         'pagamentos_operadoras.COD_TIPO_PAGAMENTO'
