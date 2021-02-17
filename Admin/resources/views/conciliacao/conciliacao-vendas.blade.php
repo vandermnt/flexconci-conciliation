@@ -166,7 +166,7 @@
               <input
                 name="id_erp[]"
                 type="checkbox"
-                data-column="ID_ERP"
+                data-value-key="ID_ERP"
               >
               <div class="tooltip-hint d-flex align-items-center" data-default-title="Visualizar Detalhes">
                 <i class="fas fa-eye"></i>
@@ -214,7 +214,7 @@
               <input
                 name="id_operadoras[]"
                 type="checkbox"
-                data-column="ID"
+                data-value-key="ID"
               >
               <div class="tooltip-hint d-flex align-items-center" data-default-title="Visualizar Detalhes">
                 <i class="fas fa-eye"></i>

@@ -8,7 +8,7 @@ const formatter = new Formatter({
 });
 const searchForm = createSearchForm({
   form: '#js-form-pesquisa',
-  inputs: ['_token', 'data_inicial', 'data_final', 'descricao_erp'],
+  inputs: ['_token', 'data_inicial', 'data_final'],
   checker
 });
 const salesContainer = new SalesContainerProxy({
@@ -115,7 +115,6 @@ searchForm.onSubmit(async (event) => {
   tableRender.clearFilters();
   tableRenderErp.clearFilters();
   window.scrollTo(0, document.querySelector('.resultados').offsetTop);
-  console.log(responses);
 });
 
 tableRender.onFilter(async (filters) => {
@@ -185,12 +184,22 @@ salesErpContainer.onEvent('search', (sales) => {
   const totals = sales.get('totals');
   updateBoxes(boxes, { 
     ...totals,
-    TOTAL_TAXA: totals.TOTAL_TAXA * -1,
   });
 });
 
 tableRenderErp.onRenderRow((row, data) => {
   _defaultEvents.table.onRenderRow(row, data);
+});
+
+tableRenderErp.shouldSelectRow(elementDOM => {
+  let shouldSelect = _defaultEvents.table.shouldSelectRow(elementDOM);
+  if (['i', 'input'].includes(elementDOM.tagName.toLowerCase())) {
+    shouldSelect = false;
+  } else {
+    shouldSelect = true;
+  }
+
+  return shouldSelect;
 });
 
 function buildRequest(type = 'erp', params) {
