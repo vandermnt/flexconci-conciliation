@@ -154,6 +154,12 @@
             'TITULO_CAMPO3' => $erp->TITULO_CAMPO3,
             'actions' => 'Ações | Status'
           ]"
+          :hidden-columns="[
+            'TID',
+            'CARTAO',
+            'HORA',
+            'ESTABELECIMENTO'
+          ]"
         >
           <x-slot name="actions">
             <td class="actions-cell d-flex align-items-center justify-content-between">
