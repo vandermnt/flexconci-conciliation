@@ -32,13 +32,13 @@
             'modalidades',
             'modalidades',
             'status-financeiro',
+            'domicilios-bancarios',
             'descricao-erp'
           ]"
           :form-data="[
             'empresas' => $empresas,
             'adquirentes' => $adquirentes,
             'estabelecimentos' => $estabelecimentos,
-            'domicilios_bancarios' => $domicilios_bancarios,
             'status_conciliacao' => $status_conciliacao,
           ]"
         />

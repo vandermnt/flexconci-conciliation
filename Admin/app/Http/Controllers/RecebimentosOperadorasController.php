@@ -50,17 +50,6 @@ class RecebimentosOperadorasController extends Controller
       ->orderBy('CODIGO_ESTABELECIMENTO', 'asc')
       ->get();
 
-    $domicilios_bancarios = DomicilioClienteModel::select([
-      'domicilio_cliente.CODIGO',
-      'lista_bancos.NOME_WEB as BANCO',
-      'AGENCIA',
-      'CONTA'
-    ])
-      ->leftJoin('lista_bancos', 'lista_bancos.CODIGO', 'COD_BANCO')
-      ->where('COD_CLIENTE', session('codigologin'))
-      ->orderBy('lista_bancos.NOME_WEB')
-      ->get();
-
     $status_conciliada = StatusConciliacaoModel::conciliada()->first();
     $status_nao_conciliada = StatusConciliacaoModel::naoConciliada()->first();
     

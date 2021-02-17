@@ -30,13 +30,11 @@ checker.addGroups([
   { name: 'adquirente', options: { inputName: 'adquirentes' } },
   { name: 'bandeira', options: { inputName: 'bandeiras' } },
   { name: 'modalidade', options: { inputName: 'modalidades' } },
-  { name: 'domicilio-bancario', options: { inputName: 'domicilios_bancarios' } },
 ]);
 
 modalFilter.addGroups([
   'empresa',
   'adquirente',
-  'domicilio-bancario'
 ]);
 
 searchForm.onSubmit(async (event) => {

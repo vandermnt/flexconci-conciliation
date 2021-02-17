@@ -29,6 +29,7 @@
           ]"
           :hidden-fields="[
             'estabelecimentos',
+            'domicilios-bancarios',
             'status-conciliacao',
             'status-financeiro',
             'descricao-erp'
@@ -39,7 +40,6 @@
             'adquirentes' => $adquirentes,
             'bandeiras' => $bandeiras,
             'modalidades' => $modalidades,
-            'domicilios_bancarios' => $domicilios_bancarios,
           ]"
         />
       </div>
