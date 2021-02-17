@@ -70,20 +70,22 @@ const _defaultEvents = {
       const value =  tableRender.formatCell(cellValue, format, defaultCellValue);
       cell.textContent = value;
     },
-    onSelectRow: function(elementDOM, selectedRows) {
-      let tr = elementDOM;
-      if (['a', 'i'].includes(elementDOM.tagName.toLowerCase())) {
-        return;
-      }
-    
+    shouldSelectRow: function(elementDOM) {
       if (elementDOM.tagName.toLowerCase() !== 'tr') {
         tr = elementDOM.closest('tr');
       }
     
       if (!tr) {
-        return;
+        return false;
       }
-    
+
+      if (['a', 'i'].includes(elementDOM.tagName.toLowerCase())) {
+        return false;
+      }
+
+      return true;
+    },
+    onSelectRow: function(elementDOM, selectedRows) {
       tr.classList.remove('marcada');
       if (selectedRows.includes(tr.dataset.id)) {
         tr.classList.add('marcada');
@@ -120,6 +122,8 @@ function createTableRender({ table = '', locale = 'pt-br', formatter }) {
   tableRender.onRenderRow(_defaultEvents.table.onRenderRow);
 
   tableRender.onRenderCell(_defaultEvents.table.onRenderCell);
+
+  tableRender.shouldSelectRow(_defaultEvents.table.shouldSelectRow);
 
   tableRender.onSelectRow(_defaultEvents.table.onSelectRow);
 
