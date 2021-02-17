@@ -432,7 +432,7 @@ font-size: 14px;
                 @foreach($dados_bancos as $bancos)
                 <li class="list-group-item align-items-center d-flex justify-content-between">
                   <div class="col-12 row" style="text-align: center">
-                    <div class="col-2 tooltip-hint" data-title="{{ $bancos->BANCO }}">
+                    <div class="col-2 tooltip-hint" data-title="{{ $bancos->BANCO_NOME }}">
                       <img src="{{ $bancos->IMAGEM}}" class="align-self-center img-bancos-detalhamento">
                     </div>
                     <div class="col-4 media-body align-self-center">
@@ -489,10 +489,13 @@ font-size: 14px;
                 </div>
                 <div class="tab-pane p-3 active" id="Wallet" role="tabpanel">
                   <ul id="ul_operadora" class="list-group wallet-bal-crypto mt-3">
+
                     @foreach($dados_operadora as $operadora)
                     <li class="list-group-item align-items-center d-flex justify-content-between">
                       <div class="col-12 row">
-                        <img src="{{ $operadora->IMAGEMAD}}" class="align-self-center img-operadora">
+                        <div class="col-2 tooltip-hint" data-title="{{ $operadora->NOME_AD }}">
+                          <img src="{{ $operadora->IMAGEMAD}}" class="align-self-center img-bancos-detalhamento">
+                        </div>
                         <div class="col-7 media-body align-self-center">
                           <h4 class="m-0 label-val-liquido">
                             R$ <?php echo number_format($operadora->val_liquido, 2, ",", ".");?>
@@ -534,6 +537,8 @@ font-size: 14px;
 
     <script>
     $(window).on("load", function() {
+      console.log(<?php echo $dados_operadora ?>);
+
       const alerta_global = "<?= $frase->ALERTA_GLOBAL ?>";
       if (alerta_global) {
         $("#modal-alerta-global").modal({

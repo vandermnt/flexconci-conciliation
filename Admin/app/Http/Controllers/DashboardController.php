@@ -94,7 +94,7 @@ class DashboardController extends Controller{
     $dados_bancos = DB::table('vendas')
     ->leftJoin('lista_bancos', 'vendas.BANCO', 'lista_bancos.CODIGO')
     ->leftJoin('adquirentes', 'vendas.ADQID', 'adquirentes.CODIGO')
-    ->select('vendas.*', 'vendas.DATA_PAGAMENTO', 'lista_bancos.IMAGEM_LINK as IMAGEM', 'adquirentes.IMAGEM as IMAGEMAD', 'lista_bancos.NOME_WEB as BANCO_NOME')
+    ->select('vendas.*', 'vendas.DATA_PAGAMENTO', 'lista_bancos.IMAGEM_LINK as IMAGEM', 'adquirentes.IMAGEM as IMAGEMAD', 'lista_bancos.NOME_WEB as BANCO_NOME', 'adquirentes.ADQUIRENTE as NOME_AD')
     ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
     ->selectRaw('sum(VALOR_BRUTO) as val_bruto')
     ->selectRaw('sum(VALOR_TAXA) as val_tx')
