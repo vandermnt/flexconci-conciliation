@@ -29,6 +29,7 @@ checker.addGroups([
   { name: 'empresa', options: { inputName: 'grupos_clientes' } },
   { name: 'adquirente', options: { inputName: 'adquirentes' } },
   { name: 'domicilio-bancario', options: { inputName: 'domicilios_bancarios' } },
+  { name: 'status-conciliacao', options: { inputName: 'status_conciliacao' } },
 ]);
 
 modalFilter.addGroups([

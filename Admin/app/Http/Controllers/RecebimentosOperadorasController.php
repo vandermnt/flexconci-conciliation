@@ -20,7 +20,7 @@ class RecebimentosOperadorasController extends Controller
    * @return \Illuminate\Http\Response
    */
   public function index()
-  {
+  {    
     $empresas = GruposClientesModel::select([
       'CODIGO',
       'NOME_EMPRESA',
@@ -61,15 +61,15 @@ class RecebimentosOperadorasController extends Controller
       ->orderBy('lista_bancos.NOME_WEB')
       ->get();
 
-    $status_conciliacao = StatusConciliacaoModel::orderBy('STATUS_CONCILIACAO')
-      ->get();
+    $status_conciliada = StatusConciliacaoModel::conciliada()->first();
+    $status_nao_conciliada = StatusConciliacaoModel::naoConciliada()->first();
     
     return view('recebimentos.recebimentos-operadoras')->with([
       'empresas' => $empresas,
       'adquirentes' => $adquirentes,
       'estabelecimentos' => $estabelecimentos,
       'domicilios_bancarios' => $domicilios_bancarios,
-      'status_conciliacao' => $status_conciliacao
+      'status_conciliacao' => collect([$status_conciliada, $status_nao_conciliada])
     ]);
   }
 

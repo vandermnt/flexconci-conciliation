@@ -41,9 +41,6 @@
             'domicilios_bancarios' => $domicilios_bancarios,
             'status_conciliacao' => $status_conciliacao,
           ]"
-          :labels="[
-            'status_conciliacao' => 'Status Conciliação Venda:'
-          ]"
         />
       </div>
     </div>

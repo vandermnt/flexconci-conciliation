@@ -189,19 +189,13 @@
         <th>
           <div class="d-flex flex-column align-items-center">
             <p>Status Conciliação</p>
-            <input type="text" class="form-control" name="STATUS_CONCILIACAO">
+            <input type="text" class="form-control" name="STATUS_CONCILIADO">
           </div>
          </th>
         <th>
           <div class="d-flex flex-column align-items-center">
             <p>Divergência</p>
             <input type="text" class="form-control" name="DIVERGENCIA">
-          </div>
-         </th>
-        <th>
-          <div class="d-flex flex-column align-items-center">
-            <p>Status Financeiro</p>
-            <input type="text" class="form-control" name="STATUS_FINANCEIRO">
           </div>
          </th>
          <th>
@@ -281,9 +275,8 @@
         <td data-column="OBSERVACOES"></td>
         <td data-column="PRODUTO"></td>
         <td data-column="MEIOCAPTURA"></td>
-        <td data-column="STATUS_CONCILIACAO"></td>
+        <td data-column="STATUS_CONCILIADO"></td>
         <td data-column="DIVERGENCIA"></td>
-        <td data-column="STATUS_FINANCEIRO"></td>
         <td data-column="JUSTIFICATIVA"></td>
       </tr>
     </tbody>
@@ -311,7 +304,6 @@
         <td data-column="TOTAL_TAXA" data-reverse-value="true" data-format="currency" class="text-danger"></td>
         <td></td>
         <td data-column="TOTAL_LIQUIDO" data-format="currency"></td>
-        <td></td>
         <td></td>
         <td></td>
         <td></td>

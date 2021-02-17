@@ -15,7 +15,8 @@ class RecebimentosFilter extends BaseFilter {
     'data_final',
     'grupos_clientes',
     'adquirentes',
-    'domicilios_bancarios'
+    'domicilios_bancarios',
+    'status_conciliacao'
   ];
 
   public static function filter($filters) {
@@ -28,7 +29,7 @@ class RecebimentosFilter extends BaseFilter {
     $filters = Arr::where($filters, function($value, $key) {
       return boolval($value);
     });
-
+    $STATUS_CONCILIADO = 1;
     $this->query = DB::table('pagamentos_operadoras')
       ->select([
         'pagamentos_operadoras.CODIGO as ID',
@@ -71,8 +72,10 @@ class RecebimentosFilter extends BaseFilter {
         'produto_web.PRODUTO_WEB as PRODUTO',
         'meio_captura.DESCRICAO as MEIOCAPTURA',
         'status_conciliacao.STATUS_CONCILIACAO',
+        DB::raw("IF(
+            pagamentos_operadoras.COD_STATUS = ".$STATUS_CONCILIADO.", 'Sim', 'Não'
+          ) as STATUS_CONCILIADO"),
         'vendas.DIVERGENCIA',
-        'status_financeiro.STATUS_FINANCEIRO',
         'vendas.JUSTIFICATIVA',
         'pagamentos_operadoras.COD_TIPO_PAGAMENTO'
       ])
@@ -86,7 +89,6 @@ class RecebimentosFilter extends BaseFilter {
         ->leftJoin('lista_bancos', 'lista_bancos.CODIGO', 'pagamentos_operadoras.COD_BANCO')
         ->leftJoin('meio_captura', 'meio_captura.CODIGO', 'pagamentos_operadoras.COD_MEIO_CAPTURA')
         ->leftJoin('status_conciliacao', 'status_conciliacao.CODIGO', 'pagamentos_operadoras.COD_STATUS')
-        ->leftJoin('status_financeiro', 'status_financeiro.CODIGO', 'pagamentos_operadoras.COD_STATUS_FINANCEIRO')
         ->where('pagamentos_operadoras.COD_CLIENTE', $filters['cliente_id']);
 
     if(Arr::has($filters, 'id')) {
@@ -106,6 +108,9 @@ class RecebimentosFilter extends BaseFilter {
     }
     if(Arr::has($filters, 'bandeiras')) {
       $this->query->whereIn('bandeira.CODIGO', $filters['bandeiras']);
+    }
+    if(Arr::has($filters, 'status_conciliacao')) {
+      $this->query->whereIn('pagamentos_operadoras.COD_STATUS', $filters['status_conciliacao']);
     }
     if(Arr::has($filters, 'domicilios_bancarios')) {
       $this->query->whereIn('lista_bancos.CODIGO', function($query) use ($filters) {
