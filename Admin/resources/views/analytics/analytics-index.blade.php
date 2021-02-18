@@ -100,7 +100,7 @@ font-size: 14px;
 <div id="dashboard_styles" class="container-fluid">
   @component('analytics.component.modal-aviso-geral')
   @endcomponent
-  <div class="row">
+  {{-- <div class="row">
     <div class="col-lg-12 boxs">
       <div class="row">
         <div class="col-md-6 col-lg-3">
@@ -151,7 +151,7 @@ font-size: 14px;
         @endcomponent
       </div>
     </div>
-  </div>
+  </div> --}}
 
   <div class="row">
     <div class="col-sm-12">
@@ -1082,7 +1082,7 @@ font-size: 14px;
                 html += "<div class='col-12 row'>"
                 html += "<img src='" + bancos.IMAGEMAD + "' class='align-self-center' style='width: 70px;'>"
                 html += "<div class='col-7 media-body align-self-center'>"
-                html += "<h4 class='m-0' style='font-size: 14px; text-align:right; color: #257E4A'>" + formataMoeda(val_liquido) + "</h4>"
+                html += "<h4 class='m-0' style='font-size: 14px; text-align:right; color: #257E4A'>" + formataMoeda(bancos.val_liquido) + "</h4>"
                 html += "</div>"
                 html += "<div class='col-1 media-body align-self-center'>"
                 html += "<a id='operadora" + bancos.CODIGO + "' data-toggle='tab' data-target='#div_operadora_selecionada' onclick='showTableOperadoraSelecionada(" + bancos.CODIGO + ")' role='tab' aria-selected='false' style='display: block'><i class='thumb-lg mdi mdi-chevron-right'></i> </a>"
