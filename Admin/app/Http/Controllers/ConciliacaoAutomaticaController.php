@@ -92,6 +92,8 @@ class ConciliacaoAutomaticaController extends Controller
             $erp_totais = [
                 'TOTAL_BRUTO' => $erp_query->sum(DB::raw('coalesce(`vendas_erp`.`VALOR_VENDA_PARCELA`, `vendas_erp`.`TOTAL_VENDA`)')),
                 'TOTAL_LIQUIDO' => $erp_query->sum('VALOR_LIQUIDO_PARCELA'),
+                'TOTAL_LIQUIDO_OPERADORA' => $erp_query->sum('VALOR_LIQUIDO_OPERADORA'),
+                'TOTAL_DIFERENCA_LIQUIDO' => $erp_query->sum('DIFERENCA_LIQUIDO'),
             ];
             $erp_totais['TOTAL_TAXA'] = $erp_totais['TOTAL_BRUTO'] - $erp_totais['TOTAL_LIQUIDO'];
 
@@ -172,7 +174,9 @@ class ConciliacaoAutomaticaController extends Controller
             $vendas = (clone $query)->paginate($por_pagina);
             $totais = [
                 'TOTAL_BRUTO' => $query->sum('VALOR_VENDA'),
-                'TOTAL_LIQUIDO' => $query->sum('VALOR_LIQUIDO_PARCELA')
+                'TOTAL_LIQUIDO' => $query->sum('VALOR_LIQUIDO_PARCELA'),
+                'TOTAL_LIQUIDO_OPERADORA' => $query->sum('VALOR_LIQUIDO_OPERADORA'),
+                'TOTAL_DIFERENCA_LIQUIDO' => $query->sum('DIFERENCA_LIQUIDO'),
             ];
             $totais['TOTAL_TAXA'] = $totais['TOTAL_BRUTO'] - $totais['TOTAL_LIQUIDO'];
 

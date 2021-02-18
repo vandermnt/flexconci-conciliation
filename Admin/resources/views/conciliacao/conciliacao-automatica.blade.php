@@ -465,7 +465,7 @@
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Dif. Taxa %</p>
-                    <input type="number" min="0" step="0.01" class="form-control" name="TAXA_DIFERENCA">
+                    <input type="number" step="0.01" class="form-control" name="TAXA_DIFERENCA">
                   </div>
                 </th>
                 <th>
@@ -483,7 +483,7 @@
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Dif. Líquido R$</p>
-                    <input type="number" min="0" step="0.01" class="form-control" name="DIFERENCA_LIQUIDO">
+                    <input type="number" step="0.01" class="form-control" name="DIFERENCA_LIQUIDO">
                   </div>
                 </th>
                 <th>
@@ -717,8 +717,8 @@
                 <td></td>
                 <td></td>
                 <td data-chave="TOTAL_LIQUIDO"></td>
-                <td></td>
-                <td></td>
+                <td data-chave="TOTAL_LIQUIDO_OPERADORA"></td>
+                <td data-chave="TOTAL_DIFERENCA_LIQUIDO"></td>
                 <td></td>
                 <td></td>
                 <td></td>
