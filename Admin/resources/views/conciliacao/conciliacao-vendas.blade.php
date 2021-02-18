@@ -149,6 +149,8 @@
           id="js-tabela-erp"
           class="mt-3"
           :headers="[
+            'TAXA' => $erp->ERP ? 'Taxa '.$erp->ERP.' %' : null,
+            'VALOR_LIQUIDO' => $erp->ERP ? 'Valor Líquido '.$erp->ERP : null,
             'TITULO_CAMPO1' => $erp->TITULO_CAMPO1,
             'TITULO_CAMPO2' => $erp->TITULO_CAMPO2,
             'TITULO_CAMPO3' => $erp->TITULO_CAMPO3,

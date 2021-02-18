@@ -74,6 +74,8 @@ class ConciliacaoVendasController extends Controller
             $totals = [
                 'TOTAL_BRUTO' => (clone $query)->sum(DB::raw('coalesce(`vendas_erp`.`VALOR_VENDA_PARCELA`, `vendas_erp`.`TOTAL_VENDA`)')) ?? 0,
                 'TOTAL_LIQUIDO' => (clone $query)->sum('VALOR_LIQUIDO_PARCELA') ?? 0,
+                'TOTAL_LIQUIDO_OPERADORA' => (clone $query)->sum('VALOR_LIQUIDO_OPERADORA') ?? 0,
+                'TOTAL_DIFERENCA_LIQUIDO' => (clone $query)->sum('DIFERENCA_LIQUIDO') ?? 0,
             ];
             $totals['TOTAL_TAXA'] = ($totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO']) ?? 0;
 
@@ -113,7 +115,9 @@ class ConciliacaoVendasController extends Controller
             $sales = (clone $query)->paginate($per_page);
             $totals = [
                 'TOTAL_BRUTO' => $query->sum('VALOR_VENDA'),
-                'TOTAL_LIQUIDO' => $query->sum('VALOR_LIQUIDO_PARCELA')
+                'TOTAL_LIQUIDO' => $query->sum('VALOR_LIQUIDO_PARCELA'),
+                'TOTAL_LIQUIDO_OPERADORA' => $query->sum('VALOR_LIQUIDO_OPERADORA') ?? 0,
+                'TOTAL_DIFERENCA_LIQUIDO' => $query->sum('DIFERENCA_LIQUIDO') ?? 0,
             ];
             $totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
 
@@ -194,6 +198,10 @@ class ConciliacaoVendasController extends Controller
                 'mensagem' => 'Não foi possível realizar a consulta em Vendas Operadoras.'
             ], 500);
         }
+    }
+
+    public function conciliarManualmente(Request $request) {
+        //
     }
 
     /**
