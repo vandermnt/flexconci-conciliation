@@ -550,6 +550,9 @@ function renderizarTabela(tipo, vendas, totais) {
       if(formato === 'decimal' && valor) {
         valor = formatadorDecimal.format(valor);
       }
+      if(formato === 'percent' && valor) {
+        valor = `${formatadorDecimal.format(valor)}%`;
+      }
       colunaDOM.textContent = valor;
     });
 
