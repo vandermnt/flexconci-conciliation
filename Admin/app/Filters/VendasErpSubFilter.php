@@ -25,8 +25,12 @@ class VendasErpSubFilter extends BaseSubFilter {
     'VALOR_VENDA_PARCELA',
     'VALOR_VENDA',
     'TAXA',
+    'TAXA_OPERADORA',
+    'TAXA_DIFERENCA',
     'VALOR_TAXA',
     'VALOR_LIQUIDO_PARCELA',
+    'VALOR_LIQUIDO_OPERADORA',
+    'DIFERENCA_LIQUIDO',
     'PARCELA',
     'TOTAL_PARCELAS',
     'BANCO',
@@ -50,9 +54,14 @@ class VendasErpSubFilter extends BaseSubFilter {
     'TOTAL_VENDA',
     'VALOR_VENDA_PARCELA',
     'VALOR_VENDA',
+    'VALOR_TAXA',
     'TAXA',
+    'TAXA_OPERADORA',
+    'TAXA_DIFERENCA',
     'VALOR_TAXA',
     'VALOR_LIQUIDO_PARCELA',
+    'VALOR_LIQUIDO_OPERADORA',
+    'DIFERENCA_LIQUIDO',
   ];
 
   public static function subfilter($filters, $subfilters) {

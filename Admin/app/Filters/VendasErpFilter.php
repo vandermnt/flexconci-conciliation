@@ -59,11 +59,15 @@ class VendasErpFilter extends BaseFilter {
           'vendas_erp.TOTAL_VENDA',
           'vendas_erp.VALOR_VENDA_PARCELA',
           DB::raw('coalesce(`vendas_erp`.`VALOR_VENDA_PARCELA`, `vendas_erp`.`TOTAL_VENDA`) as VALOR_VENDA'),
-          'vendas_erp.TAXA',
           DB::raw('
             (coalesce(`vendas_erp`.`VALOR_VENDA_PARCELA`, `vendas_erp`.`TOTAL_VENDA`) - `vendas_erp`.`VALOR_LIQUIDO_PARCELA`)
               as `VALOR_TAXA`'),
+          'vendas_erp.TAXA',
+          'vendas_erp.TAXA_OPERADORA',
+          'vendas_erp.TAXA_DIFERENCA',
           'vendas_erp.VALOR_LIQUIDO_PARCELA',
+          'vendas_erp.VALOR_LIQUIDO_OPERADORA',
+          'vendas_erp.DIFERENCA_LIQUIDO',
           'vendas_erp.PARCELA',
           'vendas_erp.TOTAL_PARCELAS',
           DB::raw('null as HORA'),
