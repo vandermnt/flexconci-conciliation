@@ -104,7 +104,7 @@ class LoginController extends Controller
       }else if($user->USUARIO_GLOBAL == 'N' && $user->COD_ORIGEM_COMERCIAL == null){
         $aux = 'user_comum';
         Auth::login($user);
-        session()->put('codigologin', $user->CODIGO);
+        session()->put('codigologin', $user->COD_CLIENTE);
 
         $clientes = json_encode([$user, $aux]);
 
