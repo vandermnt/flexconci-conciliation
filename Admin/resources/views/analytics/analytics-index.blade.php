@@ -407,7 +407,7 @@ font-size: 14px;
                 </h4>
               </div>
               <div class="col-6" class="recebimentos">
-                <div class="tooltip-hint" data-title='São todos os recebimentos previstos a partir da data atual em diante'>
+                <div class="tooltip-hint" data-title='São todos os recebimentos previstos para a data atual em diante.'>
                   <h4 class="wallet-title m-0">
                     <i class="fas fa-info-circle"></i> Recebimentos Futuros
                   </h4>
@@ -1032,6 +1032,7 @@ font-size: 14px;
             return;
           });
         } else if (color == '#2D93AD') {
+          console.log("opkwpokdawowa");
           localStorage.setItem('situacao_pgto', 'Previsto');
 
           document.getElementById("label_recebimentos").innerHTML = title;
@@ -1082,7 +1083,7 @@ font-size: 14px;
                 html += "<div class='col-12 row'>"
                 html += "<img src='" + bancos.IMAGEMAD + "' class='align-self-center' style='width: 70px;'>"
                 html += "<div class='col-7 media-body align-self-center'>"
-                html += "<h4 class='m-0' style='font-size: 14px; text-align:right; color: #257E4A'>" + formataMoeda(val_liquido) + "</h4>"
+                html += "<h4 class='m-0' style='font-size: 14px; text-align:right; color: #257E4A'>" + formataMoeda(bancos.val_liquido) + "</h4>"
                 html += "</div>"
                 html += "<div class='col-1 media-body align-self-center'>"
                 html += "<a id='operadora" + bancos.CODIGO + "' data-toggle='tab' data-target='#div_operadora_selecionada' onclick='showTableOperadoraSelecionada(" + bancos.CODIGO + ")' role='tab' aria-selected='false' style='display: block'><i class='thumb-lg mdi mdi-chevron-right'></i> </a>"
