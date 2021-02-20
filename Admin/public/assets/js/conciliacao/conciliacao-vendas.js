@@ -95,6 +95,7 @@ const _events = {
       const checkboxDOM = row.querySelector('td input[data-value-key]');
       const value = data[checkboxDOM.dataset.valueKey];
       checkboxDOM.value = value;
+      checkboxDOM.checked = selectedSales[key].includes(value);
       
       checkboxDOM.addEventListener('change', event => {
         const target = event.target;
@@ -258,10 +259,31 @@ async function onPerPageChanged(key = 'erp', event) {
   toggleElementVisibility('#js-loader');
 }
 
+function confirmConciliacao() {
+  if(selectedSales.erp.length !== 1 || selectedSales.operadoras.length !== 1) {
+    swal('Ooops...', 'Selecione apenas uma venda ERP e uma operadora para realizar a conciliação.', 'error');
+    return;
+  }
+  
+  openConfirmDialog(
+    'Tem certeza que deseja realizar a conciliação?', 
+    (value) => {
+      if(value) conciliar();
+    }
+  );
+}
+
+function conciliar() {
+  
+}
+
 searchForm.get('form').querySelector('button[data-form-action="submit"')
   .addEventListener('click', searchForm.get('onSubmitHandler'));
 
 document.querySelector('#js-por-pagina-erp')
   .addEventListener('change', (event) => onPerPageChanged('erp', event));
 document.querySelector('#js-por-pagina-operadoras')
-  .addEventListener('change', (event) => onPerPageChanged('operadoras', event));  
+  .addEventListener('change', (event) => onPerPageChanged('operadoras', event));
+
+document.querySelector('#js-conciliar')
+  .addEventListener('click', confirmConciliacao);

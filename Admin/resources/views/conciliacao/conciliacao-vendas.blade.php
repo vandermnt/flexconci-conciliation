@@ -27,6 +27,8 @@
             ['filtrar-erp' => route('conciliacao-vendas.filtrarErp')],
             ['buscar-operadoras' => route('conciliacao-vendas.buscarOperadoras')],
             ['filtrar-operadoras' => route('conciliacao-vendas.filtrarOperadoras')],
+            ['conciliar-manualmente' => route('conciliacao-vendas.conciliarManualmente')],
+            ['desconciliar-manualmente' => route('conciliacao-vendas.desconciliarManualmente')],
           ]"
           :hidden-fields="[
             'adquirentes',
