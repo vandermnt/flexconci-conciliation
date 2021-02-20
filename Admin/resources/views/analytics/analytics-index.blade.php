@@ -529,7 +529,7 @@ font-size: 14px;
     <script src="{{ URL::asset('plugins/apexcharts/irregular-data-series.js')}}"></script>
     <script src="{{ URL::asset('plugins/apexcharts/ohlc.js')}}"></script>
     <script src="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.min.js') }}"></script>
-    <link href="{{ URL::asset('assets/js/dashboard/export-pdf.js')}}" rel="stylesheet" type="text/css" />
+    <script src="{{ URL::asset('assets/js/dashboard/export-pdf.js')}}"></script>
     <script src="{{ URL::asset('assets/js/dashboard/tabelas.js')}}"></script>
     <script type="text/javascript">
     var param = <?php echo $dados_cliente ?>;
