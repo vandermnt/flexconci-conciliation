@@ -192,7 +192,7 @@ font-size: 14px;
                 </div>
               </div>
               <div id="apex_pie2" class="apex-charts"></div>
-              <div class="table-responsive mt-4">
+              <div class="table-responsive mt-4 vendasop">
                 <table id="table_vendas_operadora" class="table table-borderless tableDadosDash">
                   <thead>
                     <tr>
@@ -209,6 +209,7 @@ font-size: 14px;
                   </tfoot>
                 </table>
               </div>
+              <h4 id="label_sem_dados_vop" style="text-align: center; display: none"> <i class="fas fa-exclamation-triangle"></i> Dados ainda não disponibilizados pelas operados </h4>
             </div>
             @endif
           </div>
@@ -245,7 +246,7 @@ font-size: 14px;
                 </div>
               </div>
               <div id="apex_pie7" class="apex-charts"></div>
-              <div class="table-responsive mt-4">
+              <div class="table-responsive mt-4 vendasband">
                 <table id="table_vendas_bandeira" class="table table-borderless tableDadosDash">
                   <thead>
                     <tr>
@@ -262,6 +263,7 @@ font-size: 14px;
                   </tfoot>
                 </table>
               </div>
+              <h4 id="label_sem_dados_vb" style="text-align: center; display: none"> <i class="fas fa-exclamation-triangle"></i> Dados ainda não disponibilizados pelas operados </h4>
             </div>
           </div>
         </div>
@@ -300,7 +302,7 @@ font-size: 14px;
                 </div>
               </div>
               <div id="apex_pie8" class="apex-charts"></div>
-              <div class="table-responsive mt-4">
+              <div class="table-responsive mt-4 vendasmod">
                 <table id="table_vendas_modalidade" class="table table-borderless tableDadosDash">
                   <thead>
                     <tr>
@@ -317,6 +319,7 @@ font-size: 14px;
                   </tfoot>
                 </table>
               </div>
+              <h4 id="label_sem_dados_vmod" style="text-align: center; display: none"> <i class="fas fa-exclamation-triangle"></i> Dados ainda não disponibilizados pelas operados </h4>
             </div>
             @endif
           </div>
@@ -353,7 +356,7 @@ font-size: 14px;
                 </div>
               </div>
               <div id="apex_pie9" class="apex-charts"></div>
-              <div class="table-responsive mt-4">
+              <div class="table-responsive mt-4 vendasprod">
                 <table id="table_vendas_produto" class="table table-borderless tableDadosDash">
                   <thead>
                     <tr>
@@ -370,6 +373,7 @@ font-size: 14px;
                   </tfoot>
                 </table>
               </div>
+              <h4 id="label_sem_dados_vprod" style="text-align: center; display: none"> <i class="fas fa-exclamation-triangle"></i> Dados ainda não disponibilizados pelas operados </h4>
             </div>
           </div>
         </div>
@@ -431,7 +435,7 @@ font-size: 14px;
               <ul class="list-group wallet-bal-crypto mt-3" id="ul_bancos">
                 @foreach($dados_bancos as $bancos)
                 <li class="list-group-item align-items-center d-flex justify-content-between">
-                  <div class="col-12 row" style="text-align: center">
+                  <div class="col-12 row" style='text-align: center;align-items: center;justify-content: center'>
                     <div class="col-2 tooltip-hint" data-title="{{ $bancos->BANCO_NOME }}">
                       <img src="{{ $bancos->IMAGEM}}" class="align-self-center img-bancos-detalhamento">
                     </div>
@@ -492,9 +496,9 @@ font-size: 14px;
 
                     @foreach($dados_operadora as $operadora)
                     <li class="list-group-item align-items-center d-flex justify-content-between">
-                      <div class="col-12 row">
+                      <div class="col-12 row" style='text-align: center;align-items: center;justify-content: center'>
                         <div class="col-2 tooltip-hint" data-title="{{ $operadora->NOME_AD }}">
-                          <img src="{{ $operadora->IMAGEMAD}}" class="align-self-center img-bancos-detalhamento">
+                          <img src="{{ $operadora->IMAGEMAD}}" class="align-self-center">
                         </div>
                         <div class="col-7 media-body align-self-center">
                           <h4 class="m-0 label-val-liquido">
@@ -724,6 +728,7 @@ font-size: 14px;
     }
 
     function trocaPeriodo(cod_periodo, tipo, label_button) {
+
       let dados_grafico = [];
       let totalQtd = 0;
       let totalBruto = 0;
@@ -767,8 +772,15 @@ font-size: 14px;
 
         if (dados_grafico.length == 0) {
           grafico_vendas_operadora.destroy();
+          document.getElementById("label_sem_dados_vop").style.display = "block"
+          const div = document.querySelector('.vendasop');
+          div.style.display = 'none';
         } else {
           grafico_vendas_operadora.destroy();
+          const div = document.querySelector('.vendasop');
+          div.style.display = 'block';
+          document.getElementById("label_sem_dados_vop").style.display = "none"
+          // document.getElementById("table_vendas_operadora").style.display = "block"
 
           periodo = cod_periodo;
           localStorage.setItem('periodo_venda_operadora', cod_periodo);
@@ -810,12 +822,17 @@ font-size: 14px;
         geraRodapeTabelaComTotais("#table_vendas_bandeira tfoot", totalQtd, totalBruto, totalTx, totalLiq);
         document.getElementById("dropdownMenuButtonBandeira").innerHTML = label_button + ' ' + '<i class="mdi mdi-chevron-down"></i>';
 
-        $('#table_vendas_bandeira tfoot').append(htmlSubTotal);
-
         if (dados_grafico.length == 0) {
+          console.log("Opkdwpokdwaopdpa");
           grafico_vendas_bandeira.destroy();
+          document.getElementById("label_sem_dados_vb").style.display = "block"
+          const div = document.querySelector('.vendasband');
+          div.style.display = 'none';
         } else {
           grafico_vendas_bandeira.destroy();
+          document.getElementById("label_sem_dados_vb").style.display = "none"
+          const div = document.querySelector('.vendasband');
+          div.style.display = 'block';
 
           periodo = cod_periodo;
           localStorage.setItem('periodo_venda_bandeira', 2);
@@ -857,8 +874,15 @@ font-size: 14px;
 
         if (dados_grafico.length == 0) {
           grafico_vendas_modalidade.destroy();
+          document.getElementById("label_sem_dados_vmod").style.display = "block"
+          const div = document.querySelector('.vendasmod');
+          div.style.display = 'none';
         } else {
           grafico_vendas_modalidade.destroy();
+
+          document.getElementById("label_sem_dados_vmod").style.display = "none"
+          const div = document.querySelector('.vendasmod');
+          div.style.display = 'block';
 
           periodo = cod_periodo;
           localStorage.setItem('periodo_venda_modalidade', cod_periodo);
@@ -899,12 +923,18 @@ font-size: 14px;
         geraRodapeTabelaComTotais("#table_vendas_produto tfoot", totalQtd, totalBruto, totalTx, totalLiq);
         document.getElementById("dropdownMenuButtonProduto").innerHTML = label_button + ' ' + '<i class="mdi mdi-chevron-down"></i>';
 
-        $('#table_vendas_produto tfoot').append(htmlSubTotal);
-
         if (dados_grafico.length == 0) {
           grafico_vendas_produto.destroy();
+
+          document.getElementById("label_sem_dados_vprod").style.display = "block"
+          const div = document.querySelector('.vendasprod');
+          div.style.display = 'none';
         } else {
           grafico_vendas_produto.destroy();
+
+          document.getElementById("label_sem_dados_vprod").style.display = "none"
+          const div = document.querySelector('.vendasprod');
+          div.style.display = 'block';
 
           periodo = cod_periodo;
           localStorage.setItem('periodo_venda_produto', cod_periodo);
@@ -978,7 +1008,7 @@ font-size: 14px;
               response[0].forEach((bancos) => {
                 var html = "<li class='list-group-item align-items-center d-flex justify-content-between'>"
 
-                html += "<div class='col-12 row' style='text-align: center'>"
+                html += "<div class='row align-self-center' style='text-align: center;align-items: center;justify-content: center'>"
                 html += "<div class='col-2' style='margin: 0'>"
                 html += "<div class='tooltip-hint' data-title='"+ bancos.BANCO_NOME + "'><img src='" + bancos.IMAGEM + "' class='align-self-center' style='width: 45px; margin-left: -20px;'></div>"
                 html += "</div>"
@@ -1004,7 +1034,7 @@ font-size: 14px;
               response[1].forEach((bancos) => {
                 var html = "<li class='list-group-item align-items-center d-flex justify-content-between'>"
 
-                html += "<div class='col-12 row'>"
+                html += "<div class='col-12 row' style='text-align: center;align-items: center;justify-content: center'>"
                 html += "<div class='tooltip-hint' data-title='"+ bancos.NOME_AD + "'>" + "<img src='" + bancos.IMAGEMAD + "' style='width: 60px; ;' class='align-self-center'></div>"
                 html += "<div class='col-7 media-body align-self-center'>"
                 html += "<h4 class='m-0' style='font-size: 14px; text-align:right; color: #257E4A'>" + Intl.NumberFormat('pt-br', {
@@ -1055,7 +1085,7 @@ font-size: 14px;
               response[0].forEach((bancos) => {
                 var html = "<li class='list-group-item align-items-center d-flex justify-content-between'>"
 
-                html += "<div class='col-12 row' style='text-align: center'>"
+                html += "<div class='col-12 row' style='text-align: center;align-items: center;justify-content: center'>"
                 html += "<div class='col-2' style='margin: 0'>"
                 html += "<img src='" + bancos.IMAGEM + "' class='align-self-center' style='width: 45px; margin-left: -20px;'>"
                 html += "</div>"
@@ -1080,7 +1110,7 @@ font-size: 14px;
               response[1].forEach((bancos) => {
                 var html = "<li class='list-group-item align-items-center d-flex justify-content-between'>"
 
-                html += "<div class='col-12 row'>"
+                html += "<div class='col-12 row' style='text-align: center;align-items: center;justify-content: center'>"
                 html += "<img src='" + bancos.IMAGEMAD + "' class='align-self-center' style='width: 70px;'>"
                 html += "<div class='col-7 media-body align-self-center'>"
                 html += "<h4 class='m-0' style='font-size: 14px; text-align:right; color: #257E4A'>" + formataMoeda(bancos.val_liquido) + "</h4>"
