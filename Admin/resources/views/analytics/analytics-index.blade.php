@@ -435,7 +435,7 @@ font-size: 14px;
               <ul class="list-group wallet-bal-crypto mt-3" id="ul_bancos">
                 @foreach($dados_bancos as $bancos)
                 <li class="list-group-item align-items-center d-flex justify-content-between">
-                  <div class="col-12 row" style='text-align: center;align-items: center;justify-content: center'>
+                  <div class="col-10 row" style='text-align: center;align-items: center;justify-content: center'>
                     <div class="col-2 tooltip-hint" data-title="{{ $bancos->BANCO_NOME }}">
                       <img src="{{ $bancos->IMAGEM}}" class="align-self-center img-bancos-detalhamento">
                     </div>
@@ -1003,14 +1003,13 @@ font-size: 14px;
             success: function(response) {
               bancos_dados = response[0];
               operadoras_dados = response[1];
-              console.log(bancos_dados);
               // $('#ul_bancos').empty();
               response[0].forEach((bancos) => {
                 var html = "<li class='list-group-item align-items-center d-flex justify-content-between'>"
 
-                html += "<div class='row align-self-center' style='text-align: center;align-items: center;justify-content: center'>"
+                html += "<div class='col-12 row align-self-center' style='text-align: center;align-items: center;justify-content: center'>"
                 html += "<div class='col-2' style='margin: 0'>"
-                html += "<div class='tooltip-hint' data-title='"+ bancos.BANCO_NOME + "'><img src='" + bancos.IMAGEM + "' class='align-self-center' style='width: 45px; margin-left: -20px;'></div>"
+                html += "<div class='tooltip-hint' data-title='"+ bancos.BANCO_NOME + "'><img src='" + bancos.IMAGEM + "' class='align-self-center' style='width: 80px; margin-left: -20px;'></div>"
                 html += "</div>"
                 html += "<div class='col-4 media-body align-self-center'>"
                 html += "<h4 style='font-size: 13px; margin-left: -30px'>" + "AG: " + bancos.AGENCIA + "- C/C: " + bancos.CONTA + "</h4>"
@@ -1062,7 +1061,6 @@ font-size: 14px;
             return;
           });
         } else if (color == '#2D93AD') {
-          console.log("opkwpokdawowa");
           localStorage.setItem('situacao_pgto', 'Previsto');
 
           document.getElementById("label_recebimentos").innerHTML = title;
@@ -1087,7 +1085,7 @@ font-size: 14px;
 
                 html += "<div class='col-12 row' style='text-align: center;align-items: center;justify-content: center'>"
                 html += "<div class='col-2' style='margin: 0'>"
-                html += "<img src='" + bancos.IMAGEM + "' class='align-self-center' style='width: 45px; margin-left: -20px;'>"
+                html += "<img src='" + bancos.IMAGEM + "' class='align-self-center' style='width: 80px; margin-left: -20px;'>"
                 html += "</div>"
                 html += "<div class='col-4 media-body align-self-center'>"
                 html += "<h4 style='font-size: 13px; margin-left: -30px'>" + "AG: " + bancos.AGENCIA + "- C/C: " + bancos.CONTA + "</h4>"
