@@ -16,7 +16,8 @@ class RecebimentosFilter extends BaseFilter {
     'grupos_clientes',
     'adquirentes',
     'domicilios_bancarios',
-    'recebimento_conciliado_erp'
+    'recebimento_conciliado_erp',
+    'tipo_pagamento'
   ];
 
   public static function filter($filters) {
@@ -132,6 +133,9 @@ class RecebimentosFilter extends BaseFilter {
           ->from('domicilio_cliente')
           ->whereIn('domicilio_cliente.CODIGO', $filters['domicilios_bancarios']);
       });
+    }
+    if(Arr::has($filters, 'tipo_pagamento')) {
+      $this->query->whereIn('pagamentos_operadoras.COD_TIPO_PAGAMENTO', $filters['tipo_pagamento']);
     }
 
     return $this;
