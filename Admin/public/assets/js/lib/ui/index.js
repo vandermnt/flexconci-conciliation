@@ -180,6 +180,16 @@ function onConfirmModalSelection(event) {
   checker.setValuesToTextElement(groupName, 'descricao');
 };
 
+function openConfirmDialog(title = '', onReply = (value) => {}, config = {}) {
+  swal(title, {
+    ...config,
+    buttons: config.buttons ? config.buttons : {
+      confirm: 'Sim',
+      cancel: 'Não'
+    }
+  }).then(value => onReply(value));
+}
+
 function openUrl(baseUrl, params) {
   const url = api.urlBuilder(baseUrl, params);
   const a = document.createElement('a');
