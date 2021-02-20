@@ -74,28 +74,26 @@
               <input type="text" class="form-control" name="CODIGO_AUTORIZACAO">
             </div>
           </th>
-          <th>
-            <div class="d-flex flex-column align-items-center">
-              <p>TID</p>
-              <input type="text" class="form-control" name="TID">
-            </div>
-          </th>
-          <th>
-            <div class="d-flex flex-column align-items-center">
-              <p>Cartão</p>
-              <input type="text" class="form-control" name="CARTÃO">
-            </div>
-          </th>
+          @if($isColumnVisible('TID'))
+            <th>
+              <div class="d-flex flex-column align-items-center">
+                <p>TID</p>
+                <input type="text" class="form-control" name="TID">
+              </div>
+            </th>
+          @endif
+          @if($isColumnVisible('CARTAO'))
+            <th>
+              <div class="d-flex flex-column align-items-center">
+                <p>Cartão</p>
+                <input type="text" class="form-control" name="CARTAO">
+              </div>
+            </th>
+          @endif
           <th>
             <div class="d-flex flex-column align-items-center">
               <p>Valor Bruto</p>
               <input type="number" min="0" step="0.01" class="form-control" name="VALOR_VENDA">
-            </div>
-          </th>
-          <th>
-            <div class="d-flex flex-column align-items-center">
-              <p>Taxa %</p>
-              <input type="number" min="0" step="0.01" class="form-control" name="TAXA">
             </div>
           </th>
           <th>
@@ -106,10 +104,56 @@
           </th>
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>Valor Líquido</p>
+              <p>
+                {{ is_null($getHeader('TAXA')) ?
+                  'Taxa %' : 
+                  ucwords(mb_strtolower($getHeader('TAXA'), 'utf-8')) }}
+                </p>
+              <input type="number" min="0" step="0.01" class="form-control" name="TAXA">
+            </div>
+          </th>
+          @if($isColumnVisible('TAXA_OPERADORA'))
+          <th>
+            <div class="d-flex flex-column align-items-center">
+              <p>Taxa Op. %</p>
+              <input type="number" min="0" step="0.01" class="form-control" name="TAXA_OPERADORA">
+            </div>
+          </th>
+          @endif
+          @if($isColumnVisible('TAXA_DIFERENCA'))
+            <th>
+              <div class="d-flex flex-column align-items-center">
+                <p>Dif. Taxa %</p>
+                <input type="number" step="0.01" class="form-control" name="TAXA_DIFERENCA">
+              </div>
+            </th>
+          @endif
+          <th>
+            <div class="d-flex flex-column align-items-center">
+              <p>
+                {{ is_null($getHeader('VALOR_LIQUIDO')) ?
+                'Valor Líquido' : 
+                ucwords(mb_strtolower($getHeader('VALOR_LIQUIDO'), 'utf-8')) }}
+              </p>
               <input type="number" min="0" step="0.01" class="form-control" name="VALOR_LIQUIDO_PARCELA">
             </div>
           </th>
+          @if($isColumnVisible('VALOR_LIQUIDO_OPERADORA'))
+            <th>
+              <div class="d-flex flex-column align-items-center">
+                <p>Valor Líquido Op.</p>
+                <input type="number" min="0" step="0.01" class="form-control" name="VALOR_LIQUIDO_OPERADORA">
+              </div>
+            </th>
+          @endif
+          @if($isColumnVisible('DIFERENCA_LIQUIDO'))
+            <th>
+              <div class="d-flex flex-column align-items-center">
+                <p>Dif. Líquido R$</p>
+                <input type="number" step="0.01" class="form-control" name="DIFERENCA_LIQUIDO">
+              </div>
+            </th>
+          @endif
           <th>
             <div class="d-flex flex-column align-items-center">
               <p>Parcela</p>
@@ -122,18 +166,22 @@
               <input type="text" class="form-control" name="TOTAL_PARCELAS">
             </div>
           </th>
-          <th>
-            <div class="d-flex flex-column align-items-center">
-              <p>Hora</p>
-              <input type="text" class="form-control" name="HORA">
-            </div>
-          </th>
-          <th>
-            <div class="d-flex flex-column align-items-center">
-              <p>Estabelecimento</p>
-              <input type="text" class="form-control" name="ESTABELECIMENTO">
-            </div>
-          </th>
+          @if($isColumnVisible('HORA'))
+            <th>
+              <div class="d-flex flex-column align-items-center">
+                <p>Hora</p>
+                <input type="text" class="form-control" name="HORA">
+              </div>
+            </th>
+          @endif
+          @if($isColumnVisible('ESTABELECIMENTO'))
+            <th>
+              <div class="d-flex flex-column align-items-center">
+                <p>Estabelecimento</p>
+                <input type="text" class="form-control" name="ESTABELECIMENTO">
+              </div>
+            </th>
+          @endif
           <th>
             <div class="d-flex flex-column align-items-center">
               <p>Banco</p>
@@ -284,16 +332,36 @@
           <td data-column="MODALIDADE"></td>
           <td data-column="NSU"></td>
           <td data-column="CODIGO_AUTORIZACAO"></td>
-          <td data-column="TID"></td>
-          <td data-column="CARTAO"></td>
+          @if($isColumnVisible('TID'))
+            <td data-column="TID"></td>
+          @endif
+          @if($isColumnVisible('CARTAO'))
+            <td data-column="CARTAO"></td>
+          @endif
           <td data-column="VALOR_VENDA" data-format="currency"></td>
-          <td class="text-danger" data-column="TAXA" data-format="number"></td>
           <td class="text-danger" data-reverse-value="true" data-column="VALOR_TAXA" data-format="currency"></td>
+          <td class="text-danger" data-column="TAXA" data-format="number"></td>
+          @if($isColumnVisible('TAXA_OPERADORA'))
+            <td class="text-danger" data-column="TAXA_OPERADORA" data-format="number"></td>
+          @endif
+          @if($isColumnVisible('TAXA_DIFERENCA'))
+            <td class="text-danger" data-column="TAXA_DIFERENCA" data-format="number"></td>
+          @endif
           <td data-column="VALOR_LIQUIDO_PARCELA" data-format="currency"></td>
+          @if($isColumnVisible('VALOR_LIQUIDO_OPERADORA'))
+            <td data-column="VALOR_LIQUIDO_OPERADORA" data-format="currency"></td>
+          @endif
+          @if($isColumnVisible('DIFERENCA_LIQUIDO'))
+            <td data-column="DIFERENCA_LIQUIDO" data-format="currency"></td>
+          @endif
           <td data-column="PARCELA"></td>
           <td data-column="TOTAL_PARCELAS"></td>
-          <td data-column="HORA"></td>
-          <td data-column="ESTABELECIMENTO"></td>
+          @if($isColumnVisible('HORA'))
+            <td data-column="HORA"></td>
+          @endif
+          @if($isColumnVisible('ESTABELECIMENTO'))
+            <td data-column="ESTABELECIMENTO"></td>
+          @endif
           <td
             data-image="BANCO_IMAGEM"
             data-default-image="assets/images/iconCart.jpeg"
@@ -333,8 +401,12 @@
           @if($isColumnVisible('ID_ERP'))
             <td></td>
           @endif
-          <td></td>
-          <td></td>
+          @if($isColumnVisible('TID'))
+            <td></td>
+          @endif
+          @if($isColumnVisible('CARTAO'))
+            <td></td>
+          @endif
           <td></td>
           <td></td>
           <td></td>
@@ -344,11 +416,27 @@
           <td></td>
           <td></td>
           <td data-column="TOTAL_BRUTO" data-format="currency"></td>
-          <td></td>
           <td data-column="TOTAL_TAXA" data-reverse-value="true" data-format="currency" class="text-danger"></td>
+          <td></td>
+          @if($isColumnVisible('TAXA_OPERADORA'))
+            <td></td>
+          @endif
+          @if($isColumnVisible('TAXA_DIFERENCA'))
+            <td></td>
+          @endif
           <td data-column="TOTAL_LIQUIDO" data-format="currency"></td>
-          <td></td>
-          <td></td>
+          @if($isColumnVisible('VALOR_LIQUIDO_OPERADORA'))
+            <td data-column="TOTAL_LIQUIDO_OPERADORA" data-format="currency"></td>
+          @endif
+          @if($isColumnVisible('DIFERENCA_LIQUIDO'))
+            <td data-column="TOTAL_DIFERENCA_LIQUIDO" data-format="currency"></td>
+          @endif
+          @if($isColumnVisible('HORA'))
+            <td></td>
+          @endif
+          @if($isColumnVisible('ESTABELECIMENTO'))
+            <td></td>
+          @endif
           <td></td>
           <td></td>
           <td></td>

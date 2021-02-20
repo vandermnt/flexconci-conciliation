@@ -105,16 +105,13 @@
           ]"
         >
           <x-slot name="actions">
-            <td class="actions-cell d-flex align-items-center justify-content-between">
-              <a
-                class="link-impressao tooltip-hint"
-                data-default-title="Visualizar comprovante"
+            <td class="actions-cell d-flex align-items-center justify-content-center">
+              <div
+                class="tooltip-hint d-flex align-items-center mr-2 js-show-details"
+                data-default-title="Visualizar Detalhes"
                 data-toggle="modal"
                 data-target="#comprovante-modal"
               >
-                <i class="fas fa-print"></i>
-              </a>
-              <div class="tooltip-hint d-flex align-items-center" data-default-title="Visualizar Detalhes">
                 <i class="fas fa-eye"></i>
               </div>
               <div class="tooltip-hint" data-title="STATUS_CONCILIACAO">

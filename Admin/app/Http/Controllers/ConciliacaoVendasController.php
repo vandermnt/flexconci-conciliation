@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\ClienteModel;
+use App\VendasModel;
+use App\VendasErpModel;
 use App\GruposClientesModel;
 use App\StatusConciliacaoModel;
 use App\Filters\VendasErpFilter;
@@ -74,6 +76,8 @@ class ConciliacaoVendasController extends Controller
             $totals = [
                 'TOTAL_BRUTO' => (clone $query)->sum(DB::raw('coalesce(`vendas_erp`.`VALOR_VENDA_PARCELA`, `vendas_erp`.`TOTAL_VENDA`)')) ?? 0,
                 'TOTAL_LIQUIDO' => (clone $query)->sum('VALOR_LIQUIDO_PARCELA') ?? 0,
+                'TOTAL_LIQUIDO_OPERADORA' => (clone $query)->sum('VALOR_LIQUIDO_OPERADORA') ?? 0,
+                'TOTAL_DIFERENCA_LIQUIDO' => (clone $query)->sum('DIFERENCA_LIQUIDO') ?? 0,
             ];
             $totals['TOTAL_TAXA'] = ($totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO']) ?? 0;
 
@@ -113,7 +117,9 @@ class ConciliacaoVendasController extends Controller
             $sales = (clone $query)->paginate($per_page);
             $totals = [
                 'TOTAL_BRUTO' => $query->sum('VALOR_VENDA'),
-                'TOTAL_LIQUIDO' => $query->sum('VALOR_LIQUIDO_PARCELA')
+                'TOTAL_LIQUIDO' => $query->sum('VALOR_LIQUIDO_PARCELA'),
+                'TOTAL_LIQUIDO_OPERADORA' => $query->sum('VALOR_LIQUIDO_OPERADORA') ?? 0,
+                'TOTAL_DIFERENCA_LIQUIDO' => $query->sum('DIFERENCA_LIQUIDO') ?? 0,
             ];
             $totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
 
@@ -194,6 +200,93 @@ class ConciliacaoVendasController extends Controller
                 'mensagem' => 'Não foi possível realizar a consulta em Vendas Operadoras.'
             ], 500);
         }
+    }
+
+    public function conciliarManualmente(Request $request) {
+        $idOperadora = collect($request->input('id_operadora'))->first();
+        $idErp = collect($request->input('id_erp'))->first();
+
+        $statusNaoConciliada = StatusConciliacaoModel::naoConciliada()->first()->CODIGO; 
+        $statusManualmente = StatusConciliacaoModel::manual()->first();
+        $now = new DateTime("now", new DateTimeZone('America/Sao_Paulo'));
+
+        $vendaErp = VendasErpModel::where('CODIGO', $idErp)
+            ->where('COD_CLIENTE', session('codigologin'))
+            ->where('COD_STATUS_CONCILIACAO', $status_nao_conciliada)
+            ->first();
+        $vendaOperadora = VendasModel::where('CODIGO', $idOperadora)
+            ->where('COD_CLIENTE', session('codigologin'))
+            ->where('COD_STATUS_CONCILIACAO', $statusNaoConciliada)
+            ->first();
+        
+        $vendaErp->COD_VENDAS_OPERADORAS = $vendaOperadora->CODIGO;
+        $vendaErp->COD_STATUS_CONCILIACAO = $statusManualmente->CODIGO;
+        $vendaErp->DATA_CONCILIACAO = $now->format('Y-m-d');
+        $vendaErp->HORA_CONCILIACAO = $now->format('H:i:s');
+        $vendaOperadora->COD_VENDA_ERP = $vendaErp->CODIGO;
+        $vendaOperadora->ID_VENDAS_ERP = $vendaErp->DESCRICAO_TIPO_PRODUTO;
+        $vendaOperadora->COD_STATUS_CONCILIACAO = $statusManualmente->CODIGO;
+        $vendaErp->save();
+        $vendaOperadora->save();
+
+        return response()->json([
+            'status' => 'sucesso',
+            'mensagem' => 'As vendas foram conciliadas com sucesso.',
+            'erp' => [
+                'ID' => $vendaErp->CODIGO,
+                'TOTAL_BRUTO' => $vendaErp->VALOR_VENDA_PARCELA ?? $venda_erp->TOTAL_VENDA,
+            ],
+            'operadora' => [
+                'ID' => $vendaOperadora->CODIGO,
+                'TOTAL_BRUTO' =>  $vendaOperadora->VALOR_BRUTO,
+                'TOTAL_LIQUIDO' =>  $vendaOperadora->VALOR_LIQUIDO,
+                'TOTAL_TAXA' =>  $vendaOperadora->VALOR_BRUTO - $vendaOperadora->VALOR_LIQUIDO,
+            ],
+            'STATUS_CONCILIACAO' => $statusManualmente->STATUS_CONCILIACAO,
+            'STATUS_CONCILIACAO_IMAGEM' => $statusManualmente->IMAGEM_URL,
+        ], 200);
+    }
+
+    public function desconciliarManualmente(Request $request) {
+        $idErp = collect($request->input('id_erp'))->first();
+        $statusManualmente = StatusConciliacaoModel::manual()->first()->CODIGO;
+        $statusNaoConciliada = StatusConciliacaoModel::naoConciliada()->first();
+
+        $vendaErp = VendasErpModel::where($idErp)
+            ->where('COD_CLIENTE', session('codigologin'))
+            ->where('COD_STATUS_CONCILIACAO', $statusManualmente)         
+            ->first();
+        $vendaOperadora = VendasModel::where('CODIGO', $vendaErp->COD_VENDAS_OPERADORAS)
+            ->first();
+
+        $vendaErp->COD_VENDAS_OPERADORAS = null;
+        $vendaErp->COD_STATUS_CONCILIACAO = $statusNaoConciliada->CODIGO;
+        $vendaErp->DATA_CONCILIACAO = null;
+        $vendaErp->HORA_CONCILIACAO = null;
+        $vendaOperadora->COD_VENDA_ERP = null;
+        $vendaOperadora->ID_VENDAS_ERP = null;
+        $vendaOperadora->COD_STATUS_CONCILIACAO = $statusNaoConciliada->CODIGO;
+        $vendaErp->save();
+        $vendaOperadora->save();
+
+        return response()->json([
+            'status' => 'sucesso',
+            'mensagem' => 'As vendas foram desconciliadas com êxito.',
+            'erp' => [
+                'ID' => $vendaErp->CODIGO,
+                'DATA_CONCILIACAO' => $vendaErp->DATA_CONCILIACAO,
+                'HORA_CONCILIACAO' => $vendaErp->HORA_CONCILIACAO,
+                'TOTAL_BRUTO' => $vendaErp->VALOR_VENDA_PARCELA ?? $venda_erp->TOTAL_VENDA,
+            ],
+            'operadora' => [
+                'ID' => $vendaOperadora->CODIGO,
+                'TOTAL_BRUTO' =>  $vendaOperadora->VALOR_BRUTO,
+                'TOTAL_LIQUIDO' =>  $vendaOperadora->VALOR_LIQUIDO,
+                'TOTAL_TAXA' =>  $vendaOperadora->VALOR_BRUTO - $vendaOperadora->VALOR_LIQUIDO,
+            ],
+            'STATUS_CONCILIACAO' => $statusNaoConciliada->STATUS_CONCILIACAO,
+            'STATUS_CONCILIACAO_IMAGEM' => $statusNaoConciliada->IMAGEM_URL,
+        ], 200);
     }
 
     /**

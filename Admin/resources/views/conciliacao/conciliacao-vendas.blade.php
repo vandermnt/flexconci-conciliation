@@ -27,6 +27,8 @@
             ['filtrar-erp' => route('conciliacao-vendas.filtrarErp')],
             ['buscar-operadoras' => route('conciliacao-vendas.buscarOperadoras')],
             ['filtrar-operadoras' => route('conciliacao-vendas.filtrarOperadoras')],
+            ['conciliar-manualmente' => route('conciliacao-vendas.conciliarManualmente')],
+            ['desconciliar-manualmente' => route('conciliacao-vendas.desconciliarManualmente')],
           ]"
           :hidden-fields="[
             'adquirentes',
@@ -48,7 +50,7 @@
     <div class="resultados hidden">
       <div class="boxes">
         <x-box
-          title="VENDAS SISTEMA"
+          :title="'VENDAS '.($erp->ERP ? mb_strtoupper($erp->ERP, 'utf-8') : 'SISTEMA')"
           content="R$ 18.434,51"
           data-format="currency"
           data-key="TOTAL_BRUTO"
@@ -149,10 +151,18 @@
           id="js-tabela-erp"
           class="mt-3"
           :headers="[
+            'TAXA' => $erp->ERP ? 'Taxa '.$erp->ERP.' %' : null,
+            'VALOR_LIQUIDO' => $erp->ERP ? 'Valor Líquido '.$erp->ERP : null,
             'TITULO_CAMPO1' => $erp->TITULO_CAMPO1,
             'TITULO_CAMPO2' => $erp->TITULO_CAMPO2,
             'TITULO_CAMPO3' => $erp->TITULO_CAMPO3,
             'actions' => 'Ações | Status'
+          ]"
+          :hidden-columns="[
+            'TID',
+            'CARTAO',
+            'HORA',
+            'ESTABELECIMENTO'
           ]"
         >
           <x-slot name="actions">
@@ -160,7 +170,7 @@
               <input
                 name="id_erp[]"
                 type="checkbox"
-                data-column="ID_ERP"
+                data-value-key="ID_ERP"
               >
               <div class="tooltip-hint d-flex align-items-center" data-default-title="Visualizar Detalhes">
                 <i class="fas fa-eye"></i>
@@ -208,7 +218,7 @@
               <input
                 name="id_operadoras[]"
                 type="checkbox"
-                data-column="ID"
+                data-value-key="ID"
               >
               <div class="tooltip-hint d-flex align-items-center" data-default-title="Visualizar Detalhes">
                 <i class="fas fa-eye"></i>

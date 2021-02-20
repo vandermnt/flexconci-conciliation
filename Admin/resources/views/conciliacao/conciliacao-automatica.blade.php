@@ -446,20 +446,44 @@
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
-                    <p>Taxa %</p>
-                    <input type="number" min="0" step="0.01" class="form-control" name="TAXA">
-                  </div>
-                </th>
-                <th>
-                  <div class="d-flex flex-column align-items-center">
                     <p>Taxa R$</p>
                     <input type="number" min="0" step="0.01" class="form-control" name="VALOR_TAXA">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
-                    <p>Valor Líquido</p>
+                    <p>Taxa {{ $erp->ERP ? mb_convert_case($erp->ERP, MB_CASE_TITLE, "UTF-8").' %' : '%' }}</p>
+                    <input type="number" min="0" step="0.01" class="form-control" name="TAXA">
+                  </div>
+                </th>
+                <th>
+                  <div class="d-flex flex-column align-items-center">
+                    <p>Taxa Op. %</p>
+                    <input type="number" min="0" step="0.01" class="form-control" name="TAXA_OPERADORA">
+                  </div>
+                </th>
+                <th>
+                  <div class="d-flex flex-column align-items-center">
+                    <p>Dif. Taxa %</p>
+                    <input type="number" step="0.01" class="form-control" name="TAXA_DIFERENCA">
+                  </div>
+                </th>
+                <th>
+                  <div class="d-flex flex-column align-items-center">
+                    <p>Valor Líquido {{ $erp->ERP ? mb_convert_case($erp->ERP, MB_CASE_TITLE, "UTF-8") : '' }}</p>
                     <input type="number" min="0" step="0.01" class="form-control" name="VALOR_LIQUIDO_PARCELA">
+                  </div>
+                </th>
+                <th>
+                  <div class="d-flex flex-column align-items-center">
+                    <p>Valor Líquido Op.</p>
+                    <input type="number" min="0" step="0.01" class="form-control" name="VALOR_LIQUIDO_OPERADORA">
+                  </div>
+                </th>
+                <th>
+                  <div class="d-flex flex-column align-items-center">
+                    <p>Dif. Líquido R$</p>
+                    <input type="number" step="0.01" class="form-control" name="DIFERENCA_LIQUIDO">
                   </div>
                 </th>
                 <th>
@@ -639,9 +663,13 @@
                 <td data-campo="TID"></td>
                 <td></td>
                 <td data-campo="VALOR_VENDA" data-format="currency"></td>
-                <td data-campo="TAXA" data-format="decimal"></td>
                 <td class="text-danger" data-campo="VALOR_TAXA" data-format="currency"></td>
+                <td data-campo="TAXA" data-format="percent"></td>
+                <td data-campo="TAXA_OPERADORA" data-format="percent"></td>
+                <td data-campo="TAXA_DIFERENCA" data-format="percent"></td>
                 <td data-campo="VALOR_LIQUIDO_PARCELA" data-format="currency"></td>
+                <td data-campo="VALOR_LIQUIDO_OPERADORA" data-format="currency"></td>
+                <td data-campo="DIFERENCA_LIQUIDO" data-format="currency"></td>
                 <td data-campo="PARCELA"></td>
                 <td data-campo="TOTAL_PARCELAS"></td>
                 <td></td>
@@ -684,9 +712,13 @@
                 <td></td>
                 <td></td>
                 <td data-chave="TOTAL_BRUTO"></td>
-                <td></td>
                 <td data-chave="TOTAL_TAXA" class="text-danger"></td>
+                <td></td>
+                <td></td>
+                <td></td>
                 <td data-chave="TOTAL_LIQUIDO"></td>
+                <td data-chave="TOTAL_LIQUIDO_OPERADORA"></td>
+                <td data-chave="TOTAL_DIFERENCA_LIQUIDO"></td>
                 <td></td>
                 <td></td>
                 <td></td>

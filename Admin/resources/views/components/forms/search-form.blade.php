@@ -184,6 +184,8 @@
     />
   @endif
   
+  {{ $fields }}
+
   <div class="button-group">
     <button data-form-action="clear" class="btn btn-sm" type="button">
       <i class="far fa-trash-alt"></i>
@@ -494,5 +496,7 @@
         </div>
       </x-selection-modal>
     @endif
+
+    {{ $modals }}
   </div>
 </form>

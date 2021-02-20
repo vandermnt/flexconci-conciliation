@@ -50,15 +50,11 @@ class RecebimentosOperadorasController extends Controller
       ->orderBy('CODIGO_ESTABELECIMENTO', 'asc')
       ->get();
 
-    $status_conciliada = StatusConciliacaoModel::conciliada()->first();
-    $status_nao_conciliada = StatusConciliacaoModel::naoConciliada()->first();
-    
     return view('recebimentos.recebimentos-operadoras')->with([
       'empresas' => $empresas,
       'adquirentes' => $adquirentes,
       'estabelecimentos' => $estabelecimentos,
       'domicilios_bancarios' => $domicilios_bancarios,
-      'status_conciliacao' => collect([$status_conciliada, $status_nao_conciliada])
     ]);
   }
 

@@ -95,6 +95,12 @@
             'TITULO_CAMPO3' => $erp->TITULO_CAMPO3,
             'actions' => 'Ações | Status'
           ]"
+          :hidden-columns="[
+            'TAXA_OPERADORA',
+            'TAXA_DIFERENCA',
+            'VALOR_LIQUIDO_OPERADORA',
+            'DIFERENCA_LIQUIDO'
+          ]"
         >
           <x-slot name="actions">
             <td class="actions-cell d-flex align-items-center justify-content-center">

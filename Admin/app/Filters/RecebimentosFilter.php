@@ -16,7 +16,8 @@ class RecebimentosFilter extends BaseFilter {
     'grupos_clientes',
     'adquirentes',
     'domicilios_bancarios',
-    'status_conciliacao'
+    'recebimento_conciliado_erp',
+    'tipo_pagamento'
   ];
 
   public static function filter($filters) {
@@ -29,7 +30,8 @@ class RecebimentosFilter extends BaseFilter {
     $filters = Arr::where($filters, function($value, $key) {
       return boolval($value);
     });
-    $STATUS_CONCILIADO = 1;
+    $recebimento_conciliado_erp = $filters['recebimento_conciliado_erp'] ?? null;
+
     $this->query = DB::table('pagamentos_operadoras')
       ->select([
         'pagamentos_operadoras.CODIGO as ID',
@@ -63,7 +65,7 @@ class RecebimentosFilter extends BaseFilter {
         'pagamentos_operadoras.PARCELA',
         'pagamentos_operadoras.TOTAL_PARCELAS',
         'vendas.HORA_TRANSACAO',
-        'vendas.ESTABELECIMENTO',
+        'pagamentos_operadoras.ID_LOJA as ESTABELECIMENTO',
         'lista_bancos.NOME_WEB as BANCO',
         'lista_bancos.IMAGEM_LINK as BANCO_IMAGEM',
         'pagamentos_operadoras.AGENCIA',
@@ -72,15 +74,12 @@ class RecebimentosFilter extends BaseFilter {
         'produto_web.PRODUTO_WEB as PRODUTO',
         'meio_captura.DESCRICAO as MEIOCAPTURA',
         'status_conciliacao.STATUS_CONCILIACAO',
-        DB::raw("IF(
-            pagamentos_operadoras.COD_STATUS = ".$STATUS_CONCILIADO.", 'Sim', 'Não'
-          ) as STATUS_CONCILIADO"),
         'vendas.DIVERGENCIA',
         'vendas.JUSTIFICATIVA',
         'pagamentos_operadoras.COD_TIPO_PAGAMENTO'
       ])
         ->leftJoin('vendas', 'vendas.CODIGO', 'pagamentos_operadoras.COD_VENDA')
-        ->leftJoin('produto_web', 'produto_web.CODIGO', 'vendas.COD_PRODUTO') 
+        ->leftJoin('produto_web', 'produto_web.CODIGO', 'pagamentos_operadoras.COD_PRODUTO')
         ->leftJoin('grupos_clientes', 'grupos_clientes.CODIGO', 'pagamentos_operadoras.COD_GRUPO_CLIENTE')
         ->leftJoin('adquirentes', 'adquirentes.CODIGO', 'pagamentos_operadoras.COD_ADQUIRENTE')
         ->leftJoin('bandeira', 'bandeira.CODIGO', 'pagamentos_operadoras.COD_BANDEIRA')
@@ -112,6 +111,12 @@ class RecebimentosFilter extends BaseFilter {
     if(Arr::has($filters, 'status_conciliacao')) {
       $this->query->whereIn('pagamentos_operadoras.COD_STATUS', $filters['status_conciliacao']);
     }
+    if(!is_null($recebimento_conciliado_erp) && count($recebimento_conciliado_erp) < 2) {
+      $filterValue = $recebimento_conciliado_erp[0];
+      $whereOperator = $filterValue === 'true' ? '!=' : "=";
+
+      $this->query->where('ID_VENDA_ERP', $whereOperator, null);
+    }
     if(Arr::has($filters, 'domicilios_bancarios')) {
       $this->query->whereIn('lista_bancos.CODIGO', function($query) use ($filters) {
         $query->select('domicilio_cliente.COD_BANCO')
@@ -128,6 +133,9 @@ class RecebimentosFilter extends BaseFilter {
           ->from('domicilio_cliente')
           ->whereIn('domicilio_cliente.CODIGO', $filters['domicilios_bancarios']);
       });
+    }
+    if(Arr::has($filters, 'tipo_pagamento')) {
+      $this->query->whereIn('pagamentos_operadoras.COD_TIPO_PAGAMENTO', $filters['tipo_pagamento']);
     }
 
     return $this;

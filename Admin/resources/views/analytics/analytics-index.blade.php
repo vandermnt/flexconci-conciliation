@@ -100,7 +100,7 @@ font-size: 14px;
 <div id="dashboard_styles" class="container-fluid">
   @component('analytics.component.modal-aviso-geral')
   @endcomponent
-  <div class="row">
+  {{-- <div class="row">
     <div class="col-lg-12 boxs">
       <div class="row">
         <div class="col-md-6 col-lg-3">
@@ -151,7 +151,7 @@ font-size: 14px;
         @endcomponent
       </div>
     </div>
-  </div>
+  </div> --}}
 
   <div class="row">
     <div class="col-sm-12">

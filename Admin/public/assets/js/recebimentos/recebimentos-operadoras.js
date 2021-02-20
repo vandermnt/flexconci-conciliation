@@ -29,11 +29,13 @@ checker.addGroups([
   { name: 'empresa', options: { inputName: 'grupos_clientes' } },
   { name: 'adquirente', options: { inputName: 'adquirentes' } },
   { name: 'status-conciliacao', options: { inputName: 'status_conciliacao' } },
+  { name: 'recebimento-conciliado-erp', options: { inputName: 'recebimento_conciliado_erp' } },
 ]);
 
 modalFilter.addGroups([
   'empresa',
   'adquirente',
+  'estabelecimento',
 ]);
 
 searchForm.onSubmit(async (event) => {

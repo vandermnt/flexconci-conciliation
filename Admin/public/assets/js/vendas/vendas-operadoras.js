@@ -173,9 +173,9 @@ tableRender.onRenderRow((row, data) => {
     }
   });
 
-  const printActionDOM = row.querySelector('td a.link-impressao');
+  const showDetailsDOM = row.querySelector('td .js-show-details');
 
-  printActionDOM.addEventListener('click', event => {
+  showDetailsDOM.addEventListener('click', event => {
     showTicket(row.dataset.id);
   });
 });
