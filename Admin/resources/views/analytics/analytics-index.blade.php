@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   venda_prevista_pagamento.forEach((previsao_pagamento) => {
-    if(previsao_pagamento.DATA_PREVISTA_PAGTO >= data_atual) {
+    if(previsao_pagamento.DATA_PREVISTA_PAGTO > data_atual) {
       const total_liq_prev_pagt = formataMoeda(previsao_pagamento.val_liquido);
 
       eventsList.push(
