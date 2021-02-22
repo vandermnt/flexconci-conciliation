@@ -209,7 +209,7 @@ font-size: 14px;
                   </tfoot>
                 </table>
               </div>
-              <h4 id="label_sem_dados_vop" style="text-align: center; display: none"> <i class="fas fa-exclamation-triangle"></i> Dados ainda não disponibilizados pelas operados </h4>
+              <h6 id="label_sem_dados_vop" style="text-align: center; display: none"> <i class="fas fa-exclamation-triangle"></i> Não existem dados para serem exibidos ou ainda não foram disponibilizados pelas operadoras. </h6>
             </div>
             @endif
           </div>
@@ -263,7 +263,7 @@ font-size: 14px;
                   </tfoot>
                 </table>
               </div>
-              <h4 id="label_sem_dados_vb" style="text-align: center; display: none"> <i class="fas fa-exclamation-triangle"></i> Dados ainda não disponibilizados pelas operados </h4>
+            <h6 id="label_sem_dados_vb" style="text-align: center; display: none"> <i class="fas fa-exclamation-triangle"></i> Não existem dados para serem exibidos ou ainda não foram disponibilizados pelas operadoras. </h6>
             </div>
           </div>
         </div>
@@ -319,7 +319,7 @@ font-size: 14px;
                   </tfoot>
                 </table>
               </div>
-              <h4 id="label_sem_dados_vmod" style="text-align: center; display: none"> <i class="fas fa-exclamation-triangle"></i> Dados ainda não disponibilizados pelas operados </h4>
+              <h6 id="label_sem_dados_vmod" style="text-align: center; display: none"> <i class="fas fa-exclamation-triangle"></i> Não existem dados para serem exibidos ou ainda não foram disponibilizados pelas operadoras. </h6>
             </div>
             @endif
           </div>
@@ -373,7 +373,7 @@ font-size: 14px;
                   </tfoot>
                 </table>
               </div>
-              <h4 id="label_sem_dados_vprod" style="text-align: center; display: none"> <i class="fas fa-exclamation-triangle"></i> Dados ainda não disponibilizados pelas operados </h4>
+              <h6 id="label_sem_dados_vprod" style="text-align: center; display: none"> <i class="fas fa-exclamation-triangle"></i> Não existem dados para serem exibidos ou ainda não foram disponibilizados pelas operadoras. </h6>
             </div>
           </div>
         </div>
