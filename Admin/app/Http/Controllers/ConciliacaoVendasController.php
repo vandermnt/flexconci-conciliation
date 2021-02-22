@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DateTime;
 use DateTimeZone;
 use App\ClienteModel;
+use App\JustificativaModel;
 use App\VendasModel;
 use App\VendasErpModel;
 use App\GruposClientesModel;
@@ -41,12 +42,20 @@ class ConciliacaoVendasController extends Controller
             
         $status_conciliacao = StatusConciliacaoModel::orderBy('STATUS_CONCILIACAO')
             ->get();
+
+        $justificativas = JustificativaModel::select([
+            'CODIGO',
+            'JUSTIFICATIVA'
+        ])
+            ->where('COD_CLIENTE', session('codigologin'))
+            ->get();
         
         return view('conciliacao.conciliacao-vendas')
             ->with([
                 'erp' => $erp,
                 'empresas' => $empresas,
                 'status_conciliacao' => $status_conciliacao,
+                'justificativas' => $justificativas,
             ]);
     }
 
