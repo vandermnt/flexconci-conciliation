@@ -80,8 +80,12 @@ Route::group(['middleware' => 'auth'], function() {
   Route::post('/conciliacao-vendas/filtrar/erp', 'ConciliacaoVendasController@filterErp')->name('conciliacao-vendas.filtrarErp');
   Route::post('/conciliacao-vendas/buscar/operadoras', 'ConciliacaoVendasController@searchOperadoras')->name('conciliacao-vendas.buscarOperadoras');
   Route::post('/conciliacao-vendas/filtrar/operadoras', 'ConciliacaoVendasController@filterOperadoras')->name('conciliacao-vendas.filtrarOperadoras');
-  Route::post('/conciliacao-vendas/conciliar/manualmente', 'ConciliacaoVendasController@conciliarManualmente')->name('conciliacao-vendas.conciliarManualmente');
-  Route::post('/conciliacao-vendas/desconciliar/manualmente', 'ConciliacaoVendasController@desconciliarManualmente')->name('conciliacao-vendas.desconciliarManualmente');
+  Route::post('/conciliacao-vendas/conciliar/manualmente', 'ConciliacaoVendasController@conciliarManualmente')
+    ->name('conciliacao-vendas.conciliarManualmente')
+    ->middleware('verifica_vendas_conciliacao');
+  Route::post('/conciliacao-vendas/desconciliar/manualmente', 'ConciliacaoVendasController@desconciliarManualmente')
+    ->name('conciliacao-vendas.desconciliarManualmente')
+    ->middleware('verifica_vendas_desconciliacao');
 
   Route::match(['get', 'post'], '/conciliacao-manual', 'ConciliacaoAutomaticaVendasController@conciliarManualmente');
   Route::match(['get', 'post'], '/conciliacao-justificada-venda', 'ConciliacaoAutomaticaVendasController@conciliacaoJustificadaVenda');

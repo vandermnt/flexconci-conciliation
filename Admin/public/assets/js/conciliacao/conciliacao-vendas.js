@@ -274,7 +274,173 @@ function confirmConciliacao() {
 }
 
 function conciliar() {
+  toggleElementVisibility('#js-loader');
+  const baseUrl = searchForm.get('form').dataset.urlConciliarManualmente;
+  api.post(baseUrl, {
+    ...apiConfig,
+    body: JSON.stringify({
+      _token: searchForm.getInput('_token').value,
+      id_erp: selectedSales.erp,
+      id_operadora: selectedSales.operadoras,
+    })
+  }).then(json => {
+    toggleElementVisibility('#js-loader');
+    if(json.status === 'erro' && json.mensagem) {
+      swal('Ooops...', json.mensagem, 'error');
+      return;
+    }
+
+    selectedSales.erp = [];
+    selectedSales.operadoras = [];
+    const salesErp = salesErpContainer.get('data').get('sales');
+    const sales = salesContainer.get('data').get('sales');
+    const totalsOperadoras = {
+      ...salesContainer.get('data').get('totals'),
+      TOTAL_PENDENCIAS_OPERADORAS: Number(salesContainer.get('data').get('totals').TOTAL_PENDENCIAS_OPERADORAS) - Number(json.operadora.TOTAL_BRUTO),
+    };
+    const totalsErp = {
+      ...salesErpContainer.get('data').get('totals'),
+      TOTAL_CONCILIADO_MANUAL: Number(salesErpContainer.get('data').get('totals').TOTAL_CONCILIADO_MANUAL) + Number(json.erp.TOTAL_BRUTO),
+      TOTAL_NAO_CONCILIADO: Number(salesErpContainer.get('data').get('totals').TOTAL_NAO_CONCILIADO) - Number(json.erp.TOTAL_BRUTO),
+    };
+    const index = sales.findIndex(item => String(item.ID) === String(json.operadora.ID));
+    const indexErp = salesErp.findIndex(item => String(item.ID_ERP) === String(json.erp.ID));
+
+    salesContainer.get('data').set('totals', { ...totalsOperadoras });
+    salesErpContainer.get('data').set('totals', { ...totalsErp });
+
+    if(index !== -1) {
+      const sale = {
+        ...sales[index],
+        DESCRICAO_ERP: json.operadora.DESCRICAO_ERP,
+        STATUS_CONCILIACAO: json.STATUS_CONCILIACAO,
+        STATUS_CONCILIACAO_IMAGEM: json.STATUS_CONCILIACAO_IMAGEM,
+      }
+      sales.splice(index, 1, sale);
+      tableRender.set('data', {
+        body: sales,
+        footer: totalsOperadoras
+      });
+      tableRender.render();
+    }
+    
+    if(indexErp !== -1) {
+      const saleErp = {
+        ...salesErp[indexErp],
+        DATA_CONCILIACAO: json.erp.DATA_CONCILIACAO,
+        HORA_CONCILIACAO: json.erp.HORA_CONCILIACAO,
+        STATUS_CONCILIACAO: json.STATUS_CONCILIACAO,
+        STATUS_CONCILIACAO_IMAGEM: json.STATUS_CONCILIACAO_IMAGEM,
+      }
+      salesErp.splice(indexErp, 1, saleErp);
+
+      tableRenderErp.set('data', {
+        body: salesErp,
+        footer: totalsErp,
+      });
+      tableRenderErp.render();
+    }
+
+    updateBoxes(boxes, {
+      TOTAL_NAO_CONCILIADO: totalsErp.TOTAL_NAO_CONCILIADO,
+      TOTAL_CONCILIADO_MANUAL: totalsErp.TOTAL_CONCILIADO_MANUAL,
+      TOTAL_PENDENCIAS_OPERADORAS: totalsOperadoras.TOTAL_PENDENCIAS_OPERADORAS,
+    });
+
+    swal("Conciliação realizada!", json.mensagem, "success");
+  });
+}
+
+function confirmDesconciliacao() {
+  if(selectedSales.erp.length !== 1) {
+    swal('Ooops...', 'Para realizar a desconciliação selecione apenas uma venda ERP.', 'error');
+    return;
+  }
   
+  openConfirmDialog(
+    'Tem certeza que deseja desconciliar a venda?', 
+    (value) => {
+      if(value) desconciliar();
+    }
+  );
+}
+
+function desconciliar() {
+  toggleElementVisibility('#js-loader');
+  const baseUrl = searchForm.get('form').dataset.urlDesconciliarManualmente;
+  api.post(baseUrl, {
+    ...apiConfig,
+    body: JSON.stringify({
+      _token: searchForm.getInput('_token').value,
+      id_erp: selectedSales.erp,
+    })
+  }).then(json => {
+    toggleElementVisibility('#js-loader');
+    if(json.status === 'erro' && json.mensagem) {
+      swal('Ooops...', json.mensagem, 'error');
+      return;
+    }
+
+    selectedSales.erp = [];
+    selectedSales.operadoras = [];
+    const salesErp = salesErpContainer.get('data').get('sales');
+    const sales = salesContainer.get('data').get('sales');
+    const totalsOperadoras = {
+      ...salesContainer.get('data').get('totals'),
+      TOTAL_PENDENCIAS_OPERADORAS: Number(salesContainer.get('data').get('totals').TOTAL_PENDENCIAS_OPERADORAS) + Number(json.operadora.TOTAL_BRUTO),
+    };
+    const totalsErp = {
+      ...salesErpContainer.get('data').get('totals'),
+      TOTAL_CONCILIADO_MANUAL: Number(salesErpContainer.get('data').get('totals').TOTAL_CONCILIADO_MANUAL) - Number(json.erp.TOTAL_BRUTO),
+      TOTAL_NAO_CONCILIADO: Number(salesErpContainer.get('data').get('totals').TOTAL_NAO_CONCILIADO) + Number(json.erp.TOTAL_BRUTO),
+    };
+
+    const index = sales.findIndex(item => String(item.ID) === String(json.operadora.ID));
+    const indexErp = salesErp.findIndex(item => String(item.ID_ERP) === String(json.erp.ID));
+
+    salesContainer.get('data').set('totals', { ...totalsOperadoras });
+    salesErpContainer.get('data').set('totals', { ...totalsErp });
+
+    if(index !== -1) {
+      const sale = {
+        ...sales[index],
+        DESCRICAO_ERP: json.operadora.DESCRICAO_ERP,
+        STATUS_CONCILIACAO: json.STATUS_CONCILIACAO,
+        STATUS_CONCILIACAO_IMAGEM: json.STATUS_CONCILIACAO_IMAGEM,
+      }
+      sales.splice(index, 1, sale);
+      tableRender.set('data', {
+        body: sales,
+        footer: { ...totalsOperadoras },
+      });
+      tableRender.render();
+    }
+    
+    if(indexErp !== -1) {
+      const saleErp = {
+        ...salesErp[indexErp],
+        DATA_CONCILIACAO: json.erp.DATA_CONCILIACAO,
+        HORA_CONCILIACAO: json.erp.HORA_CONCILIACAO,
+        STATUS_CONCILIACAO: json.STATUS_CONCILIACAO,
+        STATUS_CONCILIACAO_IMAGEM: json.STATUS_CONCILIACAO_IMAGEM,
+      }
+      salesErp.splice(indexErp, 1, saleErp);
+
+      tableRenderErp.set('data', {
+        body: salesErp,
+        footer: totalsErp,
+      });
+      tableRenderErp.render();
+    }
+
+    updateBoxes(boxes, {
+      TOTAL_NAO_CONCILIADO: totalsErp.TOTAL_NAO_CONCILIADO,
+      TOTAL_CONCILIADO_MANUAL: totalsErp.TOTAL_CONCILIADO_MANUAL,
+      TOTAL_PENDENCIAS_OPERADORAS: totalsOperadoras.TOTAL_PENDENCIAS_OPERADORAS,
+    });
+
+    swal("Desconciliação realizada!", json.mensagem, "success");
+  });
 }
 
 searchForm.get('form').querySelector('button[data-form-action="submit"')
@@ -287,3 +453,5 @@ document.querySelector('#js-por-pagina-operadoras')
 
 document.querySelector('#js-conciliar')
   .addEventListener('click', confirmConciliacao);
+document.querySelector('#js-desconciliar')
+  .addEventListener('click', confirmDesconciliacao);
