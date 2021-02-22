@@ -185,7 +185,7 @@ font-size: 14px;
                 </div>
                 <div class="col-6">
                   <div class="dropdown div-bt-export">
-                    <a class="dropdown-toggle pull-right" onclick="gerarPdfVendasOperadora()" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="dropdown-toggle pull-right bt-vendas-op" onclick="gerarPdfVendasOperadora()" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <img src="{{ url('/assets/images/export.png')}}" class="img-export">
                     </a>
                   </div>
@@ -239,7 +239,7 @@ font-size: 14px;
                 </div>
                 <div class="col-6">
                   <div class="dropdown div-bt-export">
-                    <a class="dropdown-toggle pull-right" onclick="gerarPdfVendasBandeira()" type="button" id="dropdownMenuButtonAgrupamento" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="dropdown-toggle pull-right bt-vendas-band" onclick="gerarPdfVendasBandeira()" type="button" id="dropdownMenuButtonAgrupamento" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <img src="{{ url('/assets/images/export.png')}}" class="img-export">
                     </a>
                   </div>
@@ -295,7 +295,7 @@ font-size: 14px;
                 </div>
                 <div class="col-6">
                   <div class="dropdown div-bt-export">
-                    <a class="dropdown-toggle pull-right" onclick="gerarPdfVendasModalidade()" type="button" id="dropdownMenuButtonAgrupamento" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="dropdown-toggle pull-right bt-vendas-formpg" onclick="gerarPdfVendasModalidade()" type="button" id="dropdownMenuButtonAgrupamento" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <img src="{{ url('/assets/images/export.png')}}" class="img-export">
                     </a>
                   </div>
@@ -349,7 +349,7 @@ font-size: 14px;
                 </div>
                 <div class="col-6">
                   <div class="dropdown div-bt-export">
-                    <a class="dropdown-toggle pull-right" onclick="gerarPdfVendasProduto()" type="button" id="dropdownMenuButtonAgrupamento" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="dropdown-toggle pull-right bt-vendas-prod" onclick="gerarPdfVendasProduto()" type="button" id="dropdownMenuButtonAgrupamento" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <img src="{{ url('/assets/images/export.png')}}" class="img-export">
                     </a>
                   </div>
@@ -775,11 +775,14 @@ font-size: 14px;
           document.getElementById("label_sem_dados_vop").style.display = "block"
           const div = document.querySelector('.vendasop');
           div.style.display = 'none';
+          document.querySelector(".bt-vendas-op").style.visibility = "hidden";
         } else {
           grafico_vendas_operadora.destroy();
           const div = document.querySelector('.vendasop');
           div.style.display = 'block';
           document.getElementById("label_sem_dados_vop").style.display = "none"
+          document.querySelector(".bt-vendas-op").style.visibility = "visible";
+
           // document.getElementById("table_vendas_operadora").style.display = "block"
 
           periodo = cod_periodo;
@@ -828,11 +831,14 @@ font-size: 14px;
           document.getElementById("label_sem_dados_vb").style.display = "block"
           const div = document.querySelector('.vendasband');
           div.style.display = 'none';
+          document.querySelector(".bt-vendas-band").style.visibility = "hidden";
+
         } else {
           grafico_vendas_bandeira.destroy();
           document.getElementById("label_sem_dados_vb").style.display = "none"
           const div = document.querySelector('.vendasband');
           div.style.display = 'block';
+          document.querySelector(".bt-vendas-band").style.visibility = "visible";
 
           periodo = cod_periodo;
           localStorage.setItem('periodo_venda_bandeira', 2);
@@ -877,12 +883,15 @@ font-size: 14px;
           document.getElementById("label_sem_dados_vmod").style.display = "block"
           const div = document.querySelector('.vendasmod');
           div.style.display = 'none';
+          document.querySelector(".bt-vendas-formpg").style.visibility = "hidden";
+
         } else {
           grafico_vendas_modalidade.destroy();
 
           document.getElementById("label_sem_dados_vmod").style.display = "none"
           const div = document.querySelector('.vendasmod');
           div.style.display = 'block';
+          document.querySelector(".bt-vendas-formpg").style.visibility = "visible";
 
           periodo = cod_periodo;
           localStorage.setItem('periodo_venda_modalidade', cod_periodo);
@@ -929,12 +938,15 @@ font-size: 14px;
           document.getElementById("label_sem_dados_vprod").style.display = "block"
           const div = document.querySelector('.vendasprod');
           div.style.display = 'none';
+          document.querySelector(".bt-vendas-prod").style.visibility = "hidden";
+
         } else {
           grafico_vendas_produto.destroy();
 
           document.getElementById("label_sem_dados_vprod").style.display = "none"
           const div = document.querySelector('.vendasprod');
           div.style.display = 'block';
+          document.querySelector(".bt-vendas-prod").style.visibility = "visible";
 
           periodo = cod_periodo;
           localStorage.setItem('periodo_venda_produto', cod_periodo);
