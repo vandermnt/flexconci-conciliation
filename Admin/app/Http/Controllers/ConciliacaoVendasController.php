@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
+use DateTimeZone;
 use App\ClienteModel;
+use App\JustificativaModel;
 use App\VendasModel;
 use App\VendasErpModel;
 use App\GruposClientesModel;
@@ -39,12 +42,20 @@ class ConciliacaoVendasController extends Controller
             
         $status_conciliacao = StatusConciliacaoModel::orderBy('STATUS_CONCILIACAO')
             ->get();
+
+        $justificativas = JustificativaModel::select([
+            'CODIGO',
+            'JUSTIFICATIVA'
+        ])
+            ->where('COD_CLIENTE', session('codigologin'))
+            ->get();
         
         return view('conciliacao.conciliacao-vendas')
             ->with([
                 'erp' => $erp,
                 'empresas' => $empresas,
                 'status_conciliacao' => $status_conciliacao,
+                'justificativas' => $justificativas,
             ]);
     }
 
@@ -212,7 +223,7 @@ class ConciliacaoVendasController extends Controller
 
         $vendaErp = VendasErpModel::where('CODIGO', $idErp)
             ->where('COD_CLIENTE', session('codigologin'))
-            ->where('COD_STATUS_CONCILIACAO', $status_nao_conciliada)
+            ->where('COD_STATUS_CONCILIACAO', $statusNaoConciliada)
             ->first();
         $vendaOperadora = VendasModel::where('CODIGO', $idOperadora)
             ->where('COD_CLIENTE', session('codigologin'))
@@ -234,10 +245,13 @@ class ConciliacaoVendasController extends Controller
             'mensagem' => 'As vendas foram conciliadas com sucesso.',
             'erp' => [
                 'ID' => $vendaErp->CODIGO,
+                'DATA_CONCILIACAO' => $vendaErp->DATA_CONCILIACAO,
+                'HORA_CONCILIACAO' => $vendaErp->HORA_CONCILIACAO,
                 'TOTAL_BRUTO' => $vendaErp->VALOR_VENDA_PARCELA ?? $venda_erp->TOTAL_VENDA,
             ],
             'operadora' => [
                 'ID' => $vendaOperadora->CODIGO,
+                'DESCRICAO_ERP' => $vendaOperadora->ID_VENDAS_ERP,
                 'TOTAL_BRUTO' =>  $vendaOperadora->VALOR_BRUTO,
                 'TOTAL_LIQUIDO' =>  $vendaOperadora->VALOR_LIQUIDO,
                 'TOTAL_TAXA' =>  $vendaOperadora->VALOR_BRUTO - $vendaOperadora->VALOR_LIQUIDO,
@@ -252,7 +266,7 @@ class ConciliacaoVendasController extends Controller
         $statusManualmente = StatusConciliacaoModel::manual()->first()->CODIGO;
         $statusNaoConciliada = StatusConciliacaoModel::naoConciliada()->first();
 
-        $vendaErp = VendasErpModel::where($idErp)
+        $vendaErp = VendasErpModel::where('CODIGO', $idErp)
             ->where('COD_CLIENTE', session('codigologin'))
             ->where('COD_STATUS_CONCILIACAO', $statusManualmente)         
             ->first();
@@ -280,6 +294,7 @@ class ConciliacaoVendasController extends Controller
             ],
             'operadora' => [
                 'ID' => $vendaOperadora->CODIGO,
+                'DESCRICAO_ERP' => $vendaOperadora->ID_VENDAS_ERP,
                 'TOTAL_BRUTO' =>  $vendaOperadora->VALOR_BRUTO,
                 'TOTAL_LIQUIDO' =>  $vendaOperadora->VALOR_LIQUIDO,
                 'TOTAL_TAXA' =>  $vendaOperadora->VALOR_BRUTO - $vendaOperadora->VALOR_LIQUIDO,

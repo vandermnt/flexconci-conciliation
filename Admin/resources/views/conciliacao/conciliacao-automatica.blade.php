@@ -434,12 +434,6 @@
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
-                    <p>Cartão</p>
-                    <input type="text" class="form-control" name="">
-                  </div>
-                </th>
-                <th>
-                  <div class="d-flex flex-column align-items-center">
                     <p>Valor Bruto</p>
                     <input type="number" min="0" step="0.01" class="form-control" name="VALOR_VENDA_PARCELA">
                   </div>
@@ -496,18 +490,6 @@
                   <div class="d-flex flex-column align-items-center">
                     <p>Total Parc.</p>
                     <input type="text" class="form-control" name="TOTAL_PARCELAS">
-                  </div>
-                </th>
-                <th>
-                  <div class="d-flex flex-column align-items-center">
-                    <p>Hora</p>
-                    <input type="text" class="form-control" name="">
-                  </div>
-                </th>
-                <th>
-                  <div class="d-flex flex-column align-items-center">
-                    <p>Estabelecimento</p>
-                    <input type="text" class="form-control" name="">
                   </div>
                 </th>
                 <th>
@@ -661,7 +643,6 @@
                 <td data-campo="NSU"></td>
                 <td data-campo="CODIGO_AUTORIZACAO"></td>
                 <td data-campo="TID"></td>
-                <td></td>
                 <td data-campo="VALOR_VENDA" data-format="currency"></td>
                 <td class="text-danger" data-campo="VALOR_TAXA" data-format="currency"></td>
                 <td data-campo="TAXA" data-format="percent"></td>
@@ -672,8 +653,6 @@
                 <td data-campo="DIFERENCA_LIQUIDO" data-format="currency"></td>
                 <td data-campo="PARCELA"></td>
                 <td data-campo="TOTAL_PARCELAS"></td>
-                <td></td>
-                <td></td>
                 <td>
                   <div class="tooltip-hint" data-title="BANCO">
                     <img data-image="BANCO_IMAGEM" data-text="BANCO" src="" alt="">
@@ -710,7 +689,6 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
                 <td data-chave="TOTAL_BRUTO"></td>
                 <td data-chave="TOTAL_TAXA" class="text-danger"></td>
                 <td></td>
@@ -719,8 +697,6 @@
                 <td data-chave="TOTAL_LIQUIDO"></td>
                 <td data-chave="TOTAL_LIQUIDO_OPERADORA"></td>
                 <td data-chave="TOTAL_DIFERENCA_LIQUIDO"></td>
-                <td></td>
-                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>

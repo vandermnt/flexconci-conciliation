@@ -4,6 +4,7 @@ const formatadorMoeda = new Intl.NumberFormat('pt-br', {
 });
 const formatadorDecimal = new Intl.NumberFormat('pt-br', {
   style: 'decimal',
+  minimumFractionDigits: 2,
   maximumFractionDigits: 2,
 });
 

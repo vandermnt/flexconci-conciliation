@@ -124,7 +124,8 @@
             </button>
             <button
               class="btn mr-1 button no-hover"
-              data-target="#js-abrir-justificar-modal"
+              data-toggle="modal"
+              data-target="#js-justificar-modal"
             >
               <i class="far fa-flag"></i>
               Justificar
@@ -133,13 +134,6 @@
               <i class="fas fa-comment-slash"></i>
               Desjustificar
             </button>
-            <button
-              id="js-abrir-justificar-modal"
-              class="hidden"
-              type="button"
-              data-toggle="modal"
-              data-target="#js-justificar-modal"
-            ></button>
             <button id="js-exportar-erp" class="btn button no-hover">
               <i class="fas fa-file-download"></i>
               Exportar
@@ -196,6 +190,14 @@
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras">
           </div>
           <div class="d-flex align-items-center justify-content-end">
+            <button
+              class="btn mr-1 button no-hover"
+              data-toggle="modal"
+              data-target="#js-justificar-modal"
+            >
+              <i class="far fa-flag"></i>
+              Justificar
+            </button>
             <button id="js-exportar-operadoras" class="btn button no-hover">
               <i class="fas fa-file-download"></i>
               Exportar
@@ -238,6 +240,45 @@
       </div>
     </div>
   </main>
+
+  <div class="modais">
+    <x-modal
+      id="js-justificar-modal"
+      modal-label="Justificar"
+      modal-label-id="justificar-label"
+    >
+      <x-slot name="content">
+        <h6>Justificativa</h6>
+        <select
+          id="justificativa"
+          name="justificativa"
+          class="form-control"
+        >
+          <option value="" selected disabled>Selecione uma justificativa</option>
+          @foreach (($justificativas ?? []) as $justificativa)
+            <option value="{{ $justificativa->CODIGO }}">{{ $justificativa->JUSTIFICATIVA }}</option>
+          @endforeach
+        </select>
+      </x-slot>
+      <x-slot name="footer">
+        <button
+          type="button"
+          class="btn btn-danger font-weight-bold"
+          data-dismiss="modal"
+        >
+          Cancelar
+        </button>
+        <button
+          id="js-justificar"
+          type="button"
+          class="btn btn-success font-weight-bold"
+          data-dismiss="modal"
+        >
+          Confirmar
+        </button>
+      </x-slot>
+    </x-modal>
+  </div>
 
   <div id="js-loader" class="loader hidden"></div>
 @endsection
