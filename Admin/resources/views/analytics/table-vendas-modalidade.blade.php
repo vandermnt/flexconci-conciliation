@@ -16,7 +16,7 @@
           <th style="color: #231F20" >Bruto</th>
           <th style="color: #231F20" >Taxa</th>
           <th style="color: #231F20" >Líquido</th>
-          <th style="color: #231F20" >Ticket Médio</th>
+          <!-- <th style="color: #231F20" >Ticket Médio</th> -->
         </tr>
         <tbody>
           @foreach($dados_vendas as $dado_venda)
@@ -27,7 +27,7 @@
             <td> <?php $bruto =  number_format($dado_venda->TOTAL_BRUTO, 2, ',', '.'); ?> R$ {{ $bruto }}</td>
             <td style="color: red"> <?php $taxa =  number_format($dado_venda->TOTAL_TAXA, 2, ',', '.'); ?> R$ {{ $taxa }}</td>
             <td> <?php $liquido =  number_format($dado_venda->TOTAL_LIQUIDO, 2, ',', '.'); ?>R$ {{ $liquido }}</td>
-            <td> <?php $ticket =  number_format($dado_venda->TICKET_MEDIO, 2, ',', '.'); ?>R$ {{ $ticket }}</td>
+            <!-- <td> <?php $ticket =  number_format($dado_venda->TICKET_MEDIO, 2, ',', '.'); ?>R$ {{ $ticket }}</td> -->
           </tr>
           @endif
           @endforeach
@@ -38,7 +38,7 @@
           <td> R$ <?php echo number_format($total['total_bruto'], 2, ',', '.'); ?></td>
           <td style="color: red"> R$ <?php echo number_format($total['total_taxa'], 2, ',', '.'); ?></td>
           <td> R$ <?php echo number_format($total['total_liquido'], 2, ',', '.'); ?></td>
-          <td> R$ <?php echo number_format($total['total_ticket'], 2, ',', '.'); ?></td>
+          <!-- <td> R$ <?php echo number_format($total['total_ticket'], 2, ',', '.'); ?></td> -->
         </tfoot>
       </table>
     </div>
