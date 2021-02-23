@@ -99,6 +99,7 @@ function getUrls() {
       buscar: form.dataset.urlOperadoras,
       filtrar: form.dataset.urlFiltrarOperadoras,
       exportar: form.dataset.urlExportarOperadoras,
+      justificar: form.dataset.urlJustificarOperadora,
     },
     conciliar: form.dataset.urlConciliarManualmente,
     desconciliar: form.dataset.urlDesconciliarManualmente,
@@ -781,21 +782,31 @@ function desconciliar() {
 }
 
 function abrirModalJustificativa(event) {
+  const type = event.target.dataset.type;
   const botaoAbrirModal = document.querySelector(event.target.dataset.target);
-
-  if(dados.erp.selecionados.length === 0) {
+  if(dados.erp.selecionados.length < 1 && type === 'erp') {
     swal("Ooops...", "Selecione ao menos uma venda ERP.", "error");
     return;
   }
-  if(dados.operadoras.selecionados.length > 0) {
-    swal("Ooops...", "Apenas as vendas ERP podem ser justificadas.", "error");
+  if(dados.operadoras.selecionados.length < 1 && type !== 'erp') {
+    swal("Ooops...", "Selecione ao menos uma venda operadora.", "error");
     return;
+  }
+
+  const botaoJustificar = document.querySelector('#js-justificar');
+  const botaoJustificarClone = botaoJustificar.cloneNode(true);
+  botaoJustificar.parentNode.replaceChild(botaoJustificarClone, botaoJustificar);
+
+  if(type === 'erp') {
+    botaoJustificarClone.addEventListener('click', justificarErp);
+  } else {
+    botaoJustificarClone.addEventListener('click', justificarOperadora);
   }
 
   botaoAbrirModal.click();
 }
 
-function justificar() {
+function justificarErp() {
   const justificativaDOM = document.querySelector('#js-justificar-modal select[name="justificativa"]');
   const justificativa = justificativaDOM.value;
   const idErp = dados.erp.selecionados;
@@ -843,7 +854,9 @@ function justificar() {
           ...dados.erp.busca.vendas[erpBuscaIndex],
           JUSTIFICATIVA: res.JUSTIFICATIVA,
           STATUS_CONCILIACAO: res.STATUS_JUSTIFICADO,
-          STATUS_CONCILIACAO_IMAGEM: res.STATUS_JUSTIFICADO_IMAGEM_URL
+          STATUS_CONCILIACAO_IMAGEM: res.STATUS_JUSTIFICADO_IMAGEM_URL,
+          DATA_CONCILIACAO: res.DATA_CONCILIACAO,
+          HORA_CONCILIACAO: res.HORA_CONCILIACAO,
         }
       }
       if(erpFiltradosIndex !== 1) {
@@ -851,7 +864,9 @@ function justificar() {
           ...dados.erp.busca.vendas[erpFiltradosIndex],
           JUSTIFICATIVA: res.JUSTIFICATIVA,
           STATUS_CONCILIACAO: res.STATUS_JUSTIFICADO,
-          STATUS_CONCILIACAO_IMAGEM: res.STATUS_JUSTIFICADO_IMAGEM_URL
+          STATUS_CONCILIACAO_IMAGEM: res.STATUS_JUSTIFICADO_IMAGEM_URL,
+          DATA_CONCILIACAO: res.DATA_CONCILIACAO,
+          HORA_CONCILIACAO: res.HORA_CONCILIACAO,
         }
       }
     });
@@ -859,6 +874,65 @@ function justificar() {
     dados.erp.selecionados = [];
 
     atualizarInterface('erp', dados.erp.emExibicao, dados.erp.emExibicao.paginacao);
+
+    if(res.status === 'sucesso') {
+      swal('Justificativa realizada.', 'As vendas foram justificadas com êxito.', 'success');
+    }
+
+    justificativaDOM.value = "";
+  });
+}
+
+function justificarOperadora() {
+  const justificativaDOM = document.querySelector('#js-justificar-modal select[name="justificativa"]');
+  const justificativa = justificativaDOM.value;
+  const idOperadoras = dados.operadoras.selecionados;
+  const loader = document.querySelector('#js-loader');
+
+  if(!justificativa) {
+    swal('Ooops...', 'A justificativa deve ser informada.', 'error')
+    return;
+  }
+
+  alternarVisibilidade(loader);
+
+  api.post(urls.operadoras.justificar, {
+    headers: {
+      'X-CSRF-TOKEN': getCsrfToken(),
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      _token: getCsrfToken(),
+      id: idOperadoras,
+      justificativa
+    })
+  }).then(res => {
+    alternarVisibilidade(loader);
+    if(res.status !== 'sucesso' && res.mensagem) {
+      swal('Ooops...', res.mensagem, 'error');
+      return;
+    }
+
+    const operadoraTotais = dados.operadoras.busca.totais;
+
+    dados.operadoras.busca.totais = {
+      ...operadoraTotais,
+      TOTAL_BRUTO: (Number(operadoraTotais.TOTAL_BRUTO) || 0) - (Number(res.totais.TOTAL_BRUTO) || 0),
+      TOTAL_LIQUIDO: (Number(operadoraTotais.TOTAL_LIQUIDO) || 0) - (Number(res.totais.TOTAL_LIQUIDO) || 0),
+      TOTAL_TAXA: (Number(operadoraTotais.TOTAL_TAXA) || 0) - (Number(res.totais.TOTAL_TAXA) || 0),
+    }
+
+    atualizarInterface('operadoras', dados.operadoras.emExibicao, dados.operadoras.emExibicao.paginacao);
+    res.vendas.forEach(venda => {
+      const tr = document.querySelector(`#js-tabela-operadoras tr[data-id="${venda.ID}"]`);
+      if(tr) {
+        if(!tr.classList.contains('hidden')) {
+          tr.classList.add('hidden');
+        }
+      }
+    })
+
+    dados.operadoras.selecionados = [];
 
     if(res.status === 'sucesso') {
       swal('Justificativa realizada.', 'As vendas foram justificadas com êxito.', 'success');
@@ -930,7 +1004,9 @@ function desjustificar() {
           ...dados.erp.busca.vendas[erpBuscaIndex],
           JUSTIFICATIVA: res.JUSTIFICATIVA,
           STATUS_CONCILIACAO: res.STATUS_CONCILIACAO,
-          STATUS_CONCILIACAO_IMAGEM: res.STATUS_CONCILIACAO_IMAGEM_URL
+          STATUS_CONCILIACAO_IMAGEM: res.STATUS_CONCILIACAO_IMAGEM_URL,
+          DATA_CONCILIACAO: res.DATA_CONCILIACAO,
+          HORA_CONCILIACAO: res.HORA_CONCILIACAO,
         }
       }
       if(erpFiltradosIndex !== 1) {
@@ -938,7 +1014,9 @@ function desjustificar() {
           ...dados.erp.busca.vendas[erpFiltradosIndex],
           JUSTIFICATIVA: res.JUSTIFICATIVA,
           STATUS_CONCILIACAO: res.STATUS_CONCILIACAO,
-          STATUS_CONCILIACAO_IMAGEM: res.STATUS_CONCILIACAO_IMAGEM_URL
+          STATUS_CONCILIACAO_IMAGEM: res.STATUS_CONCILIACAO_IMAGEM_URL,
+          DATA_CONCILIACAO: res.DATA_CONCILIACAO,
+          HORA_CONCILIACAO: res.HORA_CONCILIACAO,
         }
       }
     });
@@ -1085,12 +1163,11 @@ document.querySelector('#js-conciliar')
 document.querySelector('form#js-justificar-modal')
   .addEventListener('click', event => event.preventDefault());
 
-document.querySelector('button[data-target="#js-abrir-justificar-modal"]')
-  .addEventListener('click', abrirModalJustificativa);
-
-document.querySelector('#js-justificar')
-  .addEventListener('click', justificar);
-
+Array.from(
+  document.querySelectorAll('button[data-target="#js-abrir-justificar-modal"]')
+).forEach(element => {
+  element.addEventListener('click', abrirModalJustificativa);
+});
 document.querySelector('#js-desjustificar')
   .addEventListener('click', confirmarDesjustificar);
 

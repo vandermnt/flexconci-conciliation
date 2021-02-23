@@ -25,6 +25,7 @@
       data-url-desconciliar-manualmente="{{ route('conciliacao-automatica.desconciliar.manualmente') }}"
       data-url-justificar="{{ route('conciliacao-automatica.conciliar.justificar') }}"
       data-url-desjustificar="{{ route('conciliacao-automatica.conciliar.desjustificar') }}"
+      data-url-justificar-operadora="{{ route('vendas-operadoras.justify') }}"
       data-url-exportar-erp="{{ route('conciliacao-automatica.exportar.erp') }}"
       data-url-exportar-operadoras="{{ route('conciliacao-automatica.exportar.operadoras') }}"
       data-url-retorno-erp="{{ route('conciliacao-automatica.retornoErp') }}"
@@ -334,7 +335,9 @@
               Desconciliar
             </button>
             <button
+              id="js-justificar-erp"
               class="btn mr-1"
+              data-type="erp"
               data-target="#js-abrir-justificar-modal"
             >
               <i class="far fa-flag"></i>
@@ -746,6 +749,15 @@
         <div class="tabela-info d-flex align-items-center justify-content-between">
           <h4>Pendências Operadoras <span id="js-pendencias-operadoras-info"></span></h4>
           <div class="acoes d-flex align-items-center justify-content-end">
+            <button
+              id="js-justificar-operadora"
+              class="btn mr-1"
+              data-type="operadora"
+              data-target="#js-abrir-justificar-modal"
+            >
+              <i class="far fa-flag"></i>
+              Justificar
+            </button>
             <button id="js-exportar-operadoras" class="btn">
               <i class="fas fa-file-download"></i>
               Exportar

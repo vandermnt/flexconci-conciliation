@@ -45,6 +45,8 @@ Route::group(['middleware' => 'auth'], function() {
   Route::get('/vendas-operadoras', 'VendasOperadorasController@index')->name('vendas-operadoras.index');
   Route::post('/vendas-operadoras/buscar', 'VendasOperadorasController@search')->name('vendas-operadoras.search');
   Route::post('/vendas-operadoras/filtrar', 'VendasOperadorasController@filter')->name('vendas-operadoras.filter');
+  Route::post('/vendas-operadoras/justificar', 'VendasOperadorasController@justify')->name('vendas-operadoras.justify');
+  Route::post('/vendas-operadoras/desjustificar', 'VendasOperadorasController@unjustify')->name('vendas-operadoras.unjustify');
   Route::get('/vendas-operadoras/exportar', 'VendasOperadorasController@export')->name('vendas-operadoras.export');
   Route::get('/vendas-operadoras/imprimir/{id}', 'VendasOperadorasController@print')->name('vendas-operadoras.print');
 
