@@ -105,6 +105,8 @@ Route::group(['middleware' => 'auth'], function() {
   Route::get('/vendas-sistema-erp', 'VendasErpController@index')->name('vendas-erp.index');
   Route::post('/vendas-sistema-erp/buscar', 'VendasErpController@search')->name('vendas-erp.search');
   Route::post('/vendas-sistema-erp/filtrar', 'VendasErpController@filter')->name('vendas-erp.filter');
+  Route::post('/vendas-sistema-erp/justificar', 'VendasErpController@justify')->name('vendas-erp.justify');
+  Route::post('/vendas-sistema-erp/desjustificar', 'VendasErpController@unjustify')->name('vendas-erp.unjustify');
   Route::get('/vendas-sistema-erp/exportar', 'VendasErpController@export')->name('vendas-erp.export');
   
   //USUARIO
