@@ -255,7 +255,7 @@
             <h6 class="text-dark text-left font-weight-semibold font-12">VENDAS ERP</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="EPR_TOTAL_BRUTO">0</p>
-              <img src="assets/images/conciliacao/vendaserp.png" alt="Vendas ERP">
+              <img src="assets/images/widgets/notebook.svg" alt="Vendas ERP">
             </div>
           </div>
         </div>
@@ -264,7 +264,7 @@
             <h6 class="text-dark text-left font-weight-semibold font-12">CONCILIADO</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="TOTAL_CONCILIADA">0</p>
-              <img src="assets/images/conciliacao/conciliado.png" alt="Conciliado">
+              <img src="assets/images/widgets/check.svg" alt="Conciliado">
             </div>
           </div>
         </div>
@@ -273,7 +273,7 @@
             <h6 class="text-dark text-left font-weight-semibold font-12">DIVERGENTE</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="TOTAL_DIVERGENTE">0</p>
-              <img src="assets/images/conciliacao/conciliacao-div.svg" alt="Divergente">
+              <img src="assets/images/widgets/x.svg" alt="Divergente">
             </div>
           </div>
         </div>
@@ -282,7 +282,7 @@
             <h6 class="text-dark text-left font-weight-semibold font-12">CONC. MANUAL</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="TOTAL_MANUAL">0</p>
-              <img src="assets/images/conciliacao/conciliadomanualmente.png" alt="Conciliado Manualmente">
+              <img src="assets/images/widgets/handshake.svg" alt="Conciliado Manualmente">
             </div>
           </div>
         </div>
@@ -291,7 +291,7 @@
             <h6 class="text-dark text-left font-weight-semibold font-12">JUSTIFICADO</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="TOTAL_JUSTIFICADA">0</p>
-              <img src="assets/images/conciliacao/justificado.png" alt="Justificado">
+              <img src="assets/images/widgets/flag.svg" alt="Justificado">
             </div>
           </div>
         </div>
@@ -300,7 +300,7 @@
             <h6 class="text-dark text-left font-weight-semibold font-12">PENDÊNCIAS ERP</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="TOTAL_NAO_CONCILIADA">0</p>
-              <img src="assets/images/conciliacao/vendaserpnotconc.png" alt="Pendências ERP">
+              <img src="assets/images/widgets/exclamation-mark.svg" alt="Pendências ERP">
             </div>
           </div>
         </div>
@@ -309,7 +309,7 @@
             <h6 class="text-dark text-left font-weight-semibold font-12">PENDÊNCIAS OPER.</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="OPERADORAS_TOTAL_BRUTO">0</p>
-              <img src="assets/images/conciliacao/vendasoperadoranotconc.png" alt="Pendências Operadoras">
+              <img src="assets/images/widgets/exclamation-mark.svg" alt="Pendências Operadoras">
             </div>
           </div>
         </div>

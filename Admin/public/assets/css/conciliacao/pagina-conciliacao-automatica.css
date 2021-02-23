@@ -150,14 +150,29 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-gap: 8px;
+  margin-bottom: 24px;
+}
+
+#pagina-conciliacao .boxes .box {
+  cursor: pointer;
+  margin: 0;
+}
+
+#pagina-conciliacao-vendas .box h4 {
+  font-size: 0.8rem;
 }
 
 #pagina-conciliacao .boxes .card {
   cursor: pointer;
+  margin: 0;
 }
 
 #pagina-conciliacao .boxes .card > * {
   pointer-events: none;
+}
+
+#pagina-conciliacao .boxes .card-body {
+  padding: 0.8rem !important;
 }
 
 #pagina-conciliacao .boxes .card-body p {
