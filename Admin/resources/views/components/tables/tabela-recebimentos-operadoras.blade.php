@@ -198,6 +198,12 @@
             <input type="text" class="form-control" name="JUSTIFICATIVA">
           </div>
         </th>
+         <th>
+          <div class="d-flex flex-column align-items-center">
+            <p>{{ $getHeader('RETORNO_ERP_BAIXA') ?? 'Retorno Recebimento ERP' }}</p>
+            <input type="text" class="form-control" name="RETORNO_ERP_BAIXA">
+          </div>
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -271,6 +277,7 @@
         <td data-column="STATUS_CONCILIACAO"></td>
         <td data-column="DIVERGENCIA"></td>
         <td data-column="JUSTIFICATIVA"></td>
+        <td data-column="RETORNO_ERP_BAIXA"></td>
       </tr>
     </tbody>
     <tfoot>
@@ -297,6 +304,7 @@
         <td data-column="TOTAL_TAXA" data-reverse-value="true" data-format="currency" class="text-danger"></td>
         <td></td>
         <td data-column="TOTAL_LIQUIDO" data-format="currency"></td>
+        <td></td>
         <td></td>
         <td></td>
         <td></td>

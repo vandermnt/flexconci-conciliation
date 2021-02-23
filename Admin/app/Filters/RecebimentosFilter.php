@@ -76,9 +76,11 @@ class RecebimentosFilter extends BaseFilter {
         'status_conciliacao.STATUS_CONCILIACAO',
         'vendas.DIVERGENCIA',
         'vendas.JUSTIFICATIVA',
-        'pagamentos_operadoras.COD_TIPO_PAGAMENTO'
+        'pagamentos_operadoras.COD_TIPO_PAGAMENTO',
+        DB::raw('IF(vendas_erp.RETORNO_ERP_BAIXA = \'S\', \'Sim\', \'Não\') as RETORNO_ERP_BAIXA'),
       ])
         ->leftJoin('vendas', 'vendas.CODIGO', 'pagamentos_operadoras.COD_VENDA')
+        ->leftJoin('vendas_erp', 'vendas.COD_VENDA_ERP', 'vendas_erp.CODIGO')
         ->leftJoin('produto_web', 'produto_web.CODIGO', 'pagamentos_operadoras.COD_PRODUTO')
         ->leftJoin('grupos_clientes', 'grupos_clientes.CODIGO', 'pagamentos_operadoras.COD_GRUPO_CLIENTE')
         ->leftJoin('adquirentes', 'adquirentes.CODIGO', 'pagamentos_operadoras.COD_ADQUIRENTE')

@@ -150,6 +150,9 @@
         <x-tables.tabela-recebimentos-operadoras
           id="js-tabela-recebimentos"
           class="mt-3"
+          :headers="[
+            'RETORNO_ERP_BAIXA' => 'Retorno Recebimento '.($erp->ERP ?? 'ERP'),
+          ]"
         >
           <x-slot name="actions">
             <td></td>
