@@ -45,6 +45,7 @@ class VendasErpSubFilter extends BaseSubFilter {
     'CAMPO1',
     'CAMPO2',
     'CAMPO3',
+    'RETORNO_ERP',
     'DATA_IMPORTACAO',
     'HORA_IMPORTACAO',
     'DATA_CONCILIACAO',

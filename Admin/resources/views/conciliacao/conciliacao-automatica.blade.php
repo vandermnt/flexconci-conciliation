@@ -316,7 +316,7 @@
       </div>
       <div class="vendas-erp">
         <div class="tabela-info d-flex align-items-center justify-content-between">
-          <h4>Vendas {{ $erp->ERP }} <span id="js-vendas-erp-info"></span></h4>
+          <h4>Vendas {{ $erp->ERP ?? 'ERP' }} <span id="js-vendas-erp-info"></span></h4>
           <div class="acoes d-flex align-items-center justify-content-end">
             <button
               class="btn mr-1"
@@ -324,7 +324,7 @@
               data-target="#modal-retorno-erp"
             >
               <i class="fas fa-undo"></i>
-              Retorno ERP
+              Retorno Venda {{ $erp->ERP ?? 'ERP' }}
             </button>
             <button id="js-conciliar" class="btn mr-1">
               <i class="far fa-handshake"></i>
@@ -581,26 +581,32 @@
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
+                    <p>Retorno Venda {{ $erp->ERP ?? 'ERP' }}</p>
+                    <input type="text" class="form-control" name="RETORNO_ERP">
+                  </div>
+                </th>
+                <th>
+                  <div class="d-flex flex-column align-items-center">
                     <p>Data Importação</p>
-                    <input type="text" class="form-control" name="">
+                    <input type="text" class="form-control" name="DATA_IMPORTACAO">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Hora Importação</p>
-                    <input type="text" class="form-control" name="">
+                    <input type="text" class="form-control" name="HORA_IMPORTACAO">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Data Conciliação</p>
-                    <input type="text" class="form-control" name="">
+                    <input type="text" class="form-control" name="DATA_CONCILIACAO">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Hora Conciliação</p>
-                    <input type="text" class="form-control" name="">
+                    <input type="text" class="form-control" name="HORA_CONCILIACAO">
                   </div>
                 </th>
               </tr>
@@ -672,6 +678,7 @@
                 <td data-campo="CAMPO1"></td>
                 <td data-campo="CAMPO2"></td>
                 <td data-campo="CAMPO3"></td>
+                <td data-campo="RETORNO_ERP"></td>
                 <td data-campo="DATA_IMPORTACAO" data-format="date"></td>
                 <td data-campo="HORA_IMPORTACAO"></td>
                 <td data-campo="DATA_CONCILIACAO" data-format="date"></td>
@@ -700,6 +707,7 @@
                 <td data-chave="TOTAL_LIQUIDO"></td>
                 <td data-chave="TOTAL_LIQUIDO_OPERADORA"></td>
                 <td data-chave="TOTAL_DIFERENCA_LIQUIDO"></td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -1112,7 +1120,7 @@
         <x-modal
           id="modal-retorno-erp"
           modal-label-id="modal-retorno-label"
-          modal-label="Retorno ERP"
+          :modal-label="'Retorno Venda '.($erp->ERP ?? 'ERP')"
         >
           <x-slot name="content">
             <div class="form-group">
