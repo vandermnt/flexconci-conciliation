@@ -363,7 +363,7 @@
               <tr>
                 <th>
                   <div class="d-flex flex-column justify-content-end">
-                    <p class="m-0">Ações</p>
+                    <p class="m-0">Ações | Status</p>
                   </div>
                 </th>
                 <th>
@@ -758,7 +758,7 @@
               <tr>
                 <th>
                   <div class="d-flex flex-column justify-content-end">
-                    <p class="m-0">Ações</p>
+                    <p class="m-0">Ações | Status</p>
                   </div>
                 </th>
                 <th>
@@ -919,22 +919,10 @@
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
-                    <p>Divergência</p>
-                    <input type="text" class="form-control" name="DIVERGENCIA">
-                  </div>
-                </th>
-                <th>
-                  <div class="d-flex flex-column align-items-center">
                     <p>Status Financeiro</p>
                     <input type="text" class="form-control" name="STATUS_FINANCEIRO">
                   </div>
                  </th>
-                 <th>
-                  <div class="d-flex flex-column align-items-center">
-                    <p>Justificativa</p>
-                    <input type="text" class="form-control" name="JUSTIFICATIVA">
-                  </div>
-                </th>
               </tr>
             </thead>
             <tbody>
@@ -989,9 +977,7 @@
                 <td data-campo="PRODUTO"></td>
                 <td data-campo="MEIOCAPTURA"></td>
                 <td data-campo="STATUS_CONCILIACAO"></td>
-                <td data-campo="DIVERGENCIA"></td>
                 <td data-campo="STATUS_FINANCEIRO"></td>
-                <td data-campo="JUSTIFICATIVA"></td>
               </tr>      
             </tbody>
             <tfoot>
@@ -1012,8 +998,6 @@
                 <td></td>
                 <td data-chave="TOTAL_TAXA" class="text-danger"></td>
                 <td data-chave="TOTAL_LIQUIDO"></td>
-                <td></td>
-                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
