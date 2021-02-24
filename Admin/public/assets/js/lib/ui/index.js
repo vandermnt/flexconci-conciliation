@@ -199,6 +199,15 @@ function openUrl(baseUrl, params) {
   a.click();
 }
 
+function recreateNode(element = '') {
+  const elementDOM = typeof element === 'string' ? document.querySelector(element) : element;
+  if(!elementDOM) return;
+  
+  const elementCloneDOM = elementDOM.cloneNode(true);
+  elementDOM.parentNode.replaceChild(elementCloneDOM, elementDOM);
+  return document.querySelector(element);
+}
+
 Array.from(
   document.querySelectorAll('.modal button[data-action="confirm"]')
 ).forEach(buttonDOM => {
