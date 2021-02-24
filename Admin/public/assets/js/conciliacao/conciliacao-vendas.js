@@ -259,6 +259,60 @@ async function onPerPageChanged(key = 'erp', event) {
   toggleElementVisibility('#js-loader');
 }
 
+function updateSales(sales = [], newData = [], idKey = 'ID') {
+  const newSales = Array.isArray(newData) ? newData : [newData];
+  const data = [];
+
+  newSales.forEach(newSale => {
+    const index = sales.findIndex(sale => String(sale[idKey]) === String(newSale[idKey]));
+
+    if(index !== -1) {
+      sales.splice(index, 1, {
+        ...sales[index],
+        ...newSale
+      });
+
+      data.push({ ...sales[index], ...newSale });
+    }
+  });
+
+  return {
+    data: sales,
+    updated: data,
+  };
+}
+
+function removeSales(sales = [], ids = [], idKey = '') {
+  const idArray = Array.isArray(ids) ? ids : [ids];
+  const removed = [];
+
+  idArray.forEach(id => {
+    const index = sales.findIndex(sale => String(sale[idKey]) === String(id));
+
+    if(index !== -1) {
+      removed.push({ ...sales[index] });
+      sales.splice(index, 1);
+    }
+  });
+
+  return {
+    data: sales,
+    removed
+  }
+}
+
+function updateTotals(totals, newData) {
+  const newTotals = Object.keys(newData).reduce((updated, key) => {
+    updated[key] = (Number(totals[key]) || 0) + (Number(newData[key]) || 0);
+    return updated;
+  }, {});
+
+  return {
+    ...totals,
+    ...newTotals,
+  };
+}
+
 function confirmConciliacao() {
   if(selectedSales.erp.length !== 1 || selectedSales.operadoras.length !== 1) {
     swal('Ooops...', 'Selecione apenas uma venda ERP e uma operadora para realizar a conciliação.', 'error');
@@ -289,57 +343,48 @@ function conciliar() {
       swal('Ooops...', json.mensagem, 'error');
       return;
     }
-
     selectedSales.erp = [];
     selectedSales.operadoras = [];
-    const salesErp = salesErpContainer.get('data').get('sales');
-    const sales = salesContainer.get('data').get('sales');
-    const totalsOperadoras = {
-      ...salesContainer.get('data').get('totals'),
-      TOTAL_PENDENCIAS_OPERADORAS: Number(salesContainer.get('data').get('totals').TOTAL_PENDENCIAS_OPERADORAS) - Number(json.operadora.TOTAL_BRUTO),
-    };
-    const totalsErp = {
-      ...salesErpContainer.get('data').get('totals'),
-      TOTAL_CONCILIADO_MANUAL: Number(salesErpContainer.get('data').get('totals').TOTAL_CONCILIADO_MANUAL) + Number(json.erp.TOTAL_BRUTO),
-      TOTAL_NAO_CONCILIADO: Number(salesErpContainer.get('data').get('totals').TOTAL_NAO_CONCILIADO) - Number(json.erp.TOTAL_BRUTO),
-    };
-    const index = sales.findIndex(item => String(item.ID) === String(json.operadora.ID));
-    const indexErp = salesErp.findIndex(item => String(item.ID_ERP) === String(json.erp.ID));
 
-    salesContainer.get('data').set('totals', { ...totalsOperadoras });
-    salesErpContainer.get('data').set('totals', { ...totalsErp });
+    const salesErp = salesErpContainer.get('data');
+    const sales = salesContainer.get('data');
 
-    if(index !== -1) {
-      const sale = {
-        ...sales[index],
-        DESCRICAO_ERP: json.operadora.DESCRICAO_ERP,
-        STATUS_CONCILIACAO: json.STATUS_CONCILIACAO,
-        STATUS_CONCILIACAO_IMAGEM: json.STATUS_CONCILIACAO_IMAGEM,
-      }
-      sales.splice(index, 1, sale);
-      tableRender.set('data', {
-        body: sales,
-        footer: totalsOperadoras
-      });
-      tableRender.render();
-    }
-    
-    if(indexErp !== -1) {
-      const saleErp = {
-        ...salesErp[indexErp],
-        DATA_CONCILIACAO: json.erp.DATA_CONCILIACAO,
-        HORA_CONCILIACAO: json.erp.HORA_CONCILIACAO,
-        STATUS_CONCILIACAO: json.STATUS_CONCILIACAO,
-        STATUS_CONCILIACAO_IMAGEM: json.STATUS_CONCILIACAO_IMAGEM,
-      }
-      salesErp.splice(indexErp, 1, saleErp);
+    const updatedSalesErp = updateSales([...salesErp.get('sales')], {
+      ...json.erp,
+      ID_ERP: json.erp.ID,
+      STATUS_CONCILIACAO: json.STATUS_CONCILIACAO,
+      STATUS_CONCILIACAO_IMAGEM: json.STATUS_CONCILIACAO_IMAGEM,
+    }, 'ID_ERP').data;
 
-      tableRenderErp.set('data', {
-        body: salesErp,
-        footer: totalsErp,
-      });
-      tableRenderErp.render();
-    }
+    const updatedSales = removeSales([...sales.get('sales')], json.operadora.ID, 'ID').data;
+
+    const totalsOperadoras = updateTotals(sales.get('totals'), {
+      TOTAL_BRUTO: (json.operadora.TOTAL_BRUTO * -1),
+      TOTAL_LIQUIDO: (json.operadora.TOTAL_LIQUIDO * -1),
+      TOTAL_TAXA: (json.operadora.TOTAL_TAXA * -1),
+      TOTAL_PENDENCIAS_OPERADORAS: (json.operadora.TOTAL_BRUTO * -1),
+    });
+
+    const totalsErp = updateTotals(salesErp.get('totals'), {
+      TOTAL_CONCILIADO_MANUAL: json.erp.TOTAL_BRUTO,
+      TOTAL_NAO_CONCILIADO:  (json.erp.TOTAL_BRUTO * -1)
+    });
+
+    sales.set('sales', [...updatedSales]);
+    sales.set('totals', { ...totalsOperadoras });
+    salesErp.set('sales', [...updatedSalesErp]);
+    salesErp.set('totals', { ...totalsErp });
+
+    tableRenderErp.set('data', {
+      body: salesErp.get('sales'),
+      footer: totalsErp,
+    });
+    tableRenderErp.render();
+    tableRender.set('data', {
+      body: sales.get('sales'),
+      footer: totalsOperadoras,
+    });
+    tableRender.render();
 
     updateBoxes(boxes, {
       TOTAL_NAO_CONCILIADO: totalsErp.TOTAL_NAO_CONCILIADO,
@@ -380,58 +425,45 @@ function desconciliar() {
       swal('Ooops...', json.mensagem, 'error');
       return;
     }
-
     selectedSales.erp = [];
     selectedSales.operadoras = [];
-    const salesErp = salesErpContainer.get('data').get('sales');
-    const sales = salesContainer.get('data').get('sales');
-    const totalsOperadoras = {
-      ...salesContainer.get('data').get('totals'),
-      TOTAL_PENDENCIAS_OPERADORAS: Number(salesContainer.get('data').get('totals').TOTAL_PENDENCIAS_OPERADORAS) + Number(json.operadora.TOTAL_BRUTO),
-    };
-    const totalsErp = {
-      ...salesErpContainer.get('data').get('totals'),
-      TOTAL_CONCILIADO_MANUAL: Number(salesErpContainer.get('data').get('totals').TOTAL_CONCILIADO_MANUAL) - Number(json.erp.TOTAL_BRUTO),
-      TOTAL_NAO_CONCILIADO: Number(salesErpContainer.get('data').get('totals').TOTAL_NAO_CONCILIADO) + Number(json.erp.TOTAL_BRUTO),
-    };
 
-    const index = sales.findIndex(item => String(item.ID) === String(json.operadora.ID));
-    const indexErp = salesErp.findIndex(item => String(item.ID_ERP) === String(json.erp.ID));
-
-    salesContainer.get('data').set('totals', { ...totalsOperadoras });
-    salesErpContainer.get('data').set('totals', { ...totalsErp });
-
-    if(index !== -1) {
-      const sale = {
-        ...sales[index],
-        DESCRICAO_ERP: json.operadora.DESCRICAO_ERP,
-        STATUS_CONCILIACAO: json.STATUS_CONCILIACAO,
-        STATUS_CONCILIACAO_IMAGEM: json.STATUS_CONCILIACAO_IMAGEM,
-      }
-      sales.splice(index, 1, sale);
-      tableRender.set('data', {
-        body: sales,
-        footer: { ...totalsOperadoras },
-      });
-      tableRender.render();
-    }
+    const salesErp = salesErpContainer.get('data');
+    const sales = salesContainer.get('data');
     
-    if(indexErp !== -1) {
-      const saleErp = {
-        ...salesErp[indexErp],
-        DATA_CONCILIACAO: json.erp.DATA_CONCILIACAO,
-        HORA_CONCILIACAO: json.erp.HORA_CONCILIACAO,
-        STATUS_CONCILIACAO: json.STATUS_CONCILIACAO,
-        STATUS_CONCILIACAO_IMAGEM: json.STATUS_CONCILIACAO_IMAGEM,
-      }
-      salesErp.splice(indexErp, 1, saleErp);
+    const updatedSalesErp = updateSales([...salesErp.get('sales')], {
+      ...json.erp,
+      ID_ERP: json.erp.ID,
+      STATUS_CONCILIACAO: json.STATUS_CONCILIACAO,
+      STATUS_CONCILIACAO_IMAGEM: json.STATUS_CONCILIACAO_IMAGEM,
+    }, 'ID_ERP').data;
 
-      tableRenderErp.set('data', {
-        body: salesErp,
-        footer: totalsErp,
-      });
-      tableRenderErp.render();
-    }
+    const totalsOperadoras = updateTotals(sales.get('totals'), {
+      TOTAL_BRUTO: json.operadora.TOTAL_BRUTO,
+      TOTAL_LIQUIDO: json.operadora.TOTAL_LIQUIDO,
+      TOTAL_TAXA: json.operadora.TOTAL_TAXA,
+      TOTAL_PENDENCIAS_OPERADORAS: json.operadora.TOTAL_BRUTO
+    });
+
+    const totalsErp = updateTotals(salesErp.get('totals'), {
+      TOTAL_CONCILIADO_MANUAL: (json.erp.TOTAL_BRUTO * -1),
+      TOTAL_NAO_CONCILIADO: json.erp.TOTAL_BRUTO
+    });
+
+    sales.set('totals', { ...totalsOperadoras });
+    salesErp.set('sales', [...updatedSalesErp]);
+    salesErp.set('totals', { ...totalsErp });
+
+    tableRenderErp.set('data', {
+      body: salesErp.get('sales'),
+      footer: totalsErp,
+    });
+    tableRenderErp.render();
+    tableRender.set('data', {
+      body: sales.get('sales'),
+      footer: totalsOperadoras,
+    });
+    tableRender.render();
 
     updateBoxes(boxes, {
       TOTAL_NAO_CONCILIADO: totalsErp.TOTAL_NAO_CONCILIADO,
@@ -443,27 +475,40 @@ function desconciliar() {
   });
 }
 
-function openJustifyModal(url = '') { 
-  if(selectedSales.erp.length < 1) {
+function openJustifyModal(event) {
+  const buttonDOM = event.target;
+  const isErp = buttonDOM.dataset.type === 'erp';
+
+  if(isErp && selectedSales.erp.length < 1) {
     swal('Ooops...', 'Selecione ao menos uma venda ERP.', 'error');
     return;
+  } else if(!isErp && selectedSales.operadoras.length < 1) {
+    swal('Ooops...', 'Selecione ao menos uma venda operadora.', 'error');
+    return;
   }
-  
-  const form = document.querySelector('#js-justificar-form');
-  form.action = url;
+
+  const justifyButtonDOM = recreateNode('#js-justificar-modal #js-justificar');
+  if(justifyButtonDOM) {
+    justifyButtonDOM.addEventListener('click', isErp ? justifyErp : justifyOperadora);
+  }
+
   $('#js-justificar-modal').modal('show');
 }
 
 function closeJustifyModal() {
-  const form = document.querySelector('#js-justificar-form');
-  form.action = '';
+  const justifyButtonDOM = recreateNode('#js-justificar-modal #js-justificar');
+  if(justifyButtonDOM) {
+    justifyButtonDOM.addEventListener('click', (e) => $('#js-justificar-modal').modal('hide'));
+  }
+
+  document.querySelector('select[name="justificativa"]').value = "";
   $('#js-justificar-modal').modal('hide');
 }
 
-function justify() {
-  const form = document.querySelector('#js-justificar-form');
-  const baseUrl = form.action;
-  const justificativa = document.querySelector('select[name="justificativa"]').value;
+function justifyErp() {
+  const baseUrl = searchForm.get('form').dataset.urlJustificarErp;
+  const justificativaDOM = document.querySelector('select[name="justificativa"]');
+  const justificativa = justificativaDOM.value;
   toggleElementVisibility('#js-loader');
   api.post(baseUrl, {
     ...apiConfig,
@@ -472,8 +517,106 @@ function justify() {
       justificativa,
     })
   })
-  .then(json => console.log(json))
+  .then(json => {
+    if(json.status !== 'sucesso' && json.mensagem) {
+      swal('Ooops...', json.mensagem, 'error');
+      return;
+    }
+
+    const salesErp = salesErpContainer.get('data');
+
+    const updatedSalesErp = updateSales([ ...salesErp.get('sales') ], [...json.vendas], 'ID_ERP').data;
+    const totalsErp = updateTotals({ ...salesErp.get('totals') }, {
+      TOTAL_JUSTIFICADO: json.totais.TOTAL_BRUTO,
+      TOTAL_NAO_CONCILIADO: (json.totais.TOTAL_BRUTO * -1)
+    });
+
+    salesErp.set('sales', [...updatedSalesErp]);
+    salesErp.set('totals', { ...totalsErp });
+
+    selectedSales.erp = [];
+
+    updateBoxes(boxes, {
+      TOTAL_JUSTIFICADO: totalsErp.TOTAL_JUSTIFICADO,
+      TOTAL_NAO_CONCILIADO: totalsErp.TOTAL_NAO_CONCILIADO,
+    });
+
+    tableRenderErp.set('data', {
+      body: ([...updatedSalesErp] || []),
+      footer: ({ ...totalsErp } || {}),
+    });
+
+    tableRenderErp.render();
+    swal('Justificativa realizada!', json.mensagem, 'success'); 
+  })
   .finally(() => {
+    justificativaDOM.value = "";
+    toggleElementVisibility('#js-loader');
+    closeJustifyModal();
+  });
+}
+
+function justifyOperadora() {
+  const baseUrl = searchForm.get('form').dataset.urlJustificarOperadoras;
+  const justificativaDOM = document.querySelector('select[name="justificativa"]');
+  const justificativa = justificativaDOM.value;
+
+  toggleElementVisibility('#js-loader');
+  api.post(baseUrl, {
+    ...apiConfig,
+    body: JSON.stringify({
+      id: selectedSales.operadoras,
+      justificativa,
+    })
+  })
+  .then(json => {
+    if(json.status !== 'sucesso' && json.mensagem) {
+      swal('Ooops...', json.mensagem, 'error');
+      return;
+    }
+
+    const sales = salesContainer.get('data');
+    const ids = json.vendas.reduce((values, venda) => [...values, venda.ID], []);
+
+    const updatedSales = removeSales([...sales.get('sales')], ids, 'ID').data;
+    const totals = updateTotals({ ...sales.get('totals') }, {
+      TOTAL_BRUTO: (json.totais.TOTAL_BRUTO * -1),
+      TOTAL_LIQUIDO: (json.totais.TOTAL_LIQUIDO * -1),
+      TOTAL_TAXA: (json.totais.TOTAL_TAXA * -1),
+      TOTAL_PENDENCIAS_OPERADORAS: (json.totais.TOTAL_BRUTO * -1),
+    })
+    const totalRegister = updateTotals({
+      total: sales.get('pagination').options.total,
+    }, {
+      total: (json.vendas.length * -1)
+    }).total;
+
+    sales.get('pagination').setOptions({
+      total: totalRegister
+    });
+
+    selectedSales.operadoras = [];
+
+    document.querySelector(`#js-quantidade-registros-operadoras`).textContent = `(${totalRegister || 0} registros)`;
+
+
+    sales.set('sales', [...updatedSales]);
+    sales.set('totals', { ...totals });
+
+    updateBoxes(boxes, {
+      TOTAL_PENDENCIAS_OPERADORAS: totals.TOTAL_PENDENCIAS_OPERADORAS,
+    });
+
+    tableRender.set('data', {
+      body: ([...updatedSales] || []),
+      footer: ({ ...totals } || {}),
+    });
+    tableRender.render();
+    
+    swal('Justificativa realizada!', json.mensagem, 'success'); 
+  })
+  .finally(() => {
+    justificativaDOM.value = "";
     toggleElementVisibility('#js-loader');
     closeJustifyModal();
   });
@@ -502,7 +645,38 @@ function unjustify() {
       id: selectedSales.erp,
     })
   })
-  .then(json => console.log(json))
+  .then(json => {
+    if(json.status !== 'sucesso' && json.mensagem) {
+      swal('Ooops...', json.mensagem, 'error');
+      return;
+    }
+
+    const salesErp = salesErpContainer.get('data');
+
+    const updatedSalesErp = updateSales([ ...salesErp.get('sales') ], [...json.vendas], 'ID_ERP').data;
+    const totalsErp = updateTotals({ ...salesErp.get('totals') }, {
+      TOTAL_JUSTIFICADO: (json.totais.TOTAL_BRUTO * -1),
+      TOTAL_NAO_CONCILIADO: json.totais.TOTAL_BRUTO
+    });
+
+    salesErp.set('sales', [...updatedSalesErp]);
+    salesErp.set('totals', { ...totalsErp });
+
+    selectedSales.erp = [];
+
+    updateBoxes(boxes, {
+      TOTAL_JUSTIFICADO: totalsErp.TOTAL_JUSTIFICADO,
+      TOTAL_NAO_CONCILIADO: totalsErp.TOTAL_NAO_CONCILIADO,
+    });
+
+    tableRenderErp.set('data', {
+      body: ([...updatedSalesErp] || []),
+      footer: ({ ...totalsErp } || {}),
+    });
+
+    tableRenderErp.render();
+    swal('Justificativa desfeita!', json.mensagem, 'success'); 
+  })
   .finally(() => {
     toggleElementVisibility('#js-loader');
     closeJustifyModal();
@@ -522,11 +696,11 @@ document.querySelector('#js-conciliar')
 document.querySelector('#js-desconciliar')
   .addEventListener('click', confirmDesconciliacao);
 document.querySelector('#js-justificar-erp')
-  .addEventListener('click', e => {
-    openJustifyModal(searchForm.get('form').dataset.urlJustificarErp);
-  });
-document.querySelector('#js-justificar').addEventListener('click', justify);
+  .addEventListener('click', openJustifyModal);
+document.querySelector('#js-justificar-operadora')
+  .addEventListener('click', openJustifyModal);
 document.querySelector('#js-desjustificar-erp').addEventListener('click', confirmUnjustify);
+
 Array.from(document.querySelectorAll('#js-justificar-modal *[data-dismiss="modal"]'))
   .forEach(element => {
     element.addEventListener('click', closeJustifyModal);

@@ -31,6 +31,7 @@
             ['desconciliar-manualmente' => route('conciliacao-vendas.desconciliarManualmente')],
             ['justificar-erp' => route('vendas-erp.justify')],
             ['desjustificar-erp' => route('vendas-erp.unjustify')],
+            ['justificar-operadoras' => route('vendas-operadoras.justify')],
           ]"
           :hidden-fields="[
             'adquirentes',
@@ -127,6 +128,7 @@
             <button
               id="js-justificar-erp"
               class="btn mr-1 button no-hover"
+              data-type="erp"
             >
               <i class="far fa-flag"></i>
               Justificar
@@ -196,6 +198,7 @@
             <button
               id="js-justificar-operadora"
               class="btn mr-1 button no-hover"
+              data-type="operadoras"
             >
               <i class="far fa-flag"></i>
               Justificar
