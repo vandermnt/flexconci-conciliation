@@ -56,7 +56,12 @@ function geraRodapeTabelaComTotais(
   $(idTabela).append(htmlSubTotal);
 }
 
-function geraTabelaDetalhamentoCalendario(idTabela, val_bruto, val_liquido) {
+function geraTabelaDetalhamentoCalendario(
+  idTabela,
+  val_bruto,
+  val_liquido,
+  taxa_adm
+) {
   let html = "<tr>";
   html += "<td>" + "<b> Bruto: </b>" + formataMoeda(val_bruto) + "</td>";
   html += "</tr>";
@@ -67,16 +72,16 @@ function geraTabelaDetalhamentoCalendario(idTabela, val_bruto, val_liquido) {
   html += "<td>" + "<b> Pag. Antecipado: </b>" + "</td>";
   html += "</tr>";
   html += "<tr>";
-  html += "<td>" + "<b> Pag. Avulso: </b>" + "</td>";
+  html += "<td>" + "<b> Pag. Avulso: </b>" + "R$ 0,00" + "</td>";
   html += "</tr>";
   html += "<tr>";
-  html += "<td>" + "<b> Taxa Adm.: </b>" + "</td>";
+  html += "<td>" + "<b> Taxa Adm.: </b>" + formataMoeda(taxa_adm) + "</td>";
   html += "</tr>";
   html += "<tr>";
-  html += "<td>" + "<b> Custo Antecipação: </b>" + "</td>";
+  html += "<td>" + "<b> Custo Antecipação: </b>" + "R$ 0,00" + "</td>";
   html += "</tr>";
   html += "<tr>";
-  html += "<td>" + "<b> Outras Despesas: </b>" + "</td>";
+  html += "<td>" + "<b> Outras Despesas: </b>" + "R$ 0,00" + "</td>";
   html += "</tr>";
   html += "<tr>";
   html +=

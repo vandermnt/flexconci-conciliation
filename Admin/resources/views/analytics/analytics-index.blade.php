@@ -435,8 +435,8 @@ font-size: 14px;
               <ul class="list-group wallet-bal-crypto mt-3" id="ul_bancos">
                 @foreach($dados_bancos as $bancos)
                 <li class="list-group-item align-items-center d-flex justify-content-between">
-                  <div class="col-10 row" style='text-align: center;align-items: center;justify-content: center'>
-                    <div class="col-2 tooltip-hint" data-title="{{ $bancos->BANCO_NOME }}">
+                  <div class="col-12 row" style='text-align: center;align-items: center;justify-content: center'>
+                    <div class="col-4 tooltip-hint" data-title="{{ $bancos->BANCO_NOME }}">
                       <img src="{{ $bancos->IMAGEM}}" class="align-self-center img-bancos-detalhamento">
                     </div>
                     <div class="col-4 media-body align-self-center">
@@ -444,7 +444,7 @@ font-size: 14px;
                         AG: {{ $bancos->AGENCIA}} - C/C: {{ $bancos->CONTA }}
                       </h4>
                     </div>
-                    <div class="col-5 media-body align-self-center">
+                    <div class="col-4 media-body align-self-center">
                       <h4 class="label-val-liquido">
                         R$ <?php echo number_format($bancos->val_liquido, 2, ",", ".");?>
                       </h4>
@@ -963,9 +963,10 @@ font-size: 14px;
       const val_bruto = parseFloat(result.val_bruto);
       const val_liquido = parseFloat(result.val_liquido);
       const tx = parseInt(result.val_taxa);
+      const taxa_adm = parseInt(result.VALOR_TAXA);
       const t = Number(tx).toFixed(2);
 
-      geraTabelaDetalhamentoCalendario("#table_banco_selecionado tbody", val_bruto, val_liquido);
+      geraTabelaDetalhamentoCalendario("#table_banco_selecionado tbody", val_bruto, val_liquido, taxa_adm);
 
       document.getElementById(result.CODIGO).classList.remove('active');
       document.getElementById("voltar").classList.remove('active');
@@ -979,9 +980,10 @@ font-size: 14px;
       const val_bruto = parseFloat(result.val_bruto);
       const val_liquido = parseFloat(result.val_liquido);
       const tx = parseFloat(result.val_taxa);
+      const taxa_adm = parseInt(result.VALOR_TAXA);
       const t = Number(tx).toFixed(2);
 
-      geraTabelaDetalhamentoCalendario("#table_operadora_selecionado tbody", val_bruto, val_liquido);
+      geraTabelaDetalhamentoCalendario("#table_operadora_selecionado tbody", val_bruto, val_liquido, taxa_adm);
 
       document.getElementById("operadora" + result.CODIGO).classList.remove('active');
       document.getElementById("voltar_operadora").classList.remove('active');
@@ -1020,13 +1022,13 @@ font-size: 14px;
                 var html = "<li class='list-group-item align-items-center d-flex justify-content-between'>"
 
                 html += "<div class='col-12 row align-self-center' style='text-align: center;align-items: center;justify-content: center'>"
-                html += "<div class='col-2' style='margin: 0'>"
-                html += "<div class='tooltip-hint' data-title='"+ bancos.BANCO_NOME + "'><img src='" + bancos.IMAGEM + "' class='align-self-center' style='width: 80px; margin-left: -20px;'></div>"
+                html += "<div class='col-4' style='margin: 0'>"
+                html += "<div class='tooltip-hint' data-title='"+ bancos.BANCO_NOME + "'><img src='" + bancos.IMAGEM + "' class='align-self-center img-bancos-detalhamento'></div>"
                 html += "</div>"
                 html += "<div class='col-4 media-body align-self-center'>"
                 html += "<h4 style='font-size: 13px; margin-left: -30px'>" + "AG: " + bancos.AGENCIA + "- C/C: " + bancos.CONTA + "</h4>"
                 html += "</div>"
-                html += "<div class='col-5 media-body align-self-center' style='margin: 0'>"
+                html += "<div class='col-4 media-body align-self-center' style='margin: 0'>"
                 html += "<h4 style='text-align: right; font-size: 14px; color: #257E4A'>" + Intl.NumberFormat('pt-br', {
                   style: 'currency',
                   currency: 'BRL'
@@ -1096,13 +1098,13 @@ font-size: 14px;
                 var html = "<li class='list-group-item align-items-center d-flex justify-content-between'>"
 
                 html += "<div class='col-12 row' style='text-align: center;align-items: center;justify-content: center'>"
-                html += "<div class='col-2' style='margin: 0'>"
-                html += "<img src='" + bancos.IMAGEM + "' class='align-self-center' style='width: 80px; margin-left: -20px;'>"
+                html += "<div class='col-4' style='margin: 0'>"
+                html += "<img src='" + bancos.IMAGEM + "' class='align-self-center img-bancos-detalhamento'>"
                 html += "</div>"
                 html += "<div class='col-4 media-body align-self-center'>"
                 html += "<h4 style='font-size: 13px; margin-left: -30px'>" + "AG: " + bancos.AGENCIA + "- C/C: " + bancos.CONTA + "</h4>"
                 html += "</div>"
-                html += "<div class='col-5 media-body align-self-center' style='margin: 0'>"
+                html += "<div class='col-4 media-body align-self-center' style='margin: 0'>"
                 html += "<h4 style='text-align: right; font-size: 14px; color: #257E4A'>" + Intl.NumberFormat('pt-br', {
                   style: 'currency',
                   currency: 'BRL'
@@ -1152,9 +1154,10 @@ font-size: 14px;
       const result = bancos.find(banco => banco.CODIGO == codigo);
       const val_bruto = parseFloat(result.val_bruto);
       const val_liquido = parseFloat(result.val_liquido);
+      const taxa_adm = parseFloat(result.VALOR_TAXA);
       const tx = parseFloat(result.val_tx);
 
-      geraTabelaDetalhamentoCalendario("#table_banco_selecionado tbody", val_bruto, val_liquido);
+      geraTabelaDetalhamentoCalendario("#table_banco_selecionado tbody", val_bruto, val_liquido, taxa_adm);
 
       document.getElementById(result.CODIGO).classList.remove('active');
       document.getElementById("voltar").classList.remove('active');
@@ -1167,9 +1170,10 @@ font-size: 14px;
       const result = operadoras.find(operadora => operadora.CODIGO == codigo);
       const val_bruto = parseFloat(result.val_bruto);
       const val_liquido = parseFloat(result.val_liquido);
+      const taxa_adm = parseFloat(result.VALOR_TAXA);
       const tx = parseInt(result.val_tx);
 
-      geraTabelaDetalhamentoCalendario("#table_operadora_selecionado tbody", val_bruto, val_liquido);
+      geraTabelaDetalhamentoCalendario("#table_operadora_selecionado tbody", val_bruto, val_liquido, taxa_adm);
 
       document.getElementById("operadora" + result.CODIGO).classList.remove('active');
       document.getElementById("voltar_operadora").classList.remove('active');
