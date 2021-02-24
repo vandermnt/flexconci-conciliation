@@ -379,9 +379,11 @@ aria-haspopup="false" aria-expanded="false">
           </div>
           <div class="col-sm-12">
             <select id="categoria_chamado" class="form-control" name="categoria">
-              <!-- @foreach(Session::get('categoria_chamado') as $categoria)
+              @foreach(Session::get('categoria_chamado') as $categoria)
+              <!-- @if($categoria->COD_DEPARTAMENTO == 2) -->
               <option value="{{ $categoria->CATEGORIA_CHAMADO}}">{{ $categoria->CATEGORIA_CHAMADO}}</option>
-              @endforeach -->
+              <!-- @endif -->
+              @endforeach
             </select>
           </div>
           <div class="col-sm-12">
@@ -445,6 +447,7 @@ function listarCategorias(departamentos, categorias){
     if (departamento.EMAIL_DEPARTAMENTO == value) {
       categorias.forEach((categoria) => {
         if (categoria.COD_DEPARTAMENTO == departamento.CODIGO) {
+          console.log(categoria.COD_DEPARTAMENTO)
           let option = new Option(categoria.CATEGORIA_CHAMADO, categoria.CATEGORIA_CHAMADO);
           let select = document.getElementById("categoria_chamado");
           select.add(option);
