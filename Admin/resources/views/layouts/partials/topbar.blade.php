@@ -71,7 +71,7 @@
 <li class="dropdown">
   <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
   aria-haspopup="false" aria-expanded="false">
-  <img src="{{ URL::asset('assets/images/users/user-4.jpg')}}" alt="profile-user" class="rounded-circle" />
+  {{-- <img src="{{ URL::asset('assets/images/users/user-4.jpg')}}" alt="profile-user" class="rounded-circle" /> --}}
   <!-- <span class="ml-1 nav-user-name hidden-sm">{{Session::get('codigologin') }} <i class="mdi mdi-chevron-down"></i> </span> -->
   <?php $primeiro_nome = explode(' ', Auth::user()->NOME); ?>
   <span class="ml-1 nav-user-name hidden-sm">{{$primeiro_nome[0] }} |   {{ Session::get('nome_fantasia')}} <i class="mdi mdi-chevron-down"></i> </span>
