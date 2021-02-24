@@ -121,8 +121,8 @@
   text-align: center;
 }
 
-#dashboard_styles .img-bancos-detalhamento {
-  width: 45px;
+#dashboard_styles .img-bancos-detalhamento  {
+  width: 110px !important;
   margin-left: -20px;
 }
 
