@@ -161,17 +161,19 @@
           ]"
         >
           <x-slot name="actions">
-            <td class="actions-cell d-flex align-items-center justify-content-between">
-              <input
-                name="id_erp[]"
-                type="checkbox"
-                data-value-key="ID_ERP"
-              >
-              <div class="tooltip-hint d-flex align-items-center" data-default-title="Visualizar Detalhes">
-                <i class="fas fa-eye"></i>
-              </div>
-              <div class="tooltip-hint" data-title="STATUS_CONCILIACAO">
-                <img data-image="STATUS_CONCILIACAO_IMAGEM">
+            <td>
+              <div class="actions-cell d-flex align-items-center justify-content-between">
+                <input
+                  name="id_erp[]"
+                  type="checkbox"
+                  data-value-key="ID_ERP"
+                >
+                <div class="tooltip-hint d-flex align-items-center" data-default-title="Visualizar Detalhes">
+                  <i class="fas fa-eye"></i>
+                </div>
+                <div class="tooltip-hint" data-title="STATUS_CONCILIACAO">
+                  <img data-image="STATUS_CONCILIACAO_IMAGEM">
+                </div>
               </div>
             </td>
           </x-slot>
@@ -216,17 +218,19 @@
           ]"
         >
           <x-slot name="actions">
-            <td class="actions-cell d-flex align-items-center justify-content-between">
-              <input
-                name="id_operadoras[]"
-                type="checkbox"
-                data-value-key="ID"
-              >
-              <div class="tooltip-hint d-flex align-items-center" data-default-title="Visualizar Detalhes">
-                <i class="fas fa-eye"></i>
-              </div>
-              <div class="tooltip-hint" data-title="STATUS_CONCILIACAO">
-                <img data-image="STATUS_CONCILIACAO_IMAGEM">
+            <td>
+              <div class="actions-cell d-flex align-items-center justify-content-between">
+                <input
+                  name="id_operadoras[]"
+                  type="checkbox"
+                  data-value-key="ID"
+                >
+                <div class="tooltip-hint d-flex align-items-center" data-default-title="Visualizar Detalhes">
+                  <i class="fas fa-eye"></i>
+                </div>
+                <div class="tooltip-hint" data-title="STATUS_CONCILIACAO">
+                  <img data-image="STATUS_CONCILIACAO_IMAGEM">
+                </div>
               </div>
             </td>
           </x-slot>
