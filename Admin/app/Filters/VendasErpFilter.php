@@ -70,7 +70,7 @@ class VendasErpFilter extends BaseFilter {
           'vendas_erp.DIFERENCA_LIQUIDO',
           'vendas_erp.PARCELA',
           'vendas_erp.TOTAL_PARCELAS',
-          DB::raw('null as HORA'),
+          DB::raw('IF(RETORNO_ERP = \'S\', \'Sim\', \'Não\') as RETORNO_ERP'),
           'vendas_erp.ESTABELECIMENTO',
           'lista_bancos.BANCO as BANCO',
           'lista_bancos.IMAGEM_LINK as BANCO_IMAGEM',
@@ -86,6 +86,7 @@ class VendasErpFilter extends BaseFilter {
           'vendas_erp.CAMPO_ADICIONAL1 as CAMPO1',
           'vendas_erp.CAMPO_ADICIONAL2 as CAMPO2',
           'vendas_erp.CAMPO_ADICIONAL3 as CAMPO3',
+          DB::raw('null as HORA'),
           'vendas_erp.DATA_IMPORTACAO',
           'vendas_erp.HORA_IMPORTACAO',
           'vendas_erp.DATA_CONCILIACAO',
@@ -102,7 +103,6 @@ class VendasErpFilter extends BaseFilter {
       ->leftJoin('status_conciliacao', 'vendas_erp.COD_STATUS_CONCILIACAO', 'status_conciliacao.CODIGO')
       ->leftJoin('status_financeiro', 'vendas_erp.COD_STATUS_FINANCEIRO', 'status_financeiro.CODIGO')
       ->where('vendas_erp.COD_CLIENTE', $filters['cliente_id'])
-      ->whereBetween('vendas_erp.DATA_VENDA', $datas)
       ->orderBy('vendas_erp.DATA_VENDA');
     
     if(Arr::has($filters, 'id_erp')) {
@@ -110,6 +110,12 @@ class VendasErpFilter extends BaseFilter {
     }
     if(Arr::has($filters, 'descricao_erp')) {
       $this->query->where('vendas_erp.DESCRICAO_TIPO_PRODUTO', 'like', '%'.$filters['descricao_erp'].'%');
+    }
+    if(Arr::has($filters, ['data_inicial', 'data_final'])) {
+      $this->query->whereBetween('vendas_erp.DATA_VENDA', [
+        $filters['data_inicial'],
+        $filters['data_final']
+      ]);
     }
     if(Arr::has($filters, 'grupos_clientes')) {
       $this->query->whereIn('grupos_clientes.CODIGO', $filters['grupos_clientes']);

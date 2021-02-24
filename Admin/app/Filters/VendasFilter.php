@@ -36,11 +36,6 @@ class VendasFilter extends BaseFilter {
       return boolval($value);
     });
 
-    $datas = [
-      ($filters['data_inicial'] ?? date('Y-m-d')),
-      ($filters['data_final'] ?? date('Y-m-d'))
-    ];
-
     $this->query = VendasModel::select(
         [
           'vendas.CODIGO as ID',
@@ -93,11 +88,16 @@ class VendasFilter extends BaseFilter {
       ->leftJoin('status_conciliacao', 'vendas.COD_STATUS_CONCILIACAO', 'status_conciliacao.CODIGO')
       ->leftJoin('status_financeiro', 'vendas.COD_STATUS_FINANCEIRO', 'status_financeiro.CODIGO')
       ->where('vendas.COD_CLIENTE', $filters['cliente_id'])
-      ->whereBetween('vendas.DATA_VENDA', $datas)
       ->orderBy('vendas.DATA_VENDA');
 
     if(Arr::has($filters, 'id')) {
       $this->query->whereIn('vendas.CODIGO', $filters['id']);
+    }
+    if(Arr::has($filters, ['data_inicial', 'data_final'])) {
+      $this->query->whereBetween('vendas.DATA_VENDA', [
+        $filters['data_inicial'],
+        $filters['data_final']
+      ]);
     }
     if(Arr::has($filters, 'grupos_clientes')) {
       $this->query->whereIn('vendas.EMPRESA', function($query) use ($filters) {

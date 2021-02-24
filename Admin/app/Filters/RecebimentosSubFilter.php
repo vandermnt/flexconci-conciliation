@@ -41,7 +41,8 @@ class RecebimentosSubFilter extends BaseSubFilter {
     'STATUS_CONCILIACAO',
     'STATUS_CONCILIADO',
     'DIVERGENCIA',
-    'JUSTIFICATIVA'
+    'JUSTIFICATIVA',
+    'RETORNO_ERP_BAIXA'
   ];
   protected $numericFilters = [
     'VALOR_BRUTO',

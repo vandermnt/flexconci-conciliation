@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
+use DateTime;
+use DateTimeZone;
 use App\ClienteModel;
 use App\VendasErpModel;
 use App\VendasModel;
@@ -49,8 +51,8 @@ class ConciliacaoAutomaticaController extends Controller
                 'CODIGO',
                 'JUSTIFICATIVA'
             ])
-            ->where('JUSTIFICATIVA_GLOBAL', 'S')
-            ->orWhere('COD_CLIENTE', session('codigologin'))
+            ->where('COD_CLIENTE', session('codigologin'))
+            ->where('JUSTIFICATIVA_GLOBAL', 'N')
             ->get();
 
         return view('conciliacao.conciliacao-automatica')
@@ -319,6 +321,7 @@ class ConciliacaoAutomaticaController extends Controller
 
         $status_justificada = StatusConciliacaoModel::justificada()->first();
         $status_nao_conciliada = StatusConciliacaoModel::naoConciliada()->first()->CODIGO;
+        $now = new DateTime("now", new DateTimeZone('America/Sao_Paulo'));
 
         $query = VendasErpModel::whereIn('CODIGO', $id_erp)
             ->where('COD_CLIENTE', session('codigologin'))
@@ -330,7 +333,9 @@ class ConciliacaoAutomaticaController extends Controller
 
         (clone $query)->update([
             'COD_STATUS_CONCILIACAO' => $status_justificada->CODIGO,
-            'JUSTIFICATIVA' => $justificativa
+            'JUSTIFICATIVA' => $justificativa,
+            'DATA_CONCILIACAO' => $now->format('Y-m-d'),
+            'HORA_CONCILIACAO' => $now->format('H:i:s')
         ]);
 
         return response()->json([
@@ -341,7 +346,9 @@ class ConciliacaoAutomaticaController extends Controller
             ],
             'STATUS_JUSTIFICADO_IMAGEM_URL' => $status_justificada->IMAGEM_URL,
             'STATUS_JUSTIFICADO' => $status_justificada->STATUS_CONCILIACAO,
-            'JUSTIFICATIVA' => $justificativa
+            'JUSTIFICATIVA' => $justificativa,
+            'DATA_CONCILIACAO' => $now->format('Y-m-d'),
+            'HORA_CONCILIACAO' => $now->format('H:i:s')
         ], 200);
     }
 
@@ -360,7 +367,9 @@ class ConciliacaoAutomaticaController extends Controller
 
         (clone $query)->update([
             'COD_STATUS_CONCILIACAO' => $status_nao_conciliada->CODIGO,
-            'JUSTIFICATIVA' => null
+            'JUSTIFICATIVA' => null,
+            'DATA_CONCILIACAO' => null,
+            'HORA_CONCILIACAO' => null
         ]);
 
         return response()->json([
@@ -371,7 +380,9 @@ class ConciliacaoAutomaticaController extends Controller
             ],
             'STATUS_CONCILIACAO_IMAGEM_URL' => $status_nao_conciliada->IMAGEM_URL,
             'STATUS_CONCILIACAO' => $status_nao_conciliada->STATUS_CONCILIACAO,
-            'JUSTIFICATIVA' => null
+            'JUSTIFICATIVA' => null,
+            'DATA_CONCILIACAO' => null,
+            'HORA_CONCILIACAO' => null
         ], 200);
     }
 

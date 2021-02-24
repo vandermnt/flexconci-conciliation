@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Filters\VendasFilter;
 use App\Filters\VendasSubFilter;
 use App\VendasModel;
+use App\JustificativaModel;
 use App\MeioCaptura;
 use App\StatusConciliacaoModel;
 use App\StatusFinanceiroModel;
@@ -150,6 +151,88 @@ class VendasOperadorasController extends Controller
                 'message' => 'Não foi possível realizar a consulta em Vendas Operadoras.',
             ], 500);
         }
+    }
+
+    public function justify(Request $request) {
+        $ids = $request->input('id') ?? [];
+        $idJustificativa = $request->input('justificativa') ?? null;
+        
+        $justificativa = JustificativaModel::where('CODIGO', $idJustificativa)
+          ->where('COD_CLIENTE', session('codigologin'))
+          ->first();
+    
+        if(is_null($justificativa)) {
+          return response()->json([
+              'status' => 'erro',
+              'mensagem' => 'A justificativa deve ser informada.'
+          ], 400);
+        }
+    
+        $statusNaoConciliado = StatusConciliacaoModel::naoConciliada()->first()->CODIGO;
+        $statusJustificado = StatusConciliacaoModel::justificada()->first();
+    
+        $query = VendasModel::whereIn('CODIGO', $ids)
+          ->where('COD_CLIENTE', session('codigologin'))
+          ->where('COD_STATUS_CONCILIACAO', $statusNaoConciliado);
+          
+        $totals = [
+            'TOTAL_BRUTO' => (clone $query)->sum('VALOR_BRUTO'),
+            'TOTAL_LIQUIDO' => (clone $query)->sum('VALOR_LIQUIDO'),
+        ];
+        $totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
+        
+        (clone $query)->sum('VALOR_BRUTO');
+        (clone $query)->update([
+            'JUSTIFICATIVA' => $justificativa->JUSTIFICATIVA,
+            'COD_STATUS_CONCILIACAO' => $statusJustificado->CODIGO,
+        ]);
+        
+        $sales = VendasFilter::filter([
+          'id_erp' => $ids,
+          'cliente_id' => session('codigologin'),
+          'status_conciliacao' => [$statusJustificado->CODIGO],
+        ])->getQuery()->get();
+    
+        return response()->json([
+          'status' => 'sucesso',
+          'mensagem' => 'As vendas foram justificadas com sucesso.',
+          'vendas' => $sales,
+          'totais' => $totals,
+        ], 200);
+    }
+    
+    public function unjustify(Request $request) {
+        $ids = $request->input('id') ?? [];
+    
+        $statusJustificado = StatusConciliacaoModel::justificada()->first()->CODIGO;
+        $statusNaoConciliado = StatusConciliacaoModel::naoConciliada()->first();
+    
+        $query = VendasModel::whereIn('CODIGO', $ids)
+            ->where('COD_CLIENTE', session('codigologin'))
+            ->where('COD_STATUS_CONCILIACAO', $statusJustificado);
+               
+        $totals = [
+            'TOTAL_BRUTO' => (clone $query)->sum('VALOR_BRUTO'),
+            'TOTAL_LIQUIDO' => (clone $query)->sum('VALOR_LIQUIDO'),
+        ];
+        $totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
+        (clone $query)->update([
+            'JUSTIFICATIVA' => null,
+            'COD_STATUS_CONCILIACAO' => $statusNaoConciliado->CODIGO,
+        ]);
+        
+        $sales = VendasFilter::filter([
+          'id' => $ids,
+          'cliente_id' => session('codigologin'),
+          'status_conciliacao' => [$statusNaoConciliado->CODIGO],
+        ])->getQuery()->get();
+    
+        return response()->json([
+          'status' => 'sucesso',
+          'mensagem' => 'As vendas foram desjustificadas com sucesso.',
+          'vendas' => $sales,
+          'totais' => $totals,
+        ], 200);
     }
 
     public function export(Request $request) {

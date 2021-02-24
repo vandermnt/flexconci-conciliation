@@ -25,6 +25,7 @@
       data-url-desconciliar-manualmente="{{ route('conciliacao-automatica.desconciliar.manualmente') }}"
       data-url-justificar="{{ route('conciliacao-automatica.conciliar.justificar') }}"
       data-url-desjustificar="{{ route('conciliacao-automatica.conciliar.desjustificar') }}"
+      data-url-justificar-operadora="{{ route('vendas-operadoras.justify') }}"
       data-url-exportar-erp="{{ route('conciliacao-automatica.exportar.erp') }}"
       data-url-exportar-operadoras="{{ route('conciliacao-automatica.exportar.operadoras') }}"
       data-url-retorno-erp="{{ route('conciliacao-automatica.retornoErp') }}"
@@ -254,7 +255,7 @@
             <h6 class="text-dark text-left font-weight-semibold font-12">VENDAS ERP</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="EPR_TOTAL_BRUTO">0</p>
-              <img src="assets/images/conciliacao/vendaserp.png" alt="Vendas ERP">
+              <img src="assets/images/widgets/notebook.svg" alt="Vendas ERP">
             </div>
           </div>
         </div>
@@ -263,7 +264,7 @@
             <h6 class="text-dark text-left font-weight-semibold font-12">CONCILIADO</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="TOTAL_CONCILIADA">0</p>
-              <img src="assets/images/conciliacao/conciliado.png" alt="Conciliado">
+              <img src="assets/images/widgets/check.svg" alt="Conciliado">
             </div>
           </div>
         </div>
@@ -272,7 +273,7 @@
             <h6 class="text-dark text-left font-weight-semibold font-12">DIVERGENTE</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="TOTAL_DIVERGENTE">0</p>
-              <img src="assets/images/conciliacao/conciliacao-div.svg" alt="Divergente">
+              <img src="assets/images/widgets/x.svg" alt="Divergente">
             </div>
           </div>
         </div>
@@ -281,7 +282,7 @@
             <h6 class="text-dark text-left font-weight-semibold font-12">CONC. MANUAL</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="TOTAL_MANUAL">0</p>
-              <img src="assets/images/conciliacao/conciliadomanualmente.png" alt="Conciliado Manualmente">
+              <img src="assets/images/widgets/handshake.svg" alt="Conciliado Manualmente">
             </div>
           </div>
         </div>
@@ -290,7 +291,7 @@
             <h6 class="text-dark text-left font-weight-semibold font-12">JUSTIFICADO</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="TOTAL_JUSTIFICADA">0</p>
-              <img src="assets/images/conciliacao/justificado.png" alt="Justificado">
+              <img src="assets/images/widgets/flag.svg" alt="Justificado">
             </div>
           </div>
         </div>
@@ -299,7 +300,7 @@
             <h6 class="text-dark text-left font-weight-semibold font-12">PENDÊNCIAS ERP</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="TOTAL_NAO_CONCILIADA">0</p>
-              <img src="assets/images/conciliacao/vendaserpnotconc.png" alt="Pendências ERP">
+              <img src="assets/images/widgets/exclamation-mark.svg" alt="Pendências ERP">
             </div>
           </div>
         </div>
@@ -308,14 +309,14 @@
             <h6 class="text-dark text-left font-weight-semibold font-12">PENDÊNCIAS OPER.</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="OPERADORAS_TOTAL_BRUTO">0</p>
-              <img src="assets/images/conciliacao/vendasoperadoranotconc.png" alt="Pendências Operadoras">
+              <img src="assets/images/widgets/exclamation-mark.svg" alt="Pendências Operadoras">
             </div>
           </div>
         </div>
       </div>
       <div class="vendas-erp">
         <div class="tabela-info d-flex align-items-center justify-content-between">
-          <h4>Vendas {{ $erp->ERP }} <span id="js-vendas-erp-info"></span></h4>
+          <h4>Vendas {{ $erp->ERP ?? 'ERP' }} <span id="js-vendas-erp-info"></span></h4>
           <div class="acoes d-flex align-items-center justify-content-end">
             <button
               class="btn mr-1"
@@ -323,7 +324,7 @@
               data-target="#modal-retorno-erp"
             >
               <i class="fas fa-undo"></i>
-              Retorno ERP
+              Retorno Venda {{ $erp->ERP ?? 'ERP' }}
             </button>
             <button id="js-conciliar" class="btn mr-1">
               <i class="far fa-handshake"></i>
@@ -334,7 +335,9 @@
               Desconciliar
             </button>
             <button
+              id="js-justificar-erp"
               class="btn mr-1"
+              data-type="erp"
               data-target="#js-abrir-justificar-modal"
             >
               <i class="far fa-flag"></i>
@@ -363,7 +366,7 @@
               <tr>
                 <th>
                   <div class="d-flex flex-column justify-content-end">
-                    <p class="m-0">Ações</p>
+                    <p class="m-0">Ações | Status</p>
                   </div>
                 </th>
                 <th>
@@ -578,26 +581,32 @@
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
+                    <p>Retorno Venda {{ $erp->ERP ?? 'ERP' }}</p>
+                    <input type="text" class="form-control" name="RETORNO_ERP">
+                  </div>
+                </th>
+                <th>
+                  <div class="d-flex flex-column align-items-center">
                     <p>Data Importação</p>
-                    <input type="text" class="form-control" name="">
+                    <input type="text" class="form-control" name="DATA_IMPORTACAO">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Hora Importação</p>
-                    <input type="text" class="form-control" name="">
+                    <input type="text" class="form-control" name="HORA_IMPORTACAO">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Data Conciliação</p>
-                    <input type="text" class="form-control" name="">
+                    <input type="text" class="form-control" name="DATA_CONCILIACAO">
                   </div>
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
                     <p>Hora Conciliação</p>
-                    <input type="text" class="form-control" name="">
+                    <input type="text" class="form-control" name="HORA_CONCILIACAO">
                   </div>
                 </th>
               </tr>
@@ -669,6 +678,7 @@
                 <td data-campo="CAMPO1"></td>
                 <td data-campo="CAMPO2"></td>
                 <td data-campo="CAMPO3"></td>
+                <td data-campo="RETORNO_ERP"></td>
                 <td data-campo="DATA_IMPORTACAO" data-format="date"></td>
                 <td data-campo="HORA_IMPORTACAO"></td>
                 <td data-campo="DATA_CONCILIACAO" data-format="date"></td>
@@ -697,6 +707,7 @@
                 <td data-chave="TOTAL_LIQUIDO"></td>
                 <td data-chave="TOTAL_LIQUIDO_OPERADORA"></td>
                 <td data-chave="TOTAL_DIFERENCA_LIQUIDO"></td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -746,6 +757,15 @@
         <div class="tabela-info d-flex align-items-center justify-content-between">
           <h4>Pendências Operadoras <span id="js-pendencias-operadoras-info"></span></h4>
           <div class="acoes d-flex align-items-center justify-content-end">
+            <button
+              id="js-justificar-operadora"
+              class="btn mr-1"
+              data-type="operadora"
+              data-target="#js-abrir-justificar-modal"
+            >
+              <i class="far fa-flag"></i>
+              Justificar
+            </button>
             <button id="js-exportar-operadoras" class="btn">
               <i class="fas fa-file-download"></i>
               Exportar
@@ -758,7 +778,7 @@
               <tr>
                 <th>
                   <div class="d-flex flex-column justify-content-end">
-                    <p class="m-0">Ações</p>
+                    <p class="m-0">Ações | Status</p>
                   </div>
                 </th>
                 <th>
@@ -919,22 +939,10 @@
                 </th>
                 <th>
                   <div class="d-flex flex-column align-items-center">
-                    <p>Divergência</p>
-                    <input type="text" class="form-control" name="DIVERGENCIA">
-                  </div>
-                </th>
-                <th>
-                  <div class="d-flex flex-column align-items-center">
                     <p>Status Financeiro</p>
                     <input type="text" class="form-control" name="STATUS_FINANCEIRO">
                   </div>
                  </th>
-                 <th>
-                  <div class="d-flex flex-column align-items-center">
-                    <p>Justificativa</p>
-                    <input type="text" class="form-control" name="JUSTIFICATIVA">
-                  </div>
-                </th>
               </tr>
             </thead>
             <tbody>
@@ -989,9 +997,7 @@
                 <td data-campo="PRODUTO"></td>
                 <td data-campo="MEIOCAPTURA"></td>
                 <td data-campo="STATUS_CONCILIACAO"></td>
-                <td data-campo="DIVERGENCIA"></td>
                 <td data-campo="STATUS_FINANCEIRO"></td>
-                <td data-campo="JUSTIFICATIVA"></td>
               </tr>      
             </tbody>
             <tfoot>
@@ -1012,8 +1018,6 @@
                 <td></td>
                 <td data-chave="TOTAL_TAXA" class="text-danger"></td>
                 <td data-chave="TOTAL_LIQUIDO"></td>
-                <td></td>
-                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -1116,7 +1120,7 @@
         <x-modal
           id="modal-retorno-erp"
           modal-label-id="modal-retorno-label"
-          modal-label="Retorno ERP"
+          :modal-label="'Retorno Venda '.($erp->ERP ?? 'ERP')"
         >
           <x-slot name="content">
             <div class="form-group">

@@ -29,6 +29,8 @@
             ['filtrar-operadoras' => route('conciliacao-vendas.filtrarOperadoras')],
             ['conciliar-manualmente' => route('conciliacao-vendas.conciliarManualmente')],
             ['desconciliar-manualmente' => route('conciliacao-vendas.desconciliarManualmente')],
+            ['justificar-erp' => route('vendas-erp.justify')],
+            ['desjustificar-erp' => route('vendas-erp.unjustify')],
           ]"
           :hidden-fields="[
             'adquirentes',
@@ -123,14 +125,13 @@
               Desconciliar
             </button>
             <button
+              id="js-justificar-erp"
               class="btn mr-1 button no-hover"
-              data-toggle="modal"
-              data-target="#js-justificar-modal"
             >
               <i class="far fa-flag"></i>
               Justificar
             </button>
-            <button id="js-desjustificar" class="btn mr-1 button no-hover">
+            <button id="js-desjustificar-erp" class="btn mr-1 button no-hover">
               <i class="fas fa-comment-slash"></i>
               Desjustificar
             </button>
@@ -191,9 +192,8 @@
           </div>
           <div class="d-flex align-items-center justify-content-end">
             <button
+              id="js-justificar-operadora"
               class="btn mr-1 button no-hover"
-              data-toggle="modal"
-              data-target="#js-justificar-modal"
             >
               <i class="far fa-flag"></i>
               Justificar
@@ -248,17 +248,19 @@
       modal-label-id="justificar-label"
     >
       <x-slot name="content">
-        <h6>Justificativa</h6>
-        <select
-          id="justificativa"
-          name="justificativa"
-          class="form-control"
-        >
-          <option value="" selected disabled>Selecione uma justificativa</option>
-          @foreach (($justificativas ?? []) as $justificativa)
-            <option value="{{ $justificativa->CODIGO }}">{{ $justificativa->JUSTIFICATIVA }}</option>
-          @endforeach
-        </select>
+        <form id="js-justificar-form" action="">
+          <h6>Justificativa</h6>
+          <select
+            id="justificativa"
+            name="justificativa"
+            class="form-control"
+          >
+            <option value="" selected disabled>Selecione uma justificativa</option>
+            @foreach (($justificativas ?? []) as $justificativa)
+              <option value="{{ $justificativa->CODIGO }}">{{ $justificativa->JUSTIFICATIVA }}</option>
+            @endforeach
+          </select>
+        </form>
       </x-slot>
       <x-slot name="footer">
         <button
@@ -272,7 +274,6 @@
           id="js-justificar"
           type="button"
           class="btn btn-success font-weight-bold"
-          data-dismiss="modal"
         >
           Confirmar
         </button>
@@ -297,5 +298,6 @@
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/conciliacao/conciliacao-vendas.js') }}"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 @endsection

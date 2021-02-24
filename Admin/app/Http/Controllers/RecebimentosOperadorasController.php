@@ -7,6 +7,7 @@ use App\Filters\RecebimentosSubFilter;
 use App\GruposClientesModel;
 use App\ClienteOperadoraModel;
 use App\DomicilioClienteModel;
+use App\ClienteModel;
 use App\StatusConciliacaoModel;
 use App\Exports\RecebimentosOperadorasExport;
 use Illuminate\Http\Request;
@@ -20,7 +21,15 @@ class RecebimentosOperadorasController extends Controller
    * @return \Illuminate\Http\Response
    */
   public function index()
-  {    
+  {  
+    $erp = ClienteModel::select(
+      [
+        'erp.ERP',
+      ])
+      ->leftJoin('erp', 'clientes.COD_ERP', 'erp.CODIGO')
+      ->where('clientes.CODIGO', session('codigologin'))
+      ->first();
+        
     $empresas = GruposClientesModel::select([
       'CODIGO',
       'NOME_EMPRESA',
@@ -51,6 +60,7 @@ class RecebimentosOperadorasController extends Controller
       ->get();
 
     return view('recebimentos.recebimentos-operadoras')->with([
+      'erp' => $erp,
       'empresas' => $empresas,
       'adquirentes' => $adquirentes,
       'estabelecimentos' => $estabelecimentos,

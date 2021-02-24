@@ -443,6 +443,72 @@ function desconciliar() {
   });
 }
 
+function openJustifyModal(url = '') { 
+  if(selectedSales.erp.length < 1) {
+    swal('Ooops...', 'Selecione ao menos uma venda ERP.', 'error');
+    return;
+  }
+  
+  const form = document.querySelector('#js-justificar-form');
+  form.action = url;
+  $('#js-justificar-modal').modal('show');
+}
+
+function closeJustifyModal() {
+  const form = document.querySelector('#js-justificar-form');
+  form.action = '';
+  $('#js-justificar-modal').modal('hide');
+}
+
+function justify() {
+  const form = document.querySelector('#js-justificar-form');
+  const baseUrl = form.action;
+  const justificativa = document.querySelector('select[name="justificativa"]').value;
+  toggleElementVisibility('#js-loader');
+  api.post(baseUrl, {
+    ...apiConfig,
+    body: JSON.stringify({
+      id: selectedSales.erp,
+      justificativa,
+    })
+  })
+  .then(json => console.log(json))
+  .finally(() => {
+    toggleElementVisibility('#js-loader');
+    closeJustifyModal();
+  });
+}
+
+function confirmUnjustify() {
+  if(selectedSales.erp.length < 1) {
+    swal('Ooops...', 'Selecione ao menos uma venda ERP.', 'error');
+    return;
+  }
+
+  openConfirmDialog(
+    'Tem certeza que deseja desfazer a justificativa?',
+    (value) => {
+      if(value) unjustify();
+    }
+  );
+}
+
+function unjustify() {
+  const baseUrl = searchForm.get('form').dataset.urlDesjustificarErp;
+  toggleElementVisibility('#js-loader');
+  api.post(baseUrl, {
+    ...apiConfig,
+    body: JSON.stringify({
+      id: selectedSales.erp,
+    })
+  })
+  .then(json => console.log(json))
+  .finally(() => {
+    toggleElementVisibility('#js-loader');
+    closeJustifyModal();
+  });
+}
+
 searchForm.get('form').querySelector('button[data-form-action="submit"')
   .addEventListener('click', searchForm.get('onSubmitHandler'));
 
@@ -455,3 +521,13 @@ document.querySelector('#js-conciliar')
   .addEventListener('click', confirmConciliacao);
 document.querySelector('#js-desconciliar')
   .addEventListener('click', confirmDesconciliacao);
+document.querySelector('#js-justificar-erp')
+  .addEventListener('click', e => {
+    openJustifyModal(searchForm.get('form').dataset.urlJustificarErp);
+  });
+document.querySelector('#js-justificar').addEventListener('click', justify);
+document.querySelector('#js-desjustificar-erp').addEventListener('click', confirmUnjustify);
+Array.from(document.querySelectorAll('#js-justificar-modal *[data-dismiss="modal"]'))
+  .forEach(element => {
+    element.addEventListener('click', closeJustifyModal);
+  });

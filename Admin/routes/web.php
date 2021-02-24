@@ -45,6 +45,8 @@ Route::group(['middleware' => 'auth'], function() {
   Route::get('/vendas-operadoras', 'VendasOperadorasController@index')->name('vendas-operadoras.index');
   Route::post('/vendas-operadoras/buscar', 'VendasOperadorasController@search')->name('vendas-operadoras.search');
   Route::post('/vendas-operadoras/filtrar', 'VendasOperadorasController@filter')->name('vendas-operadoras.filter');
+  Route::post('/vendas-operadoras/justificar', 'VendasOperadorasController@justify')->name('vendas-operadoras.justify');
+  Route::post('/vendas-operadoras/desjustificar', 'VendasOperadorasController@unjustify')->name('vendas-operadoras.unjustify');
   Route::get('/vendas-operadoras/exportar', 'VendasOperadorasController@export')->name('vendas-operadoras.export');
   Route::get('/vendas-operadoras/imprimir/{id}', 'VendasOperadorasController@print')->name('vendas-operadoras.print');
 
@@ -105,6 +107,8 @@ Route::group(['middleware' => 'auth'], function() {
   Route::get('/vendas-sistema-erp', 'VendasErpController@index')->name('vendas-erp.index');
   Route::post('/vendas-sistema-erp/buscar', 'VendasErpController@search')->name('vendas-erp.search');
   Route::post('/vendas-sistema-erp/filtrar', 'VendasErpController@filter')->name('vendas-erp.filter');
+  Route::post('/vendas-sistema-erp/justificar', 'VendasErpController@justify')->name('vendas-erp.justify');
+  Route::post('/vendas-sistema-erp/desjustificar', 'VendasErpController@unjustify')->name('vendas-erp.unjustify');
   Route::get('/vendas-sistema-erp/exportar', 'VendasErpController@export')->name('vendas-erp.export');
   
   //USUARIO
