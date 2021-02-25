@@ -7,7 +7,7 @@
   <!-- <link href="{{ URL::asset('assets/css/app.min.css')}}" rel="stylesheet" type="text/css" /> -->
 </head>
 <body>
-  <h5 style="text-align: center"> Vendas por Modalidade </h5><br>
+  <h5 style="text-align: center"> Vendas por Forma de Pagamento </h5><br>
   <div style="margin-left: -35px !important">
     <table id="table_vendas_produto"  class="table" style="font-size: 12px">
       <tr>
