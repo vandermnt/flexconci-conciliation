@@ -102,6 +102,7 @@ Route::group(['middleware' => 'auth'], function() {
   Route::post('/recebimentos-operadoras/buscar', 'RecebimentosOperadorasController@search')->name('recebimentos-operadoras.search');
   Route::post('/recebimentos-operadoras/filtrar', 'RecebimentosOperadorasController@filter')->name('recebimentos-operadoras.filter');
   Route::get('/recebimentos-operadoras/exportar', 'RecebimentosOperadorasController@export')->name('recebimentos-operadoras.export');
+  Route::get('/recebimentos-operadoras/retorno-recebimento', 'RetornoRecebimentoController@index')->name('recebimentos-operadoras.retorno-recebimento');
 
   //VENDAS SISTEMA ERP
   Route::get('/vendas-sistema-erp', 'VendasErpController@index')->name('vendas-erp.index');

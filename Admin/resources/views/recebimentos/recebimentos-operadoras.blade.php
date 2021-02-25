@@ -26,6 +26,7 @@
             ['buscar-recebimentos' => route('recebimentos-operadoras.search')],
             ['filtrar-recebimentos' => route('recebimentos-operadoras.filter')],
             ['exportar' => route('recebimentos-operadoras.export')],
+            ['retorno-recebimento' => route('recebimentos-operadoras.retorno-recebimento')],
           ]"
           :hidden-fields="[
             'bandeiras',
@@ -45,7 +46,7 @@
         <x-slot name="fields">
           <x-forms.check-group
             id="recebimento-conciliado-erp"
-            label="Filtrar recebimentos com a venda ERP conciliada?"
+            :label="'Filtrar recebimentos marcados para baixa/liquidação no '.($erp->ERP ?? 'ERP').'?'"
             name="recebimento_conciliado_erp[]"
             item-value-key="value"
             item-description-key="description"
@@ -140,6 +141,15 @@
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas ERP">
           </div>
           <div class="actions d-flex align-items-center justify-content-end">
+            <button
+              id="js-abrir-modal-retorno"
+              class="btn button no-hover mr-1"
+              {{-- data-toggle="modal" --}}
+              {{-- data-target="#js-retorno-recebimento-modal" --}}
+            >
+              <i class="fas fa-undo"></i>
+              Retorno Recebimento {{ $erp->ERP ?? 'ERP' }}
+            </button>
             <button id="js-exportar" class="btn button no-hover">
               <i class="fas fa-file-download"></i>
               Exportar
@@ -167,6 +177,43 @@
     </div>
   </main>
 
+  <div class="modais">
+    <x-modal
+      id="js-retorno-recebimento-modal"
+      modal-label-id="modal-retorno-label"
+      :modal-label="'Retorno Recebimento '.($erp->ERP ?? 'ERP')"
+    >
+      <x-slot name="content">
+        <div class="form-group">
+          <label for="js-data-inicial">Data Inicial:</label>
+          <input id="js-data-inicial" type="date" class="form-control" value="{{ date('Y-m-d') }}" required>
+        </div>
+        <div class="form-group">
+          <label for="js-data-final">Data Final:</label>
+          <input id="js-data-final" type="date" class="form-control" value="{{ date('Y-m-d') }}" required>
+        </div>
+      </x-slot>
+
+      <x-slot name="footer">
+        <button
+          id="js-cancelar-retorno-recebimento"
+          type="button"
+          class="btn btn-danger font-weight-bold"
+        >
+          Cancelar
+        </button>
+
+        <button
+          id="js-retorno-recebimento"
+          type="button"
+          class="btn btn-success font-weight-bold"
+        >
+          Confirmar
+        </button>
+      </x-slot>
+    </x-modal>
+  </div>
+
   <div id="js-loader" class="loader hidden"></div>
 @endsection
 
@@ -185,4 +232,5 @@
   <script defer src="{{ URL::asset('assets/js/recebimentos/recebimentos-operadoras.js') }}"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 @endsection

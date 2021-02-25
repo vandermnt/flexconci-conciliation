@@ -177,6 +177,66 @@ function exportar() {
   }, 500);
 }
 
+function closeRetornoModal() {
+  document.querySelector('#js-retorno-recebimento-modal #js-data-inicial').valueAsDate = new Date();
+  document.querySelector('#js-retorno-recebimento-modal #js-data-final').valueAsDate = new Date();
+
+  $('#js-retorno-recebimento-modal').modal('hide');
+}
+
+function updatePayments(payments, newPayments, idKey = 'ID') {
+  const updatedPayments = updateData([...payments], [...newPayments], idKey).data;
+
+  paymentsContainer.get('data').set('payments', [...updatedPayments]);
+  
+  tableRender.set('data', {
+    body: ([...updatedPayments] || []),
+    footer: ({ ...paymentsContainer.get('data').get('totals') } || {}),
+  });
+  tableRender.render();
+}
+
+function retornoRecebimentoErp() {
+  const dataInicial = document.querySelector('#js-retorno-recebimento-modal #js-data-inicial').value;
+  const dataFinal = document.querySelector('#js-retorno-recebimento-modal #js-data-final').value;
+
+  if(!dataInicial || !dataFinal) {
+    swal('Ooops...', 'A data inicial e final devem ser informadas!', 'error');
+  }
+
+  swal('Aguarde um momento...', 'O processo pode levar alguns segundos.', 'warning');
+  toggleElementVisibility('#js-loader');
+  api.get(searchForm.get('form').dataset.urlRetornoRecebimento, {
+    params: {
+      'data-inicial': dataInicial,
+      'data-final': dataFinal,
+    },
+  })
+    .then(res => {
+      toggleElementVisibility('#js-loader');
+      if(res.status === 'erro' && res.mensagem) {
+        swal('Ooops...', res.mensagem, 'error');
+        return;
+      }
+
+      const updatedPayments = res.pagamentos.reduce((values, id) => {
+        return [
+          ...values,
+          {
+            ID: id,
+            RETORNO_ERP_BAIXA: 'Sim',
+          }
+        ];
+      }, [])
+
+      updatePayments(paymentsContainer.get('data').get('payments'), [...updatedPayments], 'ID');
+
+      swal('Retorno Recebimento realizado!', `${res.vendas.length} de ${res.total} registros atualizados!`, 'success');
+    });
+
+  closeRetornoModal();
+}
+
 document.querySelector('#js-por-pagina')
   .addEventListener('change', onPerPageChanged);
 
@@ -185,3 +245,15 @@ searchForm.get('form').querySelector('button[data-form-action="submit"')
 
 document.querySelector('#js-exportar')
   .addEventListener('click', exportar);
+
+document.querySelector('#js-abrir-modal-retorno')
+  .addEventListener('click', () => $('#js-retorno-recebimento-modal').modal('show'));
+
+document.querySelector('#js-cancelar-retorno-recebimento')
+  .addEventListener('click', closeRetornoModal);
+
+document.querySelector('#js-retorno-recebimento')
+  .addEventListener('click', retornoRecebimentoErp);
+
+document.querySelector('#js-retorno-recebimento-modal *[data-dismiss]')
+  .addEventListener('click', closeRetornoModal);
