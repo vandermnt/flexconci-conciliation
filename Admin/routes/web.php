@@ -111,6 +111,7 @@ Route::group(['middleware' => 'auth'], function() {
   Route::post('/vendas-sistema-erp/justificar', 'VendasErpController@justify')->name('vendas-erp.justify');
   Route::post('/vendas-sistema-erp/desjustificar', 'VendasErpController@unjustify')->name('vendas-erp.unjustify');
   Route::get('/vendas-sistema-erp/exportar', 'VendasErpController@export')->name('vendas-erp.export');
+  Route::get('/vendas-sistema-erp/retorno-erp', 'RetornoErpController@index')->name('vendas-erp.retorno-erp');
   
   //USUARIO
   Route::get('/logout', 'Auth\LoginController@logout');
