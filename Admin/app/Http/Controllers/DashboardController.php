@@ -198,7 +198,7 @@ class DashboardController extends Controller{
       $total['total_bruto'] += $vendas->TOTAL_BRUTO;
       $total['total_taxa'] += $vendas->TOTAL_TAXA;
       $total['total_liquido'] += $vendas->TOTAL_LIQUIDO;
-      $total['total_ticket'] += $vendas->TICKET_MEDIO;
+      $total['total_ticket'] += $vendas->TOTAL_BRUTO / $vendas->QUANTIDADE_REAL;
     }
 
     $pdf = \PDF::loadView('analytics.table-vendas-bandeira', compact('dados_vendas', 'total'));
