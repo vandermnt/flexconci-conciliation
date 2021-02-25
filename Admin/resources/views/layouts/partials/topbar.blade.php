@@ -16,7 +16,7 @@
       </a>
     </li>
 
-    <li class="dropdown notification-list"  style="color: white;  z-index:999">
+    {{-- <li class="dropdown notification-list"  style="color: white;  z-index:999">
       <a class="nav-link dropdown-toggle" onclick="checkNotification()" data-toggle="dropdown" href="www.google.com" role="button"
       aria-haspopup="false" aria-expanded="false">
       <i class="ti-bell noti-icon"  style="color: white"></i>
@@ -61,13 +61,13 @@
     </div>
 
   </div>
-</li>
-<li class="hidden-sm">
+</li> --}}
+{{-- <li class="hidden-sm">
   <a class="nav-link dropdown-toggle waves-effect" data-toggle="dropdown" href="javascript: void(0);" role="button"
   aria-haspopup="false" aria-expanded="false" style="font-size: 25px">
   |
 </a>
-</li>
+</li> --}}
 <li class="dropdown">
   <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
   aria-haspopup="false" aria-expanded="false">
@@ -78,11 +78,11 @@
 
 </a>
 <div class="dropdown-menu dropdown-menu-right">
-  <a class="dropdown-item" href="#"><i class="dripicons-user mr-2"></i> Editar Perfil</a>
+  {{-- <a class="dropdown-item" href="#"><i class="dripicons-user mr-2"></i> Editar Perfil</a>
   <a class="dropdown-item" href="#"><i class="dripicons-wallet mr-2"></i> Configurações</a>
-  <a class="dropdown-item" href="#"><i class="dripicons-gear mr-2"></i> Ajuda</a>
-  <!-- <a class="dropdown-item" href="#"><i class="dripicons-lock text-muted mr-2"></i> Sair</a> -->
-  <div class="dropdown-divider"></div>
+  <a class="dropdown-item" href="#"><i class="dripicons-gear mr-2"></i> Ajuda</a> --}}
+  {{-- <a class="dropdown-item" href="#"><i class="dripicons-lock text-muted mr-2"></i> Sair</a> --}}
+  {{-- <div class="dropdown-divider"></div> --}}
   <a class="dropdown-item" href="{{ url('/logout') }}"><i class="dripicons-exit mr-2"></i> Sair</a>
 </div>
 </li>
@@ -241,12 +241,12 @@ aria-haspopup="false" aria-expanded="false">
 <!-- end navbar-->
 </div>
 
-<div class="topbarr" style="margin-top: 70px;">
+<div class="topbarr submenu" style="margin-top: 70px;">
   <nav class="navbar-custom" style="background: white; min-height: 50px !important; border-bottom: 2px solid #2d5275">
     <ul class="list-unstyled topbar-nav mb-0" style="margin-left: 30px">
       <li>
         <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user"  href="{{ url('/') }}" role="button">
-          <span class="ml-1 nav-user-name hidden-sm"><i style="font-size: 23px; vertical-align: middle;" class="fas fa-chart-bar"></i> Dashboard </span>
+          <span class="ml-1 nav-user-name hidden-sm"><i class="fas fa-chart-bar"></i> Dashboard </span>
         </a>
         <!-- <div class="dropdown-menu dropdown-menu-left" style="background: white;">
         <a  class="dropdown-item" href="{{ url('/') }}"> Gerencial</a>
@@ -257,7 +257,7 @@ aria-haspopup="false" aria-expanded="false">
     <li>
       <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/conciliacao-automatica') }}" role="button"
       aria-haspopup="false" aria-expanded="false">
-      <span class="ml-1 nav-user-name hidden-sm"><i style="font-size: 23px; vertical-align: middle;" class="far fa-handshake"></i> Conciliação de Vendas </span>
+      <span class="ml-1 nav-user-name hidden-sm"><i class="far fa-handshake"></i> Conciliação de Vendas </span>
     </a>
     <!-- <div class="dropdown-menu dropdown-menu-left" style="background: white;">
     <a style="" class="dropdown-item" href="#"> Conferência Manual de Vendas</a>
@@ -272,19 +272,19 @@ aria-haspopup="false" aria-expanded="false">
 
 <li>
   <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/vendas-sistema-erp')}}" role="button">
-    <span dropzone=""class="ml-1 nav-user-name hidden-sm"><i style="font-size: 21px; vertical-align: middle;" class="fas fa-laptop"></i> Vendas ERP </span>
+    <span dropzone=""class="ml-1 nav-user-name hidden-sm"><i class="fas fa-laptop"></i> Vendas ERP </span>
   </a>
 </li>
 
 <li>
   <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/vendas-operadoras') }}" role="button">
-    <span dropzone=""class="ml-1 nav-user-name hidden-sm"><i style="font-size: 21px; vertical-align: middle;" class="fas fa-money-check-alt"></i> Vendas Operadoras </span>
+    <span dropzone=""class="ml-1 nav-user-name hidden-sm"><i class="fas fa-money-check-alt"></i> Vendas Operadoras </span>
   </a>
 </li>
 
 <li>
   <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/recebimentos-operadoras') }}" role="button">
-    <span class="ml-1 nav-user-name hidden-sm"><i style="font-size: 21px; vertical-align: middle;" class="fas fa-donate"></i> Recebimentos & Despesas</span>
+    <span class="ml-1 nav-user-name hidden-sm"><i class="fas fa-donate"></i> Recebimentos & Despesas</span>
     <!-- <div class="dropdown-menu dropdown-menu-left" style="background: white;">
     <a style="" class="dropdown-item" href="{{ url('/recebimentos-operadora') }}"> Recebimentos Operadoras</a>
     <a style="" class="dropdown-item" href="#"> Recebimentos Antecipados </a>
@@ -293,7 +293,7 @@ aria-haspopup="false" aria-expanded="false">
     <a style="" class="dropdown-item" href="{{ url('/antecipacao')}}"> Antecipação Trava Livre</a>
 =======
   <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/recebimentos-operadoras') }}" role="button">
-    <span class="ml-1 nav-user-name hidden-sm"><i style="font-size: 21px; vertical-align: middle;" class="fas fa-donate"></i> Recebimentos & Despesas</span>
+    <span class="ml-1 nav-user-name hidden-sm"><i class="fas fa-donate"></i> Recebimentos & Despesas</span>
   </a>
    <div class="dropdown-menu dropdown-menu-left" style="background: white;">
   <a style="" class="dropdown-item" href="{{ url('/recebimentos-operadoras') }}"> Recebimentos Operadoras</a>
@@ -309,7 +309,12 @@ aria-haspopup="false" aria-expanded="false">
 
 <li>
   <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('recebimentos-futuros.index') }}" role="button">
-    <span class="ml-1 nav-user-name hidden-sm"><i style="font-size: 21px; vertical-align: middle;" class="far fa-calendar-alt"></i> Recebimentos Futuros </span>
+    <span class="ml-1 nav-user-name hidden-sm"><i class="far fa-calendar-alt"></i> Recebimentos Futuros </span>
+  </a>
+</li>
+<li>
+  <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/justificativas') }}" role="button">
+    <span class="ml-1 nav-user-name hidden-sm"><i class="far fa-flag"></i> Justificativas </span>
   </a>
 </li>
 <!--
