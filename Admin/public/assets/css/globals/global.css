@@ -108,8 +108,8 @@ table th {
   border: none !important;
 }
 
-table tr {
-  border-bottom: 2px solid #eaf0f7 !important;
+table tr + tr {
+  border-top: 2px solid #eaf0f7 !important;
 }
 
 table th {
@@ -166,15 +166,18 @@ tbody td img {
 table tfoot {
   font-weight: bolder;
   text-align: center;
-  background-color: #E6E6E6;
-  position: sticky;
+  background-color: transparent;
+  position: relative;
   bottom: 0;
-  z-index: 4;
+  z-index: 8;
 }
 
 table tfoot td {
-  color: #6E6E6E;
   font-weight: bold;
+  color: #6E6E6E;
+  background-color: #E6E6E6 !important;
+  position: sticky;
+  bottom: 0;
 }
 
 table td[data-image] {
