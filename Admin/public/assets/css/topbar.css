@@ -6,3 +6,8 @@
   font-size: 18px;
   vertical-align: middle;
 }
+
+.submenu .submenu-item:hover {
+  --submenu-border-offset: -2px;
+  transform: translateY(var(--submenu-border-offset));
+}
