@@ -683,6 +683,20 @@ function unjustify() {
   });
 }
 
+function exportar(event) {
+  const isErp = event.target.dataset.type === 'erp';
+  const baseUrl = searchForm.get('form').dataset[isErp ? 'urlExportarErp' : 'urlExportarOperadoras'];
+  const currentTableRender = isErp ? tableRenderErp : tableRender;
+
+  swal('Aguarde um momento...', 'A sua planilha está sendo gerada.', 'warning');
+  setTimeout(() => {
+    openUrl(baseUrl, {
+      ...searchForm.serialize(),
+      ...currentTableRender.serializeTableFilters(),
+    });
+  }, 500);
+}
+
 searchForm.get('form').querySelector('button[data-form-action="submit"')
   .addEventListener('click', searchForm.get('onSubmitHandler'));
 
@@ -700,6 +714,8 @@ document.querySelector('#js-justificar-erp')
 document.querySelector('#js-justificar-operadora')
   .addEventListener('click', openJustifyModal);
 document.querySelector('#js-desjustificar-erp').addEventListener('click', confirmUnjustify);
+document.querySelector('#js-exportar-erp').addEventListener('click', exportar);
+document.querySelector('#js-exportar-operadoras').addEventListener('click', exportar);
 
 Array.from(document.querySelectorAll('#js-justificar-modal *[data-dismiss="modal"]'))
   .forEach(element => {

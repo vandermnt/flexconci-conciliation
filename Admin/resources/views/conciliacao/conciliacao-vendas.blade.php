@@ -25,8 +25,10 @@
           :urls="[
             ['buscar-erp' => route('conciliacao-vendas.buscarErp')],
             ['filtrar-erp' => route('conciliacao-vendas.filtrarErp')],
+            ['exportar-erp' => route('conciliacao-automatica.exportar.erp')],
             ['buscar-operadoras' => route('conciliacao-vendas.buscarOperadoras')],
             ['filtrar-operadoras' => route('conciliacao-vendas.filtrarOperadoras')],
+            ['exportar-operadoras' => route('conciliacao-automatica.exportar.operadoras')],
             ['conciliar-manualmente' => route('conciliacao-vendas.conciliarManualmente')],
             ['desconciliar-manualmente' => route('conciliacao-vendas.desconciliarManualmente')],
             ['justificar-erp' => route('vendas-erp.justify')],
@@ -165,7 +167,11 @@
               <i class="fas fa-comment-slash"></i>
               Desjustificar
             </button>
-            <button id="js-exportar-erp" class="btn button no-hover">
+            <button
+              id="js-exportar-erp"
+              class="btn button no-hover"
+              data-type="erp"
+            >
               <i class="fas fa-file-download"></i>
               Exportar
             </button>
@@ -184,7 +190,6 @@
             'actions' => 'Ações | Status'
           ]"
           :hidden-columns="[
-            'TID',
             'CARTAO',
             'HORA',
             'ESTABELECIMENTO'
@@ -231,7 +236,11 @@
               <i class="far fa-flag"></i>
               Justificar
             </button>
-            <button id="js-exportar-operadoras" class="btn button no-hover">
+            <button
+              id="js-exportar-operadoras"
+              class="btn button no-hover"
+              data-type="operadoras"
+            >
               <i class="fas fa-file-download"></i>
               Exportar
             </button>
