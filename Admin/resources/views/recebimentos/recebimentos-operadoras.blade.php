@@ -141,15 +141,15 @@
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas ERP">
           </div>
           <div class="actions d-flex align-items-center justify-content-end">
-            <button
-              id="js-abrir-modal-retorno"
-              class="btn button no-hover mr-1"
-              {{-- data-toggle="modal" --}}
-              {{-- data-target="#js-retorno-recebimento-modal" --}}
-            >
-              <i class="fas fa-undo"></i>
-              Retorno Recebimento {{ $erp->ERP ?? 'ERP' }}
-            </button>
+            @if(Auth::user()->USUARIO_GLOBAL === 'S')
+              <button
+                id="js-abrir-modal-retorno"
+                class="btn button no-hover mr-1"
+              >
+                <i class="fas fa-undo"></i>
+                Retorno Recebimento {{ $erp->ERP ?? 'ERP' }}
+              </button>
+            @endif
             <button id="js-exportar" class="btn button no-hover">
               <i class="fas fa-file-download"></i>
               Exportar

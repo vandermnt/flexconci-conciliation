@@ -74,9 +74,6 @@ Route::group(['middleware' => 'auth'], function() {
     ->name('conciliacao-automatica.exportar.erp');
   Route::get('/conciliacao-automatica/exportar/operadoras', 'ConciliacaoAutomaticaController@exportarOperadoras')
     ->name('conciliacao-automatica.exportar.operadoras');
-  Route::get('/conciliacao-automatica/retorno-erp', 'ConciliacaoAutomaticaController@retornoErp')
-    ->name('conciliacao-automatica.retornoErp');
-
   Route::get('/conciliacao-vendas', 'ConciliacaoVendasController@index');
   Route::post('/conciliacao-vendas/buscar/erp', 'ConciliacaoVendasController@searchErp')->name('conciliacao-vendas.buscarErp');
   Route::post('/conciliacao-vendas/filtrar/erp', 'ConciliacaoVendasController@filterErp')->name('conciliacao-vendas.filtrarErp');
@@ -102,7 +99,9 @@ Route::group(['middleware' => 'auth'], function() {
   Route::post('/recebimentos-operadoras/buscar', 'RecebimentosOperadorasController@search')->name('recebimentos-operadoras.search');
   Route::post('/recebimentos-operadoras/filtrar', 'RecebimentosOperadorasController@filter')->name('recebimentos-operadoras.filter');
   Route::get('/recebimentos-operadoras/exportar', 'RecebimentosOperadorasController@export')->name('recebimentos-operadoras.export');
-  Route::get('/recebimentos-operadoras/retorno-recebimento', 'RetornoRecebimentoController@index')->name('recebimentos-operadoras.retorno-recebimento');
+  Route::get('/recebimentos-operadoras/retorno-recebimento', 'RetornoRecebimentoController@index')
+    ->name('recebimentos-operadoras.retorno-recebimento')
+    ->middleware('must_be_global_user');
 
   //VENDAS SISTEMA ERP
   Route::get('/vendas-sistema-erp', 'VendasErpController@index')->name('vendas-erp.index');
@@ -111,7 +110,9 @@ Route::group(['middleware' => 'auth'], function() {
   Route::post('/vendas-sistema-erp/justificar', 'VendasErpController@justify')->name('vendas-erp.justify');
   Route::post('/vendas-sistema-erp/desjustificar', 'VendasErpController@unjustify')->name('vendas-erp.unjustify');
   Route::get('/vendas-sistema-erp/exportar', 'VendasErpController@export')->name('vendas-erp.export');
-  Route::get('/vendas-sistema-erp/retorno-erp', 'RetornoErpController@index')->name('vendas-erp.retorno-erp');
+  Route::get('/vendas-sistema-erp/retorno-erp', 'RetornoErpController@index')
+    ->name('vendas-erp.retorno-erp')
+    ->middleware('must_be_global_user');
   
   //USUARIO
   Route::get('/logout', 'Auth\LoginController@logout');
