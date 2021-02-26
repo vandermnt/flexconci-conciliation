@@ -53,60 +53,88 @@
     <div class="resultados hidden">
       <div class="boxes">
         <x-box
+          class="tooltip-hint"
           :title="'VENDAS '.($erp->ERP ? mb_strtoupper($erp->ERP, 'utf-8') : 'SISTEMA')"
           content="R$ 18.434,51"
           data-format="currency"
           data-key="TOTAL_BRUTO"
           icon-path="assets/images/widgets/notebook.svg"
           icon-description="Vendas ERP"
+          :dataset="[
+            'hint' => 'Total de vendas enviadas pelo seu sistema de gestão.'
+          ]"
         />
         <x-box
-          title="CONCILIADO"
+          class="tooltip-hint"
+          title="CONCILIADAS"
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_CONCILIADO"
           icon-path="assets/images/widgets/check.svg"
           icon-description="Conciliado"
+          :dataset="[
+            'hint' => 'Vendas do seu sistema que foram conciliadas com as vendas das operadoras.'
+          ]"
         />
         <x-box
-          title="DIVERGENTE"
+          class="tooltip-hint"
+          title="DIVERGENTES"
           content="R$ 16.518,46"
           data-format="currency"
           data-key="TOTAL_DIVERGENTE"
           icon-path="assets/images/widgets/x.svg"
           icon-description="Divergente"
+          :dataset="[
+            'hint' => 'Vendas do seu sistema que foram conciliadas com divergência. Vá até a coluna Divergência e veja o motivo!'
+          ]"
         />
         <x-box
+          class="tooltip-hint"
           title="CONC. MANUAL"
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_CONCILIADO_MANUAL"
           icon-path="assets/images/widgets/handshake.svg"
           icon-description="Conciliacao Manual"
+          :dataset="[
+            'hint' => 'Vendas do seu sistema que foram conciliadas manualmente com as vendas das operadoras.'
+          ]"
         />
         <x-box
-          title="JUSTIFICADO"
+          class="tooltip-hint"
+          title="JUSTIFICADAS"
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_JUSTIFICADO"
           icon-path="assets/images/widgets/flag.svg"
           icon-description="Justificado"
+          :dataset="[
+            'hint' => 'Vendas do seu sistema que foram justificadas por algum motivo. Vá até a coluna Justificativa e veja o motivo!'
+          ]"
         />
         <x-box
-          title="PENDÊNCIAS ERP"
+          class="tooltip-hint"
+          :title="'PENDÊNCIAS '.($erp->ERP ? mb_strtoupper($erp->ERP, 'utf-8') : 'ERP')"
           content="R$ 1.916,05"
           data-format="currency"
           data-key="TOTAL_NAO_CONCILIADO"
           icon-path="assets/images/widgets/exclamation-mark.svg"
           icon-description="Pendências"
+          :dataset="[
+            'hint' => 'Vendas do seu sistema que não foram conciliadas com as vendas das operadoras.'
+          ]"
         />
         <x-box
-          title="PENDÊNCIAS OPER."
+          class="tooltip-hint"
+          title="PENDÊNCIAS OPERADORAS"
           content="R$ 39.716,97"
           data-format="currency"
           data-key="TOTAL_PENDENCIAS_OPERADORAS"
           icon-path="assets/images/widgets/exclamation-mark.svg"
           icon-description="Pendências"
+          :dataset="[
+            'hint' => 'Vendas das operadoras que não foram conciliadas com as vendas do seu sistema.'
+          ]"
         />
       </div>
 
@@ -191,7 +219,7 @@
       <div class="vendas">
         <div class="tabela-info d-flex align-items-center justify-content-between">
           <div class="table-description d-flex align-items-center justify-content-end">
-            <h4>Vendas Operadoras <span id="js-quantidade-registros-operadoras">(0 registros)</span></h4>
+            <h4>Vendas Operadoras Não Conciliadas <span id="js-quantidade-registros-operadoras">(0 registros)</span></h4>
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras">
           </div>
           <div class="d-flex align-items-center justify-content-end">
