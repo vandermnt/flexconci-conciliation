@@ -2,7 +2,7 @@
   class="card box {{ $attributes->get('class') }}"
   data-key="{{ $attributes->get('data-key') }}"
   data-format="{{ $attributes->get('data-format') }}"
-  {{ $renderDataset() }}
+  @php echo $renderDataset() @endphp
 >
   <div class="card-body">
     <h4>{{ $title }}</h4>
