@@ -61,10 +61,10 @@ class RetornoErpController extends Controller
                 }
             }
 
-            // VendasErpModel::whereIn('CODIGO', $venda->COD_VENDA_ERP)
-            //     ->update([
-            //         'RETORNO_ERP' => 'S'
-            //     ]);
+            VendasErpModel::whereIn('CODIGO', $cod_vendas)
+                ->update([
+                    'RETORNO_ERP' => 'S'
+                ]);
 
             return response()->json([
                 'status' => 'sucesso',
