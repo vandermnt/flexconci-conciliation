@@ -64,5 +64,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'verifica_vendas_conciliacao' => \App\Http\Middleware\VerificaVendasParaConciliacao::class,
         'verifica_vendas_desconciliacao' => \App\Http\Middleware\VerificaVendasParaDesconciliacao::class,
+        'must_be_global_user' => \App\Http\Middleware\MustBeGlobalUser::class,
     ];
 }
