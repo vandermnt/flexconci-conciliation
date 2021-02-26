@@ -345,7 +345,10 @@
       </div>
       <div class="vendas-erp">
         <div class="tabela-info d-flex align-items-center justify-content-between">
-          <h4>Vendas {{ $erp->ERP ?? 'ERP' }} <span id="js-vendas-erp-info"></span></h4>
+          <div class="table-description d-flex align-items-center justify-content-end">
+            <h4>Vendas {{ $erp->ERP ?? 'ERP' }} <span id="js-vendas-erp-info"></span></h4>
+            <img src="assets/images/widgets/arrow-down.svg" alt="Vendas ERP">
+          </div>
           <div class="acoes d-flex align-items-center justify-content-end">
             @if(Auth::user()->USUARIO_GLOBAL === 'S')
               <button
@@ -786,7 +789,10 @@
 
       <div class="pendencias-operadoras">
         <div class="tabela-info d-flex align-items-center justify-content-between">
-          <h4>Vendas Operadoras Não Conciliadas <span id="js-pendencias-operadoras-info"></span></h4>
+          <div class="table-description d-flex align-items-center justify-content-end">
+            <h4>Vendas Operadoras Não Conciliadas <span id="js-pendencias-operadoras-info"></span></h4>
+            <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras">
+          </div>
           <div class="acoes d-flex align-items-center justify-content-end">
             <button
               id="js-justificar-operadora"
