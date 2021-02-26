@@ -28,7 +28,7 @@
       data-url-justificar-operadora="{{ route('vendas-operadoras.justify') }}"
       data-url-exportar-erp="{{ route('conciliacao-automatica.exportar.erp') }}"
       data-url-exportar-operadoras="{{ route('conciliacao-automatica.exportar.operadoras') }}"
-      data-url-retorno-erp="{{ route('conciliacao-automatica.retornoErp') }}"
+      data-url-retorno-erp="{{ route('vendas-erp.retorno-erp') }}"
       class="card" method="POST"
     >
       <div class="card-body">
@@ -347,14 +347,16 @@
         <div class="tabela-info d-flex align-items-center justify-content-between">
           <h4>Vendas {{ $erp->ERP ?? 'ERP' }} <span id="js-vendas-erp-info"></span></h4>
           <div class="acoes d-flex align-items-center justify-content-end">
-            <button
-              class="btn mr-1"
-              data-toggle="modal"
-              data-target="#modal-retorno-erp"
-            >
-              <i class="fas fa-undo"></i>
-              Retorno Venda {{ $erp->ERP ?? 'ERP' }}
-            </button>
+            @if(Auth::user()->USUARIO_GLOBAL === 'S')
+              <button
+                class="btn mr-1"
+                data-toggle="modal"
+                data-target="#modal-retorno-erp"
+              >
+                <i class="fas fa-undo"></i>
+                Retorno Venda {{ $erp->ERP ?? 'ERP' }}
+              </button>
+            @endif
             <button id="js-conciliar" class="btn mr-1">
               <i class="far fa-handshake"></i>
               Conciliar

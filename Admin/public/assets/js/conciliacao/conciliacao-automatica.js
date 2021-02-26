@@ -1063,29 +1063,30 @@ function retornoErp() {
   const dataInicial = document.querySelector('#modal-retorno-erp #js-data-inicial');
   const dataFinal = document.querySelector('#modal-retorno-erp #js-data-final');
 
+  swal('Aguarde um momento...', 'O processo pode levar alguns segundos.', 'warning');
   alternarVisibilidade(loader);
 
     api.get(urls.retornoErp, {
       params: {
-        data_inicial: dataInicial.value,
-        data_final: dataFinal.value,
+        'data-inicial': dataInicial.value,
+        'data-final': dataFinal.value,
       },
     })
     .then(res => {
-      if(res.mensagem) {
+      if(res.status === 'erro' && res.mensagem) {
         swal("Ooops...", res.mensagem, "error");
         return;
       }
 
-      swal("Retorno ERP realizado!", "O Retorno ERP foi realizado com êxito.", "success");
+      swal("Retorno ERP realizado!", `${res.vendas.length} de ${res.total} registros atualizados!`, "success");
     })
     .catch(err => {
       swal("Ooops...", "Um erro inesperado ocorreu. Tente novamente mais tarde!", "error");
     })
     .finally(() => {
       alternarVisibilidade(loader);
-      const dataInicial = document.querySelector('#modal-retorno-erp #js-data-inicial').value = "";
-      const dataFinal = document.querySelector('#modal-retorno-erp #js-data-final').value = "";
+      document.querySelector('#modal-retorno-erp #js-data-inicial').value = "";
+      document.querySelector('#modal-retorno-erp #js-data-final').value = "";
     });
 }
 
