@@ -531,6 +531,9 @@ font-size: 14px;
     <script src="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.min.js') }}"></script>
     <script src="{{ URL::asset('assets/js/dashboard/export-pdf.js')}}"></script>
     <script src="{{ URL::asset('assets/js/dashboard/tabelas.js')}}"></script>
+    <script src="{{ URL::asset('assets/js/dashboard/graficos.js')}}"></script>
+    <script src="{{ URL::asset('assets/js/dashboard/formata-valores.js')}}"></script>
+
     <script type="text/javascript">
     var param = <?php echo $dados_cliente ?>;
     var dados_dash_vendas = <?php echo $dados_dash_vendas ?>;
@@ -549,424 +552,39 @@ font-size: 14px;
           show: true
         });
       }
-      preCarregarGraficoVendas();
-      preCarregarGraficoVendasBandeira();
-      preCarregarGraficoVendasModalidade();
-      preCarregarGraficoVendasProduto();
+
+      const grafico_vendas_operadora = <?php echo $dados_dash_vendas ?>;
+      const grafico_vendas_bandeira = <?php echo $dados_dash_vendas_bandeira ?>;
+      const grafico_vendas_produto =  <?php echo $dados_dash_vendas_produto ?>;
+      const grafico_vendas_modalidade = <?php echo $dados_dash_vendas_modalidade ?>;
+
+      preCarregarGraficoVendas(grafico_vendas_operadora);
+      preCarregarGraficoVendasBandeira(grafico_vendas_bandeira);
+      preCarregarGraficoVendasModalidade(grafico_vendas_modalidade);
+      preCarregarGraficoVendasProduto(grafico_vendas_produto);
     });
 
-    let periodo = null;
-    let grafico_vendas_operadora = null;
-    let grafico_vendas_modalidade = null;
-    let grafico_vendas_bandeira = null;
-    let grafico_vendas_produto = null;
     let bancos_dados = null
     let operadoras_dados = null;
-
-    function preCarregarGraficoVendas() {
-      const dash_vendas = <?php echo $dados_dash_vendas ?>;
-      let dados_grafico = [];
-      let totalQtd = 0;
-      let totalBruto = 0;
-      let totalTx = 0;
-      let totalLiq = 0;
-      let html;
-
-      dash_vendas.forEach((dados_dash) => {
-        if (dados_dash.COD_PERIODO == 2 && dados_dash.QUANTIDADE > 0) {
-          dados_grafico.push(dados_dash);
-
-          html = geraTabela(
-            dados_dash.IMAGEM,
-            dados_dash.ADQUIRENTE,
-            dados_dash.QUANTIDADE_REAL,
-            dados_dash.TOTAL_BRUTO,
-            dados_dash.TOTAL_TAXA,
-            dados_dash.TOTAL_LIQUIDO
-          )
-
-          totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
-          totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
-          totalTx += parseFloat(dados_dash.TOTAL_TAXA);
-          totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
-
-          $('#table_vendas_operadora').append(html);
-          document.getElementById("dropdownMenuButton").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
-        }
-      })
-
-      geraRodapeTabelaComTotais("#table_vendas_operadora tfoot", totalQtd, totalBruto, totalTx, totalLiq);
-
-      periodo = 2;
-      localStorage.setItem('periodo_venda_operadora', 2);
-      geraGraficoVendas(dados_grafico, 1);
-    }
-
-    function preCarregarGraficoVendasBandeira() {
-      let dados_grafico = [];
-      let totalQtd = 0;
-      let totalBruto = 0;
-      let totalTx = 0;
-      let totalLiq = 0;
-      let totalTicket = 0;
-      let html;
-
-      const dash_vendas = <?php echo $dados_dash_vendas_bandeira ?>;
-
-      dash_vendas.forEach((dados_dash) => {
-        if (dados_dash.COD_PERIODO == 2 && dados_dash.QUANTIDADE > 0) {
-          dados_grafico.push(dados_dash);
-
-          html = geraTabela(
-            dados_dash.IMAGEM,
-            dados_dash.BANDEIRA,
-            dados_dash.QUANTIDADE_REAL,
-            dados_dash.TOTAL_BRUTO,
-            dados_dash.TOTAL_TAXA,
-            dados_dash.TOTAL_LIQUIDO
-          )
-
-          totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
-          totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
-          totalTx += parseFloat(dados_dash.TOTAL_TAXA);
-          totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
-          totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
-
-          $('#table_vendas_bandeira').append(html);
-          document.getElementById("dropdownMenuButtonBandeira").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
-        }
-      })
-
-      geraRodapeTabelaComTotais("#table_vendas_bandeira tfoot", totalQtd, totalBruto, totalTx, totalLiq);
-
-      periodo = 2;
-      localStorage.setItem('periodo_venda_bandeira', 2);
-      geraGraficoVendasBandeira(dados_grafico, 1);
-    }
-
-    function preCarregarGraficoVendasProduto() {
-      const dash_vendas_produto = <?php echo $dados_dash_vendas_produto ?>;
-      let dados_grafico = [];
-      let totalQtd = 0;
-      let totalBruto = 0;
-      let totalTx = 0;
-      let totalLiq = 0;
-      let totalTicket = 0;
-
-      dash_vendas_produto.forEach((dados_dash) => {
-        if (dados_dash.COD_PERIODO == 2 && dados_dash.QUANTIDADE > 0) {
-          dados_grafico.push(dados_dash);
-
-          html = geraTabelaSemImagem(
-            dados_dash.PRODUTO_WEB,
-            dados_dash.QUANTIDADE_REAL,
-            dados_dash.TOTAL_BRUTO,
-            dados_dash.TOTAL_TAXA,
-            dados_dash.TOTAL_LIQUIDO
-          )
-
-          totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
-          totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
-          totalTx += parseFloat(dados_dash.TOTAL_TAXA);
-          totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
-          totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
-
-          $('#table_vendas_produto').append(html);
-
-          document.getElementById("dropdownMenuButtonProduto").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
-        }
-      })
-
-      geraRodapeTabelaComTotais("#table_vendas_produto tfoot", totalQtd, totalBruto, totalTx, totalLiq);
-
-      periodo = 2;
-      localStorage.setItem('periodo_venda_produto', 2);
-      geraGraficoVendasProduto(dados_grafico, 1);
-    }
-
-    function preCarregarGraficoVendasModalidade() {
-      let dados_grafico = [];
-      let totalQtd = 0;
-      let totalBruto = 0;
-      let totalTx = 0;
-      let totalLiq = 0;
-      let totalTicket = 0
-
-      const dashboard_vendas_modalidade = <?php echo $dados_dash_vendas_modalidade ?>;
-
-      $('#table_vendas_modalidade tbody').empty();
-
-      dashboard_vendas_modalidade.forEach((dados_dash) => {
-        if (dados_dash.COD_PERIODO == 2 && dados_dash.QUANTIDADE > 0) {
-
-          html = geraTabelaSemImagem(
-            dados_dash.DESCRICAO,
-            dados_dash.QUANTIDADE_REAL,
-            dados_dash.TOTAL_BRUTO,
-            dados_dash.TOTAL_TAXA,
-            dados_dash.TOTAL_LIQUIDO
-          )
-
-          $('#table_vendas_modalidade').append(html);
-
-          totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
-          totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
-          totalTx += parseFloat(dados_dash.TOTAL_TAXA);
-          totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
-          totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
-
-          dados_grafico.push(dados_dash);
-          document.getElementById("dropdownMenuButtonModalidade").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
-        }
-      })
-
-      geraRodapeTabelaComTotais("#table_vendas_modalidade tfoot", totalQtd, totalBruto, totalTx, totalLiq);
-
-      periodo = 2;
-      localStorage.setItem('periodo_venda_modalidade', 2);
-      geraGraficoVendasModalidade(dados_grafico);
-    }
-
-    function trocaPeriodo(cod_periodo, tipo, label_button) {
-
-      let dados_grafico = [];
-      let totalQtd = 0;
-      let totalBruto = 0;
-      let totalTx = 0;
-      let totalLiq = 0;
-      let totalTicket = 0;
-
-      let dash_vendas = <?php echo $dados_dash_vendas ?>;
-
-      if (tipo == 'operadora') {
-        dash_vendas = <?php echo $dados_dash_vendas ?>;
-
-        $('#table_vendas_operadora tbody').empty();
-        $('#table_vendas_operadora tfoot').empty();
-
-        dash_vendas.forEach((dados_dash) => {
-          if (dados_dash.COD_PERIODO == cod_periodo && dados_dash.QUANTIDADE > 0) {
-
-            html = geraTabela(
-              dados_dash.IMAGEM,
-              dados_dash.ADQUIRENTE,
-              dados_dash.QUANTIDADE_REAL,
-              dados_dash.TOTAL_BRUTO,
-              dados_dash.TOTAL_TAXA,
-              dados_dash.TOTAL_LIQUIDO
-            )
-
-            totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
-            totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
-            totalTx += parseFloat(dados_dash.TOTAL_TAXA);
-            totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
-
-            $('#table_vendas_operadora').append(html);
-            document.getElementById("dropdownMenuButton").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
-            dados_grafico.push(dados_dash);
-          }
-        })
-
-        geraRodapeTabelaComTotais("#table_vendas_operadora tfoot", totalQtd, totalBruto, totalTx, totalLiq);
-        document.getElementById("dropdownMenuButton").innerHTML = label_button + ' ' + '<i class="mdi mdi-chevron-down"></i>';
-
-        if (dados_grafico.length == 0) {
-          grafico_vendas_operadora.destroy();
-          document.getElementById("label_sem_dados_vop").style.display = "block"
-          const div = document.querySelector('.vendasop');
-          div.style.display = 'none';
-          document.querySelector(".bt-vendas-op").style.visibility = "hidden";
-        } else {
-          grafico_vendas_operadora.destroy();
-          const div = document.querySelector('.vendasop');
-          div.style.display = 'block';
-          document.getElementById("label_sem_dados_vop").style.display = "none"
-          document.querySelector(".bt-vendas-op").style.visibility = "visible";
-
-          // document.getElementById("table_vendas_operadora").style.display = "block"
-
-          periodo = cod_periodo;
-          localStorage.setItem('periodo_venda_operadora', cod_periodo);
-          geraGraficoVendas(dados_grafico);
-        }
-
-      } else if (tipo == 'bandeira') {
-        dash_vendas = <?php echo $dados_dash_vendas_bandeira ?>;
-
-        $('#table_vendas_bandeira tbody').empty();
-        $('#table_vendas_bandeira tfoot').empty();
-
-        dash_vendas.forEach((dados_dash) => {
-          if (dados_dash.COD_PERIODO == cod_periodo && dados_dash.QUANTIDADE > 0) {
-
-            html = geraTabela(
-              dados_dash.IMAGEM,
-              dados_dash.BANDEIRA,
-              dados_dash.QUANTIDADE_REAL,
-              dados_dash.TOTAL_BRUTO,
-              dados_dash.TOTAL_TAXA,
-              dados_dash.TOTAL_LIQUIDO
-            )
-
-            $('#table_vendas_bandeira').append(html);
-
-            totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
-            totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
-            totalTx += parseFloat(dados_dash.TOTAL_TAXA);
-            totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
-            totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
-
-            dados_grafico.push(dados_dash);
-
-            document.getElementById("dropdownMenuButtonBandeira").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
-          }
-        })
-
-        geraRodapeTabelaComTotais("#table_vendas_bandeira tfoot", totalQtd, totalBruto, totalTx, totalLiq);
-        document.getElementById("dropdownMenuButtonBandeira").innerHTML = label_button + ' ' + '<i class="mdi mdi-chevron-down"></i>';
-
-        if (dados_grafico.length == 0) {
-          console.log("Opkdwpokdwaopdpa");
-          grafico_vendas_bandeira.destroy();
-          document.getElementById("label_sem_dados_vb").style.display = "block"
-          const div = document.querySelector('.vendasband');
-          div.style.display = 'none';
-          document.querySelector(".bt-vendas-band").style.visibility = "hidden";
-
-        } else {
-          grafico_vendas_bandeira.destroy();
-          document.getElementById("label_sem_dados_vb").style.display = "none"
-          const div = document.querySelector('.vendasband');
-          div.style.display = 'block';
-          document.querySelector(".bt-vendas-band").style.visibility = "visible";
-
-          periodo = cod_periodo;
-          localStorage.setItem('periodo_venda_bandeira', 2);
-          geraGraficoVendasBandeira(dados_grafico);
-        }
-      } else if (tipo == 'modalidade') {
-
-        dash_vendas = <?php echo $dados_dash_vendas_modalidade ?>;
-
-        $('#table_vendas_modalidade tbody').empty();
-        $('#table_vendas_modalidade tfoot').empty();
-
-        dash_vendas.forEach((dados_dash) => {
-          if (dados_dash.COD_PERIODO == cod_periodo && dados_dash.QUANTIDADE > 0) {
-
-            html = geraTabelaSemImagem(
-              dados_dash.DESCRICAO,
-              dados_dash.QUANTIDADE_REAL,
-              dados_dash.TOTAL_BRUTO,
-              dados_dash.TOTAL_TAXA,
-              dados_dash.TOTAL_LIQUIDO
-            )
-
-            $('#table_vendas_modalidade').append(html);
-
-            totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
-            totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
-            totalTx += parseFloat(dados_dash.TOTAL_TAXA);
-            totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
-            totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
-
-            dados_grafico.push(dados_dash);
-            document.getElementById("dropdownMenuButtonModalidade").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
-          }
-        })
-
-        geraRodapeTabelaComTotais("#table_vendas_modalidade tfoot", totalQtd, totalBruto, totalTx, totalLiq);
-        document.getElementById("dropdownMenuButtonModalidade").innerHTML = label_button + ' ' + '<i class="mdi mdi-chevron-down"></i>';
-
-        if (dados_grafico.length == 0) {
-          grafico_vendas_modalidade.destroy();
-          document.getElementById("label_sem_dados_vmod").style.display = "block"
-          const div = document.querySelector('.vendasmod');
-          div.style.display = 'none';
-          document.querySelector(".bt-vendas-formpg").style.visibility = "hidden";
-
-        } else {
-          grafico_vendas_modalidade.destroy();
-
-          document.getElementById("label_sem_dados_vmod").style.display = "none"
-          const div = document.querySelector('.vendasmod');
-          div.style.display = 'block';
-          document.querySelector(".bt-vendas-formpg").style.visibility = "visible";
-
-          periodo = cod_periodo;
-          localStorage.setItem('periodo_venda_modalidade', cod_periodo);
-          geraGraficoVendasModalidade(dados_grafico);
-        }
-
-      } else if (tipo == 'produto') {
-        dash_vendas = <?php echo $dados_dash_vendas_produto ?>;
-
-        $('#table_vendas_produto tbody').empty();
-        $('#table_vendas_produto tfoot').empty();
-
-        dash_vendas.forEach((dados_dash) => {
-          if (dados_dash.COD_PERIODO == cod_periodo && dados_dash.QUANTIDADE > 0) {
-
-            html = geraTabelaSemImagem(
-              dados_dash.PRODUTO_WEB,
-              dados_dash.QUANTIDADE_REAL,
-              dados_dash.TOTAL_BRUTO,
-              dados_dash.TOTAL_TAXA,
-              dados_dash.TOTAL_LIQUIDO
-            )
-
-            $('#table_vendas_produto').append(html);
-
-            totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
-            totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
-            totalTx += parseFloat(dados_dash.TOTAL_TAXA);
-            totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
-            totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
-
-            dados_grafico.push(dados_dash);
-
-            document.getElementById("dropdownMenuButtonProduto").innerHTML = dados_dash.PERIODO + ' ' + '<i class="mdi mdi-chevron-down"></i>';
-          }
-        })
-
-        geraRodapeTabelaComTotais("#table_vendas_produto tfoot", totalQtd, totalBruto, totalTx, totalLiq);
-        document.getElementById("dropdownMenuButtonProduto").innerHTML = label_button + ' ' + '<i class="mdi mdi-chevron-down"></i>';
-
-        if (dados_grafico.length == 0) {
-          grafico_vendas_produto.destroy();
-
-          document.getElementById("label_sem_dados_vprod").style.display = "block"
-          const div = document.querySelector('.vendasprod');
-          div.style.display = 'none';
-          document.querySelector(".bt-vendas-prod").style.visibility = "hidden";
-
-        } else {
-          grafico_vendas_produto.destroy();
-
-          document.getElementById("label_sem_dados_vprod").style.display = "none"
-          const div = document.querySelector('.vendasprod');
-          div.style.display = 'block';
-          document.querySelector(".bt-vendas-prod").style.visibility = "visible";
-
-          periodo = cod_periodo;
-          localStorage.setItem('periodo_venda_produto', cod_periodo);
-          geraGraficoVendasProduto(dados_grafico);
-        }
-      }
-    }
+    let pagamentos_antecipados;
+    let pagamentos_normais;
+    let pagamentos_antecipados_bancos;
+    let pagamentos_normais_bancos;
 
     function showTableBancoSelecionado(codigo) {
       $("#table_banco_selecionado tbody").empty();
+
+      const pagamento_normal = buscaPagamentoNormal(pagamentos_normais_bancos, codigo);
+      const pagamento_antecipado = buscaPagamentoAntecipado(pagamentos_antecipados_bancos, codigo);
 
       const bancos = bancos_dados;
       const result = bancos.find(banco => banco.CODIGO == codigo);
       const val_bruto = parseFloat(result.val_bruto);
       const val_liquido = parseFloat(result.val_liquido);
-      const tx = parseInt(result.val_taxa);
-      const taxa_adm = parseInt(result.VALOR_TAXA);
-      const t = Number(tx).toFixed(2);
+      const pgto_normal = parseFloat(pagamento_normal.tipo_pgto_normal);
+      const pgto_antecipado = parseFloat(pagamento_antecipado.tipo_pgto_antecipado);
 
-      geraTabelaDetalhamentoCalendario("#table_banco_selecionado tbody", val_bruto, val_liquido, taxa_adm);
+      geraTabelaDetalhamentoCalendario("#table_banco_selecionado tbody", val_bruto, val_liquido, result.val_taxa, pgto_normal, pagamento_antecipado);
 
       document.getElementById(result.CODIGO).classList.remove('active');
       document.getElementById("voltar").classList.remove('active');
@@ -975,15 +593,17 @@ font-size: 14px;
     function showTableOperadoraSelecionada(codigo) {
       $("#table_operadora_selecionado tbody").empty();
 
+      const pagamento_normal = buscaPagamentoNormal(pagamentos_normais, codigo);
+      const pagamento_antecipado = buscaPagamentoAntecipado(pagamentos_antecipados, codigo);
+
       const operadoras = operadoras_dados;
       const result = operadoras.find(operadora => operadora.CODIGO == codigo);
       const val_bruto = parseFloat(result.val_bruto);
       const val_liquido = parseFloat(result.val_liquido);
-      const tx = parseFloat(result.val_taxa);
-      const taxa_adm = parseInt(result.VALOR_TAXA);
-      const t = Number(tx).toFixed(2);
+      const pgto_normal = parseFloat(pagamento_normal.tipo_pgto_normal);
+      const pgto_antecipado = parseFloat(pagamento_antecipado.tipo_pgto_antecipado);
 
-      geraTabelaDetalhamentoCalendario("#table_operadora_selecionado tbody", val_bruto, val_liquido, taxa_adm);
+      geraTabelaDetalhamentoCalendario("#table_operadora_selecionado tbody", val_bruto, val_liquido, result.val_taxa, pgto_normal, pagamento_antecipado);
 
       document.getElementById("operadora" + result.CODIGO).classList.remove('active');
       document.getElementById("voltar_operadora").classList.remove('active');
@@ -995,9 +615,7 @@ font-size: 14px;
       document.getElementById("preloader").style.display = "block";
 
       const data_v = new Date(data);
-      const data_venda = data_v.toLocaleDateString('pt-BR', {
-        timeZone: 'UTC'
-      });
+      const data_venda = formataData(data_v)
 
       if (color) {
         if (color == '#257e4a') {
@@ -1015,8 +633,15 @@ font-size: 14px;
             type: "GET",
             dataType: 'json',
             success: function(response) {
+              console.log(response);
               bancos_dados = response[0];
               operadoras_dados = response[1];
+
+              pagamentos_normais = response[2];
+              pagamentos_antecipados = response[3];
+
+              pagamentos_normais_bancos = response[4];
+              pagamentos_antecipados_bancos = response[5];
               // $('#ul_bancos').empty();
               response[0].forEach((bancos) => {
                 var html = "<li class='list-group-item align-items-center d-flex justify-content-between'>"
@@ -1091,6 +716,12 @@ font-size: 14px;
             success: function(response) {
               bancos_dados = response[0];
               operadoras_dados = response[1];
+
+              pagamentos_normais = response[2];
+              pagamentos_antecipados = response[3];
+
+              pagamentos_normais_bancos = response[4];
+              pagamentos_antecipados_bancos = response[5];
               // $('#ul_bancos').empty();
 
 
@@ -1150,14 +781,15 @@ font-size: 14px;
     function showTableBancoSelecionadoInicial(codigo) {
       $("#table_banco_selecionado tbody").empty();
 
-      const bancos = <?php echo $dados_bancos ?>;
-      const result = bancos.find(banco => banco.CODIGO == codigo);
+      const pagamento_normal = buscaPagamentoNormal(pagamentos_normais_bancos, codigo);
+      const pagamento_antecipado = buscaPagamentoAntecipado(pagamentos_antecipados_bancos, codigo);
+
       const val_bruto = parseFloat(result.val_bruto);
       const val_liquido = parseFloat(result.val_liquido);
-      const taxa_adm = parseFloat(result.VALOR_TAXA);
-      const tx = parseFloat(result.val_tx);
+      const pgto_normal = parseFloat(pagamento_normal.tipo_pgto_normal);
+      const pgto_antecipado = parseFloat(pagamento_antecipado.tipo_pgto_antecipado);
 
-      geraTabelaDetalhamentoCalendario("#table_banco_selecionado tbody", val_bruto, val_liquido, taxa_adm);
+      geraTabelaDetalhamentoCalendario("#table_banco_selecionado tbody", val_bruto, val_liquido, result.val_taxa, 10, 10);
 
       document.getElementById(result.CODIGO).classList.remove('active');
       document.getElementById("voltar").classList.remove('active');
@@ -1166,17 +798,29 @@ font-size: 14px;
     function showTableOperadoraSelecionadaInicial(codigo) {
       $("#table_operadora_selecionado tbody").empty();
 
-      const operadoras = <?php echo $dados_operadora ?>;
-      const result = operadoras.find(operadora => operadora.CODIGO == codigo);
+      const pagamento_normal = buscaPagamentoNormal(pagamentos_normais, codigo);
+      const pagamento_antecipado = buscaPagamentoAntecipado(pagamentos_antecipados, codigo);
+
       const val_bruto = parseFloat(result.val_bruto);
       const val_liquido = parseFloat(result.val_liquido);
-      const taxa_adm = parseFloat(result.VALOR_TAXA);
-      const tx = parseInt(result.val_tx);
+      const pgto_normal = parseFloat(pagamento_normal.tipo_pgto_normal);
+      const pgto_antecipado = parseFloat(pagamento_antecipado.tipo_pgto_antecipado);
 
-      geraTabelaDetalhamentoCalendario("#table_operadora_selecionado tbody", val_bruto, val_liquido, taxa_adm);
+      geraTabelaDetalhamentoCalendario("#table_operadora_selecionado tbody", val_bruto, val_liquido, result.val_taxa, pgto_normal, pgto_antecipado);
 
       document.getElementById("operadora" + result.CODIGO).classList.remove('active');
       document.getElementById("voltar_operadora").classList.remove('active');
+    }
+
+    function buscaPagamentoNormal(pagamentos, codigo) {
+      pagamento_normal = pagamentos.find(pagamento => pagamento.CODIGO == codigo);
+      return pagamento_normal ? pagamento_normal : 0;
+    }
+
+    function buscaPagamentoAntecipado(pagamentos, codigo) {
+      pagamento_antecipado = pagamentos.find(pagamento => pagamento.CODIGO == codigo);
+
+      return pagamento_antecipado ? pagamento_antecipado : 0;
     }
 
     </script>

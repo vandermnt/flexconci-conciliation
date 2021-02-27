@@ -60,16 +60,22 @@ function geraTabelaDetalhamentoCalendario(
   idTabela,
   val_bruto,
   val_liquido,
-  taxa_adm
+  taxa_adm,
+  pgto_normal,
+  pgto_antecipado
 ) {
   let html = "<tr>";
   html += "<td>" + "<b> Bruto: </b>" + formataMoeda(val_bruto) + "</td>";
   html += "</tr>";
   html += "<tr>";
-  html += "<td>" + "<b>Pag. Normal: </b>" + "</td>";
+  html += "<td>" + "<b>Pag. Normal: </b>" + formataMoeda(pgto_normal) + "</td>";
   html += "</tr>";
   html += "<tr>";
-  html += "<td>" + "<b> Pag. Antecipado: </b>" + "</td>";
+  html +=
+    "<td>" +
+    "<b> Pag. Antecipado: </b>" +
+    formataMoeda(pgto_antecipado) +
+    "</td>";
   html += "</tr>";
   html += "<tr>";
   html += "<td>" + "<b> Pag. Avulso: </b>" + "R$ 0,00" + "</td>";
