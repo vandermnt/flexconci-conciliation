@@ -32,6 +32,7 @@
             ['conciliar-manualmente' => route('conciliacao-vendas.conciliarManualmente')],
             ['desconciliar-manualmente' => route('conciliacao-vendas.desconciliarManualmente')],
             ['justificar-erp' => route('vendas-erp.justify')],
+            ['retorno-erp' => route('vendas-erp.retorno-erp')],
             ['desjustificar-erp' => route('vendas-erp.unjustify')],
             ['justificar-operadoras' => route('vendas-operadoras.justify')],
           ]"
@@ -147,6 +148,13 @@
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas ERP">
           </div>
           <div class="acoes d-flex align-items-center justify-content-between">
+            <button
+                class="btn mr-1 button no-hover"
+                id="js-abrir-modal-retorno-erp"
+            >
+                <i class="fas fa-undo"></i>
+                Retorno Venda {{ $erp->ERP ?? 'ERP' }}
+            </button>
             <button id="js-conciliar" class="btn mr-1 button no-hover">
               <i class="far fa-handshake"></i>
               Conciliar
@@ -286,6 +294,40 @@
   </main>
 
   <div class="modais">
+    <x-modal
+        id="js-retorno-erp-modal"
+        modal-label-id="modal-retorno-label"
+        :modal-label="'Retorno Venda '.($erp->ERP ?? 'ERP')"
+    >
+        <x-slot name="content">
+            <div class="form-group">
+                <label for="js-data-inicial">Data Inicial:</label>
+                <input id="js-data-inicial" type="date" class="form-control" value="{{ date('Y-m-d') }}" required>
+            </div>
+            <div class="form-group">
+                <label for="js-data-final">Data Final:</label>
+                <input id="js-data-final" type="date" class="form-control" value="{{ date('Y-m-d') }}" required>
+            </div>
+        </x-slot>
+
+        <x-slot name="footer">
+            <button
+                id="js-cancelar-retorno-erp"
+                type="button"
+                class="btn btn-danger font-weight-bold"
+            >
+                Cancelar
+            </button>
+
+            <button
+                id="js-retorno-erp"
+                type="button"
+                class="btn btn-success font-weight-bold"
+            >
+                Confirmar
+            </button>
+        </x-slot>
+    </x-modal>
     <x-modal
       id="js-justificar-modal"
       modal-label="Justificar"

@@ -16,7 +16,7 @@ class RetornoErpController extends Controller
             $request->input('data-final')
         ];
         $cod_vendas = [];
-        
+
         try {
             $status_conciliada = StatusConciliacaoModel::conciliada()->first()->CODIGO;
             $status_divergente = StatusConciliacaoModel::divergente()->first()->CODIGO;
@@ -36,7 +36,7 @@ class RetornoErpController extends Controller
                 ->whereNotNull('vendas_erp.COD_VENDAS_OPERADORAS')
                 ->where(function ($query) {
                     $query->whereNull('vendas_erp.RETORNO_ERP')
-                        ->orWhere('vendas_erp.RETORNO_ERP', 'N'); 
+                        ->orWhere('vendas_erp.RETORNO_ERP', 'N');
                 })
                 ->whereBetween('vendas_erp.DATA_VENDA', $datas);
 
@@ -48,14 +48,14 @@ class RetornoErpController extends Controller
                     $venda_erp->VALOR_TAXA,
                     $venda_erp->VALOR_BRUTO
                 ];
-    
+
                 $retorno_erp_bool = collect(
                     DB::connection('pgsql_conciflex_seta')
                         ->select($raw_query, $params)
                 )
                     ->first()
                     ->retorno;
-    
+
                 if($retorno_erp_bool) {
                     array_push($cod_vendas, $venda_erp->COD_VENDA_ERP);
                 }
