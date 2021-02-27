@@ -351,7 +351,9 @@ public function enviaEmail(){
   $categoria_chamado = Request::input('categoria');
   $mensagem = Request::input('mensagem');
 
-  $data = ['mensagem' => $mensagem];
+  $cod_erp = ClienteModel::find(session('codigologin'));
+
+  $data = ['mensagem' => $mensagem, 'cod_erp' => $cod_erp->COD_ERP];
 
   Mail::send('emails.chamado', $data, function ($message) {
     $assunto = "Chamado " . session('nome_fantasia') . " | " . Request::input('categoria');

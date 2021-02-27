@@ -434,7 +434,7 @@ document.getElementById("enviar_email").addEventListener('click', function(){
         $('#chamado').modal('hide');
         document.querySelector('.alert-success').style.display = 'none';
         document.querySelector('textarea[name="mensagem"]').value = "";
-      }, 3000);
+      }, 2500);
     },
     error: function(response){
       alert("Algo deu errado!");
