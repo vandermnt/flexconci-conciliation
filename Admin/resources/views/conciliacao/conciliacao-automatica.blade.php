@@ -28,7 +28,7 @@
       data-url-justificar-operadora="{{ route('vendas-operadoras.justify') }}"
       data-url-exportar-erp="{{ route('conciliacao-automatica.exportar.erp') }}"
       data-url-exportar-operadoras="{{ route('conciliacao-automatica.exportar.operadoras') }}"
-      data-url-retorno-erp="{{ route('conciliacao-automatica.retornoErp') }}"
+      data-url-retorno-erp="{{ route('vendas-erp.retorno-erp') }}"
       class="card" method="POST"
     >
       <div class="card-body">
@@ -250,34 +250,50 @@
 
     <section class="resultados hidden" id="js-resultados">
       <div class="boxes">
-        <div class="card tooltip-hint" data-title="Total de vendas enviadas pelo seu sistema de gestão." data-status="*">
+        <div
+          class="card tooltip-hint"
+          data-title="Total de vendas enviadas pelo seu sistema de gestão."
+          data-status="*"
+        >
           <div class="card-body">
-            <h6 class="text-dark text-left font-weight-semibold font-12">VENDAS ERP</h6>
+            <h6 class="text-dark text-left font-weight-semibold font-12">VENDAS {{ $erp->ERP ?? 'SISTEMA' }}</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="EPR_TOTAL_BRUTO">0</p>
               <img src="assets/images/widgets/notebook.svg" alt="Vendas ERP">
             </div>
           </div>
         </div>
-        <div class="card" data-status="conciliada">
+        <div
+          class="card tooltip-hint"
+            data-title="Vendas do seu sistema que foram conciliadas com as vendas das operadoras."
+            data-status="conciliada"
+        >
           <div class="card-body">
-            <h6 class="text-dark text-left font-weight-semibold font-12">CONCILIADO</h6>
+            <h6 class="text-dark text-left font-weight-semibold font-12">CONCILIADAS</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="TOTAL_CONCILIADA">0</p>
               <img src="assets/images/widgets/check.svg" alt="Conciliado">
             </div>
           </div>
         </div>
-        <div class="card" data-status="divergente">
+        <div
+          class="card tooltip-hint"
+          data-title="Vendas do seu sistema que foram conciliadas com divergência. Vá até a coluna Divergência e veja o motivo!" 
+          data-status="divergente"
+        >
           <div class="card-body">
-            <h6 class="text-dark text-left font-weight-semibold font-12">DIVERGENTE</h6>
+            <h6 class="text-dark text-left font-weight-semibold font-12">DIVERGENTES</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="TOTAL_DIVERGENTE">0</p>
               <img src="assets/images/widgets/x.svg" alt="Divergente">
             </div>
           </div>
         </div>
-        <div class="card" data-status="conciliada manualmente">
+        <div
+          class="card tooltip-hint"
+          data-title="Vendas do seu sistema que foram conciliadas manualmente com as vendas das operadoras."
+          data-status="conciliada manualmente"
+        >
           <div class="card-body">
             <h6 class="text-dark text-left font-weight-semibold font-12">CONC. MANUAL</h6>
             <div class="d-flex align-items-center justify-content-between">
@@ -286,27 +302,40 @@
             </div>
           </div>
         </div>
-        <div class="card" data-status="justificada">
+        <div 
+          class="card tooltip-hint"
+          data-title="Vendas do seu sistema que foram justificadas por algum motivo. Vá até a coluna Justificativa e veja o motivo!"
+          data-status="justificada"
+        >
           <div class="card-body">
-            <h6 class="text-dark text-left font-weight-semibold font-12">JUSTIFICADO</h6>
+            <h6 class="text-dark text-left font-weight-semibold font-12">JUSTIFICADAS</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="TOTAL_JUSTIFICADA">0</p>
               <img src="assets/images/widgets/flag.svg" alt="Justificado">
             </div>
           </div>
         </div>
-        <div class="card" data-status="não conciliada" id="js-box-nao-conciliada">
+        <div 
+          id="js-box-nao-conciliada"
+          class="card tooltip-hint"
+          data-title="Vendas do seu sistema que não foram conciliadas com as vendas das operadoras."
+          data-status="não conciliada"
+        >
           <div class="card-body">
-            <h6 class="text-dark text-left font-weight-semibold font-12">PENDÊNCIAS ERP</h6>
+            <h6 class="text-dark text-left font-weight-semibold font-12">PENDÊNCIAS {{ $erp->ERP ?? 'ERP' }}</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="TOTAL_NAO_CONCILIADA">0</p>
               <img src="assets/images/widgets/exclamation-mark.svg" alt="Pendências ERP">
             </div>
           </div>
         </div>
-        <div class="card" data-navigate=".pendencias-operadoras">
+        <div 
+          class="card tooltip-hint"
+          data-title="Vendas das operadoras que não foram conciliadas com as vendas do seu sistema."
+          data-navigate=".pendencias-operadoras"
+        >
           <div class="card-body">
-            <h6 class="text-dark text-left font-weight-semibold font-12">PENDÊNCIAS OPER.</h6>
+            <h6 class="text-dark text-left font-weight-semibold font-12">PENDÊNCIAS OPERADORAS</h6>
             <div class="d-flex align-items-center justify-content-between">
               <p data-total="OPERADORAS_TOTAL_BRUTO">0</p>
               <img src="assets/images/widgets/exclamation-mark.svg" alt="Pendências Operadoras">
@@ -316,16 +345,21 @@
       </div>
       <div class="vendas-erp">
         <div class="tabela-info d-flex align-items-center justify-content-between">
-          <h4>Vendas {{ $erp->ERP ?? 'ERP' }} <span id="js-vendas-erp-info"></span></h4>
+          <div class="table-description d-flex align-items-center justify-content-end">
+            <h4>Vendas {{ $erp->ERP ?? 'ERP' }} <span id="js-vendas-erp-info"></span></h4>
+            <img src="assets/images/widgets/arrow-down.svg" alt="Vendas ERP">
+          </div>
           <div class="acoes d-flex align-items-center justify-content-end">
-            <button
-              class="btn mr-1"
-              data-toggle="modal"
-              data-target="#modal-retorno-erp"
-            >
-              <i class="fas fa-undo"></i>
-              Retorno Venda {{ $erp->ERP ?? 'ERP' }}
-            </button>
+            @if(Auth::user()->USUARIO_GLOBAL === 'S')
+              <button
+                class="btn mr-1"
+                data-toggle="modal"
+                data-target="#modal-retorno-erp"
+              >
+                <i class="fas fa-undo"></i>
+                Retorno Venda {{ $erp->ERP ?? 'ERP' }}
+              </button>
+            @endif
             <button id="js-conciliar" class="btn mr-1">
               <i class="far fa-handshake"></i>
               Conciliar
@@ -755,7 +789,10 @@
 
       <div class="pendencias-operadoras">
         <div class="tabela-info d-flex align-items-center justify-content-between">
-          <h4>Pendências Operadoras <span id="js-pendencias-operadoras-info"></span></h4>
+          <div class="table-description d-flex align-items-center justify-content-end">
+            <h4>Vendas Operadoras Não Conciliadas <span id="js-pendencias-operadoras-info"></span></h4>
+            <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras">
+          </div>
           <div class="acoes d-flex align-items-center justify-content-end">
             <button
               id="js-justificar-operadora"

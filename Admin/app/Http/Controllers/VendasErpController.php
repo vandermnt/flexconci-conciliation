@@ -152,7 +152,7 @@ class VendasErpController extends Controller {
   public function justify(Request $request) {
     $ids = $request->input('id') ?? [];
     $idJustificativa = $request->input('justificativa') ?? null;
-    
+
     $justificativa = JustificativaModel::where('CODIGO', $idJustificativa)
       ->where('COD_CLIENTE', session('codigologin'))
       ->first();
@@ -168,9 +168,13 @@ class VendasErpController extends Controller {
     $statusJustificado = StatusConciliacaoModel::justificada()->first();
     $now = new DateTime("now", new DateTimeZone('America/Sao_Paulo'));
 
-    $updated = VendasErpModel::whereIn('CODIGO', $ids)
+    $validIds = VendasErpModel::whereIn('CODIGO', $ids)
       ->where('COD_CLIENTE', session('codigologin'))
       ->where('COD_STATUS_CONCILIACAO', $statusNaoConciliado)
+      ->pluck('CODIGO')
+      ->toArray();
+
+    VendasErpModel::whereIn('CODIGO', $validIds)
       ->update([
         'JUSTIFICATIVA' => $justificativa->JUSTIFICATIVA,
         'COD_STATUS_CONCILIACAO' => $statusJustificado->CODIGO,
@@ -179,17 +183,21 @@ class VendasErpController extends Controller {
       ]);
     
     $sales = VendasErpFilter::filter([
-      'id_erp' => $ids,
+      'id_erp' => $validIds,
       'cliente_id' => session('codigologin'),
       'status_conciliacao' => [$statusJustificado->CODIGO],
     ])->getQuery()->get();
-    $total = $sales->sum('VALOR_VENDA');
+    $totals = [
+      'TOTAL_BRUTO' => $sales->sum('VALOR_VENDA'),
+      'TOTAL_LIQUIDO' => $sales->sum('VALOR_LIQUIDO_PARCELA'),
+    ];
+    $totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
 
     return response()->json([
       'status' => 'sucesso',
       'mensagem' => 'As vendas foram justificadas com sucesso.',
       'vendas' => $sales,
-      'TOTAL_BRUTO' => $total,
+      'totais' => $totals,
     ], 200);
   }
 
@@ -199,9 +207,13 @@ class VendasErpController extends Controller {
     $statusJustificado = StatusConciliacaoModel::justificada()->first()->CODIGO;
     $statusNaoConciliado = StatusConciliacaoModel::naoConciliada()->first();
 
-    VendasErpModel::whereIn('CODIGO', $ids)
+    $validIds = VendasErpModel::whereIn('CODIGO', $ids)
       ->where('COD_CLIENTE', session('codigologin'))
       ->where('COD_STATUS_CONCILIACAO', $statusJustificado)
+      ->pluck('CODIGO')
+      ->toArray();
+    
+    VendasErpModel::whereIn('CODIGO', $validIds)
       ->update([
         'JUSTIFICATIVA' => null,
         'COD_STATUS_CONCILIACAO' => $statusNaoConciliado->CODIGO,
@@ -210,17 +222,21 @@ class VendasErpController extends Controller {
       ]);
     
     $sales = VendasErpFilter::filter([
-      'id_erp' => $ids,
+      'id_erp' => $validIds,
       'cliente_id' => session('codigologin'),
       'status_conciliacao' => [$statusNaoConciliado->CODIGO],
     ])->getQuery()->get();
-    $total = $sales->sum('VALOR_VENDA');
+    $totals = [
+      'TOTAL_BRUTO' => $sales->sum('VALOR_VENDA'),
+      'TOTAL_LIQUIDO' => $sales->sum('VALOR_LIQUIDO_PARCELA'),
+    ];
+    $totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
 
     return response()->json([
       'status' => 'sucesso',
       'mensagem' => 'As vendas foram desjustificadas com sucesso.',
       'vendas' => $sales,
-      'TOTAL_BRUTO' => $total,
+      'totais' => $totals
     ], 200);
   }
 

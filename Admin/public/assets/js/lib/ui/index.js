@@ -199,6 +199,57 @@ function openUrl(baseUrl, params) {
   a.click();
 }
 
+function recreateNode(element = '') {
+  const elementDOM = typeof element === 'string' ? document.querySelector(element) : element;
+  if(!elementDOM) return;
+  
+  const elementCloneDOM = elementDOM.cloneNode(true);
+  elementDOM.parentNode.replaceChild(elementCloneDOM, elementDOM);
+  return document.querySelector(element);
+}
+
+function updateData(array = [], newData = [], idKey = 'ID') {
+  const newItens = Array.isArray(newData) ? newData : [newData];
+  const data = [];
+
+  newItens.forEach(item => {
+    const index = array.findIndex(sale => String(sale[idKey]) === String(item[idKey]));
+
+    if(index !== -1) {
+      array.splice(index, 1, {
+        ...array[index],
+        ...item
+      });
+
+      data.push({ ...array[index], ...item });
+    }
+  });
+
+  return {
+    data: array,
+    updated: data,
+  };
+}
+
+function removeFromData(array = [], ids = [], idKey = '') {
+  const idArray = Array.isArray(ids) ? ids : [ids];
+  const removed = [];
+
+  idArray.forEach(id => {
+    const index = array.findIndex(sale => String(sale[idKey]) === String(id));
+
+    if(index !== -1) {
+      removed.push({ ...array[index] });
+      array.splice(index, 1);
+    }
+  });
+
+  return {
+    data: array,
+    removed
+  }
+}
+
 Array.from(
   document.querySelectorAll('.modal button[data-action="confirm"]')
 ).forEach(buttonDOM => {

@@ -188,7 +188,7 @@
          </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Divergência</p>
+            <p>Divergência Venda</p>
             <input type="text" class="form-control" name="DIVERGENCIA">
           </div>
          </th>

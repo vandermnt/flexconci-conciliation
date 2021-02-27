@@ -18,12 +18,12 @@ class BaseComponent extends Component
     }
 
     public function renderDataset() {
-        $dataAttributes = array_reduce(array_keys($this->dataset), function($datasetString, $key) {
-            return $datasetString."data-".$key."=\"".$this->dataset[$key]."\"\n";
-        });
+        $dataAttributes = array_reduce(array_keys($this->dataset), function($datasetValues, $key) {
+            array_push($datasetValues, "data-${key}=\"{$this->dataset[$key]}\"");
+            return $datasetValues;
+        }, []);
 
-
-        return $dataAttributes ?? '';
+        return implode($dataAttributes, "\n") ?? '';
     }
 
     /**

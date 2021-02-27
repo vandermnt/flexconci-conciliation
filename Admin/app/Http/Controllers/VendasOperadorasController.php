@@ -158,8 +158,8 @@ class VendasOperadorasController extends Controller
         $idJustificativa = $request->input('justificativa') ?? null;
         
         $justificativa = JustificativaModel::where('CODIGO', $idJustificativa)
-          ->where('COD_CLIENTE', session('codigologin'))
-          ->first();
+            ->where('COD_CLIENTE', session('codigologin'))
+            ->first();
     
         if(is_null($justificativa)) {
           return response()->json([
@@ -170,29 +170,30 @@ class VendasOperadorasController extends Controller
     
         $statusNaoConciliado = StatusConciliacaoModel::naoConciliada()->first()->CODIGO;
         $statusJustificado = StatusConciliacaoModel::justificada()->first();
+
+        $validIds = VendasModel::whereIn('CODIGO', $ids)
+            ->where('COD_CLIENTE', session('codigologin'))
+            ->where('COD_STATUS_CONCILIACAO', $statusNaoConciliado)
+            ->pluck('CODIGO')
+            ->toArray();
     
-        $query = VendasModel::whereIn('CODIGO', $ids)
-          ->where('COD_CLIENTE', session('codigologin'))
-          ->where('COD_STATUS_CONCILIACAO', $statusNaoConciliado);
+        VendasModel::whereIn('CODIGO', $validIds)
+            ->update([
+                'JUSTIFICATIVA' => $justificativa->JUSTIFICATIVA,
+                'COD_STATUS_CONCILIACAO' => $statusJustificado->CODIGO,
+            ]);
+
+        $sales = VendasFilter::filter([
+            'id' => $validIds,
+            'cliente_id' => session('codigologin')
+        ])->getQuery()->get();
           
         $totals = [
-            'TOTAL_BRUTO' => (clone $query)->sum('VALOR_BRUTO'),
-            'TOTAL_LIQUIDO' => (clone $query)->sum('VALOR_LIQUIDO'),
+            'TOTAL_BRUTO' => $sales->sum('VALOR_BRUTO'),
+            'TOTAL_LIQUIDO' => $sales->sum('VALOR_LIQUIDO'),
         ];
         $totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
-        
-        (clone $query)->sum('VALOR_BRUTO');
-        (clone $query)->update([
-            'JUSTIFICATIVA' => $justificativa->JUSTIFICATIVA,
-            'COD_STATUS_CONCILIACAO' => $statusJustificado->CODIGO,
-        ]);
-        
-        $sales = VendasFilter::filter([
-          'id_erp' => $ids,
-          'cliente_id' => session('codigologin'),
-          'status_conciliacao' => [$statusJustificado->CODIGO],
-        ])->getQuery()->get();
-    
+
         return response()->json([
           'status' => 'sucesso',
           'mensagem' => 'As vendas foram justificadas com sucesso.',
@@ -206,26 +207,29 @@ class VendasOperadorasController extends Controller
     
         $statusJustificado = StatusConciliacaoModel::justificada()->first()->CODIGO;
         $statusNaoConciliado = StatusConciliacaoModel::naoConciliada()->first();
-    
-        $query = VendasModel::whereIn('CODIGO', $ids)
+
+        $validIds = VendasModel::whereIn('CODIGO', $ids)
             ->where('COD_CLIENTE', session('codigologin'))
-            ->where('COD_STATUS_CONCILIACAO', $statusJustificado);
+            ->where('COD_STATUS_CONCILIACAO', $statusJustificado)
+            ->pluck('CODIGO')
+            ->toArray();
+
+        VendasModel::whereIn('CODIGO', $validIds)
+            ->update([
+                'JUSTIFICATIVA' => null,
+                'COD_STATUS_CONCILIACAO' => $statusNaoConciliado->CODIGO,
+            ]);
+
+        $sales = VendasFilter::filter([
+            'id' => $validIds,
+            'cliente_id' => session('codigologin'),
+        ])->getQuery()->get();
                
         $totals = [
-            'TOTAL_BRUTO' => (clone $query)->sum('VALOR_BRUTO'),
-            'TOTAL_LIQUIDO' => (clone $query)->sum('VALOR_LIQUIDO'),
+            'TOTAL_BRUTO' => $sales->sum('VALOR_BRUTO'),
+            'TOTAL_LIQUIDO' => $sales->sum('VALOR_LIQUIDO'),
         ];
         $totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
-        (clone $query)->update([
-            'JUSTIFICATIVA' => null,
-            'COD_STATUS_CONCILIACAO' => $statusNaoConciliado->CODIGO,
-        ]);
-        
-        $sales = VendasFilter::filter([
-          'id' => $ids,
-          'cliente_id' => session('codigologin'),
-          'status_conciliacao' => [$statusNaoConciliado->CODIGO],
-        ])->getQuery()->get();
     
         return response()->json([
           'status' => 'sucesso',

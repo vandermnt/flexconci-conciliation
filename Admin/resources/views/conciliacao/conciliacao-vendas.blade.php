@@ -25,12 +25,15 @@
           :urls="[
             ['buscar-erp' => route('conciliacao-vendas.buscarErp')],
             ['filtrar-erp' => route('conciliacao-vendas.filtrarErp')],
+            ['exportar-erp' => route('conciliacao-automatica.exportar.erp')],
             ['buscar-operadoras' => route('conciliacao-vendas.buscarOperadoras')],
             ['filtrar-operadoras' => route('conciliacao-vendas.filtrarOperadoras')],
+            ['exportar-operadoras' => route('conciliacao-automatica.exportar.operadoras')],
             ['conciliar-manualmente' => route('conciliacao-vendas.conciliarManualmente')],
             ['desconciliar-manualmente' => route('conciliacao-vendas.desconciliarManualmente')],
             ['justificar-erp' => route('vendas-erp.justify')],
             ['desjustificar-erp' => route('vendas-erp.unjustify')],
+            ['justificar-operadoras' => route('vendas-operadoras.justify')],
           ]"
           :hidden-fields="[
             'adquirentes',
@@ -52,60 +55,88 @@
     <div class="resultados hidden">
       <div class="boxes">
         <x-box
+          class="tooltip-hint"
           :title="'VENDAS '.($erp->ERP ? mb_strtoupper($erp->ERP, 'utf-8') : 'SISTEMA')"
           content="R$ 18.434,51"
           data-format="currency"
           data-key="TOTAL_BRUTO"
           icon-path="assets/images/widgets/notebook.svg"
           icon-description="Vendas ERP"
+          :dataset="[
+            'hint' => 'Total de vendas enviadas pelo seu sistema de gestão.'
+          ]"
         />
         <x-box
-          title="CONCILIADO"
+          class="tooltip-hint"
+          title="CONCILIADAS"
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_CONCILIADO"
           icon-path="assets/images/widgets/check.svg"
           icon-description="Conciliado"
+          :dataset="[
+            'hint' => 'Vendas do seu sistema que foram conciliadas com as vendas das operadoras.'
+          ]"
         />
         <x-box
-          title="DIVERGENTE"
+          class="tooltip-hint"
+          title="DIVERGENTES"
           content="R$ 16.518,46"
           data-format="currency"
           data-key="TOTAL_DIVERGENTE"
           icon-path="assets/images/widgets/x.svg"
           icon-description="Divergente"
+          :dataset="[
+            'hint' => 'Vendas do seu sistema que foram conciliadas com divergência. Vá até a coluna Divergência e veja o motivo!'
+          ]"
         />
         <x-box
+          class="tooltip-hint"
           title="CONC. MANUAL"
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_CONCILIADO_MANUAL"
           icon-path="assets/images/widgets/handshake.svg"
           icon-description="Conciliacao Manual"
+          :dataset="[
+            'hint' => 'Vendas do seu sistema que foram conciliadas manualmente com as vendas das operadoras.'
+          ]"
         />
         <x-box
-          title="JUSTIFICADO"
+          class="tooltip-hint"
+          title="JUSTIFICADAS"
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_JUSTIFICADO"
           icon-path="assets/images/widgets/flag.svg"
           icon-description="Justificado"
+          :dataset="[
+            'hint' => 'Vendas do seu sistema que foram justificadas por algum motivo. Vá até a coluna Justificativa e veja o motivo!'
+          ]"
         />
         <x-box
-          title="PENDÊNCIAS ERP"
+          class="tooltip-hint"
+          :title="'PENDÊNCIAS '.($erp->ERP ? mb_strtoupper($erp->ERP, 'utf-8') : 'ERP')"
           content="R$ 1.916,05"
           data-format="currency"
           data-key="TOTAL_NAO_CONCILIADO"
           icon-path="assets/images/widgets/exclamation-mark.svg"
           icon-description="Pendências"
+          :dataset="[
+            'hint' => 'Vendas do seu sistema que não foram conciliadas com as vendas das operadoras.'
+          ]"
         />
         <x-box
-          title="PENDÊNCIAS OPER."
+          class="tooltip-hint"
+          title="PENDÊNCIAS OPERADORAS"
           content="R$ 39.716,97"
           data-format="currency"
           data-key="TOTAL_PENDENCIAS_OPERADORAS"
           icon-path="assets/images/widgets/exclamation-mark.svg"
           icon-description="Pendências"
+          :dataset="[
+            'hint' => 'Vendas das operadoras que não foram conciliadas com as vendas do seu sistema.'
+          ]"
         />
       </div>
 
@@ -127,6 +158,7 @@
             <button
               id="js-justificar-erp"
               class="btn mr-1 button no-hover"
+              data-type="erp"
             >
               <i class="far fa-flag"></i>
               Justificar
@@ -135,7 +167,11 @@
               <i class="fas fa-comment-slash"></i>
               Desjustificar
             </button>
-            <button id="js-exportar-erp" class="btn button no-hover">
+            <button
+              id="js-exportar-erp"
+              class="btn button no-hover"
+              data-type="erp"
+            >
               <i class="fas fa-file-download"></i>
               Exportar
             </button>
@@ -154,24 +190,25 @@
             'actions' => 'Ações | Status'
           ]"
           :hidden-columns="[
-            'TID',
             'CARTAO',
             'HORA',
             'ESTABELECIMENTO'
           ]"
         >
           <x-slot name="actions">
-            <td class="actions-cell d-flex align-items-center justify-content-between">
-              <input
-                name="id_erp[]"
-                type="checkbox"
-                data-value-key="ID_ERP"
-              >
-              <div class="tooltip-hint d-flex align-items-center" data-default-title="Visualizar Detalhes">
-                <i class="fas fa-eye"></i>
-              </div>
-              <div class="tooltip-hint" data-title="STATUS_CONCILIACAO">
-                <img data-image="STATUS_CONCILIACAO_IMAGEM">
+            <td>
+              <div class="actions-cell d-flex align-items-center justify-content-between">
+                <input
+                  name="id_erp[]"
+                  type="checkbox"
+                  data-value-key="ID_ERP"
+                >
+                <div class="tooltip-hint d-flex align-items-center" data-default-title="Visualizar Detalhes">
+                  <i class="fas fa-eye"></i>
+                </div>
+                <div class="tooltip-hint" data-title="STATUS_CONCILIACAO">
+                  <img data-image="STATUS_CONCILIACAO_IMAGEM">
+                </div>
               </div>
             </td>
           </x-slot>
@@ -187,18 +224,23 @@
       <div class="vendas">
         <div class="tabela-info d-flex align-items-center justify-content-between">
           <div class="table-description d-flex align-items-center justify-content-end">
-            <h4>Vendas Operadoras <span id="js-quantidade-registros-operadoras">(0 registros)</span></h4>
+            <h4>Vendas Operadoras Não Conciliadas <span id="js-quantidade-registros-operadoras">(0 registros)</span></h4>
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras">
           </div>
           <div class="d-flex align-items-center justify-content-end">
             <button
               id="js-justificar-operadora"
               class="btn mr-1 button no-hover"
+              data-type="operadoras"
             >
               <i class="far fa-flag"></i>
               Justificar
             </button>
-            <button id="js-exportar-operadoras" class="btn button no-hover">
+            <button
+              id="js-exportar-operadoras"
+              class="btn button no-hover"
+              data-type="operadoras"
+            >
               <i class="fas fa-file-download"></i>
               Exportar
             </button>
@@ -216,17 +258,19 @@
           ]"
         >
           <x-slot name="actions">
-            <td class="actions-cell d-flex align-items-center justify-content-between">
-              <input
-                name="id_operadoras[]"
-                type="checkbox"
-                data-value-key="ID"
-              >
-              <div class="tooltip-hint d-flex align-items-center" data-default-title="Visualizar Detalhes">
-                <i class="fas fa-eye"></i>
-              </div>
-              <div class="tooltip-hint" data-title="STATUS_CONCILIACAO">
-                <img data-image="STATUS_CONCILIACAO_IMAGEM">
+            <td>
+              <div class="actions-cell d-flex align-items-center justify-content-between">
+                <input
+                  name="id_operadoras[]"
+                  type="checkbox"
+                  data-value-key="ID"
+                >
+                <div class="tooltip-hint d-flex align-items-center" data-default-title="Visualizar Detalhes">
+                  <i class="fas fa-eye"></i>
+                </div>
+                <div class="tooltip-hint" data-title="STATUS_CONCILIACAO">
+                  <img data-image="STATUS_CONCILIACAO_IMAGEM">
+                </div>
               </div>
             </td>
           </x-slot>

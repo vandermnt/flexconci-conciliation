@@ -52,9 +52,7 @@ class VendasConciliacaoExport implements FromQuery, WithStrictNullComparison, Sh
             'Produto',
             'Meio de Captura',
             'Status Conciliação',
-            'Divergência',
             'Status Financeiro',
-            'Justificativa',
         ];
     }
 
@@ -75,7 +73,7 @@ class VendasConciliacaoExport implements FromQuery, WithStrictNullComparison, Sh
             $venda->CARTAO." ",
             $venda->VALOR_BRUTO ?? 0,
             $venda->PERCENTUAL_TAXA ?? 0,
-            $venda->VALOR_TAXA ?? 0,
+            ($venda->VALOR_TAXA ?? 0) * -1,
             $venda->VALOR_LIQUIDO ?? 0,
             $venda->PARCELA,
             $venda->TOTAL_PARCELAS,
@@ -88,9 +86,7 @@ class VendasConciliacaoExport implements FromQuery, WithStrictNullComparison, Sh
             $venda->PRODUTO,
             $venda->MEIOCAPTURA,
             $venda->STATUS_CONCILIACAO,
-            $venda->DIVERGENCIA,
             $venda->STATUS_FINANCEIRO,
-            $venda->JUSTIFICATIVA
         ];
     }
 

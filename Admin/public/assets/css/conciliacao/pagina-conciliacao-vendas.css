@@ -18,6 +18,13 @@
   font-size: 0.8rem;
 }
 
+#pagina-conciliacao-vendas .box.tooltip-hint::before {
+  content: attr(data-hint);
+  width: 100%;
+  max-width: 100%;
+  transform: translateX(-50%);
+}
+
 #pagina-conciliacao-vendas .resultados button i {
   font-size: 16px;
   margin-right: 4px;
