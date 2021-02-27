@@ -112,7 +112,7 @@ TableRender.prototype.render = function() {
     const tbody = table.querySelector('tbody');
     const tfooter = table.querySelector('tfoot');
     const templateRow = table.querySelector('tbody .table-row-template').cloneNode(true);
-    
+
     templateRow.classList.remove('hidden');
     templateRow.classList.add('hidden');
 
@@ -135,7 +135,7 @@ TableRender.prototype.render = function() {
               const shouldUpdate = this.get('shouldSelectRow')(e.target);
 
               if(!shouldUpdate) return;
-              
+
               const selectedRows = this.get('selectedRows');
               if(selectedRows.includes(tableRow.dataset.id)) {
                 this.set('selectedRows', selectedRows.filter(value => value != tableRow.dataset.id));
@@ -143,7 +143,7 @@ TableRender.prototype.render = function() {
                 selectedRows.push(tableRow.dataset.id);
               }
 
-              this.get('onSelectRow')(e.target, this.get('selectedRows'));
+              this.get('onSelectRow')(tableRow, this.get('selectedRows'));
             });
         }
 
@@ -151,7 +151,7 @@ TableRender.prototype.render = function() {
         tableRow.classList.remove('table-row-template');
 
         if(onRenderRow && typeof onRenderRow === 'function') {
-          onRenderRow(tableRow, data);
+          onRenderRow(tableRow, data, this);
         }
 
         tbody.appendChild(tableRow);

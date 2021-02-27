@@ -99,7 +99,8 @@
             'TAXA_OPERADORA',
             'TAXA_DIFERENCA',
             'VALOR_LIQUIDO_OPERADORA',
-            'DIFERENCA_LIQUIDO'
+            'DIFERENCA_LIQUIDO',
+            'RETORNO_ERP',
           ]"
         >
           <x-slot name="actions">

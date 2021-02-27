@@ -53,7 +53,7 @@ class RecebimentosFilter extends BaseFilter {
         'pagamentos_operadoras.NUMERO_CARTAO as CARTAO',
         'pagamentos_operadoras.VALOR_BRUTO',
         DB::raw('(
-          (`pagamentos_operadoras`.`VALOR_BRUTO` - `pagamentos_operadoras`.`VALOR_LIQUIDO`) * 100) 
+          (`pagamentos_operadoras`.`VALOR_BRUTO` - `pagamentos_operadoras`.`VALOR_LIQUIDO`) * 100)
             / `pagamentos_operadoras`.`VALOR_BRUTO`
             as `TAXA_PERCENTUAL`'),
         DB::raw('

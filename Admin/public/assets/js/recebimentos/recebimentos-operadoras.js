@@ -185,10 +185,14 @@ function closeRetornoModal() {
 }
 
 function updatePayments(payments, newPayments, idKey = 'ID') {
-  const updatedPayments = updateData([...payments], [...newPayments], idKey).data;
+  const updated = updateData([...payments], [...newPayments], idKey);
+  const updatedPayments = updated.data;
+  const affectedRows = updated.updated.reduce((ids, value) => [...ids, value.ID], []);
 
   paymentsContainer.get('data').set('payments', [...updatedPayments]);
-  
+  console.log(affectedRows);
+
+  tableRender.set('selectedRows', affectedRows);
   tableRender.set('data', {
     body: ([...updatedPayments] || []),
     footer: ({ ...paymentsContainer.get('data').get('totals') } || {}),
@@ -213,7 +217,6 @@ function retornoRecebimentoErp() {
     },
   })
     .then(res => {
-      toggleElementVisibility('#js-loader');
       if(res.status === 'erro' && res.mensagem) {
         swal('Ooops...', res.mensagem, 'error');
         return;
@@ -227,11 +230,17 @@ function retornoRecebimentoErp() {
             RETORNO_ERP_BAIXA: 'Sim',
           }
         ];
-      }, [])
+      }, []);
 
       updatePayments(paymentsContainer.get('data').get('payments'), [...updatedPayments], 'ID');
 
       swal('Retorno Recebimento realizado!', `${res.vendas.length} de ${res.total} registros atualizados!`, 'success');
+    })
+    .catch((err) => {
+        swal("Ooops...", 'Um erro inesperado ocorreu. Tente novamente mais tarde!', 'error');
+    })
+    .finally(() => {
+        toggleElementVisibility('#js-loader');
     });
 
   closeRetornoModal();
