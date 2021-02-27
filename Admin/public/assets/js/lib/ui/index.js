@@ -1,25 +1,25 @@
 const _defaultEvents = {
   table: {
-    onRenderRow: function(row, data) {
-      const selectedRows = tableRender.get('selectedRows');
+    onRenderRow: function(row, data, tableRenderInstance = null) {
+      const selectedRows = tableRenderInstance.get('selectedRows');
       row.classList.remove('marcada');
       if (selectedRows.includes(row.dataset.id)) {
         row.classList.add('marcada');
       }
-  
+
       Array.from(row.querySelectorAll('.actions-cell .tooltip-hint')).forEach((element) => {
         const title = data[element.dataset.title];
         const defaultTitle = element.dataset.defaultTitle;
-    
-        element.dataset.title = tableRender.formatCell(title, 'text', defaultTitle);
+
+        element.dataset.title = tableRenderInstance.formatCell(title, 'text', defaultTitle);
       });
-      
+
       Array.from(row.querySelectorAll('.actions-cell img[data-image]')).forEach((element) => {
         const image = data[element.dataset.image];
         const defaultImage = element.dataset.defaultImage;
-  
+
         const src = image || defaultImage;
-  
+
         if(src) {
           element.dataset.image = src;
           element.src = src;
@@ -30,51 +30,55 @@ const _defaultEvents = {
       if (cell.classList.contains('tooltip-hint')) {
         const title = data[cell.dataset.title];
         const defaultTitle = cell.dataset.defaultTitle;
-    
+
         cell.dataset.title = tableRender.formatCell(title, 'text', defaultTitle);
       }
-  
+
       Array.from(cell.querySelectorAll('.tooltip')).forEach((element) => {
         const title = data[element.dataset.title];
         const defaultTitle = element.dataset.defaultTitle;
-    
+
         element.dataset.title = tableRender.formatCell(title, 'text', defaultTitle);
       });
-    
+
       if (cell.dataset.image) {
         const iconContainer = cell.querySelector('.icon-image');
         const imageUrl = data[cell.dataset.image];
         const defaultImageUrl = cell.dataset.defaultImage;
-    
+
         if (imageUrl || defaultImageUrl) {
           iconContainer.style.backgroundImage = `url("${imageUrl || defaultImageUrl}")`;
           const title = data[iconContainer.dataset.title];
           const defaultTitle = iconContainer.dataset.defaultTitle;
-    
+
           iconContainer.dataset.title = tableRender.formatCell(title, 'text', defaultTitle);
           return;
         }
         iconContainer.classList.toggle('hidden');
       }
-    
+
       const cellValue = data[cell.dataset.column];
       const defaultCellValue = data[cell.dataset.defaultValue];
       const format = cell.dataset.format || 'text';
-  
+
       if(cell.dataset.reverseValue) {
         const reverseValue = tableRender.formatCell(cellValue * -1, format, defaultCellValue * -1);
         cell.textContent = reverseValue;
         return;
       }
-  
+
       const value =  tableRender.formatCell(cellValue, format, defaultCellValue);
       cell.textContent = value;
     },
     shouldSelectRow: function(elementDOM) {
-      if (elementDOM.tagName.toLowerCase() !== 'tr') {
+      if(!elementDOM) return false;
+
+      let tr = elementDOM;
+
+      if (tr.tagName.toLowerCase() !== 'tr') {
         tr = elementDOM.closest('tr');
       }
-    
+
       if (!tr) {
         return false;
       }
@@ -86,6 +90,9 @@ const _defaultEvents = {
       return true;
     },
     onSelectRow: function(elementDOM, selectedRows) {
+      if(!elementDOM) return false;
+
+      const tr = elementDOM;
       tr.classList.remove('marcada');
       if (selectedRows.includes(tr.dataset.id)) {
         tr.classList.add('marcada');
@@ -202,7 +209,7 @@ function openUrl(baseUrl, params) {
 function recreateNode(element = '') {
   const elementDOM = typeof element === 'string' ? document.querySelector(element) : element;
   if(!elementDOM) return;
-  
+
   const elementCloneDOM = elementDOM.cloneNode(true);
   elementDOM.parentNode.replaceChild(elementCloneDOM, elementDOM);
   return document.querySelector(element);
@@ -248,6 +255,18 @@ function removeFromData(array = [], ids = [], idKey = '') {
     data: array,
     removed
   }
+}
+
+function updateTotals(totals, newData) {
+    const newTotals = Object.keys(newData).reduce((updated, key) => {
+        updated[key] = (Number(totals[key]) || 0) + (Number(newData[key]) || 0);
+        return updated;
+    }, {});
+
+    return {
+        ...totals,
+        ...newTotals,
+    };
 }
 
 Array.from(
