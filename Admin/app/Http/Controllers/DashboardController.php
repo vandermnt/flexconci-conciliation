@@ -343,7 +343,13 @@ public function detalheCalendarioPrevisaoPagamento($data){
   ->groupBy('vendas.ADQID')
   ->get();
 
-  return json_encode([$bancos, $operadoras]);
+  return json_encode([$bancos,
+  $operadoras,
+  null,
+  null,
+  null,
+  null
+]);
 }
 
 public function enviaEmail(){

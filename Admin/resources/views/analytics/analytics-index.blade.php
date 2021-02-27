@@ -574,17 +574,13 @@ font-size: 14px;
     function showTableBancoSelecionado(codigo) {
       $("#table_banco_selecionado tbody").empty();
 
+      const result = bancos_dados.find(banco => banco.CODIGO == codigo);
       const pagamento_normal = buscaPagamentoNormal(pagamentos_normais_bancos, codigo);
       const pagamento_antecipado = buscaPagamentoAntecipado(pagamentos_antecipados_bancos, codigo);
-
-      const bancos = bancos_dados;
-      const result = bancos.find(banco => banco.CODIGO == codigo);
       const val_bruto = parseFloat(result.val_bruto);
       const val_liquido = parseFloat(result.val_liquido);
-      const pgto_normal = parseFloat(pagamento_normal.tipo_pgto_normal);
-      const pgto_antecipado = parseFloat(pagamento_antecipado.tipo_pgto_antecipado);
 
-      geraTabelaDetalhamentoCalendario("#table_banco_selecionado tbody", val_bruto, val_liquido, result.val_taxa, pgto_normal, pagamento_antecipado);
+      geraTabelaDetalhamentoCalendario("#table_banco_selecionado tbody", val_bruto, val_liquido, result.val_taxa, pagamento_normal, pagamento_antecipado);
 
       document.getElementById(result.CODIGO).classList.remove('active');
       document.getElementById("voltar").classList.remove('active');
@@ -593,17 +589,13 @@ font-size: 14px;
     function showTableOperadoraSelecionada(codigo) {
       $("#table_operadora_selecionado tbody").empty();
 
+      const result = operadoras_dados.find(operadora => operadora.CODIGO == codigo);
       const pagamento_normal = buscaPagamentoNormal(pagamentos_normais, codigo);
       const pagamento_antecipado = buscaPagamentoAntecipado(pagamentos_antecipados, codigo);
-
-      const operadoras = operadoras_dados;
-      const result = operadoras.find(operadora => operadora.CODIGO == codigo);
       const val_bruto = parseFloat(result.val_bruto);
       const val_liquido = parseFloat(result.val_liquido);
-      const pgto_normal = parseFloat(pagamento_normal.tipo_pgto_normal);
-      const pgto_antecipado = parseFloat(pagamento_antecipado.tipo_pgto_antecipado);
 
-      geraTabelaDetalhamentoCalendario("#table_operadora_selecionado tbody", val_bruto, val_liquido, result.val_taxa, pgto_normal, pagamento_antecipado);
+      geraTabelaDetalhamentoCalendario("#table_operadora_selecionado tbody", val_bruto, val_liquido, result.val_taxa, pagamento_normal, pagamento_antecipado);
 
       document.getElementById("operadora" + result.CODIGO).classList.remove('active');
       document.getElementById("voltar_operadora").classList.remove('active');
@@ -813,14 +805,13 @@ font-size: 14px;
     }
 
     function buscaPagamentoNormal(pagamentos, codigo) {
-      pagamento_normal = pagamentos.find(pagamento => pagamento.CODIGO == codigo);
-      return pagamento_normal ? pagamento_normal : 0;
+      pagamento_normal = pagamentos ? pagamento.find(pagamento => pagamento.CODIGO == codigo) : null;
+      return pagamento_normal ? pagamento_normal.tipo_pgto_antecipado : 0;
     }
 
     function buscaPagamentoAntecipado(pagamentos, codigo) {
-      pagamento_antecipado = pagamentos.find(pagamento => pagamento.CODIGO == codigo);
-
-      return pagamento_antecipado ? pagamento_antecipado : 0;
+      pagamento_antecipado = pagamentos ? pagamentos.find(pagamento => pagamento.CODIGO == codigo) : null;
+      return pagamento_antecipado ? pagamento_antecipado.tipo_pgto_antecipado : 0;
     }
 
     </script>
