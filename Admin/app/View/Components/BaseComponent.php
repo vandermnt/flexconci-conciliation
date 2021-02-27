@@ -23,7 +23,7 @@ class BaseComponent extends Component
             return $datasetValues;
         }, []);
 
-        return implode($dataAttributes, "\n") ?? '';
+        return implode("\n", $dataAttributes)."" ?? '';
     }
 
     /**
