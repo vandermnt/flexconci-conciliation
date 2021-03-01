@@ -22,6 +22,8 @@ const selectedSales = {
     erp: [],
     operadoras: [],
 };
+let selectedStatus = [];
+let activeStatus = [];
 
 const salesContainer = new SalesContainerProxy({
     id: 'vendas-operadoras',
@@ -121,7 +123,7 @@ modalFilter.addGroups([
     'empresa',
 ]);
 
-function buildRequest(key = 'erp', params) {
+function buildRequest(key = 'erp', params, body = {}) {
     let requestHandler = () => { };
 
     const currentSalesContainer = key === 'erp' ? salesErpContainer : salesContainer;
@@ -134,7 +136,7 @@ function buildRequest(key = 'erp', params) {
                     por_pagina: currentSalesContainer.get('search').get('pagination').options.perPage,
                     ...params
                 },
-                body: { ...searchForm.serialize() }
+                body: { ...searchForm.serialize(), ...body }
             });
         }
     } else {
@@ -170,7 +172,7 @@ function getPaginationConfig(key) {
             await buildRequest(key, {
                 page,
                 por_pagina: pagination.options.perPage,
-            })
+            }, { status_conciliacao: [...activeStatus] })
                 .get();
 
             toggleElementVisibility('#js-loader');
@@ -182,6 +184,7 @@ searchForm.onSubmit(async (event) => {
     const resultadosDOM = document.querySelector('.resultados');
     toggleElementVisibility('#js-loader');
 
+    selectedStatus = activeStatus = checker.getCheckedValues('status-conciliacao');
     const responses = await Promise.all([
         await salesContainer.search({
             params: {
@@ -202,6 +205,7 @@ searchForm.onSubmit(async (event) => {
     if (resultadosDOM.classList.contains('hidden')) {
         resultadosDOM.classList.remove('hidden');
     }
+    updateUIOperadoras();
     window.scrollTo(0, document.querySelector('.resultados').offsetTop);
 
     toggleElementVisibility('#js-loader');
@@ -235,7 +239,13 @@ salesErpContainer.onEvent('search', (sales) => {
 });
 
 tableRenderErp.onFilter(async (filters) => await _events.table.onFilter('erp', filters));
-tableRender.onFilter(async (filters) => await _events.table.onFilter('operadoras', filters));
+tableRender.onFilter(async (filters) => {
+    const statusNaoConciliada = document.querySelector('.box[data-key="TOTAL_PENDENCIAS_OPERADORAS"]').dataset.status;
+
+    if(!activeStatus.includes(statusNaoConciliada)) return;
+
+    await _events.table.onFilter('operadoras', filters);
+});
 
 tableRender.onRenderRow((row, data, instance) => _events.table.onRenderRow('operadoras', row, data, instance));
 tableRenderErp.onRenderRow((row, data, instance) => _events.table.onRenderRow('erp', row, data, instance));
@@ -253,10 +263,44 @@ async function onPerPageChanged(key = 'erp', event) {
     await buildRequest(key, {
         page: 1,
         por_pagina: event.target.value,
-    })
+    }, { status_conciliacao: [...activeStatus] })
         .get();
 
+
+    updateUIOperadoras();
     toggleElementVisibility('#js-loader');
+}
+
+function mockPagination() {
+    return new Pagination([],  {
+        paginationContainer: document.querySelector('#js-paginacao-operadoras'),
+        total: 0,
+        currentPage: 1,
+        lastPage: 1,
+        perPage: 5,
+    });
+}
+
+function updateUIOperadoras() {
+    const statusNaoConciliada = document.querySelector('.box[data-key="TOTAL_PENDENCIAS_OPERADORAS"]').dataset.status;
+    const isNaoConciliada = activeStatus.includes(statusNaoConciliada);
+    const boxOperadorasTotal = isNaoConciliada ? salesContainer.get('data').get('totals').TOTAL_PENDENCIAS_OPERADORAS : 0;
+    const totalRegisters = isNaoConciliada ? (salesContainer.get('data').get('pagination').options.total || 0) : 0;
+    const paginationFake = mockPagination();
+    const tableRenderFake = createTableRender({
+        table: '#js-tabela-operadoras',
+        locale: 'pt-br',
+        formatter,
+    });
+    const pagination = isNaoConciliada ? salesContainer.get('data').get('pagination') : paginationFake;
+    const currentTableRender = isNaoConciliada ? tableRender : tableRenderFake;
+
+    pagination.render();
+    currentTableRender.render();
+    updateBoxes(boxes, {
+        TOTAL_PENDENCIAS_OPERADORAS: boxOperadorasTotal,
+    });
+    document.querySelector(`#js-quantidade-registros-operadoras`).textContent = `(${totalRegisters} registros)`;
 }
 
 function confirmConciliacao() {
@@ -637,7 +681,7 @@ function exportar(event) {
     swal('Aguarde um momento...', 'A sua planilha está sendo gerada.', 'warning');
     setTimeout(() => {
         openUrl(baseUrl, {
-            ...searchForm.serialize(),
+            ...{ ...searchForm.serialize(),  status_conciliacao: [...activeStatus] },
             ...currentTableRender.serializeTableFilters(),
         });
     }, 500);
@@ -744,3 +788,33 @@ Array.from(document.querySelectorAll('#js-justificar-modal *[data-dismiss="modal
     .forEach(element => {
         element.addEventListener('click', closeJustifyModal);
     });
+
+boxes.forEach(box => {
+    const boxDOM =  box.get('element');
+
+    if(boxDOM.dataset.key === 'TOTAL_PENDENCIAS_OPERADORAS') {
+        boxDOM.addEventListener('click', () => {
+            window.scrollTo(0, document.querySelector(".vendas + .vendas").offsetTop);
+        });
+
+        return;
+    }
+
+    boxDOM.addEventListener('click', (event) => {
+        toggleElementVisibility('#js-loader');
+        const status = event.target.closest('.box').dataset.status;
+
+        if(status === '*') {
+            activeStatus = selectedStatus;
+        } else {
+            activeStatus = [status];
+        }
+
+        buildRequest('erp', { page: 1 }, { status_conciliacao: activeStatus })
+            .get()
+            .then(() => {
+                updateUIOperadoras();
+                toggleElementVisibility('#js-loader');
+            });
+    });
+});

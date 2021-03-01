@@ -64,7 +64,8 @@
           icon-path="assets/images/widgets/notebook.svg"
           icon-description="Vendas ERP"
           :dataset="[
-            'hint' => 'Total de vendas enviadas pelo seu sistema de gestão.'
+            'hint' => 'Total de vendas enviadas pelo seu sistema de gestão.',
+            'status' => '*'
           ]"
         />
         <x-box
@@ -76,7 +77,8 @@
           icon-path="assets/images/widgets/check.svg"
           icon-description="Conciliado"
           :dataset="[
-            'hint' => 'Vendas do seu sistema que foram conciliadas com as vendas das operadoras.'
+            'hint' => 'Vendas do seu sistema que foram conciliadas com as vendas das operadoras.',
+            'status' => '1',
           ]"
         />
         <x-box
@@ -88,7 +90,8 @@
           icon-path="assets/images/widgets/x.svg"
           icon-description="Divergente"
           :dataset="[
-            'hint' => 'Vendas do seu sistema que foram conciliadas com divergência. Vá até a coluna Divergência e veja o motivo!'
+            'hint' => 'Vendas do seu sistema que foram conciliadas com divergência. Vá até a coluna Divergência e veja o motivo!',
+            'status' => '5',
           ]"
         />
         <x-box
@@ -100,7 +103,8 @@
           icon-path="assets/images/widgets/handshake.svg"
           icon-description="Conciliacao Manual"
           :dataset="[
-            'hint' => 'Vendas do seu sistema que foram conciliadas manualmente com as vendas das operadoras.'
+            'hint' => 'Vendas do seu sistema que foram conciliadas manualmente com as vendas das operadoras.',
+            'status' => '6',
           ]"
         />
         <x-box
@@ -112,7 +116,8 @@
           icon-path="assets/images/widgets/flag.svg"
           icon-description="Justificado"
           :dataset="[
-            'hint' => 'Vendas do seu sistema que foram justificadas por algum motivo. Vá até a coluna Justificativa e veja o motivo!'
+            'hint' => 'Vendas do seu sistema que foram justificadas por algum motivo. Vá até a coluna Justificativa e veja o motivo!',
+            'status' => '3',
           ]"
         />
         <x-box
@@ -124,7 +129,8 @@
           icon-path="assets/images/widgets/exclamation-mark.svg"
           icon-description="Pendências"
           :dataset="[
-            'hint' => 'Vendas do seu sistema que não foram conciliadas com as vendas das operadoras.'
+            'hint' => 'Vendas do seu sistema que não foram conciliadas com as vendas das operadoras.',
+            'status' => '2',
           ]"
         />
         <x-box
@@ -136,7 +142,8 @@
           icon-path="assets/images/widgets/exclamation-mark.svg"
           icon-description="Pendências"
           :dataset="[
-            'hint' => 'Vendas das operadoras que não foram conciliadas com as vendas do seu sistema.'
+            'hint' => 'Vendas das operadoras que não foram conciliadas com as vendas do seu sistema.',
+            'status' => '2',
           ]"
         />
       </div>
