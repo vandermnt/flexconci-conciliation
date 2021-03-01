@@ -255,7 +255,7 @@ aria-haspopup="false" aria-expanded="false">
     </li>
 
     <li>
-      <a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/conciliacao-automatica') }}" role="button"
+      <a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('conciliacao-vendas') }}" role="button"
       aria-haspopup="false" aria-expanded="false">
       <span class="ml-1 nav-user-name hidden-sm"><i class="far fa-handshake"></i> Conciliação de Vendas </span>
     </a>
