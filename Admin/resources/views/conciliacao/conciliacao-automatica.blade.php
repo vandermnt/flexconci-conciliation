@@ -15,7 +15,7 @@
       @endcomponent
     </header>
 
-    <form 
+    <form
       id="js-form-pesquisar"
       data-url-erp="{{ route('conciliacao-automatica.busca.erp') }}"
       data-url-operadoras="{{ route('conciliacao-automatica.busca.operadoras') }}"
@@ -117,7 +117,7 @@
             </div>
           </div>
         </div>
-        
+
         <div class="d-flex justify-content-end align-items-center acoes flex-wrap">
           <button
             id="js-reset-form"
@@ -278,7 +278,7 @@
         </div>
         <div
           class="card tooltip-hint"
-          data-title="Vendas do seu sistema que foram conciliadas com divergência. Vá até a coluna Divergência e veja o motivo!" 
+          data-title="Vendas do seu sistema que foram conciliadas com divergência. Vá até a coluna Divergência e veja o motivo!"
           data-status="divergente"
         >
           <div class="card-body">
@@ -302,7 +302,7 @@
             </div>
           </div>
         </div>
-        <div 
+        <div
           class="card tooltip-hint"
           data-title="Vendas do seu sistema que foram justificadas por algum motivo. Vá até a coluna Justificativa e veja o motivo!"
           data-status="justificada"
@@ -315,7 +315,7 @@
             </div>
           </div>
         </div>
-        <div 
+        <div
           id="js-box-nao-conciliada"
           class="card tooltip-hint"
           data-title="Vendas do seu sistema que não foram conciliadas com as vendas das operadoras."
@@ -329,7 +329,7 @@
             </div>
           </div>
         </div>
-        <div 
+        <div
           class="card tooltip-hint"
           data-title="Vendas das operadoras que não foram conciliadas com as vendas do seu sistema."
           data-navigate=".pendencias-operadoras"
@@ -587,7 +587,7 @@
                   <div class="d-flex flex-column align-items-center">
                     <p>
                       {{ is_null($erp->TITULO_CAMPO1) ?
-                       'Campo 1' : 
+                       'Campo 1' :
                        ucwords(mb_strtolower($erp->TITULO_CAMPO1, 'utf-8')) }}
                     </p>
                     <input type="text" class="form-control" name="CAMPO1">
@@ -597,7 +597,7 @@
                   <div class="d-flex flex-column align-items-center">
                     <p>
                       {{ is_null($erp->TITULO_CAMPO2) ?
-                        'Campo 2' : 
+                        'Campo 2' :
                         ucwords(mb_strtolower($erp->TITULO_CAMPO2, 'utf-8')) }}
                     </p>
                     <input type="text" class="form-control" name="CAMPO2">
@@ -607,7 +607,7 @@
                   <div class="d-flex flex-column align-items-center">
                     <p>
                       {{ is_null($erp->TITULO_CAMPO3) ?
-                        'Campo 3' : 
+                        'Campo 3' :
                         ucwords(mb_strtolower($erp->TITULO_CAMPO3, 'utf-8')) }}
                     </p>
                     <input type="text" class="form-control" name="CAMPO3">
@@ -676,7 +676,7 @@
                   <div class="tooltip-hint" data-title="BANDEIRA">
                     <img
                       data-image="BANDEIRA_IMAGEM"
-                      data-default-image="assets/images/iconCart.jpeg"
+                      data-default-image="assets/images/widgets/cards.svg"
                       data-text="BANDEIRA"
                       data-default-text="Sem Identificação"
                     >
@@ -772,7 +772,7 @@
               </li>
             </ul>
           </nav>
-  
+
           <div class="form-group">
             <label for="js-porpagina-erp">Quantidade por página</label>
             <select data-vendas-tipo="erp" name="por_pagina" id="js-porpagina-erp" class="form-control">
@@ -1035,7 +1035,7 @@
                 <td data-campo="MEIOCAPTURA"></td>
                 <td data-campo="STATUS_CONCILIACAO"></td>
                 <td data-campo="STATUS_FINANCEIRO"></td>
-              </tr>      
+              </tr>
             </tbody>
             <tfoot>
               <tr>
@@ -1079,7 +1079,7 @@
               </li>
             </ul>
           </nav>
-  
+
           <div class="form-group">
             <label for="js-porpagina-operadoras">Quantidade por página</label>
             <select data-vendas-tipo="operadoras" name="por_pagina" id="js-porpagina-operadoras" class="form-control">
@@ -1093,7 +1093,7 @@
           </div>
         </footer>
       </div>
-      
+
       <div class="modais">
         <form
           id="js-justificar-modal"

@@ -314,7 +314,7 @@
           <td data-column="DATA_VENCIMENTO" data-format="date"></td>
           <td
             data-image="ADQUIRENTE_IMAGEM"
-            data-default-image="assets/images/iconCart.jpeg"
+            data-default-image="assets/images/widgets/cards.svg"
             data-column="ADQUIRENTE"
             data-default-value="Sem identificação"
           >
@@ -326,7 +326,7 @@
           </td>
           <td
             data-image="BANDEIRA_IMAGEM"
-            data-default-image="assets/images/iconCart.jpeg"
+            data-default-image="assets/images/widgets/cards.svg"
             data-column="BANDEIRA"
             data-default-value="Sem identificação"
           >
@@ -372,7 +372,7 @@
           @endif
           <td
             data-image="BANCO_IMAGEM"
-            data-default-image="assets/images/iconCart.jpeg"
+            data-default-image="assets/images/widgets/cards.svg"
             data-column="BANCO"
             data-default-value="Sem identificação"
           >

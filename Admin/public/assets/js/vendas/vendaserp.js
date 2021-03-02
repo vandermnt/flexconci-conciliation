@@ -301,7 +301,7 @@ function renderizaTabela(vendas, totais) {
                                 class="img-fluid"
                                 alt="${vendaFormatada.ADQUIRENTE || 'Sem identificação'}"
                                 src="${vendaFormatada.ADQUIRENTE_IMAGEM
-                                    || 'assets/images/iconCart.jpeg'}"
+                                    || 'assets/images/widgets/cards.svg'}"
                             >` :
                             `${(vendaFormatada.ADQUIRENTE || '')}`
                     }
@@ -309,7 +309,7 @@ function renderizaTabela(vendas, totais) {
                 <td>
                     <img class="img-fluid"
                         alt="${vendaFormatada.BANDEIRA || 'Sem identificação'}"
-                        src="${vendaFormatada.BANDEIRA_IMAGEM || 'assets/images/iconCart.jpeg'}"
+                        src="${vendaFormatada.BANDEIRA_IMAGEM || 'assets/images/widgets/cards.svg'}"
                     >
                 </td>
                 <td>${vendaFormatada.MODALIDADE || ''}</td>
@@ -332,7 +332,7 @@ function renderizaTabela(vendas, totais) {
                                 class="img-fluid"
                                 alt="${vendaFormatada.BANCO || 'Sem identificação'}"
                                 src="${vendaFormatada.BANCO_IMAGEM
-                                    || 'assets/images/iconCart.jpeg'}"
+                                    || 'assets/images/widgets/cards.svg'}"
                             >` :
                             `${(vendaFormatada.BANCO || '')}`
                     }

@@ -867,7 +867,7 @@ $('#submitFormLogin').click(function(){
           html +="<td>"+response[0][i].ID_LOJA+"</td>";
           html +="<td>"+"<img src='"+response[0][i].IMAGEMAD+"' style='width: 30px'/>"+"</td>";
           if(response[0][i].IMAGEMBAD == null){
-            html +="<td>"+"<img src='assets/images/iconCart.jpeg' style='width: 20px'/>"+"</td>";
+            html +="<td>"+"<img src='assets/images/widgets/cards.svg' style='width: 20px'/>"+"</td>";
           }else{
             html +="<td>"+"<img src='"+response[0][i].IMAGEMBAD+"' style='width: 30px'/>"+ " " + response[0][i].BANDEIRA + "</td>";
           }          html +="<td>"+response[0][i].NSU+"</td>";
