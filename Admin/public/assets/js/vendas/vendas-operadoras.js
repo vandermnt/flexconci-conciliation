@@ -24,6 +24,13 @@ const tableRender = createTableRender({
   formatter,
 });
 const boxes = getBoxes();
+const apiConfig = {
+    headers: {
+        'X-CSRF-TOKEN': searchForm.getInput('_token').value,
+        'Content-Type': 'application/json',
+    }
+};
+let selectedSales = [];
 
 checker.addGroups([
   { name: 'empresa', options: { inputName: 'grupos_clientes' } },
@@ -43,12 +50,7 @@ modalFilter.addGroups([
   'estabelecimento'
 ]);
 
-salesContainer.setupApi({
-  headers: {
-    'X-CSRF-TOKEN': searchForm.getInput('_token').value,
-    'Content-Type': 'application/json',
-  }
-});
+salesContainer.setupApi(apiConfig);
 
 salesContainer.onEvent('beforeFetch', () => {
   toggleElementVisibility('#js-loader');
@@ -70,7 +72,7 @@ salesContainer.onEvent('search', (sales) => {
   const resultadosDOM = document.querySelector('.resultados');
 
   const totals = sales.get('totals');
-  updateBoxes(boxes, { 
+  updateBoxes(boxes, {
     ...totals,
     TOTAL_TAXA: totals.TOTAL_TAXA * -1,
     TOTAL_TARIFA_MINIMA: totals.TOTAL_TARIFA_MINIMA * -1,
@@ -147,37 +149,41 @@ searchForm.onSubmit(async (event) => {
   window.scrollTo(0, document.querySelector('.resultados').offsetTop);
 });
 
-tableRender.onRenderRow((row, data) => {
-  const selectedRows = tableRender.get('selectedRows');
-  row.classList.remove('marcada');
-  if (selectedRows.includes(row.dataset.id)) {
-    row.classList.add('marcada');
-  }
-
-  Array.from(row.querySelectorAll('.actions-cell .tooltip-hint')).forEach((element) => {
-    const title = data[element.dataset.title];
-    const defaultTitle = element.dataset.defaultTitle;
-
-    element.dataset.title = tableRender.formatCell(title, 'text', defaultTitle);
-  });
-  
-  Array.from(row.querySelectorAll('.actions-cell img[data-image]')).forEach((element) => {
-    const image = data[element.dataset.image];
-    const defaultImage = element.dataset.defaultImage;
-
-    const src = image || defaultImage;
-
-    if(src) {
-      element.dataset.image = src;
-      element.src = src;
+tableRender.shouldSelectRow(elementDOM => {
+    let shouldSelect = _defaultEvents.table.shouldSelectRow(elementDOM);
+    if (['i', 'input'].includes(elementDOM.tagName.toLowerCase())) {
+        shouldSelect = false;
+    } else {
+        shouldSelect = true;
     }
-  });
 
-  const showDetailsDOM = row.querySelector('td .js-show-details');
+    return shouldSelect;
+});
 
-  showDetailsDOM.addEventListener('click', event => {
-    showTicket(row.dataset.id);
-  });
+tableRender.onRenderRow((row, data, tableRenderInstance) => {
+    const checkboxDOM = row.querySelector('td input[data-value-key]');
+    const value = data[checkboxDOM.dataset.valueKey];
+    checkboxDOM.value = value;
+    checkboxDOM.checked = selectedSales.includes(value);
+
+    checkboxDOM.addEventListener('change', event => {
+        const target = event.target;
+        const value = event.target.value;
+
+        if (target.checked && !selectedSales.includes(value)) {
+            selectedSales.push(value);
+        } else if (!target.checked && selectedSales.includes(value)) {
+            selectedSales = [...selectedSales.filter(selected => selected !== value)];
+        }
+    });
+
+    const showDetailsDOM = row.querySelector('td .js-show-details');
+
+    showDetailsDOM.addEventListener('click', event => {
+        showTicket(row.dataset.id);
+    });
+
+    _defaultEvents.table.onRenderRow(row, data, tableRenderInstance);
 });
 
 tableRender.onFilter(async (filters) => {
@@ -225,6 +231,56 @@ function showTicket(id) {
   document.querySelector('#comprovante-modal').dataset.saleId = id;
 }
 
+function confirmUnjustify() {
+    if (selectedSales.length < 1) {
+        swal('Ooops...', 'Selecione ao menos uma venda operadora.', 'error');
+        return;
+    }
+
+    openConfirmDialog(
+        'Tem certeza que deseja desfazer a justificativa?',
+        (value) => {
+            if (value) unjustify();
+        }
+    );
+}
+
+function unjustify() {
+    const baseUrl = searchForm.get('form').dataset.urlDesjustificar;
+    toggleElementVisibility('#js-loader');
+    api.post(baseUrl, {
+        ...apiConfig,
+        body: JSON.stringify({
+            id: selectedSales,
+        })
+    })
+        .then(json => {
+            if (json.status !== 'sucesso' && json.mensagem) {
+                swal('Ooops...', json.mensagem, 'error');
+                return;
+            }
+
+            const sales = salesContainer.get('data');
+
+            const updatedSales = updateData([...sales.get('sales')], [...json.vendas], 'ID').data;
+
+            sales.set('sales', [...updatedSales]);
+
+            selectedSales = [];
+
+            tableRender.set('data', {
+                body: ([...updatedSales] || []),
+                footer: (sales.get('totals') || {}),
+            });
+
+            tableRender.render();
+            swal('Justificativa desfeita!', json.mensagem, 'success');
+        })
+        .finally(() => {
+            toggleElementVisibility('#js-loader');
+        });
+}
+
 searchForm.get('form').querySelector('button[data-form-action="submit"')
   .addEventListener('click', searchForm.get('onSubmitHandler'));
 
@@ -242,3 +298,6 @@ document.querySelector('#js-por-pagina')
 
 document.querySelector('#js-exportar')
   .addEventListener('click', exportar);
+
+document.querySelector('#js-desjustificar')
+  .addEventListener('click', confirmUnjustify);
