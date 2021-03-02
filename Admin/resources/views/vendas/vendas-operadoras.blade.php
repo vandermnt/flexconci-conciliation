@@ -27,6 +27,7 @@
             ['filtrar-operadoras' => route('vendas-operadoras.filter')],
             ['exportar' => route('vendas-operadoras.export')],
             ['imprimir' => route('vendas-operadoras.print', ['id' => ':id'])],
+            ['desjustificar' => route('vendas-operadoras.unjustify')],
           ]"
           :hidden-fields="[
             'domicilios-bancarios',
@@ -90,6 +91,10 @@
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras">
           </div>
           <div class="d-flex align-items-center justify-content-end">
+            <button id="js-desjustificar" class="btn button no-hover mr-1">
+              <i class="fas fa-comment-slash"></i>
+              Desjustificar
+            </button>
             <button id="js-exportar" class="btn button no-hover">
               <i class="fas fa-file-download"></i>
               Exportar
@@ -105,17 +110,25 @@
           ]"
         >
           <x-slot name="actions">
-            <td class="actions-cell d-flex align-items-center justify-content-center">
-              <div
-                class="tooltip-hint d-flex align-items-center mr-2 js-show-details"
-                data-default-title="Visualizar Detalhes"
-                data-toggle="modal"
-                data-target="#comprovante-modal"
-              >
-                <i class="fas fa-eye"></i>
-              </div>
-              <div class="tooltip-hint" data-title="STATUS_CONCILIACAO">
-                <img data-image="STATUS_CONCILIACAO_IMAGEM">
+            <td>
+              <div class="actions-cell d-flex align-items-center justify-content-between">
+                <input
+                    class="mr-2"
+                    name="id_operadora"
+                    type="checkbox"
+                    data-value-key="ID"
+                >
+                <div
+                    class="tooltip-hint d-flex align-items-center js-show-details"
+                    data-default-title="Visualizar Detalhes"
+                    data-toggle="modal"
+                    data-target="#comprovante-modal"
+                >
+                    <i class="fas fa-eye"></i>
+                </div>
+                <div class="tooltip-hint ml-2" data-title="STATUS_CONCILIACAO">
+                    <img data-image="STATUS_CONCILIACAO_IMAGEM">
+                </div>
               </div>
             </td>
           </x-slot>
