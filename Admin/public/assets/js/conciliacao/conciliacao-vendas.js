@@ -818,3 +818,7 @@ boxes.forEach(box => {
             });
     });
 });
+
+document.querySelector('#dropdownUserSettings').addEventListener('click', (e) => {
+    $('#dropdownUserSettings').dropdown('toggle');
+});
