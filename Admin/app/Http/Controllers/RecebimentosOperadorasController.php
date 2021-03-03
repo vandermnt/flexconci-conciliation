@@ -10,6 +10,7 @@ use App\DomicilioClienteModel;
 use App\ClienteModel;
 use App\StatusConciliacaoModel;
 use App\Exports\RecebimentosOperadorasExport;
+use App\Exports\CSV\RetornoRecebimentosOperadorasExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
@@ -21,7 +22,7 @@ class RecebimentosOperadorasController extends Controller
    * @return \Illuminate\Http\Response
    */
   public function index()
-  {  
+  {
     $erp = ClienteModel::select(
       [
         'erp.ERP',
@@ -29,7 +30,7 @@ class RecebimentosOperadorasController extends Controller
       ->leftJoin('erp', 'clientes.COD_ERP', 'erp.CODIGO')
       ->where('clientes.CODIGO', session('codigologin'))
       ->first();
-        
+
     $empresas = GruposClientesModel::select([
       'CODIGO',
       'NOME_EMPRESA',
@@ -38,7 +39,7 @@ class RecebimentosOperadorasController extends Controller
       ->where('COD_CLIENTE', session('codigologin'))
       ->orderBy('NOME_EMPRESA')
       ->get();
-    
+
     $adquirentes = ClienteOperadoraModel::select([
       'adquirentes.CODIGO',
       'adquirentes.ADQUIRENTE',
@@ -49,7 +50,7 @@ class RecebimentosOperadorasController extends Controller
       ->distinct()
       ->orderBy('ADQUIRENTE')
       ->get();
-    
+
     $estabelecimentos = ClienteOperadoraModel::select([
         'CODIGO_ESTABELECIMENTO as ESTABELECIMENTO',
         'adquirentes.ADQUIRENTE'
@@ -155,6 +156,15 @@ class RecebimentosOperadorasController extends Controller
     $subfilters = $request->except(['_token']);
     Arr::set($filters, 'cliente_id', session('codigologin'));
     return (new RecebimentosOperadorasExport($filters, $subfilters))->download('recebimentos_operadoras_'.time().'.xlsx');
+  }
+
+  public function exportCsv(Request $request) {
+    set_time_limit(300);
+
+    $filters = $request->except(['_token']);
+    $subfilters = $request->except(['_token']);
+    Arr::set($filters, 'cliente_id', session('codigologin'));
+    return (new RetornoRecebimentosOperadorasExport($filters, $subfilters))->download('recebimentos_operadoras_'.time().'.csv');
   }
 
   /**
