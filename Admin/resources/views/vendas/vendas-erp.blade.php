@@ -46,7 +46,7 @@
     <div class="resultados hidden">
       <div class="boxes">
         <x-box
-          title="BRUTO"
+          title="VALOR TOTAL BRUTO"
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_BRUTO"
@@ -54,7 +54,7 @@
           icon-description="Valor Bruto"
         />
         <x-box
-          title="VALOR TAXA"
+          title="CUSTO TAXA"
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_TAXA"
@@ -63,7 +63,7 @@
           icon-description="Valor Taxa"
         />
         <x-box
-          title="VALOR LÍQUIDO DE VENDAS"
+          title="VALOR TOTAL LÍQUIDO"
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_LIQUIDO"

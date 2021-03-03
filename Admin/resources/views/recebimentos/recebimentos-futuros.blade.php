@@ -48,7 +48,7 @@
     <div class="resultados hidden">
       <div class="boxes">
         <x-box
-          title="BRUTO"
+          title="VALOR TOTAL BRUTO À RECEBER"
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_BRUTO"
@@ -56,7 +56,7 @@
           icon-description="Valor Bruto"
         />
         <x-box
-          title="TAXA ADM."
+          title="CUSTO TAXA PROJETADO"
           content="-R$ 0,00"
           content-class="text-danger"
           data-format="currency"
@@ -65,7 +65,7 @@
           icon-description="Taxa Adm."
         />
         <x-box
-          title="LÍQUIDO"
+          title="VALOR TOTAL LIQUIDO À RECEBER"
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_LIQUIDO"

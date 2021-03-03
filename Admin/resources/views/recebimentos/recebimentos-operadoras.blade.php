@@ -67,7 +67,7 @@
     <div class="resultados hidden">
       <div class="boxes">
         <x-box
-          title="BRUTO"
+          title="VALOR TOTAL BRUTO"
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_BRUTO"
@@ -91,7 +91,7 @@
           icon-description="Pag. Antecipado"
         />
         <x-box
-          title="PAG. AVULSO"
+          title="PAG. AVULSO|AJ. CRÉDITO (+)"
           content="R$ 0,00"
           data-format="currency"
           data-key="PAG_AVULSO"
@@ -99,7 +99,7 @@
           icon-description="Pag. Avulso"
         />
         <x-box
-          title="TAXA ADM."
+          title="CUSTO TAXA"
           content="-R$ 0,00"
           content-class="text-danger"
           data-format="currency"
@@ -117,7 +117,7 @@
           icon-description="Antecipação"
         />
         <x-box
-          title="OUTRAS DESPESAS"
+          title="OUTRAS DESPESAS|AJ. DÉBITO (-)"
           content="-R$ 0,00"
           content-class="text-danger"
           data-format="currency"
@@ -126,7 +126,7 @@
           icon-description="Outras Despesas"
         />
         <x-box
-          title="LÍQUIDO"
+          title="VALOR TOTAL LÍQUIDO RECEBIDO"
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_LIQUIDO"
