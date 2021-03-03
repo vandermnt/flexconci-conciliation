@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Exports;
+namespace App\Exports\CSV;
 
 use App\Filters\VendasSubFilter;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
 
-class VendasOperadorasExport implements FromQuery, WithStrictNullComparison, ShouldAutoSize, WithHeadings, WithMapping
+class RetornoVendasOperadorasExport implements FromQuery, WithStrictNullComparison, WithHeadings, WithMapping, WithCustomCsvSettings
 {
     use Exportable;
 
@@ -20,6 +20,14 @@ class VendasOperadorasExport implements FromQuery, WithStrictNullComparison, Sho
     public function __construct($filters, $subfilters) {
         $this->filters = $filters;
         $this->subfilters = $subfilters;
+    }
+
+    public function getCsvSettings(): array
+    {
+        return [
+            'delimiter' => ';',
+            'excel_compatibility' => true,
+        ];
     }
 
     public function headings(): array
@@ -61,36 +69,36 @@ class VendasOperadorasExport implements FromQuery, WithStrictNullComparison, Sho
     public function map($venda): array
     {
         return [
-            $venda->DESCRICAO_ERP,
-            $venda->NOME_EMPRESA,
-            $venda->CNPJ." ",
+            trim($venda->DESCRICAO_ERP, " "),
+            trim($venda->NOME_EMPRESA, " "),
+            trim($venda->CNPJ, " "),
             is_null($venda->DATA_VENDA) ? null : date_format(date_create($venda->DATA_VENDA), 'd/m/Y'),
             is_null($venda->DATA_PREVISAO) ? null : date_format(date_create($venda->DATA_PREVISAO), 'd/m/Y'),
-            $venda->ADQUIRENTE,
-            $venda->BANDEIRA,
-            $venda->MODALIDADE,
-            $venda->NSU." ",
-            $venda->AUTORIZACAO." ",
-            $venda->TID." ",
-            $venda->CARTAO." ",
+            trim($venda->ADQUIRENTE, " "),
+            trim($venda->BANDEIRA, " "),
+            trim($venda->MODALIDADE, " "),
+            trim($venda->NSU, " "),
+            trim($venda->AUTORIZACAO, " "),
+            trim($venda->TID, " "),
+            trim($venda->CARTAO, " "),
             round(($venda->VALOR_BRUTO ?? 0), 2),
             round(($venda->PERCENTUAL_TAXA ?? 0), 2),
             round((($venda->VALOR_TAXA ?? 0) * -1), 2),
             round(($venda->VALOR_LIQUIDO ?? 0), 2),
-            $venda->PARCELA,
-            $venda->TOTAL_PARCELAS,
-            $venda->HORA_TRANSACAO,
-            $venda->ESTABELECIMENTO." ",
-            $venda->BANCO,
-            $venda->AGENCIA." ",
-            $venda->CONTA." ",
-            $venda->OBSERVACOES,
-            $venda->PRODUTO,
-            $venda->MEIOCAPTURA,
-            $venda->STATUS_CONCILIACAO,
-            $venda->DIVERGENCIA,
-            $venda->STATUS_FINANCEIRO,
-            $venda->JUSTIFICATIVA
+            trim($venda->PARCELA, " "),
+            trim($venda->TOTAL_PARCELAS, " "),
+            trim($venda->HORA_TRANSACAO, " "),
+            trim($venda->ESTABELECIMENTO, " "),
+            trim($venda->BANCO, " "),
+            trim($venda->AGENCIA, " "),
+            trim($venda->CONTA, " "),
+            trim($venda->OBSERVACOES, " "),
+            trim($venda->PRODUTO, " "),
+            trim($venda->MEIOCAPTURA, " "),
+            trim($venda->STATUS_CONCILIACAO, " "),
+            trim($venda->DIVERGENCIA, " "),
+            trim($venda->STATUS_FINANCEIRO, " "),
+            trim($venda->JUSTIFICATIVA, " ")
         ];
     }
 

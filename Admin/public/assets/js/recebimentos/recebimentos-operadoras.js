@@ -177,6 +177,16 @@ function exportar() {
   }, 500);
 }
 
+function retornoCsv() {
+  swal('Aguarde um momento...', 'A sua planilha está sendo gerada.', 'warning');
+  setTimeout(() => {
+    openUrl(searchForm.get('form').dataset.urlRetornoCsv, {
+      ...searchForm.serialize(),
+      ...tableRender.serializeTableFilters(),
+    });
+  }, 500);
+}
+
 function closeRetornoModal() {
   document.querySelector('#js-retorno-recebimento-modal #js-data-inicial').valueAsDate = new Date();
   document.querySelector('#js-retorno-recebimento-modal #js-data-final').valueAsDate = new Date();
@@ -254,6 +264,9 @@ searchForm.get('form').querySelector('button[data-form-action="submit"')
 
 document.querySelector('#js-exportar')
   .addEventListener('click', exportar);
+
+document.querySelector('#js-retorno-csv')
+  .addEventListener('click', retornoCsv);
 
 document.querySelector('#js-abrir-modal-retorno')
   .addEventListener('click', () => $('#js-retorno-recebimento-modal').modal('show'));

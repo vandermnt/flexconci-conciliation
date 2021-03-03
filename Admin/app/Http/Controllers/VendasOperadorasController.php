@@ -15,6 +15,7 @@ use App\StatusFinanceiroModel;
 use App\GruposClientesModel;
 use App\AdquirentesModel;
 use App\ClienteOperadoraModel;
+use App\Exports\CSV\RetornoVendasOperadorasExport;
 use App\Exports\VendasOperadorasExport;
 
 class VendasOperadorasController extends Controller
@@ -156,18 +157,18 @@ class VendasOperadorasController extends Controller
     public function justify(Request $request) {
         $ids = $request->input('id') ?? [];
         $idJustificativa = $request->input('justificativa') ?? null;
-        
+
         $justificativa = JustificativaModel::where('CODIGO', $idJustificativa)
             ->where('COD_CLIENTE', session('codigologin'))
             ->first();
-    
+
         if(is_null($justificativa)) {
           return response()->json([
               'status' => 'erro',
               'mensagem' => 'A justificativa deve ser informada.'
           ], 400);
         }
-    
+
         $statusNaoConciliado = StatusConciliacaoModel::naoConciliada()->first()->CODIGO;
         $statusJustificado = StatusConciliacaoModel::justificada()->first();
 
@@ -176,7 +177,7 @@ class VendasOperadorasController extends Controller
             ->where('COD_STATUS_CONCILIACAO', $statusNaoConciliado)
             ->pluck('CODIGO')
             ->toArray();
-    
+
         VendasModel::whereIn('CODIGO', $validIds)
             ->update([
                 'JUSTIFICATIVA' => $justificativa->JUSTIFICATIVA,
@@ -187,7 +188,7 @@ class VendasOperadorasController extends Controller
             'id' => $validIds,
             'cliente_id' => session('codigologin')
         ])->getQuery()->get();
-          
+
         $totals = [
             'TOTAL_BRUTO' => $sales->sum('VALOR_BRUTO'),
             'TOTAL_LIQUIDO' => $sales->sum('VALOR_LIQUIDO'),
@@ -201,10 +202,10 @@ class VendasOperadorasController extends Controller
           'totais' => $totals,
         ], 200);
     }
-    
+
     public function unjustify(Request $request) {
         $ids = $request->input('id') ?? [];
-    
+
         $statusJustificado = StatusConciliacaoModel::justificada()->first()->CODIGO;
         $statusNaoConciliado = StatusConciliacaoModel::naoConciliada()->first();
 
@@ -224,13 +225,13 @@ class VendasOperadorasController extends Controller
             'id' => $validIds,
             'cliente_id' => session('codigologin'),
         ])->getQuery()->get();
-               
+
         $totals = [
             'TOTAL_BRUTO' => $sales->sum('VALOR_BRUTO'),
             'TOTAL_LIQUIDO' => $sales->sum('VALOR_LIQUIDO'),
         ];
         $totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
-    
+
         return response()->json([
           'status' => 'sucesso',
           'mensagem' => 'As vendas foram desjustificadas com sucesso.',
@@ -248,11 +249,18 @@ class VendasOperadorasController extends Controller
         return (new VendasOperadorasExport($filters, $subfilters))->download('vendas_operadoras_'.time().'.xlsx');
     }
 
+    public function exportCsv(Request $request) {
+        set_time_limit(300);
+
+        $filters = $request->except(['_token']);
+        $subfilters = $request->except(['_token']);
+        Arr::set($filters, 'cliente_id', session('codigologin'));
+        return (new RetornoVendasOperadorasExport($filters, $subfilters))->download('vendas_operadoras_'.time().'.csv');
+    }
+
     public function print(Request $request, $id) {
         $sale = VendasFilter::filter([
                 'id' => [$id],
-                'data_inicial' => '0001-01-01',
-                'data_final' => date('Y-m-d'),
                 'cliente_id' => session('codigologin')
             ])
             ->getQuery()

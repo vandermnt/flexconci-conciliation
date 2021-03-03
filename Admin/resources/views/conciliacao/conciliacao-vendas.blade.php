@@ -187,7 +187,9 @@
               class="btn button no-hover"
               data-type="erp"
             >
-              <i class="fas fa-file-download"></i>
+              <div class="conciflex-icon icon-md">
+                <img src="assets/images/widgets/excel-file.svg" alt="Excel">
+              </div>
               Exportar
             </button>
           </div>
@@ -256,7 +258,9 @@
               class="btn button no-hover"
               data-type="operadoras"
             >
-              <i class="fas fa-file-download"></i>
+              <div class="conciflex-icon icon-md">
+                <img src="assets/images/widgets/excel-file.svg" alt="Excel">
+              </div>
               Exportar
             </button>
           </div>

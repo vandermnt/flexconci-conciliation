@@ -28,6 +28,7 @@
             ['exportar' => route('vendas-operadoras.export')],
             ['imprimir' => route('vendas-operadoras.print', ['id' => ':id'])],
             ['desjustificar' => route('vendas-operadoras.unjustify')],
+            ['retorno-csv' => route('vendas-operadoras.retorno-csv')],
           ]"
           :hidden-fields="[
             'domicilios-bancarios',
@@ -97,7 +98,7 @@
             </button>
             <button id="js-retorno-csv" class="btn button no-hover mr-1">
               <div class="conciflex-icon icon-md">
-                  <img src="assets/images/widgets/csv-file.svg" alt="CSV">
+                <img src="assets/images/widgets/csv-file.svg" alt="CSV">
               </div>
               Retorno CSV
             </button>

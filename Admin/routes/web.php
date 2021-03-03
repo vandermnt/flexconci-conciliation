@@ -48,6 +48,7 @@ Route::group(['middleware' => 'auth'], function() {
   Route::post('/vendas-operadoras/justificar', 'VendasOperadorasController@justify')->name('vendas-operadoras.justify');
   Route::post('/vendas-operadoras/desjustificar', 'VendasOperadorasController@unjustify')->name('vendas-operadoras.unjustify');
   Route::get('/vendas-operadoras/exportar', 'VendasOperadorasController@export')->name('vendas-operadoras.export');
+  Route::get('/vendas-operadoras/retorno-csv', 'VendasOperadorasController@exportCsv')->name('vendas-operadoras.retorno-csv');
   Route::get('/vendas-operadoras/imprimir/{id}', 'VendasOperadorasController@print')->name('vendas-operadoras.print');
 
   //CONCILIAÇÃO AUTOMÁTICA
@@ -99,6 +100,7 @@ Route::group(['middleware' => 'auth'], function() {
   Route::post('/recebimentos-operadoras/buscar', 'RecebimentosOperadorasController@search')->name('recebimentos-operadoras.search');
   Route::post('/recebimentos-operadoras/filtrar', 'RecebimentosOperadorasController@filter')->name('recebimentos-operadoras.filter');
   Route::get('/recebimentos-operadoras/exportar', 'RecebimentosOperadorasController@export')->name('recebimentos-operadoras.export');
+  Route::get('/recebimentos-operadoras/retorno-csv', 'RecebimentosOperadorasController@exportCsv')->name('recebimentos-operadoras.retorno-csv');
   Route::get('/recebimentos-operadoras/retorno-recebimento', 'RetornoRecebimentoController@index')
     ->name('recebimentos-operadoras.retorno-recebimento')
     ->middleware('must_be_global_user');

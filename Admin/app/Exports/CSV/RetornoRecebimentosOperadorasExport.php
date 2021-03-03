@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Exports;
+namespace App\Exports\CSV;
 
 use App\Filters\RecebimentosSubFilter;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
 
-class RecebimentosOperadorasExport implements FromQuery, WithStrictNullComparison, ShouldAutoSize, WithHeadings, WithMapping
+class RetornoRecebimentosOperadorasExport implements FromQuery, WithStrictNullComparison, WithHeadings, WithMapping, WithCustomCsvSettings
 {
     use Exportable;
 
@@ -20,6 +20,14 @@ class RecebimentosOperadorasExport implements FromQuery, WithStrictNullCompariso
     public function __construct($filters, $subfilters) {
         $this->filters = $filters;
         $this->subfilters = $subfilters;
+    }
+
+    public function getCsvSettings(): array
+    {
+        return [
+            'delimiter' => ';',
+            'excel_compatibility' => true,
+        ];
     }
 
     public function headings(): array
@@ -63,38 +71,38 @@ class RecebimentosOperadorasExport implements FromQuery, WithStrictNullCompariso
     public function map($item): array
     {
         return [
-            $item->ID,
-            $item->NOME_EMPRESA,
-            $item->CNPJ." ",
+            trim($item->ID, " "),
+            trim($item->NOME_EMPRESA, " "),
+            trim($item->CNPJ, " "),
             is_null($item->DATA_VENDA) ? null : date_format(date_create($item->DATA_VENDA), 'd/m/Y'),
             is_null($item->DATA_PREVISAO) ? null : date_format(date_create($item->DATA_PREVISAO), 'd/m/Y'),
             is_null($item->DATA_PAGAMENTO) ? null : date_format(date_create($item->DATA_PAGAMENTO), 'd/m/Y'),
-            $item->ADQUIRENTE,
-            $item->BANDEIRA,
-            $item->MODALIDADE,
-            $item->NSU." ",
-            $item->AUTORIZACAO." ",
-            $item->TID." ",
-            $item->CARTAO." ",
+            trim($item->ADQUIRENTE, " "),
+            trim($item->BANDEIRA, " "),
+            trim($item->MODALIDADE, " "),
+            trim($item->NSU, " "),
+            trim($item->AUTORIZACAO, " "),
+            trim($item->TID, " "),
+            trim($item->CARTAO, " "),
             round(($item->VALOR_BRUTO ?? 0), 2),
             round(($item->TAXA_PERCENTUAL ?? 0), 2),
             round((($item->VALOR_TAXA ?? 0) * -1), 2),
             0,
             round(($item->VALOR_LIQUIDO ?? 0), 2),
-            $item->PARCELA,
-            $item->TOTAL_PARCELAS,
-            $item->HORA,
-            $item->ESTABELECIMENTO." ",
-            $item->BANCO,
-            $item->AGENCIA." ",
-            $item->CONTA." ",
-            $item->OBSERVACOES,
-            $item->PRODUTO,
-            $item->MEIOCAPTURA,
-            $item->STATUS_CONCILIACAO,
-            $item->DIVERGENCIA,
-            $item->STATUS_FINANCEIRO,
-            $item->JUSTIFICATIVA
+            trim($item->PARCELA, " "),
+            trim($item->TOTAL_PARCELAS, " "),
+            trim($item->HORA, " "),
+            trim($item->ESTABELECIMENTO, " "),
+            trim($item->BANCO, " "),
+            trim($item->AGENCIA, " "),
+            trim($item->CONTA, " "),
+            trim($item->OBSERVACOES, " "),
+            trim($item->PRODUTO, " "),
+            trim($item->MEIOCAPTURA, " "),
+            trim($item->STATUS_CONCILIACAO, " "),
+            trim($item->DIVERGENCIA, " "),
+            trim($item->STATUS_FINANCEIRO, " "),
+            trim($item->JUSTIFICATIVA, " "),
         ];
     }
 

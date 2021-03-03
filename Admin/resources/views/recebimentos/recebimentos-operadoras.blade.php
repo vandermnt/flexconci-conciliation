@@ -26,6 +26,7 @@
             ['buscar-recebimentos' => route('recebimentos-operadoras.search')],
             ['filtrar-recebimentos' => route('recebimentos-operadoras.filter')],
             ['exportar' => route('recebimentos-operadoras.export')],
+            ['retorno-csv' => route('recebimentos-operadoras.retorno-csv')],
             ['retorno-recebimento' => route('recebimentos-operadoras.retorno-recebimento')],
           ]"
           :hidden-fields="[
@@ -150,9 +151,17 @@
                 Retorno Recebimento {{ $erp->ERP ?? 'ERP' }}
               </button>
             @endif
+            <button id="js-retorno-csv" class="btn button no-hover mr-1">
+                <div class="conciflex-icon icon-md">
+                    <img src="assets/images/widgets/csv-file.svg" alt="CSV">
+                </div>
+                Retorno CSV
+            </button>
             <button id="js-exportar" class="btn button no-hover">
-              <i class="fas fa-file-download"></i>
-              Exportar
+                <div class="conciflex-icon icon-md">
+                    <img src="assets/images/widgets/excel-file.svg" alt="Excel">
+                </div>
+                Exportar
             </button>
           </div>
         </div>

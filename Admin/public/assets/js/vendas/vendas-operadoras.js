@@ -220,6 +220,16 @@ function exportar() {
   }, 500);
 }
 
+function retornoCsv() {
+  swal('Aguarde um momento...', 'A sua planilha está sendo gerada.', 'warning');
+  setTimeout(() => {
+    openUrl(searchForm.get('form').dataset.urlRetornoCsv, {
+      ...searchForm.serialize(),
+      ...tableRender.serializeTableFilters(),
+    });
+  }, 500);
+}
+
 function showTicket(id) {
   const sale = salesContainer.get('data').get('sales').find(sale => sale.ID === id);
   Array.from(
@@ -298,6 +308,9 @@ document.querySelector('#js-por-pagina')
 
 document.querySelector('#js-exportar')
   .addEventListener('click', exportar);
+
+document.querySelector('#js-retorno-csv')
+  .addEventListener('click', retornoCsv);
 
 document.querySelector('#js-desjustificar')
   .addEventListener('click', confirmUnjustify);
