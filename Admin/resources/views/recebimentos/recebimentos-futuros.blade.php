@@ -82,7 +82,9 @@
           </div>
           <div class="actions d-flex align-items-center justify-content-end">
             <button id="js-exportar" class="btn button no-hover">
-              <i class="fas fa-file-download"></i>
+              <div class="conciflex-icon icon-md">
+                <img src="assets/images/widgets/excel-file.svg" alt="Excel">
+              </div>
               Exportar
             </button>
           </div>
