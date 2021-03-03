@@ -96,7 +96,7 @@
               <i class="fas fa-comment-slash"></i>
               Desjustificar
             </button>
-            <button id="js-retorno-csv" class="btn button no-hover mr-1">
+            <button id="js-retorno-csv" class="btn button no-hover mr-1 tooltip-hint" data-title="Arquivo de integração para a realização da baixa/liquidação">
               <div class="conciflex-icon icon-md">
                 <img src="assets/images/widgets/csv-file.svg" alt="CSV">
               </div>
