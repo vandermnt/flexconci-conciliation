@@ -28,6 +28,7 @@
             ['exportar' => route('vendas-operadoras.export')],
             ['imprimir' => route('vendas-operadoras.print', ['id' => ':id'])],
             ['desjustificar' => route('vendas-operadoras.unjustify')],
+            ['retorno-csv' => route('vendas-operadoras.retorno-csv')],
           ]"
           :hidden-fields="[
             'domicilios-bancarios',
