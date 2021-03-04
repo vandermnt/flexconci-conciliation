@@ -136,6 +136,12 @@
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
+            <p>Núm. Máquina</p>
+            <input type="text" class="form-control" name="TERMINAL">
+          </div>
+        </th>
+        <th>
+          <div class="d-flex flex-column align-items-center">
             <p>Banco</p>
             <input type="text" class="form-control" name="BANCO">
           </div>
@@ -248,6 +254,7 @@
         <td data-column="TOTAL_PARCELAS"></td>
         <td data-column="HORA_TRANSACAO" data-format="time"></td>
         <td data-column="ESTABELECIMENTO"></td>
+        <td data-column="TERMINAL"></td>
         <td
           data-image="BANCO_IMAGEM"
           data-default-image="assets/images/widgets/cards.svg"
@@ -297,6 +304,7 @@
         <td></td>
         <td data-column="TOTAL_TAXA" data-reverse-value="true" data-format="currency" class="text-danger"></td>
         <td data-column="TOTAL_LIQUIDO" data-format="currency"></td>
+        <td></td>
         <td></td>
         <td></td>
         <td></td>

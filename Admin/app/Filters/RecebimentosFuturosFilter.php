@@ -61,6 +61,7 @@ class RecebimentosFuturosFilter extends BaseFilter {
           'vendas.TOTAL_PARCELAS',
           'vendas.HORA_TRANSACAO',
           'vendas.ESTABELECIMENTO',
+          'vendas.TERMINAL',
           'lista_bancos.BANCO',
           'lista_bancos.IMAGEM_LINK as BANCO_IMAGEM',
           'vendas.AGENCIA',
