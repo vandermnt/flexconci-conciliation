@@ -1,7 +1,5 @@
 @extends('layouts.analytics-master')
 
-@section('title', 'Metrica - Admin & Dashboard Template')
-
 @section('headerStyle')
 <link href="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.css')}}" rel="stylesheet">
 <link href="{{ URL::asset('assets/css/teste.css')}}" rel="stylesheet" type="text/css" />
@@ -20,83 +18,75 @@
 <div id="tudo_page" class="container-fluid">
   <div class="row">
     <div class="col-sm-12">
-
       @component('common-components.breadcrumb')
-      @slot('title') Justificativas @endslot
+      @slot('title') Adquirentes @endslot
       @slot('item1') Cadastro @endslot
-      <!-- @slot('item2') Antecipação de Venda @endslot -->
       @endcomponent
-
     </div>
   </div>
   <div class="row">
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body" >
-          <div class="row" style="margin-top: -16px">
-            <div class="col-sm-12">
-              <div class="form-group">
-                <div class="row">
-                  <div class="col-sm-8">
-                    <h6 style="color: #424242; font-size: 11.5px"> Justificativa: </h6>
-                    <input id="justificativa" type="textarea" style="padding-left: 7px; padding-top: 5px; border-color: #2D5275" class="form-control" name="justificativa">
-                  </div>
-                </div>
-              </div>
+          <div class="form-group">
+            <div class="col-sm-8">
+              <h6> Nome Adquirente: </h6>
+              <input type="textarea" style="border-color: #2D5275" class="form-control" name="adquirente">
             </div>
           </div>
-
-          <div class="row">
-            <div class="col-sm-12">
-              <div id="btfiltro" style="margin-top: -4px; display:block; text-align: right">
-                <a href="" onclick="limparFiltros()" style="align-items: right; background: white; color: #2D5275; border-color: #2D5275" class="btn btn-sm"> <i class="far fa-trash-alt"></i> <b>Limpar Campos</b>  </a>
-                <button type="button"  onclick="postCadastroJustificativa()" style="align-items: right; background: white; color: #2D5275; border-color: #2D5275" class="btn btn-sm"> <i class="fas fa-save"></i> <b>Salvar</b>  </button>
-              </div>
+          <div class="col-sm-12">
+            <div id="btfiltro" style="display:block; text-align: right;">
+              <button style="align-items: right; background: white; color: #2D5275; border-color: #2D5275" class="btn btn-sm limpa-filtro"> <i class="far fa-trash-alt"></i> <b>Limpar Campos</b>  </button>
+              <button style="align-items: right; background: white; color: #2D5275; border-color: #2D5275" class="btn btn-sm post-cadastro"> <i class="fas fa-save"></i> <b>Salvar</b>  </button>
             </div>
           </div>
-
-
         </div>
 
-        <div style="overflow: auto">
-          <table id="table_justificativa" class="table " style="white-space: nowrap;">
-
+        <div style="overflow: auto; padding: 0px 30px">
+          <table id="tabela-adquirentes" class="table " style="white-space: nowrap;">
             <thead>
               <tr style="background: #2D5275; ">
-                <th> Justificativa </th>
-                <th> Ação </th>
-
+                <th> CÓDIGO </th>
+                <th> ADQUIRENTE </th>
+                <th> HOMOLOGADO </th>
+                <th> AÇÕES </th>
               </tr>
             </thead>
             <tbody id="conteudo_tabe">
-              @foreach($justificativas as $justificativa)
-              <tr id="{{ $justificativa->CODIGO }}">
-                <td id="{{ "just".$justificativa->CODIGO}}"> {{ $justificativa->JUSTIFICATIVA }}</td>
+              @foreach($adquirentes as $adquirente)
+              <tr id="{{ $adquirente->CODIGO }}">
+                <td> {{ $adquirente->CODIGO }}</td>
+                <td> {{ $adquirente->ADQUIRENTE }}</td>
+                <td> @if($adquirente->HOMOLOGADO)
+                  <i style="color: green" class="fas fa-check"></i>
+                  @else
+                  <i  style="color: red" class="fas fa-times"></i>
+                  @endif
+                </td>
                 <td class="excluir">
-                  <a href="#" onclick="editarJustificativa({{$justificativa->CODIGO}})"><i class='far fa-edit'></i></a>
-                  <a href="#" onclick="excluirJustificativa({{$justificativa->CODIGO}})"><i style="margin-left: 12px"class="far fa-trash-alt"></i></a>
+                  <a href="#" onclick="editarAdquirente({{$adquirente->CODIGO}})"><i class='far fa-edit'></i></a>
+                  <a href="#" onclick="excluirAdquirente(event,{{ $adquirente->CODIGO}})"><i style="margin-left: 12px"class="far fa-trash-alt"></i></a>
                 </td>
               </tr>
               @endforeach
             </tbody>
-
           </table>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="modal" id="modalCadastroJustificativa" tabindex="-1">
+  <div class="modal" id="modalCadastroAdquirente" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header" style="background: #2D5275">
-          <h5 class="modal-title" style="color: white">Cadastro Justificativa</h5>
+          <h5 class="modal-title" style="color: white">Cadastro Adquirente</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <p>Justificativa cadastrada com sucesso!</p>
+          <h4>Adquirente cadastrado com sucesso!</h4>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -105,17 +95,17 @@
     </div>
   </div>
 
-  <div class="modal" id="modalExcluirJustificativa" tabindex="-1">
+  <div class="modal" id="modalExcluirAdquirente" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header" style="background: #2D5275">
-          <h5 class="modal-title" style="color: white">Excluir Justificativa</h5>
+          <h5 class="modal-title" style="color: white">Excluir Adquirente</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <p>Deseja excluir essa justificativa?</p>
+          <h4>Deseja excluir esse adquirente?</h4>
         </div>
         <div class="modal-footer">
           <button id="sim" type="button" class="btn btn-success" data-dismiss="modal">Sim</button>
@@ -125,23 +115,22 @@
     </div>
   </div>
 
-  <div class="modal" id="modalEditarJustificativa" tabindex="-1">
+  <div class="modal" id="modalEditarAdquirent" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header" style="background: #2D5275">
-          <h5 class="modal-title" style="color: white">Editar Justificativa</h5>
+          <h5 class="modal-title" style="color: white">Editar Adquirente</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <h5>Dados da Justificativa</h5>
-
-          <h6 style="color: #424242; font-size: 11.5px; margin-top: 12px"> Justificativa: </h6>
+          <h5>Dados da Adquirente</h5>
+          <h6 style="color: #424242; font-size: 11.5px; margin-top: 12px"> Adquirente: </h6>
           <input id="justificativaEdit" type="text" style="padding-left: 7px; padding-top: 5px; border-color: #2D5275" class="form-control" name="justificativaEdit">
         </div>
         <div class="modal-footer">
-          <button id="sim" onclick="salvarEdicaoJustificativa()" type="button" class="btn btn-success" data-dismiss="modal">Salvar</button>
+          <button id="sim" onclick="salvarEdicaoAdquirente()" type="button" class="btn btn-success" data-dismiss="modal">Salvar</button>
           <button id="nao" type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
         </div>
       </div>
@@ -169,8 +158,47 @@
 
 <script>
 
-function limparFiltros(){
-  document.getElementById("justificativa").value = "";
+const buttonLimparFiltro = document.querySelector(".limpa-filtro");
+const buttonCadastroAdquirente = document.querySelector(".post-cadastro");
+const buttonSimExclusao = document.querySelector("#sim");
+
+buttonCadastroAdquirente.addEventListener("click", function(){
+  const adquirente = document.querySelector('input[name="adquirente"]').value;
+  cadastrarAdquirente(adquirente);
+})
+
+buttonLimparFiltro.addEventListener("click", function(){
+  document.getElementById("adquirente").value = "";
+})
+
+buttonSimExclusao.addEventListener("click", function(){
+  console.log("VOu excluir!!!");
+})
+
+function cadastrarAdquirente(adquirente) {
+  const headers = new Headers();
+  const data = ({_token: '{{csrf_token()}}', adquirente});
+
+  fetch("cadastro-adquirente", {
+    method: 'POST',
+    headers: new Headers({
+      'Content-Type': 'application/json',
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }),
+    body: JSON.stringify(data),
+  })
+  .then(function(response){
+    response.json().then(function(data){
+      renderizaNovoAdquirente(data);
+    });
+  })
+  .catch(error => alert("Algo deu errado!"))
+}
+
+function renderizaNovoAdquirente(adquirente) {
+  $("#modalCadastroAdquirente").modal({
+    show: true
+  });
 }
 
 function postCadastroJustificativa(){
@@ -215,10 +243,11 @@ function postCadastroJustificativa(){
   });
 }
 
-function excluirJustificativa(codigo_justificativa){
-  localStorage.setItem('cod_justificativa', codigo_justificativa);
+function excluirAdquirente(e, codigo_adquirente){
+  e.preventDefault();
 
-  $("#modalExcluirJustificativa").modal({
+  localStorage.setItem('cod_adquirente', codigo_adquirente);
+  $("#modalExcluirAdquirente").modal({
     show:true
   });
 }
@@ -268,29 +297,38 @@ function salvarEdicaoJustificativa(){
 
 document.getElementById("sim").addEventListener('click', function() {
 
-  let teste = localStorage.getItem('cod_justificativa');
-  let url = "{{ url('delete-justificativa') }}" + "/" + teste;
+  const cod_adquirente = localStorage.getItem('cod_adquirente');
+  // let url = "{{ url('delete-justificativa') }}" + "/" + teste;
+  console.log("CODIGO :" + cod_adquirente)
 
-  $.ajax({
-    url: url,
-    type: "get",
-    header:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-    data: ({_token: '{{csrf_token()}}', teste}),
-    dataType: 'json',
-    success: function(response){
+  fetch(`delete-adquirente/${cod_adquirente}`,{
+    headers: new Headers({
+      'Content-Type': 'application/json',
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }),
+  })
+  .then(function(response) {
+    response.json().then(function(data){
+      console.log(data);
+    })
+  })
 
-      id_linha = "#"+teste;
+  // $.ajax({
+  //   url: url,
+  //   type: "get",
+  //   header:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+  //   data: ({_token: '{{csrf_token()}}', teste}),
+  //   dataType: 'json',
+  //   success: function(response){
+  //
+  //     id_linha = "#"+teste;
+  //
+  //     $(id_linha).remove();
+  //
+  //   }
+  //
+  // });
 
-      $(id_linha).remove();
-
-    }
-
-  });
-
-}, false);
-
-document.getElementById("nao").addEventListener('click', function() {
-  //console.log("naoooooooo")
 }, false);
 
 
