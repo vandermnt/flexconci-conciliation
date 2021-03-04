@@ -66,6 +66,7 @@ class RecebimentosFilter extends BaseFilter {
         'pagamentos_operadoras.TOTAL_PARCELAS',
         'vendas.HORA_TRANSACAO',
         'pagamentos_operadoras.ID_LOJA as ESTABELECIMENTO',
+        'vendas.TERMINAL',
         'lista_bancos.NOME_WEB as BANCO',
         'lista_bancos.IMAGEM_LINK as BANCO_IMAGEM',
         'pagamentos_operadoras.AGENCIA',

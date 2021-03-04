@@ -30,6 +30,7 @@ class RecebimentosFuturosSubFilter extends BaseSubFilter {
     'TOTAL_PARCELAS',
     'HORA',
     'ESTABELECIMENTO',
+    'TERMINAL',
     'BANCO',
     'AGENCIA',
     'CONTA',

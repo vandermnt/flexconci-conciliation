@@ -13,7 +13,7 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 class RecebimentosFuturosExport implements FromQuery, WithStrictNullComparison, ShouldAutoSize, WithHeadings, WithMapping
 {
     use Exportable;
-    
+
     protected $filters;
     protected $subfilters;
 
@@ -47,6 +47,7 @@ class RecebimentosFuturosExport implements FromQuery, WithStrictNullComparison, 
             'Total Parc.',
             'Hora',
             'Estabelecimento',
+            'Núm. Máquina',
             'Banco',
             'Agencia',
             'Conta',
@@ -85,6 +86,7 @@ class RecebimentosFuturosExport implements FromQuery, WithStrictNullComparison, 
             $item->TOTAL_PARCELAS,
             $item->HORA,
             $item->ESTABELECIMENTO." ",
+            $item->TERMINAL." ",
             $item->BANCO,
             $item->AGENCIA." ",
             $item->CONTA." ",
