@@ -63,7 +63,7 @@ class RecebimentosOperadorasExport implements FromQuery, WithStrictNullCompariso
     public function map($item): array
     {
         return [
-            $item->ID,
+            $item->DESCRICAO_ERP,
             $item->NOME_EMPRESA,
             $item->CNPJ." ",
             is_null($item->DATA_VENDA) ? null : date_format(date_create($item->DATA_VENDA), 'd/m/Y'),

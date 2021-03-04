@@ -24,7 +24,7 @@ class RetornoRecebimentosOperadorasExport implements FromQuery, WithStrictNullCo
     public function headings(): array
     {
         return [
-            'ID',
+            'ID. ERP',
             'Empresa',
             'CNPJ',
             'Venda',
@@ -62,7 +62,7 @@ class RetornoRecebimentosOperadorasExport implements FromQuery, WithStrictNullCo
     public function map($item): array
     {
         return [
-            trim($item->ID, " "),
+            trim($item->DESCRICAO_ERP, " "),
             trim($item->NOME_EMPRESA, " "),
             trim($item->CNPJ, " "),
             is_null($item->DATA_VENDA) ? null : date_format(date_create($item->DATA_VENDA), 'd/m/Y'),
