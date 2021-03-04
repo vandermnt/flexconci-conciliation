@@ -30,6 +30,7 @@ class VendasSubFilter extends BaseSubFilter {
     'TOTAL_PARCELAS',
     'HORA_TRANSACAO',
     'ESTABELECIMENTO',
+    'TERMINAL',
     'BANCO',
     'AGENCIA',
     'CONTA',
@@ -72,7 +73,7 @@ class VendasSubFilter extends BaseSubFilter {
       foreach($subfilters as $subfilter => $value) {
         $this->buildWhereClause($subfilter, $value);
       }
-  
+
 
       return $this;
   }
