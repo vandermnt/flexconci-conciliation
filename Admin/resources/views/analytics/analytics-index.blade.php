@@ -362,7 +362,7 @@
                       </h4>
                     </div>
                     <div class="col-1 media-body align-self-center">
-                      <a id="{{$bancos->CODIGO}}" data-toggle="tab" data-target="#div_banco_selecionado" onclick="showTableBancoSelecionadoInicial({{$bancos->CODIGO}})" role="tab" aria-selected="false">
+                      <a id="{{$bancos->CODIGO}}" data-toggle="tab" data-target="#div_banco_selecionado" onclick="showTableBancoSelecionado({{$bancos->CODIGO}})" role="tab" aria-selected="false">
                         <i class="thumb-lg mdi mdi-chevron-right"></i>
                       </a>
                     </div>
@@ -416,7 +416,7 @@
                           </h4>
                         </div>
                         <div class="col-1 media-body align-self-center">
-                          <a id="{{ "operadora".$operadora->CODIGO}}" data-toggle="tab" data-target="#div_operadora_selecionada" onclick="showTableOperadoraSelecionadaInicial({{$operadora->CODIGO}})" role="tab" aria-selected="false" style="display: block"><i class="thumb-lg mdi mdi-chevron-right"></i> </a>
+                          <a id="{{ "operadora".$operadora->CODIGO}}" data-toggle="tab" data-target="#div_operadora_selecionada" onclick="showTableOperadoraSelecionada({{$operadora->CODIGO}})" role="tab" aria-selected="false" style="display: block"><i class="thumb-lg mdi mdi-chevron-right"></i> </a>
                         </div>
                       </div>
                     </li>
@@ -465,12 +465,12 @@
       preCarregarGraficoVendasProduto(grafico_vendas_produto);
     });
 
-    let bancos_dados = null
-    let operadoras_dados = null;
-    let pagamentos_antecipados;
-    let pagamentos_normais;
-    let pagamentos_antecipados_bancos;
-    let pagamentos_normais_bancos;
+    let bancos_dados = <?php echo $dados_bancos ?>;
+    let operadoras_dados = <?php echo $dados_operadora ?>;
+    let pagamentos_antecipados = null;
+    let pagamentos_normais = null;
+    let pagamentos_antecipados_bancos = null;
+    let pagamentos_normais_bancos = null;
 
     function showRecebiveis(data, title, color, jsEvent) {
       document.getElementById("voltar").click();
@@ -496,7 +496,6 @@
             type: "GET",
             dataType: 'json',
             success: function(response) {
-              console.log(response);
               bancos_dados = response[0];
               operadoras_dados = response[1];
 
@@ -693,8 +692,11 @@
 
     function showTableOperadoraSelecionada(codigo) {
       $("#table_operadora_selecionado tbody").empty();
+      console.log(pagamentos_normais);
+      console.log(pagamentos_antecipados);
 
       const result = operadoras_dados.find(operadora => operadora.CODIGO == codigo);
+      console.log(result);
       const pagamento_normal = buscaPagamentoNormal(pagamentos_normais, codigo);
       const pagamento_antecipado = buscaPagamentoAntecipado(pagamentos_antecipados, codigo);
       const val_bruto = parseFloat(result.val_bruto);
@@ -705,7 +707,7 @@
       document.getElementById("operadora" + result.CODIGO).classList.remove('active');
       document.getElementById("voltar_operadora").classList.remove('active');
     }
-    
+
     function buscaPagamentoNormal(pagamentos, codigo) {
       pagamento_normal = pagamentos ? pagamento.find(pagamento => pagamento.CODIGO == codigo) : null;
       return pagamento_normal ? pagamento_normal.tipo_pgto_antecipado : 0;

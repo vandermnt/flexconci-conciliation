@@ -22,7 +22,7 @@ class DashboardController extends Controller{
     ->select('pagamentos_operadoras.*')
     ->selectRaw('sum(VALOR_BRUTO) as tipo_pgto_normal')
     ->where('pagamentos_operadoras.COD_TIPO_PAGAMENTO', 1)
-    ->where('pagamentos_operadoras.DATA_PAGAMENTO', $data)
+    ->where('pagamentos_operadoras.DATA_PAGAMENTO', $data_atual)
     ->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'));
 
     $pagamento_normal_operadora = $pagamento_normal->groupBy('pagamentos_operadoras.COD_ADQUIRENTE')->get();
@@ -32,11 +32,13 @@ class DashboardController extends Controller{
     ->select('pagamentos_operadoras.*')
     ->selectRaw('sum(VALOR_BRUTO) as tipo_pgto_antecipado')
     ->where('pagamentos_operadoras.COD_TIPO_PAGAMENTO', 2)
-    ->where('pagamentos_operadoras.DATA_PAGAMENTO', $data)
+    ->where('pagamentos_operadoras.DATA_PAGAMENTO', $data_atual)
     ->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'));
+
 
     $pagamento_antecipado_operadora = $pagamento_antecipado->groupBy('pagamentos_operadoras.COD_ADQUIRENTE')->get();
     $pagamento_antecipado_banco = $pagamento_antecipado->groupBy('pagamentos_operadoras.COD_BANCO')->get();
+    // dd($pagamento_antecipado_operadora);
 
     $dados_dash_vendas = DB::table('dashboard_vendas_adquirentes')
     ->leftJoin('periodo_dash', 'dashboard_vendas_adquirentes.COD_PERIODO', 'periodo_dash.CODIGO')
@@ -97,7 +99,7 @@ class DashboardController extends Controller{
     ->select('vendas.*', 'vendas.DATA_PAGAMENTO', 'lista_bancos.IMAGEM_LINK as IMAGEM', 'adquirentes.IMAGEM as IMAGEMAD', 'lista_bancos.NOME_WEB as BANCO_NOME', 'adquirentes.ADQUIRENTE as NOME_AD')
     ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
     ->selectRaw('sum(VALOR_BRUTO) as val_bruto')
-    ->selectRaw('sum(VALOR_TAXA) as val_tx')
+    ->selectRaw('sum(VALOR_TAXA) as val_taxa')
     ->where('vendas.DATA_PREVISTA_PAGTO', '=', $data_atual)
     ->where('vendas.COD_CLIENTE', '=', session('codigologin'));
 
@@ -122,7 +124,6 @@ class DashboardController extends Controller{
     return view('analytics.analytics-index')
     ->with('projetos', $projetos)
     ->with('dados_bancos', $dados_bancos)
-    ->with('dados_bancos_inicial', $dados_bancos_inicial)
     ->with('dados_operadora', $dados_operadora)
     ->with('total_mes', $total_mes)
     ->with('total_futuro', $total_futuro)
