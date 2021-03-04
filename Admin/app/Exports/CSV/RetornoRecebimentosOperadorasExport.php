@@ -8,9 +8,8 @@ use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
 
-class RetornoRecebimentosOperadorasExport implements FromQuery, WithStrictNullComparison, WithHeadings, WithMapping, WithCustomCsvSettings
+class RetornoRecebimentosOperadorasExport implements FromQuery, WithStrictNullComparison, WithHeadings, WithMapping
 {
     use Exportable;
 
@@ -22,18 +21,10 @@ class RetornoRecebimentosOperadorasExport implements FromQuery, WithStrictNullCo
         $this->subfilters = $subfilters;
     }
 
-    public function getCsvSettings(): array
-    {
-        return [
-            'delimiter' => ';',
-            'excel_compatibility' => true,
-        ];
-    }
-
     public function headings(): array
     {
         return [
-            'ID',
+            'ID. ERP',
             'Empresa',
             'CNPJ',
             'Venda',
@@ -71,7 +62,7 @@ class RetornoRecebimentosOperadorasExport implements FromQuery, WithStrictNullCo
     public function map($item): array
     {
         return [
-            trim($item->ID, " "),
+            trim($item->DESCRICAO_ERP, " "),
             trim($item->NOME_EMPRESA, " "),
             trim($item->CNPJ, " "),
             is_null($item->DATA_VENDA) ? null : date_format(date_create($item->DATA_VENDA), 'd/m/Y'),

@@ -91,7 +91,7 @@
           icon-description="Pag. Antecipado"
         />
         <x-box
-          title="PAG. AVULSO|AJ. CRÉDITO (+)"
+          title="AJUSTE A CRÉDITO"
           content="R$ 0,00"
           data-format="currency"
           data-key="PAG_AVULSO"
@@ -117,7 +117,7 @@
           icon-description="Antecipação"
         />
         <x-box
-          title="OUTRAS DESPESAS|AJ. DÉBITO (-)"
+          title="AJUSTE A DÉBITO"
           content="-R$ 0,00"
           content-class="text-danger"
           data-format="currency"

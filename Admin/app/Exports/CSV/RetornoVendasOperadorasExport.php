@@ -8,9 +8,8 @@ use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
 
-class RetornoVendasOperadorasExport implements FromQuery, WithStrictNullComparison, WithHeadings, WithMapping, WithCustomCsvSettings
+class RetornoVendasOperadorasExport implements FromQuery, WithStrictNullComparison, WithHeadings, WithMapping
 {
     use Exportable;
 
@@ -20,14 +19,6 @@ class RetornoVendasOperadorasExport implements FromQuery, WithStrictNullComparis
     public function __construct($filters, $subfilters) {
         $this->filters = $filters;
         $this->subfilters = $subfilters;
-    }
-
-    public function getCsvSettings(): array
-    {
-        return [
-            'delimiter' => ';',
-            'excel_compatibility' => true,
-        ];
     }
 
     public function headings(): array
