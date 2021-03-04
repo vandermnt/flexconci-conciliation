@@ -14,6 +14,7 @@ Route::group(['middleware' => 'auth'], function() {
   //DAHSBOARD
   Route::get('/', 'DashboardController@dashboard');
   Route::get('/detalhe-calendario/{data}', 'DashboardController@detalheCalendario');
+  Route::get('/dados-calendario', 'DashboardController@dadosCalendario');
   Route::get('/detalhe-calendario-prev/{data}', 'DashboardController@detalheCalendarioPrevisaoPagamento');
 
   Route::get('/export-vendasoperadora/{periodo}', 'DashboardController@exportarPdfVendasOperadoras');
@@ -113,7 +114,7 @@ Route::group(['middleware' => 'auth'], function() {
   Route::get('/vendas-sistema-erp/retorno-erp', 'RetornoErpController@index')
     ->name('vendas-erp.retorno-erp')
     ->middleware('must_be_global_user');
-  
+
   //USUARIO
   Route::get('/logout', 'Auth\LoginController@logout');
 

@@ -143,6 +143,24 @@ class DashboardController extends Controller{
     ->with('periodos', $periodos);
   }
 
+  public function dadosCalendario(){
+    $dados_calendario_previsao = DB::table('vendas')
+    ->select('vendas.DATA_PREVISTA_PAGTO')
+    ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
+    ->where('cod_cliente', '=', session('codigologin'))
+    ->groupBy('vendas.DATA_PREVISTA_PAGTO')
+    ->get();
+
+    $dados_calendario_pagamento = DB::table('pagamentos_operadoras')
+    ->select('pagamentos_operadoras.*', 'pagamentos_operadoras.DATA_PAGAMENTO')
+    ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
+    ->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'))
+    ->groupBy('pagamentos_operadoras.DATA_PAGAMENTO')
+    ->get();
+
+    return response()->json(['previstos' => $dados_calendario_previsao, 'pagos' => $dados_calendario_pagamento]);
+  }
+
   public function exportarPdfVendasOperadoras($codigo_periodo){
 
     $dados_vendas = DB::table('dashboard_vendas_adquirentes')
