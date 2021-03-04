@@ -177,6 +177,16 @@ function exportar() {
   }, 500);
 }
 
+function retornoCsv() {
+  swal('Aguarde um momento...', 'A sua planilha está sendo gerada.', 'warning');
+  setTimeout(() => {
+    openUrl(searchForm.get('form').dataset.urlRetornoCsv, {
+      ...searchForm.serialize(),
+      ...tableRender.serializeTableFilters(),
+    });
+  }, 500);
+}
+
 function closeRetornoModal() {
   document.querySelector('#js-retorno-recebimento-modal #js-data-inicial').valueAsDate = new Date();
   document.querySelector('#js-retorno-recebimento-modal #js-data-final').valueAsDate = new Date();
@@ -185,10 +195,14 @@ function closeRetornoModal() {
 }
 
 function updatePayments(payments, newPayments, idKey = 'ID') {
-  const updatedPayments = updateData([...payments], [...newPayments], idKey).data;
+  const updated = updateData([...payments], [...newPayments], idKey);
+  const updatedPayments = updated.data;
+  const affectedRows = updated.updated.reduce((ids, value) => [...ids, value.ID], []);
 
   paymentsContainer.get('data').set('payments', [...updatedPayments]);
-  
+  console.log(affectedRows);
+
+  tableRender.set('selectedRows', affectedRows);
   tableRender.set('data', {
     body: ([...updatedPayments] || []),
     footer: ({ ...paymentsContainer.get('data').get('totals') } || {}),
@@ -213,7 +227,6 @@ function retornoRecebimentoErp() {
     },
   })
     .then(res => {
-      toggleElementVisibility('#js-loader');
       if(res.status === 'erro' && res.mensagem) {
         swal('Ooops...', res.mensagem, 'error');
         return;
@@ -227,11 +240,17 @@ function retornoRecebimentoErp() {
             RETORNO_ERP_BAIXA: 'Sim',
           }
         ];
-      }, [])
+      }, []);
 
       updatePayments(paymentsContainer.get('data').get('payments'), [...updatedPayments], 'ID');
 
       swal('Retorno Recebimento realizado!', `${res.vendas.length} de ${res.total} registros atualizados!`, 'success');
+    })
+    .catch((err) => {
+        swal("Ooops...", 'Um erro inesperado ocorreu. Tente novamente mais tarde!', 'error');
+    })
+    .finally(() => {
+        toggleElementVisibility('#js-loader');
     });
 
   closeRetornoModal();
@@ -246,6 +265,9 @@ searchForm.get('form').querySelector('button[data-form-action="submit"')
 document.querySelector('#js-exportar')
   .addEventListener('click', exportar);
 
+document.querySelector('#js-retorno-csv')
+  .addEventListener('click', retornoCsv);
+
 document.querySelector('#js-abrir-modal-retorno')
   .addEventListener('click', () => $('#js-retorno-recebimento-modal').modal('show'));
 
@@ -257,3 +279,7 @@ document.querySelector('#js-retorno-recebimento')
 
 document.querySelector('#js-retorno-recebimento-modal *[data-dismiss]')
   .addEventListener('click', closeRetornoModal);
+
+document.querySelector('#dropdownUserSettings').addEventListener('click', (e) => {
+    $('#dropdownUserSettings').dropdown('toggle');
+});

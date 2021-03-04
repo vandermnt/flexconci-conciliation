@@ -69,7 +69,7 @@
 </a>
 </li> --}}
 <li class="dropdown">
-  <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
+  <a id="dropdownUserSettings" class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
   aria-haspopup="false" aria-expanded="false">
   {{-- <img src="{{ URL::asset('assets/images/users/user-4.jpg')}}" alt="profile-user" class="rounded-circle" /> --}}
   <!-- <span class="ml-1 nav-user-name hidden-sm">{{Session::get('codigologin') }} <i class="mdi mdi-chevron-down"></i> </span> -->
@@ -77,7 +77,7 @@
   <span class="ml-1 nav-user-name hidden-sm">{{$primeiro_nome[0] }} |   {{ Session::get('nome_fantasia')}} <i class="mdi mdi-chevron-down"></i> </span>
 
 </a>
-<div class="dropdown-menu dropdown-menu-right">
+<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownUserSettings">
   {{-- <a class="dropdown-item" href="#"><i class="dripicons-user mr-2"></i> Editar Perfil</a>
   <a class="dropdown-item" href="#"><i class="dripicons-wallet mr-2"></i> Configurações</a>
   <a class="dropdown-item" href="#"><i class="dripicons-gear mr-2"></i> Ajuda</a> --}}
@@ -255,7 +255,7 @@ aria-haspopup="false" aria-expanded="false">
     </li>
 
     <li>
-      <a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/conciliacao-automatica') }}" role="button"
+      <a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('conciliacao-vendas') }}" role="button"
       aria-haspopup="false" aria-expanded="false">
       <span class="ml-1 nav-user-name hidden-sm"><i class="far fa-handshake"></i> Conciliação de Vendas </span>
     </a>

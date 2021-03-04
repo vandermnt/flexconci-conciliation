@@ -1,3 +1,36 @@
+html {
+    scroll-behavior: smooth;
+}
+
+.conciflex-icon {
+    --icon-size: 14px;
+    width: var(--icon-size);
+    height: unset !important;
+    display: inline-block;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.conciflex-icon.icon-sm {
+    --icon-size: 12px;
+}
+
+.conciflex-icon.icon-md {
+    --icon-size: 20px;
+}
+
+.conciflex-icon.icon-lg {
+    --icon-size: 24px;
+}
+
+.conciflex-icon.icon-xlg {
+    --icon-size: 32px;
+}
+
+.conciflex-icon img {
+    width: var(--icon-size);
+}
+
 .icon-image {
   content: '';
   width: 100%;
@@ -224,7 +257,7 @@ table td[data-image] > .icon-image {
   background-image: url(../../images/bandeiras/ticket.png);
   background-image: url(../../images/bandeiras/visa.svg);
   background-image: url(../../images/bandeiras/vr.png);
-  background-image: url(../../images/iconCart.jpeg);
+  background-image: url(../../images/widgets/cards.svg);
   background-origin: border-box;
   padding: 12px !important;
   margin: 2px auto;

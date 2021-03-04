@@ -49,6 +49,7 @@ Route::group(['middleware' => 'auth'], function() {
   Route::post('/vendas-operadoras/justificar', 'VendasOperadorasController@justify')->name('vendas-operadoras.justify');
   Route::post('/vendas-operadoras/desjustificar', 'VendasOperadorasController@unjustify')->name('vendas-operadoras.unjustify');
   Route::get('/vendas-operadoras/exportar', 'VendasOperadorasController@export')->name('vendas-operadoras.export');
+  Route::get('/vendas-operadoras/retorno-csv', 'VendasOperadorasController@exportCsv')->name('vendas-operadoras.retorno-csv');
   Route::get('/vendas-operadoras/imprimir/{id}', 'VendasOperadorasController@print')->name('vendas-operadoras.print');
 
   //CONCILIAÇÃO AUTOMÁTICA
@@ -56,26 +57,26 @@ Route::group(['middleware' => 'auth'], function() {
 //   Route::get('/conciliacao-automatica1', 'ConciliacaoAutomaticaController@index');
 //   Route::post('/conciliacao-automatica1/buscar/erp', 'ConciliacaoAutomaticaController@filterErp')->name('conciliacao-automatica.busca.erp');
 //   Route::post('/conciliacao-automatica1/buscar/operadoras', 'ConciliacaoAutomaticaController@filterOperadoras')->name('conciliacao-automatica.busca.operadoras');
-  Route::get('/conciliacao-automatica', 'ConciliacaoAutomaticaController@index');
-  Route::post('/conciliacao-automatica/buscar/erp', 'ConciliacaoAutomaticaController@filterErp')->name('conciliacao-automatica.busca.erp');
-  Route::post('/conciliacao-automatica/buscar/operadoras', 'ConciliacaoAutomaticaController@filterOperadoras')->name('conciliacao-automatica.busca.operadoras');
-  Route::post('/conciliacao-automatica/filtrar/erp', 'ConciliacaoAutomaticaController@subFilterErp')->name('conciliacao-automatica.filtrar.erp');
-  Route::post('/conciliacao-automatica/filtrar/operadoras', 'ConciliacaoAutomaticaController@subFilterOperadoras')->name('conciliacao-automatica.filtrar.operadoras');
-  Route::post('/conciliacao-automatica/conciliar/manualmente', 'ConciliacaoAutomaticaController@conciliarManualmente')
-    ->middleware('verifica_vendas_conciliacao')
-    ->name('conciliacao-automatica.conciliar.manualmente');
-  Route::post('/conciliacao-automatica/desconciliar/manualmente', 'ConciliacaoAutomaticaController@desconciliarManualmente')
-    ->middleware('verifica_vendas_desconciliacao')
-    ->name('conciliacao-automatica.desconciliar.manualmente');
-  Route::post('/conciliacao-automatica/conciliar/justificar', 'ConciliacaoAutomaticaController@justificar')
-    ->name('conciliacao-automatica.conciliar.justificar');
-  Route::post('/conciliacao-automatica/conciliar/desjustificar', 'ConciliacaoAutomaticaController@desjustificar')
-    ->name('conciliacao-automatica.conciliar.desjustificar');
+//   Route::get('/conciliacao-automatica', 'ConciliacaoAutomaticaController@index');
+//   Route::post('/conciliacao-automatica/buscar/erp', 'ConciliacaoAutomaticaController@filterErp')->name('conciliacao-automatica.busca.erp');
+//   Route::post('/conciliacao-automatica/buscar/operadoras', 'ConciliacaoAutomaticaController@filterOperadoras')->name('conciliacao-automatica.busca.operadoras');
+//   Route::post('/conciliacao-automatica/filtrar/erp', 'ConciliacaoAutomaticaController@subFilterErp')->name('conciliacao-automatica.filtrar.erp');
+//   Route::post('/conciliacao-automatica/filtrar/operadoras', 'ConciliacaoAutomaticaController@subFilterOperadoras')->name('conciliacao-automatica.filtrar.operadoras');
+//   Route::post('/conciliacao-automatica/conciliar/manualmente', 'ConciliacaoAutomaticaController@conciliarManualmente')
+//     ->middleware('verifica_vendas_conciliacao')
+//     ->name('conciliacao-automatica.conciliar.manualmente');
+//   Route::post('/conciliacao-automatica/desconciliar/manualmente', 'ConciliacaoAutomaticaController@desconciliarManualmente')
+//     ->middleware('verifica_vendas_desconciliacao')
+//     ->name('conciliacao-automatica.desconciliar.manualmente');
+//   Route::post('/conciliacao-automatica/conciliar/justificar', 'ConciliacaoAutomaticaController@justificar')
+//     ->name('conciliacao-automatica.conciliar.justificar');
+//   Route::post('/conciliacao-automatica/conciliar/desjustificar', 'ConciliacaoAutomaticaController@desjustificar')
+//     ->name('conciliacao-automatica.conciliar.desjustificar');
   Route::get('/conciliacao-automatica/exportar/erp', 'ConciliacaoAutomaticaController@exportarErp')
     ->name('conciliacao-automatica.exportar.erp');
   Route::get('/conciliacao-automatica/exportar/operadoras', 'ConciliacaoAutomaticaController@exportarOperadoras')
     ->name('conciliacao-automatica.exportar.operadoras');
-  Route::get('/conciliacao-vendas', 'ConciliacaoVendasController@index');
+  Route::get('/conciliacao-vendas', 'ConciliacaoVendasController@index')->name('conciliacao-vendas');
   Route::post('/conciliacao-vendas/buscar/erp', 'ConciliacaoVendasController@searchErp')->name('conciliacao-vendas.buscarErp');
   Route::post('/conciliacao-vendas/filtrar/erp', 'ConciliacaoVendasController@filterErp')->name('conciliacao-vendas.filtrarErp');
   Route::post('/conciliacao-vendas/buscar/operadoras', 'ConciliacaoVendasController@searchOperadoras')->name('conciliacao-vendas.buscarOperadoras');
@@ -100,6 +101,7 @@ Route::group(['middleware' => 'auth'], function() {
   Route::post('/recebimentos-operadoras/buscar', 'RecebimentosOperadorasController@search')->name('recebimentos-operadoras.search');
   Route::post('/recebimentos-operadoras/filtrar', 'RecebimentosOperadorasController@filter')->name('recebimentos-operadoras.filter');
   Route::get('/recebimentos-operadoras/exportar', 'RecebimentosOperadorasController@export')->name('recebimentos-operadoras.export');
+  Route::get('/recebimentos-operadoras/retorno-csv', 'RecebimentosOperadorasController@exportCsv')->name('recebimentos-operadoras.retorno-csv');
   Route::get('/recebimentos-operadoras/retorno-recebimento', 'RetornoRecebimentoController@index')
     ->name('recebimentos-operadoras.retorno-recebimento')
     ->middleware('must_be_global_user');

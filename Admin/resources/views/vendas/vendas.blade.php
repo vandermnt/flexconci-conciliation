@@ -1492,10 +1492,10 @@ function renderizaTabela(response){
 
     html +="<td>"+response[0].data[i].EMPRESA+"</td>";
     html +="<td>"+response[0].data[i].CNPJ+"</td>";
-    html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEMAD || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
+    html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEMAD || 'assets/images/widgets/cards.svg'}` +"'' style='width: 30px'/>"+"</td>";
     html +="<td>"+data_venda+"</td>";
     html +="<td>"+data_prev_pag+"</td>";
-    html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEMBAD || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
+    html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEMBAD || 'assets/images/widgets/cards.svg'}` +"'' style='width: 30px'/>"+"</td>";
     html +="<td>"+response[0].data[i].DESCRICAO+"</td>";
     html +="<td>"+response[0].data[i].NSU+"</td>";
     html +="<td>"+response[0].data[i].AUTORIZACAO+"</td>";
@@ -1510,7 +1510,7 @@ function renderizaTabela(response){
     html +="<td>"+response[0].data[i].TOTAL_PARCELAS+"</td>";
     html +="<td>"+response[0].data[i].HORA_TRANSACAO+"</td>";
     html +="<td>"+response[0].data[i].ESTABELECIMENTO+"</td>";
-    html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEM_LINK || 'assets/images/iconCart.jpeg'}` +"'' style='width: 30px'/>"+"</td>";
+    html +="<td>"+"<img src='" + `${response[0].data[i].IMAGEM_LINK || 'assets/images/widgets/cards.svg'}` +"'' style='width: 30px'/>"+"</td>";
     html +="<td>"+ `${response[0].data[i].AGENCIA || ''}` +"</td>";
     html +="<td>"+ `${response[0].data[i].CONTA || ''}` +"</td>";
     html +="<td>"+ `${response[0].data[i].OBSERVACOES || ''}` +"</td>";

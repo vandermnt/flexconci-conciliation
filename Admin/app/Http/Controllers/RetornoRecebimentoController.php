@@ -40,7 +40,7 @@ class RetornoRecebimentoController extends Controller
                 ->whereNotNull('vendas.COD_PAGAMENTO')
                 ->where(function ($query) {
                     $query->whereNull('vendas_erp.RETORNO_ERP_BAIXA')
-                        ->orWhere('vendas_erp.RETORNO_ERP_BAIXA', 'N'); 
+                        ->orWhere('vendas_erp.RETORNO_ERP_BAIXA', 'N');
                 })
                 ->whereIn('vendas_erp.COD_STATUS_CONCILIACAO', [$status_conciliada, $status_divergente])
                 ->whereBetween('vendas_erp.DATA_VENDA', $datas);

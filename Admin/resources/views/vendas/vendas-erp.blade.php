@@ -46,7 +46,7 @@
     <div class="resultados hidden">
       <div class="boxes">
         <x-box
-          title="BRUTO"
+          title="VALOR TOTAL BRUTO"
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_BRUTO"
@@ -54,7 +54,7 @@
           icon-description="Valor Bruto"
         />
         <x-box
-          title="VALOR TAXA"
+          title="CUSTO TAXA"
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_TAXA"
@@ -63,7 +63,7 @@
           icon-description="Valor Taxa"
         />
         <x-box
-          title="VALOR LÍQUIDO DE VENDAS"
+          title="VALOR TOTAL LÍQUIDO"
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_LIQUIDO"
@@ -80,7 +80,9 @@
           </div>
           <div class="acoes d-flex align-items-center justify-content-between">
             <button id="js-exportar" class="btn button no-hover">
-              <i class="fas fa-file-download"></i>
+              <div class="conciflex-icon icon-md">
+                <img src="assets/images/widgets/excel-file.svg" alt="Excel">
+              </div>
               Exportar
             </button>
           </div>
@@ -99,7 +101,8 @@
             'TAXA_OPERADORA',
             'TAXA_DIFERENCA',
             'VALOR_LIQUIDO_OPERADORA',
-            'DIFERENCA_LIQUIDO'
+            'DIFERENCA_LIQUIDO',
+            'RETORNO_ERP',
           ]"
         >
           <x-slot name="actions">

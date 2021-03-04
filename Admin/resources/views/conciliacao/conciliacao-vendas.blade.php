@@ -32,6 +32,7 @@
             ['conciliar-manualmente' => route('conciliacao-vendas.conciliarManualmente')],
             ['desconciliar-manualmente' => route('conciliacao-vendas.desconciliarManualmente')],
             ['justificar-erp' => route('vendas-erp.justify')],
+            ['retorno-erp' => route('vendas-erp.retorno-erp')],
             ['desjustificar-erp' => route('vendas-erp.unjustify')],
             ['justificar-operadoras' => route('vendas-operadoras.justify')],
           ]"
@@ -63,7 +64,8 @@
           icon-path="assets/images/widgets/notebook.svg"
           icon-description="Vendas ERP"
           :dataset="[
-            'hint' => 'Total de vendas enviadas pelo seu sistema de gestão.'
+            'hint' => 'Total de vendas enviadas pelo seu sistema de gestão.',
+            'status' => '*'
           ]"
         />
         <x-box
@@ -75,7 +77,8 @@
           icon-path="assets/images/widgets/check.svg"
           icon-description="Conciliado"
           :dataset="[
-            'hint' => 'Vendas do seu sistema que foram conciliadas com as vendas das operadoras.'
+            'hint' => 'Vendas do seu sistema que foram conciliadas com as vendas das operadoras.',
+            'status' => '1',
           ]"
         />
         <x-box
@@ -87,7 +90,8 @@
           icon-path="assets/images/widgets/x.svg"
           icon-description="Divergente"
           :dataset="[
-            'hint' => 'Vendas do seu sistema que foram conciliadas com divergência. Vá até a coluna Divergência e veja o motivo!'
+            'hint' => 'Vendas do seu sistema que foram conciliadas com divergência. Vá até a coluna Divergência e veja o motivo!',
+            'status' => '5',
           ]"
         />
         <x-box
@@ -99,7 +103,8 @@
           icon-path="assets/images/widgets/handshake.svg"
           icon-description="Conciliacao Manual"
           :dataset="[
-            'hint' => 'Vendas do seu sistema que foram conciliadas manualmente com as vendas das operadoras.'
+            'hint' => 'Vendas do seu sistema que foram conciliadas manualmente com as vendas das operadoras.',
+            'status' => '6',
           ]"
         />
         <x-box
@@ -111,7 +116,8 @@
           icon-path="assets/images/widgets/flag.svg"
           icon-description="Justificado"
           :dataset="[
-            'hint' => 'Vendas do seu sistema que foram justificadas por algum motivo. Vá até a coluna Justificativa e veja o motivo!'
+            'hint' => 'Vendas do seu sistema que foram justificadas por algum motivo. Vá até a coluna Justificativa e veja o motivo!',
+            'status' => '3',
           ]"
         />
         <x-box
@@ -123,7 +129,8 @@
           icon-path="assets/images/widgets/exclamation-mark.svg"
           icon-description="Pendências"
           :dataset="[
-            'hint' => 'Vendas do seu sistema que não foram conciliadas com as vendas das operadoras.'
+            'hint' => 'Vendas do seu sistema que não foram conciliadas com as vendas das operadoras.',
+            'status' => '2',
           ]"
         />
         <x-box
@@ -135,7 +142,8 @@
           icon-path="assets/images/widgets/exclamation-mark.svg"
           icon-description="Pendências"
           :dataset="[
-            'hint' => 'Vendas das operadoras que não foram conciliadas com as vendas do seu sistema.'
+            'hint' => 'Vendas das operadoras que não foram conciliadas com as vendas do seu sistema.',
+            'status' => '2',
           ]"
         />
       </div>
@@ -147,6 +155,13 @@
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas ERP">
           </div>
           <div class="acoes d-flex align-items-center justify-content-between">
+            <button
+                class="btn mr-1 button no-hover"
+                id="js-abrir-modal-retorno-erp"
+            >
+                <i class="fas fa-undo"></i>
+                Retorno Venda {{ $erp->ERP ?? 'ERP' }}
+            </button>
             <button id="js-conciliar" class="btn mr-1 button no-hover">
               <i class="far fa-handshake"></i>
               Conciliar
@@ -172,7 +187,9 @@
               class="btn button no-hover"
               data-type="erp"
             >
-              <i class="fas fa-file-download"></i>
+              <div class="conciflex-icon icon-md">
+                <img src="assets/images/widgets/excel-file.svg" alt="Excel">
+              </div>
               Exportar
             </button>
           </div>
@@ -241,7 +258,9 @@
               class="btn button no-hover"
               data-type="operadoras"
             >
-              <i class="fas fa-file-download"></i>
+              <div class="conciflex-icon icon-md">
+                <img src="assets/images/widgets/excel-file.svg" alt="Excel">
+              </div>
               Exportar
             </button>
           </div>
@@ -286,6 +305,40 @@
   </main>
 
   <div class="modais">
+    <x-modal
+        id="js-retorno-erp-modal"
+        modal-label-id="modal-retorno-label"
+        :modal-label="'Retorno Venda '.($erp->ERP ?? 'ERP')"
+    >
+        <x-slot name="content">
+            <div class="form-group">
+                <label for="js-data-inicial">Data Inicial:</label>
+                <input id="js-data-inicial" type="date" class="form-control" value="{{ date('Y-m-d') }}" required>
+            </div>
+            <div class="form-group">
+                <label for="js-data-final">Data Final:</label>
+                <input id="js-data-final" type="date" class="form-control" value="{{ date('Y-m-d') }}" required>
+            </div>
+        </x-slot>
+
+        <x-slot name="footer">
+            <button
+                id="js-cancelar-retorno-erp"
+                type="button"
+                class="btn btn-danger font-weight-bold"
+            >
+                Cancelar
+            </button>
+
+            <button
+                id="js-retorno-erp"
+                type="button"
+                class="btn btn-success font-weight-bold"
+            >
+                Confirmar
+            </button>
+        </x-slot>
+    </x-modal>
     <x-modal
       id="js-justificar-modal"
       modal-label="Justificar"

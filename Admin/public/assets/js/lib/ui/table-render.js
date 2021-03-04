@@ -1,7 +1,7 @@
 function TableRender(options = {}) {
   this.proxy = new Proxy({
     table: options.table || '#js-table',
-    data: options.data || { body: {}, footer: {} },
+    data: options.data || { body: [], footer: {} },
     formatter: options.formatter || new Formatter({
       locale: options.locale || 'en-US',
       currencyOptions: {
@@ -9,6 +9,7 @@ function TableRender(options = {}) {
       }
     }),
     selectedRows: [],
+    onRender: null,
     onRenderRow: () => {},
     onRenderCell: () => {},
     shouldSelectRow: () => true,
@@ -34,6 +35,10 @@ TableRender.prototype.formatCell = function(value, type = 'text', defaultValue =
     const formatedValue = formatter.format(type, value, defaultValue);
 
     return formatedValue;
+}
+
+TableRender.prototype.onRender = function(handler = (instance = this) => {}) {
+    this.set('onRender', handler);
 }
 
 TableRender.prototype.onRenderRow = function(handler = (row = null) => {}) {
@@ -100,6 +105,12 @@ TableRender.prototype.clearFilters = function() {
 }
 
 TableRender.prototype.render = function() {
+    const onRender = this.get('onRender');
+
+    if(onRender && typeof onRender === 'function') {
+        onRender(this);
+    }
+
     const table = this.get('table');
     const onRenderRow = this.get('onRenderRow');
     const onRenderCell = this.get('onRenderCell');
@@ -112,7 +123,7 @@ TableRender.prototype.render = function() {
     const tbody = table.querySelector('tbody');
     const tfooter = table.querySelector('tfoot');
     const templateRow = table.querySelector('tbody .table-row-template').cloneNode(true);
-    
+
     templateRow.classList.remove('hidden');
     templateRow.classList.add('hidden');
 
@@ -135,7 +146,7 @@ TableRender.prototype.render = function() {
               const shouldUpdate = this.get('shouldSelectRow')(e.target);
 
               if(!shouldUpdate) return;
-              
+
               const selectedRows = this.get('selectedRows');
               if(selectedRows.includes(tableRow.dataset.id)) {
                 this.set('selectedRows', selectedRows.filter(value => value != tableRow.dataset.id));
@@ -143,7 +154,7 @@ TableRender.prototype.render = function() {
                 selectedRows.push(tableRow.dataset.id);
               }
 
-              this.get('onSelectRow')(e.target, this.get('selectedRows'));
+              this.get('onSelectRow')(tableRow, this.get('selectedRows'));
             });
         }
 
@@ -151,7 +162,7 @@ TableRender.prototype.render = function() {
         tableRow.classList.remove('table-row-template');
 
         if(onRenderRow && typeof onRenderRow === 'function') {
-          onRenderRow(tableRow, data);
+          onRenderRow(tableRow, data, this);
         }
 
         tbody.appendChild(tableRow);

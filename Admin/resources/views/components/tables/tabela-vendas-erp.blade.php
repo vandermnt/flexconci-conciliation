@@ -106,7 +106,7 @@
             <div class="d-flex flex-column align-items-center">
               <p>
                 {{ is_null($getHeader('TAXA')) ?
-                  'Taxa %' : 
+                  'Taxa %' :
                   ucwords(mb_strtolower($getHeader('TAXA'), 'utf-8')) }}
                 </p>
               <input type="number" min="0" step="0.01" class="form-control" name="TAXA">
@@ -132,7 +132,7 @@
             <div class="d-flex flex-column align-items-center">
               <p>
                 {{ is_null($getHeader('VALOR_LIQUIDO')) ?
-                'Valor Líquido' : 
+                'Valor Líquido' :
                 ucwords(mb_strtolower($getHeader('VALOR_LIQUIDO'), 'utf-8')) }}
               </p>
               <input type="number" min="0" step="0.01" class="form-control" name="VALOR_LIQUIDO_PARCELA">
@@ -240,7 +240,7 @@
             <div class="d-flex flex-column align-items-center">
               <p>
                 {{ is_null($getHeader('TITULO_CAMPO1')) ?
-                 'Campo 1' : 
+                 'Campo 1' :
                  ucwords(mb_strtolower($getHeader('TITULO_CAMPO1'), 'utf-8')) }}
               </p>
               <input type="text" class="form-control" name="CAMPO1">
@@ -250,7 +250,7 @@
             <div class="d-flex flex-column align-items-center">
               <p>
                 {{ is_null($getHeader('TITULO_CAMPO2')) ?
-                  'Campo 2' : 
+                  'Campo 2' :
                   ucwords(mb_strtolower($getHeader('TITULO_CAMPO2'), 'utf-8')) }}
               </p>
               <input type="text" class="form-control" name="CAMPO2">
@@ -260,12 +260,20 @@
             <div class="d-flex flex-column align-items-center">
               <p>
                 {{ is_null($getHeader('TITULO_CAMPO3')) ?
-                  'Campo 3' : 
+                  'Campo 3' :
                   ucwords(mb_strtolower($getHeader('TITULO_CAMPO3'), 'utf-8')) }}
               </p>
               <input type="text" class="form-control" name="CAMPO3">
             </div>
           </th>
+          @if($isColumnVisible('RETORNO_ERP'))
+            <th>
+                <div class="d-flex flex-column align-items-center">
+                <p>Retorno Venda {{ $erp->ERP ?? 'ERP' }}</p>
+                <input type="text" class="form-control" name="RETORNO_ERP">
+                </div>
+            </th>
+          @endif
           <th>
             <div class="d-flex flex-column align-items-center">
               <p>Data Importação</p>
@@ -306,11 +314,11 @@
           <td data-column="DATA_VENCIMENTO" data-format="date"></td>
           <td
             data-image="ADQUIRENTE_IMAGEM"
-            data-default-image="assets/images/iconCart.jpeg"
+            data-default-image="assets/images/widgets/cards.svg"
             data-column="ADQUIRENTE"
             data-default-value="Sem identificação"
           >
-            <div 
+            <div
               class="icon-image tooltip-hint"
               data-title="ADQUIRENTE"
               data-default-title="Sem identificação">
@@ -318,7 +326,7 @@
           </td>
           <td
             data-image="BANDEIRA_IMAGEM"
-            data-default-image="assets/images/iconCart.jpeg"
+            data-default-image="assets/images/widgets/cards.svg"
             data-column="BANDEIRA"
             data-default-value="Sem identificação"
           >
@@ -364,7 +372,7 @@
           @endif
           <td
             data-image="BANCO_IMAGEM"
-            data-default-image="assets/images/iconCart.jpeg"
+            data-default-image="assets/images/widgets/cards.svg"
             data-column="BANCO"
             data-default-value="Sem identificação"
           >
@@ -386,6 +394,9 @@
           <td data-column="CAMPO1"></td>
           <td data-column="CAMPO2"></td>
           <td data-column="CAMPO3"></td>
+          @if($isColumnVisible('RETORNO_ERP'))
+            <td data-column="RETORNO_ERP"></td>
+          @endif
           <td data-column="DATA_IMPORTACAO" data-format="date"></td>
           <td data-column="HORA_IMPORTACAO"></td>
           <td data-column="DATA_CONCILIACAO" data-format="date"></td>
@@ -455,6 +466,9 @@
           <td></td>
           <td></td>
           <td></td>
+          @if($isColumnVisible('RETORNO_ERP'))
+            <td></td>
+          @endif
         </tr>
       </tfoot>
     </table>

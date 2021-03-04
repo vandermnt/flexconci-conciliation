@@ -682,7 +682,7 @@ $('#submitFormLogin').click(function(){
           html +="<td>"+data_venda+"</td>";
           html +="<td>"+data_prev_pag+"</td>";
           if(response[0][i].IMAGEMBAD == null){
-            html +="<td>"+"<img src='assets/images/iconCart.jpeg' style='width: 40px'/>"+"</td>";
+            html +="<td>"+"<img src='assets/images/widgets/cards.svg' style='width: 40px'/>"+"</td>";
           }else{
             html +="<td>"+"<img src='"+response[0][i].IMAGEMBAD+"' style='width: 40px'/>"+"</td>";
           }
