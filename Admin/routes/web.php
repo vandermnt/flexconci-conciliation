@@ -17,15 +17,12 @@ Route::group(['middleware' => 'auth'], function() {
   Route::get('/dados-calendario', 'DashboardController@dadosCalendario');
   Route::get('/detalhe-calendario-prev/{data}', 'DashboardController@detalheCalendarioPrevisaoPagamento');
 
+  //
   Route::get('/export-vendasoperadora/{periodo}', 'DashboardController@exportarPdfVendasOperadoras');
   Route::get('/export-vendasbandeira/{periodo}', 'DashboardController@exportarPdfVendasBandeiras');
   Route::get('/export-vendasmodalidade/{periodo}', 'DashboardController@exportarPdfVendasModalidade');
   Route::get('/export-vendasproduto/{periodo}', 'DashboardController@exportarPdfVendasProduto');
 
-
-  // Route::get('/', function () {
-  //     return redirect('/analytics/analytics-index');
-  // });
 
   //ANTECIPAÇÃO
   Route::get('/antecipacao', 'AntecipacaoController@antecipar');
@@ -135,6 +132,12 @@ Route::group(['middleware' => 'auth'], function() {
   Route::get('/load-justificativas', 'CadastroJustificativaController@loadJustificativas');
   Route::get('/delete-justificativa/{codigo}', 'CadastroJustificativaController@deleteJustificativa');
   Route::get('/justificativa/{codigo}', 'CadastroJustificativaController@show');
+
+  //CADASTRO ADQUIRENTE
+  Route::get('/cadastro-adquirente', 'AdquirenteController@index');
+  Route::post('/cadastro-adquirente', 'AdquirenteController@cadastrarAdquirente');
+  Route::get('/delete-adquirente/{codigo}', 'AdquirenteController@excluirAdquirente');
+
 
   //CONCILIAÇÃO
   Route::get('/conciliacao-bancaria', function() {
