@@ -8,7 +8,23 @@
 }
 
 .tableDadosDash {
-  font-size: 12px
+  white-space: nowrap;
+  height: 70px !important;
+}
+
+.img-tables {
+  width: 85%;
+  /* height: 3vh; */
+  background-size: 100% 50px;
+  padding: 22px 60px !important;
+  background-repeat:no-repeat;
+  background-position: center;
+}
+
+
+.tableDadosDash td {
+  padding: 5px !important;
+  max-width: 100px !important;
 }
 
 .img-export {
@@ -106,7 +122,7 @@
 }
 
 #dashboard_styles .boxs {
-   margin-top: 15px;
+  margin-top: 15px;
 }
 
 #dashboard_styles .body-box {
@@ -137,9 +153,9 @@
 }
 
 #dashboard_styles .label-val-liquido {
-   text-align: right;
-   font-size: 14px;
-   color: #257E4A;
+  text-align: right;
+  font-size: 14px;
+  color: #257E4A;
 }
 
 #dashboard_styles .img-operadora {
@@ -173,12 +189,12 @@
 }
 
 .table-responsive {
-   height: 178px !important;
+  height: 178px !important;
 }
 
 .legenda-calendario {
-   align-items: center !important;
-   margin-left: 5px !important;
+  align-items: center !important;
+  margin-left: 5px !important;
 }
 
 .circulo {

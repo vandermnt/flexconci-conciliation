@@ -7,16 +7,11 @@ function formataMoeda(valor) {
 
 function geraTabela(tipo, nome_tipo, qdt, bruto, taxa, liq) {
   let html = "<tr>";
-  html +=
-    "<td style='padding: 2px !important'>" +
-    "<div class='tooltip-hint' data-title='" +
-    nome_tipo +
-    "'>" +
-    "<img style='width:80px' src='" +
-    tipo +
-    "'/>" +
-    "</div>" +
-    "</td>";
+  html += `<td>
+  <div class='tooltip-hint' data-title=${nome_tipo}>
+  <div class='img-tables' style='background-image: url(${tipo})'/> </div>
+  </div>
+  </td>`;
   html += "<td>" + qdt + "</td>";
   html += "<td>" + formataMoeda(bruto) + "</td>";
   html += "<td>" + formataMoeda(taxa) + "</td>";

@@ -2,12 +2,9 @@
 
 @section('headerStyle')
 <link href="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.css')}}" rel="stylesheet">
-<link href="{{ URL::asset('assets/css/teste.css')}}" rel="stylesheet" type="text/css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/table-dragger@1.0.3/dist/table-dragger.js"></script>
-<link href="{{ URL::asset('plugins/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{ URL::asset('plugins/datatables/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{ URL::asset('plugins/datatables/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ URL::asset('assets/css/globals/global.css')}}" rel="stylesheet" type="text/css" />
 
 @stop
 
@@ -29,15 +26,21 @@
       <div class="card">
         <div class="card-body" >
           <div class="form-group">
-            <div class="col-sm-8">
-              <h6> Nome Adquirente: </h6>
-              <input type="textarea" style="border-color: #2D5275" class="form-control" name="adquirente">
+            <div class="col-sm-12 form">
+              <h6> Adquirente: </h6>
+              <div class="row form-group">
+                <div class="col-sm-6">
+                  <input type="textarea" class="form-control" placeholder="Pequise o adquirente" name="adquirentes-pesquisados">
+                </div>
+                <div class="col-sm-2">
+                  <button class="btn btn-sm bt-cadastro-ad form-button"> <i class="fas fa-plus"></i> <b>Nova Adquirente</b>  </button>
+                </div>
+              </div>
             </div>
           </div>
           <div class="col-sm-12">
             <div id="btfiltro" style="display:block; text-align: right;">
-              <button style="align-items: right; background: white; color: #2D5275; border-color: #2D5275" class="btn btn-sm limpa-filtro"> <i class="far fa-trash-alt"></i> <b>Limpar Campos</b>  </button>
-              <button style="align-items: right; background: white; color: #2D5275; border-color: #2D5275" class="btn btn-sm post-cadastro"> <i class="fas fa-save"></i> <b>Salvar</b>  </button>
+              <!-- <button style="align-items: right; background: white; color: #2D5275; border-color: #2D5275" class="btn btn-sm limpa-filtro"> <i class="far fa-trash-alt"></i> <b>Limpar Campos</b>  </button> -->
             </div>
           </div>
         </div>
@@ -85,11 +88,42 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+        <div class="alert alert-success success-save-ad" role="alert">
+          <strong><i class="fas fa-check-circle"></i> Adquirente cadastrado com sucesso.</strong>
+        </div>
         <div class="modal-body">
-          <h4>Adquirente cadastrado com sucesso!</h4>
+          <div class="col-sm-12 form">
+            <h6> Adquirente: </h6>
+            <div class="row form-group">
+              <div class="col-sm-12">
+                <input type="textarea" class="form-control" name="adquirente">
+              </div>
+            </div>
+          </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
+          <button type="button" class="btn btn-success bt-salva-ad"><b>Cadastrar</b></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="modalExcluirAdquirente" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header" style="background: #2D5275">
+          <h5 class="modal-title" style="color: white">Cadastro Adquirente</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h4>Deseja excluir esse adquirente?</h4>
+        </div>
+        <div class="modal-footer">
+          <button id="sim" type="button" class="btn btn-success" data-dismiss="modal">Sim</button>
+          <button id="nao" type="button" class="btn btn-primary" data-dismiss="modal">Não</button>
         </div>
       </div>
     </div>
@@ -114,28 +148,6 @@
       </div>
     </div>
   </div>
-
-  <div class="modal" id="modalEditarAdquirent" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header" style="background: #2D5275">
-          <h5 class="modal-title" style="color: white">Editar Adquirente</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <h5>Dados da Adquirente</h5>
-          <h6 style="color: #424242; font-size: 11.5px; margin-top: 12px"> Adquirente: </h6>
-          <input id="justificativaEdit" type="text" style="padding-left: 7px; padding-top: 5px; border-color: #2D5275" class="form-control" name="justificativaEdit">
-        </div>
-        <div class="modal-footer">
-          <button id="sim" onclick="salvarEdicaoAdquirente()" type="button" class="btn btn-success" data-dismiss="modal">Salvar</button>
-          <button id="nao" type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 @section('footerScript')
 <!-- Required datatable js -->
@@ -144,8 +156,6 @@
 <!-- Buttons examples -->
 <script src="{{ URL::asset('plugins/datatables/dataTables.buttons.min.js')}}"></script>
 <script src="{{ URL::asset('plugins/datatables/buttons.bootstrap4.min.js')}}"></script>
-<script src="{{ URL::asset('plugins/datatables/jszip.min.js')}}"></script>
-<script src="{{ URL::asset('plugins/datatables/pdfmake.min.js')}}"></script>
 <script src="{{ URL::asset('plugins/datatables/vfs_fonts.js')}}"></script>
 <script src="{{ URL::asset('plugins/datatables/buttons.html5.min.js')}}"></script>
 <script src="{{ URL::asset('plugins/datatables/buttons.print.min.js')}}"></script>
@@ -157,12 +167,19 @@
 @stop
 
 <script>
-
+document.querySelector(".success-save-ad").style.display = "none";
 const buttonLimparFiltro = document.querySelector(".limpa-filtro");
-const buttonCadastroAdquirente = document.querySelector(".post-cadastro");
+const buttonCadastroAdquirente = document.querySelector(".bt-cadastro-ad");
+const buttonSalvaCadastro = document.querySelector(".bt-salva-ad");
 const buttonSimExclusao = document.querySelector("#sim");
 
 buttonCadastroAdquirente.addEventListener("click", function(){
+  $("#modalCadastroAdquirente").modal({
+    show: true
+  });
+})
+
+buttonSalvaCadastro.addEventListener("click", function(){
   const adquirente = document.querySelector('input[name="adquirente"]').value;
   cadastrarAdquirente(adquirente);
 })
@@ -189,6 +206,13 @@ function cadastrarAdquirente(adquirente) {
   })
   .then(function(response){
     response.json().then(function(data){
+      document.querySelector(".success-save-ad").style.display = "block";
+
+      setTimeout(function() {
+        document.querySelector('.success-save-ad').style.display = 'none';
+        document.querySelector('input[name="adquirente"]').value = "";
+      }, 2500);
+
       renderizaNovoAdquirente(data);
     });
   })
@@ -196,9 +220,9 @@ function cadastrarAdquirente(adquirente) {
 }
 
 function renderizaNovoAdquirente(adquirente) {
-  $("#modalCadastroAdquirente").modal({
-    show: true
-  });
+  // $("#modalCadastroAdquirente").modal({
+  //   show: true
+  // });
 }
 
 function postCadastroJustificativa(){

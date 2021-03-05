@@ -6,6 +6,8 @@
 <script src="{{ URL::asset('assets/js/dashboard/calendario.js')}}"></script>
 <link href='lib/main.css' rel='stylesheet' />
 <script src='lib/main.js'></script>
+<!-- <link href="{{ URL::asset('assets/css/globals/global.css')}}" rel="stylesheet" type="text/css" /> -->
+
 @stop
 
 @section('content')
@@ -159,7 +161,7 @@
               </div>
               <div id="apex_pie7" class="apex-charts"></div>
               <div class="table-responsive mt-4 vendasband">
-                <table id="table_vendas_bandeira" class="table table-borderless tableDadosDash">
+                <table id="table_vendas_bandeira" class="table tableDadosDash">
                   <thead>
                     <tr>
                       <th>Bandeira</th>
