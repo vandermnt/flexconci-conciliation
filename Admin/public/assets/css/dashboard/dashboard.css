@@ -13,9 +13,8 @@
 }
 
 .img-tables {
-  width: 85%;
   /* height: 3vh; */
-  background-size: 100% 50px;
+  background-size: 80% 40px;
   padding: 22px 60px !important;
   background-repeat:no-repeat;
   background-position: center;
