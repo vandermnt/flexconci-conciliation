@@ -13,7 +13,7 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 class VendasConciliacaoExport implements FromQuery, WithStrictNullComparison, ShouldAutoSize, WithHeadings, WithMapping
 {
     use Exportable;
-    
+
     protected $filters;
     protected $subfilters;
 
@@ -25,7 +25,7 @@ class VendasConciliacaoExport implements FromQuery, WithStrictNullComparison, Sh
     public function headings(): array
     {
         return [
-            'ID',
+            'ID. ERP',
             'Empresa',
             'CNPJ',
             'Venda',
@@ -41,10 +41,12 @@ class VendasConciliacaoExport implements FromQuery, WithStrictNullComparison, Sh
             'Taxa %',
             'Taxa R$',
             'Valor Líquido',
+            'Possui Tarifa Mínima',
             'Parcela',
-            'Total Parcelas',
+            'Total Parc.',
             'Hora',
             'Estabelecimento',
+            'Núm. Máquina',
             'Banco',
             'Agencia',
             'Conta',
@@ -75,10 +77,12 @@ class VendasConciliacaoExport implements FromQuery, WithStrictNullComparison, Sh
             $venda->PERCENTUAL_TAXA ?? 0,
             ($venda->VALOR_TAXA ?? 0) * -1,
             $venda->VALOR_LIQUIDO ?? 0,
+            $venda->POSSUI_TAXA_MINIMA,
             $venda->PARCELA,
             $venda->TOTAL_PARCELAS,
             $venda->HORA_TRANSACAO,
             $venda->ESTABELECIMENTO." ",
+            $venda->TERMINAL." ",
             $venda->BANCO,
             $venda->AGENCIA." ",
             $venda->CONTA." ",
