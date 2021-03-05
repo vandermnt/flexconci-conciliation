@@ -58,8 +58,10 @@ class VendasFilter extends BaseFilter {
           DB::raw('
             (`vendas`.`VALOR_BRUTO` - `vendas`.`VALOR_LIQUIDO`)
               as `VALOR_TAXA`'),
-          'vendas.TAXA_MINIMA',
           'vendas.VALOR_LIQUIDO',
+          DB::raw('
+            if(coalesce(`vendas`.`TAXA_MINIMA`, 0) <> 0, \'Sim\', \'Não\')
+                as `POSSUI_TAXA_MINIMA`'),
           'vendas.PARCELA',
           'vendas.TOTAL_PARCELAS',
           'vendas.HORA_TRANSACAO',
