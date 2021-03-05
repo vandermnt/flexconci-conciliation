@@ -26,6 +26,7 @@ class VendasSubFilter extends BaseSubFilter {
     'PERCENTUAL_TAXA',
     'VALOR_TAXA',
     'VALOR_LIQUIDO',
+    'POSSUI_TAXA_MINIMA',
     'PARCELA',
     'TOTAL_PARCELAS',
     'HORA_TRANSACAO',

@@ -26,6 +26,7 @@ class RecebimentosFuturosSubFilter extends BaseSubFilter {
     'TAXA_PERCENTUAL',
     'VALOR_TAXA',
     'VALOR_LIQUIDO',
+    'POSSUI_TAXA_MINIMA',
     'PARCELA',
     'TOTAL_PARCELAS',
     'HORA',
