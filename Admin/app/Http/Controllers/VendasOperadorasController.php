@@ -108,7 +108,6 @@ class VendasOperadorasController extends Controller
             $totals = [
                 'TOTAL_BRUTO' => (clone $query)->sum('VALOR_BRUTO'),
                 'TOTAL_LIQUIDO' => (clone $query)->sum('VALOR_LIQUIDO'),
-                'TOTAL_TARIFA_MINIMA' => (clone $query)->sum('TAXA_MINIMA') ?? 0,
             ];
             $totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
 
@@ -139,7 +138,6 @@ class VendasOperadorasController extends Controller
             $totals = [
                 'TOTAL_BRUTO' => (clone $query)->sum('VALOR_BRUTO'),
                 'TOTAL_LIQUIDO' => (clone $query)->sum('VALOR_LIQUIDO'),
-                'TOTAL_TARIFA_MINIMA' => (clone $query)->sum('TAXA_MINIMA') ?? 0,
             ];
             $totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
 

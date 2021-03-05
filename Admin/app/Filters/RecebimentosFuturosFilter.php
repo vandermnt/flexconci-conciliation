@@ -57,6 +57,9 @@ class RecebimentosFuturosFilter extends BaseFilter {
               as `VALOR_TAXA`'),
           DB::raw('null as TAXA_ANTECIPACAO_PERCENTUAL'),
           'vendas.VALOR_LIQUIDO',
+          DB::raw('
+            if(coalesce(`vendas`.`TAXA_MINIMA`, 0) <> 0, \'Sim\', \'Não\')
+              as `POSSUI_TAXA_MINIMA`'),
           'vendas.PARCELA',
           'vendas.TOTAL_PARCELAS',
           'vendas.HORA_TRANSACAO',
