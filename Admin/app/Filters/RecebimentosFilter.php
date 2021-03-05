@@ -62,10 +62,14 @@ class RecebimentosFilter extends BaseFilter {
         DB::raw('null as `TAXA_ANTECIPACAO_PERCENTUAL`'),
         DB::raw('null as `VALOR_ANTECIPACAO`'),
         'pagamentos_operadoras.VALOR_LIQUIDO',
+        DB::raw('
+        if(coalesce(`vendas`.`TAXA_MINIMA`, 0) <> 0, \'Sim\', \'Não\')
+            as `POSSUI_TAXA_MINIMA`'),
         'pagamentos_operadoras.PARCELA',
         'pagamentos_operadoras.TOTAL_PARCELAS',
         'vendas.HORA_TRANSACAO',
         'pagamentos_operadoras.ID_LOJA as ESTABELECIMENTO',
+        'vendas.TERMINAL',
         'lista_bancos.NOME_WEB as BANCO',
         'lista_bancos.IMAGEM_LINK as BANCO_IMAGEM',
         'pagamentos_operadoras.AGENCIA',

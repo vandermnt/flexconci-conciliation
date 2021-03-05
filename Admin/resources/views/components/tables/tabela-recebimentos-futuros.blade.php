@@ -116,6 +116,12 @@
           </th>
           <th>
             <div class="d-flex flex-column align-items-center">
+              <p>Possui Tarifa Mínima</p>
+              <input type="text" class="form-control" name="POSSUI_TAXA_MINIMA">
+            </div>
+          </th>
+          <th>
+            <div class="d-flex flex-column align-items-center">
               <p>Parcela</p>
               <input type="text" class="form-control" name="PARCELA">
             </div>
@@ -136,6 +142,12 @@
             <div class="d-flex flex-column align-items-center">
               <p>Estabelecimento</p>
               <input type="text" class="form-control" name="ESTABELECIMENTO">
+            </div>
+          </th>
+          <th>
+            <div class="d-flex flex-column align-items-center">
+              <p>Núm. Máquina</p>
+              <input type="text" class="form-control" name="TERMINAL">
             </div>
           </th>
           <th>
@@ -245,10 +257,12 @@
           <td class="text-danger" data-reverse-value="true" data-column="VALOR_TAXA" data-format="currency"></td>
           <td class="text-danger" data-reverse-value="true" data-column="TAXA_ANTECIPACAO_PERCENTUAL" data-format="number"></td>
           <td data-column="VALOR_LIQUIDO" data-format="currency"></td>
+          <td data-column="POSSUI_TAXA_MINIMA"></td>
           <td data-column="PARCELA"></td>
           <td data-column="TOTAL_PARCELAS"></td>
           <td data-column="HORA_TRANSACAO" data-format="time"></td>
           <td data-column="ESTABELECIMENTO"></td>
+          <td data-column="TERMINAL"></td>
           <td
             data-image="BANCO_IMAGEM"
             data-default-image="assets/images/widgets/cards.svg"
@@ -295,6 +309,8 @@
           <td data-column="TOTAL_TAXA" data-reverse-value="true" data-format="currency" class="text-danger"></td>
           <td></td>
           <td data-column="TOTAL_LIQUIDO" data-format="currency"></td>
+          <td></td>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>

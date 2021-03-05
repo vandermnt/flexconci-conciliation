@@ -5,12 +5,12 @@
   <nav class="navbar-custom">
     <ul class="list-unstyled topbar-nav float-right mb-0">
       <li class="dropdown">
-        <a id="dropdownUserSettings" class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
+        <a id="dropdownCadastros" class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
         aria-haspopup="false" aria-expanded="false">
         <span class="ml-1 nav-user-name hidden-sm"> Cadastros <i class="mdi mdi-chevron-down"></i> </span>
 
       </a>
-      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownUserSettings">
+      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownCadastros">
         <a class="dropdown-item" href="{{ url('cadastro-adquirente')}}"> Adquirente </a>
         <a class="dropdown-item" href="#"> Banco</a>
         <a class="dropdown-item" href="#"> Bandeira</a>

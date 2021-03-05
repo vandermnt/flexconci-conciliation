@@ -67,15 +67,6 @@
           icon-description="Valor Taxa"
         />
         <x-box
-          title="TARIFA MÍNIMA"
-          content="R$ 0,00"
-          content-class="text-danger"
-          data-format="currency"
-          data-key="TOTAL_TARIFA_MINIMA"
-          icon-path="assets/images/financeiro/taxas.svg"
-          icon-description="Tarifa Mínima"
-        />
-        <x-box
           title="VALOR TOTAL LÍQUIDO"
           content="R$ 0,00"
           data-format="currency"
