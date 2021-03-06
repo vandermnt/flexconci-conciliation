@@ -6,3 +6,15 @@
 #pagina-recebimentos-operadoras .boxes .card.box {
   margin: 0;
 }
+
+#pagina-recebimentos-operadoras #js-abrir-modal-retorno.tooltip-hint::before {
+    width: 100%;
+    max-width: 128px;
+    transform: translateX(-50%);
+}
+
+
+#pagina-recebimentos-operadoras #js-abrir-modal-retorno.tooltip-hint::before,
+#pagina-recebimentos-operadoras #js-abrir-modal-retorno.tooltip-hint::after {
+    z-index: 24;
+}
