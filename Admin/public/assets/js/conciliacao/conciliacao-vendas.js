@@ -124,7 +124,7 @@ modalFilter.addGroups([
 ]);
 
 function buildRequest(key = 'erp', params, body = {}) {
-    let requestHandler = () => { };
+    let requestHandler = () => {};
 
     const currentSalesContainer = key === 'erp' ? salesErpContainer : salesContainer;
     const currentTableRender = key === 'erp' ? tableRenderErp : tableRender;
@@ -238,6 +238,32 @@ salesErpContainer.onEvent('search', (sales) => {
     updateBoxes(boxes, {
         ...totals,
     });
+    let boxTotal;
+    boxes.forEach(box => {
+        const boxStatus = box.get('element').dataset.status;
+        if(boxStatus === '*') {
+            boxTotal = box;
+            return;
+        }
+
+        if(!selectedStatus.includes(boxStatus)) {
+            box.set('value', 0);
+        }
+
+        box.render();
+    });
+    const total = boxes.reduce((sum, currentBox) => {
+        const key = currentBox.get('element').dataset.key;
+
+        if(!['TOTAL_BRUTO', 'TOTAL_PENDENCIAS_OPERADORAS'].includes(key)) {
+            const boxValue = (Number(currentBox.get('value')) || 0);
+            sum = sum + boxValue;
+        }
+
+        return sum;
+    }, 0);
+    boxTotal.set('value', total);
+    boxTotal.render();
 });
 
 tableRenderErp.onFilter(async (filters) => await _events.table.onFilter('erp', filters));
