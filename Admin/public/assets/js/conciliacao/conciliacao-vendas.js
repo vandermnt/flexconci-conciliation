@@ -128,30 +128,28 @@ function buildRequest(key = 'erp', params, body = {}) {
 
     const currentSalesContainer = key === 'erp' ? salesErpContainer : salesContainer;
     const currentTableRender = key === 'erp' ? tableRenderErp : tableRender;
+    const isSearchActive = currentSalesContainer.get('active') === 'search';
+    const sendRequest = isSearchActive ?
+        currentSalesContainer.search.bind(currentSalesContainer) :
+        currentSalesContainer.filter.bind(currentSalesContainer);
+    const bodyPayload = isSearchActive ?
+        { ...searchForm.serialize(), ...body }
+        : {
+            filters: { ...searchForm.serialize() },
+            subfilters: { ...currentTableRender.serializeTableFilters() }
+        }
 
-    if (currentSalesContainer.get('active') === 'search') {
-        requestHandler = async (params) => {
-            await currentSalesContainer.search({
-                params: {
-                    por_pagina: currentSalesContainer.get('search').get('pagination').options.perPage,
-                    ...params
-                },
-                body: { ...searchForm.serialize(), ...body }
-            });
+    const requestPayload = {
+        params: {},
+        body: bodyPayload,
+    };
+
+    requestHandler = async (params) => {
+        requestPayload.params = {
+            por_pagina: currentSalesContainer.get('search').get('pagination').options.perPage,
+            ...params
         }
-    } else {
-        requestHandler = async (params) => {
-            await currentSalesContainer.filter({
-                params: {
-                    por_pagina: currentSalesContainer.get('search').get('pagination').options.perPage,
-                    ...params,
-                },
-                body: {
-                    filters: { ...searchForm.serialize() },
-                    subfilters: { ...currentTableRender.serializeTableFilters() }
-                }
-            });
-        }
+        await sendRequest(requestPayload);
     }
 
     return {
@@ -181,6 +179,7 @@ function getPaginationConfig(key) {
 }
 
 searchForm.onSubmit(async (event) => {
+    const statusNaoConciliado = document.querySelector('.box[data-key="TOTAL_PENDENCIAS_OPERADORAS"]').dataset.status;
     const resultadosDOM = document.querySelector('.resultados');
     toggleElementVisibility('#js-loader');
 
@@ -190,7 +189,10 @@ searchForm.onSubmit(async (event) => {
             params: {
                 por_pagina: document.querySelector('#js-por-pagina-operadoras').value,
             },
-            body: { ...searchForm.serialize() },
+            body: {
+                ...searchForm.serialize(),
+                status_conciliacao: [statusNaoConciliado],
+            },
         }),
         await salesErpContainer.search({
             params: {
