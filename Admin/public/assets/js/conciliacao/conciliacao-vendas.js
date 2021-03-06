@@ -772,7 +772,7 @@ function retornoErp() {
 
             updateSales(salesErpContainer.get('data').get('sales'), [...updatedSales], 'ID_ERP');
 
-            swal('Retorno ERP realizado!', `${res.vendas.length} de ${res.total} registros atualizados!`, 'success');
+            swal('Correção ERP realizado!', `${res.vendas.length} de ${res.total} registros atualizados!`, 'success');
         })
         .catch((err) => {
             swal("Ooops...", 'Um erro inesperado ocorreu. Tente novamente mais tarde!', 'error');
