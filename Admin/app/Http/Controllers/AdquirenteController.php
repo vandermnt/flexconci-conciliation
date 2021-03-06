@@ -8,7 +8,8 @@ class AdquirenteController extends Controller {
 
   public function index() {
     $adquirentes = AdquirentesModel::all();
-    return view('cadastro.adquirente')->with('adquirentes', $adquirentes);
+    $adquirentes_count = $adquirentes->count();
+    return view('cadastro.adquirente')->with('adquirentes', $adquirentes)->with('count_adquirentes', $adquirentes_count);
   }
 
   public function cadastrarAdquirente(Request $request) {
@@ -22,6 +23,19 @@ class AdquirenteController extends Controller {
 
       return response()->json([
         'adquirente-criado' => $adquirente
+      ]);
+    } catch (Exception $e) {
+      return response()->json([
+        "error" => $e->getMessage()
+      ]);
+    }
+  }
+
+  public function allAdquirentes(){
+    try {
+      $adquirentes = AdquirentesModel::all();
+      return response()->json([
+        'adquirentes' => $adquirentes
       ]);
     } catch (Exception $e) {
       return response()->json([

@@ -135,6 +135,7 @@ Route::group(['middleware' => 'auth'], function() {
 
   //CADASTRO ADQUIRENTE
   Route::get('/cadastro-adquirente', 'AdquirenteController@index');
+  Route::get('/atualiza-tabela', 'AdquirenteController@allAdquirentes');
   Route::post('/cadastro-adquirente', 'AdquirenteController@cadastrarAdquirente');
   Route::get('/delete-adquirente/{codigo}', 'AdquirenteController@excluirAdquirente');
 

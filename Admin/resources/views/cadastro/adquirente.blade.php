@@ -5,6 +5,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/table-dragger@1.0.3/dist/table-dragger.js"></script>
 <link href="{{ URL::asset('assets/css/globals/global.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ URL::asset('assets/css/cadastro/cadastros.css')}}" rel="stylesheet" type="text/css" />
+
 
 @stop
 
@@ -45,8 +47,13 @@
           </div>
         </div>
 
-        <div style="overflow: auto; padding: 0px 30px">
-          <table id="tabela-adquirentes" class="table " style="white-space: nowrap;">
+        <div class="col-sm-12 table-description d-flex align-items-center ">
+          <h4 id="qtd-adquirentes">Total de adquirentes ({{ $count_adquirentes }} registros)</h4>
+          <img src="assets/images/widgets/arrow-down.svg" alt="Adquirentes">
+        </div>
+
+        <div class="tabela">
+          <table id="tabela-adquirentes" class="table">
             <thead>
               <tr style="background: #2D5275; ">
                 <th> CÓDIGO </th>
@@ -67,7 +74,7 @@
                   @endif
                 </td>
                 <td class="excluir">
-                  <a href="#" onclick="editarAdquirente({{$adquirente->CODIGO}})"><i class='far fa-edit'></i></a>
+                  <a href="#" onclick="editarAdquirente({{$adquirente}})"><i class='far fa-edit'></i></a>
                   <a href="#" onclick="excluirAdquirente(event,{{ $adquirente->CODIGO}})"><i style="margin-left: 12px"class="far fa-trash-alt"></i></a>
                 </td>
               </tr>
@@ -129,21 +136,27 @@
     </div>
   </div>
 
-  <div class="modal" id="modalExcluirAdquirente" tabindex="-1">
+  <div class="modal" id="modalEditarAdquirente" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header" style="background: #2D5275">
-          <h5 class="modal-title" style="color: white">Excluir Adquirente</h5>
+          <h5 class="modal-title" style="color: white">Editar Adquirente</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <h4>Deseja excluir esse adquirente?</h4>
-        </div>
+          <div class="col-sm-12 form">
+            <h6> Adquirente: </h6>
+            <div class="row form-group">
+              <div class="col-sm-12">
+                <input type="textarea" class="form-control" name="editar-adquirente">
+              </div>
+            </div>
+          </div>        </div>
         <div class="modal-footer">
-          <button id="sim" type="button" class="btn btn-success" data-dismiss="modal">Sim</button>
-          <button id="nao" type="button" class="btn btn-primary" data-dismiss="modal">Não</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
+          <button type="button" class="btn btn-success bt-salva-edicao-ad"><b>Salvar</b></button>
         </div>
       </div>
     </div>
@@ -164,197 +177,177 @@
 <script src="{{ URL::asset('plugins/datatables/dataTables.responsive.min.js')}}"></script>
 <script src="{{ URL::asset('plugins/datatables/responsive.bootstrap4.min.js')}}"></script>
 <script src="{{ URL::asset('assets/pages/jquery.datatable.init.js')}}"></script>
-@stop
 
-<script>
+<script type="text/javascript">
 document.querySelector(".success-save-ad").style.display = "none";
-const buttonLimparFiltro = document.querySelector(".limpa-filtro");
 const buttonCadastroAdquirente = document.querySelector(".bt-cadastro-ad");
 const buttonSalvaCadastro = document.querySelector(".bt-salva-ad");
+const buttonSalvaEdicao = document.querySelector(".bt-salva-edicao-ad");
 const buttonSimExclusao = document.querySelector("#sim");
 
-buttonCadastroAdquirente.addEventListener("click", function(){
+buttonCadastroAdquirente.addEventListener("click", function() {
   $("#modalCadastroAdquirente").modal({
     show: true
   });
-})
+});
 
-buttonSalvaCadastro.addEventListener("click", function(){
+buttonSalvaCadastro.addEventListener("click", function() {
   const adquirente = document.querySelector('input[name="adquirente"]').value;
   cadastrarAdquirente(adquirente);
-})
-
-buttonLimparFiltro.addEventListener("click", function(){
-  document.getElementById("adquirente").value = "";
-})
-
-buttonSimExclusao.addEventListener("click", function(){
-  console.log("VOu excluir!!!");
-})
+});
 
 function cadastrarAdquirente(adquirente) {
   const headers = new Headers();
-  const data = ({_token: '{{csrf_token()}}', adquirente});
+  const data = { _token: "{{csrf_token()}}", adquirente };
 
   fetch("cadastro-adquirente", {
-    method: 'POST',
+    method: "POST",
     headers: new Headers({
-      'Content-Type': 'application/json',
-      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      "Content-Type": "application/json",
+      "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
     }),
-    body: JSON.stringify(data),
+    body: JSON.stringify(data)
   })
-  .then(function(response){
-    response.json().then(function(data){
-      document.querySelector(".success-save-ad").style.display = "block";
+    .then(function(response) {
+      response.json().then(function(data) {
+        document.querySelector(".success-save-ad").style.display = "block";
 
-      setTimeout(function() {
-        document.querySelector('.success-save-ad').style.display = 'none';
-        document.querySelector('input[name="adquirente"]').value = "";
-      }, 2500);
+        setTimeout(function() {
+          document.querySelector(".success-save-ad").style.display = "none";
+          document.querySelector('input[name="adquirente"]').value = "";
+        }, 2500);
 
-      renderizaNovoAdquirente(data);
+        atualizaTabela();
+      });
+    })
+    .catch(error => alert("Algo deu errado!"));
+}
+
+function atualizaTabela() {
+  buscarTodosAdquirentes();
+}
+
+function editarAdquirente(adquirente){
+  $("#modalEditarAdquirente").modal({
+    show: true
+  });
+  document.querySelector("input[name='editar-adquirente']").value = `${adquirente.ADQUIRENTE}`;
+}
+
+function buscarTodosAdquirentes() {
+  fetch("atualiza-tabela", {
+    method: "GET",
+    headers: new Headers({
+      "Content-Type": "application/json",
+      "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+      Accept: "application/json"
+    })
+  }).then(function(response) {
+    response.json().then(function(data) {
+      renderizaTabela(data.adquirentes);
     });
-  })
-  .catch(error => alert("Algo deu errado!"))
-}
-
-function renderizaNovoAdquirente(adquirente) {
-  // $("#modalCadastroAdquirente").modal({
-  //   show: true
-  // });
-}
-
-function postCadastroJustificativa(){
-  let justificativa = document.getElementById("justificativa").value;
-
-  $.ajax({
-    url: "{{ url('post-justificativa') }}",
-    type: "post",
-    header:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-    data: ({_token: '{{csrf_token()}}', justificativa}),
-
-    success: function(response){
-      $("#modalCadastroJustificativa").modal({
-        show: true
-      });
-
-      $.ajax({
-        url: "{{ url('load-justificativas') }}",
-        type: "get",
-        header:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        success: function(response){
-          $("#conteudo_tabe").empty();
-
-          let html = "";
-
-          for(let i=0; i < response.length; i++){
-            html = "<tr id='" + response[i].CODIGO + "'>";
-            html += "<td id='historico" + response[i].CODIGO + "'>" + response[i].JUSTIFICATIVA + "</td>";
-            html += "<td class='excluir'> " +
-            "<a href='#' onclick='editarJustificativa("+response[i].CODIGO+")'><i class='far fa-edit'></i></a> " +
-            "<a href='#' onclick='excluirJustificativa("+response[i].CODIGO+")''><i style='margin-left: 12px' class='far fa-trash-alt'></i></a>" +
-            "</td>";
-            html += "</tr>";
-
-            $("#table_justificativa").append(html);
-          }
-        }
-      });
-
-      $('#justificativa').val("");
-    }
   });
 }
 
-function excluirAdquirente(e, codigo_adquirente){
+function renderizaTabela(adquirentes) {
+  // $("#conteudo_tabe").empty();
+  document.querySelector("#conteudo_tabe").innerHTML = "";
+
+  let html = "";
+
+  for (adquirente of adquirentes) {
+    html += `<tr id='${adquirente.CODIGO}'>
+    <td> ${adquirente.ADQUIRENTE} </td>
+    <td> ${adquirente.ADQUIRENTE} </td>
+    <td> ${
+      adquirente.HOMOLOGADO
+        ? `<i style="color: green" class="fas fa-check"></i>`
+        : `<i  style="color: red" class="fas fa-times"></i>`
+    }
+    <td>
+    <a href='#' onclick='editarJustificativa("+response[i].CODIGO+")'><i class='far fa-edit'></i></a>
+    <a href='#' onclick='excluirAdquirente(event, ${
+      adquirente.CODIGO
+    })'><i style='margin-left: 12px' class='far fa-trash-alt'></i></a>"
+    </td>
+    </tr>`;
+  }
+
+  document.querySelector(
+    "#qtd-adquirentes"
+  ).innerHTML = `Total de adquirentes (${adquirentes.length} registros)`;
+  document.querySelector("#conteudo_tabe").innerHTML = html;
+}
+
+function excluirAdquirente(e, codigo_adquirente) {
   e.preventDefault();
 
-  localStorage.setItem('cod_adquirente', codigo_adquirente);
+  localStorage.setItem("cod_adquirente", codigo_adquirente);
   $("#modalExcluirAdquirente").modal({
-    show:true
+    show: true
   });
 }
 
-function editarJustificativa(cod_justificativa){
+function editarJustificativa(cod_justificativa) {
   let url = "{{ url('justificativa') }}" + "/" + cod_justificativa;
 
   $.ajax({
     url: url,
     type: "get",
-    header:{
-      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    header: {
+      "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
     },
-    success: function(response){
-      $('#justificativaEdit').val(response.JUSTIFICATIVA);
+    success: function(response) {
+      $("#justificativaEdit").val(response.JUSTIFICATIVA);
 
       $("#modalEditarJustificativa").modal({
-        show:true
+        show: true
       });
     }
   });
 
-  localStorage.setItem('cod_justificativa', cod_justificativa);
+  localStorage.setItem("cod_justificativa", cod_justificativa);
 }
 
-function salvarEdicaoJustificativa(){
+function salvarEdicaoJustificativa() {
   let justificativa = {
-    codigo: localStorage.getItem('cod_justificativa'),
-    justificativa: $('#justificativaEdit').val()
+    codigo: localStorage.getItem("cod_justificativa"),
+    justificativa: $("#justificativaEdit").val()
   };
 
   $.ajax({
     type: "PUT",
-    url: 'api/justificativa/' + localStorage.getItem('cod_justificativa'),
+    url: "api/justificativa/" + localStorage.getItem("cod_justificativa"),
     data: justificativa,
     context: this,
-    header:{
-      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    header: {
+      "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
     },
-    success: function (data) {
-      let linhas = $('#' + localStorage.getItem("cod_justificativa"));
+    success: function(data) {
+      let linhas = $("#" + localStorage.getItem("cod_justificativa"));
 
       linhas[0].cells[0].textContent = justificativa.justificativa.toUpperCase();
     }
-  })
+  });
 }
 
-document.getElementById("sim").addEventListener('click', function() {
+document.getElementById("sim").addEventListener("click", function() {
+  const cod_adquirente = localStorage.getItem("cod_adquirente");
 
-  const cod_adquirente = localStorage.getItem('cod_adquirente');
-  // let url = "{{ url('delete-justificativa') }}" + "/" + teste;
-  console.log("CODIGO :" + cod_adquirente)
-
-  fetch(`delete-adquirente/${cod_adquirente}`,{
+  fetch(`delete-adquirente/${cod_adquirente}`, {
     headers: new Headers({
-      'Content-Type': 'application/json',
-      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }),
-  })
-  .then(function(response) {
-    response.json().then(function(data){
-      console.log(data);
+      "Content-Type": "application/json",
+      "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
     })
-  })
-
-  // $.ajax({
-  //   url: url,
-  //   type: "get",
-  //   header:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-  //   data: ({_token: '{{csrf_token()}}', teste}),
-  //   dataType: 'json',
-  //   success: function(response){
-  //
-  //     id_linha = "#"+teste;
-  //
-  //     $(id_linha).remove();
-  //
-  //   }
-  //
-  // });
-
-}, false);
-
+  }).then(function(response) {
+    response.json().then(function(data) {
+      buscarTodosAdquirentes();
+    });
+  });
+});
 
 </script>
+
+@stop
+
 @stop
