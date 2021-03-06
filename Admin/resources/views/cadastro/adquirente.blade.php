@@ -74,7 +74,7 @@
                   @endif
                 </td>
                 <td class="excluir">
-                  <a href="#" onclick="editarAdquirente({{$adquirente}})"><i class='far fa-edit'></i></a>
+                  <a href="#" onclick="editarAdquirente(event, {{$adquirente}})"><i class='far fa-edit'></i></a>
                   <a href="#" onclick="excluirAdquirente(event,{{ $adquirente->CODIGO}})"><i style="margin-left: 12px"class="far fa-trash-alt"></i></a>
                 </td>
               </tr>
@@ -145,6 +145,9 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+        <div class="alert alert-success success-update-ad" role="alert">
+          <strong><i class="fas fa-check-circle"></i> Adquirente alterado com sucesso.</strong>
+        </div>
         <div class="modal-body">
           <div class="col-sm-12 form">
             <h6> Adquirente: </h6>
@@ -154,60 +157,104 @@
               </div>
             </div>
           </div>        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
-          <button type="button" class="btn btn-success bt-salva-edicao-ad"><b>Salvar</b></button>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
+            <button type="button" class="btn btn-success bt-salva-edicao-ad"><b>Salvar</b></button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-@section('footerScript')
-<!-- Required datatable js -->
-<script src="{{ URL::asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{ URL::asset('plugins/datatables/dataTables.bootstrap4.min.js')}}"></script>
-<!-- Buttons examples -->
-<script src="{{ URL::asset('plugins/datatables/dataTables.buttons.min.js')}}"></script>
-<script src="{{ URL::asset('plugins/datatables/buttons.bootstrap4.min.js')}}"></script>
-<script src="{{ URL::asset('plugins/datatables/vfs_fonts.js')}}"></script>
-<script src="{{ URL::asset('plugins/datatables/buttons.html5.min.js')}}"></script>
-<script src="{{ URL::asset('plugins/datatables/buttons.print.min.js')}}"></script>
-<script src="{{ URL::asset('plugins/datatables/buttons.colVis.min.js')}}"></script>
-<!-- Responsive examples -->
-<script src="{{ URL::asset('plugins/datatables/dataTables.responsive.min.js')}}"></script>
-<script src="{{ URL::asset('plugins/datatables/responsive.bootstrap4.min.js')}}"></script>
-<script src="{{ URL::asset('assets/pages/jquery.datatable.init.js')}}"></script>
+  @section('footerScript')
+  <!-- Required datatable js -->
+  <script src="{{ URL::asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
+  <script src="{{ URL::asset('plugins/datatables/dataTables.bootstrap4.min.js')}}"></script>
+  <!-- Buttons examples -->
+  <script src="{{ URL::asset('plugins/datatables/dataTables.buttons.min.js')}}"></script>
+  <script src="{{ URL::asset('plugins/datatables/buttons.bootstrap4.min.js')}}"></script>
+  <script src="{{ URL::asset('plugins/datatables/vfs_fonts.js')}}"></script>
+  <script src="{{ URL::asset('plugins/datatables/buttons.html5.min.js')}}"></script>
+  <script src="{{ URL::asset('plugins/datatables/buttons.print.min.js')}}"></script>
+  <script src="{{ URL::asset('plugins/datatables/buttons.colVis.min.js')}}"></script>
+  <!-- Responsive examples -->
+  <script src="{{ URL::asset('plugins/datatables/dataTables.responsive.min.js')}}"></script>
+  <script src="{{ URL::asset('plugins/datatables/responsive.bootstrap4.min.js')}}"></script>
+  <script src="{{ URL::asset('assets/pages/jquery.datatable.init.js')}}"></script>
 
-<script type="text/javascript">
-document.querySelector(".success-save-ad").style.display = "none";
-const buttonCadastroAdquirente = document.querySelector(".bt-cadastro-ad");
-const buttonSalvaCadastro = document.querySelector(".bt-salva-ad");
-const buttonSalvaEdicao = document.querySelector(".bt-salva-edicao-ad");
-const buttonSimExclusao = document.querySelector("#sim");
+  <script type="text/javascript">
+  document.querySelector(".success-save-ad").style.display = "none";
+  document.querySelector(".success-update-ad").style.display = "none";
 
-buttonCadastroAdquirente.addEventListener("click", function() {
-  $("#modalCadastroAdquirente").modal({
-    show: true
+  const buttonCadastroAdquirente = document.querySelector(".bt-cadastro-ad");
+  const buttonSalvaCadastro = document.querySelector(".bt-salva-ad");
+  const buttonSalvaEdicao = document.querySelector(".bt-salva-edicao-ad");
+  const buttonSimExclusao = document.querySelector("#sim");
+
+  buttonSalvaCadastro.addEventListener("click", function() {
+    const adquirente = document.querySelector('input[name="adquirente"]').value;
+    cadastrarAdquirente(adquirente);
   });
-});
 
-buttonSalvaCadastro.addEventListener("click", function() {
-  const adquirente = document.querySelector('input[name="adquirente"]').value;
-  cadastrarAdquirente(adquirente);
-});
+  buttonSalvaEdicao.addEventListener("click", function() {
+    const adquirente = document.querySelector('input[name="editar-adquirente"]').value;
+    salvarEdicaoAdquirente(adquirente);
+  });
 
-function cadastrarAdquirente(adquirente) {
-  const headers = new Headers();
-  const data = { _token: "{{csrf_token()}}", adquirente };
+  buttonCadastroAdquirente.addEventListener("click", function() {
+    $("#modalCadastroAdquirente").modal({
+      show: true
+    });
+  });
 
-  fetch("cadastro-adquirente", {
-    method: "POST",
-    headers: new Headers({
-      "Content-Type": "application/json",
-      "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-    }),
-    body: JSON.stringify(data)
-  })
+  function editarAdquirente(e, adquirente){
+    localStorage.setItem("cod_adquirente", adquirente.CODIGO);
+
+    $("#modalEditarAdquirente").modal({
+      show: true
+    });
+    document.querySelector("input[name='editar-adquirente']").value = `${adquirente.ADQUIRENTE}`;
+  }
+
+  function salvarEdicaoAdquirente(adquirente) {
+    const headers = new Headers();
+    const data = { _token: "{{csrf_token()}}", adquirente };
+
+    fetch("update-adquirente/" + localStorage.getItem('cod_adquirente'), {
+      method: "PUT",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+      }),
+      body: JSON.stringify(data)
+    })
+    .then(function(response) {
+      response.json().then(function(data) {
+        document.querySelector(".success-update-ad").style.display = "block";
+
+        setTimeout(function() {
+          $('#modalEditarAdquirente').modal('hide');
+          document.querySelector(".success-update-ad").style.display = "none";
+          document.querySelector('input[name="editar-adquirente"]').value = "";
+        }, 2000);
+
+        atualizaTabela();
+      });
+    })
+    .catch(error => alert("Algo deu errado!"));
+  }
+
+  function cadastrarAdquirente(adquirente) {
+    const headers = new Headers();
+    const data = { _token: "{{csrf_token()}}", adquirente };
+
+    fetch("cadastro-adquirente", {
+      method: "POST",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+      }),
+      body: JSON.stringify(data)
+    })
     .then(function(response) {
       response.json().then(function(data) {
         document.querySelector(".success-save-ad").style.display = "block";
@@ -221,130 +268,82 @@ function cadastrarAdquirente(adquirente) {
       });
     })
     .catch(error => alert("Algo deu errado!"));
-}
-
-function atualizaTabela() {
-  buscarTodosAdquirentes();
-}
-
-function editarAdquirente(adquirente){
-  $("#modalEditarAdquirente").modal({
-    show: true
-  });
-  document.querySelector("input[name='editar-adquirente']").value = `${adquirente.ADQUIRENTE}`;
-}
-
-function buscarTodosAdquirentes() {
-  fetch("atualiza-tabela", {
-    method: "GET",
-    headers: new Headers({
-      "Content-Type": "application/json",
-      "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-      Accept: "application/json"
-    })
-  }).then(function(response) {
-    response.json().then(function(data) {
-      renderizaTabela(data.adquirentes);
-    });
-  });
-}
-
-function renderizaTabela(adquirentes) {
-  // $("#conteudo_tabe").empty();
-  document.querySelector("#conteudo_tabe").innerHTML = "";
-
-  let html = "";
-
-  for (adquirente of adquirentes) {
-    html += `<tr id='${adquirente.CODIGO}'>
-    <td> ${adquirente.ADQUIRENTE} </td>
-    <td> ${adquirente.ADQUIRENTE} </td>
-    <td> ${
-      adquirente.HOMOLOGADO
-        ? `<i style="color: green" class="fas fa-check"></i>`
-        : `<i  style="color: red" class="fas fa-times"></i>`
-    }
-    <td>
-    <a href='#' onclick='editarJustificativa("+response[i].CODIGO+")'><i class='far fa-edit'></i></a>
-    <a href='#' onclick='excluirAdquirente(event, ${
-      adquirente.CODIGO
-    })'><i style='margin-left: 12px' class='far fa-trash-alt'></i></a>"
-    </td>
-    </tr>`;
   }
 
-  document.querySelector(
-    "#qtd-adquirentes"
-  ).innerHTML = `Total de adquirentes (${adquirentes.length} registros)`;
-  document.querySelector("#conteudo_tabe").innerHTML = html;
-}
+  function atualizaTabela() {
+    buscarTodosAdquirentes();
+  }
 
-function excluirAdquirente(e, codigo_adquirente) {
-  e.preventDefault();
-
-  localStorage.setItem("cod_adquirente", codigo_adquirente);
-  $("#modalExcluirAdquirente").modal({
-    show: true
-  });
-}
-
-function editarJustificativa(cod_justificativa) {
-  let url = "{{ url('justificativa') }}" + "/" + cod_justificativa;
-
-  $.ajax({
-    url: url,
-    type: "get",
-    header: {
-      "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
-    },
-    success: function(response) {
-      $("#justificativaEdit").val(response.JUSTIFICATIVA);
-
-      $("#modalEditarJustificativa").modal({
-        show: true
+  function buscarTodosAdquirentes() {
+    fetch("atualiza-tabela", {
+      method: "GET",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+        Accept: "application/json"
+      })
+    }).then(function(response) {
+      response.json().then(function(data) {
+        renderizaTabela(data.adquirentes);
       });
+    });
+  }
+
+  function renderizaTabela(adquirentes) {
+    // $("#conteudo_tabe").empty();
+    document.querySelector("#conteudo_tabe").innerHTML = "";
+
+    let html = "";
+
+    for (adquirente of adquirentes) {
+      console.log(adquirente);
+
+      html += `<tr id='${adquirente.CODIGO}'>
+      <td> ${adquirente.ADQUIRENTE} </td>
+      <td> ${adquirente.ADQUIRENTE} </td>
+      <td> ${
+        adquirente.HOMOLOGADO
+        ? `<i style="color: green" class="fas fa-check"></i>`
+        : `<i  style="color: red" class="fas fa-times"></i>`
+      }
+      <td>
+      <a href='#' onclick='editarAdquirente(event, ${JSON.stringify(adquirente)})'><i class='far fa-edit'></i></a>
+      <a href='#' onclick='excluirAdquirente(event, ${
+        adquirente.CODIGO
+      })'><i style='margin-left: 12px' class='far fa-trash-alt'></i></a>"
+      </td>
+      </tr>`;
     }
-  });
 
-  localStorage.setItem("cod_justificativa", cod_justificativa);
-}
+    document.querySelector(
+      "#qtd-adquirentes"
+    ).innerHTML = `Total de adquirentes (${adquirentes.length} registros)`;
+    document.querySelector("#conteudo_tabe").innerHTML = html;
+  }
 
-function salvarEdicaoJustificativa() {
-  let justificativa = {
-    codigo: localStorage.getItem("cod_justificativa"),
-    justificativa: $("#justificativaEdit").val()
-  };
+  function excluirAdquirente(e, codigo_adquirente) {
+    e.preventDefault();
 
-  $.ajax({
-    type: "PUT",
-    url: "api/justificativa/" + localStorage.getItem("cod_justificativa"),
-    data: justificativa,
-    context: this,
-    header: {
-      "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
-    },
-    success: function(data) {
-      let linhas = $("#" + localStorage.getItem("cod_justificativa"));
+    localStorage.setItem("cod_adquirente", codigo_adquirente);
+    $("#modalExcluirAdquirente").modal({
+      show: true
+    });
+  }
 
-      linhas[0].cells[0].textContent = justificativa.justificativa.toUpperCase();
-    }
-  });
-}
+  document.getElementById("sim").addEventListener("click", function() {
+    const cod_adquirente = localStorage.getItem("cod_adquirente");
 
-document.getElementById("sim").addEventListener("click", function() {
-  const cod_adquirente = localStorage.getItem("cod_adquirente");
-
-  fetch(`delete-adquirente/${cod_adquirente}`, {
-    headers: new Headers({
-      "Content-Type": "application/json",
-      "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
-    })
-  }).then(function(response) {
-    response.json().then(function(data) {
-      buscarTodosAdquirentes();
+    fetch(`delete-adquirente/${cod_adquirente}`, {
+      headers: new Headers({
+        "Content-Type": "application/json",
+        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+      })
+    }).then(function(response) {
+      response.json().then(function(data) {
+        buscarTodosAdquirentes();
+      });
     });
   });
-});
 
 </script>
 

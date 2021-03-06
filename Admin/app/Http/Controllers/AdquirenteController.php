@@ -44,11 +44,27 @@ class AdquirenteController extends Controller {
     }
   }
 
-  public function excluirAdquirente($codigo_adquirente) {
-      $adquirente = AdquirentesModel::where("CODIGO", "=", $codigo_adquirente)->first();
-      $adquirente->delete();
+  public function updateAdquirente(Request $request, $codigo){
+    $adquirente_nome = $request->input('adquirente');
+
+    $adquirente = AdquirentesModel::where('CODIGO', $codigo)->first();
+
+    if(isset($adquirente)){
+      // $adquirente->ADQUIRENTE = mb_strtoupper($adquirente_nome);
+      $adquirente->ADQUIRENTE = $adquirente_nome;
+      $adquirente->save();
 
       return response()->json(200);
+    }
+
+    return response()->json(500);
+  }
+
+  public function excluirAdquirente($codigo_adquirente) {
+    $adquirente = AdquirentesModel::where("CODIGO", "=", $codigo_adquirente)->first();
+    $adquirente->delete();
+
+    return response()->json(200);
   }
 
 }
