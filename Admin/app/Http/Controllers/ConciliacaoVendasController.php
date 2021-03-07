@@ -83,12 +83,13 @@ class ConciliacaoVendasController extends Controller
             ];
 
             $query = VendasErpFilter::filter($filters)->getQuery();
+            $sales_query = (clone $query)->whereIn('vendas_erp.COD_STATUS_CONCILIACAO', $request->input('status_conciliacao'));
 
             $totals = [
-                'TOTAL_BRUTO' => (clone $query)->sum(DB::raw('coalesce(`vendas_erp`.`VALOR_VENDA_PARCELA`, `vendas_erp`.`TOTAL_VENDA`)')) ?? 0,
-                'TOTAL_LIQUIDO' => (clone $query)->sum('VALOR_LIQUIDO_PARCELA') ?? 0,
-                'TOTAL_LIQUIDO_OPERADORA' => (clone $query)->sum('VALOR_LIQUIDO_OPERADORA') ?? 0,
-                'TOTAL_DIFERENCA_LIQUIDO' => (clone $query)->sum('DIFERENCA_LIQUIDO') ?? 0,
+                'TOTAL_BRUTO' => (clone $sales_query)->sum(DB::raw('coalesce(`vendas_erp`.`VALOR_VENDA_PARCELA`, `vendas_erp`.`TOTAL_VENDA`)')) ?? 0,
+                'TOTAL_LIQUIDO' => (clone $sales_query)->sum('VALOR_LIQUIDO_PARCELA') ?? 0,
+                'TOTAL_LIQUIDO_OPERADORA' => (clone $sales_query)->sum('VALOR_LIQUIDO_OPERADORA') ?? 0,
+                'TOTAL_DIFERENCA_LIQUIDO' => (clone $sales_query)->sum('DIFERENCA_LIQUIDO') ?? 0,
             ];
             $totals['TOTAL_TAXA'] = ($totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO']) ?? 0;
 
@@ -100,8 +101,7 @@ class ConciliacaoVendasController extends Controller
                     ->TOTAL ?? 0;
             }
 
-            $sales = $query->whereIn('vendas_erp.COD_STATUS_CONCILIACAO', $request->input('status_conciliacao'))
-                ->paginate($per_page);
+            $sales = $sales_query->paginate($per_page);
 
             return response()->json([
                 'vendas' => $sales,
