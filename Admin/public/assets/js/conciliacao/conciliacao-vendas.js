@@ -235,10 +235,12 @@ salesContainer.onEvent('search', (sales) => {
 });
 salesErpContainer.onEvent('search', (sales) => {
     const totals = sales.get('totals');
+    let boxTotal;
+
     updateBoxes(boxes, {
         ...totals,
     });
-    let boxTotal;
+
     boxes.forEach(box => {
         const boxStatus = box.get('element').dataset.status;
         if(boxStatus === '*') {
@@ -248,9 +250,8 @@ salesErpContainer.onEvent('search', (sales) => {
 
         if(!selectedStatus.includes(boxStatus)) {
             box.set('value', 0);
+            box.render();
         }
-
-        box.render();
     });
     const total = boxes.reduce((sum, currentBox) => {
         const key = currentBox.get('element').dataset.key;
