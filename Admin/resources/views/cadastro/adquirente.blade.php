@@ -32,6 +32,7 @@
               <h6> Adquirente: </h6>
               <div class="row form-group">
                 <div class="col-sm-6">
+                  <input type="hidden" value="{{$adquirentes}}" name="adquirentes-carregados">
                   <input type="textarea" class="form-control" placeholder="Pequise o adquirente" name="adquirentes-pesquisados">
                 </div>
                 <div class="col-sm-2">
@@ -189,9 +190,11 @@
   const buttonSalvaCadastro = document.querySelector(".bt-salva-ad");
   const buttonSalvaEdicao = document.querySelector(".bt-salva-edicao-ad");
   const buttonSimExclusao = document.querySelector("#sim");
+  const adquirentesPesquisados = document.querySelector('input[name="adquirentes-pesquisados"]');
+  const adquirentesCarregados = document.querySelector('input[name="adquirentes-carregados"]');
 
   buttonSalvaCadastro.addEventListener("click", function() {
-    const adquirente = document.querySelector('input[name="adquirente"]').value;
+    const adquirente = document.querySelector('input[name="adquirente"]');
     cadastrarAdquirente(adquirente);
   });
 
@@ -205,6 +208,27 @@
       show: true
     });
   });
+
+  adquirentesPesquisados.addEventListener('keydown', function() {
+    const adquirentes = JSON.parse(adquirentesCarregados.value);
+    console.log(adquirentes);
+
+    setTimeout(function(){
+      if(adquirentesPesquisados.value) {
+        for(adquirente of adquirentes) {
+
+          var regex = new RegExp(adquirentesPesquisados.value, 'gi');
+          resultado = adquirente.ADQUIRENTE.match(regex);
+
+          if(resultado) {
+            document.getElementById(adquirente.CODIGO).style = "display: ";
+          }else{
+            document.getElementById(adquirente.CODIGO).style.display = "none";
+          }
+        }
+      }
+    }, 300);
+  })
 
   function editarAdquirente(e, adquirente){
     localStorage.setItem("cod_adquirente", adquirente.CODIGO);
@@ -296,8 +320,6 @@
     let html = "";
 
     for (adquirente of adquirentes) {
-      console.log(adquirente);
-
       html += `<tr id='${adquirente.CODIGO}'>
       <td> ${adquirente.ADQUIRENTE} </td>
       <td> ${adquirente.ADQUIRENTE} </td>
