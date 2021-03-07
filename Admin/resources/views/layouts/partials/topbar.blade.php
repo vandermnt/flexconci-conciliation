@@ -11,9 +11,9 @@
 
       </a>
       <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownCadastros">
-        <a class="dropdown-item" href="{{ url('cadastro-adquirente')}}"> Adquirente </a>
-        <a class="dropdown-item" href="#"> Banco</a>
-        <a class="dropdown-item" href="#"> Bandeira</a>
+        <a class="dropdown-item" href="{{ url('cadastro-adquirente')}}"> Operadoras </a>
+        <a class="dropdown-item" href="#"> Bancos</a>
+        <a class="dropdown-item" href="#"> Bandeiras</a>
       </div>
     </li>
     <li class="hidden-sm">
