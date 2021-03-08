@@ -244,7 +244,7 @@ function retornoRecebimentoErp() {
 
       updatePayments(paymentsContainer.get('data').get('payments'), [...updatedPayments], 'ID');
 
-      swal('Retorno Recebimento realizado!', `${res.vendas.length} de ${res.total} registros atualizados!`, 'success');
+      swal('Baixa Executada!', `${res.vendas.length} de ${res.total} registros atualizados!`, 'success');
     })
     .catch((err) => {
         swal("Ooops...", 'Um erro inesperado ocorreu. Tente novamente mais tarde!', 'error');

@@ -235,10 +235,12 @@ salesContainer.onEvent('search', (sales) => {
 });
 salesErpContainer.onEvent('search', (sales) => {
     const totals = sales.get('totals');
+    let boxTotal;
+
     updateBoxes(boxes, {
         ...totals,
     });
-    let boxTotal;
+
     boxes.forEach(box => {
         const boxStatus = box.get('element').dataset.status;
         if(boxStatus === '*') {
@@ -248,9 +250,8 @@ salesErpContainer.onEvent('search', (sales) => {
 
         if(!selectedStatus.includes(boxStatus)) {
             box.set('value', 0);
+            box.render();
         }
-
-        box.render();
     });
     const total = boxes.reduce((sum, currentBox) => {
         const key = currentBox.get('element').dataset.key;
@@ -772,7 +773,7 @@ function retornoErp() {
 
             updateSales(salesErpContainer.get('data').get('sales'), [...updatedSales], 'ID_ERP');
 
-            swal('Retorno ERP realizado!', `${res.vendas.length} de ${res.total} registros atualizados!`, 'success');
+            swal('Correção ERP realizado!', `${res.vendas.length} de ${res.total} registros atualizados!`, 'success');
         })
         .catch((err) => {
             swal("Ooops...", 'Um erro inesperado ocorreu. Tente novamente mais tarde!', 'error');

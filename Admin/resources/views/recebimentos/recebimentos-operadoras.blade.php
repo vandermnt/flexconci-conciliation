@@ -145,10 +145,11 @@
             @if(Auth::user()->USUARIO_GLOBAL === 'S')
               <button
                 id="js-abrir-modal-retorno"
-                class="btn button no-hover mr-1"
+                class="btn button no-hover mr-1 tooltip-hint"
+                data-title="Clicando aqui vamos efetuar a baixa automática no seu sistema."
               >
                 <i class="fas fa-undo"></i>
-                Retorno Recebimento {{ $erp->ERP ?? 'ERP' }}
+                Executar Baixa {{ $erp->ERP ?? 'ERP' }}
               </button>
             @endif
             <button id="js-retorno-csv" class="btn button no-hover mr-1 tooltip-hint" data-title="Arquivo de integração para a realização da baixa/liquidação">
@@ -170,7 +171,7 @@
           id="js-tabela-recebimentos"
           class="mt-3"
           :headers="[
-            'RETORNO_ERP_BAIXA' => 'Retorno Recebimento '.($erp->ERP ?? 'ERP'),
+            'RETORNO_ERP_BAIXA' => 'Executar Baixa '.($erp->ERP ?? 'ERP'),
           ]"
         >
           <x-slot name="actions">
@@ -190,7 +191,7 @@
     <x-modal
       id="js-retorno-recebimento-modal"
       modal-label-id="modal-retorno-label"
-      :modal-label="'Retorno Recebimento '.($erp->ERP ?? 'ERP')"
+      :modal-label="'Executar Baixa '.($erp->ERP ?? 'ERP')"
     >
       <x-slot name="content">
         <div class="form-group">

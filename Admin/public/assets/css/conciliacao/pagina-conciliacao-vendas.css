@@ -29,3 +29,15 @@
   font-size: 16px;
   margin-right: 4px;
 }
+
+#pagina-conciliacao-vendas #js-abrir-modal-retorno-erp.tooltip-hint::before {
+  width: 100%;
+  max-width: 128px;
+  transform: translateX(-50%);
+}
+
+
+#pagina-conciliacao-vendas #js-abrir-modal-retorno-erp.tooltip-hint::before,
+#pagina-conciliacao-vendas #js-abrir-modal-retorno-erp.tooltip-hint::after {
+    z-index: 24;
+}
