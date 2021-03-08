@@ -10,6 +10,12 @@
   height: 100 !important;
 }
 
-#qtd-adquirentes {
+
+/*
+.table tr {
+  display:block;
+} */
+
+#qtd-registros {
   margin-left: 15px;
 }

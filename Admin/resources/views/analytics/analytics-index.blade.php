@@ -318,7 +318,7 @@
             <div class="row recebimentos">
               <div class="col-6">
                 <h4 class="wallet-title m-0">Recebimentos</h4>
-                <span id="label_data_recebimento" class="text-muted font-12">
+                <span id="label_data_recebimento" class="text-muted font-12 data-recebimento">
                   <b><?php echo date("d/m/Y") ?></b>
                 </span>
                 <h4 id="label_recebimentos">
@@ -411,7 +411,8 @@
                     <li class="list-group-item align-items-center d-flex justify-content-between">
                       <div class="col-12 row" style='text-align: center;align-items: center;justify-content: center'>
                         <div class="col-2 tooltip-hint" data-title="{{ $operadora->NOME_AD }}">
-                          <img src="{{ $operadora->IMAGEMAD}}" class="align-self-center">
+                          <div class="img-detalhamento-operadoras" style='background-image: url({{$operadora->IMAGEMAD}})'/> </div>
+                          <!-- <img src="{{ $operadora->IMAGEMAD}}" class="align-self-center img-operadora-detalhamento"> -->
                         </div>
                         <div class="col-7 media-body align-self-center">
                           <h4 class="m-0 label-val-liquido">
@@ -538,7 +539,7 @@
                 var html = "<li class='list-group-item align-items-center d-flex justify-content-between'>"
 
                 html += "<div class='col-12 row' style='text-align: center;align-items: center;justify-content: center'>"
-                html += "<div class='tooltip-hint' data-title='"+ bancos.NOME_AD + "'>" + "<img src='" + bancos.IMAGEMAD + "' style='width: 60px; ;' class='align-self-center'></div>"
+                html += "<div class='tooltip-hint' data-title='"+ bancos.NOME_AD + "'><div class='img-tables' style='background-image: url(" + bancos.IMAGEMAD + ")'/> </div>"
                 html += "<div class='col-7 media-body align-self-center'>"
                 html += "<h4 class='m-0' style='font-size: 14px; text-align:right; color: #257E4A'>" + Intl.NumberFormat('pt-br', {
                   style: 'currency',
@@ -585,6 +586,9 @@
               pagamentos_normais = response[2];
               pagamentos_antecipados = response[3];
 
+              console.log(response[0]);
+              console.log(response[1]);
+
               pagamentos_normais_bancos = response[4];
               pagamentos_antecipados_bancos = response[5];
               // $('#ul_bancos').empty();
@@ -595,7 +599,7 @@
 
                 html += "<div class='col-12 row' style='text-align: center;align-items: center;justify-content: center'>"
                 html += "<div class='col-4' style='margin: 0'>"
-                html += "<img src='" + bancos.IMAGEM + "' class='align-self-center img-bancos-detalhamento'>"
+                html += "<div class='tooltip-hint' data-title='"+ bancos.BANCO_NOME + "'>" + "<img src='" + bancos.IMAGEM + "' style='width: 60px; ;' class='align-self-center img-bancos-detalhamento'></div>"
                 html += "</div>"
                 html += "<div class='col-4 media-body align-self-center'>"
                 html += "<h4 style='font-size: 13px; margin-left: -30px'>" + "AG: " + bancos.AGENCIA + "- C/C: " + bancos.CONTA + "</h4>"
@@ -619,7 +623,7 @@
                 var html = "<li class='list-group-item align-items-center d-flex justify-content-between'>"
 
                 html += "<div class='col-12 row' style='text-align: center;align-items: center;justify-content: center'>"
-                html += "<img src='" + bancos.IMAGEMAD + "' class='align-self-center' style='width: 70px;'>"
+                html += "<div class='tooltip-hint' data-title='"+ bancos.NOMEAD + "'><div class='img-tables' style='background-image: url(" + bancos.IMAGEMAD + ")'/> </div>"
                 html += "<div class='col-7 media-body align-self-center'>"
                 html += "<h4 class='m-0' style='font-size: 14px; text-align:right; color: #257E4A'>" + formataMoeda(bancos.val_liquido) + "</h4>"
                 html += "</div>"
