@@ -124,34 +124,32 @@ modalFilter.addGroups([
 ]);
 
 function buildRequest(key = 'erp', params, body = {}) {
-    let requestHandler = () => { };
+    let requestHandler = () => {};
 
     const currentSalesContainer = key === 'erp' ? salesErpContainer : salesContainer;
     const currentTableRender = key === 'erp' ? tableRenderErp : tableRender;
+    const isSearchActive = currentSalesContainer.get('active') === 'search';
+    const sendRequest = isSearchActive ?
+        currentSalesContainer.search.bind(currentSalesContainer) :
+        currentSalesContainer.filter.bind(currentSalesContainer);
+    const bodyPayload = isSearchActive ?
+        { ...searchForm.serialize(), ...body }
+        : {
+            filters: { ...searchForm.serialize() },
+            subfilters: { ...currentTableRender.serializeTableFilters() }
+        }
 
-    if (currentSalesContainer.get('active') === 'search') {
-        requestHandler = async (params) => {
-            await currentSalesContainer.search({
-                params: {
-                    por_pagina: currentSalesContainer.get('search').get('pagination').options.perPage,
-                    ...params
-                },
-                body: { ...searchForm.serialize(), ...body }
-            });
+    const requestPayload = {
+        params: {},
+        body: bodyPayload,
+    };
+
+    requestHandler = async (params) => {
+        requestPayload.params = {
+            por_pagina: currentSalesContainer.get('search').get('pagination').options.perPage,
+            ...params
         }
-    } else {
-        requestHandler = async (params) => {
-            await currentSalesContainer.filter({
-                params: {
-                    por_pagina: currentSalesContainer.get('search').get('pagination').options.perPage,
-                    ...params,
-                },
-                body: {
-                    filters: { ...searchForm.serialize() },
-                    subfilters: { ...currentTableRender.serializeTableFilters() }
-                }
-            });
-        }
+        await sendRequest(requestPayload);
     }
 
     return {
@@ -181,6 +179,7 @@ function getPaginationConfig(key) {
 }
 
 searchForm.onSubmit(async (event) => {
+    const statusNaoConciliado = document.querySelector('.box[data-key="TOTAL_PENDENCIAS_OPERADORAS"]').dataset.status;
     const resultadosDOM = document.querySelector('.resultados');
     toggleElementVisibility('#js-loader');
 
@@ -190,7 +189,10 @@ searchForm.onSubmit(async (event) => {
             params: {
                 por_pagina: document.querySelector('#js-por-pagina-operadoras').value,
             },
-            body: { ...searchForm.serialize() },
+            body: {
+                ...searchForm.serialize(),
+                status_conciliacao: [statusNaoConciliado],
+            },
         }),
         await salesErpContainer.search({
             params: {
@@ -233,9 +235,36 @@ salesContainer.onEvent('search', (sales) => {
 });
 salesErpContainer.onEvent('search', (sales) => {
     const totals = sales.get('totals');
+    let boxTotal;
+
     updateBoxes(boxes, {
         ...totals,
     });
+
+    boxes.forEach(box => {
+        const boxStatus = box.get('element').dataset.status;
+        if(boxStatus === '*') {
+            boxTotal = box;
+            return;
+        }
+
+        if(!selectedStatus.includes(boxStatus)) {
+            box.set('value', 0);
+            box.render();
+        }
+    });
+    const total = boxes.reduce((sum, currentBox) => {
+        const key = currentBox.get('element').dataset.key;
+
+        if(!['TOTAL_BRUTO', 'TOTAL_PENDENCIAS_OPERADORAS'].includes(key)) {
+            const boxValue = (Number(currentBox.get('value')) || 0);
+            sum = sum + boxValue;
+        }
+
+        return sum;
+    }, 0);
+    boxTotal.set('value', total);
+    boxTotal.render();
 });
 
 tableRenderErp.onFilter(async (filters) => await _events.table.onFilter('erp', filters));
@@ -744,7 +773,7 @@ function retornoErp() {
 
             updateSales(salesErpContainer.get('data').get('sales'), [...updatedSales], 'ID_ERP');
 
-            swal('Retorno ERP realizado!', `${res.vendas.length} de ${res.total} registros atualizados!`, 'success');
+            swal('Correção ERP realizado!', `${res.vendas.length} de ${res.total} registros atualizados!`, 'success');
         })
         .catch((err) => {
             swal("Ooops...", 'Um erro inesperado ocorreu. Tente novamente mais tarde!', 'error');

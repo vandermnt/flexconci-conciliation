@@ -156,11 +156,12 @@
           </div>
           <div class="acoes d-flex align-items-center justify-content-between">
             <button
-                class="btn mr-1 button no-hover"
+                class="btn mr-1 button no-hover tooltip-hint"
                 id="js-abrir-modal-retorno-erp"
+                data-title="Clicando aqui vamos efetuar a correção no seu sistema dos campos &quot;data de vencimento&quot;, &quot;taxa&quot; e &quot;valor líquido&quot;."
             >
                 <i class="fas fa-undo"></i>
-                Retorno Venda {{ $erp->ERP ?? 'ERP' }}
+                Corrigir Venda {{ $erp->ERP ?? 'ERP' }}
             </button>
             <button id="js-conciliar" class="btn mr-1 button no-hover">
               <i class="far fa-handshake"></i>
@@ -308,7 +309,7 @@
     <x-modal
         id="js-retorno-erp-modal"
         modal-label-id="modal-retorno-label"
-        :modal-label="'Retorno Venda '.($erp->ERP ?? 'ERP')"
+        :modal-label="'Corrigir Venda '.($erp->ERP ?? 'ERP')"
     >
         <x-slot name="content">
             <div class="form-group">

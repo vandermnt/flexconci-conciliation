@@ -39,7 +39,7 @@ class ConciliacaoVendasController extends Controller
         $empresas = GruposClientesModel::where('COD_CLIENTE', session('codigologin'))
             ->orderBy('NOME_EMPRESA')
             ->get();
-            
+
         $status_conciliacao = StatusConciliacaoModel::orderBy('STATUS_CONCILIACAO')
             ->get();
 
@@ -49,7 +49,7 @@ class ConciliacaoVendasController extends Controller
         ])
             ->where('COD_CLIENTE', session('codigologin'))
             ->get();
-        
+
         return view('conciliacao.conciliacao-vendas')
             ->with([
                 'erp' => $erp,
@@ -61,10 +61,10 @@ class ConciliacaoVendasController extends Controller
 
     public function searchErp(Request $request) {
         $per_page = $this->getPerPage(
-            $request->input('por_pagina', null), 
+            $request->input('por_pagina', null),
             [5, 10, 20, 50, 100, 200]
         );
-        $filters = $request->all();
+        $filters = $request->except(['status_conciliacao']);
         $filters['cliente_id'] = session('codigologin');
 
         try {
@@ -83,12 +83,13 @@ class ConciliacaoVendasController extends Controller
             ];
 
             $query = VendasErpFilter::filter($filters)->getQuery();
-            
+            $sales_query = (clone $query)->whereIn('vendas_erp.COD_STATUS_CONCILIACAO', $request->input('status_conciliacao'));
+
             $totals = [
-                'TOTAL_BRUTO' => (clone $query)->sum(DB::raw('coalesce(`vendas_erp`.`VALOR_VENDA_PARCELA`, `vendas_erp`.`TOTAL_VENDA`)')) ?? 0,
-                'TOTAL_LIQUIDO' => (clone $query)->sum('VALOR_LIQUIDO_PARCELA') ?? 0,
-                'TOTAL_LIQUIDO_OPERADORA' => (clone $query)->sum('VALOR_LIQUIDO_OPERADORA') ?? 0,
-                'TOTAL_DIFERENCA_LIQUIDO' => (clone $query)->sum('DIFERENCA_LIQUIDO') ?? 0,
+                'TOTAL_BRUTO' => (clone $sales_query)->sum(DB::raw('coalesce(`vendas_erp`.`VALOR_VENDA_PARCELA`, `vendas_erp`.`TOTAL_VENDA`)')) ?? 0,
+                'TOTAL_LIQUIDO' => (clone $sales_query)->sum('VALOR_LIQUIDO_PARCELA') ?? 0,
+                'TOTAL_LIQUIDO_OPERADORA' => (clone $sales_query)->sum('VALOR_LIQUIDO_OPERADORA') ?? 0,
+                'TOTAL_DIFERENCA_LIQUIDO' => (clone $sales_query)->sum('DIFERENCA_LIQUIDO') ?? 0,
             ];
             $totals['TOTAL_TAXA'] = ($totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO']) ?? 0;
 
@@ -100,7 +101,7 @@ class ConciliacaoVendasController extends Controller
                     ->TOTAL ?? 0;
             }
 
-            $sales = $query->paginate($per_page);
+            $sales = $sales_query->paginate($per_page);
 
             return response()->json([
                 'vendas' => $sales,
@@ -115,7 +116,7 @@ class ConciliacaoVendasController extends Controller
 
     public function filterErp(Request $request) {
         $per_page = $this->getPerPage(
-            $request->input('por_pagina', null), 
+            $request->input('por_pagina', null),
             [5, 10, 20, 50, 100, 200]
         );
         $filters = $request->input('filters');
@@ -147,7 +148,7 @@ class ConciliacaoVendasController extends Controller
 
     public function searchOperadoras(Request $request) {
         $per_page = $this->getPerPage(
-            $request->input('por_pagina', null), 
+            $request->input('por_pagina', null),
             [5, 10, 20, 50, 100, 200]
         );
         $filters = $request->except(['status_conciliacao']);
@@ -155,10 +156,12 @@ class ConciliacaoVendasController extends Controller
 
         try {
             $status_nao_conciliada = StatusConciliacaoModel::naoConciliada()->first()->CODIGO;
+            $has_status_nao_conciliada = in_array($status_nao_conciliada, $request->input('status_conciliacao'));
+            $filters['status_conciliacao'] = $has_status_nao_conciliada ? [$status_nao_conciliada] : [null];
+
             $query = VendasFilter::filter($filters)
-                        ->getQuery()
-                        ->where('vendas.COD_STATUS_CONCILIACAO', $status_nao_conciliada);
-            
+                        ->getQuery();
+
             $totals = [
                 'TOTAL_BRUTO' => (clone $query)->sum('VALOR_BRUTO'),
                 'TOTAL_LIQUIDO' => (clone $query)->sum('VALOR_LIQUIDO'),
@@ -181,7 +184,7 @@ class ConciliacaoVendasController extends Controller
 
     public function filterOperadoras(Request $request) {
         $per_page = $this->getPerPage(
-            $request->input('por_pagina', null), 
+            $request->input('por_pagina', null),
             [5, 10, 20, 50, 100, 200]
         );
         $filters = $filters = $request->input('filters');
@@ -191,7 +194,7 @@ class ConciliacaoVendasController extends Controller
         try {
             $status_nao_conciliada = StatusConciliacaoModel::naoConciliada()->first()->CODIGO;
             $filters['status_conciliacao'] = [$status_nao_conciliada];
-            
+
             $query = VendasSubFilter::subfilter($filters, $subfilters)
                         ->getQuery();
 
@@ -217,7 +220,7 @@ class ConciliacaoVendasController extends Controller
         $idOperadora = collect($request->input('id_operadora'))->first();
         $idErp = collect($request->input('id_erp'))->first();
 
-        $statusNaoConciliada = StatusConciliacaoModel::naoConciliada()->first()->CODIGO; 
+        $statusNaoConciliada = StatusConciliacaoModel::naoConciliada()->first()->CODIGO;
         $statusManualmente = StatusConciliacaoModel::manual()->first();
         $now = new DateTime("now", new DateTimeZone('America/Sao_Paulo'));
 
@@ -229,7 +232,7 @@ class ConciliacaoVendasController extends Controller
             ->where('COD_CLIENTE', session('codigologin'))
             ->where('COD_STATUS_CONCILIACAO', $statusNaoConciliada)
             ->first();
-        
+
         $vendaErp->COD_VENDAS_OPERADORAS = $vendaOperadora->CODIGO;
         $vendaErp->COD_STATUS_CONCILIACAO = $statusManualmente->CODIGO;
         $vendaErp->DATA_CONCILIACAO = $now->format('Y-m-d');
@@ -268,7 +271,7 @@ class ConciliacaoVendasController extends Controller
 
         $vendaErp = VendasErpModel::where('CODIGO', $idErp)
             ->where('COD_CLIENTE', session('codigologin'))
-            ->where('COD_STATUS_CONCILIACAO', $statusManualmente)         
+            ->where('COD_STATUS_CONCILIACAO', $statusManualmente)
             ->first();
         $vendaOperadora = VendasModel::where('CODIGO', $vendaErp->COD_VENDAS_OPERADORAS)
             ->first();
