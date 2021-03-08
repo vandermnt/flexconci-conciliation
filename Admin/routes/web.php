@@ -134,11 +134,16 @@ Route::group(['middleware' => 'auth'], function() {
   Route::get('/justificativa/{codigo}', 'CadastroJustificativaController@show');
 
   //CADASTRO ADQUIRENTE
+  Route::get('/cadastro-banco', 'BancoController@index');
   Route::get('/cadastro-adquirente', 'AdquirenteController@index');
-  Route::get('/atualiza-tabela', 'AdquirenteController@allAdquirentes');
+  Route::get('/load-adquirentes', 'AdquirenteController@allAdquirentes');
+  Route::get('/load-bancos', 'BancoController@allBancos');
   Route::post('/cadastro-adquirente', 'AdquirenteController@cadastrarAdquirente');
+  Route::post('/cadastro-banco', 'BancoController@cadastrarBanco');
   Route::put('/update-adquirente/{codigo}', 'AdquirenteController@updateAdquirente');
+  Route::put('/update-banco/{codigo}', 'BancoController@updateBanco');
   Route::get('/delete-adquirente/{codigo}', 'AdquirenteController@excluirAdquirente');
+  Route::get('/delete-banco/{codigo}', 'BancoController@excluirBanco');
 
 
   //CONCILIAÇÃO
