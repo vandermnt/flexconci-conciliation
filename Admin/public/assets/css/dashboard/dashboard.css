@@ -20,6 +20,10 @@
   background-position: center;
 }
 
+.data-recebimento {
+  color: #6E6E6E !important;
+}
+
 
 .tableDadosDash td {
   padding: 5px !important;

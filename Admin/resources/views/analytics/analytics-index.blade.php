@@ -318,7 +318,7 @@
             <div class="row recebimentos">
               <div class="col-6">
                 <h4 class="wallet-title m-0">Recebimentos</h4>
-                <span id="label_data_recebimento" class="text-muted font-12">
+                <span id="label_data_recebimento" class="text-muted font-12 data-recebimento">
                   <b><?php echo date("d/m/Y") ?></b>
                 </span>
                 <h4 id="label_recebimentos">
