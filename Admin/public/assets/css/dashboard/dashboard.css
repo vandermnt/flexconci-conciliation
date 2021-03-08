@@ -14,7 +14,15 @@
 
 .img-tables {
   /* height: 3vh; */
-  background-size: 80% 40px;
+  background-size: contain;
+  padding: 22px 60px !important;
+  background-repeat:no-repeat;
+  background-position: center;
+}
+
+.img-detalhamento-operadoras {
+  /* height: 3vh; */
+  background-size: contain;
   padding: 22px 60px !important;
   background-repeat:no-repeat;
   background-position: center;
@@ -148,6 +156,11 @@
 #dashboard_styles .img-bancos-detalhamento  {
   width: 110px !important;
   margin-left: -20px;
+}
+
+#dashboard_styles .img-operadora-detalhamento  {
+  width: 100px !important;
+  /* margin-left: -20px; */
 }
 
 #dashboard_styles .label-banco-detalhamento {

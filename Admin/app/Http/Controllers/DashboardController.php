@@ -342,7 +342,7 @@ class DashboardController extends Controller{
 public function detalheCalendarioPrevisaoPagamento($data){
   $bancos = DB::table('vendas')
   ->leftJoin('lista_bancos', 'vendas.BANCO', 'lista_bancos.CODIGO')
-  ->select('vendas.CODIGO', 'vendas.DATA_PREVISTA_PAGTO', 'lista_bancos.IMAGEM_LINK as IMAGEM', 'vendas.CONTA', 'vendas.AGENCIA')
+  ->select('vendas.CODIGO', 'vendas.DATA_PREVISTA_PAGTO', 'lista_bancos.IMAGEM_LINK as IMAGEM', 'lista_bancos.NOME_WEB as BANCO_NOME', 'vendas.CONTA', 'vendas.AGENCIA')
   ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
   ->selectRaw('sum(VALOR_BRUTO) as val_bruto')
   ->selectRaw('sum(VALOR_TAXA) as val_taxa')
@@ -353,7 +353,7 @@ public function detalheCalendarioPrevisaoPagamento($data){
 
   $operadoras = DB::table('vendas')
   ->leftJoin('adquirentes', 'vendas.ADQID', 'adquirentes.CODIGO')
-  ->select('vendas.CODIGO','vendas.DATA_PREVISTA_PAGTO', 'adquirentes.IMAGEM as IMAGEMAD', 'vendas.CONTA', 'vendas.AGENCIA')
+  ->select('vendas.CODIGO','vendas.DATA_PREVISTA_PAGTO', 'adquirentes.IMAGEM as IMAGEMAD', 'adquirentes.ADQUIRENTE as NOMEAD', 'vendas.CONTA', 'vendas.AGENCIA')
   ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
   ->selectRaw('sum(VALOR_TAXA) as val_taxa')
   ->selectRaw('sum(VALOR_BRUTO) as val_bruto')
