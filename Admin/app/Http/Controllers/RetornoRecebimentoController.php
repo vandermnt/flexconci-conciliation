@@ -43,6 +43,7 @@ class RetornoRecebimentoController extends Controller
                         ->orWhere('vendas_erp.RETORNO_ERP_BAIXA', 'N');
                 })
                 ->whereIn('vendas_erp.COD_STATUS_CONCILIACAO', [$status_conciliada, $status_divergente])
+                ->where('vendas_erp.DIVERGENCIA', 'not like', '%CONTA%')
                 ->whereBetween('vendas_erp.DATA_VENDA', $datas);
 
             $total = $vendas_erp_query->count();
