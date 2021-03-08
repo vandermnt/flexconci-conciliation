@@ -539,7 +539,7 @@
                 var html = "<li class='list-group-item align-items-center d-flex justify-content-between'>"
 
                 html += "<div class='col-12 row' style='text-align: center;align-items: center;justify-content: center'>"
-                html += "<div class='tooltip-hint' data-title='"+ bancos.NOMEAD + "'><div class='img-tables' style='background-image: url(" + bancos.IMAGEMAD + ")'/> </div>"
+                html += "<div class='tooltip-hint' data-title='"+ bancos.NOME_AD + "'><div class='img-tables' style='background-image: url(" + bancos.IMAGEMAD + ")'/> </div>"
                 html += "<div class='col-7 media-body align-self-center'>"
                 html += "<h4 class='m-0' style='font-size: 14px; text-align:right; color: #257E4A'>" + Intl.NumberFormat('pt-br', {
                   style: 'currency',
