@@ -11,6 +11,8 @@ use App\StatusConciliacaoModel;
 class RetornoRecebimentoController extends Controller
 {
     public function index(Request $request) {
+        set_time_limit(300);
+
         $datas = [
             $request->input('data-inicial'),
             $request->input('data-final')
@@ -24,7 +26,7 @@ class RetornoRecebimentoController extends Controller
             $status_divergente = StatusConciliacaoModel::divergente()->first()->CODIGO;
 
             $raw_query = "select auxiliar.conciflexbaixa('public',?,?,'B',?,?,?) as retorno";
-            $vendas_erp_query = VendasErpModel::select([
+            $pagamentos_query = DB::table('pagamentos_operadoras')->select([
                 'vendas_erp.CODIGO as COD_VENDA_ERP',
                 'vendas_erp.DESCRICAO_TIPO_PRODUTO as ID_ERP',
                 'pagamentos_operadoras.CODIGO as COD_PAGAMENTO',
@@ -33,10 +35,10 @@ class RetornoRecebimentoController extends Controller
                 'pagamentos_operadoras.VALOR_BRUTO',
                 'pagamentos_operadoras.COD_TIPO_PAGAMENTO as TIPO_PAGAMENTO',
             ])
-                ->leftJoin('vendas', 'vendas.CODIGO', 'vendas_erp.COD_VENDAS_OPERADORAS')
-                ->leftJoin('pagamentos_operadoras', 'vendas.COD_PAGAMENTO', 'pagamentos_operadoras.CODIGO')
+                ->join('vendas', 'pagamentos_operadoras.CODIGO', 'vendas.COD_PAGAMENTO')
+                ->join('vendas_erp', 'vendas_erp.CODIGO', 'vendas.COD_VENDA_ERP')
                 ->where('vendas_erp.COD_CLIENTE', session('codigologin'))
-                ->whereNotNull('vendas_erp.COD_VENDAS_OPERADORAS')
+                ->whereNotNull('vendas.COD_VENDA_ERP')
                 ->whereNotNull('vendas.COD_PAGAMENTO')
                 ->where(function ($query) {
                     $query->whereNull('vendas_erp.RETORNO_ERP_BAIXA')
@@ -44,16 +46,16 @@ class RetornoRecebimentoController extends Controller
                 })
                 ->whereIn('vendas_erp.COD_STATUS_CONCILIACAO', [$status_conciliada, $status_divergente])
                 ->where('vendas_erp.DIVERGENCIA', 'not like', '%CONTA%')
-                ->whereBetween('vendas_erp.DATA_VENDA', $datas);
+                ->whereBetween('pagamentos_operadoras.DATA_PAGAMENTO', $datas);
 
-            $total = $vendas_erp_query->count();
-            foreach($vendas_erp_query->cursor() as $venda_erp) {
+            $total = $pagamentos_query->count();
+            foreach($pagamentos_query->cursor() as $pagamento) {
                 $params = [
-                    $venda_erp->ID_ERP,
-                    $venda_erp->DATA_PAGAMENTO,
-                    $venda_erp->VALOR_TAXA,
-                    $venda_erp->VALOR_BRUTO,
-                    $venda_erp->TIPO_PAGAMENTO == 1 ? 'N' : 'S',
+                    $pagamento->ID_ERP,
+                    $pagamento->DATA_PAGAMENTO,
+                    $pagamento->VALOR_TAXA,
+                    $pagamento->VALOR_BRUTO,
+                    $pagamento->TIPO_PAGAMENTO == 1 ? 'N' : 'S',
                 ];
 
                 $retorno_erp_bool = collect(
@@ -64,8 +66,8 @@ class RetornoRecebimentoController extends Controller
                     ->retorno;
 
                 if($retorno_erp_bool) {
-                    array_push($cod_vendas, $venda_erp->COD_VENDA_ERP);
-                    array_push($cod_pagamentos, $venda_erp->COD_PAGAMENTO);
+                    array_push($cod_vendas, $pagamento->COD_VENDA_ERP);
+                    array_push($cod_pagamentos, $pagamento->COD_PAGAMENTO);
                 }
             }
 

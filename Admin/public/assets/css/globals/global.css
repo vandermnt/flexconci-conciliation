@@ -456,8 +456,8 @@ table tr.marcada td {
 }
 
 .page-content-tab .modais .modal-dialog {
-  width: 400px !important;
-  max-width: 100%;
+    width: 100%;
+    max-width: 500px !important;
 }
 
 .page-content-tab .modais .modal-header .modal-title,
