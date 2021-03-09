@@ -35,7 +35,7 @@ class RetornoRecebimentoController extends Controller
                 'pagamentos_operadoras.VALOR_BRUTO',
                 'pagamentos_operadoras.COD_TIPO_PAGAMENTO as TIPO_PAGAMENTO',
             ])
-                ->join('vendas', 'pagamentos_operadoras.CODIGO', 'vendas.COD_PAGAMENTO')
+                ->join('vendas', 'pagamentos_operadoras.COD_VENDA', 'vendas.CODIGO')
                 ->join('vendas_erp', 'vendas_erp.CODIGO', 'vendas.COD_VENDA_ERP')
                 ->where('vendas_erp.COD_CLIENTE', session('codigologin'))
                 ->whereNotNull('vendas.COD_VENDA_ERP')
