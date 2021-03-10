@@ -312,7 +312,7 @@ function mockPagination() {
 
 function updateUIOperadoras() {
     const statusNaoConciliada = document.querySelector('.box[data-key="TOTAL_PENDENCIAS_OPERADORAS"]').dataset.status;
-    const isNaoConciliada = activeStatus.includes(statusNaoConciliada);
+    const isNaoConciliada = selectedStatus.includes(statusNaoConciliada);
     const boxOperadorasTotal = isNaoConciliada ? salesContainer.get('data').get('totals').TOTAL_PENDENCIAS_OPERADORAS : 0;
     const totalRegisters = isNaoConciliada ? (salesContainer.get('data').get('pagination').options.total || 0) : 0;
     const paginationFake = mockPagination();
