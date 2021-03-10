@@ -92,8 +92,7 @@ class RecebimentosFuturosFilter extends BaseFilter {
     if(Arr::has($filters, 'id')) {
       $this->query->whereIn('vendas.CODIGO', $filters['id']);
     }
-    if(Arr::has($filters, ['data_final'])) {
-      $filters['data_inicial'] = date('Y-m-d');
+    if(Arr::has($filters, ['data_inicial', 'data_final'])) {
       $this->query->whereBetween('vendas.DATA_PREVISTA_PAGTO', [
         $filters['data_inicial'],
         $filters['data_final']
