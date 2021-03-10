@@ -135,7 +135,7 @@ function buildRequest(key = 'erp', params, body = {}) {
     const bodyPayload = isSearchActive ?
         { ...searchForm.serialize(), ...body }
         : {
-            filters: { ...searchForm.serialize() },
+            filters: { ...searchForm.serialize(), status_conciliacao: activeStatus },
             subfilters: { ...currentTableRender.serializeTableFilters() }
         }
 
@@ -839,10 +839,13 @@ boxes.forEach(box => {
             activeStatus = [status];
         }
 
+        salesErpContainer.set('active', 'search');
+
         buildRequest('erp', { page: 1 }, { status_conciliacao: activeStatus })
             .get()
             .then(() => {
                 updateUIOperadoras();
+                tableRenderErp.clearFilters();
                 toggleElementVisibility('#js-loader');
             });
     });
