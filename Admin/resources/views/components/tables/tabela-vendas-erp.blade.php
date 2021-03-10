@@ -319,7 +319,7 @@
             data-default-value="Sem identificação"
           >
             <div
-              class="icon-image tooltip-hint"
+              class="icon-image tooltip-hint tooltip-left"
               data-title="ADQUIRENTE"
               data-default-title="Sem identificação">
             </div>
@@ -331,7 +331,7 @@
             data-default-value="Sem identificação"
           >
             <div
-              class="icon-image tooltip-hint"
+              class="icon-image tooltip-hint tooltip-left"
               data-title="BANDEIRA"
               data-default-title="Sem identificação"
             >
@@ -377,7 +377,7 @@
             data-default-value="Sem identificação"
           >
             <div
-              class="icon-image tooltip-hint"
+              class="icon-image tooltip-hint tooltip-left"
               data-title="BANCO"
               data-default-title="Sem identificação"
             >

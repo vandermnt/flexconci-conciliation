@@ -107,10 +107,10 @@
         >
           <x-slot name="actions">
             <td class="actions-cell d-flex align-items-center justify-content-center">
-              <div class="tooltip-hint d-flex align-items-center" data-default-title="Visualizar Detalhes">
+              <div class="tooltip-hint tooltip-left d-flex align-items-center" data-default-title="Visualizar Detalhes">
                 <i class="fas fa-eye"></i>
               </div>
-              <div class="tooltip-hint" data-title="STATUS_CONCILIACAO">
+              <div class="tooltip-hint tooltip-left" data-title="STATUS_CONCILIACAO">
                 <img data-image="STATUS_CONCILIACAO_IMAGEM">
               </div>
             </td>
