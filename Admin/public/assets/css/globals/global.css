@@ -59,7 +59,7 @@ html {
   top: 100%;
   margin-top: 8px;
   border-radius: 8px;
-  padding: 4px;
+  padding: 4px 8px 4px 8px;
   opacity: 0;
   pointer-events: none;
   z-index: 8;
@@ -87,6 +87,23 @@ html {
 .tooltip-hint:hover:before,
 .tooltip-hint:hover:after {
   opacity: 1;
+}
+
+.tooltip-hint.tooltip-left::before {
+  top: 50%;
+  transform:translateY(-50%);
+  left: 100%;
+  margin: 0;
+  margin-left: 10px;
+}
+
+.tooltip-hint.tooltip-left::after {
+  left: 100%;
+  margin-left: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 6px solid #2d5275;
+  border-color: transparent #2d5275 transparent transparent;
 }
 
 .button {
