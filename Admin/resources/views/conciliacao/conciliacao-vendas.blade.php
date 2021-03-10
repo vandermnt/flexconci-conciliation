@@ -221,10 +221,10 @@
                   type="checkbox"
                   data-value-key="ID_ERP"
                 >
-                <div class="tooltip-hint d-flex align-items-center" data-default-title="Visualizar Detalhes">
+                <div class="tooltip-hint tooltip-left d-flex align-items-center" data-default-title="Visualizar Detalhes">
                   <i class="fas fa-eye"></i>
                 </div>
-                <div class="tooltip-hint" data-title="STATUS_CONCILIACAO">
+                <div class="tooltip-hint tooltip-left" data-title="STATUS_CONCILIACAO">
                   <img data-image="STATUS_CONCILIACAO_IMAGEM">
                 </div>
               </div>
@@ -285,10 +285,10 @@
                   type="checkbox"
                   data-value-key="ID"
                 >
-                <div class="tooltip-hint d-flex align-items-center" data-default-title="Visualizar Detalhes">
+                <div class="tooltip-hint tooltip-left d-flex align-items-center" data-default-title="Visualizar Detalhes">
                   <i class="fas fa-eye"></i>
                 </div>
-                <div class="tooltip-hint" data-title="STATUS_CONCILIACAO">
+                <div class="tooltip-hint tooltip-left" data-title="STATUS_CONCILIACAO">
                   <img data-image="STATUS_CONCILIACAO_IMAGEM">
                 </div>
               </div>

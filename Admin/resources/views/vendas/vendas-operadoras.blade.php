@@ -119,14 +119,14 @@
                     data-value-key="ID"
                 >
                 <div
-                    class="tooltip-hint d-flex align-items-center js-show-details"
+                    class="tooltip-hint tooltip-left d-flex align-items-center js-show-details"
                     data-default-title="Visualizar Detalhes"
                     data-toggle="modal"
                     data-target="#comprovante-modal"
                 >
                     <i class="fas fa-eye"></i>
                 </div>
-                <div class="tooltip-hint ml-2" data-title="STATUS_CONCILIACAO">
+                <div class="tooltip-hint tooltip-left ml-2" data-title="STATUS_CONCILIACAO">
                     <img data-image="STATUS_CONCILIACAO_IMAGEM">
                 </div>
               </div>
