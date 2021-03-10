@@ -274,6 +274,7 @@
             'actions' => 'Ações | Status',
           ]"
           :hidden-columns="[
+            'ID_ERP',
             'DIVERGENCIA'
           ]"
         >
