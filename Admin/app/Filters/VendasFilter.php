@@ -22,7 +22,9 @@ class VendasFilter extends BaseFilter {
     'meios_captura',
     'status_conciliacao',
     'status_financeiro',
-    'estabelecimentos'
+    'estabelecimentos',
+    'order_by',
+    'order'
   ];
 
   public static function filter($filters) {
@@ -90,9 +92,8 @@ class VendasFilter extends BaseFilter {
       ->leftJoin('meio_captura', 'vendas.COD_MEIO_CAPTURA', 'meio_captura.CODIGO')
       ->leftJoin('status_conciliacao', 'vendas.COD_STATUS_CONCILIACAO', 'status_conciliacao.CODIGO')
       ->leftJoin('status_financeiro', 'vendas.COD_STATUS_FINANCEIRO', 'status_financeiro.CODIGO')
-      ->where('vendas.COD_CLIENTE', $filters['cliente_id'])
-      ->orderBy('vendas.DATA_VENDA');
-
+      ->where('vendas.COD_CLIENTE', $filters['cliente_id']);
+    
     if(Arr::has($filters, 'id')) {
       $this->query->whereIn('vendas.CODIGO', $filters['id']);
     }
@@ -126,6 +127,12 @@ class VendasFilter extends BaseFilter {
     }
     if(Arr::has($filters, 'status_financeiro')) {
       $this->query->whereIn('status_financeiro.CODIGO', $filters['status_financeiro']);
+    }
+
+    if(Arr::has($filters, ['order', 'order_by'])) {
+      $orderBy = $filters['order_by'];
+      $order = $filters['order'] === 'asc' ? 'asc' : 'desc';
+      $this->query->orderBy($orderBy, $order);
     }
 
     return $this;
