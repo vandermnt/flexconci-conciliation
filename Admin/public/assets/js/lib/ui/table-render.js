@@ -8,6 +8,11 @@ function TableRender(options = {}) {
         type: 'USD',
       }
     }),
+    sort: {
+      activeElement: null,
+      by: null,
+      order: null /** Accepts: '', 'asc' or 'desc' */
+    },
     selectedRows: [],
     onRender: null,
     onRenderRow: () => {},
@@ -15,6 +20,7 @@ function TableRender(options = {}) {
     shouldSelectRow: () => true,
     onSelectRow: () => {},
     onFilter: () => {},
+    onSort: () => {},
   }, tableRenderHandler());
 }
 
@@ -62,6 +68,10 @@ TableRender.prototype.onFilter = function(handler = (filters = {}) => {}) {
   this.addTableFiltersListener();
 }
 
+TableRender.prototype.onSort = function(handler = (filters = {}) => {}) {
+  this.set('onSort', handler);
+}
+
 TableRender.prototype.addTableFiltersListener = function() {
   const table = this.get('table');
   const tableInputs = Array.from(table.querySelectorAll('thead input[name]'));
@@ -82,6 +92,11 @@ TableRender.prototype.serializeTableFilters = function() {
   const table = this.get('table');
   const tableInputs = Array.from(table.querySelectorAll('thead input[name]'));
 
+  const sortFilter = this.get('sort').by ? {
+    order_by: this.get('sort').by,
+    order: this.get('sort').order,
+  } : {}
+
   const filters = tableInputs.reduce((data, input) => {
     const value = input.value.trim();
 
@@ -92,7 +107,9 @@ TableRender.prototype.serializeTableFilters = function() {
     return data;
   }, {});
 
-  return filters;
+  if(this.get('sort').by) {}
+
+  return { ...filters, ...sortFilter};
 }
 
 TableRender.prototype.clearFilters = function() {
@@ -115,13 +132,25 @@ TableRender.prototype.render = function() {
     const onRenderRow = this.get('onRenderRow');
     const onRenderCell = this.get('onRenderCell');
     const onSelectRow = this.get('onSelectRow');
+    const onSort = this.get('onSort');
 
     if(!table) {
         return;
     }
 
+    const thead = table.querySelector('thead');
     const tbody = table.querySelector('tbody');
     const tfooter = table.querySelector('tfoot');
+
+    const tableHeaders = Array.from(thead.querySelectorAll('th'));
+
+    tableHeaders.forEach(th => {
+      if(onSort && typeof onSort === 'function')
+        th.addEventListener('click', (e) => {
+          onSort(e.target, this);
+        });
+    });
+
     const templateRow = table.querySelector('tbody .table-row-template').cloneNode(true);
 
     templateRow.classList.remove('hidden');
@@ -129,6 +158,7 @@ TableRender.prototype.render = function() {
 
     tbody.innerHTML = '';
     tbody.appendChild(templateRow);
+
     (this.get('data').body || []).forEach(data => {
         const tableRow = templateRow.cloneNode(true);
         const tableCells = Array.from(tableRow.querySelectorAll('td[data-column]'));
