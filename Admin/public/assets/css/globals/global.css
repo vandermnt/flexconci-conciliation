@@ -275,6 +275,33 @@ table tr.marcada td {
   color: white;
 }
 
+.table-sorter {
+  width: 100%;
+  cursor: pointer;
+  user-select: none;
+}
+
+.table-sort-icon {
+  --img-size: 8px;
+  width: var(--img-size);
+}
+
+.table-sort-icon[data-sort-order="disabled"] {
+  display: none;
+}
+
+.table-sort-icon[data-sort-order="asc"] {
+  content: url('../../images/widgets/up-arrow.svg');
+}
+
+.table-sort-icon[data-sort-order="none"] {
+  content: url('../../images/widgets/toggle-arrow.svg');
+}
+
+.table-sort-icon[data-sort-order="desc"] {
+  content: url('../../images/widgets/down-arrow.svg');
+}
+
 .actions-cell img {
   width: 16px;
 }
