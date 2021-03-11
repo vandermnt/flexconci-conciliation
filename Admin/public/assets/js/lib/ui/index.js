@@ -99,6 +99,47 @@ const _defaultEvents = {
       } else {
         tr.classList.remove('marcada');
       }
+    },
+    onSort: function(elementDOM, tableInstance) {
+      const sortOrderSequence = {
+        none: { to: 'asc' },
+        asc: { to: 'desc' },
+        desc: { to: 'none' },
+      };
+
+      if(!elementDOM || elementDOM.tagName.toLowerCase() === 'input') return;
+
+      const tableSorter = elementDOM.closest('.table-sorter');
+      if(!tableSorter) return;
+
+      const sortIcon = tableSorter.querySelector('.table-sort-icon');
+      if(sortIcon.dataset.sortOrder === 'disabled') return;
+
+      const activeSort = tableInstance.get('sort');
+      const nextColumn = tableSorter.dataset.tbsortBy;
+
+      if(activeSort.by && activeSort.by !== nextColumn) {
+        const activeSortIcon = activeSort.activeElement.querySelector('.table-sort-icon');
+        activeSortIcon.dataset.sortOrder = 'none';
+
+        tableInstance.set('sort', {
+          activeElement: null,
+          by: null,
+          order: '',
+        });
+      }
+
+      const previousOrder = sortIcon.dataset.sortOrder;
+      const currentOrder = sortOrderSequence[previousOrder].to;
+      sortIcon.dataset.sortOrder = currentOrder;
+
+      tableInstance.set('sort', {
+        activeElement: currentOrder !== 'none' ? tableSorter : null,
+        by: currentOrder !== 'none' ? nextColumn : null,
+        order: currentOrder !== 'none' ? currentOrder : '',
+      });
+      
+      console.log(tableInstance.get('sort'));
     }
   }
 }
@@ -133,6 +174,8 @@ function createTableRender({ table = '', locale = 'pt-br', formatter }) {
   tableRender.shouldSelectRow(_defaultEvents.table.shouldSelectRow);
 
   tableRender.onSelectRow(_defaultEvents.table.onSelectRow);
+
+  tableRender.onSort(_defaultEvents.table.onSort);
 
   return tableRender;
 }
