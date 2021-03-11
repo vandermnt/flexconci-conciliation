@@ -4,63 +4,75 @@
   <!-- Navbar -->
   <nav class="navbar-custom">
     <ul class="list-unstyled topbar-nav float-right mb-0">
-      <li class="hidden-sm">
-        <a class="nav-link" data-toggle="modal" data-target="#chamado" style="font-size: 12px; color: white; cursor: pointer">
-          Abrir chamado
-        </a>
-      </li>
-      <li class="hidden-sm">
-        <a class="nav-link dropdown-toggle waves-effect" data-toggle="dropdown" href="javascript: void(0);" role="button"
-        aria-haspopup="false" aria-expanded="false" style="font-size: 25px">
-        |
+      <li class="dropdown">
+        <a id="dropdownCadastros" class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
+        aria-haspopup="false" aria-expanded="false">
+        <span class="ml-1 nav-user-name hidden-sm"> Cadastros <i class="mdi mdi-chevron-down"></i> </span>
+
+      </a>
+      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownCadastros">
+        <a class="dropdown-item" href="{{ url('cadastro-adquirente')}}"> Operadoras </a>
+        <a class="dropdown-item" href="{{ url('cadastro-banco')}}"> Bancos</a>
+        <a class="dropdown-item" href="#"> Bandeiras</a>
+      </div>
+    </li>
+    <li class="hidden-sm">
+      <a class="nav-link" data-toggle="modal" data-target="#chamado" style="color: white; cursor: pointer">
+        Abrir chamado
       </a>
     </li>
+    <li class="hidden-sm">
+      <a class="nav-link dropdown-toggle waves-effect" data-toggle="dropdown" href="javascript: void(0);" role="button"
+      aria-haspopup="false" aria-expanded="false" style="font-size: 25px">
+      |
+    </a>
+  </li>
 
-    {{-- <li class="dropdown notification-list"  style="color: white;  z-index:999">
-      <a class="nav-link dropdown-toggle" onclick="checkNotification()" data-toggle="dropdown" href="www.google.com" role="button"
-      aria-haspopup="false" aria-expanded="false">
-      <i class="ti-bell noti-icon"  style="color: white"></i>
+  {{-- <li class="dropdown notification-list"  style="color: white;  z-index:999">
+    <a class="nav-link dropdown-toggle" onclick="checkNotification()" data-toggle="dropdown" href="www.google.com" role="button"
+    aria-haspopup="false" aria-expanded="false">
+    <i class="ti-bell noti-icon"  style="color: white"></i>
+    @if(isset($qtde_projetos))
+    @if($qtde_projetos>0)
+    <span id="notification" class="badge badge-danger badge-pill noti-icon-badge">{{ $qtde_projetos }}</span>
+    @endif
+    @endif
+  </a>
+  <div class="dropdown-menu dropdown-menu-right dropdown-lg pt-0">
+
+    <h6 class="dropdown-item-text font-15 m-0 py-3 text-white d-flex justify-content-between align-items-center" style="background: #084B8A">
+      NOTIFICAÇÕES
       @if(isset($qtde_projetos))
       @if($qtde_projetos>0)
-      <span id="notification" class="badge badge-danger badge-pill noti-icon-badge">{{ $qtde_projetos }}</span>
+      <span class="badge badge-light badge-pill">{{ $qtde_projetos }}</span>
       @endif
       @endif
-    </a>
-    <div class="dropdown-menu dropdown-menu-right dropdown-lg pt-0">
+    </h6>
+    <div class="snotification-list">
+      <!-- <div class="slimscroll notification-list"> -->
 
-      <h6 class="dropdown-item-text font-15 m-0 py-3 text-white d-flex justify-content-between align-items-center" style="background: #084B8A">
-        NOTIFICAÇÕES
-        @if(isset($qtde_projetos))
-        @if($qtde_projetos>0)
-        <span class="badge badge-light badge-pill">{{ $qtde_projetos }}</span>
-        @endif
-        @endif
-      </h6>
-      <div class="snotification-list">
-        <!-- <div class="slimscroll notification-list"> -->
-
-        @if(isset($qtde_projetos) && $qtde_projetos > 0)
-        <a href="{{ url('/lista-projetos') }}" class="dropdown-item py-3">
-          <!-- <small class="float-right text-muted pl-2">2 min ago</small> -->
-          <div class="media">
-            <div class="avatar-md bg-primary">
-              <i style="color: white" class="fas fa-project-diagram"></i>
-            </div>
-            <div class="media-body align-self-center ml-2 text-truncate">
-              <h6 class="text-white d-flex justify-content-between align-items-center">PROJETOS <span class="badge badge-light badge-pill">{{ $qtde_projetos }}</span></h6>
-
-              <!-- <h6 class="dropdown-item-text font-15 m-0 py-3 bg-primary text-white d-flex justify-content-between align-items-center">
-              NOTIFICAÇÕES <span class="badge badge-light badge-pill">{{ $qtde_projetos }}</span>
-            </h6>
-            <small class="" style="color: white">Breve descrição</small> -->
+      @if(isset($qtde_projetos) && $qtde_projetos > 0)
+      <a href="{{ url('/lista-projetos') }}" class="dropdown-item py-3">
+        <!-- <small class="float-right text-muted pl-2">2 min ago</small> -->
+        <div class="media">
+          <div class="avatar-md bg-primary">
+            <i style="color: white" class="fas fa-project-diagram"></i>
           </div>
-        </div>
-      </a>
-      @endif
+          <div class="media-body align-self-center ml-2 text-truncate">
+            <h6 class="text-white d-flex justify-content-between align-items-center">PROJETOS <span class="badge badge-light badge-pill">{{ $qtde_projetos }}</span></h6>
 
-    </div>
+            <!-- <h6 class="dropdown-item-text font-15 m-0 py-3 bg-primary text-white d-flex justify-content-between align-items-center">
+            NOTIFICAÇÕES <span class="badge badge-light badge-pill">{{ $qtde_projetos }}</span>
+          </h6>
+          <small class="" style="color: white">Breve descrição</small> -->
+        </div>
+      </div>
+    </a>
+    @endif
 
   </div>
+
+</div>
 </li> --}}
 {{-- <li class="hidden-sm">
   <a class="nav-link dropdown-toggle waves-effect" data-toggle="dropdown" href="javascript: void(0);" role="button"
@@ -291,11 +303,11 @@ aria-haspopup="false" aria-expanded="false">
     <a style="" class="dropdown-item" href="#"> Despesas Extras (DOC/TEC/Aluguel/Outras/Tarifas)</a>
     <a style="" class="dropdown-item" href="{{ url('/previsao-recebimentos') }}"> Previsão de Recebimentos Futuros</a>
     <a style="" class="dropdown-item" href="{{ url('/antecipacao')}}"> Antecipação Trava Livre</a>
-=======
-  <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/recebimentos-operadoras') }}" role="button">
+    =======
+    <a id="itemMenu" class="nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/recebimentos-operadoras') }}" role="button">
     <span class="ml-1 nav-user-name hidden-sm"><i class="fas fa-donate"></i> Recebimentos & Despesas</span>
   </a>
-   <div class="dropdown-menu dropdown-menu-left" style="background: white;">
+  <div class="dropdown-menu dropdown-menu-left" style="background: white;">
   <a style="" class="dropdown-item" href="{{ url('/recebimentos-operadoras') }}"> Recebimentos Operadoras</a>
   <a style="" class="dropdown-item" href="#"> Recebimentos Antecipados </a>
   <a style="" class="dropdown-item" href="#"> Despesas Extras (DOC/TEC/Aluguel/Outras/Tarifas)</a>
@@ -303,8 +315,8 @@ aria-haspopup="false" aria-expanded="false">
   <a style="" class="dropdown-item" href="{{ url('/antecipacao')}}"> Antecipação Trava Livre</a>
 
 
-  </div> -->
-  </a>
+</div> -->
+</a>
 </li>
 
 <li>

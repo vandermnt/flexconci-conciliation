@@ -14,17 +14,15 @@ Route::group(['middleware' => 'auth'], function() {
   //DAHSBOARD
   Route::get('/', 'DashboardController@dashboard');
   Route::get('/detalhe-calendario/{data}', 'DashboardController@detalheCalendario');
+  Route::get('/dados-calendario', 'DashboardController@dadosCalendario');
   Route::get('/detalhe-calendario-prev/{data}', 'DashboardController@detalheCalendarioPrevisaoPagamento');
 
+  //
   Route::get('/export-vendasoperadora/{periodo}', 'DashboardController@exportarPdfVendasOperadoras');
   Route::get('/export-vendasbandeira/{periodo}', 'DashboardController@exportarPdfVendasBandeiras');
   Route::get('/export-vendasmodalidade/{periodo}', 'DashboardController@exportarPdfVendasModalidade');
   Route::get('/export-vendasproduto/{periodo}', 'DashboardController@exportarPdfVendasProduto');
 
-
-  // Route::get('/', function () {
-  //     return redirect('/analytics/analytics-index');
-  // });
 
   //ANTECIPAÇÃO
   Route::get('/antecipacao', 'AntecipacaoController@antecipar');
@@ -134,6 +132,19 @@ Route::group(['middleware' => 'auth'], function() {
   Route::get('/load-justificativas', 'CadastroJustificativaController@loadJustificativas');
   Route::get('/delete-justificativa/{codigo}', 'CadastroJustificativaController@deleteJustificativa');
   Route::get('/justificativa/{codigo}', 'CadastroJustificativaController@show');
+
+  //CADASTRO ADQUIRENTE
+  Route::get('/cadastro-banco', 'BancoController@index');
+  Route::get('/cadastro-adquirente', 'AdquirenteController@index');
+  Route::get('/load-adquirentes', 'AdquirenteController@allAdquirentes');
+  Route::get('/load-bancos', 'BancoController@allBancos');
+  Route::post('/cadastro-adquirente', 'AdquirenteController@cadastrarAdquirente');
+  Route::post('/cadastro-banco', 'BancoController@cadastrarBanco');
+  Route::put('/update-adquirente/{codigo}', 'AdquirenteController@updateAdquirente');
+  Route::put('/update-banco/{codigo}', 'BancoController@updateBanco');
+  Route::get('/delete-adquirente/{codigo}', 'AdquirenteController@excluirAdquirente');
+  Route::get('/delete-banco/{codigo}', 'BancoController@excluirBanco');
+
 
   //CONCILIAÇÃO
   Route::get('/conciliacao-bancaria', function() {

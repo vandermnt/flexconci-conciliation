@@ -1,0 +1,21 @@
+.tabela {
+  max-height: 400px !important;
+  overflow: auto;
+  padding: 0px 30px;
+  margin-bottom: 60px;
+}
+
+.table {
+  margin-bottom: 30px;
+  height: 100 !important;
+}
+
+
+/*
+.table tr {
+  display:block;
+} */
+
+#qtd-registros {
+  margin-left: 15px;
+}
