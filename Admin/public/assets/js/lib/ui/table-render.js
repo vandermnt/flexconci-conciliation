@@ -9,7 +9,6 @@ function TableRender(options = {}) {
       }
     }),
     sort: {
-      activeElement: null,
       by: null,
       order: null /** Accepts: '', 'asc' or 'desc' */
     },
@@ -34,6 +33,15 @@ TableRender.prototype.get = function(prop = null) {
 
 TableRender.prototype.set = function(prop = '', value = null) {
   this.proxy[prop] = value;
+}
+
+TableRender.prototype.recreateNode = function (element = '') {
+  const elementDOM = typeof element === 'string' ? document.querySelector(element) : element;
+  if(!elementDOM) return;
+
+  const elementCloneDOM = elementDOM.cloneNode(true);
+  elementDOM.parentNode.replaceChild(elementCloneDOM, elementDOM);
+  return elementCloneDOM;
 }
 
 TableRender.prototype.formatCell = function(value, type = 'text', defaultValue = '') {
@@ -92,11 +100,6 @@ TableRender.prototype.serializeTableFilters = function() {
   const table = this.get('table');
   const tableInputs = Array.from(table.querySelectorAll('thead input[name]'));
 
-  const sortFilter = this.get('sort').by ? {
-    order_by: this.get('sort').by,
-    order: this.get('sort').order,
-  } : {}
-
   const filters = tableInputs.reduce((data, input) => {
     const value = input.value.trim();
 
@@ -107,9 +110,16 @@ TableRender.prototype.serializeTableFilters = function() {
     return data;
   }, {});
 
-  if(this.get('sort').by) {}
+  return { ...filters };
+}
 
-  return { ...filters, ...sortFilter};
+TableRender.prototype.serializeSortFilter = function() {
+  if(!this.get('sort').by) return {};
+
+  return {
+    order_by: this.get('sort').by,
+    order: this.get('sort').order
+  }
 }
 
 TableRender.prototype.clearFilters = function() {
@@ -145,10 +155,13 @@ TableRender.prototype.render = function() {
     const tableHeaders = Array.from(thead.querySelectorAll('th'));
 
     tableHeaders.forEach(th => {
-      if(onSort && typeof onSort === 'function')
-        th.addEventListener('click', (e) => {
+      const tableSorter = this.recreateNode(th.querySelector('.table-sorter'));
+
+      if(tableSorter && onSort && typeof onSort === 'function') {
+        tableSorter.addEventListener('click', (e) => {
           onSort(e.target, this);
         });
+      }
     });
 
     const templateRow = table.querySelector('tbody .table-row-template').cloneNode(true);

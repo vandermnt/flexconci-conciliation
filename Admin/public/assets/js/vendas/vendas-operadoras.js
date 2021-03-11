@@ -110,7 +110,7 @@ function buildRequest(params) {
           por_pagina: salesContainer.get('search').get('pagination').options.perPage,
           ...params
         },
-        body: { ...searchForm.serialize() }
+        body: { ...searchForm.serialize(), ...tableRender.serializeSortFilter() }
       });
     }
   } else {
@@ -121,7 +121,7 @@ function buildRequest(params) {
           ...params,
         },
         body: {
-          filters: { ...searchForm.serialize() },
+          filters: { ...searchForm.serialize(), ...tableRender.serializeSortFilter() },
           subfilters: { ...tableRender.serializeTableFilters() }
         }
       });

@@ -115,15 +115,15 @@ const _defaultEvents = {
       const sortIcon = tableSorter.querySelector('.table-sort-icon');
       if(sortIcon.dataset.sortOrder === 'disabled') return;
 
-      const activeSort = tableInstance.get('sort');
+      const activeSortColumn = tableInstance.get('sort').by;
       const nextColumn = tableSorter.dataset.tbsortBy;
 
-      if(activeSort.by && activeSort.by !== nextColumn) {
-        const activeSortIcon = activeSort.activeElement.querySelector('.table-sort-icon');
+      if(activeSortColumn && activeSortColumn !== nextColumn) {
+        const selector = `.table-sorter[data-tbsort-by="${activeSortColumn}"] .table-sort-icon`;
+        const activeSortIcon = tableInstance.get('table').querySelector(selector);
         activeSortIcon.dataset.sortOrder = 'none';
 
         tableInstance.set('sort', {
-          activeElement: null,
           by: null,
           order: '',
         });
@@ -134,7 +134,6 @@ const _defaultEvents = {
       sortIcon.dataset.sortOrder = currentOrder;
 
       tableInstance.set('sort', {
-        activeElement: currentOrder !== 'none' ? tableSorter : null,
         by: currentOrder !== 'none' ? nextColumn : null,
         order: currentOrder !== 'none' ? currentOrder : '',
       });
