@@ -155,14 +155,18 @@
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas ERP">
           </div>
           <div class="acoes d-flex align-items-center justify-content-between">
-            <button
-                class="btn mr-1 button no-hover tooltip-hint"
-                id="js-abrir-modal-retorno-erp"
-                data-title="Clicando aqui vamos efetuar a correção no seu sistema dos campos &quot;data de vencimento&quot;, &quot;taxa&quot; e &quot;valor líquido&quot;."
+            <div
+              class="retorno-erp tooltip-hint font-weight-bold"
+              data-title="Clicando aqui vamos efetuar a correção no seu sistema dos campos &quot;data de vencimento&quot;, &quot;taxa&quot; e &quot;valor líquido&quot;."
             >
-                <i class="fas fa-undo"></i>
-                Corrigir Venda {{ $erp->ERP ?? 'ERP' }}
-            </button>
+              <button
+                  class="btn mr-1 button no-hover"
+                  id="js-abrir-modal-retorno-erp"
+              >
+                  <i class="fas fa-undo"></i>
+                  Corrigir Venda {{ $erp->ERP ?? 'ERP' }}
+              </button>
+            </div>
             <button id="js-conciliar" class="btn mr-1 button no-hover">
               <i class="far fa-handshake"></i>
               Conciliar

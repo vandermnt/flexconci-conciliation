@@ -133,7 +133,7 @@ function buildRequest(key = 'erp', params, body = {}) {
         currentSalesContainer.search.bind(currentSalesContainer) :
         currentSalesContainer.filter.bind(currentSalesContainer);
     const bodyPayload = isSearchActive ?
-        { ...searchForm.serialize(), ...body }
+        { ...searchForm.serialize(), status_conciliacao: activeStatus, ...body }
         : {
             filters: { ...searchForm.serialize(), status_conciliacao: activeStatus },
             subfilters: { ...currentTableRender.serializeTableFilters() }
@@ -282,6 +282,12 @@ tableRenderErp.onRenderRow((row, data, instance) => _events.table.onRenderRow('e
 tableRender.shouldSelectRow(_events.table.shouldSelectRow);
 tableRenderErp.shouldSelectRow(_events.table.shouldSelectRow);
 
+function findBoxStatusConc(key = '') {
+    const box = document.querySelector(`.box[data-key=${key}]`);
+
+    return box || null;
+}
+
 async function onPerPageChanged(key = 'erp', event) {
     const currentSalesContainer = key === 'erp' ? salesErpContainer : salesContainer;
     currentSalesContainer.get('search').get('pagination').setOptions({ perPage: event.target.value });
@@ -347,6 +353,9 @@ function confirmConciliacao() {
 }
 
 function conciliar() {
+    const statusManual = findBoxStatusConc('TOTAL_CONCILIADO_MANUAL').dataset.status;
+    const statusNaoConciliado = findBoxStatusConc('TOTAL_NAO_CONCILIADO').dataset.status;
+
     toggleElementVisibility('#js-loader');
     const baseUrl = searchForm.get('form').dataset.urlConciliarManualmente;
     api.post(baseUrl, {
@@ -386,7 +395,7 @@ function conciliar() {
 
         const totalsErp = updateTotals(salesErp.get('totals'), {
             TOTAL_CONCILIADO_MANUAL: json.erp.TOTAL_BRUTO,
-            TOTAL_NAO_CONCILIADO: (json.erp.TOTAL_BRUTO * -1)
+            TOTAL_NAO_CONCILIADO: (json.erp.TOTAL_BRUTO * -1),
         });
 
         sales.set('sales', [...updatedSales]);
@@ -406,9 +415,9 @@ function conciliar() {
         tableRender.render();
 
         updateBoxes(boxes, {
-            TOTAL_NAO_CONCILIADO: totalsErp.TOTAL_NAO_CONCILIADO,
-            TOTAL_CONCILIADO_MANUAL: totalsErp.TOTAL_CONCILIADO_MANUAL,
-            TOTAL_PENDENCIAS_OPERADORAS: totalsOperadoras.TOTAL_PENDENCIAS_OPERADORAS,
+            TOTAL_NAO_CONCILIADO: selectedStatus.includes(statusNaoConciliado) ? totalsErp.TOTAL_NAO_CONCILIADO : 0,
+            TOTAL_CONCILIADO_MANUAL: selectedStatus.includes(statusManual) ? totalsErp.TOTAL_CONCILIADO_MANUAL : 0,
+            TOTAL_PENDENCIAS_OPERADORAS: selectedStatus.includes(statusNaoConciliado) ? totalsOperadoras.TOTAL_PENDENCIAS_OPERADORAS : 0,
         });
 
         swal("Conciliação realizada!", json.mensagem, "success");
@@ -430,6 +439,9 @@ function confirmDesconciliacao() {
 }
 
 function desconciliar() {
+    const statusManual = findBoxStatusConc('TOTAL_CONCILIADO_MANUAL').dataset.status;
+    const statusNaoConciliado = findBoxStatusConc('TOTAL_NAO_CONCILIADO').dataset.status;
+
     toggleElementVisibility('#js-loader');
     const baseUrl = searchForm.get('form').dataset.urlDesconciliarManualmente;
     api.post(baseUrl, {
@@ -465,8 +477,8 @@ function desconciliar() {
         });
 
         const totalsErp = updateTotals(salesErp.get('totals'), {
-            TOTAL_CONCILIADO_MANUAL: (json.erp.TOTAL_BRUTO * -1),
-            TOTAL_NAO_CONCILIADO: json.erp.TOTAL_BRUTO
+            TOTAL_CONCILIADO_MANUAL: selectedStatus.includes(statusManual) ? (json.erp.TOTAL_BRUTO * -1) : 0,
+            TOTAL_NAO_CONCILIADO: selectedStatus.includes(statusNaoConciliado) ? json.erp.TOTAL_BRUTO : 0
         });
 
         sales.set('totals', { ...totalsOperadoras });
@@ -485,9 +497,9 @@ function desconciliar() {
         tableRender.render();
 
         updateBoxes(boxes, {
-            TOTAL_NAO_CONCILIADO: totalsErp.TOTAL_NAO_CONCILIADO,
-            TOTAL_CONCILIADO_MANUAL: totalsErp.TOTAL_CONCILIADO_MANUAL,
-            TOTAL_PENDENCIAS_OPERADORAS: totalsOperadoras.TOTAL_PENDENCIAS_OPERADORAS,
+            TOTAL_NAO_CONCILIADO: selectedStatus.includes(statusNaoConciliado) ? totalsErp.TOTAL_NAO_CONCILIADO : 0,
+            TOTAL_CONCILIADO_MANUAL: selectedStatus.includes(statusManual) ? totalsErp.TOTAL_CONCILIADO_MANUAL : 0,
+            TOTAL_PENDENCIAS_OPERADORAS: selectedStatus.includes(statusNaoConciliado) ? totalsOperadoras.TOTAL_PENDENCIAS_OPERADORAS : 0,
         });
 
         swal("Desconciliação realizada!", json.mensagem, "success");
@@ -525,6 +537,9 @@ function closeJustifyModal() {
 }
 
 function justifyErp() {
+    const statusJustificado = findBoxStatusConc('TOTAL_JUSTIFICADO').dataset.status;
+    const statusNaoConciliado = findBoxStatusConc('TOTAL_NAO_CONCILIADO').dataset.status;
+    
     const baseUrl = searchForm.get('form').dataset.urlJustificarErp;
     const justificativaDOM = document.querySelector('select[name="justificativa"]');
     const justificativa = justificativaDOM.value;
@@ -547,7 +562,7 @@ function justifyErp() {
             const updatedSalesErp = updateData([...salesErp.get('sales')], [...json.vendas], 'ID_ERP').data;
             const totalsErp = updateTotals({ ...salesErp.get('totals') }, {
                 TOTAL_JUSTIFICADO: json.totais.TOTAL_BRUTO,
-                TOTAL_NAO_CONCILIADO: (json.totais.TOTAL_BRUTO * -1)
+                TOTAL_NAO_CONCILIADO: (json.totais.TOTAL_BRUTO * -1),
             });
 
             salesErp.set('sales', [...updatedSalesErp]);
@@ -556,8 +571,8 @@ function justifyErp() {
             selectedSales.erp = [];
 
             updateBoxes(boxes, {
-                TOTAL_JUSTIFICADO: totalsErp.TOTAL_JUSTIFICADO,
-                TOTAL_NAO_CONCILIADO: totalsErp.TOTAL_NAO_CONCILIADO,
+                TOTAL_JUSTIFICADO: selectedStatus.includes(statusJustificado) ?  totalsErp.TOTAL_JUSTIFICADO : 0,
+                TOTAL_NAO_CONCILIADO: selectedStatus.includes(statusNaoConciliado) ? totalsErp.TOTAL_NAO_CONCILIADO : 0,
             });
 
             tableRenderErp.set('data', {
@@ -656,6 +671,9 @@ function confirmUnjustify() {
 }
 
 function unjustify() {
+    const statusJustificado = findBoxStatusConc('TOTAL_JUSTIFICADO').dataset.status;
+    const statusNaoConciliado = findBoxStatusConc('TOTAL_NAO_CONCILIADO').dataset.status;
+
     const baseUrl = searchForm.get('form').dataset.urlDesjustificarErp;
     toggleElementVisibility('#js-loader');
     api.post(baseUrl, {
@@ -684,8 +702,8 @@ function unjustify() {
             selectedSales.erp = [];
 
             updateBoxes(boxes, {
-                TOTAL_JUSTIFICADO: totalsErp.TOTAL_JUSTIFICADO,
-                TOTAL_NAO_CONCILIADO: totalsErp.TOTAL_NAO_CONCILIADO,
+                TOTAL_JUSTIFICADO: selectedStatus.includes(statusJustificado) ? totalsErp.TOTAL_JUSTIFICADO : 0,
+                TOTAL_NAO_CONCILIADO: selectedStatus.includes(statusNaoConciliado) ? totalsErp.TOTAL_NAO_CONCILIADO : 0,
             });
 
             tableRenderErp.set('data', {

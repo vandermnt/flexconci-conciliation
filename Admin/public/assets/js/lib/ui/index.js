@@ -257,9 +257,14 @@ function removeFromData(array = [], ids = [], idKey = '') {
   }
 }
 
+/** Reference: https://stackoverflow.com/questions/11832914/round-to-at-most-2-decimal-places-only-if-necessary */
+function roundDecimals(value = 0) {
+  return Math.round((Number(value) + Number.EPSILON) * 100) / 100;
+}
+
 function updateTotals(totals, newData) {
     const newTotals = Object.keys(newData).reduce((updated, key) => {
-        updated[key] = (Number(totals[key]) || 0) + (Number(newData[key]) || 0);
+        updated[key] = roundDecimals((Number(totals[key]) || 0)) + roundDecimals((Number(newData[key]) || 0));
         return updated;
     }, {});
 
