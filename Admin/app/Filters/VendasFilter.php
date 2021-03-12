@@ -22,21 +22,21 @@ class VendasFilter extends BaseFilter {
     'meios_captura',
     'status_conciliacao',
     'status_financeiro',
-    'estabelecimentos',
-    'order_by',
-    'order'
+    'estabelecimentos'
   ];
 
-  public static function filter($filters) {
+  public static function filter($params) {
     $vendasFilter = app(VendasFilter::class);
-    return $vendasFilter->apply($filters);
+    return $vendasFilter->apply($params);
   }
 
-  public function apply($filters) {
-    $filters = Arr::only($filters, $this->whiteList);
-    $filters = Arr::where($filters, function($value, $key) {
+  public function apply($params) {
+    $params = Arr::only($params, $this->getAllowedKeys());
+    $params = Arr::where($params, function($value, $key) {
       return boolval($value);
     });
+    $filters = Arr::except($params, 'sort');
+    $sort = collect(Arr::only($params, 'sort'))->get('sort');
 
     $this->query = VendasModel::select(
         [
@@ -129,11 +129,7 @@ class VendasFilter extends BaseFilter {
       $this->query->whereIn('status_financeiro.CODIGO', $filters['status_financeiro']);
     }
 
-    if(Arr::has($filters, ['order', 'order_by'])) {
-      $orderBy = $filters['order_by'];
-      $order = $filters['order'] === 'asc' ? 'asc' : 'desc';
-      $this->query->orderBy($orderBy, $order);
-    }
+    $this->buildOrderClause($sort);
 
     return $this;
   }
@@ -142,6 +138,3 @@ class VendasFilter extends BaseFilter {
     return $this->query;
   }
 }
-
-
-

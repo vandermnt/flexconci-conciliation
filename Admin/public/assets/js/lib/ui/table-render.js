@@ -117,8 +117,10 @@ TableRender.prototype.serializeSortFilter = function() {
   if(!this.get('sort').by) return {};
 
   return {
-    order_by: this.get('sort').by,
-    order: this.get('sort').order
+    sort: {
+      column: this.get('sort').by,
+      direction: this.get('sort').order
+    }
   }
 }
 
