@@ -6,8 +6,6 @@
 <script src="https://cdn.jsdelivr.net/npm/table-dragger@1.0.3/dist/table-dragger.js"></script>
 <link href="{{ URL::asset('assets/css/globals/global.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ URL::asset('assets/css/cadastro/cadastros.css')}}" rel="stylesheet" type="text/css" />
-
-
 @stop
 
 @section('content')
@@ -50,7 +48,7 @@
           <h4 id="qtd-registros">Total de operadoras ({{ $count_adquirentes }} registros)</h4>
           <img src="assets/images/widgets/arrow-down.svg" alt="Adquirentes">
         </div>
-
+        <br>
         <div class="tabela">
           <table id="tabela-adquirentes" class="table">
             <thead>
