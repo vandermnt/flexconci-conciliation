@@ -210,7 +210,11 @@ adquirentesPesquisados.addEventListener('keydown', function() {
   const adquirentes = JSON.parse(adquirentesCarregados.value);
 
   setTimeout(function(){
-    if(adquirentesPesquisados.value) {
+    if(adquirentesPesquisados.value == '') {
+      for(adquirente of adquirentes) {
+        document.getElementById(adquirente.CODIGO).style = "display: ";
+      }
+    } else {
       for(adquirente of adquirentes) {
 
         var regex = new RegExp(adquirentesPesquisados.value, 'gi');

@@ -202,7 +202,11 @@ bancosPesquisados.addEventListener('keydown', function() {
   const bancos = JSON.parse(bancosCarregados.value);
 
   setTimeout(function(){
-    if(bancosPesquisados.value) {
+    if(bancosPesquisados.value == '') {
+      for(banco of bancos) {
+        document.getElementById(banco.CODIGO).style = "display: ";
+      }
+    } else {
       for(banco of bancos) {
 
         var regex = new RegExp(bancosPesquisados.value, 'gi');
