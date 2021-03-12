@@ -103,29 +103,29 @@ salesContainer.setPaginationConfig({
 function buildRequest(params) {
   let requestHandler = () => {};
 
-  if(salesContainer.get('active') === 'search') {
-    requestHandler = async (params) => {
-      await salesContainer.search({
-        params: {
-          por_pagina: salesContainer.get('search').get('pagination').options.perPage,
-          ...params
-        },
-        body: { ...searchForm.serialize(), ...tableRender.serializeSortFilter() }
-      });
+  const isSearchActive = salesContainer.get('active') === 'search';
+  const sendRequest = isSearchActive ? salesContainer.search.bind(salesContainer) : salesContainer.filter.bind(salesContainer);
+  
+  const filters = { ...searchForm.serialize(), ...tableRender.serializeSortFilter() };
+  const bodyPayload = isSearchActive ? 
+    { ...filters }
+    : {
+      filters: { ...filters },
+      subfilters: { ...tableRender.serializeTableFilters() }
     }
-  } else {
-    requestHandler = async (params) => {
-      await salesContainer.filter({
-        params: {
-          por_pagina: salesContainer.get('search').get('pagination').options.perPage,
-          ...params,
-        },
-        body: {
-          filters: { ...searchForm.serialize(), ...tableRender.serializeSortFilter() },
-          subfilters: { ...tableRender.serializeTableFilters() }
-        }
-      });
-    }
+
+  const requestPayload = {
+    params: {},
+    body: bodyPayload,
+  }
+
+  requestHandler = async (params) => {
+    requestPayload.params = {
+      por_pagina: salesContainer.get('search').get('pagination').options.perPage,
+      ...params
+    };
+
+    await sendRequest(requestPayload)
   }
 
   return {
