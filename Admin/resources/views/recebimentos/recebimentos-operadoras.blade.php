@@ -171,7 +171,7 @@
           id="js-tabela-recebimentos"
           class="mt-3"
           :headers="[
-            'RETORNO_ERP_BAIXA' => 'Executar Baixa '.($erp->ERP ?? 'ERP'),
+            'RETORNO_ERP_BAIXA' => 'Baixa Realizada '.($erp->ERP ?? 'ERP'),
           ]"
         >
           <x-slot name="actions">

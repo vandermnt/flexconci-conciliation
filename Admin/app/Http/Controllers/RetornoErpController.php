@@ -10,6 +10,8 @@ use App\StatusConciliacaoModel;
 class RetornoErpController extends Controller
 {
     public function index(Request $request) {
+        set_time_limit(300);
+
         $cod_cliente = session('codigologin');
         $datas = [
             $request->input('data-inicial'),

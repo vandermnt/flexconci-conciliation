@@ -176,8 +176,6 @@ function exportar() {
   }, 500);
 }
 
-document.querySelector('input#data-inicial').setAttribute('disabled', true);
-
 document.querySelector('#js-por-pagina')
   .addEventListener('change', onPerPageChanged);
 

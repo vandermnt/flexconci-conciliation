@@ -155,14 +155,18 @@
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas ERP">
           </div>
           <div class="acoes d-flex align-items-center justify-content-between">
-            <button
-                class="btn mr-1 button no-hover tooltip-hint"
-                id="js-abrir-modal-retorno-erp"
-                data-title="Clicando aqui vamos efetuar a correção no seu sistema dos campos &quot;data de vencimento&quot;, &quot;taxa&quot; e &quot;valor líquido&quot;."
+            <div
+              class="retorno-erp tooltip-hint font-weight-bold"
+              data-title="Clicando aqui vamos efetuar a correção no seu sistema dos campos &quot;data de vencimento&quot;, &quot;taxa&quot; e &quot;valor líquido&quot;."
             >
-                <i class="fas fa-undo"></i>
-                Corrigir Venda {{ $erp->ERP ?? 'ERP' }}
-            </button>
+              <button
+                  class="btn mr-1 button no-hover"
+                  id="js-abrir-modal-retorno-erp"
+              >
+                  <i class="fas fa-undo"></i>
+                  Corrigir Venda {{ $erp->ERP ?? 'ERP' }}
+              </button>
+            </div>
             <button id="js-conciliar" class="btn mr-1 button no-hover">
               <i class="far fa-handshake"></i>
               Conciliar
@@ -221,10 +225,10 @@
                   type="checkbox"
                   data-value-key="ID_ERP"
                 >
-                <div class="tooltip-hint d-flex align-items-center" data-default-title="Visualizar Detalhes">
+                <div class="tooltip-hint tooltip-left d-flex align-items-center" data-default-title="Visualizar Detalhes">
                   <i class="fas fa-eye"></i>
                 </div>
-                <div class="tooltip-hint" data-title="STATUS_CONCILIACAO">
+                <div class="tooltip-hint tooltip-left" data-title="STATUS_CONCILIACAO">
                   <img data-image="STATUS_CONCILIACAO_IMAGEM">
                 </div>
               </div>
@@ -274,6 +278,7 @@
             'actions' => 'Ações | Status',
           ]"
           :hidden-columns="[
+            'ID_ERP',
             'DIVERGENCIA'
           ]"
         >
@@ -285,10 +290,10 @@
                   type="checkbox"
                   data-value-key="ID"
                 >
-                <div class="tooltip-hint d-flex align-items-center" data-default-title="Visualizar Detalhes">
+                <div class="tooltip-hint tooltip-left d-flex align-items-center" data-default-title="Visualizar Detalhes">
                   <i class="fas fa-eye"></i>
                 </div>
-                <div class="tooltip-hint" data-title="STATUS_CONCILIACAO">
+                <div class="tooltip-hint tooltip-left" data-title="STATUS_CONCILIACAO">
                   <img data-image="STATUS_CONCILIACAO_IMAGEM">
                 </div>
               </div>
