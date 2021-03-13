@@ -200,6 +200,15 @@ tableRender.onFilter(async (filters) => {
   await buildRequest(params).get();
 });
 
+tableRender.onSort(async (elementDOM, tableInstance) => {
+  const params = {
+    por_pagina: document.querySelector('#js-por-pagina').value,
+  };
+  
+  _defaultEvents.table.onSort(elementDOM, tableInstance);
+  await buildRequest(params).get();
+})
+
 async function onPerPageChanged(event) {
   salesContainer.get('search').get('pagination').setOptions({ perPage: event.target.value });
   salesContainer.get('filtered').get('pagination').setOptions({ perPage: event.target.value });
@@ -216,6 +225,7 @@ function exportar() {
     openUrl(searchForm.get('form').dataset.urlExportar, {
       ...searchForm.serialize(),
       ...tableRender.serializeTableFilters(),
+      ...serializeTableSortToExport(tableRender.serializeSortFilter()),
     });
   }, 500);
 }
@@ -226,6 +236,7 @@ function retornoCsv() {
     openUrl(searchForm.get('form').dataset.urlRetornoCsv, {
       ...searchForm.serialize(),
       ...tableRender.serializeTableFilters(),
+      ...serializeTableSortToExport(tableRender.serializeSortFilter()),
     });
   }, 500);
 }
