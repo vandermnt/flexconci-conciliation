@@ -19,14 +19,16 @@ abstract class BaseFilter implements BaseFilterInterface {
   }
 
   public function buildOrderClause($sortValues) {
-    if(!Arr::has($sortValues, $this->getSortKeys())) {
+    if(!$sortValues || !Arr::has($sortValues, $this->getSortKeys())) {
       return $this->query;
     }
 
-    $column = $sortValues[$this->sortKeys['orderBy']];
+    $column = $sortValues[$this->sortKeys['orderBy']] ?? null;
     $direction = $sortValues[$this->sortKeys['order']] === 'asc' ? 'asc' : 'desc';
 
-    $this->query->orderBy($column, $direction);
+    if($column) {
+      $this->query->orderBy($column, $direction);
+    }
 
     return $this->query;
   }

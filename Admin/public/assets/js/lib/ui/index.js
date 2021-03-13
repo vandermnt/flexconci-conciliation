@@ -311,6 +311,15 @@ function updateTotals(totals, newData) {
     };
 }
 
+function serializeTableSortToExport({ sort }) {
+  if(!sort) return {};
+  
+  return {
+    sort_column: sort.column,
+    sort_direction: sort.direction,
+  };
+}
+
 Array.from(
   document.querySelectorAll('.modal button[data-action="confirm"]')
 ).forEach(buttonDOM => {
