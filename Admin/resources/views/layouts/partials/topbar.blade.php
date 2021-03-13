@@ -96,7 +96,7 @@
   <!-- <span class="ml-1 nav-user-name hidden-sm">{{Session::get('codigologin') }} <i class="mdi mdi-chevron-down"></i> </span> -->
   <?php $primeiro_nome = explode(' ', Auth::user()->NOME); ?>
   <span class="ml-1 nav-user-name hidden-sm">{{$primeiro_nome[0] }} |   {{ Session::get('nome_fantasia')}} <i class="mdi mdi-chevron-down"></i> </span>
-
+  <input type="hidden" name="usuario" value="{{ Auth::user()->CODIGO }}">
 </a>
 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownUserSettings">
   {{-- <a class="dropdown-item" href="#"><i class="dripicons-user mr-2"></i> Editar Perfil</a>
@@ -104,7 +104,8 @@
   <a class="dropdown-item" href="#"><i class="dripicons-gear mr-2"></i> Ajuda</a> --}}
   {{-- <a class="dropdown-item" href="#"><i class="dripicons-lock text-muted mr-2"></i> Sair</a> --}}
   {{-- <div class="dropdown-divider"></div> --}}
-  <a class="dropdown-item" href="{{ url('/logout') }}"><i class="dripicons-exit mr-2"></i> Sair</a>
+  <a class="dropdown-item" href="{{ url('/logout') }}"><i class="dripicons-exit mr-2"></i> Sair </a>
+  <a class="dropdown-item" data-toggle="modal" data-target="#troca_cliente"><i class="dripicons-clockwise mr-2"></i> Trocar Empresa </a>
 </div>
 </li>
 <!-- <li class="mr-2">
@@ -428,9 +429,59 @@ aria-haspopup="false" aria-expanded="false">
   </div>
 </div>
 
+<div class="modal fade" id="troca_cliente" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="trocacliente" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header fundo-modal">
+        <h5 class="modal-title" id="trocacliente">Trocar cliente</h5>
+      </div>
+      <div class="modal-body tamanho-modal">
+        <div class="row">
+          <div class="col-sm-12">
+            <h6> Clientes: </h6>
+          </div>
+          <div class="col-sm-12">
+            <select id="troca_cliente" class="form-control" name="empresaescolhida">
+              @foreach(Session::get('clientes') as $cliente)
+              <option value="{{ $cliente->CODIGO }}">{{ $cliente->NOME}}</option>
+              @endforeach
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
+        <button id="trocar" type="button" class="btn btn-success"><b>Trocar</b></button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 
 document.querySelector('.alert-success').style.display = 'none';
+
+document.getElementById("trocar").addEventListener('click', function(e){
+  const cliente = document.querySelector("select[name='empresaescolhida']").value;
+  const usuario = document.querySelector("input[name='usuario']").value;
+
+  console.log(cliente);
+  //
+  fetch('troca-empresa', {
+    method: 'POST',
+    // redirect: 'manual',
+    headers: new Headers({
+      "Content-Type": "application/json",
+      "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+    }),
+    body: JSON.stringify({empresaescolhida: cliente, usuario_global: usuario }),
+  })
+  .then(function(response) {
+    response.json().then(function(data) {
+      if(data === 200){ location.href = "/" }
+    })
+  })
+})
 
 document.getElementById("enviar_email").addEventListener('click', function(){
   const departamento = document.querySelector('#departamento_chamado').value;

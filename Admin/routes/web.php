@@ -150,6 +150,10 @@ Route::group(['middleware' => 'auth'], function() {
   Route::get('/delete-banco/{codigo}', 'BancoController@excluirBanco');
   Route::get('/delete-bandeira/{codigo}', 'BandeiraController@excluirBandeira');
 
+  //TROCAR EMPRESA
+  Route::post('/troca-empresa', 'Auth\LoginController@trocarEmpresa');
+
+
 
   //CONCILIAÇÃO
   Route::get('/conciliacao-bancaria', function() {
