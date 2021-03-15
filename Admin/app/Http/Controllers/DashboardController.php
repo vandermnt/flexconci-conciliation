@@ -18,6 +18,10 @@ class DashboardController extends Controller{
     // $projetos = DB::select($sql);
     // $qtde_projetos = count($projetos);
     // $qtde_projetos = null;
+
+    $clientes = ClienteModel::orderBy('NOME', 'asc')->get();
+    session()->put('clientes',$clientes);
+
     $pagamento_normal = DB::table('pagamentos_operadoras')
     ->select('pagamentos_operadoras.*')
     ->selectRaw('sum(VALOR_BRUTO) as tipo_pgto_normal')
@@ -35,10 +39,8 @@ class DashboardController extends Controller{
     ->where('pagamentos_operadoras.DATA_PAGAMENTO', $data_atual)
     ->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'));
 
-
     $pagamento_antecipado_operadora = $pagamento_antecipado->groupBy('pagamentos_operadoras.COD_ADQUIRENTE')->get();
     $pagamento_antecipado_banco = $pagamento_antecipado->groupBy('pagamentos_operadoras.COD_BANCO')->get();
-    // dd($pagamento_antecipado_operadora);
 
     $dados_dash_vendas = DB::table('dashboard_vendas_adquirentes')
     ->leftJoin('periodo_dash', 'dashboard_vendas_adquirentes.COD_PERIODO', 'periodo_dash.CODIGO')
@@ -63,7 +65,8 @@ class DashboardController extends Controller{
     ->get();
 
     $dados_calendario_previsao = DB::table('vendas')
-    ->select('vendas.DATA_PREVISTA_PAGTO')
+    ->select('vendas.DATA_PREVISTA_PAGTO')    // dd($pagamento_antecipado_operadora);
+
     ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
     ->where('cod_cliente', '=', session('codigologin'))
     ->groupBy('vendas.DATA_PREVISTA_PAGTO')

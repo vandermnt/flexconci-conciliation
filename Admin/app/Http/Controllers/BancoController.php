@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class BancoController extends Controller {
 
   public function index() {
-    $bancos = BancoModel::all();
+    $bancos = BancoModel::orderBy('BANCO', 'asc')->get();
     $bancos_count = $bancos->count();
     return view('cadastro.banco')->with('bancos', $bancos)->with('count_bancos', $bancos_count);
   }
@@ -33,7 +33,7 @@ class BancoController extends Controller {
 
   public function allBancos(){
     try {
-      $bancos = BancoModel::all();
+      $bancos = BancoModel::orderBy('BANCO', 'asc')->get();
       return response()->json([
         'bancos' => $bancos
       ]);

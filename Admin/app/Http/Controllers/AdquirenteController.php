@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class AdquirenteController extends Controller {
 
   public function index() {
-    $adquirentes = AdquirentesModel::all();
+    $adquirentes = AdquirentesModel::orderBy('ADQUIRENTE', 'asc')->get();
     $adquirentes_count = $adquirentes->count();
     return view('cadastro.adquirente')->with('adquirentes', $adquirentes)->with('count_adquirentes', $adquirentes_count);
   }
@@ -33,7 +33,7 @@ class AdquirenteController extends Controller {
 
   public function allAdquirentes(){
     try {
-      $adquirentes = AdquirentesModel::all();
+      $adquirentes = AdquirentesModel::orderBy('ADQUIRENTE', 'asc')->get();
       return response()->json([
         'adquirentes' => $adquirentes
       ]);
