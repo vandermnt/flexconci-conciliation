@@ -113,8 +113,7 @@ class VendasErpExport implements FromQuery, WithStrictNullComparison, ShouldAuto
     public function query()
     {
         return VendasErpSubFilter::subfilter($this->filters, $this->subfilters)
-            ->getQuery()
-            ->orderBy('DATA_VENDA');
+            ->getQuery();
     }
 }
 

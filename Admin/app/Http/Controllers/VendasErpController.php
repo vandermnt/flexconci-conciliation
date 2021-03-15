@@ -253,7 +253,12 @@ class VendasErpController extends Controller {
       ->where('clientes.CODIGO', session('codigologin'))
       ->first();
 
-    $filters = $request->except(['_token']);
+    $sort = [
+      'column' => $request->input('sort_column'),
+      'direction' => $request->input('sort_direction')
+    ];
+    $filters = $request->except(['_token', 'sort_column', 'sort_direction']);
+    $filters['sort'] = $sort;
     $subfilters = $request->except(['_token']);
     Arr::set($filters, 'cliente_id', session('codigologin'));
     return (new VendasErpExport($filters, $subfilters, $headers))->download('vendas_erp_'.time().'.xlsx');
