@@ -14,205 +14,409 @@
         @endisset
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>ID. ERP</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="DESCRICAO_ERP"
+            >
+                <p class="m-0">ID. ERP</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="text" class="form-control" name="DESCRICAO_ERP">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Empresa</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="NOME_EMPRESA"
+            >
+                <p class="m-0">Empresa</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="text" class="form-control" name="NOME_EMPRESA">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>CNPJ</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="CNPJ"
+            >
+                <p class="m-0">CNPJ</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="text" class="form-control" name="CNPJ">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Venda</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="DATA_VENDA"
+            >
+                <p class="m-0">Venda</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="date" class="form-control" name="DATA_VENDA">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Previsão</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="DATA_PREVISAO"
+            >
+                <p class="m-0">Previsão</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="date" class="form-control" name="DATA_PREVISAO">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Pagamento</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="DATA_PAGAMENTO"
+            >
+                <p class="m-0">Pagamento</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="date" class="form-control" name="DATA_PAGAMENTO">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Operadora</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="ADQUIRENTE"
+            >
+                <p class="m-0">Operadora</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="text" class="form-control" name="ADQUIRENTE">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Bandeira</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="BANDEIRA"
+            >
+                <p class="m-0">Bandeira</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="text" class="form-control" name="BANDEIRA">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Forma de Pagamento</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="MODALIDADE"
+            >
+                <p class="m-0">Forma de Pagamento</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="text" class="form-control" name="MODALIDADE">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Tipo Recebimento</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="TIPO_PAGAMENTO"
+            >
+                <p class="m-0">Tipo Recebimento</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="text" class="form-control" name="TIPO_PAGAMENTO">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>NSU</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="NSU"
+            >
+                <p class="m-0">NSU</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="text" class="form-control" name="NSU">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Autorização</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="AUTORIZACAO"
+            >
+                <p class="m-0">Autorização</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="text" class="form-control" name="AUTORIZACAO">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>TID</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="TID"
+            >
+                <p class="m-0">TID</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="text" class="form-control" name="TID">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Cartão</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="CARTAO"
+            >
+                <p class="m-0">Cartão</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="text" class="form-control" name="CARTAO">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Valor Bruto</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="VALOR_BRUTO"
+            >
+                <p class="m-0">Valor Bruto</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="number" min="0" step="0.01" class="form-control" name="VALOR_BRUTO">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Taxa %</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="TAXA_PERCENTUAL"
+            >
+                <p class="m-0">Taxa %</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="number" min="0" step="0.01" class="form-control" name="TAXA_PERCENTUAL">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Taxa R$</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="VALOR_TAXA"
+            >
+                <p class="m-0">Taxa R$</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="number" min="0" step="0.01" class="form-control" name="VALOR_TAXA">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Taxa Antec. %</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="TAXA_ANTECIPACAO_PERCENTUAL"
+            >
+                <p class="m-0">Taxa Antec. %</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="number" min="0" step="0.01" class="form-control" name="TAXA_ANTECIPACAO_PERCENTUAL">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Valor Líquido</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="VALOR_LIQUIDO"
+            >
+                <p class="m-0">Valor Líquido</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="number" min="0" step="0.01" class="form-control" name="VALOR_LIQUIDO">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Possui Tarifa Mínima</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="POSSUI_TAXA_MINIMA"
+            >
+                <p class="m-0">Possui Tarifa Mínima</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="text" class="form-control" name="POSSUI_TAXA_MINIMA">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Parcela</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="PARCELA"
+            >
+                <p class="m-0">Parcela</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="text" class="form-control" name="PARCELA">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Total Parc.</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="TOTAL_PARCELAS"
+            >
+                <p class="m-0">Total Parc.</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="text" class="form-control" name="TOTAL_PARCELAS">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Estabelecimento</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="ESTABELECIMENTO"
+            >
+                <p class="m-0">Estabelecimento</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="text" class="form-control" name="ESTABELECIMENTO">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Núm. Máquina</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="TERMINAL"
+            >
+                <p class="m-0">Núm. Máquina</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="text" class="form-control" name="TERMINAL">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Banco</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="BANCO"
+            >
+                <p class="m-0">Banco</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="text" class="form-control" name="BANCO">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Agência</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="AGENCIA"
+            >
+                <p class="m-0">Agência</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="text" class="form-control" name="AGENCIA">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Conta</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="CONTA"
+            >
+                <p class="m-0">Conta</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="text" class="form-control" name="CONTA">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Observação</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="OBSERVACOES"
+            >
+                <p class="m-0">Observação</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="text" class="form-control" name="OBSERVACOES">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Produto</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="PRODUTO"
+            >
+                <p class="m-0">Produto</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="text" class="form-control" name="PRODUTO">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Meio de Captura</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="MEIOCAPTURA"
+            >
+                <p class="m-0">Meio de Captura</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="text" class="form-control" name="MEIOCAPTURA">
           </div>
         </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Status Conciliação</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="STATUS_CONCILIACAO"
+            >
+                <p class="m-0">Status Conciliação</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="text" class="form-control" name="STATUS_CONCILIACAO">
           </div>
          </th>
         <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Divergência Venda</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="DIVERGENCIA"
+            >
+                <p class="m-0">Divergência Venda</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="text" class="form-control" name="DIVERGENCIA">
           </div>
          </th>
          <th>
           <div class="d-flex flex-column align-items-center">
-            <p>Justificativa</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="JUSTIFICATIVA"
+            >
+                <p class="m-0">Justificativa</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="text" class="form-control" name="JUSTIFICATIVA">
           </div>
         </th>
          <th>
           <div class="d-flex flex-column align-items-center">
-            <p>{{ $getHeader('RETORNO_ERP_BAIXA') ?? 'Retorno Recebimento ERP' }}</p>
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="RETORNO_ERP_BAIXA"
+            >
+                <p class="m-0">{{ $getHeader('RETORNO_ERP_BAIXA') ?? 'Retorno Recebimento ERP' }}</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
             <input type="text" class="form-control" name="RETORNO_ERP_BAIXA">
           </div>
         </th>

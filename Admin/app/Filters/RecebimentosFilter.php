@@ -20,16 +20,18 @@ class RecebimentosFilter extends BaseFilter {
     'tipo_pagamento'
   ];
 
-  public static function filter($filters) {
+  public static function filter($params) {
     $recebimentosFilter = app(RecebimentosFilter::class);
-    return $recebimentosFilter->apply($filters);
+    return $recebimentosFilter->apply($params);
   }
 
-  public function apply($filters) {
-    $filters = Arr::only($filters, $this->whiteList);
-    $filters = Arr::where($filters, function($value, $key) {
+  public function apply($params) {
+    $params = Arr::only($params, $this->getAllowedKeys());
+    $params = Arr::where($params, function($value, $key) {
       return boolval($value);
     });
+    $filters = Arr::except($params, 'sort');
+    $sort = collect(Arr::only($params, 'sort'))->get('sort');
     $recebimento_conciliado_erp = $filters['recebimento_conciliado_erp'] ?? null;
 
     $this->query = DB::table('pagamentos_operadoras')
@@ -143,6 +145,8 @@ class RecebimentosFilter extends BaseFilter {
     if(Arr::has($filters, 'tipo_pagamento')) {
       $this->query->whereIn('pagamentos_operadoras.COD_TIPO_PAGAMENTO', $filters['tipo_pagamento']);
     }
+
+    $this->buildOrderClause($sort);
 
     return $this;
   }
