@@ -103,29 +103,29 @@ salesContainer.setPaginationConfig({
 function buildRequest(params) {
   let requestHandler = () => {};
 
-  if(salesContainer.get('active') === 'search') {
-    requestHandler = async (params) => {
-      await salesContainer.search({
-        params: {
-          por_pagina: salesContainer.get('search').get('pagination').options.perPage,
-          ...params
-        },
-        body: { ...searchForm.serialize() }
-      });
+  const isSearchActive = salesContainer.get('active') === 'search';
+  const sendRequest = isSearchActive ? salesContainer.search.bind(salesContainer) : salesContainer.filter.bind(salesContainer);
+
+  const filters = { ...searchForm.serialize(), ...tableRender.serializeSortFilter() };
+  const bodyPayload = isSearchActive ?
+    { ...filters }
+    : {
+      filters: { ...filters },
+      subfilters: { ...tableRender.serializeTableFilters() }
     }
-  } else {
-    requestHandler = async (params) => {
-      await salesContainer.filter({
-        params: {
-          por_pagina: salesContainer.get('search').get('pagination').options.perPage,
-          ...params,
-        },
-        body: {
-          filters: { ...searchForm.serialize() },
-          subfilters: { ...tableRender.serializeTableFilters() }
-        }
-      });
-    }
+
+  const requestPayload = {
+    params: {},
+    body: bodyPayload,
+  }
+
+  requestHandler = async (params) => {
+    requestPayload.params = {
+      por_pagina: salesContainer.get('search').get('pagination').options.perPage,
+      ...params
+    };
+
+    await sendRequest(requestPayload)
   }
 
   return {
@@ -146,6 +146,7 @@ searchForm.onSubmit(async (event) => {
   });
 
   tableRender.clearFilters();
+  tableRender.clearSortFilter();
   window.scrollTo(0, document.querySelector('.resultados').offsetTop);
 });
 
@@ -200,6 +201,15 @@ tableRender.onFilter(async (filters) => {
   await buildRequest(params).get();
 });
 
+tableRender.onSort(async (elementDOM, tableInstance) => {
+  const params = {
+    por_pagina: document.querySelector('#js-por-pagina').value,
+  };
+
+  _defaultEvents.table.onSort(elementDOM, tableInstance);
+  await buildRequest(params).get();
+})
+
 async function onPerPageChanged(event) {
   salesContainer.get('search').get('pagination').setOptions({ perPage: event.target.value });
   salesContainer.get('filtered').get('pagination').setOptions({ perPage: event.target.value });
@@ -216,6 +226,7 @@ function exportar() {
     openUrl(searchForm.get('form').dataset.urlExportar, {
       ...searchForm.serialize(),
       ...tableRender.serializeTableFilters(),
+      ...serializeTableSortToExport(tableRender.serializeSortFilter()),
     });
   }, 500);
 }
@@ -226,6 +237,7 @@ function retornoCsv() {
     openUrl(searchForm.get('form').dataset.urlRetornoCsv, {
       ...searchForm.serialize(),
       ...tableRender.serializeTableFilters(),
+      ...serializeTableSortToExport(tableRender.serializeSortFilter()),
     });
   }, 500);
 }

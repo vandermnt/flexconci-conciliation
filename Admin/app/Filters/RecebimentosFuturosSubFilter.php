@@ -76,6 +76,8 @@ class RecebimentosFuturosSubFilter extends BaseSubFilter {
         $this->buildWhereClause($subfilter, $value);
       }
 
+    $this->buildOrderClause($filters['sort']);
+
     return $this;
   }
 

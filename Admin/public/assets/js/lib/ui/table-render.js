@@ -8,6 +8,10 @@ function TableRender(options = {}) {
         type: 'USD',
       }
     }),
+    sort: {
+      by: null,
+      order: null /** Accepts: '', 'asc' or 'desc' */
+    },
     selectedRows: [],
     onRender: null,
     onRenderRow: () => {},
@@ -15,6 +19,7 @@ function TableRender(options = {}) {
     shouldSelectRow: () => true,
     onSelectRow: () => {},
     onFilter: () => {},
+    onSort: () => {},
   }, tableRenderHandler());
 }
 
@@ -28,6 +33,15 @@ TableRender.prototype.get = function(prop = null) {
 
 TableRender.prototype.set = function(prop = '', value = null) {
   this.proxy[prop] = value;
+}
+
+TableRender.prototype.recreateNode = function (element = '') {
+  const elementDOM = typeof element === 'string' ? document.querySelector(element) : element;
+  if(!elementDOM) return;
+
+  const elementCloneDOM = elementDOM.cloneNode(true);
+  elementDOM.parentNode.replaceChild(elementCloneDOM, elementDOM);
+  return elementCloneDOM;
 }
 
 TableRender.prototype.formatCell = function(value, type = 'text', defaultValue = '') {
@@ -62,6 +76,10 @@ TableRender.prototype.onFilter = function(handler = (filters = {}) => {}) {
   this.addTableFiltersListener();
 }
 
+TableRender.prototype.onSort = function(handler = (filters = {}) => {}) {
+  this.set('onSort', handler);
+}
+
 TableRender.prototype.addTableFiltersListener = function() {
   const table = this.get('table');
   const tableInputs = Array.from(table.querySelectorAll('thead input[name]'));
@@ -92,7 +110,18 @@ TableRender.prototype.serializeTableFilters = function() {
     return data;
   }, {});
 
-  return filters;
+  return { ...filters };
+}
+
+TableRender.prototype.serializeSortFilter = function() {
+  if(!this.get('sort').by) return {};
+
+  return {
+    sort: {
+      column: this.get('sort').by,
+      direction: this.get('sort').order
+    }
+  }
 }
 
 TableRender.prototype.clearFilters = function() {
@@ -101,6 +130,22 @@ TableRender.prototype.clearFilters = function() {
 
   tableInputs.forEach(inputDOM => {
     inputDOM.value = '';
+  });
+}
+
+TableRender.prototype.clearSortFilter = function() {
+  const activeSortColumn = this.get('sort').by;
+  if(!activeSortColumn) {
+    return;
+  }
+
+  const selector = `.table-sorter[data-tbsort-by="${activeSortColumn}"] .table-sort-icon`;
+  const activeSortIcon = this.get('table').querySelector(selector);
+  activeSortIcon.dataset.sortOrder = 'none';
+
+  this.set('sort', {
+    by: null,
+    order: null,
   });
 }
 
@@ -115,13 +160,28 @@ TableRender.prototype.render = function() {
     const onRenderRow = this.get('onRenderRow');
     const onRenderCell = this.get('onRenderCell');
     const onSelectRow = this.get('onSelectRow');
+    const onSort = this.get('onSort');
 
     if(!table) {
         return;
     }
 
+    const thead = table.querySelector('thead');
     const tbody = table.querySelector('tbody');
     const tfooter = table.querySelector('tfoot');
+
+    const tableHeaders = Array.from(thead.querySelectorAll('th'));
+
+    tableHeaders.forEach(th => {
+      const tableSorter = this.recreateNode(th.querySelector('.table-sorter'));
+
+      if(tableSorter && onSort && typeof onSort === 'function') {
+        tableSorter.addEventListener('click', (e) => {
+          onSort(e.target, this);
+        });
+      }
+    });
+
     const templateRow = table.querySelector('tbody .table-row-template').cloneNode(true);
 
     templateRow.classList.remove('hidden');
@@ -129,6 +189,7 @@ TableRender.prototype.render = function() {
 
     tbody.innerHTML = '';
     tbody.appendChild(templateRow);
+
     (this.get('data').body || []).forEach(data => {
         const tableRow = templateRow.cloneNode(true);
         const tableCells = Array.from(tableRow.querySelectorAll('td[data-column]'));
