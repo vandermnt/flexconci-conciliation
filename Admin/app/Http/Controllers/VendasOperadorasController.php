@@ -242,8 +242,8 @@ class VendasOperadorasController extends Controller
         set_time_limit(300);
 
         $sort = [
-            'column' => $request->input('sort_column'),
-            'direction' => $request->input('sort_direction')
+            'column' => $request->input('sort_column', 'DATA_VENDA'),
+            'direction' => $request->input('sort_direction', 'asc')
         ];
         $filters = $request->except(['_token', 'sort_column', 'sort_direction']);
         $filters['sort'] = $sort;
@@ -256,8 +256,8 @@ class VendasOperadorasController extends Controller
         set_time_limit(300);
 
         $sort = [
-            'column' => $request->input('sort_column'),
-            'direction' => $request->input('sort_direction')
+            'column' => $request->input('sort_column', 'DATA_VENDA'),
+            'direction' => $request->input('sort_direction', 'asc')
         ];
         $filters = $request->except(['_token', 'sort_column', 'sort_direction']);
         $filters['sort'] = $sort;

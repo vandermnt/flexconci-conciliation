@@ -32,7 +32,7 @@ class VendasErpController extends Controller {
       ->leftJoin('erp', 'clientes.COD_ERP', 'erp.CODIGO')
       ->where('clientes.CODIGO', session('codigologin'))
       ->first();
-    
+
     $status_conciliacao = StatusConciliacaoModel::orderBy('STATUS_CONCILIACAO')
       ->get();
 
@@ -123,7 +123,7 @@ class VendasErpController extends Controller {
     $allowedPerPage = [10, 20, 50, 100, 200];
     $perPage = $request->input('por_pagina', 10);
     $perPage = in_array($perPage, $allowedPerPage) ? $perPage : 10;
-    $filters= $request->input('filters'); 
+    $filters= $request->input('filters');
     $filters['cliente_id'] = session('codigologin');
     $subfilters = $request->input('subfilters');
 
@@ -181,7 +181,7 @@ class VendasErpController extends Controller {
         'DATA_CONCILIACAO' => $now->format('Y-m-d'),
         'HORA_CONCILIACAO' => $now->format('H:i:s')
       ]);
-    
+
     $sales = VendasErpFilter::filter([
       'id_erp' => $validIds,
       'cliente_id' => session('codigologin'),
@@ -212,7 +212,7 @@ class VendasErpController extends Controller {
       ->where('COD_STATUS_CONCILIACAO', $statusJustificado)
       ->pluck('CODIGO')
       ->toArray();
-    
+
     VendasErpModel::whereIn('CODIGO', $validIds)
       ->update([
         'JUSTIFICATIVA' => null,
@@ -220,7 +220,7 @@ class VendasErpController extends Controller {
         'DATA_CONCILIACAO' => null,
         'HORA_CONCILIACAO' => null
       ]);
-    
+
     $sales = VendasErpFilter::filter([
       'id_erp' => $validIds,
       'cliente_id' => session('codigologin'),
@@ -254,8 +254,8 @@ class VendasErpController extends Controller {
       ->first();
 
     $sort = [
-      'column' => $request->input('sort_column'),
-      'direction' => $request->input('sort_direction')
+      'column' => $request->input('sort_column', 'DATA_VENDA'),
+      'direction' => $request->input('sort_direction', 'asc')
     ];
     $filters = $request->except(['_token', 'sort_column', 'sort_direction']);
     $filters['sort'] = $sort;
