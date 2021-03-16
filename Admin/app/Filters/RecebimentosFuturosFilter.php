@@ -20,16 +20,18 @@ class RecebimentosFuturosFilter extends BaseFilter {
     'domicilios_bancarios'
   ];
 
-  public static function filter($filters) {
+  public static function filter($params) {
     $recebimentosFilter = app(RecebimentosFuturosFilter::class);
-    return $recebimentosFilter->apply($filters);
+    return $recebimentosFilter->apply($params);
   }
 
-  public function apply($filters) {
-    $filters = Arr::only($filters, $this->whiteList);
-    $filters = Arr::where($filters, function($value, $key) {
+  public function apply($params) {
+    $params = Arr::only($params, $this->getAllowedKeys());
+    $params = Arr::where($params, function($value, $key) {
       return boolval($value);
     });
+    $filters = Arr::except($params, 'sort');
+    $sort = collect(Arr::only($params, 'sort'))->get('sort');
 
     $this->query = DB::table('vendas')
       ->select(
@@ -128,6 +130,8 @@ class RecebimentosFuturosFilter extends BaseFilter {
           ->whereIn('domicilio_cliente.CODIGO', $filters['domicilios_bancarios']);
       });
     }
+
+    $this->buildOrderClause($sort);
 
     return $this;
   }
