@@ -14,8 +14,11 @@ use App\Filters\VendasErpFilter;
 use App\Filters\VendasFilter;
 use App\Filters\VendasErpSubFilter;
 use App\Filters\VendasSubFilter;
+use App\Exports\VendasOperadorasExport;
+use App\Exports\VendasErpExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Arr;
 
 class ConciliacaoVendasController extends Controller
 {
@@ -305,6 +308,52 @@ class ConciliacaoVendasController extends Controller
             'STATUS_CONCILIACAO' => $statusNaoConciliada->STATUS_CONCILIACAO,
             'STATUS_CONCILIACAO_IMAGEM' => $statusNaoConciliada->IMAGEM_URL,
         ], 200);
+    }
+
+    public function exportarErp(Request $request) {
+        set_time_limit(300);
+
+        $headers = ClienteModel::select(
+            [
+                'erp.TITULO_CAMPO_ADICIONAL1 as TITULO_CAMPO1',
+                'erp.TITULO_CAMPO_ADICIONAL2 as TITULO_CAMPO2',
+                'erp.TITULO_CAMPO_ADICIONAL3 as TITULO_CAMPO3'
+            ])
+            ->leftJoin('erp', 'clientes.COD_ERP', 'erp.CODIGO')
+            ->where('clientes.CODIGO', session('codigologin'))
+            ->first();
+
+        $sort = [
+            'column' => $request->input('sort_column', 'DATA_VENDA'),
+            'direction' => $request->input('sort_direction', 'asc')
+        ];
+        $filters = $request->except(['_token', 'sort_column', 'sort_direction']);
+        $filters['sort'] = $sort;
+        $subfilters = $request->except(['_token']);
+        Arr::set($filters, 'cliente_id', session('codigologin'));
+        return (new VendasErpExport($filters, $subfilters, $headers))->download('vendas_erp_'.time().'.xlsx');
+    }
+
+    public function exportarOperadoras(Request $request) {
+        set_time_limit(300);
+
+        $status_nao_conciliada = StatusConciliacaoModel::naoConciliada()->first()->CODIGO;
+
+        $sort = [
+            'column' => $request->input('sort_column', 'DATA_VENDA'),
+            'direction' => $request->input('sort_direction', 'asc')
+        ];
+        $filters = $request->except(['_token', 'sort_column', 'sort_direction']);
+        $filters['cliente_id'] = session('codigologin');
+        $filters['sort'] = $sort;
+        $subfilters = $request->except(['_token']);
+
+        $status_conciliacao = $filters['status_conciliacao'];
+
+        $filters['status_conciliacao'] = in_array($status_nao_conciliada, $status_conciliacao) ?
+            [$status_nao_conciliada] : null;
+
+        return (new VendasOperadorasExport($filters, $subfilters))->download('vendas_operadoras_'.time().'.xlsx');
     }
 
     /**
