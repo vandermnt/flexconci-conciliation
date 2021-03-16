@@ -351,7 +351,7 @@ class ConciliacaoVendasController extends Controller
         $status_conciliacao = $filters['status_conciliacao'];
 
         $filters['status_conciliacao'] = in_array($status_nao_conciliada, $status_conciliacao) ?
-            [$status_nao_conciliada] : null;
+            [$status_nao_conciliada] : [null];
 
         return (new VendasOperadorasExport($filters, $subfilters))->download('vendas_operadoras_'.time().'.xlsx');
     }
