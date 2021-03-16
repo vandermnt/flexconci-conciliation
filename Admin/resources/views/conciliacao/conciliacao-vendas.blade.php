@@ -25,10 +25,10 @@
           :urls="[
             ['buscar-erp' => route('conciliacao-vendas.buscarErp')],
             ['filtrar-erp' => route('conciliacao-vendas.filtrarErp')],
-            ['exportar-erp' => route('conciliacao-automatica.exportar.erp')],
+            ['exportar-erp' => route('conciliacao-vendas.exportar.erp')],
             ['buscar-operadoras' => route('conciliacao-vendas.buscarOperadoras')],
             ['filtrar-operadoras' => route('conciliacao-vendas.filtrarOperadoras')],
-            ['exportar-operadoras' => route('conciliacao-automatica.exportar.operadoras')],
+            ['exportar-operadoras' => route('conciliacao-vendas.exportar.operadoras')],
             ['conciliar-manualmente' => route('conciliacao-vendas.conciliarManualmente')],
             ['desconciliar-manualmente' => route('conciliacao-vendas.desconciliarManualmente')],
             ['justificar-erp' => route('vendas-erp.justify')],

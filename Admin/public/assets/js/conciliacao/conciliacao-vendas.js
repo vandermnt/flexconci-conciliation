@@ -110,7 +110,19 @@ const _events = {
                 }
             });
             _defaultEvents.table.onRenderRow(row, data, tableRenderInstance);
-        }
+        },
+        onSort: async (key, elementDOM, tableInstance) => {
+            toggleElementVisibility('#js-loader');
+
+            const params = {
+              por_pagina: document.querySelector(`#js-por-pagina-${key}`).value,
+            };
+
+            _defaultEvents.table.onSort(elementDOM, tableInstance);
+            await buildRequest(key, params).get();
+
+            toggleElementVisibility('#js-loader');
+        },
     }
 }
 
@@ -132,10 +144,12 @@ function buildRequest(key = 'erp', params, body = {}) {
     const sendRequest = isSearchActive ?
         currentSalesContainer.search.bind(currentSalesContainer) :
         currentSalesContainer.filter.bind(currentSalesContainer);
+
+    const filters = { ...searchForm.serialize(), ...currentTableRender.serializeSortFilter() };
     const bodyPayload = isSearchActive ?
-        { ...searchForm.serialize(), ...body }
+        { ...filters, ...body }
         : {
-            filters: { ...searchForm.serialize() },
+            filters: { ...filters },
             subfilters: { ...currentTableRender.serializeTableFilters() }
         }
 
@@ -275,6 +289,8 @@ tableRender.onFilter(async (filters) => {
 
     await _events.table.onFilter('operadoras', filters);
 });
+tableRenderErp.onSort(async (elementDOM, tableInstance) => await _events.table.onSort('erp', elementDOM, tableInstance));
+tableRender.onSort(async (elementDOM, tableInstance) => await _events.table.onSort('operadoras', elementDOM, tableInstance));
 
 tableRender.onRenderRow((row, data, instance) => _events.table.onRenderRow('operadoras', row, data, instance));
 tableRenderErp.onRenderRow((row, data, instance) => _events.table.onRenderRow('erp', row, data, instance));
@@ -712,6 +728,7 @@ function exportar(event) {
         openUrl(baseUrl, {
             ...{ ...searchForm.serialize(),  status_conciliacao: [...activeStatus] },
             ...currentTableRender.serializeTableFilters(),
+            ...serializeTableSortToExport(currentTableRender.serializeSortFilter()),
         });
     }, 500);
 }
