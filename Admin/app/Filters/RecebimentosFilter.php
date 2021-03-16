@@ -49,7 +49,7 @@ class RecebimentosFilter extends BaseFilter {
         'tipo_pagamento.TIPO_PAGAMENTO',
         'pagamentos_operadoras.NSU',
         'pagamentos_operadoras.CODIGO_AUTORIZACAO as AUTORIZACAO',
-        'vendas.TID',
+        'pagamentos_operadoras.TID',
         'pagamentos_operadoras.NUMERO_CARTAO as CARTAO',
         'pagamentos_operadoras.VALOR_BRUTO',
         DB::raw('(
@@ -74,7 +74,7 @@ class RecebimentosFilter extends BaseFilter {
         'lista_bancos.IMAGEM_LINK as BANCO_IMAGEM',
         'pagamentos_operadoras.AGENCIA',
         'pagamentos_operadoras.CONTA',
-        'vendas.OBSERVACOES',
+        'pagamentos_operadoras.OBSERVACOES',
         'produto_web.PRODUTO_WEB as PRODUTO',
         'meio_captura.DESCRICAO as MEIOCAPTURA',
         'status_conciliacao.STATUS_CONCILIACAO',
