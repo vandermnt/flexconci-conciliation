@@ -133,6 +133,22 @@ TableRender.prototype.clearFilters = function() {
   });
 }
 
+TableRender.prototype.clearSortFilter = function() {
+  const activeSortColumn = this.get('sort').by;
+  if(!activeSortColumn) {
+    return;
+  }
+
+  const selector = `.table-sorter[data-tbsort-by="${activeSortColumn}"] .table-sort-icon`;
+  const activeSortIcon = this.get('table').querySelector(selector);
+  activeSortIcon.dataset.sortOrder = 'none';
+
+  this.set('sort', {
+    by: null,
+    order: null,
+  });
+}
+
 TableRender.prototype.render = function() {
     const onRender = this.get('onRender');
 

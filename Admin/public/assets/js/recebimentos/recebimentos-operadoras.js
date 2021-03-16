@@ -49,6 +49,7 @@ searchForm.onSubmit(async (event) => {
   });
 
   tableRender.clearFilters();
+  tableRender.clearSortFilter();
 
   if (resultadosDOM.classList.contains('hidden')) {
     resultadosDOM.classList.remove('hidden');

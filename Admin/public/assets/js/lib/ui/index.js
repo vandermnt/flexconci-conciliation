@@ -137,8 +137,6 @@ const _defaultEvents = {
         by: currentOrder !== 'none' ? nextColumn : null,
         order: currentOrder !== 'none' ? currentOrder : '',
       });
-      
-      console.log(tableInstance.get('sort'));
     }
   }
 }
@@ -313,7 +311,7 @@ function updateTotals(totals, newData) {
 
 function serializeTableSortToExport({ sort }) {
   if(!sort) return {};
-  
+
   return {
     sort_column: sort.column,
     sort_direction: sort.direction,

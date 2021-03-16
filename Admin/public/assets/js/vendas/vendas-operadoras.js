@@ -105,9 +105,9 @@ function buildRequest(params) {
 
   const isSearchActive = salesContainer.get('active') === 'search';
   const sendRequest = isSearchActive ? salesContainer.search.bind(salesContainer) : salesContainer.filter.bind(salesContainer);
-  
+
   const filters = { ...searchForm.serialize(), ...tableRender.serializeSortFilter() };
-  const bodyPayload = isSearchActive ? 
+  const bodyPayload = isSearchActive ?
     { ...filters }
     : {
       filters: { ...filters },
@@ -146,6 +146,7 @@ searchForm.onSubmit(async (event) => {
   });
 
   tableRender.clearFilters();
+  tableRender.clearSortFilter();
   window.scrollTo(0, document.querySelector('.resultados').offsetTop);
 });
 
@@ -204,7 +205,7 @@ tableRender.onSort(async (elementDOM, tableInstance) => {
   const params = {
     por_pagina: document.querySelector('#js-por-pagina').value,
   };
-  
+
   _defaultEvents.table.onSort(elementDOM, tableInstance);
   await buildRequest(params).get();
 })

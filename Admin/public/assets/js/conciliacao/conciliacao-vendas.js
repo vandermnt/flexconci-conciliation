@@ -218,6 +218,9 @@ searchForm.onSubmit(async (event) => {
 
     tableRender.clearFilters();
     tableRenderErp.clearFilters();
+    tableRender.clearSortFilter();
+    tableRenderErp.clearSortFilter();
+
     if (resultadosDOM.classList.contains('hidden')) {
         resultadosDOM.classList.remove('hidden');
     }
