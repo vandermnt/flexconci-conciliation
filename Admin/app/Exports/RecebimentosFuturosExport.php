@@ -105,7 +105,6 @@ class RecebimentosFuturosExport implements FromQuery, WithStrictNullComparison, 
     public function query()
     {
         return RecebimentosFuturosSubFilter::subfilter($this->filters, $this->subfilters)
-            ->getQuery()
-            ->orderBy('DATA_PREVISAO');
+            ->getQuery();
     }
 }

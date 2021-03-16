@@ -101,7 +101,6 @@ class VendasOperadorasExport implements FromQuery, WithStrictNullComparison, Sho
     public function query()
     {
         return VendasSubFilter::subfilter($this->filters, $this->subfilters)
-            ->getQuery()
-            ->orderBy('DATA_VENDA');
+            ->getQuery();
     }
 }
