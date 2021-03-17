@@ -2,8 +2,8 @@ html {
     scroll-behavior: smooth;
 }
 
-.topbar, .topbarr {
-    z-index: 99;
+.topbarr {
+    z-index: 24;
 }
 
 .conciflex-icon {
@@ -111,11 +111,13 @@ html {
 }
 
 .box.tooltip-hint::before {
-    z-index: 16;
+  content: attr(data-hint);
+  transform: translateX(-50%);
+  z-index: 16;
 }
 
 .box.tooltip-hint::after {
-    z-index: 12;
+  z-index: 12;
 }
 
 .button {
