@@ -99,9 +99,8 @@ class VendasErpFilter extends BaseFilter {
       ->leftJoin('meio_captura', 'vendas_erp.COD_MEIO_CAPTURA', 'meio_captura.CODIGO')
       ->leftJoin('status_conciliacao', 'vendas_erp.COD_STATUS_CONCILIACAO', 'status_conciliacao.CODIGO')
       ->leftJoin('status_financeiro', 'vendas_erp.COD_STATUS_FINANCEIRO', 'status_financeiro.CODIGO')
-      ->where('vendas_erp.COD_CLIENTE', $filters['cliente_id'])
-      ->orderBy('vendas_erp.DATA_VENDA');
-    
+      ->where('vendas_erp.COD_CLIENTE', $filters['cliente_id']);
+
     if(Arr::has($filters, 'id_erp')) {
       $this->query->whereIn('vendas_erp.CODIGO', $filters['id_erp']);
     }
