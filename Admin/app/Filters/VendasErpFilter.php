@@ -23,21 +23,18 @@ class VendasErpFilter extends BaseFilter {
     'status_conciliacao',
   ];
 
-  public static function filter($filters) {
+  public static function filter($params) {
     $vendasErpFilter = app(VendasErpFilter::class);
-    return $vendasErpFilter->apply($filters);
+    return $vendasErpFilter->apply($params);
   }
 
-  public function apply($filters) {
-    $filters = Arr::only($filters, $this->whiteList);
-    $filters = Arr::where($filters, function($value, $key) {
+  public function apply($params) {
+    $params = Arr::only($params, $this->getAllowedKeys());
+    $params = Arr::where($params, function($value, $key) {
       return boolval($value);
     });
-
-    $datas = [
-      ($filters['data_inicial'] ?? date('Y-m-d')),
-      ($filters['data_final'] ?? date('Y-m-d'))
-    ];
+    $filters = Arr::except($params, 'sort');
+    $sort = collect(Arr::only($params, 'sort'))->get('sort');
 
     $this->query = VendasErpModel::select(
         [
@@ -102,9 +99,8 @@ class VendasErpFilter extends BaseFilter {
       ->leftJoin('meio_captura', 'vendas_erp.COD_MEIO_CAPTURA', 'meio_captura.CODIGO')
       ->leftJoin('status_conciliacao', 'vendas_erp.COD_STATUS_CONCILIACAO', 'status_conciliacao.CODIGO')
       ->leftJoin('status_financeiro', 'vendas_erp.COD_STATUS_FINANCEIRO', 'status_financeiro.CODIGO')
-      ->where('vendas_erp.COD_CLIENTE', $filters['cliente_id'])
-      ->orderBy('vendas_erp.DATA_VENDA');
-    
+      ->where('vendas_erp.COD_CLIENTE', $filters['cliente_id']);
+
     if(Arr::has($filters, 'id_erp')) {
       $this->query->whereIn('vendas_erp.CODIGO', $filters['id_erp']);
     }
@@ -132,6 +128,8 @@ class VendasErpFilter extends BaseFilter {
     if(Arr::has($filters, 'status_conciliacao')) {
       $this->query->whereIn('status_conciliacao.CODIGO', $filters['status_conciliacao']);
     }
+
+    $this->buildOrderClause($sort);
 
     return $this;
   }
