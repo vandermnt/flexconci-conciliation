@@ -173,11 +173,7 @@
           :headers="[
             'RETORNO_ERP_BAIXA' => 'Baixa Realizada '.($erp->ERP ?? 'ERP'),
           ]"
-        >
-          <x-slot name="actions">
-            <td></td>
-          </x-slot>
-        </x-tables.tabela-recebimentos-operadoras>
+        />
         <x-tables.table-navigation
           pagination-id="js-paginacao-recebimentos"
           per-page-select-id="js-por-pagina"
