@@ -25,16 +25,18 @@ class VendasFilter extends BaseFilter {
     'estabelecimentos'
   ];
 
-  public static function filter($filters) {
+  public static function filter($params) {
     $vendasFilter = app(VendasFilter::class);
-    return $vendasFilter->apply($filters);
+    return $vendasFilter->apply($params);
   }
 
-  public function apply($filters) {
-    $filters = Arr::only($filters, $this->whiteList);
-    $filters = Arr::where($filters, function($value, $key) {
+  public function apply($params) {
+    $params = Arr::only($params, $this->getAllowedKeys());
+    $params = Arr::where($params, function($value, $key) {
       return boolval($value);
     });
+    $filters = Arr::except($params, 'sort');
+    $sort = collect(Arr::only($params, 'sort'))->get('sort');
 
     $this->query = VendasModel::select(
         [
@@ -90,9 +92,8 @@ class VendasFilter extends BaseFilter {
       ->leftJoin('meio_captura', 'vendas.COD_MEIO_CAPTURA', 'meio_captura.CODIGO')
       ->leftJoin('status_conciliacao', 'vendas.COD_STATUS_CONCILIACAO', 'status_conciliacao.CODIGO')
       ->leftJoin('status_financeiro', 'vendas.COD_STATUS_FINANCEIRO', 'status_financeiro.CODIGO')
-      ->where('vendas.COD_CLIENTE', $filters['cliente_id'])
-      ->orderBy('vendas.DATA_VENDA');
-
+      ->where('vendas.COD_CLIENTE', $filters['cliente_id']);
+    
     if(Arr::has($filters, 'id')) {
       $this->query->whereIn('vendas.CODIGO', $filters['id']);
     }
@@ -128,6 +129,8 @@ class VendasFilter extends BaseFilter {
       $this->query->whereIn('status_financeiro.CODIGO', $filters['status_financeiro']);
     }
 
+    $this->buildOrderClause($sort);
+
     return $this;
   }
 
@@ -135,6 +138,3 @@ class VendasFilter extends BaseFilter {
     return $this->query;
   }
 }
-
-
-

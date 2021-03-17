@@ -29,7 +29,7 @@ class RecebimentosFuturosController extends Controller
           ->where('COD_CLIENTE', session('codigologin'))
           ->orderBy('NOME_EMPRESA')
           ->get();
-        
+
       $adquirentes = ClienteOperadoraModel::select([
           'adquirentes.CODIGO',
           'adquirentes.ADQUIRENTE',
@@ -81,19 +81,19 @@ class RecebimentosFuturosController extends Controller
       $perPage = in_array($perPage, $allowedPerPage) ? $perPage : 10;
       $filters = $request->all();
       $filters['cliente_id'] = session('codigologin');
-  
+
       try {
         $query = RecebimentosFuturosFilter::filter($filters)
           ->getQuery()
           ->orderBy('DATA_PAGAMENTO');
-  
+
         $payments = (clone $query)->paginate($perPage);
         $totals = [
           'TOTAL_BRUTO' => (clone $query)->sum('vendas.VALOR_BRUTO'),
           'TOTAL_LIQUIDO' => (clone $query)->sum('vendas.VALOR_LIQUIDO'),
         ];
         $totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
-  
+
         return response()->json([
           'recebimentos' => $payments,
           'totais' => $totals,
@@ -104,7 +104,7 @@ class RecebimentosFuturosController extends Controller
         ], 500);
       }
     }
-  
+
     public function filter(Request $request) {
       $allowedPerPage = [10, 20, 50, 100, 200];
       $perPage = $request->input('por_pagina', 10);
@@ -112,19 +112,19 @@ class RecebimentosFuturosController extends Controller
       $filters = $request->input('filters');
       $filters['cliente_id'] = session('codigologin');
       $subfilters = $request->input('subfilters');
-  
+
       try {
         $query = RecebimentosFuturosSubFilter::subfilter($filters, $subfilters)
             ->getQuery()
             ->orderBy('DATA_PAGAMENTO');
-  
+
         $payments = (clone $query)->paginate($perPage);
         $totals = [
           'TOTAL_BRUTO' => (clone $query)->sum('VALOR_BRUTO'),
           'TOTAL_LIQUIDO' => (clone $query)->sum('VALOR_LIQUIDO'),
         ];
         $totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
-  
+
         return response()->json([
           'recebimentos' => $payments,
           'totais' => $totals,
@@ -135,11 +135,16 @@ class RecebimentosFuturosController extends Controller
           ], 500);
       }
     }
-  
+
     public function export(Request $request) {
       set_time_limit(300);
-  
-      $filters = $request->except(['_token']);
+
+      $sort = [
+        'column' => $request->input('sort_column', 'DATA_PREVISAO'),
+        'direction' => $request->input('sort_direction', 'asc')
+      ];
+      $filters = $request->except(['_token', 'sort_column', 'sort_direction']);
+      $filters['sort'] = $sort;
       $subfilters = $request->except(['_token']);
       Arr::set($filters, 'cliente_id', session('codigologin'));
       return (new RecebimentosFuturosExport($filters, $subfilters))->download('recebimentos_operadoras_'.time().'.xlsx');

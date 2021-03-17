@@ -104,7 +104,6 @@ class RetornoRecebimentosOperadorasExport implements FromQuery, WithStrictNullCo
     public function query()
     {
         return RecebimentosSubFilter::subfilter($this->filters, $this->subfilters)
-            ->getQuery()
-            ->orderBy('DATA_PAGAMENTO');
+            ->getQuery();
     }
 }

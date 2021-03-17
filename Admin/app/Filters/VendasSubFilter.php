@@ -71,12 +71,13 @@ class VendasSubFilter extends BaseSubFilter {
       )
       ->mergeBindings($filterQuery->getQuery());
 
-      foreach($subfilters as $subfilter => $value) {
-        $this->buildWhereClause($subfilter, $value);
-      }
+    foreach($subfilters as $subfilter => $value) {
+      $this->buildWhereClause($subfilter, $value);
+    }
 
+    $this->buildOrderClause($filters['sort']);
 
-      return $this;
+    return $this;
   }
 
   public function getQuery() {
