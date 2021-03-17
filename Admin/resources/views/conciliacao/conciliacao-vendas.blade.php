@@ -64,7 +64,7 @@
           icon-path="assets/images/widgets/notebook.svg"
           icon-description="Vendas ERP"
           :dataset="[
-            'hint' => 'Total de vendas enviadas pelo seu sistema de gestão.',
+            'hint' => 'Total de vendas do seu sistema.',
             'status' => '*'
           ]"
         />
@@ -77,7 +77,7 @@
           icon-path="assets/images/widgets/check.svg"
           icon-description="Conciliado"
           :dataset="[
-            'hint' => 'Vendas do seu sistema que foram conciliadas com as vendas das operadoras.',
+            'hint' => 'Total de vendas do seu sistema que foram conciliadas sem nenhuma divergência.',
             'status' => '1',
           ]"
         />
@@ -90,7 +90,7 @@
           icon-path="assets/images/widgets/x.svg"
           icon-description="Divergente"
           :dataset="[
-            'hint' => 'Vendas do seu sistema que foram conciliadas com divergência. Vá até a coluna Divergência e veja o motivo!',
+            'hint' => 'Total de vendas do seu sistema que foram conciliadas com divergência. Procure no grid abaixo a coluna Divergência e veja o motivo.',
             'status' => '5',
           ]"
         />
@@ -103,7 +103,7 @@
           icon-path="assets/images/widgets/handshake.svg"
           icon-description="Conciliacao Manual"
           :dataset="[
-            'hint' => 'Vendas do seu sistema que foram conciliadas manualmente com as vendas das operadoras.',
+            'hint' => 'Total de vendas do seu sistema que foram conciliadas manualmente.',
             'status' => '6',
           ]"
         />
@@ -116,7 +116,7 @@
           icon-path="assets/images/widgets/flag.svg"
           icon-description="Justificado"
           :dataset="[
-            'hint' => 'Vendas do seu sistema que foram justificadas por algum motivo. Vá até a coluna Justificativa e veja o motivo!',
+            'hint' => 'Total de vendas do seu sistema que foram justificadas. Procure no grid abaixo a coluna Justificativa e veja o motivo.',
             'status' => '3',
           ]"
         />
@@ -129,7 +129,7 @@
           icon-path="assets/images/widgets/exclamation-mark.svg"
           icon-description="Pendências"
           :dataset="[
-            'hint' => 'Vendas do seu sistema que não foram conciliadas com as vendas das operadoras.',
+            'hint' => 'Total de vendas do seu sistema que ficaram sem conciliar. Principais motivos: arquivo da operadora ainda não processado, valor errado, bandeira errada, data da venda errada, NSU ou autorização errado.',
             'status' => '2',
           ]"
         />
@@ -142,7 +142,7 @@
           icon-path="assets/images/widgets/exclamation-mark.svg"
           icon-description="Pendências"
           :dataset="[
-            'hint' => 'Vendas das operadoras que não foram conciliadas com as vendas do seu sistema.',
+            'hint' => 'Total de vendas das operadoras que ficaram sem conciliar. Principais motivos: venda não lançada no seu sistema, valor errado, bandeira errada, data da venda errada, NSU ou autorização errado.',
             'status' => '2',
           ]"
         />
