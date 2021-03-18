@@ -123,6 +123,24 @@ const _events = {
 
             toggleElementVisibility('#js-loader');
         },
+        onRenderCell: async (cell, data, tableInstance) => {
+            _defaultEvents.table.onRenderCell(cell, data);
+            const columnName = cell.dataset.column;
+
+            if(columnName !== 'DIFERENCA_LIQUIDO') return;
+
+            const diffValue = (Number(data[columnName]) || 0);
+            const erpValue =  (Number(data.VALOR_LIQUIDO_PARCELA) || 0);
+            const operadoraValue = (Number(data.VALOR_LIQUIDO_OPERADORA) || 0);
+
+            if(diffValue === (operadoraValue - erpValue)) return;
+
+            if(diffValue < 0) {
+                cell.classList.add('text-danger');
+            } else if(diffValue > 0) {
+                cell.classList.add('text-primary');
+            }
+        }
     }
 }
 
@@ -283,6 +301,8 @@ salesErpContainer.onEvent('search', (sales) => {
     boxTotal.set('value', total);
     boxTotal.render();
 });
+
+tableRenderErp.onRenderCell(async (cell, data) => await _events.table.onRenderCell(cell, data, tableRenderErp));
 
 tableRenderErp.onFilter(async (filters) => await _events.table.onFilter('erp', filters));
 tableRender.onFilter(async (filters) => {
