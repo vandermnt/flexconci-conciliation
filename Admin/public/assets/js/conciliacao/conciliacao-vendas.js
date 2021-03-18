@@ -900,3 +900,19 @@ boxes.forEach(box => {
 document.querySelector('#dropdownUserSettings').addEventListener('click', (e) => {
     $('#dropdownUserSettings').dropdown('toggle');
 });
+
+['VALOR_TAXA', 'PERCENTUAL_TAXA', 'TAXA', 'TAXA_OPERADORA', 'TAXA_DIFERENCA'].forEach(column => {
+    const tdErp = document.querySelector(`#js-tabela-erp td[data-column=${column}]`);
+    const tdOperadora = document.querySelector(`#js-tabela-operadoras td[data-column=${column}]`);
+
+    if(tdErp) {
+        tdErp.classList.remove('text-danger');
+    }
+
+    if(tdOperadora) {
+        tdOperadora.classList.remove('text-danger');
+    }
+})
+
+document.querySelector('#js-tabela-erp tfoot td[data-column="TOTAL_TAXA"]').classList.remove('text-danger');
+document.querySelector('#js-tabela-operadoras tfoot td[data-column="TOTAL_TAXA"]').classList.remove('text-danger');
