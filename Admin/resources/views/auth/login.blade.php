@@ -23,156 +23,107 @@
   <div class="container-fluid">
     <!-- Log In page -->
     <div class="row vh-100">
-      <div class="col-lg-3 pr-0">
-        <div class="auth-page">
-          <div class="card mb-0 shadow-none h-100">
-            <div class="card-body">
+        <div class="col-lg-3 pr-0">
+            <div class="auth-page">
+                <div class="card mb-0 shadow-none h-100">
+                    <div class="card-body">
 
-              <div class="mb-12" style="text-align:center">
-                <a class="logo logo-admin">
-                  <span><img src="{{ URL::asset('assets/images/logoconci.png')}}" height="45" class="my-3"></span>
-                  <!-- <span><img src="{{ URL::asset('assets/images/logo-dark.png')}}" height="16" alt="logo" class="logo-lg logo-dark my-3"></span> -->
-                  <!-- <span><img src="{{ URL::asset('assets/images/logo.png')}}" height="16" alt="logo" class="logo-lg logo-light my-3"></span> -->
-                </a>
-              </div>
-
-              <div class="px-3">
-                <h2 class="font-weight-semibold font-22 mb-2"> Seja bem-vindo!</h2>
-                <p class="text-muted">Conciliação de cartões de crédito, débito, voucher e outros meios de pagamentos.</p>
-
-                <!-- <ul class="nav-border nav nav-pills" role="tablist">
-                <li class="nav-item">
-                <a class="nav-link active font-weight-semibold" data-toggle="tab" href="#LogIn_Tab" role="tab">Log In</a>
-              </li>
-              <li class="nav-item">
-              <a class="nav-link font-weight-semibold" data-toggle="tab" href="#Register_Tab" role="tab">Register</a>
-            </li>
-          </ul> -->
-
-                    <!-- Tab panes -->
-                <div class="tab-content">
-                    <div class="tab-pane active" id="LogIn_Tab" role="tabpanel">
-                        <form class="form-horizontal auth-form my-4" id="formLogin" name="formLogin">
-                            <!-- <form class="form-horizontal auth-form my-4" method="post" action="{{ route('loginlogin') }}"> -->
-
-                            @csrf
-
-                            <div class="form-group">
-                                <label for="username">Usuário <label style="color:red; margin-bottom: 0">*</label></label>
-                                <div class="input-group mb-3">
-                                    <span class="auth-form-icon">
-                                        <i class="dripicons-user"></i>
-                                    </span>
-                                    <input type="text" class="form-control" name="user" id="username" placeholder="Usuário">
-                                </div>
-                            </div>
-                            <!--end form-group-->
-
-                            <div class="form-group">
-                                <label for="userpassword">Senha <label style="color:red; margin-bottom: 0">*</label></label>
-                                <div class="input-group mb-3">
-                                    <span
-                                        id="js-toggle-password"
-                                        class="auth-form-icon"
-                                    >
-                                        <i
-                                            class="fas fa-eye"
-                                            data-current-icon="fas fa-eye"
-                                            data-visible-icon="fas fa-eye"
-                                            data-notvisible-icon="fas fa-eye-slash"
-                                        ></i>
-                                    </span>
-                                    <input type="password" class="form-control" name="password" id="userpassword" placeholder="Senha">
-                                </div>
-                            </div>
-                            <!--end form-group-->
-
-                            <div class="form-group row mt-4">
-                                <div class="col-sm-6">
-                                    <!-- <div class="custom-control custom-switch switch-success">
-        <input type="checkbox" class="custom-control-input" id="customSwitchSuccess">
-        <label class="custom-control-label text-muted" for="customSwitchSuccess">Lembra-me</label>
-    </div> -->
-                                </div>
-                                <!--end col-->
-                                <div class="col-sm-12 ">
-                                    <a href="{{ url('reset') }}" class="text-muted font-13"><i class="dripicons-lock"></i> Esqueceu sua senha?</a>
-                                </div>
-                                <!--end col-->
-                            </div>
-                            <!--end form-group-->
-
-                            <div class="form-group mb-0 row">
-                                <div class="col-12 mt-2">
-                                    <a id="submitFormLogin" type="submit" class="btn btn-gradient-primary btn-round btn-block" style="background: #2D5275; color: white" type="button">Entrar <i class="fas fa-sign-in-alt ml-1"></i></a>
-                                    <!-- <button id="submitFormLogin" type="submit" class="btn btn-gradient-primary btn-round btn-block" style="background: #2D5275" type="button">Log In <i class="fas fa-sign-in-alt ml-1"></i></button> -->
-
-                                </div>
-                                <!--end col-->
-                            </div>
-                            <!--end form-group-->
-                        </form>
-                        <!--end form-->
-
-                    </div>
-
-                </div>
-                            </div>
-
-
+                        <div class="mb-12" style="text-align:center">
+                            <a class="logo logo-admin">
+                                <span><img src="{{ URL::asset('assets/images/logoconci.png')}}" height="45" class="my-3"></span>
+                                <!-- <span><img src="{{ URL::asset('assets/images/logo-dark.png')}}" height="16" alt="logo" class="logo-lg logo-dark my-3"></span> -->
+                                <!-- <span><img src="{{ URL::asset('assets/images/logo.png')}}" height="16" alt="logo" class="logo-lg logo-light my-3"></span> -->
+                            </a>
                         </div>
+
+                        <div class="px-3">
+                            <h2 class="font-weight-semibold font-22 mb-2"> Seja bem-vindo!</h2>
+                            <p class="text-muted">Conciliação de cartões de crédito, débito, voucher e outros meios de pagamentos.</p>
+
+                            <!-- <ul class="nav-border nav nav-pills" role="tablist">
+            <li class="nav-item">
+            <a class="nav-link active font-weight-semibold" data-toggle="tab" href="#LogIn_Tab" role="tab">Log In</a>
+          </li>
+          <li class="nav-item">
+          <a class="nav-link font-weight-semibold" data-toggle="tab" href="#Register_Tab" role="tab">Register</a>
+        </li>
+      </ul> -->
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="LogIn_Tab" role="tabpanel">
+                                    <form class="form-horizontal auth-form my-4" id="formLogin" name="formLogin">
+                                        <!-- <form class="form-horizontal auth-form my-4" method="post" action="{{ route('loginlogin') }}"> -->
+
+                                        @csrf
+
+                                        <div class="form-group">
+                                            <label for="username">Usuário <label style="color:red; margin-bottom: 0">*</label></label>
+                                            <div class="input-group mb-3">
+                                                <span class="auth-form-icon">
+                                                    <i class="dripicons-user"></i>
+                                                </span>
+                                                <input type="text" class="form-control" name="user" id="username" placeholder="Usuário">
+                                            </div>
+                                        </div>
+                                        <!--end form-group-->
+
+                                        <div class="form-group">
+                                            <label for="userpassword">Senha <label style="color:red; margin-bottom: 0">*</label></label>
+                                            <div class="input-group mb-3">
+                                                <span
+                                                    id="js-toggle-password"
+                                                    class="auth-form-icon"
+                                                >
+                                                    <i
+                                                        class="fas fa-eye"
+                                                        data-current-icon="fas fa-eye"
+                                                        data-visible-icon="fas fa-eye"
+                                                        data-notvisible-icon="fas fa-eye-slash"
+                                                    ></i>
+                                                </span>
+                                                <input type="password" class="form-control" name="password" id="userpassword" placeholder="Senha">
+                                            </div>
+                                        </div>
+                                        <!--end form-group-->
+
+                                        <div class="form-group row mt-4">
+                                            <div class="col-sm-6">
+                                                <!-- <div class="custom-control custom-switch switch-success">
+                  <input type="checkbox" class="custom-control-input" id="customSwitchSuccess">
+                  <label class="custom-control-label text-muted" for="customSwitchSuccess">Lembra-me</label>
+                </div> -->
+                                            </div>
+                                            <!--end col-->
+                                            <div class="col-sm-12 ">
+                                                <a href="{{ url('reset') }}" class="text-muted font-13"><i class="dripicons-lock"></i> Esqueceu sua senha?</a>
+                                            </div>
+                                            <!--end col-->
+                                        </div>
+                                        <!--end form-group-->
+
+                                        <div class="form-group mb-0 row">
+                                            <div class="col-12 mt-2">
+                                                <a id="submitFormLogin" type="submit" class="btn btn-gradient-primary btn-round btn-block" style="background: #2D5275; color: white" type="button">Entrar <i class="fas fa-sign-in-alt ml-1"></i></a>
+                                                <!-- <button id="submitFormLogin" type="submit" class="btn btn-gradient-primary btn-round btn-block" style="background: #2D5275" type="button">Log In <i class="fas fa-sign-in-alt ml-1"></i></button> -->
+
+                                            </div>
+                                            <!--end col-->
+                                        </div>
+                                        <!--end form-group-->
+                                    </form>
+                                    <!--end form-->
+
+                                </div>
+
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
-                <!--end form-group-->
-
-                <div class="form-group">
-                  <label for="userpassword">Senha <label style="color:red; margin-bottom: 0">*</label></label>
-                  <div class="input-group mb-3">
-                    <span class="auth-form-icon">
-                      <i class="dripicons-lock"></i>
-                    </span>
-                    <input type="password" class="form-control" name="password" id="userpassword" placeholder="Senha">
-                  </div>
-                </div>
-                <!--end form-group-->
-
-                <div class="form-group row mt-4">
-                  <div class="col-sm-6">
-                    <!-- <div class="custom-control custom-switch switch-success">
-                    <input type="checkbox" class="custom-control-input" id="customSwitchSuccess">
-                    <label class="custom-control-label text-muted" for="customSwitchSuccess">Lembra-me</label>
-                  </div> -->
-                </div>
-                <!--end col-->
-                <div class="col-sm-12 ">
-                  <a href="{{ url('reset') }}" class="text-muted font-13"><i class="dripicons-lock"></i> Esqueceu sua senha?</a>
-                </div>
-                <!--end col-->
-              </div>
-              <!--end form-group-->
-
-              <div class="form-group mb-0 row">
-                <div class="col-12 mt-2">
-                  <a id="submitFormLogin" type="submit" class="btn btn-gradient-primary btn-round btn-block" style="background: #2D5275; color: white" type="button">Entrar <i class="fas fa-sign-in-alt ml-1"></i></a>
-                  <!-- <button id="submitFormLogin" type="submit" class="btn btn-gradient-primary btn-round btn-block" style="background: #2D5275" type="button">Log In <i class="fas fa-sign-in-alt ml-1"></i></button> -->
-
-                </div>
-                <!--end col-->
-              </div>
-              <!--end form-group-->
-            </form>
-            <!--end form-->
-
-          </div>
-
+            </div>
         </div>
-      </div>
-
-
-    </div>
-  </div>
-</div>
-</div>
 <div class="col-lg-9 p-0 h-100vh d-flex justify-content-center" style="background: url('assets/images/login-cover.jpg'); background-size: cover; background-repeat: no-repeat;">
   <div class="align-items-center">
     <div>
