@@ -214,7 +214,8 @@
           :hidden-columns="[
             'CARTAO',
             'HORA',
-            'ESTABELECIMENTO'
+            'ESTABELECIMENTO',
+            'STATUS_FINANCEIRO'
           ]"
         >
           <x-slot name="actions">

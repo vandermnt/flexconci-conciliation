@@ -114,6 +114,7 @@
             'TAXA_DIFERENCA',
             'VALOR_LIQUIDO_OPERADORA',
             'DIFERENCA_LIQUIDO',
+            'STATUS_FINANCEIRO',
             'RETORNO_ERP',
           ]"
         >
