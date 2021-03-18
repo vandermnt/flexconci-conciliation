@@ -143,6 +143,10 @@ Route::get('/credenciamento-cielo', function() {
     return view('authentication.auth-lock-screen');
 });
 
+Route::get('/cielo/credenciamento', function() {
+    return view('services.cielo.credenciamento');
+});
+
 
 Route::get('/reset', function() {
     return view('auth.passwords.email');
