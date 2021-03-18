@@ -4,6 +4,7 @@
   <!-- Navbar -->
   <nav class="navbar-custom">
     <ul class="list-unstyled topbar-nav float-right mb-0">
+      @if(Auth::user()->USUARIO_GLOBAL === 'S')
       <li class="dropdown">
         <a id="dropdownCadastros" class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
         aria-haspopup="false" aria-expanded="false">
@@ -25,6 +26,7 @@
       <a class="dropdown-item" href="{{ url('cadastro-bandeira')}}"> Bandeiras </a>
     </div>
   </li>
+  @endif
   <li class="hidden-sm">
     <a class="nav-link" data-toggle="modal" data-target="#chamado" style="color: white; cursor: pointer">
       Abrir chamado
@@ -105,7 +107,9 @@
   {{-- <a class="dropdown-item" href="#"><i class="dripicons-lock text-muted mr-2"></i> Sair</a> --}}
   {{-- <div class="dropdown-divider"></div> --}}
   <a class="dropdown-item" href="{{ url('/logout') }}"><i class="dripicons-exit mr-2"></i> Sair </a>
+  @if(Auth::user()->USUARIO_GLOBAL === 'S')
   <a class="dropdown-item" data-toggle="modal" data-target="#troca_cliente"><i class="dripicons-clockwise mr-2"></i> Trocar Empresa </a>
+  @endif
 </div>
 </li>
 <!-- <li class="mr-2">

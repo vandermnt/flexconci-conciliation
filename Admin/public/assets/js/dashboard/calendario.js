@@ -84,10 +84,6 @@ function renderizaCalendario(){
   calendar.render();
 }
 
-//document.addEventListener("DOMContentLoaded", function() {
-
-//});
-
 function formataMoeda(valor) {
   return Intl.NumberFormat("pt-br", {
     style: "currency",

@@ -5,7 +5,6 @@
 <link href="{{ URL::asset('assets/css/dashboard/dashboard.css')}}" rel="stylesheet" type="text/css" />
 <script src="{{ URL::asset('assets/js/dashboard/calendario.js')}}"></script>
 <!-- <link href="{{ URL::asset('assets/css/globals/global.css')}}" rel="stylesheet" type="text/css" /> -->
-
 <link href='lib/main.css' rel='stylesheet' />
 <script src='lib/main.js'></script>
 
@@ -317,10 +316,7 @@
           <div class="wallet-bal-usd">
             <div class="row recebimentos">
               <div class="col-6">
-                <h4 class="wallet-title m-0">Recebimentos</h4>
-                <span id="label_data_recebimento" class="text-muted font-12 data-recebimento">
-                  <b><?php echo date("d/m/Y") ?></b>
-                </span>
+                <h4 class="wallet-title m-0 label-data-recebimentos">Recebimentos Hoje</h4>
                 <h4 id="label_recebimentos">
                   R$ <?php echo number_format($total_mes->val_liquido, 2, ",", ".");  ?>
                 </h4>
@@ -331,7 +327,6 @@
                     <i class="fas fa-info-circle"></i> Recebimentos Futuros
                   </h4>
                 </div>
-                <br>
                 <h4>R$ <?php echo number_format($total_futuro->val_liquido, 2, ",", ".");  ?> </h4>
               </div>
             </div>
@@ -489,7 +484,7 @@
           localStorage.setItem('situacao_pgto', 'Depositado');
 
           document.getElementById("label_recebimentos").innerHTML = title;
-          document.getElementById("label_data_recebimento").innerHTML = '<b style="color: #6E6E6E">' + data_venda + '</b>';
+          document.querySelector(".label-data-recebimentos").innerHTML = `Recebimentos ${data_venda}`;
           $("#ul_bancos li").remove();
           $("#ul_operadora li").remove();
 
@@ -569,7 +564,7 @@
           localStorage.setItem('situacao_pgto', 'Previsto');
 
           document.getElementById("label_recebimentos").innerHTML = title;
-          document.getElementById("label_data_recebimento").innerHTML = '<b style="color: #6E6E6E">' + data_venda + '</b>';
+          document.querySelector(".label-data-recebimentos").innerHTML = `Recebimentos ${data_venda}`;
           $("#ul_bancos li").remove();
           $("#ul_operadora li").remove();
 
@@ -670,7 +665,6 @@
       const pagamento_antecipado = buscaPagamentoAntecipado(pagamentos_antecipados, codigo);
       const val_bruto = parseFloat(result.val_bruto);
       const val_liquido = parseFloat(result.val_liquido);
-
       geraTabelaDetalhamentoCalendario("#table_operadora_selecionado tbody", val_bruto, val_liquido, result.val_taxa, pagamento_normal, pagamento_antecipado);
 
       document.getElementById("operadora" + result.CODIGO).classList.remove('active');
@@ -678,8 +672,8 @@
     }
 
     function buscaPagamentoNormal(pagamentos, codigo) {
-      pagamento_normal = pagamentos ? pagamento.find(pagamento => pagamento.CODIGO == codigo) : null;
-      return pagamento_normal ? pagamento_normal.tipo_pgto_antecipado : 0;
+      pagamento_normal = pagamentos ? pagamentos.find(pagamento => pagamento.CODIGO == codigo) : null;
+      return pagamento_normal ? pagamento_normal.tipo_pgto_normal : 0;
     }
 
     function buscaPagamentoAntecipado(pagamentos, codigo) {
