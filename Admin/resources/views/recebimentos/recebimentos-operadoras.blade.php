@@ -75,22 +75,6 @@
           icon-description="Valor Bruto"
         />
         <x-box
-          title="PAG. NORMAL"
-          content="R$ 0,00"
-          data-format="currency"
-          data-key="PAG_NORMAL"
-          icon-path="assets/images/financeiro/pagamentos.svg"
-          icon-description="Pag. Normal"
-        />
-        <x-box
-          title="PAG. ANTECIPADO"
-          content="R$ 0,00"
-          data-format="currency"
-          data-key="PAG_ANTECIPADO"
-          icon-path="assets/images/financeiro/pag-antecipado.svg"
-          icon-description="Pag. Antecipado"
-        />
-        <x-box
           title="AJUSTE A CRÉDITO"
           content="R$ 0,00"
           data-format="currency"
@@ -115,6 +99,22 @@
           data-key="TOTAL_ANTECIPACAO"
           icon-path="assets/images/financeiro/taxas.svg"
           icon-description="Antecipação"
+        />
+        <x-box
+          title="CANCELAMENTO"
+          content="R$ 0,00"
+          data-format="currency"
+          data-key="TOTAL_CANCELAMENTO"
+          icon-path="assets/images/financeiro/cancelamento.svg"
+          icon-description="Cancelamento"
+        />
+        <x-box
+          title="CHARGEBACK"
+          content="R$ 0,00"
+          data-format="currency"
+          data-key="TOTAL_CHARGEBACK"
+          icon-path="assets/images/financeiro/chargeback.svg"
+          icon-description="Chargeback"
         />
         <x-box
           title="AJUSTE A DÉBITO"
@@ -173,11 +173,7 @@
           :headers="[
             'RETORNO_ERP_BAIXA' => 'Baixa Realizada '.($erp->ERP ?? 'ERP'),
           ]"
-        >
-          <x-slot name="actions">
-            <td></td>
-          </x-slot>
-        </x-tables.tabela-recebimentos-operadoras>
+        />
         <x-tables.table-navigation
           pagination-id="js-paginacao-recebimentos"
           per-page-select-id="js-por-pagina"

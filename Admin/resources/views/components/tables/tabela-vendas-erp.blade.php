@@ -410,18 +410,20 @@
               <input type="text" class="form-control" name="DIVERGENCIA">
             </div>
            </th>
-          <th>
-            <div class="d-flex flex-column align-items-center">
-              <div
-                class="d-flex align-items-center justify-content-center table-sorter mb-2"
-                data-tbsort-by="STATUS_FINANCEIRO"
-              >
-                <p class="m-0">Status Financeiro</p>
-                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
-              </div>
-              <input type="text" class="form-control" name="STATUS_FINANCEIRO">
-            </div>
-           </th>
+          @if($isColumnVisible('STATUS_FINANCEIRO'))
+            <th>
+                <div class="d-flex flex-column align-items-center">
+                <div
+                    class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                    data-tbsort-by="STATUS_FINANCEIRO"
+                >
+                    <p class="m-0">Status Financeiro</p>
+                    <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+                </div>
+                <input type="text" class="form-control" name="STATUS_FINANCEIRO">
+                </div>
+            </th>
+          @endif
            <th>
             <div class="d-flex flex-column align-items-center">
               <div
@@ -635,7 +637,9 @@
           <td data-column="MEIOCAPTURA"></td>
           <td data-column="STATUS_CONCILIACAO"></td>
           <td data-column="DIVERGENCIA"></td>
-          <td data-column="STATUS_FINANCEIRO"></td>
+          @if($isColumnVisible('STATUS_FINANCEIRO'))
+            <td data-column="STATUS_FINANCEIRO"></td>
+          @endif
           <td data-column="JUSTIFICATIVA"></td>
           <td data-column="CAMPO1"></td>
           <td data-column="CAMPO2"></td>
@@ -711,7 +715,9 @@
           <td></td>
           <td></td>
           <td></td>
-          <td></td>
+          @if($isColumnVisible('STATUS_FINANCEIRO'))
+            <td></td>
+          @endif
           @if($isColumnVisible('RETORNO_ERP'))
             <td></td>
           @endif
