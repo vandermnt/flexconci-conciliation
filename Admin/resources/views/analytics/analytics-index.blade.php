@@ -316,10 +316,7 @@
           <div class="wallet-bal-usd">
             <div class="row recebimentos">
               <div class="col-6">
-                <h4 class="wallet-title m-0">Recebimentos</h4>
-                <span id="label_data_recebimento" class="text-muted font-12 data-recebimento">
-                  <b><?php echo date("d/m/Y") ?></b>
-                </span>
+                <h4 class="wallet-title m-0 label-data-recebimentos">Recebimentos Hoje</h4>
                 <h4 id="label_recebimentos">
                   R$ <?php echo number_format($total_mes->val_liquido, 2, ",", ".");  ?>
                 </h4>
@@ -330,7 +327,6 @@
                     <i class="fas fa-info-circle"></i> Recebimentos Futuros
                   </h4>
                 </div>
-                <br>
                 <h4>R$ <?php echo number_format($total_futuro->val_liquido, 2, ",", ".");  ?> </h4>
               </div>
             </div>
@@ -488,7 +484,7 @@
           localStorage.setItem('situacao_pgto', 'Depositado');
 
           document.getElementById("label_recebimentos").innerHTML = title;
-          document.getElementById("label_data_recebimento").innerHTML = '<b style="color: #6E6E6E">' + data_venda + '</b>';
+          document.querySelector(".label-data-recebimentos").innerHTML = `Recebimentos ${data_venda}`;
           $("#ul_bancos li").remove();
           $("#ul_operadora li").remove();
 
@@ -568,7 +564,7 @@
           localStorage.setItem('situacao_pgto', 'Previsto');
 
           document.getElementById("label_recebimentos").innerHTML = title;
-          document.getElementById("label_data_recebimento").innerHTML = '<b style="color: #6E6E6E">' + data_venda + '</b>';
+          document.querySelector(".label-data-recebimentos").innerHTML = `Recebimentos ${data_venda}`;
           $("#ul_bancos li").remove();
           $("#ul_operadora li").remove();
 
