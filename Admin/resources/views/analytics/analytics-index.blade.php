@@ -5,7 +5,6 @@
 <link href="{{ URL::asset('assets/css/dashboard/dashboard.css')}}" rel="stylesheet" type="text/css" />
 <script src="{{ URL::asset('assets/js/dashboard/calendario.js')}}"></script>
 <!-- <link href="{{ URL::asset('assets/css/globals/global.css')}}" rel="stylesheet" type="text/css" /> -->
-
 <link href='lib/main.css' rel='stylesheet' />
 <script src='lib/main.js'></script>
 
@@ -670,7 +669,6 @@
       const pagamento_antecipado = buscaPagamentoAntecipado(pagamentos_antecipados, codigo);
       const val_bruto = parseFloat(result.val_bruto);
       const val_liquido = parseFloat(result.val_liquido);
-
       geraTabelaDetalhamentoCalendario("#table_operadora_selecionado tbody", val_bruto, val_liquido, result.val_taxa, pagamento_normal, pagamento_antecipado);
 
       document.getElementById("operadora" + result.CODIGO).classList.remove('active');
@@ -678,8 +676,8 @@
     }
 
     function buscaPagamentoNormal(pagamentos, codigo) {
-      pagamento_normal = pagamentos ? pagamento.find(pagamento => pagamento.CODIGO == codigo) : null;
-      return pagamento_normal ? pagamento_normal.tipo_pgto_antecipado : 0;
+      pagamento_normal = pagamentos ? pagamentos.find(pagamento => pagamento.CODIGO == codigo) : null;
+      return pagamento_normal ? pagamento_normal.tipo_pgto_normal : 0;
     }
 
     function buscaPagamentoAntecipado(pagamentos, codigo) {

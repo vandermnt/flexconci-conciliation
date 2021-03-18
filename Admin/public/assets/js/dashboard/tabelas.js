@@ -89,11 +89,14 @@ function geraTabelaDetalhamentoCalendario(
     "<td>" + "<b>Valor Líquido: </b>" + formataMoeda(val_liquido) + "</td>";
   html += "</tr>";
   html += "<tr>";
-  html +=
-    "<td style='background: #BDBDBD '>" +
-    "<b>Situação de Pagamento: " +
-    localStorage.getItem("situacao_pgto") +
-    "</td>";
+  html += `<td style='background: #BDBDBD '>
+    <b>Situação de Pagamento:
+    ${
+      localStorage.getItem("situacao_pgto") == "Depositado"
+        ? "<b style='color: #257E4A'> Depositado </b>"
+        : "<b style='color: #2D93AD'> Previsto </b>"
+    }
+    </td>`;
   html += "</tr>";
 
   $(idTabela).append(html);
