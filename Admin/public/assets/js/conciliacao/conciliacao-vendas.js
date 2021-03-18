@@ -130,10 +130,6 @@ const _events = {
             if(columnName !== 'DIFERENCA_LIQUIDO') return;
 
             const diffValue = (Number(data[columnName]) || 0);
-            const erpValue =  (Number(data.VALOR_LIQUIDO_PARCELA) || 0);
-            const operadoraValue = (Number(data.VALOR_LIQUIDO_OPERADORA) || 0);
-
-            if(diffValue === (operadoraValue - erpValue)) return;
 
             if(diffValue < 0) {
                 cell.classList.add('text-danger');
