@@ -2,6 +2,10 @@ html {
     scroll-behavior: smooth;
 }
 
+.topbarr {
+    z-index: 24;
+}
+
 .conciflex-icon {
     --icon-size: 14px;
     width: var(--icon-size);
@@ -104,6 +108,16 @@ html {
   transform: translateY(-50%);
   border: 6px solid #2d5275;
   border-color: transparent #2d5275 transparent transparent;
+}
+
+.box.tooltip-hint::before {
+  content: attr(data-hint);
+  transform: translateX(-50%);
+  z-index: 16;
+}
+
+.box.tooltip-hint::after {
+  z-index: 12;
 }
 
 .button {

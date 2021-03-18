@@ -93,11 +93,7 @@
         <x-tables.tabela-recebimentos-futuros
           id="js-tabela-recebimentos"
           class="mt-3"
-        >
-          <x-slot name="actions">
-            <td></td>
-          </x-slot>
-        </x-tables.tabela-recebimentos-futuros>
+        />
         <x-tables.table-navigation
           pagination-id="js-paginacao-recebimentos"
           per-page-select-id="js-por-pagina"

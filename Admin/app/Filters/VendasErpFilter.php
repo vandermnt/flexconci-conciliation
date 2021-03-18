@@ -64,7 +64,7 @@ class VendasErpFilter extends BaseFilter {
           'vendas_erp.TAXA_DIFERENCA',
           'vendas_erp.VALOR_LIQUIDO_PARCELA',
           'vendas_erp.VALOR_LIQUIDO_OPERADORA',
-          'vendas_erp.DIFERENCA_LIQUIDO',
+          DB::raw('coalesce(`vendas_erp`.`DIFERENCA_LIQUIDO`, 0) as `DIFERENCA_LIQUIDO`'),
           'vendas_erp.PARCELA',
           'vendas_erp.TOTAL_PARCELAS',
           DB::raw('IF(RETORNO_ERP = \'S\', \'Sim\', \'Não\') as RETORNO_ERP'),
