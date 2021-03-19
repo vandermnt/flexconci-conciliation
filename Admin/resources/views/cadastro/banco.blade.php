@@ -6,8 +6,6 @@
 <script src="https://cdn.jsdelivr.net/npm/table-dragger@1.0.3/dist/table-dragger.js"></script>
 <link href="{{ URL::asset('assets/css/globals/global.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ URL::asset('assets/css/cadastro/cadastros.css')}}" rel="stylesheet" type="text/css" />
-
-
 @stop
 
 @section('content')
@@ -45,12 +43,11 @@
             </div>
           </div>
         </div>
-
         <div class="col-sm-12 table-description d-flex align-items-center ">
           <h4 id="qtd-registros">Total de bancos ({{ $count_bancos }} registros)</h4>
           <img src="assets/images/widgets/arrow-down.svg" alt="Bancos">
         </div>
-
+        <br>
         <div class="tabela">
           <table id="tabela-bancos" class="table">
             <thead>
@@ -96,6 +93,7 @@
             <div class="row form-group">
               <div class="col-sm-12">
                 <input type="textarea" class="form-control" name="banco">
+                <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
               </div>
             </div>
           </div>
@@ -159,200 +157,10 @@
   </div>
 </div>
 @section('footerScript')
-<!-- Required datatable js -->
-<script src="{{ URL::asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{ URL::asset('plugins/datatables/dataTables.bootstrap4.min.js')}}"></script>
-<!-- Buttons examples -->
-<script src="{{ URL::asset('plugins/datatables/dataTables.buttons.min.js')}}"></script>
-<script src="{{ URL::asset('plugins/datatables/buttons.bootstrap4.min.js')}}"></script>
-<script src="{{ URL::asset('plugins/datatables/vfs_fonts.js')}}"></script>
-<script src="{{ URL::asset('plugins/datatables/buttons.html5.min.js')}}"></script>
-<script src="{{ URL::asset('plugins/datatables/buttons.print.min.js')}}"></script>
-<script src="{{ URL::asset('plugins/datatables/buttons.colVis.min.js')}}"></script>
-<!-- Responsive examples -->
 <script src="{{ URL::asset('plugins/datatables/dataTables.responsive.min.js')}}"></script>
 <script src="{{ URL::asset('plugins/datatables/responsive.bootstrap4.min.js')}}"></script>
 <script src="{{ URL::asset('assets/pages/jquery.datatable.init.js')}}"></script>
-
-<script type="text/javascript">
-document.querySelector(".success-save-banco").style.display = "none";
-document.querySelector(".success-update-banco").style.display = "none";
-
-const buttonCadastroAdquirente = document.querySelector(".bt-cadastro-ad");
-const buttonSalvaCadastro = document.querySelector(".bt-salva-banco");
-const buttonSalvaEdicao = document.querySelector(".bt-salva-edicao-banco");
-const buttonSimExclusao = document.querySelector("#sim");
-const bancosPesquisados = document.querySelector('input[name="bancos-pesquisados"]');
-const bancosCarregados = document.querySelector('input[name="bancos-carregados"]');
-
-buttonSalvaCadastro.addEventListener("click", function() {
-  const banco = document.querySelector('input[name="banco"]').value;
-  cadastrarBanco(banco);
-});
-
-buttonSalvaEdicao.addEventListener("click", function() {
-  const banco = document.querySelector('input[name="editar-banco"]').value;
-  salvarEdicaoAdquirente(banco);
-});
-
-buttonCadastroAdquirente.addEventListener("click", function() {
-  $("#modalCadastroBanco").modal({
-    show: true
-  });
-});
-
-bancosPesquisados.addEventListener('keydown', function() {
-  const bancos = JSON.parse(bancosCarregados.value);
-
-  setTimeout(function(){
-    if(bancosPesquisados.value) {
-      for(banco of bancos) {
-
-        var regex = new RegExp(bancosPesquisados.value, 'gi');
-        resultado = banco.BANCO.match(regex);
-
-        if(resultado) {
-          document.getElementById(banco.CODIGO).style = "display: ";
-        }else{
-          document.getElementById(banco.CODIGO).style.display = "none";
-        }
-      }
-    }
-  }, 300);
-})
-
-function editarBanco(e, banco){
-  localStorage.setItem("cod_banco", banco.CODIGO);
-
-  $("#modalEditarBanco").modal({
-    show: true
-  });
-  document.querySelector("input[name='editar-banco']").value = `${banco.BANCO}`;
-}
-
-function salvarEdicaoAdquirente(banco) {
-  const headers = new Headers();
-  const data = { _token: "{{csrf_token()}}", banco };
-
-  fetch("update-banco/" + localStorage.getItem('cod_banco'), {
-    method: "PUT",
-    headers: new Headers({
-      "Content-Type": "application/json",
-      "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-    }),
-    body: JSON.stringify(data)
-  })
-  .then(function(response) {
-    response.json().then(function(data) {
-      document.querySelector(".success-update-banco").style.display = "block";
-
-      setTimeout(function() {
-        $('#modalEditarBanco').modal('hide');
-        document.querySelector(".success-update-banco").style.display = "none";
-        document.querySelector('input[name="editar-banco"]').value = "";
-      }, 2000);
-
-      atualizaTabela();
-    });
-  })
-  .catch(error => alert("Algo deu errado!"));
-}
-
-function cadastrarBanco(banco) {
-  const headers = new Headers();
-  const data = { _token: "{{csrf_token()}}", banco };
-
-  fetch("cadastro-banco", {
-    method: "POST",
-    headers: new Headers({
-      "Content-Type": "application/json",
-      "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-    }),
-    body: JSON.stringify(data)
-  })
-  .then(function(response) {
-    response.json().then(function(data) {
-      document.querySelector(".success-save-banco").style.display = "block";
-
-      setTimeout(function() {
-        document.querySelector(".success-save-banco").style.display = "none";
-        document.querySelector('input[name="banco"]').value = "";
-      }, 2500);
-
-      atualizaTabela();
-    });
-  })
-  .catch(error => alert("Algo deu errado!"));
-}
-
-function atualizaTabela() {
-  buscarTodosBancos();
-}
-
-function buscarTodosBancos() {
-  fetch("load-bancos", {
-    method: "GET",
-    headers: new Headers({
-      "Content-Type": "application/json",
-      "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-      Accept: "application/json"
-    })
-  }).then(function(response) {
-    response.json().then(function(data) {
-      renderizaTabela(data.bancos);
-      console.log(data.bancos);
-    });
-  });
-}
-
-function renderizaTabela(bancos) {
-  document.querySelector("#conteudo_tabe").innerHTML = "";
-
-  let html = "";
-
-  for (banco of bancos) {
-    html += `<tr id='${banco.CODIGO}'>
-    <td> ${banco.CODIGO} </td>
-    <td> ${banco.BANCO} </td>
-    <td>
-    <a href='#' onclick='editarBanco(event, ${JSON.stringify(banco)})'><i class='far fa-edit'></i></a>
-    <a href='#' onclick='excluirBanco(event, ${banco.CODIGO})'><i style='margin-left: 12px' class='far fa-trash-alt'></i></a>"
-    </td>
-    </tr>`;
-  }
-
-  document.querySelector(
-    "#qtd-registros"
-  ).innerHTML = `Total de bancos (${bancos.length} registros)`;
-  document.querySelector("#conteudo_tabe").innerHTML = html;
-}
-
-function excluirBanco(e, codigo_banco) {
-  e.preventDefault();
-
-  localStorage.setItem("cod_banco", codigo_banco);
-  $("#modalExcluirBanco").modal({
-    show: true
-  });
-}
-
-document.getElementById("sim").addEventListener("click", function() {
-  const cod_banco = localStorage.getItem("cod_banco");
-
-  fetch(`delete-banco/${cod_banco}`, {
-    headers: new Headers({
-      "Content-Type": "application/json",
-      "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
-    })
-  }).then(function(response) {
-    response.json().then(function(data) {
-      buscarTodosBancos();
-    });
-  });
-});
-
-</script>
-
+<script src="{{ URL::asset('assets/js/cadastro/bancos.js')}}"></script>
 @stop
 
 @stop

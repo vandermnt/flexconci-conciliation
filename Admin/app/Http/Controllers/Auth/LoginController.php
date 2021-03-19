@@ -20,17 +20,17 @@ class LoginController extends Controller
   *
   * @var string
   */
-  protected $redirectTo = RouteServiceProvider::HOME;
+  // protected $redirectTo = RouteServiceProvider::HOME;
 
   /**
   * Create a new controller instance.
   *
   * @return void
   */
-  public function __construct()
-  {
-    $this->middleware('guest')->except('logout');
-  }
+  // public function __construct()
+  // {
+  //   $this->middleware('guest')->except('logout');
+  // }
 
   public function login(){
     return view('auth.login');
@@ -61,6 +61,10 @@ class LoginController extends Controller
     Auth::login($user);
 
     return redirect('/');
+  }
+
+  public function teste(){
+    dd("Teste");
   }
 
   public function loginUserGlobal(Request $request){
@@ -117,5 +121,17 @@ class LoginController extends Controller
 
     }
 
+  }
+
+  public function trocarEmpresa(Request $request) {
+    $cod_empresa = $request['empresaescolhida'];
+
+    session()->put('codigologin', $cod_empresa);
+
+    $user = User::where('CODIGO', '=', $request['usuario_global'])->first();
+
+    Auth::login($user);
+
+    return response()->json(200);
   }
 }

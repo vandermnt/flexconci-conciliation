@@ -6,14 +6,17 @@ const data = new Date(),
 const data_atual = [ano, mes, dia].join("-");
 let venda_prevista_pagamento;
 let venda_paga;
-
 fetch("dados-calendario")
   .then(response => {
     response
       .json()
       .then(resultado => {
+        console.log("Carregando calendário...");
+
         venda_prevista_pagamento = resultado.previstos;
         venda_paga = resultado.pagos;
+
+        renderizaCalendario();
       })
       .catch(erro => {
         console.log("Erro ao converter JSON: " + erro);
@@ -21,12 +24,12 @@ fetch("dados-calendario")
   })
   .catch(e => console.log(e));
 
-document.addEventListener("DOMContentLoaded", function() {
+function renderizaCalendario() {
   const calendarEl = document.getElementById("calendar");
   let eventsList = [];
-
+  console.log("Renderizando calendário!!!!!!");
   venda_paga.forEach(pagamento => {
-    if (pagamento.DATA_PAGAMENTO != data_atual) {
+    if (pagamento.DATA_PAGAMENTO < data_atual) {
       const total_liq = formataMoeda(pagamento.val_liquido);
 
       eventsList.push({
@@ -78,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function() {
   $(".fc-prev-button").append('<i class="glyphicon"...</i>');
 
   calendar.render();
-});
+}
 
 function formataMoeda(valor) {
   return Intl.NumberFormat("pt-br", {
