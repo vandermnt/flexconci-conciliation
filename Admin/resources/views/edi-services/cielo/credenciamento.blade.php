@@ -13,7 +13,7 @@
           <p class="text-muted">Informe seu e-mail abaixo e clique no botão Avançar</p>
           <img src="{{ URL::asset('assets/images/logos/cielo.svg') }}" alt="Cielo Logo">
         </div>
-        <form action="">
+        <form method="GET" action="">
           <div class="form-group">
             <input
               type="email"
@@ -22,6 +22,9 @@
               id="email"
               placeholder="Digite seu e-mail"
             >
+            @if($errors->has('email'))
+              <p class="mt-1 text-danger text-center font-weight-bold">{{ $errors->first('email') }}</p>
+            @endif
           </div>
 
           <button

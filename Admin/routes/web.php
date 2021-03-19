@@ -137,16 +137,14 @@ Route::group(['middleware' => 'auth'], function() {
   Route::post('/recebimentos-futuros/buscar', 'RecebimentosFuturosController@search')->name('recebimentos-futuros.search');
   Route::post('/recebimentos-futuros/filtrar', 'RecebimentosFuturosController@filter')->name('recebimentos-futuros.filter');
   Route::get('/recebimentos-futuros/exportar', 'RecebimentosFuturosController@export')->name('recebimentos-futuros.export');
+  Route::get('/cielo/credenciamento', function() {
+    return view('edi-services.cielo.credenciamento');
+  });
 });
 
 Route::get('/credenciamento-cielo', function() {
     return view('authentication.auth-lock-screen');
 });
-
-Route::get('/cielo/credenciamento', function() {
-    return view('services.cielo.credenciamento');
-});
-
 
 Route::get('/reset', function() {
     return view('auth.passwords.email');
