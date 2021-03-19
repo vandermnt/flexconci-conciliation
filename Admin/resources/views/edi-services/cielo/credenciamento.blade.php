@@ -1,7 +1,7 @@
 @extends('layouts.authLayout')
 
 @section('headerStyle')
-    <link rel="stylesheet" href="{{ URL::asset('assets/css/services/cielo/credenciamento.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('assets/css/edi-services/cielo/credenciamento.css') }}">
 @endsection
 
 @section('content')
