@@ -18,6 +18,10 @@ class CieloEdiAuthorize {
     return config('ediservice.'.$this->service.'.auth_url');
   }
 
+  public function getAuthHeader() {
+    return 'Basic '.base64_encode($this->getClientId().':'.$this->getClientSecret());
+  }
+
   public function getBaseUrl() {
     return config('ediservice.'.$this->service.'.base_url');
   }
