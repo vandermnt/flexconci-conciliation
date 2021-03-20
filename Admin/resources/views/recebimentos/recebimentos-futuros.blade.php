@@ -61,7 +61,7 @@
           content-class="text-danger"
           data-format="currency"
           data-key="TOTAL_TAXA"
-          icon-path="assets/images/financeiro/taxa-adm.svg"
+          icon-path="assets/images/financeiro/despesas.svg"
           icon-description="Taxa Adm."
         />
         <x-box

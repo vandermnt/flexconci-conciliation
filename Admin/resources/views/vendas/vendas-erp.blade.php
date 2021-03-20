@@ -64,7 +64,7 @@
           data-format="currency"
           data-key="TOTAL_TAXA"
           content-class="text-danger"
-          icon-path="assets/images/financeiro/taxas.svg"
+          icon-path="assets/images/financeiro/despesas.svg"
           icon-description="Valor Taxa"
           :dataset="[
               'hint' => 'Valor total de taxas do seu sistema.'
