@@ -5,6 +5,7 @@ namespace App\Http\Controllers\EdiServices;
 use App\EdiServices\Cielo\CieloEdiAuthorize;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class CieloEdiController extends Controller
 {
@@ -34,8 +35,8 @@ class CieloEdiController extends Controller
     }
 
     $state = bin2hex(random_bytes(16));
-    session('merchant_email', $email);
-    session('cielo_state', $state);
+    session()->put('merchant_email', $email);
+    session()->put('cielo_state', $state);
 
     $authenticateUrl = $this->service->authenticate([
       'state' => $state,
@@ -45,7 +46,36 @@ class CieloEdiController extends Controller
     return redirect($authenticateUrl);
   }
 
-  public function authorize(Request $request) {}
+  public function authorize(Request $request) {
+    $error = $request->get('error');
+    $state = $request->get('state');
+
+    /** Reference: https://auth0.com/docs/protocols/state-parameters */
+    if(session('cielo_state') !== $state) {
+      return view('edi-services.cielo.callback')->withErrors(['error' => 'Por segurança essa operação foi cancelada.']);
+    }
+    else if($error && $error === 'access_denied') {
+      return view('edi-services.cielo.callback')->withErrors(['error' => 'Acesso negado.']);
+    }
+
+    $code = $request->get('code');
+
+    $response = Http::withHeaders([
+        'Content-Type' => 'application/json',
+        'Authorization' => $this->service->getAuthHeader(),
+      ])
+      ->post($this->service->getBaseUrl().'/consent/v1/oauth/access-token', [
+        'grant_type' => 'authorization_code',
+        'code' => $code
+      ]);
+
+    if($response->failed()) {
+      return view('edi-services.cielo.callback')->withErrors(['error' => 'Autorização não concedida. Falha ao gerar chave de acesso!']);
+    }
+
+    $data = $response->json();
+    return view('edi-services.cielo.callback')->with(['access_token' => $data['access_token'], 'success' => 'Autorização concedida.']);
+  }
 
   /**
    * Show the form for creating a new resource.
