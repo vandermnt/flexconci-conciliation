@@ -63,17 +63,7 @@ function geraTabelaDetalhamentoCalendario(
   html += "<td>" + "<b> Bruto: </b>" + formataMoeda(val_bruto) + "</td>";
   html += "</tr>";
   html += "<tr>";
-  html += "<td>" + "<b>Pag. Normal: </b>" + formataMoeda(pgto_normal) + "</td>";
-  html += "</tr>";
-  html += "<tr>";
-  html +=
-    "<td>" +
-    "<b> Pag. Antecipado: </b>" +
-    formataMoeda(pgto_antecipado) +
-    "</td>";
-  html += "</tr>";
-  html += "<tr>";
-  html += "<td>" + "<b> Pag. Avulso: </b>" + "R$ 0,00" + "</td>";
+  html += "<td>" + "<b>Ajuste a Crédito: </b>" + "0,00" + "</td>";
   html += "</tr>";
   html += "<tr>";
   html += "<td>" + "<b> Taxa Adm.: </b>" + formataMoeda(taxa_adm) + "</td>";
@@ -82,7 +72,13 @@ function geraTabelaDetalhamentoCalendario(
   html += "<td>" + "<b> Custo Antecipação: </b>" + "R$ 0,00" + "</td>";
   html += "</tr>";
   html += "<tr>";
-  html += "<td>" + "<b> Outras Despesas: </b>" + "R$ 0,00" + "</td>";
+  html += "<td>" + "<b> Cancelamento: </b>" + "R$ 0,00" + "</td>";
+  html += "</tr>";
+  html += "<tr>";
+  html += "<td>" + "<b> Chargeback: </b>" + "R$ 0,00" + "</td>";
+  html += "</tr>";
+  html += "<tr>";
+  html += "<td>" + "<b> Ajuste a débito: </b>" + "R$ 0,00" + "</td>";
   html += "</tr>";
   html += "<tr>";
   html +=
