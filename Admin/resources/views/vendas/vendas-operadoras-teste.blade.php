@@ -13,7 +13,7 @@
   <main id="pagina-vendas-operadoras" class="container-fluid">
     <header>
       @component('common-components.breadcrumb')
-        @slot('title') Vendas Operadoras @endslot
+        @slot('title') Vendas Operadoras Teste @endslot
         @slot('item1') Vendas @endslot
       @endcomponent
     </header>
@@ -32,16 +32,17 @@
           ]"
           :hidden-fields="[
             'domicilios-bancarios',
-            'descricao-erp'
+            'descricao-erp',
+						'adquirentes',
+						'modalidades',
+						'adquirentes',
+						'estabelecimentos',
+						'status_financeiro',
           ]"
           :form-data="[
             'empresas' => $empresas,
-            'adquirentes' => $adquirentes,
             'bandeiras' => $bandeiras,
-            'modalidades' => $modalidades,
-            'estabelecimentos' => $estabelecimentos,
             'status_conciliacao' => $status_conciliacao,
-            'status_financeiro' => $status_financeiro,
           ]"
         />
       </div>
@@ -237,7 +238,7 @@
   <script defer src="{{ URL::asset('assets/js/proxy/SalesProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SalesContainerProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
-  <script defer src="{{ URL::asset('assets/js/vendas/vendas-operadoras.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/vendas/vendas-operadoras-teste.js') }}"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 @endsection
