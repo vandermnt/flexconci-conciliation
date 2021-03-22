@@ -16,6 +16,15 @@
 
 @section('body')
 
+@if(session('start'))
+	<div>
+		<b>{{session('start')}}</b>
+	</div>
+@else
+	<div>
+		<b>Não achou !</b>
+	</div>
+@endif
 <body class="bg-card">
     @stop
     @section('content')
