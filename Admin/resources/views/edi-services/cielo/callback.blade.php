@@ -19,11 +19,10 @@
           @if($success)
             <div class="alert alert-success w-100">
               <p class="font-weight-bold text-center">{{ $success }}</p>
-              <p class="font-weight-bold text-center">Chave de Acesso: {{ $access_token }}</p>
             </div>
           @endif
         </div>
-
+        <input type="hidden" value="{{ $access_token }}">
         <a
           href="{{ url('/') }}"
           class="btn btn-round btn-block waves-effect waves-light"

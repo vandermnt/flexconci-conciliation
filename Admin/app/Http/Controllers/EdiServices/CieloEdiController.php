@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\EdiServices;
 
-use App\EdiServices\Cielo\CieloEdiAuthorize;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use App\Http\Controllers\Controller;
+use App\EdiServices\Cielo\CieloEdiAuthorize;
+use App\Exceptions\EdiService\EdiServiceException;
+use App\Exceptions\EdiService\UnmatchStateException;
 
 class CieloEdiController extends Controller
 {
@@ -34,7 +36,7 @@ class CieloEdiController extends Controller
         ->withErrors(['email' => 'Preencha o email para avançar.']);
     }
 
-    $state = bin2hex(random_bytes(16));
+    $state = $this->service->generateState();
     session()->put('merchant_email', $email);
     session()->put('cielo_state', $state);
 
@@ -47,99 +49,26 @@ class CieloEdiController extends Controller
   }
 
   public function authorize(Request $request) {
-    $error = $request->get('error');
-    $state = $request->get('state');
+    try {
+      $error = $request->get('error', null);
+      $states = ['sessionState' => session('cielo_state'), 'returnedState' => $request->get('state')];
+      $code = $request->input('code', null);
 
-    /** Reference: https://auth0.com/docs/protocols/state-parameters */
-    if(session('cielo_state') !== $state) {
-      return view('edi-services.cielo.callback')->withErrors(['error' => 'Por segurança essa operação foi cancelada.']);
-    }
-    else if($error && $error === 'access_denied') {
-      return view('edi-services.cielo.callback')->withErrors(['error' => 'Acesso negado.']);
-    }
+      $this->service->handleAuthError($states, $error);
+      $data = $this->service->authorize($code);
+      $access_token = $data['data']['access_token'];
 
-    $code = $request->get('code');
-
-    $response = Http::withHeaders([
-        'Content-Type' => 'application/json',
-        'Authorization' => $this->service->getAuthHeader(),
-      ])
-      ->post($this->service->getBaseUrl().'/consent/v1/oauth/access-token', [
-        'grant_type' => 'authorization_code',
-        'code' => $code
+      return view('edi-services.cielo.callback')->with([
+        'access_token' => $access_token,
+        'success' => 'Autorização concedida.'
       ]);
-
-    if($response->failed()) {
-      return view('edi-services.cielo.callback')->withErrors(['error' => 'Autorização não concedida. Falha ao gerar chave de acesso!']);
+    } catch(UnmatchStateException $exception) {
+      $error = 'Por motivos de segurança essa operação foi cancelada.';
+    } catch (EdiServiceException $exception) {
+      $error = $exception->getMessage();
+    } finally {
+      if($error) return view('edi-services.cielo.callback')->withErrors(['error' => $error]);
+      session()->forget('cielo_state');
     }
-
-    $data = $response->json();
-    return view('edi-services.cielo.callback')->with(['access_token' => $data['access_token'], 'success' => 'Autorização concedida.']);
-  }
-
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
-  public function create()
-  {
-    //
-  }
-
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @return \Illuminate\Http\Response
-   */
-  public function store(Request $request)
-  {
-    //
-  }
-
-  /**
-   * Display the specified resource.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
-  public function show($id)
-  {
-    //
-  }
-
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
-  public function edit($id)
-  {
-    //
-  }
-
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
-  public function update(Request $request, $id)
-  {
-    //
-  }
-
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
-  public function destroy($id)
-  {
-    //
   }
 }
