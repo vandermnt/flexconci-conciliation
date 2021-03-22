@@ -10,6 +10,14 @@
   height: 100 !important;
 }
 
+.combo-clientes {
+  max-height: 30px !important;
+}
+
+.form h6 {
+  margin-top: 20px;
+}
+
 
 /*
 .table tr {
