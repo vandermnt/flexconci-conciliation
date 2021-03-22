@@ -85,7 +85,7 @@ function geraTabelaDetalhamentoCalendario(
     "<td>" + "<b>Valor Líquido: </b>" + formataMoeda(val_liquido) + "</td>";
   html += "</tr>";
   html += "<tr>";
-  html += `<td style='background: #BDBDBD '>
+  html += `<td>
     <b>Situação de Pagamento:
     ${
       localStorage.getItem("situacao_pgto") == "Depositado"
