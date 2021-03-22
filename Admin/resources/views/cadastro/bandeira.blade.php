@@ -9,7 +9,6 @@
 @stop
 
 @section('content')
-
 <div id="tudo_page" class="container-fluid">
   <div class="row">
     <div class="col-sm-12">

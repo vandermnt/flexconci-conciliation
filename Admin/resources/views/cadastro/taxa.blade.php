@@ -13,7 +13,7 @@
   <div class="row">
     <div class="col-sm-12">
       @component('common-components.breadcrumb')
-      @slot('title') Operadoras @endslot
+      @slot('title') Taxas @endslot
       @slot('item1') Cadastro @endslot
       @endcomponent
     </div>
@@ -24,14 +24,14 @@
         <div class="card-body" >
           <div class="form-group">
             <div class="col-sm-12 form">
-              <h6> Operadora: </h6>
+              <h6> Taxa: </h6>
               <div class="row form-group">
                 <div class="col-sm-6">
-                  <input type="hidden" value="{{$adquirentes}}" name="adquirentes-carregados">
-                  <input type="textarea" class="form-control" placeholder="Pequise a operadora" name="adquirentes-pesquisados">
+                  <input type="hidden" value="{{$taxas}}" name="taxas-carregadas">
+                  <input type="textarea" class="form-control" placeholder="Pequise pela taxa" name="taxas-pesquisados">
                 </div>
                 <div class="col-sm-2">
-                  <button class="btn btn-sm bt-cadastro-ad form-button"> <i class="fas fa-plus"></i> <b>Nova operadora</b>  </button>
+                  <button class="btn btn-sm bt-cadastro-tx form-button"> <i class="fas fa-plus"></i> <b>Nova taxa</b>  </button>
                 </div>
               </div>
             </div>
@@ -44,8 +44,8 @@
         </div>
 
         <div class="col-sm-12 table-description d-flex align-items-center ">
-          <h4 id="qtd-registros">Total de operadoras ({{ $count_adquirentes }} registros)</h4>
-          <img src="assets/images/widgets/arrow-down.svg" alt="Adquirentes">
+          <h4 id="qtd-registros">Total de taxas ({{ $count_taxas }} registros)</h4>
+          <img src="assets/images/widgets/arrow-down.svg" alt="Taxas">
         </div>
         <br>
         <div class="tabela">
@@ -53,25 +53,28 @@
             <thead>
               <tr style="background: #2D5275; ">
                 <th> CÓDIGO </th>
+                <th> CLIENTE </th>
+                <th> TAXA </th>
                 <th> OPERADORA </th>
-                <th> HOMOLOGADO </th>
+                <th> BANDEIRA </th>
+                <th> MODALIDADE </th>
+                <th> DATA VIGÊNCIA </th>
                 <th> AÇÕES </th>
               </tr>
             </thead>
             <tbody id="conteudo_tabe">
-              @foreach($adquirentes as $adquirente)
-              <tr id="{{ $adquirente->CODIGO }}">
-                <td> {{ $adquirente->CODIGO }}</td>
-                <td> {{ $adquirente->ADQUIRENTE }}</td>
-                <td> @if($adquirente->HOMOLOGADO)
-                  <i style="color: green" class="fas fa-check"></i>
-                  @else
-                  <i  style="color: red" class="fas fa-times"></i>
-                  @endif
-                </td>
+              @foreach($taxas as $taxa)
+              <tr id="{{ $taxa->CODIGO }}">
+                <td> {{ $taxa->CODIGO }}</td>
+                <td> {{ $taxa->NOME_FANTASIA }}</td>
+                <td> {{ $taxa->TAXA }}</td>
+                <td> {{ $taxa->ADQUIRENTE }}</td>
+                <td> {{ $taxa->BANDEIRA }}</td>
+                <td> {{ $taxa->DESCRICAO }}</td>
+                <td> <?php echo date("d-m-Y", strtotime($taxa->DATA_VIGENCIA)) ?></td>
                 <td class="excluir">
-                  <a href="#" onclick="editarAdquirente(event, {{$adquirente}})"><i class='far fa-edit'></i></a>
-                  <a href="#" onclick="excluirAdquirente(event,{{ $adquirente->CODIGO}})"><i style="margin-left: 12px"class="far fa-trash-alt"></i></a>
+                  <a href="#" onclick="editarTaxa(event, {{ $taxa }})"><i class='far fa-edit'></i></a>
+                  <a href="#" onclick="excluirTaxa(event,{{ $taxa->CODIGO}})"><i style="margin-left: 12px"class="far fa-trash-alt"></i></a>
                 </td>
               </tr>
               @endforeach
@@ -82,48 +85,70 @@
     </div>
   </div>
 
-  <div class="modal" id="modalCadastroAdquirente" tabindex="-1">
+  <div class="modal" id="modalCadastroTaxa" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header" style="background: #2D5275">
-          <h5 class="modal-title" style="color: white">Cadastro Operadora</h5>
+          <h5 class="modal-title" style="color: white">Cadastro Taxa</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="alert alert-success success-save-ad" role="alert">
-          <strong><i class="fas fa-check-circle"></i> Operadora cadastrada com sucesso.</strong>
+        <div class="alert alert-success success-save-tx" role="alert">
+          <strong><i class="fas fa-check-circle"></i> Taxa cadastrada com sucesso.</strong>
         </div>
         <div class="modal-body">
           <div class="col-sm-12 form">
-            <h6> Operadora: </h6>
-            <div class="row form-group">
-              <div class="col-sm-12">
-                <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
-                <input type="textarea" class="form-control" name="adquirente">
-              </div>
-            </div>
+            <h6> Taxa: </h6>
+            <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
+            <input type="textarea" class="form-control" name="taxa" onKeyPress="return(mascaraTaxa(this,'.',',',event))">
+            <h6>Data Vigência:</h6>
+            <input type="date" name="data_vigencia" class="form-control">
+            <h6>Cliente: </h6>
+            <select class="form-control" name="cliente">
+              @foreach($clientes as $cliente)
+              <option value="{{ $cliente->CODIGO }}"> {{ $cliente->NOME_FANTASIA }}</option>
+              @endforeach
+            </select>
+            <h6>Bandeira: </h6>
+            <select class="form-control" name="bandeira">
+              @foreach($bandeiras as $bandeira)
+              <option value="{{ $bandeira->CODIGO }}"> {{ $bandeira->BANDEIRA }}</option>
+              @endforeach
+            </select>
+            <h6>Operadora: </h6>
+            <select class="form-control" name="operadora">
+              @foreach($operadoras as $operadora)
+              <option value="{{ $operadora->CODIGO }}"> {{ $operadora->ADQUIRENTE }}</option>
+              @endforeach
+            </select>
+            <h6>Forma de Pagamento: </h6>
+            <select class="form-control" name="forma_pagamento">
+              @foreach($formas_pagamento as $forma_pagamento)
+              <option value="{{ $forma_pagamento->CODIGO }}"> {{ $forma_pagamento->DESCRICAO }}</option>
+              @endforeach
+            </select>
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
-          <button type="button" class="btn btn-success bt-salva-ad"><b>Cadastrar</b></button>
+          <button type="button" class="btn btn-success bt-salva-tx"><b>Cadastrar</b></button>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="modal" id="modalExcluirAdquirente" tabindex="-1">
+  <div class="modal" id="modalExcluirTaxa" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header" style="background: #2D5275">
-          <h5 class="modal-title" style="color: white">Exclusão Operadora</h5>
+          <h5 class="modal-title" style="color: white">Exclusão Taxa</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <h4>Deseja excluir essa operadora?</h4>
+          <h4>Deseja excluir essa taxa?</h4>
         </div>
         <div class="modal-footer">
           <button id="sim" type="button" class="btn btn-success" data-dismiss="modal">Sim</button>
@@ -133,21 +158,21 @@
     </div>
   </div>
 
-  <div class="modal" id="modalEditarAdquirente" tabindex="-1">
+  <div class="modal" id="modalEditarTaxa" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header" style="background: #2D5275">
-          <h5 class="modal-title" style="color: white">Editar Operadora</h5>
+          <h5 class="modal-title" style="color: white">Editar Taxa</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="alert alert-success success-update-ad" role="alert">
-          <strong><i class="fas fa-check-circle"></i> Operadora alterada com sucesso.</strong>
+        <div class="alert alert-success success-update-tx" role="alert">
+          <strong><i class="fas fa-check-circle"></i> Taxa alterada com sucesso.</strong>
         </div>
         <div class="modal-body">
           <div class="col-sm-12 form">
-            <h6> Operadora: </h6>
+            <h6> Taxa: </h6>
             <div class="row form-group">
               <div class="col-sm-12">
                 <input type="textarea" class="form-control" name="editar-adquirente">
@@ -157,17 +182,14 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
-          <button type="button" class="btn btn-success bt-salva-edicao-ad"><b>Salvar</b></button>
+          <button type="button" class="btn btn-success bt-salva-edicao-tx"><b>Salvar</b></button>
         </div>
       </div>
     </div>
   </div>
 </div>
 @section('footerScript')
-<script src="{{ URL::asset('plugins/datatables/dataTables.responsive.min.js')}}"></script>
-<script src="{{ URL::asset('plugins/datatables/responsive.bootstrap4.min.js')}}"></script>
-<script src="{{ URL::asset('assets/pages/jquery.datatable.init.js')}}"></script>
-<script src="{{ URL::asset('assets/js/cadastro/adquirentes.js')}}"></script>
+<script src="{{ URL::asset('assets/js/cadastro/taxas.js')}}"></script>
 @stop
 
 @stop

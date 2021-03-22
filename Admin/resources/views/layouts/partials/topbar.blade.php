@@ -24,6 +24,7 @@
       <a class="dropdown-item" href="{{ url('cadastro-adquirente')}}"> Operadoras </a>
       <a class="dropdown-item" href="{{ url('cadastro-banco')}}"> Bancos </a>
       <a class="dropdown-item" href="{{ url('cadastro-bandeira')}}"> Bandeiras </a>
+      <a class="dropdown-item" href="{{ url('cadastro-taxa')}}"> Taxas </a>
     </div>
   </li>
   @endif
