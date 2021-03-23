@@ -57,6 +57,10 @@
   border-radius: 32px;
 }
 
+#pagina-credenciamento-cielo #js-next > * {
+  pointer-events: none;
+}
+
 #pagina-callback-cielo .header h1 {
   margin: 48px 0 8px 0;
 }
