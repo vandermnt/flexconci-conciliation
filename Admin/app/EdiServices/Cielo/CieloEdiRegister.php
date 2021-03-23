@@ -55,6 +55,9 @@ class CieloEdiRegister {
       ];
     } catch(EdiServiceException $e) {
       throw $e;
+    } catch(Exception $e) {
+      report($e);
+      throw new EdiServiceException('Não foi possível concluir as requisições. Tempo de espera expirou!');
     }
   }
 
@@ -78,7 +81,8 @@ class CieloEdiRegister {
   }
 
   private function getAllMerchants() {
-    $response = Http::withHeaders([
+    $response = Http::timeout(90)
+      ->withHeaders([
         'Content-Type' => 'application/json',
         'Authorization' => 'Bearer '.$this->accessToken,
       ])
@@ -91,7 +95,8 @@ class CieloEdiRegister {
   }
 
   private function getMainMerchants() {
-    $response = Http::withHeaders([
+    $response = Http::timeout(90)
+      ->withHeaders([
         'Content-Type' => 'application/json',
         'Authorization' => 'Bearer '.$this->accessToken,
       ])
@@ -111,7 +116,8 @@ class CieloEdiRegister {
       return $merchants;
     }
 
-    $response = Http::withHeaders([
+    $response = Http::timeout(90)
+      ->withHeaders([
         'Content-Type' => 'application/json',
         'Authorization' => 'Bearer '.$this->accessToken,
       ])
@@ -138,7 +144,8 @@ class CieloEdiRegister {
     }
 
     foreach($mainMerchants as $mainMerchant) {
-      $response = Http::withHeaders([
+      $response = Http::timeout(90)
+        ->withHeaders([
         'Content-Type' => 'application/json',
         'Authorization' => 'Bearer '.$this->accessToken,
       ])
