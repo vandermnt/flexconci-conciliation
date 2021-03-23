@@ -75,7 +75,7 @@
 @endsection
 
 @section('scripts')
-  <script defer src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script defer src="{{ URl::asset('assets/js/sweetalert.min.js') }}"></script>
   <script defer src="{{ URl::asset('assets/js/lib/ui/index.js') }}"></script>
   <script defer src="{{ URl::asset('assets/js/lib/api.js') }}"></script>
   <script defer src="{{ URl::asset('assets/js/edi-services/cielo/results.js') }}"></script>
