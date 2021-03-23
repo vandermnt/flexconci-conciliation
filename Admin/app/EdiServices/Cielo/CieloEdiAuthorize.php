@@ -74,9 +74,7 @@ class CieloEdiAuthorize {
     $data = $response->json();
     return [
       'status' => 'success',
-      'data' => [
-        'access_token' => $data['access_token']
-      ]
+      'data' => $data
     ];
   }
 }
