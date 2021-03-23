@@ -27,6 +27,22 @@
                 <div class="auth-page">
                     <div class="card mb-0 shadow-none h-100">
                         <div class="card-body">
+													@if(session('message'))														
+														<div class="row d-flex justify-content-center">
+															<div class="col-12">
+																<div class="card report-card">
+																	<div class="card-body body-box">
+																		<div class="row">
+																			<div class="col-12">
+																				<p class="font-weight-semibold font-12">Mensagem</p>
+																				<h6 style="font-size: 12px" class="my-3">{{session('message')}}</h6>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													@endif
 
                             <div class="mb-12" style="text-align:center">
                                 <a class="logo logo-admin">
