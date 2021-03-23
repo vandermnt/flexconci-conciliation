@@ -11,6 +11,8 @@ use App\Filters\VendasErpSubFilter;
 use App\Filters\VendasSubFilter;
 use App\Filters\RecebimentosSubFilter;
 use App\Filters\RecebimentosFuturosSubFilter;
+use App\EdiServices\Cielo\CieloEdiAuthorize;
+use App\EdiServices\Cielo\CieloEdiRegister;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -44,6 +46,12 @@ class AppServiceProvider extends ServiceProvider
         });
         $this->app->bind(RecebimentosFuturosSubFilter::class, function($app) {
             return new RecebimentosFuturosSubFilter($app->make(RecebimentosFuturosFilter::class));
+        });
+        $this->app->bind(CieloEdiAuthorize::class, function($app) {
+            return new CieloEdiAuthorize();
+        });
+        $this->app->bind(CieloEdiRegister::class, function($app) {
+            return new CieloEdiRegister();
         });
     }
 
