@@ -3,8 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use DateTime;
-use Ramsey\Uuid\Type\Time;
+use Auth;
 
 class ExpiresSession
 {
@@ -17,13 +16,19 @@ class ExpiresSession
 	 */
 	public function handle($request, Closure $next)
 	{
+		$atualTime = time();
 		if ($request->session()->has('last_activity')) {
 			$lastAcitivity = $request->session()->get('last_activity');
-			$atualTime = time();
-			//if()
-			//$request->session()->put('interval', $interval);
+			if ($atualTime - $lastAcitivity >= 900) {
+				$request->session()->flush();
+				return redirect('login')->with('message', 'Sessão expirada por invatividade...');
+			} else {
+				$request->session()->put('last_activity', $atualTime);
+			}
 		} else {
-			$request->session()->put('last_activity', time());
+			if (Auth::check()) {
+				$request->session()->put('last_activity', $atualTime);
+			}
 		}
 		return $next($request);
 	}
