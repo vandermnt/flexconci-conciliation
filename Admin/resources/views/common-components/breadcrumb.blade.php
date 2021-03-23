@@ -1,6 +1,6 @@
 
 
-   <div class="page-title-box">
+   <div class="page-title-box breadcumb">
                 <div class="float-right">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item">{{ $item1 }}</li>

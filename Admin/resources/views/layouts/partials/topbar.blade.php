@@ -242,16 +242,12 @@ aria-haspopup="false" aria-expanded="false">
 </div>
 
 <div class="topbarr submenu" style="margin-top: 70px;">
-  <nav class="navbar-custom" style="background: white; min-height: 50px !important; border-bottom: 2px solid #2d5275">
+  <nav class="navbar-custom d-flex" style="background: white; min-height: 50px !important; border-bottom: 2px solid #2d5275">
     <ul class="list-unstyled topbar-nav mb-0" style="margin-left: 30px">
       <li>
         <a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user"  href="{{ url('/') }}" role="button">
           <span class="ml-1 nav-user-name hidden-sm"><i class="fas fa-chart-bar"></i> Dashboard </span>
         </a>
-        <!-- <div class="dropdown-menu dropdown-menu-left" style="background: white;">
-        <a  class="dropdown-item" href="{{ url('/') }}"> Gerencial</a>
-        <a  class="dropdown-item" href="#"> Diagnóstico Financeiro </a>
-      </div> -->
     </li>
 
     <li>
@@ -259,15 +255,13 @@ aria-haspopup="false" aria-expanded="false">
       aria-haspopup="false" aria-expanded="false">
       <span class="ml-1 nav-user-name hidden-sm"><i class="far fa-handshake"></i> Conciliação de Vendas </span>
     </a>
-    <!-- <div class="dropdown-menu dropdown-menu-left" style="background: white;">
-    <a style="" class="dropdown-item" href="#"> Conferência Manual de Vendas</a>
-    <a style="" class="dropdown-item" href="{{ url('/conciliacao-automatica') }}"> Conciliação Automática de Vendas </a>
-    <a style="" class="dropdown-item" href="#"> Conciliação de Pagamentos </a>
-    <a style="" class="dropdown-item" href="{{ url('/conciliacao-bancaria') }}"> Conciliação Bancária </a>
-    <a style="" class="dropdown-item" href="#"> Conciliação de Taxas </a>
-    <a style="" class="dropdown-item" href="#"> Conciliação de Aluguel e Outras Despesas </a>
+</li>
 
-  </div> -->
+		<li>
+			<a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('conciliacao-taxas') }}" role="button"
+			aria-haspopup="false" aria-expanded="false">
+			<span class="ml-1 nav-user-name hidden-sm"><i class="fas fa-percent"></i> Conciliação de Taxas </span>
+		</a>
 </li>
 
 <li>

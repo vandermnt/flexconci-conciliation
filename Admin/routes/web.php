@@ -124,6 +124,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/enviar-extrato', 'ConciliacaoController@conciliacaoBancaria');
 	Route::get('/atualizar-conciliacoes-processadas', 'ConciliacaoController@atualizarConciliacoesProcessadas');
 
+	//CONCILIAÇÃO DE TAXAS
+	Route::get('/conciliacao-taxas', 'ConciliacaoTaxasController@index')->name('conciliacao-taxas');
+
 	//ENVIO EMAIL CHAMADO
 	Route::get('/enviar-email', 'DashboardController@enviaEmail');
 
