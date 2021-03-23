@@ -1,5 +1,10 @@
 @extends('layouts.authLayout')
 
+@php
+  $success = session('success');
+  $access_token = session('access_token');
+@endphp
+
 @section('headerStyle')
     <link rel="stylesheet" href="{{ URL::asset('assets/css/edi-services/cielo/credenciamento.css') }}">
 @endsection
@@ -24,11 +29,11 @@
         </div>
         <input type="hidden" value="{{ $access_token }}">
         <a
-          href="{{ url('/') }}"
+          href="{{ $success ? route('cielo.results') : route('cielo.credenciamento') }}"
           class="btn btn-round btn-block waves-effect waves-light"
           type="submit"
         >
-          <span class="font-weight-bold">CONCLUIR</span>
+          <span class="font-weight-bold">{{ $success ? 'AVANÇAR' : 'TENTAR NOVAMENTE'  }}</span>
           <i class="fas fa-sign-in-alt ml-1"></i>
         </a>
       </div>
