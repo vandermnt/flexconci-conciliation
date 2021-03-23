@@ -237,19 +237,13 @@ function openConfirmDialog(title = '', onReply = (value) => {}, config = {}) {
   }).then(value => onReply(value));
 }
 
-function openUrl(baseUrl, params, options = { target: '_blank' }) {
+function openUrl(baseUrl, params) {
   const url = api.urlBuilder(baseUrl, params);
   const a = document.createElement('a');
 
   a.href = url;
-  a.target = options.target;
+  a.target = '_blank';
   a.click();
-}
-
-function redirectTo(baseUrl, params) {
-  const url = api.urlBuilder(baseUrl, params);
-
-  openUrl(url, params, { target: '' });
 }
 
 function recreateNode(element = '') {
