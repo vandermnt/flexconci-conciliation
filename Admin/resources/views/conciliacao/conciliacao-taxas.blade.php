@@ -18,6 +18,15 @@
       @endcomponent
     </header>
 
+		@if(session('data'))
+			<div>
+				<b>{{session('data')}}</b>
+			</div>
+		@else
+			<div>
+				<b>Sem Data</b>
+			</div>
+		@endif
     <div class="card">
       <div class="card-body">
         <x-forms.search-form
