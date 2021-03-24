@@ -1,99 +1,13 @@
 @extends('layouts.analytics-master')
 
 @section('headerStyle')
-<link href="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.css')}}" rel="stylesheet">
+<link href="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.css')}}" rel="stylesheet"/>
 <link href="{{ URL::asset('assets/css/dashboard/dashboard.css')}}" rel="stylesheet" type="text/css" />
+<script src="{{ URL::asset('assets/js/dashboard/calendario.js')}}"></script>
+<!-- <link href="{{ URL::asset('assets/css/globals/global.css')}}" rel="stylesheet" type="text/css" /> -->
 <link href='lib/main.css' rel='stylesheet' />
 <script src='lib/main.js'></script>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const calendarEl = document.getElementById('calendar');
-  const venda_prevista_pagamento = <?php echo $dados_calendario ?>;
-  const venda_paga = <?php echo $dados_calendario_pagamento ?>;
-  const data_atual = "{{ $data }}";
-  let eventsList = [];
-
-  venda_paga.forEach((pagamento) => {
-    if(pagamento.DATA_PAGAMENTO != data_atual) {
-      const total_liq = formataMoeda(pagamento.val_liquido);
-
-      eventsList.push(
-        {
-          title: total_liq,
-          description: pagamento.CODIGO,
-          start: pagamento.DATA_PAGAMENTO,
-          color: '#257e4a',
-          background: '#FF4000',
-          publicId: pagamento.DATA_PAGAMENTO
-        },
-      );
-    }
-  });
-
-  venda_prevista_pagamento.forEach((previsao_pagamento) => {
-    if(previsao_pagamento.DATA_PREVISTA_PAGTO >= data_atual) {
-      const total_liq_prev_pagt = formataMoeda(previsao_pagamento.val_liquido);
-
-      eventsList.push(
-        {
-          title: total_liq_prev_pagt,
-          description: previsao_pagamento.CODIGO,
-          start: previsao_pagamento.DATA_PREVISTA_PAGTO,
-          color: '#2D93AD',
-          publicId: previsao_pagamento.DATA_PREVISTA_PAGTO
-        },
-      );
-    }
-  });
-
-  var calendar = new FullCalendar.Calendar(calendarEl, {
-    headerToolbar: {
-      left: 'prev,next today',
-      center: 'title',
-      right: ''
-    },
-    height: 550,
-    navLinks: false,
-    businessHours: true,
-    events: eventsList,
-    eventClick: function(calEvent, jsEvent, view) {
-      if (calEvent.event._def.extendedProps.publicId) {
-        const color = calEvent.event._def.ui.backgroundColor;
-        const data_clicada = calEvent.event._def.extendedProps.publicId;
-        const valor = calEvent.event._def.title;
-
-        showRecebiveis(data_clicada, valor, color, jsEvent);
-      }
-    }
-  });
-
-  $(".fc-prev-button").append('<i class="glyphicon"...</i>')
-
-  calendar.render();
-});
-
-function formataMoeda(valor) {
-  return Intl.NumberFormat('pt-br', {
-    style: 'currency',
-    currency: 'BRL'
-  }).format(valor);
-}
-</script>
-
-<style>
-/* body {
-margin: 40px 10px;
-padding: 0;
-font-family: Arial, Helvetica Neue, Helvetica, sans-serif !important;
-font-size: 14px;
-} */
-
-#calendar {
-  max-width: 1100px;
-  margin: 0 auto;
-}
-</style>
 @stop
 
 @section('content')
@@ -247,7 +161,7 @@ font-size: 14px;
               </div>
               <div id="apex_pie7" class="apex-charts"></div>
               <div class="table-responsive mt-4 vendasband">
-                <table id="table_vendas_bandeira" class="table table-borderless tableDadosDash">
+                <table id="table_vendas_bandeira" class="table tableDadosDash">
                   <thead>
                     <tr>
                       <th>Bandeira</th>
@@ -263,7 +177,7 @@ font-size: 14px;
                   </tfoot>
                 </table>
               </div>
-            <h6 id="label_sem_dados_vb" style="text-align: center; display: none"> <i class="fas fa-exclamation-triangle"></i> Não existem dados para serem exibidos ou ainda não foram disponibilizados pelas operadoras. </h6>
+              <h6 id="label_sem_dados_vb" style="text-align: center; display: none"> <i class="fas fa-exclamation-triangle"></i> Não existem dados para serem exibidos ou ainda não foram disponibilizados pelas operadoras. </h6>
             </div>
           </div>
         </div>
@@ -402,10 +316,7 @@ font-size: 14px;
           <div class="wallet-bal-usd">
             <div class="row recebimentos">
               <div class="col-6">
-                <h4 class="wallet-title m-0">Recebimentos</h4>
-                <span id="label_data_recebimento" class="text-muted font-12">
-                  <b><?php echo date("d/m/Y") ?></b>
-                </span>
+                <h4 class="wallet-title m-0 label-data-recebimentos">Recebimentos Hoje</h4>
                 <h4 id="label_recebimentos">
                   R$ <?php echo number_format($total_mes->val_liquido, 2, ",", ".");  ?>
                 </h4>
@@ -416,7 +327,6 @@ font-size: 14px;
                     <i class="fas fa-info-circle"></i> Recebimentos Futuros
                   </h4>
                 </div>
-                <br>
                 <h4>R$ <?php echo number_format($total_futuro->val_liquido, 2, ",", ".");  ?> </h4>
               </div>
             </div>
@@ -449,9 +359,8 @@ font-size: 14px;
                         R$ <?php echo number_format($bancos->val_liquido, 2, ",", ".");?>
                       </h4>
                     </div>
-
                     <div class="col-1 media-body align-self-center">
-                      <a id="{{$bancos->CODIGO}}" data-toggle="tab" data-target="#div_banco_selecionado" onclick="showTableBancoSelecionadoInicial({{$bancos->CODIGO}})" role="tab" aria-selected="false">
+                      <a id="{{$bancos->CODIGO}}" data-toggle="tab" data-target="#div_banco_selecionado" onclick="showTableBancoSelecionado({{$bancos->CODIGO}})" role="tab" aria-selected="false">
                         <i class="thumb-lg mdi mdi-chevron-right"></i>
                       </a>
                     </div>
@@ -493,12 +402,12 @@ font-size: 14px;
                 </div>
                 <div class="tab-pane p-3 active" id="Wallet" role="tabpanel">
                   <ul id="ul_operadora" class="list-group wallet-bal-crypto mt-3">
-
                     @foreach($dados_operadora as $operadora)
                     <li class="list-group-item align-items-center d-flex justify-content-between">
                       <div class="col-12 row" style='text-align: center;align-items: center;justify-content: center'>
                         <div class="col-2 tooltip-hint" data-title="{{ $operadora->NOME_AD }}">
-                          <img src="{{ $operadora->IMAGEMAD}}" class="align-self-center">
+                          <div class="img-detalhamento-operadoras" style='background-image: url({{$operadora->IMAGEMAD}})'/> </div>
+                          <!-- <img src="{{ $operadora->IMAGEMAD}}" class="align-self-center img-operadora-detalhamento"> -->
                         </div>
                         <div class="col-7 media-body align-self-center">
                           <h4 class="m-0 label-val-liquido">
@@ -506,7 +415,7 @@ font-size: 14px;
                           </h4>
                         </div>
                         <div class="col-1 media-body align-self-center">
-                          <a id="{{ "operadora".$operadora->CODIGO}}" data-toggle="tab" data-target="#div_operadora_selecionada" onclick="showTableOperadoraSelecionadaInicial({{$operadora->CODIGO}})" role="tab" aria-selected="false" style="display: block"><i class="thumb-lg mdi mdi-chevron-right"></i> </a>
+                          <a id="{{ "operadora".$operadora->CODIGO}}" data-toggle="tab" data-target="#div_operadora_selecionada" onclick="showTableOperadoraSelecionada({{$operadora->CODIGO}})" role="tab" aria-selected="false" style="display: block"><i class="thumb-lg mdi mdi-chevron-right"></i> </a>
                         </div>
                       </div>
                     </li>
@@ -528,24 +437,15 @@ font-size: 14px;
     @section('footerScript')
     <script src="{{ URL::asset('plugins/apexcharts/irregular-data-series.js')}}"></script>
     <script src="{{ URL::asset('plugins/apexcharts/ohlc.js')}}"></script>
-    <script src="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.min.js') }}"></script>
+    <!-- <script src="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.min.js') }}"></script> -->
     <script src="{{ URL::asset('assets/js/dashboard/export-pdf.js')}}"></script>
     <script src="{{ URL::asset('assets/js/dashboard/tabelas.js')}}"></script>
     <script src="{{ URL::asset('assets/js/dashboard/graficos.js')}}"></script>
     <script src="{{ URL::asset('assets/js/dashboard/formata-valores.js')}}"></script>
-
-    <script type="text/javascript">
-    var param = <?php echo $dados_cliente ?>;
-    var dados_dash_vendas = <?php echo $dados_dash_vendas ?>;
-    var dados_dash_vendas_modalidade = <?php echo $dados_dash_vendas_modalidade ?>;
-    var dados_dash_vendas_bandeira = <?php echo $dados_dash_vendas_bandeira ?>;
-    </script>
     <script type="text/javascript" src="assets/js/grafico-dash-vendas.js"> </script>
 
     <script>
     $(window).on("load", function() {
-      console.log(<?php echo $dados_operadora ?>);
-
       const alerta_global = "<?= $frase->ALERTA_GLOBAL ?>";
       if (alerta_global) {
         $("#modal-alerta-global").modal({
@@ -564,42 +464,12 @@ font-size: 14px;
       preCarregarGraficoVendasProduto(grafico_vendas_produto);
     });
 
-    let bancos_dados = null
-    let operadoras_dados = null;
-    let pagamentos_antecipados;
-    let pagamentos_normais;
-    let pagamentos_antecipados_bancos;
-    let pagamentos_normais_bancos;
-
-    function showTableBancoSelecionado(codigo) {
-      $("#table_banco_selecionado tbody").empty();
-
-      const result = bancos_dados.find(banco => banco.CODIGO == codigo);
-      const pagamento_normal = buscaPagamentoNormal(pagamentos_normais_bancos, codigo);
-      const pagamento_antecipado = buscaPagamentoAntecipado(pagamentos_antecipados_bancos, codigo);
-      const val_bruto = parseFloat(result.val_bruto);
-      const val_liquido = parseFloat(result.val_liquido);
-
-      geraTabelaDetalhamentoCalendario("#table_banco_selecionado tbody", val_bruto, val_liquido, result.val_taxa, pagamento_normal, pagamento_antecipado);
-
-      document.getElementById(result.CODIGO).classList.remove('active');
-      document.getElementById("voltar").classList.remove('active');
-    }
-
-    function showTableOperadoraSelecionada(codigo) {
-      $("#table_operadora_selecionado tbody").empty();
-
-      const result = operadoras_dados.find(operadora => operadora.CODIGO == codigo);
-      const pagamento_normal = buscaPagamentoNormal(pagamentos_normais, codigo);
-      const pagamento_antecipado = buscaPagamentoAntecipado(pagamentos_antecipados, codigo);
-      const val_bruto = parseFloat(result.val_bruto);
-      const val_liquido = parseFloat(result.val_liquido);
-
-      geraTabelaDetalhamentoCalendario("#table_operadora_selecionado tbody", val_bruto, val_liquido, result.val_taxa, pagamento_normal, pagamento_antecipado);
-
-      document.getElementById("operadora" + result.CODIGO).classList.remove('active');
-      document.getElementById("voltar_operadora").classList.remove('active');
-    }
+    let bancos_dados = <?php echo $dados_bancos ?>;
+    let operadoras_dados = <?php echo $dados_operadora ?>;
+    let pagamentos_antecipados = null;
+    let pagamentos_normais = null;
+    let pagamentos_antecipados_bancos = null;
+    let pagamentos_normais_bancos = null;
 
     function showRecebiveis(data, title, color, jsEvent) {
       document.getElementById("voltar").click();
@@ -614,7 +484,7 @@ font-size: 14px;
           localStorage.setItem('situacao_pgto', 'Depositado');
 
           document.getElementById("label_recebimentos").innerHTML = title;
-          document.getElementById("label_data_recebimento").innerHTML = '<b style="color: #6E6E6E">' + data_venda + '</b>';
+          document.querySelector(".label-data-recebimentos").innerHTML = `Recebimentos ${data_venda}`;
           $("#ul_bancos li").remove();
           $("#ul_operadora li").remove();
 
@@ -625,7 +495,6 @@ font-size: 14px;
             type: "GET",
             dataType: 'json',
             success: function(response) {
-              console.log(response);
               bancos_dados = response[0];
               operadoras_dados = response[1];
 
@@ -665,7 +534,7 @@ font-size: 14px;
                 var html = "<li class='list-group-item align-items-center d-flex justify-content-between'>"
 
                 html += "<div class='col-12 row' style='text-align: center;align-items: center;justify-content: center'>"
-                html += "<div class='tooltip-hint' data-title='"+ bancos.NOME_AD + "'>" + "<img src='" + bancos.IMAGEMAD + "' style='width: 60px; ;' class='align-self-center'></div>"
+                html += "<div class='tooltip-hint' data-title='"+ bancos.NOME_AD + "'><div class='img-detalhamento-operadoras' style='background-image: url(" + bancos.IMAGEMAD + ")'/> </div>"
                 html += "<div class='col-7 media-body align-self-center'>"
                 html += "<h4 class='m-0' style='font-size: 14px; text-align:right; color: #257E4A'>" + Intl.NumberFormat('pt-br', {
                   style: 'currency',
@@ -695,7 +564,7 @@ font-size: 14px;
           localStorage.setItem('situacao_pgto', 'Previsto');
 
           document.getElementById("label_recebimentos").innerHTML = title;
-          document.getElementById("label_data_recebimento").innerHTML = '<b style="color: #6E6E6E">' + data_venda + '</b>';
+          document.querySelector(".label-data-recebimentos").innerHTML = `Recebimentos ${data_venda}`;
           $("#ul_bancos li").remove();
           $("#ul_operadora li").remove();
 
@@ -712,6 +581,9 @@ font-size: 14px;
               pagamentos_normais = response[2];
               pagamentos_antecipados = response[3];
 
+              console.log(response[0]);
+              console.log(response[1]);
+
               pagamentos_normais_bancos = response[4];
               pagamentos_antecipados_bancos = response[5];
               // $('#ul_bancos').empty();
@@ -722,7 +594,7 @@ font-size: 14px;
 
                 html += "<div class='col-12 row' style='text-align: center;align-items: center;justify-content: center'>"
                 html += "<div class='col-4' style='margin: 0'>"
-                html += "<img src='" + bancos.IMAGEM + "' class='align-self-center img-bancos-detalhamento'>"
+                html += "<div class='tooltip-hint' data-title='"+ bancos.BANCO_NOME + "'>" + "<img src='" + bancos.IMAGEM + "' style='width: 60px; ;' class='align-self-center img-bancos-detalhamento'></div>"
                 html += "</div>"
                 html += "<div class='col-4 media-body align-self-center'>"
                 html += "<h4 style='font-size: 13px; margin-left: -30px'>" + "AG: " + bancos.AGENCIA + "- C/C: " + bancos.CONTA + "</h4>"
@@ -746,7 +618,7 @@ font-size: 14px;
                 var html = "<li class='list-group-item align-items-center d-flex justify-content-between'>"
 
                 html += "<div class='col-12 row' style='text-align: center;align-items: center;justify-content: center'>"
-                html += "<img src='" + bancos.IMAGEMAD + "' class='align-self-center' style='width: 70px;'>"
+                html += "<div class='tooltip-hint' data-title='"+ bancos.NOMEAD + "'><div class='img-detalhamento-operadoras' style='background-image: url(" + bancos.IMAGEMAD + ")'/> </div>"
                 html += "<div class='col-7 media-body align-self-center'>"
                 html += "<h4 class='m-0' style='font-size: 14px; text-align:right; color: #257E4A'>" + formataMoeda(bancos.val_liquido) + "</h4>"
                 html += "</div>"
@@ -770,43 +642,38 @@ font-size: 14px;
       }
     }
 
-    function showTableBancoSelecionadoInicial(codigo) {
+    function showTableBancoSelecionado(codigo) {
       $("#table_banco_selecionado tbody").empty();
 
+      const result = bancos_dados.find(banco => banco.CODIGO == codigo);
       const pagamento_normal = buscaPagamentoNormal(pagamentos_normais_bancos, codigo);
       const pagamento_antecipado = buscaPagamentoAntecipado(pagamentos_antecipados_bancos, codigo);
-
       const val_bruto = parseFloat(result.val_bruto);
       const val_liquido = parseFloat(result.val_liquido);
-      const pgto_normal = parseFloat(pagamento_normal.tipo_pgto_normal);
-      const pgto_antecipado = parseFloat(pagamento_antecipado.tipo_pgto_antecipado);
 
-      geraTabelaDetalhamentoCalendario("#table_banco_selecionado tbody", val_bruto, val_liquido, result.val_taxa, 10, 10);
+      geraTabelaDetalhamentoCalendario("#table_banco_selecionado tbody", val_bruto, val_liquido, result.val_taxa, pagamento_normal, pagamento_antecipado);
 
       document.getElementById(result.CODIGO).classList.remove('active');
       document.getElementById("voltar").classList.remove('active');
     }
 
-    function showTableOperadoraSelecionadaInicial(codigo) {
+    function showTableOperadoraSelecionada(codigo) {
       $("#table_operadora_selecionado tbody").empty();
 
+      const result = operadoras_dados.find(operadora => operadora.CODIGO == codigo);
       const pagamento_normal = buscaPagamentoNormal(pagamentos_normais, codigo);
       const pagamento_antecipado = buscaPagamentoAntecipado(pagamentos_antecipados, codigo);
-
       const val_bruto = parseFloat(result.val_bruto);
       const val_liquido = parseFloat(result.val_liquido);
-      const pgto_normal = parseFloat(pagamento_normal.tipo_pgto_normal);
-      const pgto_antecipado = parseFloat(pagamento_antecipado.tipo_pgto_antecipado);
-
-      geraTabelaDetalhamentoCalendario("#table_operadora_selecionado tbody", val_bruto, val_liquido, result.val_taxa, pgto_normal, pgto_antecipado);
+      geraTabelaDetalhamentoCalendario("#table_operadora_selecionado tbody", val_bruto, val_liquido, result.val_taxa, pagamento_normal, pagamento_antecipado);
 
       document.getElementById("operadora" + result.CODIGO).classList.remove('active');
       document.getElementById("voltar_operadora").classList.remove('active');
     }
 
     function buscaPagamentoNormal(pagamentos, codigo) {
-      pagamento_normal = pagamentos ? pagamento.find(pagamento => pagamento.CODIGO == codigo) : null;
-      return pagamento_normal ? pagamento_normal.tipo_pgto_antecipado : 0;
+      pagamento_normal = pagamentos ? pagamentos.find(pagamento => pagamento.CODIGO == codigo) : null;
+      return pagamento_normal ? pagamento_normal.tipo_pgto_normal : 0;
     }
 
     function buscaPagamentoAntecipado(pagamentos, codigo) {
