@@ -23,6 +23,8 @@
         <link href="{{ URL::asset('assets/css/metisMenu.min.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{ URL::asset('assets/css/app.min.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{ URL::asset('assets/css/icons.css')}}" rel="stylesheet" type="text/css" />
+
+				<link href="{{ URL::asset('assets/css/analytics-master.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{ URL::asset('assets/css/teste.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{ URL::asset('assets/css/topbar.css')}}" rel="stylesheet" type="text/css" />
 
@@ -44,6 +46,26 @@
 
              <!-- content -->
              @yield('content')
+
+						<template id="my-template">
+							<swal-title>
+								Save changes to "Untitled 1" before closing?
+							</swal-title>
+							<swal-icon type="warning" color="red"></swal-icon>
+							<swal-button type="confirm">
+								Save As
+							</swal-button>
+							<swal-button type="cancel">
+								Cancel
+							</swal-button>
+							<swal-button type="deny">
+								Close without Saving
+							</swal-button>
+							<swal-param name="allowEscapeKey" value="false" />
+							{{-- <swal-param
+								name="customClass"
+								value='{ "popup": "my-popup" }' /> --}}
+						</template>
 
              <!-- extra Modal -->
              @include('layouts/partials/extra-modal')

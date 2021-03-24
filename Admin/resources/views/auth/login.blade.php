@@ -17,24 +17,40 @@
 @section('body')
 
 <body class="bg-card">
-  @stop
-  @section('content')
+    @stop
+    @section('content')
 
-  <div class="container-fluid">
-    <!-- Log In page -->
-    <div class="row vh-100">
-        <div class="col-lg-3 pr-0">
-            <div class="auth-page">
-                <div class="card mb-0 shadow-none h-100">
-                    <div class="card-body">
+    <div class="container-fluid">
+        <!-- Log In page -->
+        <div class="row vh-100">
+            <div class="col-lg-3 pr-0">
+                <div class="auth-page">
+                    <div class="card mb-0 shadow-none h-100">
+                        <div class="card-body">
+													@if(session('message'))														
+														<div class="row d-flex justify-content-center">
+															<div class="col-12">
+																<div class="card report-card">
+																	<div class="card-body body-box">
+																		<div class="row">
+																			<div class="col-12">
+																				<p class="font-weight-semibold font-12">Mensagem</p>
+																				<h6 style="font-size: 12px" class="my-3">{{session('message')}}</h6>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													@endif
 
-                        <div class="mb-12" style="text-align:center">
-                            <a class="logo logo-admin">
-                                <span><img src="{{ URL::asset('assets/images/logoconci.png')}}" height="45" class="my-3"></span>
-                                <!-- <span><img src="{{ URL::asset('assets/images/logo-dark.png')}}" height="16" alt="logo" class="logo-lg logo-dark my-3"></span> -->
-                                <!-- <span><img src="{{ URL::asset('assets/images/logo.png')}}" height="16" alt="logo" class="logo-lg logo-light my-3"></span> -->
-                            </a>
-                        </div>
+                            <div class="mb-12" style="text-align:center">
+                                <a class="logo logo-admin">
+                                    <span><img src="{{ URL::asset('assets/images/logoconci.png')}}" height="45" class="my-3"></span>
+                                    <!-- <span><img src="{{ URL::asset('assets/images/logo-dark.png')}}" height="16" alt="logo" class="logo-lg logo-dark my-3"></span> -->
+                                    <!-- <span><img src="{{ URL::asset('assets/images/logo.png')}}" height="16" alt="logo" class="logo-lg logo-light my-3"></span> -->
+                                </a>
+                            </div>
 
                         <div class="px-3">
                             <h2 class="font-weight-semibold font-22 mb-2"> Seja bem-vindo!</h2>
