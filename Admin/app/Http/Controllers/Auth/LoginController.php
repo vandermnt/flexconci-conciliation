@@ -20,17 +20,17 @@ class LoginController extends Controller
 	 *
 	 * @var string
 	 */
-	protected $redirectTo = RouteServiceProvider::HOME;
+	// protected $redirectTo = RouteServiceProvider::HOME;
 
 	/**
 	 * Create a new controller instance.
 	 *
 	 * @return void
 	 */
-	public function __construct()
-	{
-		$this->middleware('guest')->except('logout');
-	}
+	// public function __construct()
+	// {
+	//   $this->middleware('guest')->except('logout');
+	// }
 
 	public function login()
 	{
@@ -70,6 +70,11 @@ class LoginController extends Controller
 		Auth::login($user);
 
 		return redirect('/');
+	}
+
+	public function teste()
+	{
+		dd("Teste");
 	}
 
 	public function loginUserGlobal(Request $request)

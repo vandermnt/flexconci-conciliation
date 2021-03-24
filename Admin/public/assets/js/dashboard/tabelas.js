@@ -7,16 +7,11 @@ function formataMoeda(valor) {
 
 function geraTabela(tipo, nome_tipo, qdt, bruto, taxa, liq) {
   let html = "<tr>";
-  html +=
-    "<td style='padding: 2px !important'>" +
-    "<div class='tooltip-hint' data-title='" +
-    nome_tipo +
-    "'>" +
-    "<img style='width:80px' src='" +
-    tipo +
-    "'/>" +
-    "</div>" +
-    "</td>";
+  html += `<td>
+  <div class='tooltip-hint' data-title=${nome_tipo}>
+  <div class='img-tables' style='background-image: url(${tipo})'/> </div>
+  </div>
+  </td>`;
   html += "<td>" + qdt + "</td>";
   html += "<td>" + formataMoeda(bruto) + "</td>";
   html += "<td>" + formataMoeda(taxa) + "</td>";
@@ -68,17 +63,7 @@ function geraTabelaDetalhamentoCalendario(
   html += "<td>" + "<b> Bruto: </b>" + formataMoeda(val_bruto) + "</td>";
   html += "</tr>";
   html += "<tr>";
-  html += "<td>" + "<b>Pag. Normal: </b>" + formataMoeda(pgto_normal) + "</td>";
-  html += "</tr>";
-  html += "<tr>";
-  html +=
-    "<td>" +
-    "<b> Pag. Antecipado: </b>" +
-    formataMoeda(pgto_antecipado) +
-    "</td>";
-  html += "</tr>";
-  html += "<tr>";
-  html += "<td>" + "<b> Pag. Avulso: </b>" + "R$ 0,00" + "</td>";
+  html += "<td>" + "<b>Ajuste a Crédito: </b>" + "0,00" + "</td>";
   html += "</tr>";
   html += "<tr>";
   html += "<td>" + "<b> Taxa Adm.: </b>" + formataMoeda(taxa_adm) + "</td>";
@@ -87,18 +72,27 @@ function geraTabelaDetalhamentoCalendario(
   html += "<td>" + "<b> Custo Antecipação: </b>" + "R$ 0,00" + "</td>";
   html += "</tr>";
   html += "<tr>";
-  html += "<td>" + "<b> Outras Despesas: </b>" + "R$ 0,00" + "</td>";
+  html += "<td>" + "<b> Cancelamento: </b>" + "R$ 0,00" + "</td>";
+  html += "</tr>";
+  html += "<tr>";
+  html += "<td>" + "<b> Chargeback: </b>" + "R$ 0,00" + "</td>";
+  html += "</tr>";
+  html += "<tr>";
+  html += "<td>" + "<b> Ajuste a débito: </b>" + "R$ 0,00" + "</td>";
   html += "</tr>";
   html += "<tr>";
   html +=
     "<td>" + "<b>Valor Líquido: </b>" + formataMoeda(val_liquido) + "</td>";
   html += "</tr>";
   html += "<tr>";
-  html +=
-    "<td style='background: #BDBDBD '>" +
-    "<b>Situação de Pagamento: " +
-    localStorage.getItem("situacao_pgto") +
-    "</td>";
+  html += `<td>
+    <b>Situação de Pagamento:
+    ${
+      localStorage.getItem("situacao_pgto") == "Depositado"
+        ? "<b style='color: #257E4A'> Depositado </b>"
+        : "<b style='color: #2D93AD'> Previsto </b>"
+    }
+    </td>`;
   html += "</tr>";
 
   $(idTabela).append(html);

@@ -18,11 +18,15 @@ class DashboardController extends Controller{
     // $projetos = DB::select($sql);
     // $qtde_projetos = count($projetos);
     // $qtde_projetos = null;
+
+    $clientes = ClienteModel::orderBy('NOME', 'asc')->get();
+    session()->put('clientes',$clientes);
+
     $pagamento_normal = DB::table('pagamentos_operadoras')
     ->select('pagamentos_operadoras.*')
     ->selectRaw('sum(VALOR_BRUTO) as tipo_pgto_normal')
     ->where('pagamentos_operadoras.COD_TIPO_PAGAMENTO', 1)
-    ->where('pagamentos_operadoras.DATA_PAGAMENTO', $data)
+    ->where('pagamentos_operadoras.DATA_PAGAMENTO', $data_atual)
     ->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'));
 
     $pagamento_normal_operadora = $pagamento_normal->groupBy('pagamentos_operadoras.COD_ADQUIRENTE')->get();
@@ -32,7 +36,7 @@ class DashboardController extends Controller{
     ->select('pagamentos_operadoras.*')
     ->selectRaw('sum(VALOR_BRUTO) as tipo_pgto_antecipado')
     ->where('pagamentos_operadoras.COD_TIPO_PAGAMENTO', 2)
-    ->where('pagamentos_operadoras.DATA_PAGAMENTO', $data)
+    ->where('pagamentos_operadoras.DATA_PAGAMENTO', $data_atual)
     ->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'));
 
     $pagamento_antecipado_operadora = $pagamento_antecipado->groupBy('pagamentos_operadoras.COD_ADQUIRENTE')->get();
@@ -61,7 +65,8 @@ class DashboardController extends Controller{
     ->get();
 
     $dados_calendario_previsao = DB::table('vendas')
-    ->select('vendas.DATA_PREVISTA_PAGTO')
+    ->select('vendas.DATA_PREVISTA_PAGTO')    // dd($pagamento_antecipado_operadora);
+
     ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
     ->where('cod_cliente', '=', session('codigologin'))
     ->groupBy('vendas.DATA_PREVISTA_PAGTO')
@@ -97,7 +102,7 @@ class DashboardController extends Controller{
     ->select('vendas.*', 'vendas.DATA_PAGAMENTO', 'lista_bancos.IMAGEM_LINK as IMAGEM', 'adquirentes.IMAGEM as IMAGEMAD', 'lista_bancos.NOME_WEB as BANCO_NOME', 'adquirentes.ADQUIRENTE as NOME_AD')
     ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
     ->selectRaw('sum(VALOR_BRUTO) as val_bruto')
-    ->selectRaw('sum(VALOR_TAXA) as val_tx')
+    ->selectRaw('sum(VALOR_TAXA) as val_taxa')
     ->where('vendas.DATA_PREVISTA_PAGTO', '=', $data_atual)
     ->where('vendas.COD_CLIENTE', '=', session('codigologin'));
 
@@ -122,7 +127,6 @@ class DashboardController extends Controller{
     return view('analytics.analytics-index')
     ->with('projetos', $projetos)
     ->with('dados_bancos', $dados_bancos)
-    ->with('dados_bancos_inicial', $dados_bancos_inicial)
     ->with('dados_operadora', $dados_operadora)
     ->with('total_mes', $total_mes)
     ->with('total_futuro', $total_futuro)
@@ -141,6 +145,24 @@ class DashboardController extends Controller{
     ->with('dados_calendario', $dados_calendario_previsao)
     ->with('dados_calendario_pagamento', $dados_calendario_pagamento)
     ->with('periodos', $periodos);
+  }
+
+  public function dadosCalendario(){
+    $dados_calendario_previsao = DB::table('vendas')
+    ->select('vendas.DATA_PREVISTA_PAGTO')
+    ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
+    ->where('cod_cliente', '=', session('codigologin'))
+    ->groupBy('vendas.DATA_PREVISTA_PAGTO')
+    ->get();
+
+    $dados_calendario_pagamento = DB::table('pagamentos_operadoras')
+    ->select('pagamentos_operadoras.*', 'pagamentos_operadoras.DATA_PAGAMENTO')
+    ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
+    ->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'))
+    ->groupBy('pagamentos_operadoras.DATA_PAGAMENTO')
+    ->get();
+
+    return response()->json(['previstos' => $dados_calendario_previsao, 'pagos' => $dados_calendario_pagamento]);
   }
 
   public function exportarPdfVendasOperadoras($codigo_periodo){
@@ -323,7 +345,7 @@ class DashboardController extends Controller{
 public function detalheCalendarioPrevisaoPagamento($data){
   $bancos = DB::table('vendas')
   ->leftJoin('lista_bancos', 'vendas.BANCO', 'lista_bancos.CODIGO')
-  ->select('vendas.CODIGO', 'vendas.DATA_PREVISTA_PAGTO', 'lista_bancos.IMAGEM_LINK as IMAGEM', 'vendas.CONTA', 'vendas.AGENCIA')
+  ->select('vendas.CODIGO', 'vendas.DATA_PREVISTA_PAGTO', 'lista_bancos.IMAGEM_LINK as IMAGEM', 'lista_bancos.NOME_WEB as BANCO_NOME', 'vendas.CONTA', 'vendas.AGENCIA')
   ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
   ->selectRaw('sum(VALOR_BRUTO) as val_bruto')
   ->selectRaw('sum(VALOR_TAXA) as val_taxa')
@@ -334,7 +356,7 @@ public function detalheCalendarioPrevisaoPagamento($data){
 
   $operadoras = DB::table('vendas')
   ->leftJoin('adquirentes', 'vendas.ADQID', 'adquirentes.CODIGO')
-  ->select('vendas.CODIGO','vendas.DATA_PREVISTA_PAGTO', 'adquirentes.IMAGEM as IMAGEMAD', 'vendas.CONTA', 'vendas.AGENCIA')
+  ->select('vendas.CODIGO','vendas.DATA_PREVISTA_PAGTO', 'adquirentes.IMAGEM as IMAGEMAD', 'adquirentes.ADQUIRENTE as NOMEAD', 'vendas.CONTA', 'vendas.AGENCIA')
   ->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
   ->selectRaw('sum(VALOR_TAXA) as val_taxa')
   ->selectRaw('sum(VALOR_BRUTO) as val_bruto')
