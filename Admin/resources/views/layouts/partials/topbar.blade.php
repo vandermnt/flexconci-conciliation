@@ -12,7 +12,7 @@
       </a>
       <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownCadastros">
         <a class="dropdown-item" href="#"> Conciliação Automática </a>
-        <a class="dropdown-item" href="#"> Desconciliação Automática </a>
+        <a class="dropdown-item" href="/adm/desconciliacao"> Desconciliação Automática </a>
       </div>
     </li>
     <li class="dropdown">

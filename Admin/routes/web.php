@@ -134,10 +134,12 @@ Route::group(['middleware' => 'auth'], function() {
   Route::get('/delete-banco/{codigo}', 'BancoController@excluirBanco');
   Route::get('/delete-taxa/{codigo}', 'TaxaController@excluirTaxa');
 
+  // DESCONCILIACAO FEITA PELO ADM
+  Route::get('/adm/desconciliacao', 'AdmDesconciliacaoController@index');
+  Route::put('/adm/desconciliar', 'AdmDesconciliacaoController@desconciliar');
+
   //TROCAR EMPRESA
   Route::post('/troca-empresa', 'Auth\LoginController@trocarEmpresa');
-
-
 
   //CONCILIAÇÃO
   Route::get('/conciliacao-bancaria', function() {
