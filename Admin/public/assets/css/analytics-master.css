@@ -1,3 +1,10 @@
 .breadcumb {
 	margin-top: 70px;
 }
+
+.conc-taxas-icon {
+	height: auto;
+	width: auto;
+	max-width: 25px;
+	max-height: 25px;
+}
