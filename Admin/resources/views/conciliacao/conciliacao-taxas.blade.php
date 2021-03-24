@@ -41,7 +41,7 @@
 				value='{ "popup": "my-popup" }' />
 		</template> --}}
 
-		<button type="button" style="display:none" id="session-expired"></button>
+		<button type="button" class="btn btn-gradient-primary waves-effect waves-light" style="display:none" id="sa-footer">Click me</button>
 		{{-- <script type="text/javascript">
 			const sessionBtn = document.getElementById("session-expired");
 			console.log(sessionBtn)
@@ -262,7 +262,7 @@
 
 		<script>
 			console.log('entrei')
-			document.getElementById("session-expired").click();
+			document.getElementById("sa-footer").click();
 		</script>
 
   </main>

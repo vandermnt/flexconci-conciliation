@@ -235,6 +235,10 @@ Launch static backdrop modal
 
 <button type="button" class="btn btn-gradient-primary waves-effect waves-light" style="display:none" id="sa-footer">Click me</button>
 
+<script type="text/javascript">
+	document.getElementById('sa-footer').click();
+</script>
+
 </div>
 <script src="{{ URL::asset('plugins/sweet-alert2/sweetalert2.min.js')}}"></script>
 <script src="{{ URL::asset('assets/pages/jquery.sweet-alert.init.js')}}"></script>
