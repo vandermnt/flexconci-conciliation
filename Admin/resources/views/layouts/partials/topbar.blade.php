@@ -93,7 +93,7 @@
 </li> -->
 </ul>
 
-<ul class="list-unstyled topbar-nav mb-0">
+<ul class="topbar-icons list-unstyled topbar-nav mb-0">
   <!-- <li>
   <a href="/crm/crm-index">
   <span class="responsive-logo">
@@ -259,8 +259,9 @@ aria-haspopup="false" aria-expanded="false">
 
 		<li>
 			<a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('conciliacao-taxas') }}" role="button"
-			aria-haspopup="false" aria-expanded="false">
-			<span class="ml-1 nav-user-name hidden-sm"><i class="fas fa-percent"></i> Conciliação de Taxas </span>
+			aria-haspopup="false" aria-expanded="false" onmouseover="hover(this);" onmouseout="unhover(this);">
+			<img src="{{url('assets/images/conciliacao/percentagem.svg')}}" alt="" class="conc-taxas-icon">
+			<span class="nav-user-name hidden-sm">Conciliação de Taxas </span>
 		</a>
 </li>
 
@@ -400,6 +401,15 @@ aria-haspopup="false" aria-expanded="false">
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+	function hover(element){
+		element.querySelector('.conc-taxas-icon').setAttribute('src', 'assets/images/conciliacao/percentagem-hover.svg');
+	}
+	function unhover(element){
+		element.querySelector('.conc-taxas-icon').setAttribute('src', 'assets/images/conciliacao/percentagem.svg');
+	}
+</script>
 
 <script>
 
