@@ -23,7 +23,7 @@
         <link href="{{ URL::asset('assets/css/metisMenu.min.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{ URL::asset('assets/css/app.min.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{ URL::asset('assets/css/icons.css')}}" rel="stylesheet" type="text/css" />
-				<link href="{{ URL::asset('plugins/sweet-alert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css">
+				{{-- <link href="{{ URL::asset('plugins/sweet-alert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css"> --}}
 				<link href="{{ URL::asset('plugins/animate/animate.css')}}" rel="stylesheet" type="text/css">
 				<link href="{{ URL::asset('assets/css/analytics-master.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{ URL::asset('assets/css/teste.css')}}" rel="stylesheet" type="text/css" />
@@ -48,7 +48,18 @@
              <!-- content -->
              @yield('content')
 
-						<template id="session-expires-dialog">
+						 {{-- <button type="button" style="display:none" id="session-expired"></button>
+
+							@if(session('session-expires-message'))
+								<script type="text/javascript">
+									console.log('session expired BRO!')
+									const sessionBtn = document.getElementById("session-expired");
+									console.log(sessionBtn)
+									sessionBtn.click()
+								</script>
+							@endif --}}
+
+						{{-- <template id="session-expires-dialog">
 							<swal-title>
 								Save changes to "Untitled 1" before closing?
 							</swal-title>
@@ -66,9 +77,7 @@
 							<swal-param
 								name="customClass"
 								value='{ "popup": "my-popup" }' />
-						</template>
-
-						<button type="button" style="display:none" id="session-expired"></button>
+						</template> --}}
 
              <!-- extra Modal -->
              @include('layouts/partials/extra-modal')
@@ -91,12 +100,8 @@
         <script src="{{ URL::asset('assets/js/jquery.slimscroll.min.js') }}"></script>
         <script src="{{ URL::asset('plugins/apexcharts/apexcharts.min.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/table-dragger@1.0.2/dist/table-dragger.min.js"></script>
-				<script src="{{ URL::asset('plugins/sweet-alert2/sweetalert2.min.js')}}"></script>
-    		<script src="{{ URL::asset('assets/pages/jquery.sweet-alert.init.js')}}"></script>
-
-				{{-- <script type="text/javascript">
-					document.getElementById("session-expired").click();
-				</script> --}}
+				{{-- <script src="{{ URL::asset('plugins/sweet-alert2/sweetalert2.min.js')}}"></script>
+    		<script src="{{ URL::asset('assets/pages/jquery.sweet-alert.init.js')}}"></script> --}}
 
         <!-- App js -->
         <script src="{{ URL::asset('assets/js/app.js') }}"></script>
