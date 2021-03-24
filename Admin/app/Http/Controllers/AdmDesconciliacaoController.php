@@ -47,7 +47,7 @@ class AdmDesconciliacaoController extends Controller {
         $venda_operadora->ID_PAGAMENTO = null;
         $venda_operadora->COD_PAGAMENTO = null;
         $venda_operadora->COD_REGRA_CONCILIACAO = null;
-        // $venda_operadora->save();
+        $venda_operadora->save();
 
         $venda_erp->DATA_CONCILIACAO = null;
         $venda_erp->COD_STATUS_CONCILIACAO = 2;
@@ -59,14 +59,15 @@ class AdmDesconciliacaoController extends Controller {
         $venda_erp->TAXA_DIFERENCA = null;
         $venda_erp->VALOR_LIQUIDO_OPERADORA = null;
         $venda_erp->TAXA_OPERADORA = null;
-        // $venda_erp->save();
+        $venda_erp->save();
+
         $pagamento_operadora = PagamentoOperadoraModel::where('ID_VENDA_ERP', $identificador_pagamento)
         ->where('COD_CLIENTE', session('codigologin'))
         ->first();
         $pagamento_operadora->COD_STATUS_FINANCEIRO = 1;
         $pagamento_operadora->COD_VENDA = null;
         $pagamento_operadora->ID_VENDA_ERP = null;
-        // $pagamento_operadora->save();
+        $pagamento_operadora->save();
       }
 
       return response()->json([
