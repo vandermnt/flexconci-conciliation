@@ -225,24 +225,18 @@ Launch static backdrop modal
       <div class="modal-body">
         <h6> Credenciais incorretas O e-mail informado não está cadastrado ou a senha está incorreta. Verifique os dados digitados e tente entrar novamente. </h6>
       </div>
-      <!-- <div class="modal-footer" style="background: #2D5275"> -->
-      <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
       <button type="button" class="btn btn-warning"><b>FECHAR</b></button>
-      <!-- </div> -->
     </div>
   </div>
 </div>
 
 <button type="button" class="btn btn-gradient-primary waves-effect waves-light" style="display:none" id="sa-footer">Click me</button>
 
-<script type="text/javascript">
-	document.getElementById('sa-footer').click();
-</script>
-
 </div>
 <script src="{{ URL::asset('plugins/sweet-alert2/sweetalert2.min.js')}}"></script>
 <script src="{{ URL::asset('assets/pages/jquery.sweet-alert.init.js')}}"></script>
 <script>
+
   function togglePasswordVisibility() {
     const passwordIcon = $('#js-toggle-password i').first();
     const passwordInput = $('input#userpassword').first();

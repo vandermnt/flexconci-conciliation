@@ -61,14 +61,12 @@
 					'Credenciais incorretas! E-mail informado não está cadastrado ou a senha está incorreta. Verifique os dados digitados e tente entrar novamente.',
 			});
 		});
-		//SESSION EXPIRE DIALOG
-		$('#session-expired').click(function () {
-			console.log('entrei no SWAL');
+		//SESSION EXPIRES DIALOG
+		$('#session-expires').click(function () {
 			Swal.fire({
-				icon: 'error',
+				icon: 'warning',
 				title: 'Algo deu errado!',
-				text:
-					'Credenciais incorretas! E-mail informado não está cadastrado ou a senha está incorreta. Verifique os dados digitados e tente entrar novamente.',
+				text: 'Sessão expirada por inatividade...',
 			});
 		});
 

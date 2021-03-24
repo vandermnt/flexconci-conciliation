@@ -21,7 +21,7 @@
       @endcomponent
     </header>
 
-		{{-- <template id="session-expires-dialog">
+		<template id="session-expires-dialog">
 			<swal-title>
 				Save changes to "Untitled 1" before closing?
 			</swal-title>
@@ -39,15 +39,10 @@
 			<swal-param
 				name="customClass"
 				value='{ "popup": "my-popup" }' />
-		</template> --}}
+		</template>
 
-		<button type="button" class="btn btn-gradient-primary waves-effect waves-light" style="display:none" id="sa-footer">Click me</button>
-		{{-- <script type="text/javascript">
-			const sessionBtn = document.getElementById("session-expired");
-			console.log(sessionBtn)
-			sessionBtn.click()
-		</script> --}}
-
+		<button type="button" class="btn btn-gradient-primary waves-effect waves-light" style="display:none" id="session-expires">Click me</button>
+		
 		{{-- @if(session('session-expires-message'))
 			<script type="text/javascript">
 	
@@ -259,20 +254,12 @@
         </x-slot>
       </x-modal>
     </div>
-
-		<script>
-			console.log('entrei')
-			document.getElementById("sa-footer").click();
-		</script>
-
   </main>
 
   <div id="js-loader" class="loader hidden"></div>
 @endsection
 
 @section('footerScript')
-	<script defer src="{{ URL::asset('plugins/sweet-alert2/sweetalert2.min.js')}}"></script>
-	<script defer src="{{ URL::asset('assets/pages/jquery.sweet-alert.init.js')}}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/api.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/formatter.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/pagination.js') }}"></script>
@@ -286,4 +273,10 @@
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/vendas/vendas-operadoras.js') }}"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="{{ URL::asset('plugins/sweet-alert2/sweetalert2.min.js')}}"></script>
+	<script src="{{ URL::asset('assets/pages/jquery.sweet-alert.init.js')}}"></script>
+	<script>
+		console.log('entrei')
+		document.getElementById("session-expires").click();
+	</script>
 @endsection
