@@ -19,8 +19,8 @@ class ExpiresSession
 		$atualTime = time();
 		if ($request->session()->has('last_activity')) {
 			$lastAcitivity = $request->session()->get('last_activity');
-			if ($atualTime - $lastAcitivity >= 20) {
-				$request->session()->put('last_activity', $atualTime);
+			if ($atualTime - $lastAcitivity >= 900) {
+				$request->session()->forget('last_activity');
 				$url = $request->path();
 				return redirect($url)->with('session-expires-message', 'Sessão expirada por invatividade...');
 			} else {

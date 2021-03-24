@@ -14,9 +14,6 @@
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{ URL::asset('assets/images/favicon.png') }}">
 
-        <!-- <script type="module" src = "../node_modules/table-dragger/dist/table-dragger.min.js "> </script> -->
-
-
         <!-- App css -->
         <link href="{{ URL::asset('assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{ URL::asset('assets/css/jquery-ui.min.css')}}" rel="stylesheet">
@@ -28,11 +25,15 @@
 				<link href="{{ URL::asset('assets/css/analytics-master.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{ URL::asset('assets/css/teste.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{ URL::asset('assets/css/topbar.css')}}" rel="stylesheet" type="text/css" />
+				<link href="{{ URL::asset('plugins/sweet-alert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css">
+				<link href="{{ URL::asset('plugins/animate/animate.css')}}" rel="stylesheet" type="text/css">
 
         @yield('headerStyle')
     </head>
 
     <body>
+
+				<button type="button" class="btn btn-gradient-primary waves-effect waves-light" style="display:none" id="session-expires">Click me</button>
 
          <!-- leftbar -->
         <!-- @include('layouts/partials/sidebar/analytics-leftbar') -->
@@ -47,37 +48,6 @@
 
              <!-- content -->
              @yield('content')
-
-						 {{-- <button type="button" style="display:none" id="session-expired"></button>
-
-							@if(session('session-expires-message'))
-								<script type="text/javascript">
-									console.log('session expired BRO!')
-									const sessionBtn = document.getElementById("session-expired");
-									console.log(sessionBtn)
-									sessionBtn.click()
-								</script>
-							@endif --}}
-
-						{{-- <template id="session-expires-dialog">
-							<swal-title>
-								Save changes to "Untitled 1" before closing?
-							</swal-title>
-							<swal-icon type="warning" color="red"></swal-icon>
-							<swal-button type="confirm">
-								Save As
-							</swal-button>
-							<swal-button type="cancel">
-								Cancel
-							</swal-button>
-							<swal-button type="deny">
-								Close without Saving
-							</swal-button>
-							<swal-param name="allowEscapeKey" value="false" />
-							<swal-param
-								name="customClass"
-								value='{ "popup": "my-popup" }' />
-						</template> --}}
 
              <!-- extra Modal -->
              @include('layouts/partials/extra-modal')
@@ -100,12 +70,16 @@
         <script src="{{ URL::asset('assets/js/jquery.slimscroll.min.js') }}"></script>
         <script src="{{ URL::asset('plugins/apexcharts/apexcharts.min.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/table-dragger@1.0.2/dist/table-dragger.min.js"></script>
-				{{-- <script src="{{ URL::asset('plugins/sweet-alert2/sweetalert2.min.js')}}"></script>
-    		<script src="{{ URL::asset('assets/pages/jquery.sweet-alert.init.js')}}"></script> --}}
-
         <!-- App js -->
         <script src="{{ URL::asset('assets/js/app.js') }}"></script>
         <script src="https://kit.fontawesome.com/9a0b64c7c3.js" crossorigin="anonymous"></script>
+				<script src="{{ URL::asset('plugins/sweet-alert2/sweetalert2.min.js')}}"></script>
+				<script src="{{ URL::asset('assets/pages/jquery.sweet-alert.init.js')}}"></script>
+				@if(session('session-expires-message'))
+					<script type="text/javascript">
+						document.getElementById("session-expires").click();
+					</script>
+				@endif
         <!-- footerScript -->
         @yield('footerScript')
     </body>

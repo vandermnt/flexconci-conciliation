@@ -8,8 +8,6 @@
   <link href="{{ URL::asset('assets/css/globals/global.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{ URL::asset('assets/css/teste.css')}}" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="{{ URL::asset('assets/css/vendas/pagina-vendas-operadoras.css') }}" type="text/css">
-	<link href="{{ URL::asset('plugins/sweet-alert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css">
-	<link href="{{ URL::asset('plugins/animate/animate.css')}}" rel="stylesheet" type="text/css">
 @endsection
 
 @section('content')
@@ -20,37 +18,6 @@
         @slot('item1') Conciliação @endslot
       @endcomponent
     </header>
-
-		<template id="session-expires-dialog">
-			<swal-title>
-				Save changes to "Untitled 1" before closing?
-			</swal-title>
-			<swal-icon type="warning" color="red"></swal-icon>
-			<swal-button type="confirm">
-				Save As
-			</swal-button>
-			<swal-button type="cancel">
-				Cancel
-			</swal-button>
-			<swal-button type="deny">
-				Close without Saving
-			</swal-button>
-			<swal-param name="allowEscapeKey" value="false" />
-			<swal-param
-				name="customClass"
-				value='{ "popup": "my-popup" }' />
-		</template>
-
-		<button type="button" class="btn btn-gradient-primary waves-effect waves-light" style="display:none" id="session-expires">Click me</button>
-		
-		{{-- @if(session('session-expires-message'))
-			<script type="text/javascript">
-	
-				const sessionBtn = document.getElementById("session-expired");
-				console.log(sessionBtn)
-				sessionBtn.click()
-			</script>
-		@endif --}}
 
     <div class="card">
       <div class="card-body">
@@ -273,10 +240,4 @@
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/vendas/vendas-operadoras.js') }}"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="{{ URL::asset('plugins/sweet-alert2/sweetalert2.min.js')}}"></script>
-	<script src="{{ URL::asset('assets/pages/jquery.sweet-alert.init.js')}}"></script>
-	<script>
-		console.log('entrei')
-		document.getElementById("session-expires").click();
-	</script>
 @endsection
