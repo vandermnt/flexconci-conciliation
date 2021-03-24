@@ -57,10 +57,12 @@
 </li>
 
 		<li>
+			{{-- <a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('conciliacao-taxas') }}" role="button"
+			aria-haspopup="false" aria-expanded="false" onmouseover="hover(this);" onmouseout="unhover(this);"> --}}
+			{{-- <img src="{{url('assets/images/conciliacao/percentage-updated.svg')}}" alt="" class="conc-taxas-icon"> --}}
 			<a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('conciliacao-taxas') }}" role="button"
-			aria-haspopup="false" aria-expanded="false" onmouseover="hover(this);" onmouseout="unhover(this);">
-			<img src="{{url('assets/images/conciliacao/percentagem.svg')}}" alt="" class="conc-taxas-icon">
-			<span class="nav-user-name hidden-sm">Conciliação de Taxas </span>
+			aria-haspopup="false" aria-expanded="false">
+			<span class="ml-1 nav-user-name hidden-sm"><i class="fas fa-percent"></i>Conciliação de Taxas </span>
 		</a>
 </li>
 
@@ -150,14 +152,14 @@
   </div>
 </div>
 
-<script type="text/javascript">
+{{-- <script type="text/javascript">
 	function hover(element){
 		element.querySelector('.conc-taxas-icon').setAttribute('src', 'assets/images/conciliacao/percentagem-hover.svg');
 	}
 	function unhover(element){
 		element.querySelector('.conc-taxas-icon').setAttribute('src', 'assets/images/conciliacao/percentagem.svg');
 	}
-</script>
+</script> --}}
 
 <script>
 
