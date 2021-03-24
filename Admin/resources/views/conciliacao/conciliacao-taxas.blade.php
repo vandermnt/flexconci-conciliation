@@ -32,7 +32,9 @@
           ]"
           :hidden-fields="[
             'domicilios-bancarios',
-            'descricao-erp'
+            'descricao-erp',
+						'status-conciliacao',
+						'status-financeiro'
           ]"
           :form-data="[
             'empresas' => $empresas,
@@ -40,8 +42,6 @@
             'bandeiras' => $bandeiras,
             'modalidades' => $modalidades,
             'estabelecimentos' => $estabelecimentos,
-            'status_conciliacao' => $status_conciliacao,
-            'status_financeiro' => $status_financeiro,
           ]"
         />
       </div>
@@ -86,6 +86,42 @@
               'hint' => 'Valor total líquido que será pago nos respectivos vencimentos pelas operadoras.'
           ]"
         />
+				<x-box
+          class="tooltip-hint"
+          title="CUSTO TAXA ACORDADO"
+          content="R$ 0,00"
+          data-format="currency"
+          data-key="TOTAL_LIQUIDO"
+          icon-path="assets/images/financeiro/liquido.svg"
+          icon-description="Valor Líquido"
+          :dataset="[
+              'hint' => 'Valor total líquido que será pago nos respectivos vencimentos pelas operadoras.'
+          ]"
+        />
+				<x-box
+          class="tooltip-hint"
+          title="CUSTO TAXA PRATICADO"
+          content="R$ 0,00"
+          data-format="currency"
+          data-key="TOTAL_LIQUIDO"
+          icon-path="assets/images/financeiro/liquido.svg"
+          icon-description="Valor Líquido"
+          :dataset="[
+              'hint' => 'Valor total líquido que será pago nos respectivos vencimentos pelas operadoras.'
+          ]"
+        />
+				<x-box
+          class="tooltip-hint"
+          title="DIFERENÇA DE TAXAS"
+          content="R$ 0,00"
+          data-format="currency"
+          data-key="TOTAL_LIQUIDO"
+          icon-path="assets/images/financeiro/liquido.svg"
+          icon-description="Valor Líquido"
+          :dataset="[
+              'hint' => 'Valor total líquido que será pago nos respectivos vencimentos pelas operadoras.'
+          ]"
+        />
       </div>
 
       <div class="vendas">
@@ -114,7 +150,7 @@
           </div>
         </div>
 
-        <x-tables.tabela-vendas-operadoras
+        <x-tables.tabela-conciliacao-taxas
           id="js-tabela-operadoras"
           class="mt-3"
           :headers="[
@@ -144,7 +180,7 @@
               </div>
             </td>
           </x-slot>
-        </x-tables.tabela-vendas-operadoras>
+        </x-tables.tabela-conciliacao-taxas>
 
         <x-tables.table-navigation
           pagination-id="js-paginacao-operadoras"
