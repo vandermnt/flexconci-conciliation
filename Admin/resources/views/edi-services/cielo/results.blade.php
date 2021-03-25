@@ -3,16 +3,14 @@
 @section('headerStyle')
     <link rel="stylesheet" href="{{ URL::asset('assets/css/globals/global.css') }}">
     <link rel="stylesheet" href="{{ URL::asset('assets/css/edi-services/cielo/index.css') }}">
-    <link rel="stylesheet" href="{{ URL::asset('assets/css/edi-services/cielo/credenciamento.css') }}">
 @endsection
 
 @section('content')
-  <main id="pagina-credenciamento-cielo" class="card shadow-lg">
+  <main id="pagina-resultados-cielo" class="pagina-edi-cielo card shadow-lg">
     <div class="card-body">
       <div class="px-3">
         <div class="header">
           <h1 class="text-center">Registro de EDI</h1>
-          <p class="text-muted text-center">Avance para realizar o registro EDI</p>
           <img src="{{ URL::asset('assets/images/logos/cielo.svg') }}" alt="Cielo Logo">
         </div>
         <div id="js-error-alert" class="alert alert-danger w-100 hidden">
