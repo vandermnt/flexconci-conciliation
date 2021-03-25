@@ -11,7 +11,6 @@
 <link href="{{ URL::asset('plugins/sweet-alert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css">
 <link href="{{ URL::asset('plugins/animate/animate.css')}}" rel="stylesheet" type="text/css">
 
-
 @stop
 
 @section('body')
@@ -27,43 +26,15 @@
                 <div class="auth-page">
                     <div class="card mb-0 shadow-none h-100">
                         <div class="card-body">
-													@if(session('message'))														
-														<div class="row d-flex justify-content-center">
-															<div class="col-12">
-																<div class="card report-card">
-																	<div class="card-body body-box">
-																		<div class="row">
-																			<div class="col-12">
-																				<p class="font-weight-semibold font-12">Mensagem</p>
-																				<h6 style="font-size: 12px" class="my-3">{{session('message')}}</h6>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													@endif
-
                             <div class="mb-12" style="text-align:center">
                                 <a class="logo logo-admin">
                                     <span><img src="{{ URL::asset('assets/images/logoconci.png')}}" height="45" class="my-3"></span>
-                                    <!-- <span><img src="{{ URL::asset('assets/images/logo-dark.png')}}" height="16" alt="logo" class="logo-lg logo-dark my-3"></span> -->
-                                    <!-- <span><img src="{{ URL::asset('assets/images/logo.png')}}" height="16" alt="logo" class="logo-lg logo-light my-3"></span> -->
                                 </a>
                             </div>
 
                         <div class="px-3">
                             <h2 class="font-weight-semibold font-22 mb-2"> Seja bem-vindo!</h2>
                             <p class="text-muted">Conciliação de cartões de crédito, débito, voucher e outros meios de pagamentos.</p>
-
-                            <!-- <ul class="nav-border nav nav-pills" role="tablist">
-            <li class="nav-item">
-            <a class="nav-link active font-weight-semibold" data-toggle="tab" href="#LogIn_Tab" role="tab">Log In</a>
-          </li>
-          <li class="nav-item">
-          <a class="nav-link font-weight-semibold" data-toggle="tab" href="#Register_Tab" role="tab">Register</a>
-        </li>
-      </ul> -->
 
                             <!-- Tab panes -->
                             <div class="tab-content">
@@ -105,10 +76,6 @@
 
                                         <div class="form-group row mt-4">
                                             <div class="col-sm-6">
-                                                <!-- <div class="custom-control custom-switch switch-success">
-                  <input type="checkbox" class="custom-control-input" id="customSwitchSuccess">
-                  <label class="custom-control-label text-muted" for="customSwitchSuccess">Lembra-me</label>
-                </div> -->
                                             </div>
                                             <!--end col-->
                                             <div class="col-sm-12 ">
@@ -226,10 +193,7 @@ Launch static backdrop modal
       <div class="modal-body">
         <h6> Credenciais incorretas O e-mail informado não está cadastrado ou a senha está incorreta. Verifique os dados digitados e tente entrar novamente. </h6>
       </div>
-      <!-- <div class="modal-footer" style="background: #2D5275"> -->
-      <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
       <button type="button" class="btn btn-warning"><b>FECHAR</b></button>
-      <!-- </div> -->
     </div>
   </div>
 </div>
@@ -240,6 +204,7 @@ Launch static backdrop modal
 <script src="{{ URL::asset('plugins/sweet-alert2/sweetalert2.min.js')}}"></script>
 <script src="{{ URL::asset('assets/pages/jquery.sweet-alert.init.js')}}"></script>
 <script>
+
   function togglePasswordVisibility() {
     const passwordIcon = $('#js-toggle-password i').first();
     const passwordInput = $('input#userpassword').first();

@@ -4,6 +4,7 @@
   <link href="{{ URL::asset('plugins/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{ URL::asset('plugins/datatables/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{ URL::asset('plugins/datatables/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
+	<link href="{{ URL::asset('plugins/animate/animate.css')}}" rel="stylesheet" type="text/css">
   <link href="{{ URL::asset('assets/css/globals/global.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{ URL::asset('assets/css/teste.css')}}" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="{{ URL::asset('assets/css/vendas/pagina-vendas-operadoras.css') }}" type="text/css">
@@ -32,7 +33,9 @@
           ]"
           :hidden-fields="[
             'domicilios-bancarios',
-            'descricao-erp'
+            'descricao-erp',
+						'status-conciliacao',
+						'status-financeiro'
           ]"
           :form-data="[
             'empresas' => $empresas,
@@ -40,8 +43,6 @@
             'bandeiras' => $bandeiras,
             'modalidades' => $modalidades,
             'estabelecimentos' => $estabelecimentos,
-            'status_conciliacao' => $status_conciliacao,
-            'status_financeiro' => $status_financeiro,
           ]"
         />
       </div>
@@ -86,6 +87,42 @@
               'hint' => 'Valor total líquido que será pago nos respectivos vencimentos pelas operadoras.'
           ]"
         />
+				<x-box
+          class="tooltip-hint"
+          title="CUSTO TAXA ACORDADO"
+          content="R$ 0,00"
+          data-format="currency"
+          data-key="TOTAL_LIQUIDO"
+          icon-path="assets/images/financeiro/liquido.svg"
+          icon-description="Valor Líquido"
+          :dataset="[
+              'hint' => 'Valor total líquido que será pago nos respectivos vencimentos pelas operadoras.'
+          ]"
+        />
+				<x-box
+          class="tooltip-hint"
+          title="CUSTO TAXA PRATICADO"
+          content="R$ 0,00"
+          data-format="currency"
+          data-key="TOTAL_LIQUIDO"
+          icon-path="assets/images/financeiro/liquido.svg"
+          icon-description="Valor Líquido"
+          :dataset="[
+              'hint' => 'Valor total líquido que será pago nos respectivos vencimentos pelas operadoras.'
+          ]"
+        />
+				<x-box
+          class="tooltip-hint"
+          title="DIFERENÇA DE TAXAS"
+          content="R$ 0,00"
+          data-format="currency"
+          data-key="TOTAL_LIQUIDO"
+          icon-path="assets/images/financeiro/liquido.svg"
+          icon-description="Valor Líquido"
+          :dataset="[
+              'hint' => 'Valor total líquido que será pago nos respectivos vencimentos pelas operadoras.'
+          ]"
+        />
       </div>
 
       <div class="vendas">
@@ -114,7 +151,7 @@
           </div>
         </div>
 
-        <x-tables.tabela-vendas-operadoras
+        <x-tables.tabela-conciliacao-taxas
           id="js-tabela-operadoras"
           class="mt-3"
           :headers="[
@@ -144,7 +181,7 @@
               </div>
             </td>
           </x-slot>
-        </x-tables.tabela-vendas-operadoras>
+        </x-tables.tabela-conciliacao-taxas>
 
         <x-tables.table-navigation
           pagination-id="js-paginacao-operadoras"
@@ -239,5 +276,4 @@
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/vendas/vendas-operadoras.js') }}"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 @endsection
