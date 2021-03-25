@@ -7,7 +7,7 @@
 	<link href="{{ URL::asset('plugins/animate/animate.css')}}" rel="stylesheet" type="text/css">
   <link href="{{ URL::asset('assets/css/globals/global.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{ URL::asset('assets/css/teste.css')}}" rel="stylesheet" type="text/css" />
-  <link rel="stylesheet" href="{{ URL::asset('assets/css/vendas/pagina-vendas-operadoras.css') }}" type="text/css">
+  <link rel="stylesheet" href="{{ URL::asset('assets/css/conciliacao/pagina-conciliacao-taxas.css') }}" type="text/css">
 @endsection
 
 @section('content')
@@ -49,7 +49,7 @@
     </div>
 
     <div class="resultados hidden">
-      <div class="boxes">
+      <div class="boxes conciliacao-taxas">
         <x-box
           class="tooltip-hint"
           title="VALOR TOTAL BRUTO"
@@ -62,38 +62,13 @@
               'hint' => 'Valor total bruto vendido nas operadoras.'
           ]"
         />
-        <x-box
-          class="tooltip-hint"
-          title="CUSTO TAXA"
-          content="R$ 0,00"
-          data-format="currency"
-          data-key="TOTAL_TAXA"
-          content-class="text-danger"
-          icon-path="assets/images/financeiro/despesas.svg"
-          icon-description="Valor Taxa"
-          :dataset="[
-              'hint' => 'Valor total de taxas que sua empresa irá pagar quando as vendas forem liquidadas/depositadas pelas operadoras.'
-          ]"
-        />
-        <x-box
-          class="tooltip-hint"
-          title="VALOR TOTAL LÍQUIDO"
-          content="R$ 0,00"
-          data-format="currency"
-          data-key="TOTAL_LIQUIDO"
-          icon-path="assets/images/financeiro/liquido.svg"
-          icon-description="Valor Líquido"
-          :dataset="[
-              'hint' => 'Valor total líquido que será pago nos respectivos vencimentos pelas operadoras.'
-          ]"
-        />
 				<x-box
           class="tooltip-hint"
           title="CUSTO TAXA ACORDADO"
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_LIQUIDO"
-          icon-path="assets/images/financeiro/liquido.svg"
+          icon-path="assets/images/financeiro/despesas.svg"
           icon-description="Valor Líquido"
           :dataset="[
               'hint' => 'Valor total líquido que será pago nos respectivos vencimentos pelas operadoras.'
@@ -104,11 +79,11 @@
           title="CUSTO TAXA PRATICADO"
           content="R$ 0,00"
           data-format="currency"
-          data-key="TOTAL_LIQUIDO"
-          icon-path="assets/images/financeiro/liquido.svg"
-          icon-description="Valor Líquido"
+          data-key="TOTAL_TAXA"
+          icon-path="assets/images/financeiro/despesas.svg"
+          icon-description="Valor Taxa"
           :dataset="[
-              'hint' => 'Valor total líquido que será pago nos respectivos vencimentos pelas operadoras.'
+              'hint' => 'Valor total de taxas que sua empresa irá pagar quando as vendas forem liquidadas/depositadas pelas operadoras.'
           ]"
         />
 				<x-box
@@ -117,7 +92,7 @@
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_LIQUIDO"
-          icon-path="assets/images/financeiro/liquido.svg"
+          icon-path="assets/images/financeiro/alerta.svg"
           icon-description="Valor Líquido"
           :dataset="[
               'hint' => 'Valor total líquido que será pago nos respectivos vencimentos pelas operadoras.'
@@ -155,8 +130,11 @@
           id="js-tabela-operadoras"
           class="mt-3"
           :headers="[
-            'actions' => 'Ações | Status',
+            'actions' => 'Status',
           ]"
+					:hiddenColumns="[
+						'ID_ERP', 'DIVERGENCIA', 'STATUS_FINANCEIRO', 'JUSTIFICATIVA'
+					]"
         >
           <x-slot name="actions">
             <td>
@@ -274,6 +252,10 @@
   <script defer src="{{ URL::asset('assets/js/proxy/SalesProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SalesContainerProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
-  <script defer src="{{ URL::asset('assets/js/vendas/vendas-operadoras.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/conciliacao/conciliacao-taxas.js') }}"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		document.querySelector('.js-show-details').classList.remove('d-flex');
+		document.querySelector('.js-show-details').classList.add('d-none');
+	</script>
 @endsection
