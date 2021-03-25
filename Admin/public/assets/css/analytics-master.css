@@ -15,6 +15,9 @@
 	.breadcumb {
 		margin-top: 120px;
 	}
+	.navbar-dropdown {
+		display: none;
+	}
 }
 
 @media (max-width: 767px) {

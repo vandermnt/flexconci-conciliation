@@ -5,7 +5,7 @@
   <nav class="navbar-custom">
     <ul class="list-unstyled topbar-nav float-right mb-0">
       @if(Auth::user()->USUARIO_GLOBAL === 'S')
-      <li class="dropdown">
+      <li class="dropdown navbar-dropdown">
         <a id="dropdownCadastros" class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
         aria-haspopup="false" aria-expanded="false">
         <span class="ml-1 nav-user-name hidden-sm"> Administrativo <i class="mdi mdi-chevron-down"></i> </span>
@@ -16,7 +16,7 @@
       </div>
     </li>
 
-    <li class="dropdown">
+    <li class="dropdown navbar-dropdown">
       <a id="dropdownCadastros" class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
       aria-haspopup="false" aria-expanded="false">
       <span class="ml-1 nav-user-name hidden-sm"> Cadastros <i class="mdi mdi-chevron-down"></i> </span>
@@ -29,7 +29,7 @@
     </div>
   </li>
   @endif
-  <li class="hidden-sm">
+  <li class="hidden-sm navbar-dropdown">
     <a class="nav-link" data-toggle="modal" data-target="#chamado" style="color: white; cursor: pointer">
       Abrir chamado
     </a>
@@ -52,6 +52,17 @@
 </div>
 </li>
 </ul>
+{{-- <div class="dropdown navbar-options">
+  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Dropdown link
+  </a>
+
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <a class="dropdown-item" href="#">Action</a>
+    <a class="dropdown-item" href="#">Another action</a>
+    <a class="dropdown-item" href="#">Something else here</a>
+  </div>
+</div> --}}
 
 <ul class="topbar-icons list-unstyled topbar-nav mb-0">
 <li style="margin-left: 30px; margin-top: -3px; ">
@@ -81,9 +92,6 @@
 </li>
 
 		<li>
-			{{-- <a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('conciliacao-taxas') }}" role="button"
-			aria-haspopup="false" aria-expanded="false" onmouseover="hover(this);" onmouseout="unhover(this);"> --}}
-			{{-- <img src="{{url('assets/images/conciliacao/percentage-updated.svg')}}" alt="" class="conc-taxas-icon"> --}}
 			<a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('conciliacao-taxas') }}" role="button"
 			aria-haspopup="false" aria-expanded="false">
 			<span class="ml-1 nav-user-name hidden-sm"><i class="fas fa-percent"></i> Conciliação de Taxas </span>
@@ -175,15 +183,6 @@
     </div>
   </div>
 </div>
-
-{{-- <script type="text/javascript">
-	function hover(element){
-		element.querySelector('.conc-taxas-icon').setAttribute('src', 'assets/images/conciliacao/percentagem-hover.svg');
-	}
-	function unhover(element){
-		element.querySelector('.conc-taxas-icon').setAttribute('src', 'assets/images/conciliacao/percentagem.svg');
-	}
-</script> --}}
 
 <script>
 
