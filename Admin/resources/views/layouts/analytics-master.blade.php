@@ -48,8 +48,7 @@
 
              <!-- content -->
              @yield('content')
-						 
-
+						 				
              <!-- extra Modal -->
              @include('layouts/partials/extra-modal')
 

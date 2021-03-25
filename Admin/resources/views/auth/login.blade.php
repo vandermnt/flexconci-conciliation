@@ -26,43 +26,15 @@
                 <div class="auth-page">
                     <div class="card mb-0 shadow-none h-100">
                         <div class="card-body">
-													@if(session('message'))														
-														<div class="row d-flex justify-content-center">
-															<div class="col-12">
-																<div class="card report-card">
-																	<div class="card-body body-box">
-																		<div class="row">
-																			<div class="col-12">
-																				<p class="font-weight-semibold font-12">Mensagem</p>
-																				<h6 style="font-size: 12px" class="my-3">{{session('message')}}</h6>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													@endif
-
                             <div class="mb-12" style="text-align:center">
                                 <a class="logo logo-admin">
                                     <span><img src="{{ URL::asset('assets/images/logoconci.png')}}" height="45" class="my-3"></span>
-                                    <!-- <span><img src="{{ URL::asset('assets/images/logo-dark.png')}}" height="16" alt="logo" class="logo-lg logo-dark my-3"></span> -->
-                                    <!-- <span><img src="{{ URL::asset('assets/images/logo.png')}}" height="16" alt="logo" class="logo-lg logo-light my-3"></span> -->
                                 </a>
                             </div>
 
                         <div class="px-3">
                             <h2 class="font-weight-semibold font-22 mb-2"> Seja bem-vindo!</h2>
                             <p class="text-muted">Conciliação de cartões de crédito, débito, voucher e outros meios de pagamentos.</p>
-
-                            <!-- <ul class="nav-border nav nav-pills" role="tablist">
-            <li class="nav-item">
-            <a class="nav-link active font-weight-semibold" data-toggle="tab" href="#LogIn_Tab" role="tab">Log In</a>
-          </li>
-          <li class="nav-item">
-          <a class="nav-link font-weight-semibold" data-toggle="tab" href="#Register_Tab" role="tab">Register</a>
-        </li>
-      </ul> -->
 
                             <!-- Tab panes -->
                             <div class="tab-content">
@@ -104,10 +76,6 @@
 
                                         <div class="form-group row mt-4">
                                             <div class="col-sm-6">
-                                                <!-- <div class="custom-control custom-switch switch-success">
-                  <input type="checkbox" class="custom-control-input" id="customSwitchSuccess">
-                  <label class="custom-control-label text-muted" for="customSwitchSuccess">Lembra-me</label>
-                </div> -->
                                             </div>
                                             <!--end col-->
                                             <div class="col-sm-12 ">

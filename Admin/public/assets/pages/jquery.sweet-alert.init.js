@@ -67,9 +67,10 @@
 				icon: 'warning',
 				title: 'Algo deu errado!',
 				text: 'Sessão expirada por inatividade...',
-				confirmButtonText: '<a href="/logout">OK</a>',
 				allowOutsideClick: false,
 				allowEscapeKey: false,
+			}).then(function() {
+				window.location = '/logout'
 			});
 		});
 
