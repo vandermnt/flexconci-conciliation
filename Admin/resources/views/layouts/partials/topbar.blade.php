@@ -89,13 +89,13 @@
 			<span class="ml-1 nav-user-name hidden-sm"><i class="fas fa-percent"></i> Conciliação de Taxas </span>
 		</a>
 </li>
-
-<li>
-  <a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/vendas-sistema-erp')}}" role="button">
-    <span dropzone=""class="ml-1 nav-user-name hidden-sm"><i class="fas fa-laptop"></i> Vendas ERP </span>
-  </a>
-</li>
-
+@if(session('erp_cliente'))
+	<li>
+		<a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/vendas-sistema-erp')}}" role="button">
+			<span dropzone=""class="ml-1 nav-user-name hidden-sm"><i class="fas fa-laptop"></i>Vendas ERP</span>
+		</a>
+	</li>
+@endif
 <li>
   <a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/vendas-operadoras') }}" role="button">
     <span dropzone=""class="ml-1 nav-user-name hidden-sm"><i class="fas fa-money-check-alt"></i> Vendas Operadoras </span>
