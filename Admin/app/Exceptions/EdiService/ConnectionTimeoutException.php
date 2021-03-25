@@ -2,9 +2,9 @@
 
 namespace App\Exceptions\EdiService;
 
-use Exception;
+use App\Exceptions\EdiService\EdiServiceException;
 
-class ConnectionTimeoutException extends Exception
+class ConnectionTimeoutException extends EdiServiceException
 {
     //
 }
