@@ -26,8 +26,6 @@ class CieloEdiRegister extends CieloEdiService {
 
       $merchants = collect($this->getAllMerchants());
       $mainMerchants = collect($this->getMainMerchants());
-      // $merchants = collect($this->mockMerchants());
-      // $mainMerchants = collect($this->mockMainMerchants());
 
       $duplicatedMerchantIds = collect($mainMerchants->get($availableKey))
         ->pluck('merchants')
@@ -181,74 +179,5 @@ class CieloEdiRegister extends CieloEdiService {
       Str::lower(self::UNAVAILABLE_STATUS) => [],
     ])
       ->toArray();
-  }
-
-  private function mockMerchants() {
-    $merchants =  [
-      "legalEntityNumber" => "32567788",
-      "branches" => [
-        [
-          "merchantID" => "6432654522",
-          "legalEntityNumber" => "32784365265",
-          "businessName" => "Business Name",
-          "status" => "AVAILABLE"
-        ],
-        [
-          "merchantID" => "3478275493",
-          "legalEntityNumber" => "32784365265",
-          "businessName" => "Business Name",
-          "status" => "AVAILABLE"
-        ],
-        [
-          "merchantID" => "2454896567",
-          "legalEntityNumber" => "32784365265",
-          "businessName" => "Business Name",
-          "status" => "UNAVAILABLE"
-        ],
-        [
-          "merchantID" => "4105703475",
-          "legalEntityNumber" => "32784365265",
-          "businessName" => "Business Name",
-          "status" => "UNAVAILABLE"
-        ],
-      ]
-    ];
-
-    return $this->groupByStatus($merchants['branches'], 'status');
-  }
-
-  private function mockMainMerchants() {
-    $mainMerchants = [
-      [
-        "registerID" => "38724",
-        "mainMerchantID" => "6432654522",
-        "merchants" => [
-            "6432654522",
-            "2454896567"
-        ],
-        "type" => [
-            "SELL",
-            "ASSIGNMENT",
-            "BALANCE"
-        ],
-        "editStatus" => "UNAVAILABLE"
-      ],
-      [
-        "registerID" => "33578",
-        "mainMerchantID" => "3478275493",
-        "merchants" => [
-            "3478275493",
-            "4105703475",
-        ],
-        "type" => [
-            "SELL",
-            "ASSIGNMENT",
-            "BALANCE"
-        ],
-        "editStatus" => "AVAILABLE"
-      ],
-    ];
-
-    return $this->groupByStatus($mainMerchants, 'editStatus');
   }
 }
