@@ -1,10 +1,24 @@
-function handleError(error) {
+function handleError(response) {
   toggleElementVisibility('#js-error-alert');
   const errorMessageElement = document.querySelector('#js-error-alert p');
-  errorMessageElement.textContent = error;
+  errorMessageElement.textContent = response.error;
 
+  if(!response.retry) return;
+
+  const retryButton = recreateNode('#js-next');
+  const buttonSpan = retryButton.querySelector('span');
+  const buttonIcon = retryButton.querySelector('i');
+  buttonSpan.textContent = 'TENTAR NOVAMENTE';
+  buttonIcon.classList.remove('fa-check');
+  buttonIcon.classList.add('fa-undo');
+  retryButton.addEventListener('click', reload);
   return;
 }
+
+function reload() {
+  window.location.reload();
+}
+
 async function sendRegisterRequest() {
   const accessToken = document.querySelector('input#js-access-token').value;
   const registerUrl = document.querySelector('input#js-access-token').dataset.registerUrl;
@@ -45,6 +59,10 @@ function updateList(elementId, data) {
   });
 }
 
+function redirectToHome(e) {
+  redirectTo(e.target.dataset.redirectTo);
+}
+
 function onLoadHandler() {
   swal('O Registro EDI está iniciando.', 'Aguarde um momento. O processo pode levar algum tempo para ser concluído.', 'warning');
 
@@ -52,19 +70,20 @@ function onLoadHandler() {
 
   sendRegisterRequest()
     .then(response => {
+      console.log(response);
       if(response.error) {
-        handleError(response.error);
+        handleError(response);
         return;
       }
+
       updateLists(response);
     })
     .finally(() => {
       document.querySelector('#js-next').removeAttribute('disabled');
       toggleElementVisibility('#cielo-loader');
     })
+
+  recreateNode('#js-next').addEventListener('click', redirectToHome);
 }
 
 window.addEventListener('load', onLoadHandler);
-document.querySelector('#js-next').addEventListener('click', (e) => {
-  redirectTo(e.target.dataset.redirectTo);
-})

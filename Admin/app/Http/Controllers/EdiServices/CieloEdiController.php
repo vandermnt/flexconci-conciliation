@@ -81,7 +81,7 @@ class CieloEdiController extends Controller
   }
 
   public function authorize(Request $request) {
-    return view('edi-services.cielo.callback');
+    return view('edi-services.cielo.authorize');
   }
 
   public function ediRegister(Request $request) {
@@ -95,17 +95,17 @@ class CieloEdiController extends Controller
       session()->forget('cielo_access_token');
 
       return response()->json($results);
-    } catch(EdiServiceException $exception) {
-      return response()->json([
-          'status' => 'failed',
-          'error' => $exception->getMessage(),
-        ]);
     } catch(ConnectionTimeoutException $exception) {
       return response()->json([
         'status' => 'failed',
         'error' => $exception->getMessage(),
         'retry' => true
       ]);
+    } catch(EdiServiceException $exception) {
+      return response()->json([
+          'status' => 'failed',
+          'error' => $exception->getMessage(),
+        ]);
     }
   }
 
