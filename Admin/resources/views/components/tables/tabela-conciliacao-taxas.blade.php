@@ -497,7 +497,7 @@
         <td data-column="TID"></td>
         <td data-column="CARTAO"></td>
         <td data-column="VALOR_BRUTO" data-format="currency"></td>
-				<td data-column="PERCENTUAL_TAXA_ACORDADA" data-format="currency"></td>
+				<td data-column="PERCENTUAL_TAXA_ACORDADA" data-format="number"></td>
         <td data-column="PERCENTUAL_TAXA" data-format="number"></td>
 				<td data-column="PERCENTUAL_DIF_TAXA" data-format="number" data-color="diff"></td>
 				<td data-column="TAXA_ACORDADA" data-format="currency"></td>
@@ -563,7 +563,7 @@
         <td></td>
         <td></td>
         <td></td>
-				<td></td>
+				<td data-column="TOTAL_TAXA_ACORDADA" data-format="currency">R$ 0</td>
         <td data-column="TOTAL_TAXA" data-format="currency"></td>
         <td></td>
         <td data-column="TOTAL_LIQUIDO" data-format="currency"></td>

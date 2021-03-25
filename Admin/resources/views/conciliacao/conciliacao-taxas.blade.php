@@ -64,10 +64,10 @@
         />
 				<x-box
           class="tooltip-hint"
-          title="CUSTO TAXA ACORDADO"
+          title="CUSTO TAXA ACORDADA"
           content="R$ 0,00"
           data-format="currency"
-          data-key="TOTAL_LIQUIDO"
+          data-key="TOTAL_TAXA_ACORDADA"
           icon-path="assets/images/financeiro/despesas.svg"
           icon-description="Valor Líquido"
           :dataset="[
@@ -76,7 +76,7 @@
         />
 				<x-box
           class="tooltip-hint"
-          title="CUSTO TAXA PRATICADO"
+          title="CUSTO TAXA PRATICADA"
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_TAXA"
@@ -103,20 +103,10 @@
       <div class="vendas">
         <div class="tabela-info d-flex align-items-center justify-content-between">
           <div class="table-description d-flex align-items-center justify-content-end">
-            <h4>Vendas Operadoras <span id="js-quantidade-registros">(0 registros)</span></h4>
+            <h4>Conciliação de taxas (Acordadas versus Praticadas) <span id="js-quantidade-registros">(0 registros)</span></h4>
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras">
           </div>
           <div class="d-flex align-items-center justify-content-end">
-            <button id="js-desjustificar" class="btn button no-hover mr-1">
-              <i class="fas fa-comment-slash"></i>
-              Desjustificar
-            </button>
-            <button id="js-retorno-csv" class="btn button no-hover mr-1 tooltip-hint" data-title="Arquivo de integração para a realização da baixa/liquidação">
-              <div class="conciflex-icon icon-md">
-                <img src="assets/images/widgets/csv-file.svg" alt="CSV">
-              </div>
-              Retorno CSV
-            </button>
             <button id="js-exportar" class="btn button no-hover">
               <div class="conciflex-icon icon-md">
                   <img src="assets/images/widgets/excel-file.svg" alt="Excel">
@@ -255,7 +245,7 @@
   <script defer src="{{ URL::asset('assets/js/conciliacao/conciliacao-taxas.js') }}"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script type="text/javascript">
-		document.querySelector('.js-show-details').classList.remove('d-flex');
-		document.querySelector('.js-show-details').classList.add('d-none');
+		document.querySelector('.js-show-details').classList.remove('d-flex')
+		document.querySelector('.js-show-details').classList.add('d-none')
 	</script>
 @endsection

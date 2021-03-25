@@ -95,7 +95,6 @@ const _defaultEvents = {
 
 			const value = tableRender.formatCell(cellValue, format, defaultCellValue);
 			cell.textContent = value;
-			toggleElementVisibility('tooltip-hint');
 		},
 		shouldSelectRow: function (elementDOM) {
 			if (!elementDOM) return false;
