@@ -565,7 +565,7 @@
         <td></td>
 				<td data-column="TOTAL_TAXA_ACORDADA" data-format="currency">R$ 0</td>
         <td data-column="TOTAL_TAXA" data-format="currency"></td>
-        <td></td>
+        <td data-column="DIF_TAXA" data-format="currency"></td>
         <td data-column="TOTAL_LIQUIDO" data-format="currency"></td>
         <td></td>
         <td></td>
