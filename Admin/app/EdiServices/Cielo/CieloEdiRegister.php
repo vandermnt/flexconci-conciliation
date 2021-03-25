@@ -3,10 +3,15 @@
 namespace App\EdiServices\Cielo;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Client\RequestException;
+use Illuminate\Http\Client\ConnectionException;
+use App\EdiServices\Cielo\CieloEdiService;
+use App\Exceptions\EdiService\ConnectionTimeoutException;
 use App\Exceptions\EdiService\EdiServiceException;
 
-class CieloEdiRegister {
+class CieloEdiRegister extends CieloEdiService {
   const AVAILABLE_STATUS = "available";
   const UNAVAILABLE_STATUS = "unavailable";
 
@@ -16,149 +21,234 @@ class CieloEdiRegister {
     try {
       $this->accessToken = $accessToken;
 
-      $merchants = $this->getAllMerchants();
-      $mainMerchants = $this->getMainMerchants();
+      $availableKey = Str::lower(self::AVAILABLE_STATUS);
+      $unavailableKey = Str::lower(self::UNAVAILABLE_STATUS);
 
-      list($availableMerchants, $unavailableMerchants) = [
-        $merchants[self::AVAILABLE_STATUS],
-        $merchants[self::UNAVAILABLE_STATUS]
-      ];
-      list($availableMain, $unavailableMain) = [
-        $mainMerchants[self::AVAILABLE_STATUS],
-        $mainMerchants[self::UNAVAILABLE_STATUS]
-      ];
+      $merchants = collect($this->getAllMerchants());
+      $mainMerchants = collect($this->getMainMerchants());
+      // $merchants = collect($this->mockMerchants());
+      // $mainMerchants = collect($this->mockMainMerchants());
 
-      $registeredMerchants = $this->registerEdi($availableMerchants, $params);
-      $duplicatedMainMerchants = $this->duplicateMainMerchants($availableMain);
+      $duplicatedMerchantIds = collect($mainMerchants->get($availableKey))
+        ->pluck('merchants')
+        ->collapse();
 
-      $duplicatedMerchantIds = array_reduce($duplicatedMainMerchants, function($ids, $mainMerchant) {
-        $ids = Arr::collapse([$ids, $mainMerchant['merchants']]);
-        return $ids;
-      }, []);
+      $duplicatedMerchants = collect($merchants->get($unavailableKey))
+        ->filter(function ($value, $key) use ($duplicatedMerchantIds) {
+          return $duplicatedMerchantIds->contains($value['merchantID']);
+        });
 
-      $successfullMerchants = array_reduce($unavailableMerchants,
-        function($data, $merchant) use ($duplicatedMerchantIds) {
-          if(in_array($merchant['merchantID'], $duplicatedMerchantIds)) {
-            array_push($data, $merchant);
-          }
+      $registered = $this->registerEdi($merchants->get($availableKey), $params);
+      $registeredMerchants = collect([
+          $registered,
+          $duplicatedMerchants
+        ])
+          ->collapse();
 
-          return $data;
-        }, []);
+      if(collect($merchants->get($unavailableKey))->isEmpty()) {
+        return [
+          "registeredMerchants" => $registeredMerchants->toArray(),
+          "duplicatedMerchants" => [
+            "successfull" => [],
+            "failed" => []
+          ]
+        ];
+      }
 
+      $duplicatedMainMerchants = $this->duplicateMainMerchants($mainMerchants->get($availableKey));
 
       return [
-        "registeredMerchants" => Arr::collapse([$registeredMerchants, $successfullMerchants]),
+        "registeredMerchants" => $registeredMerchants->toArray(),
         "duplicatedMerchants" => [
           "successfull" => $duplicatedMainMerchants,
-          "failed" => $unavailableMain
+          "failed" => $mainMerchants[$unavailableKey]
         ]
       ];
     } catch(EdiServiceException $e) {
       throw $e;
-    } catch(Exception $e) {
-      report($e);
-      throw new EdiServiceException('Não foi possível concluir as requisições. Tempo de espera expirou!');
     }
   }
 
-  private function checkResponse($response) {
-    throw_if($response->failed(), new EdiServiceException('Um problema ocorreu. Reinicie o processo!'));
-
-    return true;
-  }
-
-  private function groupByStatus($merchants, $statusKey = 'status') {
-    return array_reduce($merchants, function($grouped, $merchant) use ($statusKey) {
-      $key = strtolower($merchant[$statusKey]);
-      if(!Arr::has($grouped, $key)) Arr::set($grouped, $key, []);
-
-      array_push($grouped[$key], $merchant);
-      return $grouped;
-    }, [
-      self::AVAILABLE_STATUS => [],
-      self::UNAVAILABLE_STATUS => [],
-    ]);
-  }
-
   private function getAllMerchants() {
-    $response = Http::timeout(90)
-      ->withHeaders([
-        'Content-Type' => 'application/json',
-        'Authorization' => 'Bearer '.$this->accessToken,
-      ])
-      ->get('https://api2.cielo.com.br/edi-api/v2/edi/merchantgroup');
-
-    $this->response = $this->checkResponse($response);
+    $response = $this->sendRequest(function($request) {
+      return $request
+        ->retry(3, 60)
+        ->get($this->getBaseUrl().'/edi-api/v2/edi/merchantgroup');
+    });
 
     $merchants = $response->json();
     return $this->groupByStatus($merchants['branches'], 'status');
   }
 
   private function getMainMerchants() {
-    $response = Http::timeout(90)
-      ->withHeaders([
-        'Content-Type' => 'application/json',
-        'Authorization' => 'Bearer '.$this->accessToken,
-      ])
-      ->get('https://api2.cielo.com.br/edi-api/v2/edi/mainmerchants');
+    $response = $this->sendRequest(function($request) {
+      return $request->retry(3, 60)
+        ->get($this->getBaseUrl().'/edi-api/v2/edi/mainmerchants');
+    });
 
-    $this->checkResponse($response);
     $mainMerchants = $response->json();
-
-    $this->response = $this->checkResponse($response);
-
 
     return $this->groupByStatus($mainMerchants, 'editStatus');
   }
 
   private function registerEdi($merchants, $params) {
-    if(empty($merchants)) {
+    if(collect($merchants)->isEmpty()) {
       return $merchants;
     }
 
-    $response = Http::timeout(90)
-      ->withHeaders([
-        'Content-Type' => 'application/json',
-        'Authorization' => 'Bearer '.$this->accessToken,
-      ])
-      ->post('https://api2.cielo.com.br/edi-api/v2/edi/registers', [
-        'merchantEMail' => $params['email'],
-        'merchants' => $merchants,
-        'type' => [
-          'SELL',
-          'PAYMENT',
-          'ANTECIPATION_CIELO',
-          'ASSIGNMENT',
-          'BALANCE',
-          'ANTECIPATION_ALELO',
-        ],
-      ]);
+    $params = collect($params);
 
-    $this->checkResponse($response);
+    $payload = [
+      'merchantEMail' => $params->get('email'),
+      'merchants' => $merchants,
+      'type' => [
+        'SELL',
+        'PAYMENT',
+        'ANTECIPATION_CIELO',
+        'ASSIGNMENT',
+        'BALANCE',
+        'ANTECIPATION_ALELO',
+      ],
+    ];
+
+    $response = $this->sendRequest(function($request) use ($payload) {
+      return $request->retry(3, 60)
+        ->post($this->getBaseUrl().'/edi-api/v2/edi/registers', $payload);
+    });
+
     return $merchants;
   }
 
   private function duplicateMainMerchants($mainMerchants) {
-    if(empty($mainMerchants)) {
+    if(collect($mainMerchants)->isEmpty()) {
       return $mainMerchants;
     }
 
     foreach($mainMerchants as $mainMerchant) {
-      $response = Http::timeout(90)
-        ->withHeaders([
-        'Content-Type' => 'application/json',
-        'Authorization' => 'Bearer '.$this->accessToken,
-      ])
-      ->put('https://api2.cielo.com.br/edi-api/v2/edi', [
-        'mainMerchantID' => $mainMerchant['mainMerchantID'],
-        'registerID' => $mainMerchant['registerID'],
-        'merchants' => $mainMerchant['merchants'],
-        'type' => $mainMerchant['type']
-      ]);
-
-      $this->checkResponse($response);
+      $response = $this->sendRequest(function($request) use ($mainMerchant) {
+        $mainMerchant = collect($mainMerchant);
+        return $request->retry(3, 60)
+          ->put($this->getBaseUrl().'/edi-api/v2/edi', [
+            'mainMerchantID' => $mainMerchant->get('mainMerchantID'),
+            'registerID' => $mainMerchant->get('registerID'),
+            'merchants' => $mainMerchant->get('merchants'),
+            'type' => $mainMerchant->get('type'),
+          ]);
+      });
     }
 
     return $mainMerchants;
+  }
+
+  private function buildRequest() {
+    return Http::withHeaders([
+      'Content-Type' => 'application/json',
+      'Authorization' => $this->getAuthorizationHeader($this->accessToken)
+    ]);
+  }
+
+  private function sendRequest($callback) {
+    try {
+      $request = $this->buildRequest();
+
+      if($callback) {
+        $response = $callback($request);
+        $response->throw();
+
+        return $response;
+      }
+
+      return null;
+    } catch(ConnectionException $exception) {
+      throw new ConnectionTimeoutException('A conexão com a Cielo falhou, tempo de espera excedido. Tente novamente.');
+    } catch(RequestException $exception) {
+      $isClientError = collect([400, 401, 403])->contains($exception->response->status());
+      throw_if($isClientError, new EdiServiceException('Um problema ocorreu. Tente novamente.'));
+      throw_if(!$isClientError, new ConnectionTimeoutException('Tempo de espera excedido, tente novamente.'));
+    }
+  }
+
+  private function groupByStatus($merchants, $statusKey = 'status') {
+    $merchantCollection = collect($merchants);
+
+    $groupedMerchants = $merchantCollection->mapToGroups(function ($item, $key) use ($statusKey) {
+      return [Str::lower($item[$statusKey]) => $item];
+    })
+      ->toArray();
+
+    return collect($groupedMerchants)->mergeRecursive([
+      Str::lower(self::AVAILABLE_STATUS) => [],
+      Str::lower(self::UNAVAILABLE_STATUS) => [],
+    ])
+      ->toArray();
+  }
+
+  private function mockMerchants() {
+    $merchants =  [
+      "legalEntityNumber" => "32567788",
+      "branches" => [
+        [
+          "merchantID" => "6432654522",
+          "legalEntityNumber" => "32784365265",
+          "businessName" => "Business Name",
+          "status" => "AVAILABLE"
+        ],
+        [
+          "merchantID" => "3478275493",
+          "legalEntityNumber" => "32784365265",
+          "businessName" => "Business Name",
+          "status" => "AVAILABLE"
+        ],
+        [
+          "merchantID" => "2454896567",
+          "legalEntityNumber" => "32784365265",
+          "businessName" => "Business Name",
+          "status" => "UNAVAILABLE"
+        ],
+        [
+          "merchantID" => "4105703475",
+          "legalEntityNumber" => "32784365265",
+          "businessName" => "Business Name",
+          "status" => "UNAVAILABLE"
+        ],
+      ]
+    ];
+
+    return $this->groupByStatus($merchants['branches'], 'status');
+  }
+
+  private function mockMainMerchants() {
+    $mainMerchants = [
+      [
+        "registerID" => "38724",
+        "mainMerchantID" => "6432654522",
+        "merchants" => [
+            "6432654522",
+            "2454896567"
+        ],
+        "type" => [
+            "SELL",
+            "ASSIGNMENT",
+            "BALANCE"
+        ],
+        "editStatus" => "UNAVAILABLE"
+      ],
+      [
+        "registerID" => "33578",
+        "mainMerchantID" => "3478275493",
+        "merchants" => [
+            "3478275493",
+            "4105703475",
+        ],
+        "type" => [
+            "SELL",
+            "ASSIGNMENT",
+            "BALANCE"
+        ],
+        "editStatus" => "AVAILABLE"
+      ],
+    ];
+
+    return $this->groupByStatus($mainMerchants, 'editStatus');
   }
 }
