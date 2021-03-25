@@ -10,6 +10,7 @@ use App\EdiServices\Cielo\CieloEdiAuthorize;
 use App\EdiServices\Cielo\CieloEdiRegister;
 use App\Exceptions\EdiService\EdiServiceException;
 use App\Exceptions\EdiService\UnmatchStateException;
+use App\Exceptions\EdiService\ConnectionTimeoutException;
 
 class CieloEdiController extends Controller
 {
@@ -59,10 +60,11 @@ class CieloEdiController extends Controller
       $code = $request->input('code', null);
 
       $this->service->handleAuthError($states, $error);
-      $data = $this->service->authorize($code);
-      $accessToken = $data['data']['access_token'];
+      $data = collect($this->service->authorize($code))->get('data');
+      $data = collect($data);
+      $accessToken = $data->get('access_token');
 
-      $this->registerCieloCredentials(array_merge($data['data'], ['code' => $code]));
+      $this->registerCieloCredentials($data->merge(['code' => $code])->all());
       session()->put('cielo_access_token', $accessToken);
       return redirect()->route('cielo.authorize')->with([
         'access_token' => $accessToken,
@@ -83,6 +85,8 @@ class CieloEdiController extends Controller
   }
 
   public function ediRegister(Request $request) {
+    set_time_limit(180);
+
     try {
       $accessToken = session('cielo_access_token');
       $results = $this->ediRegister->invoke($accessToken, []);
@@ -96,6 +100,12 @@ class CieloEdiController extends Controller
           'status' => 'failed',
           'error' => $exception->getMessage(),
         ]);
+    } catch(ConnectionTimeoutException $exception) {
+      return response()->json([
+        'status' => 'failed',
+        'error' => $exception->getMessage(),
+        'retry' => true
+      ]);
     }
   }
 
@@ -106,15 +116,16 @@ class CieloEdiController extends Controller
   }
 
   private function registerCieloCredentials($data) {
+    $data = collect($data);
     DB::table('credenciamento_cielo')
       ->updateOrInsert(
         [
-          'ACCESS_TOKEN' => $data['access_token'],
+          'ACCESS_TOKEN' => $data->get('access_token'),
         ],
         [
-          'ACCESS_TOKEN' => $data['access_token'],
-          'REFRESH_TOKEN' => $data['refresh_token'],
-          'CODE' => $data['code'],
+          'ACCESS_TOKEN' => $data->get('access_token'),
+          'REFRESH_TOKEN' => $data->get('refresh_token'),
+          'CODE' => $data->get('code'),
         ]
       );
 
@@ -122,22 +133,27 @@ class CieloEdiController extends Controller
   }
 
   private function registerMerchants($merchants) {
-    set_time_limit(180);
-
+    $merchants = collect($merchants);
     $credentialsRegisterId = DB::table('credenciamento_cielo')
       ->select('CODIGO')
       ->where('ACCESS_TOKEN', session('cielo_access_token'))
       ->first()
       ->CODIGO;
 
-    $merchantsIds = array_reduce($merchants, function($ids, $merchant) use ($credentialsRegisterId) {
-      array_push($ids, [
-        'ESTABELECIMENTO' => $merchant['merchantID'],
-        'COD_CREDENCIAMENTO' => $credentialsRegisterId
-      ]);
-      return $ids;
-    }, []);
 
-    DB::table('estabelecimentos_credenciamento')->insert($merchantsIds);
+    $merchantsIds = $merchants->pluck('merchantID')->all();
+    DB::table('estabelecimentos_credenciamento')
+      ->whereIn('ESTABELECIMENTO', $merchantsIds)
+      ->delete();
+
+    $data = $merchants->map(function($merchant, $key) use ($credentialsRegisterId) {
+        return [
+          'ESTABELECIMENTO' => $merchant['merchantID'],
+          'COD_CREDENCIAMENTO' => $credentialsRegisterId
+        ];
+      })
+      ->all();
+
+    DB::table('estabelecimentos_credenciamento')->insert($data);
   }
 }
