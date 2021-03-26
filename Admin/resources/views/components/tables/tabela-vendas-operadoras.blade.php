@@ -164,7 +164,7 @@
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
               data-tbsort-by="RESUMO"
             >
-              <p class="m-0">RESUMO</p>
+              <p class="m-0">Resumo</p>
               <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
             <input type="text" class="form-control" name="RESUMO">
