@@ -5,11 +5,12 @@ use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use App\EdiServices\Cielo\CieloEdiService;
+use App\Contracts\EdiServices\IEdiAuthorize;
 use App\Exceptions\EdiService\UnmatchStateException;
 use App\Exceptions\EdiService\AuthorizationDeniedException;
 use App\Exceptions\EdiService\EdiServiceException;
 
-class CieloEdiAuthorize extends CieloEdiService {
+class CieloEdiAuthorize extends CieloEdiService implements IEdiAuthorize {
   public function authenticate($params = []) {
     $queryParams = collect($params)
       ->except([
