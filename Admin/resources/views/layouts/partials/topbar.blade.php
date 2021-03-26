@@ -6,11 +6,11 @@
     <ul class="list-unstyled topbar-nav float-right mb-0">
       @if(Auth::user()->USUARIO_GLOBAL === 'S')
       <li class="dropdown">
-        <a id="dropdownCadastros" class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
+        <a id="dropdownAdministrativo" class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
         aria-haspopup="false" aria-expanded="false">
         <span class="ml-1 nav-user-name hidden-sm"> Administrativo <i class="mdi mdi-chevron-down"></i> </span>
       </a>
-      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownCadastros">
+      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownAdministrativo">
         <a class="dropdown-item" href="#"> Conciliação Automática </a>
         <a class="dropdown-item" href="#"> Desconciliação Automática </a>
       </div>

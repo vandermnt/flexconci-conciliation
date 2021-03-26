@@ -919,6 +919,9 @@ document.querySelector('#dropdownUserSettings').addEventListener('click', (e) =>
 document.querySelector('#dropdownCadastros').addEventListener('click', (e) => {
     $('#dropdownCadastros').dropdown('toggle');
 });
+document.querySelector('#dropdownAdministrativo').addEventListener('click', (e) => {
+    $('#dropdownAdministrativo').dropdown('toggle');
+});
 
 ['VALOR_TAXA', 'PERCENTUAL_TAXA', 'TAXA', 'TAXA_OPERADORA', 'TAXA_DIFERENCA'].forEach(column => {
     const tdErp = document.querySelector(`#js-tabela-erp td[data-column=${column}]`);

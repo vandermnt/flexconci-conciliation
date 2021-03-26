@@ -244,12 +244,13 @@ function geraGraficoVendasProduto(dados_grafico) {
   arrayNomeAdq = [];
   let ticket_medio = null;
   let qtd = null;
-
+  console.log(dados_grafico)
   dados_grafico.forEach(dado => {
     if (dado.COD_PERIODO == periodo && dado.QUANTIDADE > 0) {
       var percentualFloat = parseFloat(dado.PERCENTUAL);
       percentualFloat = percentualFloat.toFixed(1);
       array.push(parseFloat(percentualFloat));
+      console.log(array);
       ticket_medio += parseFloat(dado.TOTAL_BRUTO).toFixed(2);
       qtd += parseFloat(dado.QUANTIDADE_REAL);
     }
@@ -280,6 +281,8 @@ function geraGraficoVendasProduto(dados_grafico) {
   for (var i = 0; i < arrayNomeAdq.length; i++) {
     coresGrafico.push(cores[i]);
   }
+
+  console.log(array);
 
   var options = {
     chart: {
@@ -356,6 +359,8 @@ function geraGraficoVendasProduto(dados_grafico) {
       }
     }
   };
+
+    console.log(options);
 
   var chart = new ApexCharts(document.querySelector("#apex_pie9"), options);
 
