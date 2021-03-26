@@ -126,8 +126,7 @@ class DashboardController extends Controller
 		session()->put('periodo', 2);
 		session()->put('grupo', 1);
 
-		// $erp_cliente = DB::table('erp')->where('CODIGO', $dados_cliente->COD_ERP)->first();
-		//$erp_cliente = $dados_cliente->COD_ERP;
+		$erp_cliente = DB::table('erp')->where('CODIGO', $dados_cliente->COD_ERP)->first();
 
 		return view('analytics.analytics-index')
 			->with('projetos', $projetos)
@@ -150,7 +149,7 @@ class DashboardController extends Controller
 			->with('dados_calendario', $dados_calendario_previsao)
 			->with('dados_calendario_pagamento', $dados_calendario_pagamento)
 			->with('periodos', $periodos)
-			->with('erp_cliente', $periodos);
+			->with('erp_cliente', $erp_cliente->ERP);
 	}
 
 	public function dadosCalendario()
