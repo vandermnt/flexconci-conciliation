@@ -7,7 +7,7 @@ use Auth;
 
 class ExpiresSession
 {
-  const THIRTEEN_MINUTES = 1800;
+	const THIRTY_MINUTES = 1800;
 
 	/**
 	 * Handle an incoming request.
@@ -18,24 +18,24 @@ class ExpiresSession
 	 */
 	public function handle($request, Closure $next)
 	{
-    $now = now()->getTimestamp();
-    $lastAcitivity = $request->session()->get('last_activity', null);
+		$now = now()->getTimestamp();
+		$lastAcitivity = $request->session()->get('last_activity', null);
 
-    if(!$lastAcitivity && Auth::check()) {
-      $request->session()->put('last_activity', $now);
-      return $next($request);
-    }
+		if (!$lastAcitivity && Auth::check()) {
+			$request->session()->put('last_activity', $now);
+			return $next($request);
+		}
 
-    if(!$lastAcitivity) return $next($request);
+		if (!$lastAcitivity) return $next($request);
 
-    $inactivityTime = $now - $lastAcitivity;
-    if($inactivityTime >= self::THIRTEEN_MINUTES) {
-      $request->session()->forget('last_activity');
-      $url = $request->path();
-      return redirect($url)->with('session-expires-message', 'Sessão expirada por invatividade...');
-    }
+		$inactivityTime = $now - $lastAcitivity;
+		if ($inactivityTime >= self::THIRTY_MINUTES) {
+			$request->session()->forget('last_activity');
+			$url = $request->path();
+			return redirect($url)->with('session-expires-message', 'Sessão expirada por invatividade...');
+		}
 
-    $request->session()->put('last_activity', $now);
+		$request->session()->put('last_activity', $now);
 		return $next($request);
 
 		// $atualTime = time();
