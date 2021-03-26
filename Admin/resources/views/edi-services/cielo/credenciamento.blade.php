@@ -1,16 +1,16 @@
 @extends('layouts.authLayout')
 
 @section('headerStyle')
-    <link rel="stylesheet" href="{{ URL::asset('assets/css/edi-services/cielo/credenciamento.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('assets/css/edi-services/cielo/index.css') }}">
 @endsection
 
 @section('content')
-  <main id="pagina-credenciamento-cielo" class="card shadow-lg">
+  <main id="pagina-credenciamento-cielo" class="pagina-edi-cielo card shadow-lg">
     <div class="card-body">
       <div class="px-3">
         <div class="header">
-          <h1>Autorização de Acesso</h1>
-          <p class="text-muted">Informe seu e-mail abaixo e clique no botão Avançar</p>
+          <h1 class="text-center">Autorização de Acesso</h1>
+          <p class="text-muted text-center">Informe seu e-mail abaixo e clique no botão Avançar</p>
           <img src="{{ URL::asset('assets/images/logos/cielo.svg') }}" alt="Cielo Logo">
         </div>
         <form method="GET" action="{{ route('cielo.authenticate') }}">
