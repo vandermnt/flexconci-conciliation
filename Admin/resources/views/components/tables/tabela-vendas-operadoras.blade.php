@@ -158,6 +158,18 @@
             <input type="text" class="form-control" name="CARTAO">
           </div>
         </th>
+				<th>
+          <div class="d-flex flex-column align-items-center">
+            <div
+              class="d-flex align-items-center justify-content-center table-sorter mb-2"
+              data-tbsort-by="RESUMO"
+            >
+              <p class="m-0">RESUMO</p>
+              <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
+            <input type="text" class="form-control" name="RESUMO">
+          </div>
+        </th>
         <th>
           <div class="d-flex flex-column align-items-center">
             <div
@@ -444,6 +456,7 @@
         <td data-column="AUTORIZACAO"></td>
         <td data-column="TID"></td>
         <td data-column="CARTAO"></td>
+				<td data-column="RESUMO"></td>
         <td data-column="VALOR_BRUTO" data-format="currency"></td>
         <td class="text-danger" data-column="PERCENTUAL_TAXA" data-format="number"></td>
         <td class="text-danger" data-reverse-value="true" data-column="VALOR_TAXA" data-format="currency"></td>
@@ -499,6 +512,7 @@
         <td></td>
         <td></td>
         <td></td>
+				<td></td>
         <td data-column="TOTAL_BRUTO" data-format="currency"></td>
         <td></td>
         <td data-column="TOTAL_TAXA" data-reverse-value="true" data-format="currency" class="text-danger"></td>
