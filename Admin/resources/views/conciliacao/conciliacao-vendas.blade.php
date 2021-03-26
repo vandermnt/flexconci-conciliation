@@ -145,6 +145,7 @@
             'hint' => 'Total de vendas das operadoras que ficaram sem conciliar. Principais motivos: venda não lançada no seu sistema, valor errado, bandeira errada, data da venda errada, NSU ou autorização errado.',
             'status' => '2',
           ]"
+					resumo="resumo"
         />
       </div>
 
