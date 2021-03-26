@@ -6,15 +6,19 @@
 @endphp
 
 @section('headerStyle')
-    <link rel="stylesheet" href="{{ URL::asset('assets/css/edi-services/cielo/credenciamento.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('assets/css/globals/global.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('assets/css/edi-services/cielo/index.css') }}">
 @endsection
 
 @section('content')
-  <main id="pagina-callback-cielo" class="card shadow-lg">
+  <main id="pagina-authorize-cielo" class="pagina-edi-cielo card shadow-lg">
     <div class="card-body">
       <div class="px-3">
         <div class="header">
-          <h1>Autorização de Acesso</h1>
+          <h1 class="text-center">Autorização de Acesso</h1>
+          @if($success)
+            <p class="text-muted text-center">O primeiro passo foi concluído. Avance para o próximo passo.</p>
+          @endif
           <img src="{{ URL::asset('assets/images/logos/cielo.svg') }}" alt="Cielo Logo">
           @if($errors->has('error'))
             <div class="alert alert-danger w-100">
