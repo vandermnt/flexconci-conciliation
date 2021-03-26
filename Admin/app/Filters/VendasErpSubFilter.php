@@ -75,7 +75,7 @@ class VendasErpSubFilter extends BaseSubFilter {
     $subfilters = Arr::where($subfilters, function($value, $key) {
       return boolval($value);
     });
-
+    
     $filterQuery = $this->getFilterQuery($filters);
 
     $this->query = DB::table('vendas_erp_sub')
@@ -87,6 +87,8 @@ class VendasErpSubFilter extends BaseSubFilter {
     foreach($subfilters as $subfilter => $value) {
       $this->buildWhereClause($subfilter, $value);
     }
+
+    $this->buildOrderClause($filters['sort']);
 
     return $this;
   }

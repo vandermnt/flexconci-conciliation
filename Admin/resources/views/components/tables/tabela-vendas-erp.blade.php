@@ -15,69 +15,135 @@
           @if($isColumnVisible('ID_ERP'))
             <th>
               <div class="d-flex flex-column align-items-center">
-                <p>ID. ERP</p>
+                <div
+                  class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                  data-tbsort-by="DESCRICAO_ERP"
+                >
+                  <p class="m-0">ID. ERP</p>
+                  <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+                </div>
                 <input type="text" class="form-control" name="DESCRICAO_ERP">
               </div>
             </th>
           @endif
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>Empresa</p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="NOME_EMPRESA"
+              >
+                <p class="m-0">Empresa</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="text" class="form-control" name="NOME_EMPRESA">
             </div>
           </th>
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>CNPJ</p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="CNPJ"
+              >
+                <p class="m-0">CNPJ</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="text" class="form-control" name="CNPJ">
             </div>
           </th>
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>Venda</p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="DATA_VENDA"
+              >
+                <p class="m-0">Venda</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="date" class="form-control" name="DATA_VENDA">
             </div>
           </th>
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>Previsão</p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="DATA_VENCIMENTO"
+              >
+                <p class="m-0">Previsão</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="date" class="form-control" name="DATA_VENCIMENTO">
             </div>
           </th>
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>Operadora</p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="ADQUIRENTE"
+              >
+                <p class="m-0">Operadora</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="text" class="form-control" name="ADQUIRENTE">
             </div>
           </th>
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>Bandeira</p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="BANDEIRA"
+              >
+                <p class="m-0">Bandeira</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="text" class="form-control" name="BANDEIRA">
             </div>
           </th>
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>Forma de Pagamento</p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="MODALIDADE"
+              >
+                <p class="m-0">Forma de Pagamento</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="text" class="form-control" name="MODALIDADE">
             </div>
           </th>
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>NSU</p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="NSU"
+              >
+                <p class="m-0">NSU</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="text" class="form-control" name="NSU">
             </div>
           </th>
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>Autorização</p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="CODIGO_AUTORIZACAO"
+              >
+                <p class="m-0">Autorização</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="text" class="form-control" name="CODIGO_AUTORIZACAO">
             </div>
           </th>
           @if($isColumnVisible('TID'))
             <th>
               <div class="d-flex flex-column align-items-center">
-                <p>TID</p>
+                <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="TID"
+              >
+                <p class="m-0">TID</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
                 <input type="text" class="form-control" name="TID">
               </div>
             </th>
@@ -85,37 +151,67 @@
           @if($isColumnVisible('CARTAO'))
             <th>
               <div class="d-flex flex-column align-items-center">
-                <p>Cartão</p>
+                <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="CARTAO"
+              >
+                <p class="m-0">Cartão</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
                 <input type="text" class="form-control" name="CARTAO">
               </div>
             </th>
           @endif
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>Valor Bruto</p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="VALOR_VENDA"
+              >
+                <p class="m-0">Valor Bruto</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="number" min="0" step="0.01" class="form-control" name="VALOR_VENDA">
             </div>
           </th>
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>Taxa R$</p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="VALOR_TAXA"
+              >
+                <p class="m-0">Taxa R$</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="number" min="0" step="0.01" class="form-control" name="VALOR_TAXA">
             </div>
           </th>
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>
-                {{ is_null($getHeader('TAXA')) ?
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="TAXA"
+              >
+                <p class="m-0">
+                  {{ is_null($getHeader('TAXA')) ?
                   'Taxa %' :
                   ucwords(mb_strtolower($getHeader('TAXA'), 'utf-8')) }}
                 </p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="number" min="0" step="0.01" class="form-control" name="TAXA">
             </div>
           </th>
           @if($isColumnVisible('TAXA_OPERADORA'))
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>Taxa Op. %</p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="TAXA_OPERADORA"
+              >
+                <p class="m-0">Taxa Op. %</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="number" min="0" step="0.01" class="form-control" name="TAXA_OPERADORA">
             </div>
           </th>
@@ -123,25 +219,43 @@
           @if($isColumnVisible('TAXA_DIFERENCA'))
             <th>
               <div class="d-flex flex-column align-items-center">
-                <p>Dif. Taxa %</p>
+                <div
+                  class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                  data-tbsort-by="TAXA_DIFERENCA"
+                >
+                  <p class="m-0">Dif. Taxa %</p>
+                  <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+                </div>
                 <input type="number" step="0.01" class="form-control" name="TAXA_DIFERENCA">
               </div>
             </th>
           @endif
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>
-                {{ is_null($getHeader('VALOR_LIQUIDO')) ?
-                'Valor Líquido' :
-                ucwords(mb_strtolower($getHeader('VALOR_LIQUIDO'), 'utf-8')) }}
-              </p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="VALOR_LIQUIDO_PARCELA"
+              >
+                <p class="m-0">
+                  {{ is_null($getHeader('VALOR_LIQUIDO')) ?
+                    'Valor Líquido' :
+                    ucwords(mb_strtolower($getHeader('VALOR_LIQUIDO'), 'utf-8')) }}
+                </p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="number" min="0" step="0.01" class="form-control" name="VALOR_LIQUIDO_PARCELA">
             </div>
           </th>
           @if($isColumnVisible('VALOR_LIQUIDO_OPERADORA'))
             <th>
               <div class="d-flex flex-column align-items-center">
-                <p>Valor Líquido Op.</p>
+                <div
+                  class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                  data-tbsort-by="VALOR_LIQUIDO_OPERADORA"
+                >
+                  <p class="m-0">Valor Líquido Op.</p>
+                  <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+                </div>
                 <input type="number" min="0" step="0.01" class="form-control" name="VALOR_LIQUIDO_OPERADORA">
               </div>
             </th>
@@ -149,27 +263,51 @@
           @if($isColumnVisible('DIFERENCA_LIQUIDO'))
             <th>
               <div class="d-flex flex-column align-items-center">
-                <p>Dif. Líquido R$</p>
+                <div
+                  class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                  data-tbsort-by="DIFERENCA_LIQUIDO"
+                >
+                  <p class="m-0">Dif. Líquido R$</p>
+                  <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+                </div>
                 <input type="number" step="0.01" class="form-control" name="DIFERENCA_LIQUIDO">
               </div>
             </th>
           @endif
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>Parcela</p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="PARCELA"
+              >
+                <p class="m-0">Parcela</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="text" class="form-control" name="PARCELA">
             </div>
           </th>
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>Total Parc.</p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="TOTAL_PARCELAS"
+              >
+                <p class="m-0">Total Parc.</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="text" class="form-control" name="TOTAL_PARCELAS">
             </div>
           </th>
           @if($isColumnVisible('HORA'))
             <th>
               <div class="d-flex flex-column align-items-center">
-                <p>Hora</p>
+                <div
+                  class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                  data-tbsort-by="HORA"
+                >
+                  <p class="m-0">Hora</p>
+                  <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+                </div>
                 <input type="text" class="form-control" name="HORA">
               </div>
             </th>
@@ -177,124 +315,234 @@
           @if($isColumnVisible('ESTABELECIMENTO'))
             <th>
               <div class="d-flex flex-column align-items-center">
-                <p>Estabelecimento</p>
+                <div
+                  class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                  data-tbsort-by="ESTABELECIMENTO"
+                >
+                  <p class="m-0">Estabelecimento</p>
+                  <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+                </div>
                 <input type="text" class="form-control" name="ESTABELECIMENTO">
               </div>
             </th>
           @endif
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>Banco</p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="BANCO"
+              >
+                <p class="m-0">Banco</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="text" class="form-control" name="BANCO">
             </div>
           </th>
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>Agência</p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="AGENCIA"
+              >
+                <p class="m-0">Agência</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="text" class="form-control" name="AGENCIA">
             </div>
           </th>
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>Conta</p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="CONTA_CORRENTE"
+              >
+                <p class="m-0">Conta</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="text" class="form-control" name="CONTA_CORRENTE">
             </div>
           </th>
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>Produto</p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="PRODUTO"
+              >
+                <p class="m-0">Produto</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="text" class="form-control" name="PRODUTO">
             </div>
           </th>
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>Meio de Captura</p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="MEIOCAPTURA"
+              >
+                <p class="m-0">Meio de Captura</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="text" class="form-control" name="MEIOCAPTURA">
             </div>
           </th>
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>Status Conciliação</p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="STATUS_CONCILIACAO"
+              >
+                <p class="m-0">Status Conciliação</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="text" class="form-control" name="STATUS_CONCILIACAO">
             </div>
            </th>
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>Divergência</p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="DIVERGENCIA"
+              >
+                <p class="m-0">Divergência</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="text" class="form-control" name="DIVERGENCIA">
             </div>
            </th>
-          <th>
-            <div class="d-flex flex-column align-items-center">
-              <p>Status Financeiro</p>
-              <input type="text" class="form-control" name="STATUS_FINANCEIRO">
-            </div>
-           </th>
+          @if($isColumnVisible('STATUS_FINANCEIRO'))
+            <th>
+                <div class="d-flex flex-column align-items-center">
+                <div
+                    class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                    data-tbsort-by="STATUS_FINANCEIRO"
+                >
+                    <p class="m-0">Status Financeiro</p>
+                    <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+                </div>
+                <input type="text" class="form-control" name="STATUS_FINANCEIRO">
+                </div>
+            </th>
+          @endif
            <th>
             <div class="d-flex flex-column align-items-center">
-              <p>Justificativa</p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="JUSTIFICATIVA"
+              >
+                <p class="m-0">Justificativa</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="text" class="form-control" name="JUSTIFICATIVA">
             </div>
           </th>
            <th>
             <div class="d-flex flex-column align-items-center">
-              <p>
-                {{ is_null($getHeader('TITULO_CAMPO1')) ?
-                 'Campo 1' :
-                 ucwords(mb_strtolower($getHeader('TITULO_CAMPO1'), 'utf-8')) }}
-              </p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="CAMPO1"
+              >
+                <p class="m-0">
+                  {{ is_null($getHeader('TITULO_CAMPO1')) ?
+                    'Campo 1' :
+                    ucwords(mb_strtolower($getHeader('TITULO_CAMPO1'), 'utf-8')) }}
+                </p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="text" class="form-control" name="CAMPO1">
             </div>
           </th>
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>
-                {{ is_null($getHeader('TITULO_CAMPO2')) ?
-                  'Campo 2' :
-                  ucwords(mb_strtolower($getHeader('TITULO_CAMPO2'), 'utf-8')) }}
-              </p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="CAMPO2"
+              >
+                <p class="m-0">
+                  {{ is_null($getHeader('TITULO_CAMPO2')) ?
+                    'Campo 2' :
+                    ucwords(mb_strtolower($getHeader('TITULO_CAMPO2'), 'utf-8')) }}
+                </p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="text" class="form-control" name="CAMPO2">
             </div>
           </th>
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>
-                {{ is_null($getHeader('TITULO_CAMPO3')) ?
-                  'Campo 3' :
-                  ucwords(mb_strtolower($getHeader('TITULO_CAMPO3'), 'utf-8')) }}
-              </p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="CAMPO3"
+              >
+                <p class="m-0">
+                  {{ is_null($getHeader('TITULO_CAMPO3')) ?
+                    'Campo 3' :
+                    ucwords(mb_strtolower($getHeader('TITULO_CAMPO3'), 'utf-8')) }}
+                </p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="text" class="form-control" name="CAMPO3">
             </div>
           </th>
           @if($isColumnVisible('RETORNO_ERP'))
             <th>
-                <div class="d-flex flex-column align-items-center">
-                <p>Retorno Venda {{ $erp->ERP ?? 'ERP' }}</p>
-                <input type="text" class="form-control" name="RETORNO_ERP">
+              <div class="d-flex flex-column align-items-center">
+                <div
+                  class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                  data-tbsort-by="RETORNO_ERP"
+                >
+                  <p class="m-0">Retorno Venda {{ $erp->ERP ?? 'ERP' }}</p>
+                  <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
                 </div>
+                <input type="text" class="form-control" name="RETORNO_ERP">
+              </div>
             </th>
           @endif
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>Data Importação</p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="DATA_IMPORTACAO"
+              >
+                <p class="m-0">Data Importação</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="date" class="form-control" name="DATA_IMPORTACAO">
             </div>
           </th>
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>Hora Importação</p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="HORA_IMPORTACAO"
+              >
+                <p class="m-0">Hora Importação</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="text" class="form-control" name="HORA_IMPORTACAO">
             </div>
           </th>
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>Data Conciliação</p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="DATA_CONCILIACAO"
+              >
+                <p class="m-0">Data Conciliação</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="date" class="form-control" name="DATA_CONCILIACAO">
             </div>
           </th>
           <th>
             <div class="d-flex flex-column align-items-center">
-              <p>Hora Conciliação</p>
+              <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="HORA_CONCILIACAO"
+              >
+                <p class="m-0">Hora Conciliação</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              </div>
               <input type="text" class="form-control" name="HORA_CONCILIACAO">
             </div>
           </th>
@@ -389,7 +637,9 @@
           <td data-column="MEIOCAPTURA"></td>
           <td data-column="STATUS_CONCILIACAO"></td>
           <td data-column="DIVERGENCIA"></td>
-          <td data-column="STATUS_FINANCEIRO"></td>
+          @if($isColumnVisible('STATUS_FINANCEIRO'))
+            <td data-column="STATUS_FINANCEIRO"></td>
+          @endif
           <td data-column="JUSTIFICATIVA"></td>
           <td data-column="CAMPO1"></td>
           <td data-column="CAMPO2"></td>
@@ -465,7 +715,9 @@
           <td></td>
           <td></td>
           <td></td>
-          <td></td>
+          @if($isColumnVisible('STATUS_FINANCEIRO'))
+            <td></td>
+          @endif
           @if($isColumnVisible('RETORNO_ERP'))
             <td></td>
           @endif

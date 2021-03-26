@@ -71,8 +71,16 @@
                                             <div class="form-group">
                                                 <label for="userpassword">Senha <label style="color:red; margin-bottom: 0">*</label></label>
                                                 <div class="input-group mb-3">
-                                                    <span class="auth-form-icon">
-                                                        <i class="dripicons-lock"></i>
+                                                    <span
+                                                        id="js-toggle-password"
+                                                        class="auth-form-icon"
+                                                    >
+                                                        <i
+                                                            class="fas fa-eye"
+                                                            data-current-icon="fas fa-eye"
+                                                            data-visible-icon="fas fa-eye"
+                                                            data-notvisible-icon="fas fa-eye-slash"
+                                                        ></i>
                                                     </span>
                                                     <input type="password" class="form-control" name="password" id="userpassword" placeholder="Senha">
                                                 </div>
@@ -216,6 +224,24 @@ Launch static backdrop modal
     <script src="{{ URL::asset('plugins/sweet-alert2/sweetalert2.min.js')}}"></script>
     <script src="{{ URL::asset('assets/pages/jquery.sweet-alert.init.js')}}"></script>
     <script>
+        function togglePasswordVisibility() {
+            const passwordIcon = $('#js-toggle-password i').first();
+            const passwordInput = $('input#userpassword').first();
+
+            const iconSequence = {
+                'password': passwordIcon.data('notvisible-icon'),
+                'text': passwordIcon.data('visible-icon'),
+            };
+
+            const inputType = passwordInput.attr('type');
+            const nextType = inputType === 'password' ? 'text' : 'password';
+            const nextIcon = iconSequence[inputType];
+
+            passwordInput.attr('type', nextType);
+            passwordIcon.removeClass(passwordIcon.data('current-icon'));
+            passwordIcon.addClass(nextIcon);
+            passwordIcon.data('current-icon', nextIcon);
+        }
         var clientes = null;
 
         document.addEventListener('keypress', function(e) {
@@ -403,6 +429,8 @@ Launch static backdrop modal
                 else return false;
             }
         }
+
+        $('#js-toggle-password').on('click', togglePasswordVisibility);
     </script>
     @endsection
 

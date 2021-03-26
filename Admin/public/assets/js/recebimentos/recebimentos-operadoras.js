@@ -49,6 +49,7 @@ searchForm.onSubmit(async (event) => {
   });
 
   tableRender.clearFilters();
+  tableRender.clearSortFilter();
 
   if (resultadosDOM.classList.contains('hidden')) {
     resultadosDOM.classList.remove('hidden');
@@ -109,29 +110,31 @@ paymentsContainer.setPaginationConfig({
 function buildRequest(params) {
   let requestHandler = () => {};
 
-  if(paymentsContainer.get('active') === 'search') {
-    requestHandler = async (params) => {
-      await paymentsContainer.search({
-        params: {
-          por_pagina: paymentsContainer.get('search').get('pagination').options.perPage,
-          ...params
-        },
-        body: { ...searchForm.serialize() }
-      });
+  const isSearchActive = paymentsContainer.get('active') === 'search';
+  const sendRequest = isSearchActive ?
+    paymentsContainer.search.bind(paymentsContainer) :
+    paymentsContainer.filter.bind(paymentsContainer);
+
+  const filters = { ...searchForm.serialize(), ...tableRender.serializeSortFilter() };
+  const bodyPayload = isSearchActive ?
+    { ...filters }
+    : {
+      filters: { ...filters },
+      subfilters: { ...tableRender.serializeTableFilters() }
     }
-  } else {
-    requestHandler = async (params) => {
-      await paymentsContainer.filter({
-        params: {
-          por_pagina: paymentsContainer.get('search').get('pagination').options.perPage,
-          ...params,
-        },
-        body: {
-          filters: { ...searchForm.serialize() },
-          subfilters: { ...tableRender.serializeTableFilters() }
-        }
-      });
-    }
+
+  const requestPayload = {
+    params: {},
+    body: bodyPayload,
+  }
+
+  requestHandler = async (params) => {
+    requestPayload.params = {
+      por_pagina: paymentsContainer.get('search').get('pagination').options.perPage,
+      ...params
+    };
+
+    await sendRequest(requestPayload)
   }
 
   return {
@@ -157,6 +160,15 @@ tableRender.onFilter(async (filters) => {
   await buildRequest(params).get();
 });
 
+tableRender.onSort(async (elementDOM, tableInstance) => {
+    const params = {
+        por_pagina: document.querySelector('#js-por-pagina').value,
+    };
+
+    _defaultEvents.table.onSort(elementDOM, tableInstance);
+    await buildRequest(params).get();
+});
+
 async function onPerPageChanged(event) {
   paymentsContainer.get('search').get('pagination').setOptions({ perPage: event.target.value });
   paymentsContainer.get('filtered').get('pagination').setOptions({ perPage: event.target.value });
@@ -173,6 +185,7 @@ function exportar() {
     openUrl(searchForm.get('form').dataset.urlExportar, {
       ...searchForm.serialize(),
       ...tableRender.serializeTableFilters(),
+      ...serializeTableSortToExport(tableRender.serializeSortFilter()),
     });
   }, 500);
 }
@@ -183,6 +196,7 @@ function retornoCsv() {
     openUrl(searchForm.get('form').dataset.urlRetornoCsv, {
       ...searchForm.serialize(),
       ...tableRender.serializeTableFilters(),
+      ...serializeTableSortToExport(tableRender.serializeSortFilter()),
     });
   }, 500);
 }

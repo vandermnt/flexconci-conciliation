@@ -110,6 +110,32 @@ const _events = {
                 }
             });
             _defaultEvents.table.onRenderRow(row, data, tableRenderInstance);
+        },
+        onSort: async (key, elementDOM, tableInstance) => {
+            toggleElementVisibility('#js-loader');
+
+            const params = {
+              por_pagina: document.querySelector(`#js-por-pagina-${key}`).value,
+            };
+
+            _defaultEvents.table.onSort(elementDOM, tableInstance);
+            await buildRequest(key, params).get();
+
+            toggleElementVisibility('#js-loader');
+        },
+        onRenderCell: async (cell, data, tableInstance) => {
+            _defaultEvents.table.onRenderCell(cell, data);
+            const columnName = cell.dataset.column;
+
+            if(columnName !== 'DIFERENCA_LIQUIDO') return;
+
+            const diffValue = (Number(data[columnName]) || 0);
+
+            if(diffValue < 0) {
+                cell.classList.add('text-danger');
+            } else if(diffValue > 0) {
+                cell.classList.add('text-primary');
+            }
         }
     }
 }
@@ -132,10 +158,12 @@ function buildRequest(key = 'erp', params, body = {}) {
     const sendRequest = isSearchActive ?
         currentSalesContainer.search.bind(currentSalesContainer) :
         currentSalesContainer.filter.bind(currentSalesContainer);
+
+    const filters = { ...searchForm.serialize(), ...currentTableRender.serializeSortFilter(), status_conciliacao: activeStatus };
     const bodyPayload = isSearchActive ?
-        { ...searchForm.serialize(), status_conciliacao: activeStatus, ...body }
+        { ...filters, ...body }
         : {
-            filters: { ...searchForm.serialize(), status_conciliacao: activeStatus },
+            filters: { ...filters },
             subfilters: { ...currentTableRender.serializeTableFilters() }
         }
 
@@ -204,6 +232,9 @@ searchForm.onSubmit(async (event) => {
 
     tableRender.clearFilters();
     tableRenderErp.clearFilters();
+    tableRender.clearSortFilter();
+    tableRenderErp.clearSortFilter();
+
     if (resultadosDOM.classList.contains('hidden')) {
         resultadosDOM.classList.remove('hidden');
     }
@@ -267,6 +298,8 @@ salesErpContainer.onEvent('search', (sales) => {
     boxTotal.render();
 });
 
+tableRenderErp.onRenderCell(async (cell, data) => await _events.table.onRenderCell(cell, data, tableRenderErp));
+
 tableRenderErp.onFilter(async (filters) => await _events.table.onFilter('erp', filters));
 tableRender.onFilter(async (filters) => {
     const statusNaoConciliada = document.querySelector('.box[data-key="TOTAL_PENDENCIAS_OPERADORAS"]').dataset.status;
@@ -275,6 +308,8 @@ tableRender.onFilter(async (filters) => {
 
     await _events.table.onFilter('operadoras', filters);
 });
+tableRenderErp.onSort(async (elementDOM, tableInstance) => await _events.table.onSort('erp', elementDOM, tableInstance));
+tableRender.onSort(async (elementDOM, tableInstance) => await _events.table.onSort('operadoras', elementDOM, tableInstance));
 
 tableRender.onRenderRow((row, data, instance) => _events.table.onRenderRow('operadoras', row, data, instance));
 tableRenderErp.onRenderRow((row, data, instance) => _events.table.onRenderRow('erp', row, data, instance));
@@ -547,7 +582,7 @@ function closeJustifyModal() {
 function justifyErp() {
     const statusJustificado = findBoxStatusConc('TOTAL_JUSTIFICADO').dataset.status;
     const statusNaoConciliado = findBoxStatusConc('TOTAL_NAO_CONCILIADO').dataset.status;
-    
+
     const baseUrl = searchForm.get('form').dataset.urlJustificarErp;
     const justificativaDOM = document.querySelector('select[name="justificativa"]');
     const justificativa = justificativaDOM.value;
@@ -738,6 +773,7 @@ function exportar(event) {
         openUrl(baseUrl, {
             ...{ ...searchForm.serialize(),  status_conciliacao: [...activeStatus] },
             ...currentTableRender.serializeTableFilters(),
+            ...serializeTableSortToExport(currentTableRender.serializeSortFilter()),
         });
     }, 500);
 }
@@ -880,3 +916,19 @@ boxes.forEach(box => {
 document.querySelector('#dropdownUserSettings').addEventListener('click', (e) => {
     $('#dropdownUserSettings').dropdown('toggle');
 });
+
+['VALOR_TAXA', 'PERCENTUAL_TAXA', 'TAXA', 'TAXA_OPERADORA', 'TAXA_DIFERENCA'].forEach(column => {
+    const tdErp = document.querySelector(`#js-tabela-erp td[data-column=${column}]`);
+    const tdOperadora = document.querySelector(`#js-tabela-operadoras td[data-column=${column}]`);
+
+    if(tdErp) {
+        tdErp.classList.remove('text-danger');
+    }
+
+    if(tdOperadora) {
+        tdOperadora.classList.remove('text-danger');
+    }
+})
+
+document.querySelector('#js-tabela-erp tfoot td[data-column="TOTAL_TAXA"]').classList.remove('text-danger');
+document.querySelector('#js-tabela-operadoras tfoot td[data-column="TOTAL_TAXA"]').classList.remove('text-danger');

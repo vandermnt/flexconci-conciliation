@@ -99,6 +99,44 @@ const _defaultEvents = {
       } else {
         tr.classList.remove('marcada');
       }
+    },
+    onSort: function(elementDOM, tableInstance) {
+      const sortOrderSequence = {
+        none: { to: 'asc' },
+        asc: { to: 'desc' },
+        desc: { to: 'none' },
+      };
+
+      if(!elementDOM || elementDOM.tagName.toLowerCase() === 'input') return;
+
+      const tableSorter = elementDOM.closest('.table-sorter');
+      if(!tableSorter) return;
+
+      const sortIcon = tableSorter.querySelector('.table-sort-icon');
+      if(sortIcon.dataset.sortOrder === 'disabled') return;
+
+      const activeSortColumn = tableInstance.get('sort').by;
+      const nextColumn = tableSorter.dataset.tbsortBy;
+
+      if(activeSortColumn && activeSortColumn !== nextColumn) {
+        const selector = `.table-sorter[data-tbsort-by="${activeSortColumn}"] .table-sort-icon`;
+        const activeSortIcon = tableInstance.get('table').querySelector(selector);
+        activeSortIcon.dataset.sortOrder = 'none';
+
+        tableInstance.set('sort', {
+          by: null,
+          order: '',
+        });
+      }
+
+      const previousOrder = sortIcon.dataset.sortOrder;
+      const currentOrder = sortOrderSequence[previousOrder].to;
+      sortIcon.dataset.sortOrder = currentOrder;
+
+      tableInstance.set('sort', {
+        by: currentOrder !== 'none' ? nextColumn : null,
+        order: currentOrder !== 'none' ? currentOrder : '',
+      });
     }
   }
 }
@@ -133,6 +171,8 @@ function createTableRender({ table = '', locale = 'pt-br', formatter }) {
   tableRender.shouldSelectRow(_defaultEvents.table.shouldSelectRow);
 
   tableRender.onSelectRow(_defaultEvents.table.onSelectRow);
+
+  tableRender.onSort(_defaultEvents.table.onSort);
 
   return tableRender;
 }
@@ -197,13 +237,19 @@ function openConfirmDialog(title = '', onReply = (value) => {}, config = {}) {
   }).then(value => onReply(value));
 }
 
-function openUrl(baseUrl, params) {
+function openUrl(baseUrl, params, options = { target: '_blank' }) {
   const url = api.urlBuilder(baseUrl, params);
   const a = document.createElement('a');
 
   a.href = url;
-  a.target = '_blank';
+  a.target = options.target;
   a.click();
+}
+
+function redirectTo(baseUrl, params) {
+  const url = api.urlBuilder(baseUrl, params);
+
+  openUrl(url, params, { target: '' });
 }
 
 function recreateNode(element = '') {
@@ -272,6 +318,15 @@ function updateTotals(totals, newData) {
         ...totals,
         ...newTotals,
     };
+}
+
+function serializeTableSortToExport({ sort }) {
+  if(!sort) return {};
+
+  return {
+    sort_column: sort.column,
+    sort_direction: sort.direction,
+  };
 }
 
 Array.from(

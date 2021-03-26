@@ -241,7 +241,12 @@ class VendasOperadorasController extends Controller
     public function export(Request $request) {
         set_time_limit(300);
 
-        $filters = $request->except(['_token']);
+        $sort = [
+            'column' => $request->input('sort_column', 'DATA_VENDA'),
+            'direction' => $request->input('sort_direction', 'asc')
+        ];
+        $filters = $request->except(['_token', 'sort_column', 'sort_direction']);
+        $filters['sort'] = $sort;
         $subfilters = $request->except(['_token']);
         Arr::set($filters, 'cliente_id', session('codigologin'));
         return (new VendasOperadorasExport($filters, $subfilters))->download('vendas_operadoras_'.time().'.xlsx');
@@ -250,7 +255,12 @@ class VendasOperadorasController extends Controller
     public function exportCsv(Request $request) {
         set_time_limit(300);
 
-        $filters = $request->except(['_token']);
+        $sort = [
+            'column' => $request->input('sort_column', 'DATA_VENDA'),
+            'direction' => $request->input('sort_direction', 'asc')
+        ];
+        $filters = $request->except(['_token', 'sort_column', 'sort_direction']);
+        $filters['sort'] = $sort;
         $subfilters = $request->except(['_token']);
         Arr::set($filters, 'cliente_id', session('codigologin'));
         return (new RetornoVendasOperadorasExport($filters, $subfilters))->download('vendas_operadoras_'.time().'.csv');

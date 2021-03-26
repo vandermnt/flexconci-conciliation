@@ -67,72 +67,104 @@
     <div class="resultados hidden">
       <div class="boxes">
         <x-box
+					class="tooltip-hint"
           title="VALOR TOTAL BRUTO"
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_BRUTO"
           icon-path="assets/images/financeiro/bruto.svg"
           icon-description="Valor Bruto"
-        />
+					:dataset="[
+						'hint' => 'Valor total bruto pago pelas operadoras.'
+					]"
+				/>
         <x-box
-          title="PAG. NORMAL"
-          content="R$ 0,00"
-          data-format="currency"
-          data-key="PAG_NORMAL"
-          icon-path="assets/images/financeiro/pagamentos.svg"
-          icon-description="Pag. Normal"
-        />
-        <x-box
-          title="PAG. ANTECIPADO"
-          content="R$ 0,00"
-          data-format="currency"
-          data-key="PAG_ANTECIPADO"
-          icon-path="assets/images/financeiro/pag-antecipado.svg"
-          icon-description="Pag. Antecipado"
-        />
-        <x-box
+					class="tooltip-hint"
           title="AJUSTE A CRÉDITO"
           content="R$ 0,00"
           data-format="currency"
           data-key="PAG_AVULSO"
           icon-path="assets/images/financeiro/pagamentos.svg"
           icon-description="Pag. Avulso"
-        />
+					:dataset="[
+						'hint' => 'Recebimentos realizados que não tem vínculo com vendas, porém, fazem parte do depósito realizado no banco. Exemplo: Devolução de valores cobrados a maior, acordo comercial para isenção de aluguel de máquina entre outros.'
+					]"
+				/>
         <x-box
+					class="tooltip-hint"
           title="CUSTO TAXA"
           content="-R$ 0,00"
           content-class="text-danger"
           data-format="currency"
           data-key="TOTAL_TAXA"
-          icon-path="assets/images/financeiro/taxa-adm.svg"
+          icon-path="assets/images/financeiro/despesas.svg"
           icon-description="Taxa Adm."
-        />
+					:dataset="[
+						'hint' => 'Valores cobrados referentes a taxas administrativas de cada venda.'
+					]"
+				/>
         <x-box
+					class="tooltip-hint"
           title="CUSTO ANTECIPAÇÃO"
           content="-R$ 0,00"
           content-class="text-danger"
           data-format="currency"
           data-key="TOTAL_ANTECIPACAO"
-          icon-path="assets/images/financeiro/taxas.svg"
+          icon-path="assets/images/financeiro/perda.svg"
           icon-description="Antecipação"
-        />
+					:dataset="[
+						'hint' => 'Valores cobrados referentes a antecipações realizadas.'
+					]"
+				/>
         <x-box
+					class="tooltip-hint"
+          title="CANCELAMENTO"
+          content="R$ 0,00"
+          data-format="currency"
+          data-key="TOTAL_CANCELAMENTO"
+          icon-path="assets/images/financeiro/cancelamento.svg"
+          icon-description="Cancelamento"
+					:dataset="[
+						'hint' => 'Valores descontados referentes a cancelamentos de vendas realizados pela sua empresa.'
+					]"
+				/>
+        <x-box
+					class="tooltip-hint"
+          title="CHARGEBACK"
+          content="R$ 0,00"
+          data-format="currency"
+          data-key="TOTAL_CHARGEBACK"
+          icon-path="assets/images/financeiro/chargeback.svg"
+          icon-description="Chargeback"
+					:dataset="[
+						'hint' => 'Valores descontados devido a constestação por parte do cliente que efetuou a compra. Principais motivos: mercadoria não recebida, fraude, roubo, produto avariado, entrega fora do prazo prometido, não reconhecimento da compra na fatura do cartão de crédito entre outros.'
+					]"
+				/>
+        <x-box
+					class="tooltip-hint"
           title="AJUSTE A DÉBITO"
           content="-R$ 0,00"
           content-class="text-danger"
           data-format="currency"
           data-key="TOTAL_DESPESAS"
-          icon-path="assets/images/financeiro/despesas.svg"
+          icon-path="assets/images/financeiro/ajuste-debito.svg"
           icon-description="Outras Despesas"
-        />
+					:dataset="[
+						'hint' => 'Descontos realizados pelas operadoras referente a outras tarifas. Exemplo: Anuidade, DOC/TED, Aluguel de máquina entre outros.'
+					]"
+				/>
         <x-box
+					class="tooltip-hint"
           title="VALOR TOTAL LÍQUIDO RECEBIDO"
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_LIQUIDO"
           icon-path="assets/images/financeiro/liquido.svg"
           icon-description="Valor Líquido"
-        />
+					:dataset="[
+						'hint' => 'Valor total recebido após todos os descontos e ajustes.'
+					]"
+				/>
       </div>
 
       <div class="content">
@@ -173,11 +205,7 @@
           :headers="[
             'RETORNO_ERP_BAIXA' => 'Baixa Realizada '.($erp->ERP ?? 'ERP'),
           ]"
-        >
-          <x-slot name="actions">
-            <td></td>
-          </x-slot>
-        </x-tables.tabela-recebimentos-operadoras>
+        />
         <x-tables.table-navigation
           pagination-id="js-paginacao-recebimentos"
           per-page-select-id="js-por-pagina"

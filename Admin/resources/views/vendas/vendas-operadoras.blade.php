@@ -50,29 +50,41 @@
     <div class="resultados hidden">
       <div class="boxes">
         <x-box
+          class="tooltip-hint"
           title="VALOR TOTAL BRUTO"
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_BRUTO"
           icon-path="assets/images/financeiro/bruto.svg"
           icon-description="Valor Bruto"
+          :dataset="[
+              'hint' => 'Valor total bruto vendido nas operadoras.'
+          ]"
         />
         <x-box
+          class="tooltip-hint"
           title="CUSTO TAXA"
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_TAXA"
           content-class="text-danger"
-          icon-path="assets/images/financeiro/taxas.svg"
+          icon-path="assets/images/financeiro/despesas.svg"
           icon-description="Valor Taxa"
+          :dataset="[
+              'hint' => 'Valor total de taxas que sua empresa irá pagar quando as vendas forem liquidadas/depositadas pelas operadoras.'
+          ]"
         />
         <x-box
+          class="tooltip-hint"
           title="VALOR TOTAL LÍQUIDO"
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_LIQUIDO"
           icon-path="assets/images/financeiro/liquido.svg"
           icon-description="Valor Líquido"
+          :dataset="[
+              'hint' => 'Valor total líquido que será pago nos respectivos vencimentos pelas operadoras.'
+          ]"
         />
       </div>
 

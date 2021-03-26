@@ -85,12 +85,8 @@ class RecebimentosOperadorasController extends Controller
       $totals = [
         'TOTAL_BRUTO' => (clone $query)->sum('pagamentos_operadoras.VALOR_BRUTO'),
         'TOTAL_LIQUIDO' => (clone $query)->sum('pagamentos_operadoras.VALOR_LIQUIDO'),
-        'PAG_NORMAL' => (clone $query)
-                          ->where('pagamentos_operadoras.COD_TIPO_PAGAMENTO', 1)
-                          ->sum('pagamentos_operadoras.VALOR_BRUTO'),
-        'PAG_ANTECIPADO' => (clone $query)
-                              ->where('pagamentos_operadoras.COD_TIPO_PAGAMENTO', 2)
-                              ->sum('pagamentos_operadoras.VALOR_BRUTO'),
+        'TOTAL_CANCELAMENTO' => 0,
+        'TOTAL_CHARGEBACK' => 0,
         'PAG_AVULSO' => 0,
         'TOTAL_ANTECIPACAO' => 0,
         'TOTAL_DESPESAS' => 0
@@ -152,7 +148,12 @@ class RecebimentosOperadorasController extends Controller
   public function export(Request $request) {
     set_time_limit(300);
 
-    $filters = $request->except(['_token']);
+    $sort = [
+        'column' => $request->input('sort_column', 'DATA_PAGAMENTO'),
+        'direction' => $request->input('sort_direction', 'asc')
+    ];
+    $filters = $request->except(['_token', 'sort_column', 'sort_direction']);
+    $filters['sort'] = $sort;
     $subfilters = $request->except(['_token']);
     Arr::set($filters, 'cliente_id', session('codigologin'));
     return (new RecebimentosOperadorasExport($filters, $subfilters))->download('recebimentos_operadoras_'.time().'.xlsx');
@@ -161,7 +162,12 @@ class RecebimentosOperadorasController extends Controller
   public function exportCsv(Request $request) {
     set_time_limit(300);
 
-    $filters = $request->except(['_token']);
+    $sort = [
+        'column' => $request->input('sort_column', 'DATA_PAGAMENTO'),
+        'direction' => $request->input('sort_direction', 'asc')
+    ];
+    $filters = $request->except(['_token', 'sort_column', 'sort_direction']);
+    $filters['sort'] = $sort;
     $subfilters = $request->except(['_token']);
     Arr::set($filters, 'cliente_id', session('codigologin'));
     return (new RetornoRecebimentosOperadorasExport($filters, $subfilters))->download('recebimentos_operadoras_'.time().'.csv');
