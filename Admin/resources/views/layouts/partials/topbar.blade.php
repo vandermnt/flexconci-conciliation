@@ -81,21 +81,16 @@
 </li>
 
 		<li>
-			{{-- <a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('conciliacao-taxas') }}" role="button"
-			aria-haspopup="false" aria-expanded="false" onmouseover="hover(this);" onmouseout="unhover(this);"> --}}
-			{{-- <img src="{{url('assets/images/conciliacao/percentage-updated.svg')}}" alt="" class="conc-taxas-icon"> --}}
 			<a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('conciliacao-taxas') }}" role="button"
 			aria-haspopup="false" aria-expanded="false">
 			<span class="ml-1 nav-user-name hidden-sm"><i class="fas fa-percent"></i> Conciliação de Taxas </span>
 		</a>
 </li>
-
-<li>
-  <a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/vendas-sistema-erp')}}" role="button">
-    <span dropzone=""class="ml-1 nav-user-name hidden-sm"><i class="fas fa-laptop"></i> Vendas ERP </span>
-  </a>
-</li>
-
+	<li>
+		<a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/vendas-sistema-erp')}}" role="button">
+			<span dropzone=""class="ml-1 nav-user-name hidden-sm"><i class="fas fa-laptop"></i>Vendas {{$erp_cliente ?? 'ERP'}}</span>
+		</a>
+	</li>
 <li>
   <a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/vendas-operadoras') }}" role="button">
     <span dropzone=""class="ml-1 nav-user-name hidden-sm"><i class="fas fa-money-check-alt"></i> Vendas Operadoras </span>

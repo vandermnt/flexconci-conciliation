@@ -14,58 +14,6 @@
 <div id="dashboard_styles" class="container-fluid">
   @component('analytics.component.modal-aviso-geral')
   @endcomponent
-  {{-- <div class="row">
-    <div class="col-lg-12 boxs">
-      <div class="row">
-        <div class="col-md-6 col-lg-3">
-          <div class="card report-card">
-            <div class="card-body body-box">
-              <div class="row d-flex">
-                <div class="col-12">
-                  <p class="font-weight-semibold font-12">Suporte</p>
-                </div>
-                <div class="col-12" style="margin-top: -20px">
-                  <div class="row">
-                    <div class="col-12" align="center">
-                      <img class="img-card-suport" src="{{ url('assets/images/suporte.png') }}">
-                      <h5 class="my-3 tel">(44) 3020-0220</h5>
-                    </div>
-                  </div>
-                  <div class="col-12" style="margin-top: -20px">
-                    <h6 class="my-3 label-atendimento">Atendimento | Segunda a sexta-feira - das 08:00h às 18:00h</h6>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        @component('analytics.component.box-aviso')
-        @slot('titulo_box')
-        Divergências - Conc. de vendas
-        @endslot
-        @slot('body_box')
-        Não há divergências no momento
-        @endslot
-        @endcomponent
-        @component('analytics.component.box-aviso')
-        @slot('titulo_box')
-        Divergências - Taxas
-        @endslot
-        @slot('body_box')
-        Não há divergências no momento
-        @endslot
-        @endcomponent
-        @component('analytics.component.box-aviso')
-        @slot('titulo_box')
-        Divergências - Conc. Bancária
-        @endslot
-        @slot('body_box')
-        Não há divergências no momento
-        @endslot
-        @endcomponent
-      </div>
-    </div>
-  </div> --}}
 
   <div class="row">
     <div class="col-sm-12">
