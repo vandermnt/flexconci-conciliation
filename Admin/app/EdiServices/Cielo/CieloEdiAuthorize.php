@@ -1,6 +1,7 @@
 <?php
 
 namespace App\EdiServices\Cielo;
+use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use App\EdiServices\Cielo\CieloEdiService;
@@ -29,23 +30,27 @@ class CieloEdiAuthorize extends CieloEdiService {
   }
 
   public function authorize($code) {
-    $accessTokenUrl = $this->getBaseUrl().'/consent/v1/oauth/access-token';
-    $response = Http::withHeaders([
-      'Content-Type' => 'application/json',
-      'Authorization' => $this->getAuthHeader(),
-    ])
-    ->post($accessTokenUrl, [
-      'grant_type' => 'authorization_code',
-      'code' => $code
-    ]);
+    try {
+      $accessTokenUrl = $this->getBaseUrl().'/consent/v1/oauth/access-token';
+      $response = Http::withHeaders([
+        'Content-Type' => 'application/json',
+        'Authorization' => $this->getAuthHeader(),
+      ])
+      ->post($accessTokenUrl, [
+        'grant_type' => 'authorization_code',
+        'code' => $code
+      ]);
 
-    throw_if($response->failed(), new EdiServiceException('Autorização não concedida. Falha ao gerar chave de acesso!'));
+      $response->throw();
 
-    $data = $response->json();
-    return [
-      'status' => 'success',
-      'data' => $data
-    ];
+      $data = $response->json();
+      return [
+        'status' => 'success',
+        'data' => $data
+      ];
+    } catch(Exception $exception) {
+      throw new EdiServiceException('Autorização não concedida. Falha ao gerar chave de acesso!');
+    }
   }
 
   public function handleAuthError($states, $error) {
