@@ -8,10 +8,11 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\ConnectionException;
 use App\EdiServices\Cielo\CieloEdiService;
+use App\Contracts\EdiServices\IEdiRegister;
 use App\Exceptions\EdiService\ConnectionTimeoutException;
 use App\Exceptions\EdiService\EdiServiceException;
 
-class CieloEdiRegister extends CieloEdiService {
+class CieloEdiRegister extends CieloEdiService implements IEdiRegister {
   const AVAILABLE_STATUS = "available";
   const UNAVAILABLE_STATUS = "unavailable";
 
