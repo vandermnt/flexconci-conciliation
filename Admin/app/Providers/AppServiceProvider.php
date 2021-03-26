@@ -11,6 +11,8 @@ use App\Filters\VendasErpSubFilter;
 use App\Filters\VendasSubFilter;
 use App\Filters\RecebimentosSubFilter;
 use App\Filters\RecebimentosFuturosSubFilter;
+use App\EdiServices\Cielo\CieloEdiAuthorize;
+use App\EdiServices\Cielo\CieloEdiRegister;
 
 class AppServiceProvider extends ServiceProvider
 {
