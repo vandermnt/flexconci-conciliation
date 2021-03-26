@@ -88,7 +88,7 @@
 </li>
 	<li>
 		<a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/vendas-sistema-erp')}}" role="button">
-			<span dropzone=""class="ml-1 nav-user-name hidden-sm"><i class="fas fa-laptop"></i>Vendas {{$erp_cliente ?? 'ERP'}}</span>
+			<span dropzone=""class="ml-1 nav-user-name hidden-sm"><i class="fas fa-laptop"></i>Vendas {{session('erp_cliente') ?? 'ERP'}}</span>
 		</a>
 	</li>
 <li>
@@ -170,15 +170,6 @@
     </div>
   </div>
 </div>
-
-{{-- <script type="text/javascript">
-	function hover(element){
-		element.querySelector('.conc-taxas-icon').setAttribute('src', 'assets/images/conciliacao/percentagem-hover.svg');
-	}
-	function unhover(element){
-		element.querySelector('.conc-taxas-icon').setAttribute('src', 'assets/images/conciliacao/percentagem.svg');
-	}
-</script> --}}
 
 <script>
 

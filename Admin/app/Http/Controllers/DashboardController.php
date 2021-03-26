@@ -16,10 +16,6 @@ class DashboardController extends Controller
 	public function dashboard()
 	{
 		$data_atual = date('Y/m/d');
-		// $sql = 'Select  projetos.*, tipo_projeto.TIPO_PROJETO, clientes.NOME  from projetos  left outer join tipo_projeto on (TIPO_PROJETO.CODIGO = projetos.COD_TIPO_PROJETO) left outer join funcionarios on (funcionarios.CODIGO = projetos.COD_FUNCIONARIO_RESP_PROJETO) left outer join clientes on (clientes.CODIGO = projetos.COD_CLIENTE) where projetos.cod_cliente ='.session('codigologin');
-		// $projetos = DB::select($sql);
-		// $qtde_projetos = count($projetos);
-		// $qtde_projetos = null;
 
 		$clientes = ClienteModel::orderBy('NOME', 'asc')->get();
 		session()->put('clientes', $clientes);
@@ -127,6 +123,7 @@ class DashboardController extends Controller
 		session()->put('grupo', 1);
 
 		$erp_cliente = DB::table('erp')->where('CODIGO', $dados_cliente->COD_ERP)->first();
+		session()->put('erp_cliente', $erp_cliente->ERP);
 
 		return view('analytics.analytics-index')
 			->with('projetos', $projetos)
@@ -148,8 +145,7 @@ class DashboardController extends Controller
 			->with('data', $data)
 			->with('dados_calendario', $dados_calendario_previsao)
 			->with('dados_calendario_pagamento', $dados_calendario_pagamento)
-			->with('periodos', $periodos)
-			->with('erp_cliente', $erp_cliente->ERP);
+			->with('periodos', $periodos);
 	}
 
 	public function dadosCalendario()
