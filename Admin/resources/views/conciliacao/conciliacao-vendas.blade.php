@@ -159,6 +159,7 @@
               class="retorno-erp tooltip-hint font-weight-bold"
               data-title="Clicando aqui vamos efetuar a correção no seu sistema dos campos &quot;data de vencimento&quot;, &quot;taxa&quot; e &quot;valor líquido&quot;."
             >
+						@if(auth()->user()->USUARIO_GLOBAL == 'S')
               <button
                   class="btn mr-1 button no-hover"
                   id="js-abrir-modal-retorno-erp"
@@ -166,6 +167,7 @@
                   <i class="fas fa-undo"></i>
                   Corrigir Venda {{ $erp->ERP ?? 'ERP' }}
               </button>
+						@endif
             </div>
             <button id="js-conciliar" class="btn mr-1 button no-hover">
               <i class="far fa-handshake"></i>
