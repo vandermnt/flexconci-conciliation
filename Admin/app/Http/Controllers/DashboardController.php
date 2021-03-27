@@ -10,7 +10,6 @@ use App\ClienteModel;
 use App\Http\Controllers\DOMPDF;
 
 
-
 class DashboardController extends Controller{
 
   public function dashboard(){
@@ -124,6 +123,9 @@ class DashboardController extends Controller{
     session()->put('nome_fantasia', $dados_cliente->NOME_FANTASIA);
     session()->put('periodo', 2);
     session()->put('grupo', 1);
+
+    $erp_cliente = DB::table('erp')->where('CODIGO', $dados_cliente->COD_ERP)->first();
+    session()->put('erp_cliente', $erp_cliente->ERP);
 
     return view('analytics.analytics-index')
     ->with('projetos', $projetos)
