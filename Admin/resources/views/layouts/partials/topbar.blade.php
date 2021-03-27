@@ -296,12 +296,11 @@ aria-haspopup="false" aria-expanded="false">
   </div> -->
 </li>
 
-<li>
-  <a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/vendas-sistema-erp')}}" role="button">
-    <span dropzone=""class="ml-1 nav-user-name hidden-sm"><i class="fas fa-laptop"></i> Vendas ERP </span>
-  </a>
-</li>
-
+	<li>
+		<a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/vendas-sistema-erp')}}" role="button">
+			<span dropzone=""class="ml-1 nav-user-name hidden-sm"><i class="fas fa-laptop"></i>Vendas {{session('erp_cliente') ?? 'ERP'}}</span>
+		</a>
+	</li>
 <li>
   <a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/vendas-operadoras') }}" role="button">
     <span dropzone=""class="ml-1 nav-user-name hidden-sm"><i class="fas fa-money-check-alt"></i> Vendas Operadoras </span>

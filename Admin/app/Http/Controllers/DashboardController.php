@@ -10,6 +10,7 @@ use App\ClienteModel;
 use App\Http\Controllers\DOMPDF;
 
 
+
 class DashboardController extends Controller{
 
   public function dashboard(){
@@ -366,12 +367,12 @@ public function detalheCalendarioPrevisaoPagamento($data){
   ->get();
 
   return json_encode([$bancos,
-  $operadoras,
-  null,
-  null,
-  null,
-  null
-]);
+    $operadoras,
+    null,
+    null,
+    null,
+    null
+  ]);
 }
 
 public function enviaEmail(){
