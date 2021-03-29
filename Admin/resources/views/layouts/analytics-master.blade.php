@@ -11,6 +11,8 @@
         <meta content="" name="author" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
+				<script src="{{ URL::asset('assets/js/topbar/submenu.js')}}"></script>
+
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{ URL::asset('assets/images/favicon.png') }}">
 
@@ -75,7 +77,6 @@
         <script src="https://kit.fontawesome.com/9a0b64c7c3.js" crossorigin="anonymous"></script>
 				<script src="{{ URL::asset('plugins/sweet-alert2/sweetalert2.min.js')}}"></script>
 				<script src="{{ URL::asset('assets/pages/jquery.sweet-alert.init.js')}}"></script>
-				<script src="{{ URL::asset('assets/js/topbar/submenu.js')}}"></script>
 				@if(session('session-expires-message'))
 					<script type="text/javascript">
 						document.getElementById("session-expires").click();

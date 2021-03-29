@@ -4,10 +4,15 @@ const submenuIcons = [
 		unhover: 'assets/images/widgets/report.png',
 		hover: 'assets/images/widgets/report-hover.png',
 	},
+	// {
+	// 	name: 'Recebimentos',
+	// 	unhover: 'assets/images/widgets/receber.png',
+	// 	hover: 'assets/images/widgets/receber-hover.png',
+	// },
 	{
 		name: 'Recebimentos',
-		unhover: 'assets/images/widgets/receber.png',
-		hover: 'assets/images/widgets/receber-hover.png',
+		unhover: 'assets/images/widgets/bolsa-de-dinheiro.png',
+		hover: 'assets/images/widgets/bolsa-de-dinheiro-hover.png',
 	},
 	{
 		name: 'Conciliação',
