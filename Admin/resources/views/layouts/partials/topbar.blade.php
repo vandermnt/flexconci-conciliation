@@ -43,12 +43,20 @@
 <li class="dropdown">
   <a id="dropdownUserSettings" class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
   aria-haspopup="false" aria-expanded="false">
+  {{-- <img src="{{ URL::asset('assets/images/users/user-4.jpg')}}" alt="profile-user" class="rounded-circle" /> --}}
+  <!-- <span class="ml-1 nav-user-name hidden-sm">{{Session::get('codigologin') }} <i class="mdi mdi-chevron-down"></i> </span> -->
   <?php $primeiro_nome = explode(' ', Auth::user()->NOME); ?>
   <span class="ml-1 nav-user-name hidden-sm">{{$primeiro_nome[0] }} |   {{ Session::get('nome_fantasia')}} <i class="mdi mdi-chevron-down"></i> </span>
   <input type="hidden" name="usuario" value="{{ Auth::user()->CODIGO }}">
 </a>
 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownUserSettings">
-  <a class="dropdown-item" href="{{ url('/logout') }}"><i class="dripicons-exit mr-2"></i> Sair</a>
+  {{-- <a class="dropdown-item" href="#"><i class="dripicons-user mr-2"></i> Editar Perfil</a>
+  <a class="dropdown-item" href="#"><i class="dripicons-wallet mr-2"></i> Configurações</a>
+  <a class="dropdown-item" href="#"><i class="dripicons-gear mr-2"></i> Ajuda</a> --}}
+  {{-- <a class="dropdown-item" href="#"><i class="dripicons-lock text-muted mr-2"></i> Sair</a> --}}
+  {{-- <div class="dropdown-divider"></div> --}}
+  <a class="dropdown-item" href="{{ url('/logout') }}"><i class="dripicons-exit mr-2"></i> Sair </a>
+  <a class="dropdown-item" data-toggle="modal" data-target="#troca_cliente"><i class="dripicons-clockwise mr-2"></i> Trocar Empresa </a>
 </div>
 </li>
 </ul>
@@ -166,6 +174,34 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
         <button id="enviar_email" type="button" class="btn btn-success"><b>Confirmar</b></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="troca_cliente" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="trocacliente" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header fundo-modal">
+        <h5 class="modal-title" id="trocacliente">Trocar cliente</h5>
+      </div>
+      <div class="modal-body tamanho-modal">
+        <div class="row">
+          <div class="col-sm-12">
+            <h6> Clientes: </h6>
+          </div>
+          <div class="col-sm-12">
+            <select id="troca_cliente" class="form-control" name="empresaescolhida">
+              @foreach(Session::get('clientes') as $cliente)
+              <option value="{{ $cliente->CODIGO }}">{{ $cliente->NOME}}</option>
+              @endforeach
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
+        <button id="trocar" type="button" class="btn btn-success"><b>Trocar</b></button>
       </div>
     </div>
   </div>

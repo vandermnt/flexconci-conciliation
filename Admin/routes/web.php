@@ -17,6 +17,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/', 'DashboardController@dashboard');
 	Route::get('/detalhe-calendario/{data}', 'DashboardController@detalheCalendario');
 	Route::get('/detalhe-calendario-prev/{data}', 'DashboardController@detalheCalendarioPrevisaoPagamento');
+	Route::get('/dados-calendario', 'DashboardController@dadosCalendario');
 
 	Route::get('/export-vendasoperadora/{periodo}', 'DashboardController@exportarPdfVendasOperadoras');
 	Route::get('/export-vendasbandeira/{periodo}', 'DashboardController@exportarPdfVendasBandeiras');
@@ -116,6 +117,31 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/load-justificativas', 'CadastroJustificativaController@loadJustificativas');
 	Route::get('/delete-justificativa/{codigo}', 'CadastroJustificativaController@deleteJustificativa');
 	Route::get('/justificativa/{codigo}', 'CadastroJustificativaController@show');
+
+	//CADASTROS
+  Route::get('/cadastro-banco', 'BancoController@index');
+  Route::get('/cadastro-adquirente', 'AdquirenteController@index');
+  Route::get('/cadastro-bandeira', 'BandeiraController@index');
+  Route::get('/cadastro-taxa', 'TaxaController@index');
+  Route::get('/load-adquirentes', 'AdquirenteController@allAdquirentes');
+  Route::get('/load-bancos', 'BancoController@allBancos');
+  Route::get('/load-bandeiras', 'BandeiraController@allBandeiras');
+  Route::get('/load-taxas', 'TaxaController@allTaxas');
+  Route::post('/cadastro-adquirente', 'AdquirenteController@cadastrarAdquirente');
+  Route::post('/cadastro-banco', 'BancoController@cadastrarBanco');
+  Route::post('/cadastro-bandeira', 'BandeiraController@cadastrarBandeira');
+  Route::post('/cadastro-taxa', 'TaxaController@cadastrarTaxa');
+  Route::put('/update-adquirente/{codigo}', 'AdquirenteController@updateAdquirente');
+  Route::put('/update-banco/{codigo}', 'BancoController@updateBanco');
+  Route::put('/update-bandeira/{codigo}', 'BandeiraController@updateBandeira');
+  Route::put('/update-taxa/{codigo}', 'TaxaController@updateTaxa');
+  Route::get('/delete-adquirente/{codigo}', 'AdquirenteController@excluirAdquirente');
+  Route::get('/delete-banco/{codigo}', 'BancoController@excluirBanco');
+  Route::get('/delete-taxa/{codigo}', 'TaxaController@excluirTaxa');
+
+  // DESCONCILIACAO FEITA PELO ADM
+  Route::get('/adm/desconciliacao', 'AdmDesconciliacaoController@index');
+  Route::put('/adm/desconciliar', 'AdmDesconciliacaoController@desconciliar');
 
 	//CONCILIAÇÃO
 	Route::get('/conciliacao-bancaria', function () {
