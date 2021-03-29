@@ -378,7 +378,7 @@
                 class="d-flex align-items-center justify-content-center table-sorter mb-2"
                 data-tbsort-by="STATUS_CONCILIACAO"
             >
-                <p class="m-0">Status Conciliação</p>
+                <p class="m-0">Status Conciliação Rec</p>
                 <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
             <input type="text" class="form-control" name="STATUS_CONCILIACAO">
