@@ -2,6 +2,7 @@
 	border-radius: 0px;
 	box-shadow: none;
 	transition: none;
+	font-size: 0.8rem;
 }
 
 .conciliacao-submenu .btn:focus {
