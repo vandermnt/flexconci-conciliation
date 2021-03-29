@@ -24,6 +24,18 @@
             <input type="text" class="form-control" name="DESCRICAO_ERP">
           </div>
         </th>
+				<th>
+          <div class="d-flex flex-column align-items-center">
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="TIPO_LANCAMENTO"
+            >
+                <p class="m-0">Tipo Lançamento</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
+            <input type="text" class="form-control" name="TIPO_LANCAMENTO">
+          </div>
+        </th>
         <th>
           <div class="d-flex flex-column align-items-center">
             <div
@@ -300,6 +312,42 @@
             <input type="text" class="form-control" name="ESTABELECIMENTO">
           </div>
         </th>
+				<th>
+          <div class="d-flex flex-column align-items-center">
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="COD_AJUSTE"
+            >
+                <p class="m-0">Cód. Ajuste</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
+            <input type="text" class="form-control" name="COD_AJUSTE">
+          </div>
+        </th>
+				<th>
+          <div class="d-flex flex-column align-items-center">
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="DESC_AJUSTE"
+            >
+                <p class="m-0">Desc. Ajuste</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
+            <input type="text" class="form-control" name="DESC_AJUSTE">
+          </div>
+        </th>
+				<th>
+          <div class="d-flex flex-column align-items-center">
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="CLASSIFICACAO_AJUSTE"
+            >
+                <p class="m-0">Classificação Ajuste</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
+            <input type="text" class="form-control" name="CLASSIFICACAO_AJUSTE">
+          </div>
+        </th>
         <th>
           <div class="d-flex flex-column align-items-center">
             <div
@@ -390,7 +438,7 @@
                 class="d-flex align-items-center justify-content-center table-sorter mb-2"
                 data-tbsort-by="STATUS_CONCILIACAO"
             >
-                <p class="m-0">Status Conciliação</p>
+                <p class="m-0">Status Conciliação Rec</p>
                 <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
             <input type="text" class="form-control" name="STATUS_CONCILIACAO">
@@ -440,6 +488,7 @@
           {{ $actions }}
         @endisset
         <td data-column="DESCRICAO_ERP"></td>
+				<td data-column="TIPO_LANCAMENTO"></td>
         <td data-column="NOME_EMPRESA"></td>
         <td data-column="CNPJ"></td>
         <td data-column="DATA_VENDA" data-format="date"></td>
@@ -486,6 +535,9 @@
         <td data-column="PARCELA"></td>
         <td data-column="TOTAL_PARCELAS"></td>
         <td data-column="ESTABELECIMENTO"></td>
+				<td data-column="COD_AJUSTE"></td>
+				<td data-column="DESC_AJUSTE"></td>
+				<td data-column="CLASSIFICACAO_AJUSTE"></td>
         <td data-column="TERMINAL"></td>
         <td
           data-image="BANCO_IMAGEM"
@@ -517,7 +569,8 @@
         @isset($actions)
           <td></td>
         @endisset
-        <td></td>
+				<td></td>
+				<td></td>
         <td></td>
         <td></td>
         <td></td>

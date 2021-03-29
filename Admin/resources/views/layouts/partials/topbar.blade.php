@@ -73,7 +73,7 @@
 </div>
 
 <div class="topbarr submenu" style="margin-top: 70px;">
-  <nav class="navbar-custom d-flex" style="background: white; min-height: 50px !important; border-bottom: 2px solid #2d5275">
+  <nav class="navbar-custom" style="background: white; min-height: 50px !important; border-bottom: 2px solid #2d5275">
     <ul class="list-unstyled topbar-nav mb-0" style="margin-left: 30px">
       <li>
         <a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user"  href="{{ url('/') }}" role="button">
@@ -81,46 +81,63 @@
         </a>
     </li>
 
-    <li>
-      <a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('conciliacao-vendas') }}" role="button"
-      aria-haspopup="false" aria-expanded="false">
-      <span class="ml-1 nav-user-name hidden-sm"><i class="far fa-handshake"></i> Conciliação de Vendas </span>
-    </a>
-</li>
+		<li>
+			<div class="dropdown conciliacao-submenu">
+				<button id="itemMenu" class="btn submenu-item nav-linkk dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onmouseover="hoverSubmenu(this);" onmouseout="unhoverSubmenu(this);">
+					<img src="assets/images/widgets/report.png" alt="Valor Bruto">
+					Vendas
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/vendas-sistema-erp')}}" role="button">
+						<span dropzone=""class="ml-1 nav-user-name hidden-sm"><i class="fas fa-laptop"></i>Vendas {{session('erp_cliente') ?? 'ERP'}}</span>
+					</a>
+					<a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/vendas-operadoras') }}" role="button">
+						<span dropzone=""class="ml-1 nav-user-name hidden-sm"><i class="fas fa-money-check-alt"></i> Vendas Operadoras </span>
+					</a>
+				</div>
+			</div>
+		</li>
 
 		<li>
-			<a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('conciliacao-taxas') }}" role="button"
-			aria-haspopup="false" aria-expanded="false">
-			<span class="ml-1 nav-user-name hidden-sm"><i class="fas fa-percent"></i> Conciliação de Taxas </span>
-		</a>
-</li>
-	<li>
-		<a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/vendas-sistema-erp')}}" role="button">
-			<span dropzone=""class="ml-1 nav-user-name hidden-sm"><i class="fas fa-laptop"></i>Vendas {{session('erp_cliente') ?? 'ERP'}}</span>
-		</a>
-	</li>
-<li>
-  <a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/vendas-operadoras') }}" role="button">
-    <span dropzone=""class="ml-1 nav-user-name hidden-sm"><i class="fas fa-money-check-alt"></i> Vendas Operadoras </span>
-  </a>
-</li>
-
-<li>
-  <a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/recebimentos-operadoras') }}" role="button">
-    <span class="ml-1 nav-user-name hidden-sm"><i class="fas fa-donate"></i> Recebimentos & Despesas</span>
-</a>
+			<div class="dropdown conciliacao-submenu">
+				<button id="itemMenu" class="btn submenu-item nav-linkk dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onmouseover="hoverSubmenu(this);" onmouseout="unhoverSubmenu(this);">
+					<img src="assets/images/widgets/receber.png" alt="Valor Bruto">
+					Recebimentos
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/recebimentos-operadoras') }}" role="button">
+						<span class="ml-1 nav-user-name hidden-sm"><i class="fas fa-donate"></i> Recebimentos & Despesas</span>
+					</a>
+					<a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('recebimentos-futuros.index') }}" role="button">
+						<span class="ml-1 nav-user-name hidden-sm"><i class="far fa-calendar-alt"></i> Recebimentos Futuros </span>
+					</a>
+				</div>
+			</div>
 </li>
 
-<li>
-  <a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('recebimentos-futuros.index') }}" role="button">
-    <span class="ml-1 nav-user-name hidden-sm"><i class="far fa-calendar-alt"></i> Recebimentos Futuros </span>
-  </a>
+    <li>
+			<div class="dropdown conciliacao-submenu">
+				<button id="itemMenu" class="btn submenu-item nav-linkk dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onmouseover="hoverSubmenu(this);" onmouseout="unhoverSubmenu(this);">
+					<img src="assets/images/widgets/aprovado.png" alt="Valor Bruto">
+					Conciliação
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<a id="itemMenu" class="dropdown-item submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('conciliacao-vendas') }}" role="button"
+					aria-haspopup="false" aria-expanded="false">
+					<span class="ml-1 nav-user-name hidden-sm"><i class="far fa-handshake"></i> Conciliação de Vendas </span>
+					</a>
+					<a id="itemMenu" class="dropdown-item submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('conciliacao-taxas') }}" role="button"
+					aria-haspopup="false" aria-expanded="false">
+					<span class="ml-1 nav-user-name hidden-sm"><i class="fas fa-percent"></i> Conciliação de Taxas </span>
+					</a>
+				</div>
+			</div>
 </li>
+
 <li>
   <a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/justificativas') }}" role="button">
     <span class="ml-1 nav-user-name hidden-sm"><i class="far fa-flag"></i> Justificativas </span>
   </a>
-</li>
 </li>
 
 </ul>
