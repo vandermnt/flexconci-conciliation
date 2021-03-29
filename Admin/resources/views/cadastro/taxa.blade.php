@@ -4,8 +4,8 @@
 <link href="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.css')}}" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/table-dragger@1.0.3/dist/table-dragger.js"></script>
-<link href="{{ URL::asset('assets/css/globals/global.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ URL::asset('assets/css/cadastro/cadastros.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ URL::asset('assets/css/globals/global.css')}}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('content')
@@ -18,70 +18,86 @@
       @endcomponent
     </div>
   </div>
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="card">
-        <div class="card-body" >
-          <div class="form-group">
-            <div class="col-sm-12 form">
-              <h6> Taxa: </h6>
-              <div class="row form-group">
-                <div class="col-sm-6">
-                  <input type="hidden" value="{{$taxas}}" name="taxas-carregadas">
-                  <input type="textarea" class="form-control" placeholder="Pequise pela taxa" name="taxas-pesquisados">
-                </div>
-                <div class="col-sm-2">
-                  <button class="btn btn-sm bt-cadastro-tx form-button"> <i class="fas fa-plus"></i> <b>Nova taxa</b>  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-12">
-            <div id="btfiltro" style="display:block; text-align: right;">
-              <!-- <button style="align-items: right; background: white; color: #2D5275; border-color: #2D5275" class="btn btn-sm limpa-filtro"> <i class="far fa-trash-alt"></i> <b>Limpar Campos</b>  </button> -->
-            </div>
-          </div>
-        </div>
+  <div class="card">
+    <div class="card-body" >
+      <div class="form-group">
+        <div class="col-sm-12 form">
+          <h6> Empresas: </h6>
+          <div class="row form-group">
+            <div class="col-sm-6">
+              <input type="hidden" name="cliente_op" value="{{ $clientes }}">
 
-        <div class="col-sm-12 table-description d-flex align-items-center ">
-          <h4 id="qtd-registros">Total de taxas ({{ $count_taxas }} registros)</h4>
-          <img src="assets/images/widgets/arrow-down.svg" alt="Taxas">
-        </div>
-        <br>
-        <div class="tabela">
-          <table id="tabela-adquirentes" class="table">
-            <thead>
-              <tr style="background: #2D5275; ">
-                <th> CÓDIGO </th>
-                <th> CLIENTE </th>
-                <th> TAXA </th>
-                <th> OPERADORA </th>
-                <th> BANDEIRA </th>
-                <th> MODALIDADE </th>
-                <th> DATA VIGÊNCIA </th>
-                <th> AÇÕES </th>
-              </tr>
-            </thead>
-            <tbody id="conteudo_tabe">
-              @foreach($taxas as $taxa)
-              <tr id="{{ $taxa->CODIGO }}">
-                <td> {{ $taxa->CODIGO }}</td>
-                <td> {{ $taxa->NOME_FANTASIA }}</td>
-                <td> {{ $taxa->TAXA }}</td>
-                <td> {{ $taxa->ADQUIRENTE }}</td>
-                <td> {{ $taxa->BANDEIRA }}</td>
-                <td> {{ $taxa->DESCRICAO }}</td>
-                <td> <?php echo date("d-m-Y", strtotime($taxa->DATA_VIGENCIA)) ?></td>
-                <td class="excluir">
-                  <a href="#" onclick="editarTaxa(event, {{ $taxa }})"><i class='far fa-edit'></i></a>
-                  <a href="#" onclick="excluirTaxa(event,{{ $taxa->CODIGO}})"><i style="margin-left: 12px"class="far fa-trash-alt"></i></a>
-                </td>
-              </tr>
-              @endforeach
-            </tbody>
-          </table>
+              <select class="form-control" name="clientes">
+                @foreach($clientes as $cliente)
+                  <option value="{{ $cliente->CODIGO }}"> {{ $cliente->NOME_FANTASIA }} </option>
+                @endforeach
+              </select>
+              <!-- <input type="textarea" class="form-control" name="bancos-pesquisados"> -->
+            </div>
+            <!-- <div class="col-sm-3">
+              <button class="btn btn-sm bt-cadastro-ad form-button"> <b>Selecionar</b>  </button>
+            </div> -->
+          </div>
         </div>
       </div>
+      <div class="col-sm-12 form">
+        <h6> Operadora / Estabelecimento: </h6>
+        <div class="row form-group">
+          <div class="col-sm-6">
+            <input type="hidden" value="{{$clientes_operadora}}" name="clientes-operadora">
+            <select class="form-control" name="operadora-estabelecimento">
+
+
+            </select>
+            <!-- <input type="textarea" class="form-control" name="bancos-pesquisados"> -->
+          </div>
+          <!-- <div class="col-sm-3">
+            <button class="btn btn-sm bt-cadastro-ad form-button"> <b>Selecionar</b>  </button>
+          </div> -->
+        </div>
+      </div>
+      <div class="modal-footer" style="border-top: none !important">
+        <button type="button" class="btn button no-hover mr-1 submit-form" data-dismiss="modal"><b><i class="fas fa-plus"></i> Cadastrar</b></button>
+      </div>
+    </div>
+
+    <div class="col-sm-12 table-description d-flex align-items-center ">
+      <h4 id="qtd-registros">Total de taxas ({{ $count_taxas }} registros)</h4>
+      <img src="assets/images/widgets/arrow-down.svg" alt="Taxas">
+    </div>
+    <br>
+    <div class="tabela">
+      <table id="tabela-adquirentes" class="table">
+        <thead>
+          <tr style="background: #2D5275; ">
+            <th> CÓDIGO </th>
+            <th> CLIENTE </th>
+            <th> TAXA </th>
+            <th> OPERADORA </th>
+            <th> BANDEIRA </th>
+            <th> MODALIDADE </th>
+            <th> DATA VIGÊNCIA </th>
+            <th> AÇÕES </th>
+          </tr>
+        </thead>
+        <tbody id="conteudo_tabe">
+          @foreach($taxas as $taxa)
+          <tr id="{{ $taxa->CODIGO }}">
+            <td> {{ $taxa->CODIGO }}</td>
+            <td> {{ $taxa->NOME_FANTASIA }}</td>
+            <td> {{ $taxa->TAXA }}</td>
+            <td> {{ $taxa->ADQUIRENTE }}</td>
+            <td> {{ $taxa->BANDEIRA }}</td>
+            <td> {{ $taxa->DESCRICAO }}</td>
+            <td> <?php echo date("d-m-Y", strtotime($taxa->DATA_VIGENCIA)) ?></td>
+            <td class="excluir">
+              <a href="#" onclick="editarTaxa(event, {{ $taxa }})"><i class='far fa-edit'></i></a>
+              <a href="#" onclick="excluirTaxa(event,{{ $taxa->CODIGO}})"><i style="margin-left: 12px"class="far fa-trash-alt"></i></a>
+            </td>
+          </tr>
+          @endforeach
+        </tbody>
+      </table>
     </div>
   </div>
 

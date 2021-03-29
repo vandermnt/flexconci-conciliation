@@ -12,6 +12,41 @@ const taxasCarregadas = document.querySelector(
   'input[name="taxas-carregadas"]'
 );
 
+document.addEventListener("change", function() {
+  const codigo_estabelecimento_converter = document.querySelector(
+    "input[name='clientes-operadora']"
+  ).value;
+
+  const combo_operadora_estabelecimento = document.querySelector(
+    "select[name='operadora-estabelecimento']"
+  );
+
+  const combo_cliente = document.querySelector("select[name='clientes']");
+  const id_cliente = combo_cliente.options[combo_cliente.selectedIndex].value;
+
+  const operadora_estabelecimento = JSON.parse(
+    codigo_estabelecimento_converter
+  );
+  console.log(operadora_estabelecimento);
+
+  combo_operadora_estabelecimento.innerHTML = "";
+  for (object of operadora_estabelecimento) {
+    if (object.COD_CLIENTE == id_cliente) {
+      let option = document.createElement("option");
+      option.text = `${object.NOME_FANTASIA} / ${object.CODIGO_ESTABELECIMENTO}`;
+      option.value = object.CODIGO;
+      combo_operadora_estabelecimento.add(option);
+    }
+  }
+  // console.log(html);
+
+  // $("operadora-estabelecimento").append(html);
+
+  // combo_operadora_estabelecimento.append(html);
+
+  const teste = operadora_estabelecimento.CODIGO;
+});
+
 buttonSalvaCadastro.addEventListener("click", function() {
   const taxa = document.querySelector('input[name="taxa"]').value;
   const forma_pagamento = document.querySelector(
@@ -40,34 +75,28 @@ buttonSalvaEdicao.addEventListener("click", function() {
   salvarEdicaoTaxa(taxa);
 });
 
-buttonCadastroTaxa.addEventListener("click", function() {
-  $("#modalCadastroTaxa").modal({
-    show: true
-  });
-});
-
-taxasPesquisados.addEventListener("keydown", function() {
-  const taxas = JSON.parse(taxasCarregadas.value);
-
-  setTimeout(function() {
-    if (taxasPesquisados.value == "") {
-      for (taxa of taxas) {
-        document.getElementById(taxa.CODIGO).style = "display: ";
-      }
-    } else {
-      for (taxa of taxas) {
-        var regex = new RegExp(taxasPesquisados.value, "gi");
-        resultado = taxa.TAXA.match(regex);
-
-        if (resultado) {
-          document.getElementById(taxa.CODIGO).style = "display: ";
-        } else {
-          document.getElementById(taxa.CODIGO).style.display = "none";
-        }
-      }
-    }
-  }, 300);
-});
+// taxasPesquisados.addEventListener("keydown", function() {
+//   const taxas = JSON.parse(taxasCarregadas.value);
+//
+//   setTimeout(function() {
+//     if (taxasPesquisados.value == "") {
+//       for (taxa of taxas) {
+//         document.getElementById(taxa.CODIGO).style = "display: ";
+//       }
+//     } else {
+//       for (taxa of taxas) {
+//         var regex = new RegExp(taxasPesquisados.value, "gi");
+//         resultado = taxa.TAXA.match(regex);
+//
+//         if (resultado) {
+//           document.getElementById(taxa.CODIGO).style = "display: ";
+//         } else {
+//           document.getElementById(taxa.CODIGO).style.display = "none";
+//         }
+//       }
+//     }
+//   }, 300);
+// });
 
 function editarTaxa(e, taxa) {
   console.log(taxa);

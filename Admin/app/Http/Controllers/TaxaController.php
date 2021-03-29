@@ -32,10 +32,17 @@ class TaxaController extends Controller {
     $bandeiras = BandeiraModel::orderBy('BANDEIRA', 'asc')->get();
     $clientes = ClienteModel::orderBy('NOME_FANTASIA', 'asc')->get();
     $operadoras = AdquirentesModel::orderBy('ADQUIRENTE', 'asc')->get();
+    $clientes_operadora = DB::table('cliente_operadora')
+    ->leftJoin('clientes', 'cliente_operadora.COD_CLIENTE', 'clientes.CODIGO')
+    ->leftJoin('adquirentes', 'cliente_operadora.COD_ADQUIRENTE', 'adquirentes.CODIGO')
+    ->select('clientes.NOME_FANTASIA', 'cliente_operadora.CODIGO_ESTABELECIMENTO', 'cliente_operadora.COD_CLIENTE')
+    ->get();
 
     $taxas_count = $taxas->count();
+
     return view('cadastro.taxa')
     ->with('taxas', $taxas)
+    ->with('clientes_operadora', $clientes_operadora)
     ->with('count_taxas', $taxas_count)
     ->with('formas_pagamento', $formas_pagamento)
     ->with('clientes', $clientes)
@@ -91,7 +98,7 @@ class TaxaController extends Controller {
       )
       ->orderBy('controle_taxa_cliente.TAXA', 'asc')
       ->get();
-      
+
       return response()->json([
         'taxas' => $taxas
       ]);
