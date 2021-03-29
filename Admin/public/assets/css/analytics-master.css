@@ -1,10 +1,3 @@
-.conc-taxas-icon {
-	height: auto;
-	width: auto;
-	max-width: 25px;
-	max-height: 25px;
-}
-
 @media only screen and (max-width: 1400px) {
 	.breadcumb {
 		margin-top: 70px;
@@ -17,14 +10,30 @@
 	}
 }
 
-@media (max-width: 767px) {
-	.topbarr {
-		display: block;
-		/* left: 0;
-		position: fixed;
-		right: 0;
-		top: 0;
-		z-index: 10;
-		max-height: 70px; */
-	}
+.conciliacao-submenu button {
+	border-radius: 0px;
+	box-shadow: none;
+	transition: none;
+}
+
+.conciliacao-submenu .btn:focus {
+	box-shadow: none;
+}
+
+.conciliacao-submenu .dropdown-menu {
+	/* background-color: #edf0f5; */
+	background-color: white;
+	padding: 0px;
+	border-radius: 0px;
+}
+
+.conciliacao-submenu .dropdown-menu a {
+	width: 100%;
+}
+
+.conc-taxas-icon {
+	height: auto;
+	width: auto;
+	max-width: 25px;
+	max-height: 25px;
 }
