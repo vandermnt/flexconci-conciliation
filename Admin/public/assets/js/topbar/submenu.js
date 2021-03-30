@@ -1,18 +1,28 @@
 const submenuIcons = [
+	// {
+	// 	name: 'Vendas',
+	// 	unhover: 'assets/images/widgets/vendas.png',
+	// 	hover: 'assets/images/widgets/vendas-hover.png',
+	// },
 	{
 		name: 'Vendas',
-		unhover: 'assets/images/widgets/vendas.png',
-		hover: 'assets/images/widgets/vendas-hover.png',
+		unhover: 'assets/images/widgets/cartao-de-credito.png',
+		hover: 'assets/images/widgets/cartao-de-credito-hover.png',
 	},
 	// {
 	// 	name: 'Recebimentos',
 	// 	unhover: 'assets/images/widgets/receber.png',
 	// 	hover: 'assets/images/widgets/receber-hover.png',
 	// },
+	// {
+	// 	name: 'Recebimentos',
+	// 	unhover: 'assets/images/widgets/bolsa-de-dinheiro.png',
+	// 	hover: 'assets/images/widgets/bolsa-de-dinheiro-hover.png',
+	// },
 	{
 		name: 'Recebimentos',
-		unhover: 'assets/images/widgets/bolsa-de-dinheiro.png',
-		hover: 'assets/images/widgets/bolsa-de-dinheiro-hover.png',
+		unhover: 'assets/images/widgets/restituicao.png',
+		hover: 'assets/images/widgets/restituicao-hover.png',
 	},
 	// {
 	// 	name: 'Conciliação',
