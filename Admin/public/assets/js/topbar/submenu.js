@@ -1,8 +1,13 @@
 const submenuIcons = [
+	// {
+	// 	name: 'Vendas',
+	// 	unhover: 'assets/images/widgets/vendas.png',
+	// 	hover: 'assets/images/widgets/vendas-hover.png',
+	// },
 	{
 		name: 'Vendas',
-		unhover: 'assets/images/widgets/vendas.png',
-		hover: 'assets/images/widgets/vendas-hover.png',
+		unhover: 'assets/images/widgets/cartao-de-credito.png',
+		hover: 'assets/images/widgets/cartao-de-credito-hover.png',
 	},
 	// {
 	// 	name: 'Recebimentos',
