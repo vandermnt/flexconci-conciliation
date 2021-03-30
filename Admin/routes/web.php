@@ -13,6 +13,7 @@ if (version_compare(PHP_VERSION, '7.2.0', '>=')) {
 
 Route::group(['middleware' => 'auth'], function () {
 
+
 	//DAHSBOARD
 	Route::get('/', 'DashboardController@dashboard');
 	Route::get('/detalhe-calendario/{data}', 'DashboardController@detalheCalendario');
@@ -138,6 +139,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/delete-adquirente/{codigo}', 'AdquirenteController@excluirAdquirente');
   Route::get('/delete-banco/{codigo}', 'BancoController@excluirBanco');
   Route::get('/delete-taxa/{codigo}', 'TaxaController@excluirTaxa');
+	Route::get('/search-taxa/{codigo}/{operadora}', 'TaxaController@searchTaxas');
 
   // DESCONCILIACAO FEITA PELO ADM
   Route::get('/adm/desconciliacao', 'AdmDesconciliacaoController@index');
