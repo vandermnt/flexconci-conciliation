@@ -37,7 +37,6 @@
             ['justificar-operadoras' => route('vendas-operadoras.justify')],
           ]"
           :hidden-fields="[
-            'adquirentes',
             'bandeiras',
             'modalidades',
             'estabelecimentos',
@@ -47,6 +46,7 @@
           ]"
           :form-data="[
             'empresas' => $empresas,
+						'adquirentes' => $adquirentes,
             'status_conciliacao' => $status_conciliacao,
           ]"
         />

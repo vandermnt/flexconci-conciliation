@@ -491,7 +491,11 @@
                   class="d-flex align-items-center justify-content-center table-sorter mb-2"
                   data-tbsort-by="RETORNO_ERP"
                 >
-                  <p class="m-0">Retorno Venda {{ $erp->ERP ?? 'ERP' }}</p>
+									@if(Route::currentRouteName() == 'conciliacao-vendas')
+                  	<p class="m-0">Venda Corrigida {{ $erp->ERP ?? 'ERP' }}</p>
+									@else if
+										<p class="m-0">Retorno Venda {{ $erp->ERP ?? 'ERP' }}</p>
+									@endif
                   <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
                 </div>
                 <input type="text" class="form-control" name="RETORNO_ERP">
