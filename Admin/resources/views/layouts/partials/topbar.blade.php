@@ -83,9 +83,10 @@
     </li>
 
 		<li>
-			<div class="dropdown navbar-submenu">
+			<div class="dropdown navbar-submenu" onmouseover="showSubmenu(this);" onmouseout="hiddeSubmenu(this);">
 				<button id="itemMenu" class="btn submenu-item nav-linkk dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onmouseover="hoverSubmenu(this);" onmouseout="unhoverSubmenu(this);">
-					<img src="assets/images/widgets/cartao-de-credito.png" alt="Valor Bruto">
+					{{-- <img src="assets/images/widgets/cartao-de-credito.png" alt="Valor Bruto"> --}}
+					<i class="far fa-credit-card"></i>
 					Vendas
 				</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -100,9 +101,10 @@
 		</li>
 
 		<li>
-			<div class="dropdown navbar-submenu">
+			<div class="dropdown navbar-submenu" onmouseover="showSubmenu(this);" onmouseout="hiddeSubmenu(this);">
 				<button id="itemMenu" class="btn submenu-item nav-linkk dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onmouseover="hoverSubmenu(this);" onmouseout="unhoverSubmenu(this);">
-					<img src="assets/images/widgets/restituicao.png" alt="Valor Bruto">
+					{{-- <img src="assets/images/widgets/restituicao.png" alt="Valor Bruto">--}}
+					<i class="fas fa-hand-holding-usd"></i>
 					Recebimentos
 				</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -117,9 +119,10 @@
 </li>
 
     <li>
-			<div class="dropdown navbar-submenu">
+			<div class="dropdown navbar-submenu" onmouseover="showSubmenu(this);" onmouseout="hiddeSubmenu(this);">
 				<button id="itemMenu" class="btn submenu-item nav-linkk dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onmouseover="hoverSubmenu(this);" onmouseout="unhoverSubmenu(this);">
-					<img src="assets/images/widgets/conciliacao.png" alt="Valor Bruto">
+					{{-- <img src="assets/images/widgets/conciliacao.png" alt="Valor Bruto"> --}}
+					<i class="fas fa-check"></i>
 					Conciliação
 				</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
