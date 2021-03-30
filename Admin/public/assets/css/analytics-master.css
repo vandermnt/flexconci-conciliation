@@ -1,27 +1,28 @@
-.conciliacao-submenu button {
+.navbar-submenu button {
 	border-radius: 0px;
 	box-shadow: none;
 	transition: none;
+	font-size: 0.8rem;
 }
 
-.conciliacao-submenu .btn:focus {
+.navbar-submenu .btn:focus {
 	box-shadow: none;
 }
 
-.conciliacao-submenu .dropdown-menu {
+.navbar-submenu .dropdown-menu {
 	/* background-color: #edf0f5; */
 	background-color: white;
 	padding: 0px;
 	border-radius: 0px;
 }
 
-.conciliacao-submenu .dropdown-menu a {
+.navbar-submenu .dropdown-menu a {
 	width: 100%;
 }
 
-.conc-taxas-icon {
-	height: auto;
+.navbar-submenu img {
 	width: auto;
-	max-width: 25px;
-	max-height: 25px;
+	height: auto;
+	width: 28px;
+	height: 28px;
 }
