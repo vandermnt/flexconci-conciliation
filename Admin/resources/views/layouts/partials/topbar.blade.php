@@ -26,6 +26,7 @@
       <a class="dropdown-item" href="{{ url('cadastro-banco')}}"> Bancos </a>
       <a class="dropdown-item" href="{{ url('cadastro-bandeira')}}"> Bandeiras </a>
       <a class="dropdown-item" href="{{ url('cadastro-taxa')}}"> Taxas </a>
+			<a class="dropdown-item" href="{{ url('/justificativas') }}"> Justificativas </a>
     </div>
   </li>
   @endif
@@ -74,9 +75,9 @@
     </li>
 
 		<li>
-			<div class="dropdown conciliacao-submenu">
+			<div class="dropdown navbar-submenu">
 				<button id="itemMenu" class="btn submenu-item nav-linkk dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onmouseover="hoverSubmenu(this);" onmouseout="unhoverSubmenu(this);">
-					<img src="assets/images/widgets/report.png" alt="Valor Bruto">
+					<img src="assets/images/widgets/vendas.png" alt="Valor Bruto">
 					Vendas
 				</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -91,7 +92,7 @@
 		</li>
 
 		<li>
-			<div class="dropdown conciliacao-submenu">
+			<div class="dropdown navbar-submenu">
 				<button id="itemMenu" class="btn submenu-item nav-linkk dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onmouseover="hoverSubmenu(this);" onmouseout="unhoverSubmenu(this);">
 					<img src="assets/images/widgets/bolsa-de-dinheiro.png" alt="Valor Bruto">
 					Recebimentos
@@ -108,9 +109,9 @@
 </li>
 
     <li>
-			<div class="dropdown conciliacao-submenu">
+			<div class="dropdown navbar-submenu">
 				<button id="itemMenu" class="btn submenu-item nav-linkk dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onmouseover="hoverSubmenu(this);" onmouseout="unhoverSubmenu(this);">
-					<img src="assets/images/widgets/aprovado.png" alt="Valor Bruto">
+					<img src="assets/images/widgets/conciliacao.png" alt="Valor Bruto">
 					Conciliação
 				</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -124,12 +125,6 @@
 					</a>
 				</div>
 			</div>
-</li>
-
-<li>
-  <a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/justificativas') }}" role="button">
-    <span class="ml-1 nav-user-name hidden-sm"><i class="far fa-flag"></i> Justificativas </span>
-  </a>
 </li>
 
 </ul>
