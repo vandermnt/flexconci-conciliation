@@ -94,7 +94,7 @@
 		<li>
 			<div class="dropdown navbar-submenu">
 				<button id="itemMenu" class="btn submenu-item nav-linkk dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onmouseover="hoverSubmenu(this);" onmouseout="unhoverSubmenu(this);">
-					<img src="assets/images/widgets/bolsa-de-dinheiro.png" alt="Valor Bruto">
+					<img src="assets/images/widgets/restituicao.png" alt="Valor Bruto">
 					Recebimentos
 				</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
