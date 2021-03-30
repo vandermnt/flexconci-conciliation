@@ -13,7 +13,7 @@
   <main id="pagina-vendas-erp" class="container-fluid">
     <header>
       @component('common-components.breadcrumb')
-        @slot('title') Vendas ERP @endslot
+        @slot('title') Vendas {{session('erp_cliente') ?? 'ERP'}} @endslot
         @slot('item1') Vendas @endslot
       @endcomponent
     </header>
