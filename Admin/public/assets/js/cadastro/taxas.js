@@ -1,16 +1,37 @@
 document.querySelector(".success-save-tx").style.display = "none";
 document.querySelector(".success-update-tx").style.display = "none";
 
-const buttonCadastroTaxa = document.querySelector(".bt-cadastro-tx");
-const buttonSalvaCadastro = document.querySelector(".bt-salva-tx");
-const buttonSalvaEdicao = document.querySelector(".bt-salva-edicao-tx");
-const buttonSimExclusao = document.querySelector("#sim");
 const taxasPesquisados = document.querySelector(
   'input[name="taxas-pesquisados"]'
 );
 const taxasCarregadas = document.querySelector(
   'input[name="taxas-carregadas"]'
 );
+
+const buttonCadastroTaxa = document.querySelector(".bt-cadastro-tx");
+const buttonSalvaCadastro = document.querySelector(".bt-salva-tx");
+const buttonPesquisaTaxa = document.querySelector(".search");
+const buttonSalvaEdicao = document.querySelector(".bt-salva-edicao-tx");
+const buttonSimExclusao = document.querySelector("#sim");
+const token = document.getElementById("token").value;
+const headers = new Headers({
+  "Content-Type": "application/json",
+  "X-CSRF-TOKEN": token
+});
+
+buttonPesquisaTaxa.addEventListener("click", function() {
+  const empresa = document.querySelector("select[name='clientes']");
+  const empresa_selecionada = empresa.options[empresa.selectedIndex].value;
+
+  const operadora_estabelecimento = document.querySelector(
+    "select[name='operadora-estabelecimento']"
+  );
+  const operadora_estabelecimento_selecionado =
+    operadora_estabelecimento.options[operadora_estabelecimento.selectedIndex]
+      .value;
+
+  pesquisarTaxa(empresa_selecionada, operadora_estabelecimento_selecionado);
+});
 
 document.addEventListener("change", function() {
   const codigo_estabelecimento_converter = document.querySelector(
@@ -27,22 +48,16 @@ document.addEventListener("change", function() {
   const operadora_estabelecimento = JSON.parse(
     codigo_estabelecimento_converter
   );
-  console.log(operadora_estabelecimento);
 
   combo_operadora_estabelecimento.innerHTML = "";
   for (object of operadora_estabelecimento) {
     if (object.COD_CLIENTE == id_cliente) {
       let option = document.createElement("option");
-      option.text = `${object.NOME_FANTASIA} / ${object.CODIGO_ESTABELECIMENTO}`;
+      option.text = `${object.ADQUIRENTE} / ${object.CODIGO_ESTABELECIMENTO}`;
       option.value = object.CODIGO;
       combo_operadora_estabelecimento.add(option);
     }
   }
-  // console.log(html);
-
-  // $("operadora-estabelecimento").append(html);
-
-  // combo_operadora_estabelecimento.append(html);
 
   const teste = operadora_estabelecimento.CODIGO;
 });
@@ -98,37 +113,57 @@ buttonSalvaEdicao.addEventListener("click", function() {
 //   }, 300);
 // });
 
-function editarTaxa(e, taxa) {
-  console.log(taxa);
-  localStorage.setItem("cod_taxa", taxa.CODIGO);
-
-  $("#modalEditarAdquirente").modal({
-    show: true
+function pesquisarTaxa(empresa, operadora_estabelecimento) {
+  fetch(`/search-taxa/${empresa}/${operadora_estabelecimento}`, {
+    method: "GET",
+    headers: headers
+  }).then(function(response) {
+    response.json().then(function(data) {
+      renderizaTabela(data.taxas);
+    });
   });
-  document.querySelector("input[name='editar-taxa']").value = `${taxa.TAXA}`;
+}
+
+function editarTaxa(e, codigo_taxa) {
+  const input = document.querySelector(`input[class='${codigo_taxa}']`);
+  input.disabled = false;
+
+  localStorage.setItem("cod_taxa", codigo_taxa);
+
+  input.addEventListener("keyup", function(e) {
+    var key = e.which || e.keyCode;
+    if (key == 13) {
+      // alert("carregou enter o valor digitado foi: " + this.value);
+      input.disabled = true;
+      salvarEdicaoTaxa(input.value);
+    }
+  });
+  // console.log(taxa);
+  // localStorage.setItem("cod_taxa", taxa.CODIGO);
+  //
+  // $("#modalEditarAdquirente").modal({
+  //   show: true
+  // });
+  // document.querySelector("input[name='editar-taxa']").value = `${taxa.TAXA}`;
 }
 
 function salvarEdicaoTaxa(taxa) {
-  const token = document.getElementById("token").value;
   const data = { taxa };
 
   fetch("update-taxa/" + localStorage.getItem("cod_taxa"), {
     method: "PUT",
-    headers: new Headers({
-      "Content-Type": "application/json",
-      "X-CSRF-TOKEN": token
-    }),
+    headers: headers,
     body: JSON.stringify(data)
   })
     .then(function(response) {
       response.json().then(function(data) {
-        document.querySelector(".success-update-ad").style.display = "block";
+        // document.querySelector(".success-update-ad").style.display = "block";
 
-        setTimeout(function() {
-          $("#modalEditarAdquirente").modal("hide");
-          document.querySelector(".success-update-ad").style.display = "none";
-          document.querySelector('input[name="editar-taxa"]').value = "";
-        }, 2000);
+        // setTimeout(function() {
+        //   $("#modalEditarAdquirente").modal("hide");
+        //   document.querySelector(".success-update-ad").style.display = "none";
+        //   document.querySelector('input[name="editar-taxa"]').value = "";
+        // }, 2000);
 
         atualizaTabela();
       });
@@ -141,10 +176,7 @@ function cadastrarTaxa(taxa) {
 
   fetch("cadastro-taxa", {
     method: "POST",
-    headers: new Headers({
-      "Content-Type": "application/json",
-      "X-CSRF-TOKEN": token
-    }),
+    headers: headers,
     body: JSON.stringify(taxa)
   })
     .then(function(response) {
@@ -181,24 +213,28 @@ function buscarTodasTaxas() {
   });
 }
 
+function habilitaCampo(id_input) {
+  console.log("odwaopdawkp");
+  console.log(id_input);
+}
+
 function renderizaTabela(taxas) {
   document.querySelector("#conteudo_tabe").innerHTML = "";
 
   let html = "";
 
   for (taxa of taxas) {
-    html += `<tr id='${taxa.CODIGO}'>
+    html += `<tr>
     <td> ${taxa.CODIGO} </td>
     <td> ${taxa.NOME_FANTASIA} </td>
-    <td> ${taxa.TAXA} </td>
-    <td> ${taxa.ADQUIRENTE} </td>
+    <td> <input value='${taxa.TAXA}' disabled class="${taxa.CODIGO}"> </td>
     <td> ${taxa.BANDEIRA} </td>
-    <td> ${taxa.DESCRICAO} </td>
+    <td>  </td>
     <td> ${formataData(taxa.DATA_VIGENCIA)} </td>
     <td class='excluir'>
-    <a href='#' onclick='editarTaxa(event, ${JSON.stringify(
-      taxa
-    )})'><i class='far fa-edit'></i></a>
+    <a href='#' onclick='editarTaxa(event, ${
+      taxa.CODIGO
+    })'><i class='far fa-edit'></i></a>
     <a href='#' onclick='excluirTaxa(event, ${
       taxa.CODIGO
     })'><i style='margin-left: 12px' class='far fa-trash-alt'></i></a>"
@@ -225,10 +261,7 @@ document.getElementById("sim").addEventListener("click", function() {
   const cod_taxa = localStorage.getItem("cod_taxa");
 
   fetch(`delete-taxa/${cod_taxa}`, {
-    headers: new Headers({
-      "Content-Type": "application/json",
-      "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
-    })
+    headers: headers
   }).then(function(response) {
     response.json().then(function(data) {
       buscarTodasTaxas();

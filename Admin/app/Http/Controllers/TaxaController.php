@@ -35,7 +35,12 @@ class TaxaController extends Controller {
     $clientes_operadora = DB::table('cliente_operadora')
     ->leftJoin('clientes', 'cliente_operadora.COD_CLIENTE', 'clientes.CODIGO')
     ->leftJoin('adquirentes', 'cliente_operadora.COD_ADQUIRENTE', 'adquirentes.CODIGO')
-    ->select('clientes.NOME_FANTASIA', 'cliente_operadora.CODIGO_ESTABELECIMENTO', 'cliente_operadora.COD_CLIENTE')
+    ->select('cliente_operadora.CODIGO',
+    'clientes.NOME_FANTASIA',
+    'cliente_operadora.CODIGO_ESTABELECIMENTO',
+    'cliente_operadora.COD_CLIENTE',
+    'adquirentes.ADQUIRENTE'
+    )
     ->get();
 
     $taxas_count = $taxas->count();
@@ -83,14 +88,9 @@ class TaxaController extends Controller {
 
   public function allTaxas(){
     try {
-      $taxas = DB::table('controle_taxa_cliente')
-      ->leftJoin('bandeira', 'controle_taxa_cliente.COD_BANDEIRA', 'bandeira.codigo')
-      ->leftJoin('modalidade', 'controle_taxa_cliente.COD_MODALIDADE', 'modalidade.CODIGO')
-      ->leftJoin('adquirentes', 'controle_taxa_cliente.COD_OPERADORA', 'adquirentes.CODIGO')
+      $taxas = TaxaModel::leftJoin('bandeira', 'controle_taxa_cliente.COD_BANDEIRA', 'bandeira.codigo')
       ->leftJoin('clientes', 'controle_taxa_cliente.COD_CLIENTE', 'clientes.CODIGO')
       ->select('bandeira.BANDEIRA',
-      'modalidade.DESCRICAO',
-      'adquirentes.ADQUIRENTE',
       'clientes.NOME_FANTASIA',
       'controle_taxa_cliente.CODIGO',
       'controle_taxa_cliente.DATA_VIGENCIA',
@@ -110,7 +110,7 @@ class TaxaController extends Controller {
   }
 
   public function updateTaxa(Request $request, $codigo){
-    $taxa_nome = $request->input('bandeira');
+    $taxa_nome = $request->input('taxa');
 
     $taxa = TaxaModel::where('CODIGO', $codigo)->first();
 
@@ -135,5 +135,34 @@ class TaxaController extends Controller {
         "error" => $e->getMessage()
       ]);
     }
+  }
+
+  public function searchTaxas($empresa, $operadora) {
+    // $empresa = $request->input('empresa');
+    // $operadora_estabelecimento = $request->input('operadora_estabelecimento');
+    try {
+      $taxas = TaxaModel::where('COD_CLIENTE', $empresa)
+      ->where('COD_OPERADORA', $operadora)
+      ->leftJoin('bandeira', 'controle_taxa_cliente.COD_BANDEIRA', 'bandeira.codigo')
+      ->leftJoin('clientes', 'controle_taxa_cliente.COD_CLIENTE', 'clientes.CODIGO')
+      ->select('bandeira.BANDEIRA',
+      'clientes.NOME_FANTASIA',
+      'controle_taxa_cliente.CODIGO',
+      'controle_taxa_cliente.DATA_VIGENCIA',
+      'controle_taxa_cliente.TAXA'
+      )
+      ->get();
+
+      return response()->json([
+        "taxas" =>$taxas
+      ]);
+    } catch (\Exception $e) {
+      return response()->json([
+        "error" => $e->getMessage()
+      ]);
+    }
+
+
+
   }
 }

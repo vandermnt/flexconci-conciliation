@@ -28,8 +28,9 @@
               <input type="hidden" name="cliente_op" value="{{ $clientes }}">
 
               <select class="form-control" name="clientes">
+                <option value="" selected> -- Selecione uma Empresa -- </option>
                 @foreach($clientes as $cliente)
-                  <option value="{{ $cliente->CODIGO }}"> {{ $cliente->NOME_FANTASIA }} </option>
+                  <option value="{{ $cliente->CODIGO }}"> {{ $cliente->NOME_FANTASIA }} - {{ $cliente->CODIGO }} </option>
                 @endforeach
               </select>
               <!-- <input type="textarea" class="form-control" name="bancos-pesquisados"> -->
@@ -58,12 +59,13 @@
       </div>
       <div class="modal-footer" style="border-top: none !important">
         <button type="button" class="btn button no-hover mr-1 submit-form" data-dismiss="modal"><b><i class="fas fa-plus"></i> Cadastrar</b></button>
+        <button type="button" class="btn button no-hover mr-1 search"><b><i class="fas fa-search"></i> Pesquisar</b></button>
       </div>
     </div>
 
     <div class="col-sm-12 table-description d-flex align-items-center ">
-      <h4 id="qtd-registros">Total de taxas ({{ $count_taxas }} registros)</h4>
-      <img src="assets/images/widgets/arrow-down.svg" alt="Taxas">
+      <h4 id="qtd-registros"></h4>
+      <!-- <img src="assets/images/widgets/arrow-down.svg" alt="Taxas"> -->
     </div>
     <br>
     <div class="tabela">
@@ -73,7 +75,6 @@
             <th> CÓDIGO </th>
             <th> CLIENTE </th>
             <th> TAXA </th>
-            <th> OPERADORA </th>
             <th> BANDEIRA </th>
             <th> MODALIDADE </th>
             <th> DATA VIGÊNCIA </th>
@@ -81,7 +82,7 @@
           </tr>
         </thead>
         <tbody id="conteudo_tabe">
-          @foreach($taxas as $taxa)
+          <!-- @foreach($taxas as $taxa)
           <tr id="{{ $taxa->CODIGO }}">
             <td> {{ $taxa->CODIGO }}</td>
             <td> {{ $taxa->NOME_FANTASIA }}</td>
@@ -95,7 +96,7 @@
               <a href="#" onclick="excluirTaxa(event,{{ $taxa->CODIGO}})"><i style="margin-left: 12px"class="far fa-trash-alt"></i></a>
             </td>
           </tr>
-          @endforeach
+          @endforeach -->
         </tbody>
       </table>
     </div>
