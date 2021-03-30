@@ -78,7 +78,7 @@
     <ul class="list-unstyled topbar-nav mb-0" style="margin-left: 30px">
       <li>
         <a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user"  href="{{ url('/') }}" role="button">
-          <span class="ml-1 nav-user-name hidden-sm"><i class="fas fa-chart-bar"></i> Dashboard </span>
+          <span class="nav-user-name hidden-sm"><i class="fas fa-chart-bar mr-1"></i> Dashboard </span>
         </a>
     </li>
 
@@ -86,15 +86,35 @@
 			<div class="dropdown navbar-submenu" onmouseover="showSubmenu(this);" onmouseout="hiddeSubmenu(this);">
 				<button id="itemMenu" class="btn submenu-item nav-linkk dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onmouseover="hoverSubmenu(this);" onmouseout="unhoverSubmenu(this);">
 					{{-- <img src="assets/images/widgets/cartao-de-credito.png" alt="Valor Bruto"> --}}
-					<i class="far fa-credit-card"></i>
+					<i class="far fa-credit-card mr-1"></i>
 					Vendas
 				</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 					<a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/vendas-sistema-erp')}}" role="button">
-						<span dropzone=""class="ml-1 nav-user-name hidden-sm"><i class="fas fa-laptop"></i>Vendas {{session('erp_cliente') ?? 'ERP'}}</span>
+						<span dropzone=""class="nav-user-name hidden-sm"><i class="fas fa-laptop mr-1"></i>Vendas {{session('erp_cliente') ?? 'ERP'}}</span>
 					</a>
 					<a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/vendas-operadoras') }}" role="button">
-						<span dropzone=""class="ml-1 nav-user-name hidden-sm"><i class="fas fa-money-check-alt"></i> Vendas Operadoras </span>
+						<span dropzone=""class="nav-user-name hidden-sm"><i class="fas fa-money-check-alt mr-1"></i> Vendas Operadoras </span>
+					</a>
+				</div>
+			</div>
+		</li>
+
+		<li>
+			<div class="dropdown navbar-submenu" onmouseover="showSubmenu(this);" onmouseout="hiddeSubmenu(this);">
+				<button id="itemMenu" class="btn submenu-item nav-linkk dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onmouseover="hoverSubmenu(this);" onmouseout="unhoverSubmenu(this);">
+					{{-- <img src="assets/images/widgets/conciliacao.png" alt="Valor Bruto"> --}}
+					<i class="fas fa-check mr-1"></i>
+					Conciliação
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<a id="itemMenu" class="dropdown-item submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('conciliacao-vendas') }}" role="button"
+					aria-haspopup="false" aria-expanded="false">
+					<span class="nav-user-name hidden-sm"><i class="far fa-handshake mr-1"></i> Conciliação de Vendas </span>
+					</a>
+					<a id="itemMenu" class="dropdown-item submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('conciliacao-taxas') }}" role="button"
+					aria-haspopup="false" aria-expanded="false">
+					<span class="nav-user-name hidden-sm"><i class="fas fa-percent mr-1"></i> Conciliação de Taxas </span>
 					</a>
 				</div>
 			</div>
@@ -104,35 +124,15 @@
 			<div class="dropdown navbar-submenu" onmouseover="showSubmenu(this);" onmouseout="hiddeSubmenu(this);">
 				<button id="itemMenu" class="btn submenu-item nav-linkk dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onmouseover="hoverSubmenu(this);" onmouseout="unhoverSubmenu(this);">
 					{{-- <img src="assets/images/widgets/restituicao.png" alt="Valor Bruto">--}}
-					<i class="fas fa-hand-holding-usd"></i>
+					<i class="fas fa-hand-holding-usd mr-1"></i>
 					Recebimentos
 				</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 					<a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ url('/recebimentos-operadoras') }}" role="button">
-						<span class="ml-1 nav-user-name hidden-sm"><i class="fas fa-donate"></i> Recebimentos & Despesas</span>
+						<span class="nav-user-name hidden-sm"><i class="fas fa-donate mr-1"></i> Recebimentos & Despesas</span>
 					</a>
 					<a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('recebimentos-futuros.index') }}" role="button">
-						<span class="ml-1 nav-user-name hidden-sm"><i class="far fa-calendar-alt"></i> Recebimentos Futuros </span>
-					</a>
-				</div>
-			</div>
-</li>
-
-    <li>
-			<div class="dropdown navbar-submenu" onmouseover="showSubmenu(this);" onmouseout="hiddeSubmenu(this);">
-				<button id="itemMenu" class="btn submenu-item nav-linkk dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onmouseover="hoverSubmenu(this);" onmouseout="unhoverSubmenu(this);">
-					{{-- <img src="assets/images/widgets/conciliacao.png" alt="Valor Bruto"> --}}
-					<i class="fas fa-check"></i>
-					Conciliação
-				</button>
-				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-					<a id="itemMenu" class="dropdown-item submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('conciliacao-vendas') }}" role="button"
-					aria-haspopup="false" aria-expanded="false">
-					<span class="ml-1 nav-user-name hidden-sm"><i class="far fa-handshake"></i> Conciliação de Vendas </span>
-					</a>
-					<a id="itemMenu" class="dropdown-item submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('conciliacao-taxas') }}" role="button"
-					aria-haspopup="false" aria-expanded="false">
-					<span class="ml-1 nav-user-name hidden-sm"><i class="fas fa-percent"></i> Conciliação de Taxas </span>
+						<span class="nav-user-name hidden-sm"><i class="far fa-calendar-alt mr-1"></i> Recebimentos Futuros </span>
 					</a>
 				</div>
 			</div>

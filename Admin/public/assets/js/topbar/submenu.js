@@ -37,21 +37,21 @@ const submenuIcons = [
 ];
 
 function hoverSubmenu(element) {
-	const text = element.textContent.trim();
-	submenuIcons.map((item) => {
-		if (item.name == text) {
-			element.querySelector('img').setAttribute('src', `${item.hover}`);
-		}
-	});
+	// const text = element.textContent.trim();
+	// submenuIcons.map((item) => {
+	// 	if (item.name == text) {
+	// 		element.querySelector('img').setAttribute('src', `${item.hover}`);
+	// 	}
+	// });
 }
 
 function unhoverSubmenu(element) {
-	const text = element.textContent.trim();
-	submenuIcons.map((item) => {
-		if (item.name == text) {
-			element.querySelector('img').setAttribute('src', `${item.unhover}`);
-		}
-	});
+	// const text = element.textContent.trim();
+	// submenuIcons.map((item) => {
+	// 	if (item.name == text) {
+	// 		element.querySelector('img').setAttribute('src', `${item.unhover}`);
+	// 	}
+	// });
 }
 
 function showSubmenu(element) {
