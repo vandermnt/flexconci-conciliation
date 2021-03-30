@@ -53,3 +53,19 @@ function unhoverSubmenu(element) {
 		}
 	});
 }
+
+function showSubmenu(element) {
+	element.classList.add('show');
+	const button = element.querySelector('button');
+	const dropdownMenu = element.querySelector('.dropdown-menu');
+	button.setAttribute('aria-expanded', true);
+	dropdownMenu.classList.add('show');
+}
+
+function hiddeSubmenu(element) {
+	element.classList.remove('show');
+	const button = element.querySelector('button');
+	const dropdownMenu = element.querySelector('.dropdown-menu');
+	button.setAttribute('aria-expanded', false);
+	dropdownMenu.classList.remove('show');
+}
