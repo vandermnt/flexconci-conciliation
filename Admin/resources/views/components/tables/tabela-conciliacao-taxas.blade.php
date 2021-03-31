@@ -150,18 +150,6 @@
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
-              data-tbsort-by="VALOR_TAXA"
-            >
-              <p class="m-0">Taxa Praticada R$</p>
-              <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
-            </div>
-            <input type="number" min="0" step="0.01" class="form-control" name="VALOR_TAXA">
-          </div>
-        </th>
-				<th>
-          <div class="d-flex flex-column align-items-center">
-            <div
-              class="d-flex align-items-center justify-content-center table-sorter mb-2"
               data-tbsort-by="VALOR_BRUTO"
             >
               <p class="m-0">Taxa Acordada %</p>
@@ -224,7 +212,7 @@
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
               data-tbsort-by="VALOR_LIQUIDO"
             >
-              <p class="m-0">Dif. Taxa R$</p>
+              <p class="m-0">Dif. Líquido R$</p>
               <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
             <input type="number" min="0" step="0.01" class="form-control" name="VALOR_LIQUIDO">
@@ -399,7 +387,6 @@
         <td data-column="AUTORIZACAO"></td>
         <td data-column="TID"></td>
         <td data-column="VALOR_BRUTO" data-format="currency"></td>
-				<td data-column="VALOR_TAXA" data-format="currency"></td>
 				<td data-column="PERCENTUAL_TAXA_ACORDADA" data-format="number"></td>
         <td data-column="PERCENTUAL_TAXA" data-format="number"></td>
 				<td data-column="PERCENTUAL_DIF_TAXA" data-format="number" data-color="diff"></td>
@@ -442,7 +429,6 @@
         <td></td>
         <td></td>
         <td data-column="TOTAL_BRUTO" data-format="currency"></td>
-				<td data-column="TOTAL_TAXA" data-format="currency"></td>
         <td></td>
         <td></td>
         <td></td>
