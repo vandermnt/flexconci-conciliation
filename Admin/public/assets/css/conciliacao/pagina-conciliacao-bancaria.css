@@ -1,38 +1,91 @@
-#pagina-conciliacao-bancaria #js-form-extratos button {
-  color: white;
-  background: #FF6B00;
-  box-shadow: 0px 3px 10px 0 #e25f00;
-  margin-top: 16px;
+#pagina-vendas-operadoras .resultados {
+	margin-top: 48px;
 }
 
-#pagina-conciliacao-bancaria #js-form-extratos button:hover {
-  box-shadow: none;
+#pagina-vendas-operadoras .boxes {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	grid-gap: 24px;
 }
 
-#pagina-conciliacao-bancaria .em-processamento {
-  margin-top: 32px;
+@media (max-width: 780px) {
+	#pagina-vendas-operadoras .boxes {
+		grid-template-columns: repeat(3, 1fr);
+	}
 }
 
-#pagina-conciliacao-bancaria table {
-  white-space: nowrap;
+@media (max-width: 560px) {
+	#pagina-vendas-operadoras .boxes {
+		grid-template-columns: repeat(2, 1fr);
+	}
 }
 
-#pagina-conciliacao-bancaria table,
-#pagina-conciliacao-bancaria table thead,
-#pagina-conciliacao-bancaria table thead th,
-#pagina-conciliacao-bancaria table tbody,
-#pagina-conciliacao-bancaria table tbody td {
-  background: transparent;
+#pagina-vendas-operadoras .boxes h4 {
+	font-size: 0.845rem;
+	font-weight: 700;
+	color: #000444;
 }
 
-#pagina-conciliacao-bancaria table thead tr {
-  background: #2D5275;
+#pagina-vendas-operadoras .boxes p {
+	font-size: 1rem;
+	margin: 0;
 }
 
-#pagina-conciliacao-bancaria table thead th {
-  color: white;
+#pagina-vendas-operadoras .boxes img {
+	width: 40px;
+	max-width: 100%;
 }
 
-#pagina-conciliacao-bancaria table tbody tr {
-  background: #edf0f5;
+#pagina-vendas-operadoras .table-responsive {
+	max-height: 528px;
+}
+
+#pagina-vendas-operadoras table i {
+	font-size: 18px;
+	color: #2d5275;
+	cursor: pointer;
+}
+
+#pagina-vendas-operadoras td.actions-cell .link-impressao.tooltip-hint::before {
+	transform: translateX(-8%);
+}
+
+#pagina-vendas-operadoras .modais .comprovante {
+	background-color: #f3f781 !important;
+}
+
+#pagina-vendas-operadoras .modais .comprovante h4 {
+	color: #303e67;
+	font-size: 14px;
+}
+
+#pagina-vendas-operadoras .modais .comprovante h6 {
+	font-size: 12px;
+}
+
+#pagina-vendas-operadoras .modais .comprovante hr {
+	width: 100%;
+	border-color: black;
+	padding: 0;
+	margin: 0;
+}
+
+#pagina-vendas-operadoras .modais .comprovante .header,
+#pagina-vendas-operadoras .modais .comprovante .body {
+	padding: 16px;
+}
+
+#pagina-vendas-operadoras .modais .comprovante,
+#pagina-vendas-operadoras .modais .comprovante .header,
+#pagina-vendas-operadoras .modais .comprovante .body {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
+
+#pagina-vendas-operadoras #comprovante-modal .modal-body {
+	margin: 0;
+	padding: 0;
 }
