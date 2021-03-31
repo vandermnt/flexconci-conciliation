@@ -1,0 +1,35 @@
+.navbar-submenu button {
+	border-radius: 0px;
+	box-shadow: none;
+	transition: none;
+	font-size: 0.8rem;
+	font-family: 'Poppins', sans-serif;
+}
+
+.navbar-submenu .btn:focus {
+	box-shadow: none;
+}
+
+.navbar-submenu .dropdown-menu {
+	/* background-color: #edf0f5; */
+	background-color: white;
+	padding: 0px;
+	border-radius: 0px;
+}
+
+.navbar-custom .dropdown-menu {
+	background-color: white;
+	padding: 0px;
+	border-radius: 0px;
+}
+
+.navbar-submenu .dropdown-menu a {
+	width: 100%;
+}
+
+.navbar-submenu img {
+	width: auto;
+	height: auto;
+	width: 18px;
+	height: 18px;
+}
