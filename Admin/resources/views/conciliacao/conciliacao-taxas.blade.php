@@ -64,7 +64,7 @@
         />
 				<x-box
           class="tooltip-hint"
-          title="CUSTO TAXA ACORDADA"
+          title="VALOR LÍQUIDO ACORDADO"
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_TAXA_ACORDADA"
@@ -76,7 +76,7 @@
         />
 				<x-box
           class="tooltip-hint"
-          title="CUSTO TAXA PRATICADA"
+          title="VALOR LÍQUIDO PRATICADO"
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_TAXA"
