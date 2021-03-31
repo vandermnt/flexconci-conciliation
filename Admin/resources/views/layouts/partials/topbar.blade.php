@@ -42,18 +42,11 @@
 <li class="dropdown" onmouseover="showSubmenu(this);" onmouseout="hiddeSubmenu(this);">
   <a id="dropdownUserSettings" class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
   aria-haspopup="false" aria-expanded="false">
-  {{-- <img src="{{ URL::asset('assets/images/users/user-4.jpg')}}" alt="profile-user" class="rounded-circle" /> --}}
-  <!-- <span class="ml-1 nav-user-name hidden-sm">{{Session::get('codigologin') }} <i class="mdi mdi-chevron-down"></i> </span> -->
   <?php $primeiro_nome = explode(' ', Auth::user()->NOME); ?>
   <span class="ml-1 nav-user-name hidden-sm">{{$primeiro_nome[0] }} |   {{ Session::get('nome_fantasia')}} <i class="mdi mdi-chevron-down"></i> </span>
   <input type="hidden" name="usuario" value="{{ Auth::user()->CODIGO }}">
 </a>
 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownUserSettings">
-  {{-- <a class="dropdown-item" href="#"><i class="dripicons-user mr-2"></i> Editar Perfil</a>
-  <a class="dropdown-item" href="#"><i class="dripicons-wallet mr-2"></i> Configurações</a>
-  <a class="dropdown-item" href="#"><i class="dripicons-gear mr-2"></i> Ajuda</a> --}}
-  {{-- <a class="dropdown-item" href="#"><i class="dripicons-lock text-muted mr-2"></i> Sair</a> --}}
-  {{-- <div class="dropdown-divider"></div> --}}
   <a class="dropdown-item" href="{{ url('/logout') }}"><i class="dripicons-exit mr-2"></i> Sair </a>
   @if(Auth::user()->USUARIO_GLOBAL === 'S')
   <a class="dropdown-item" data-toggle="modal" data-target="#troca_cliente"><i class="dripicons-clockwise mr-2"></i> Trocar Empresa </a>

@@ -10,7 +10,7 @@ function showSubmenu(element) {
 		} else if (text == 'Administrativo') {
 			dropdownMenu.style['transform'] = 'translate3d(-95px, 70px, 0px)';
 		} else {
-			dropdownMenu.style['transform'] = 'translate3d(-10px, 70px, 0px)';
+			dropdownMenu.style['transform'] = 'translate3d(-33px, 70px, 0px)';
 		}
 		dropdownMenu.style['position'] = 'absolute';
 		dropdownMenu.style['top'] = '0px';
