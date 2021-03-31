@@ -17,6 +17,12 @@
 	border-radius: 0px;
 }
 
+.navbar-custom .dropdown-menu {
+	background-color: white;
+	padding: 0px;
+	border-radius: 0px;
+}
+
 .navbar-submenu .dropdown-menu a {
 	width: 100%;
 }

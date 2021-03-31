@@ -5,7 +5,7 @@
   <nav class="navbar-custom">
     <ul class="list-unstyled topbar-nav float-right mb-0">
       @if(Auth::user()->USUARIO_GLOBAL === 'S')
-      <li class="dropdown">
+      <li class="dropdown" onmouseover="showSubmenu(this);" onmouseout="hiddeSubmenu(this);">
         <a id="dropdownCadastros" class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
         aria-haspopup="false" aria-expanded="false">
         <span class="ml-1 nav-user-name hidden-sm"> Administrativo <i class="mdi mdi-chevron-down"></i> </span>
@@ -16,7 +16,7 @@
       </div>
     </li>
 
-    <li class="dropdown">
+    <li class="dropdown" onmouseover="showSubmenu(this);" onmouseout="hiddeSubmenu(this);">
       <a id="dropdownCadastros" class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
       aria-haspopup="false" aria-expanded="false">
       <span class="ml-1 nav-user-name hidden-sm"> Cadastros <i class="mdi mdi-chevron-down"></i> </span>
@@ -41,7 +41,7 @@
     |
   </a>
 </li>
-<li class="dropdown">
+<li class="dropdown" onmouseover="showSubmenu(this);" onmouseout="hiddeSubmenu(this);">
   <a id="dropdownUserSettings" class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
   aria-haspopup="false" aria-expanded="false">
   <?php $primeiro_nome = explode(' ', Auth::user()->NOME); ?>
@@ -76,8 +76,7 @@
 
 		<li>
 			<div class="dropdown navbar-submenu" onmouseover="showSubmenu(this);" onmouseout="hiddeSubmenu(this);">
-				<button id="itemMenu" class="btn submenu-item nav-linkk dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onmouseover="hoverSubmenu(this);" onmouseout="unhoverSubmenu(this);">
-					{{-- <img src="assets/images/widgets/cartao-de-credito.png" alt="Valor Bruto"> --}}
+				<button id="itemMenu" class="btn submenu-item nav-linkk dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<i class="far fa-credit-card mr-1"></i>
 					Vendas
 				</button>
@@ -94,8 +93,7 @@
 
 		<li>
 			<div class="dropdown navbar-submenu" onmouseover="showSubmenu(this);" onmouseout="hiddeSubmenu(this);">
-				<button id="itemMenu" class="btn submenu-item nav-linkk dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onmouseover="hoverSubmenu(this);" onmouseout="unhoverSubmenu(this);">
-					{{-- <img src="assets/images/widgets/conciliacao.png" alt="Valor Bruto"> --}}
+				<button id="itemMenu" class="btn submenu-item nav-linkk dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<i class="fas fa-check mr-1"></i>
 					Conciliação
 				</button>
@@ -114,8 +112,7 @@
 
 		<li>
 			<div class="dropdown navbar-submenu" onmouseover="showSubmenu(this);" onmouseout="hiddeSubmenu(this);">
-				<button id="itemMenu" class="btn submenu-item nav-linkk dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onmouseover="hoverSubmenu(this);" onmouseout="unhoverSubmenu(this);">
-					{{-- <img src="assets/images/widgets/restituicao.png" alt="Valor Bruto">--}}
+				<button id="itemMenu" class="btn submenu-item nav-linkk dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<i class="fas fa-hand-holding-usd mr-1"></i>
 					Recebimentos
 				</button>
