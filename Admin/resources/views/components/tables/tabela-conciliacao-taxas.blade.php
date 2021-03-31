@@ -210,21 +210,21 @@
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
-              data-tbsort-by="VALOR_LIQUIDO"
+              data-tbsort-by="VALOR_LIQUIDO_PRATICADO"
             >
-              <p class="m-0">Dif. Taxa R$</p>
+              <p class="m-0">Valor Líquido Praticado R$</p>
               <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-            <input type="number" min="0" step="0.01" class="form-control" name="VALOR_LIQUIDO">
+            <input type="number" min="0" step="0.01" class="form-control" name="VALOR_LIQUIDO_PRATICADO">
           </div>
         </th>
-        <th>
+				<th>
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
               data-tbsort-by="VALOR_LIQUIDO"
             >
-              <p class="m-0">Valor Líquido</p>
+              <p class="m-0">Dif. Taxa R$</p>
               <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
             <input type="number" min="0" step="0.01" class="form-control" name="VALOR_LIQUIDO">
@@ -404,8 +404,8 @@
         <td data-column="PERCENTUAL_TAXA" data-format="number"></td>
 				<td data-column="PERCENTUAL_DIF_TAXA" data-format="number" data-color="diff"></td>
 				<td data-column="VALOR_LIQUIDO_ACORDADO" data-format="currency"></td>
+				<td data-column="VALOR_LIQUIDO_PRATICADO" data-format="currency"></td>
 				<td data-column="DIF_TAXA" data-format="currency" data-color="diff"></td>
-        <td data-column="VALOR_LIQUIDO" data-format="currency"></td>
         <td data-column="POSSUI_TAXA_MINIMA"></td>
         <td data-column="PARCELA"></td>
         <td data-column="TOTAL_PARCELAS"></td>
@@ -447,8 +447,8 @@
         <td></td>
         <td></td>
 				<td data-column="TOTAL_TAXA_ACORDADA" data-format="currency">R$ 0</td>
-        <td data-column="DIF_TAXA" data-format="currency"></td>
         <td data-column="TOTAL_LIQUIDO" data-format="currency"></td>
+				<td data-column="DIF_TAXA" data-format="currency"></td>
         <td></td>
         <td></td>
         <td></td>
