@@ -101,6 +101,7 @@ class ConciliacaoBancariaController extends Controller
 			$totals = [
 				'TOTAL_BRUTO' => (clone $query)->sum('VALOR_BRUTO'),
 				'TOTAL_LIQUIDO' => (clone $query)->sum('VALOR_LIQUIDO'),
+				'TOTAL_PREVISTO_OPERADORA' => (clone $query)->sum('VALOR_LIQUIDO')
 			];
 			$totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
 

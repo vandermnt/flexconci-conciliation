@@ -89,3 +89,12 @@
 	margin: 0;
 	padding: 0;
 }
+
+.extrato-bancario button {
+	border-color: #303e67;
+	color: #303e67;
+}
+
+.extrato-bancario button:hover {
+	background-color: #303e67;
+}
