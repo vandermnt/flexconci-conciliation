@@ -48,10 +48,6 @@ API.prototype.sendRequest = async function (
 ) {
 	const url = this.urlBuilder(urlBase, params);
 
-	console.log(urlBase);
-	console.log(params);
-	console.log(rest);
-
 	const response = await fetch(url, {
 		method,
 		headers,
@@ -63,8 +59,6 @@ API.prototype.sendRequest = async function (
 	const json = await response.json().catch((err) => {
 		throw err;
 	});
-
-	console.log(response);
 
 	return json;
 };

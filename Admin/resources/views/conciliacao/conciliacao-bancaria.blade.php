@@ -24,8 +24,7 @@
         <x-forms.search-form
           id="js-form-pesquisa"
           :urls="[
-            ['operadoras' => route('vendas-operadoras.search')],
-						{{-- ['operadoras' => route('conciliacao-bancaria.search')], --}}
+						['operadoras' => route('conciliacao-bancaria.search')],
             ['filtrar-operadoras' => route('vendas-operadoras.filter')],
             ['exportar' => route('vendas-operadoras.export')],
             ['imprimir' => route('vendas-operadoras.print', ['id' => ':id'])],
@@ -35,15 +34,15 @@
           :hidden-fields="[
             'domicilios-bancarios',
             'descricao-erp',
+						'bandeiras', 
+            'modalidades', 
+            'estabelecimentos',
 						'status-conciliacao',
 						'status-financeiro'
           ]"
           :form-data="[
             'empresas' => $empresas,
             'adquirentes' => $adquirentes,
-            'bandeiras' => $bandeiras,
-            'modalidades' => $modalidades,
-            'estabelecimentos' => $estabelecimentos,
           ]"
         />
       </div>
@@ -51,7 +50,7 @@
 
     <div class="resultados hidden">
       <div class="boxes conciliacao-taxas">
-        <x-box
+        {{-- <x-box
           class="tooltip-hint"
           title="VALOR TOTAL BRUTO"
           content="R$ 0,00"
@@ -98,13 +97,13 @@
           :dataset="[
               'hint' => 'Valor total líquido que será pago nos respectivos vencimentos pelas operadoras.'
           ]"
-        />
+        /> --}}
       </div>
 
       <div class="vendas">
         <div class="tabela-info d-flex align-items-center justify-content-between">
           <div class="table-description d-flex align-items-center justify-content-end">
-            <h4>Conciliação de taxas (Acordadas versus Praticadas) <span id="js-quantidade-registros">(0 registros)</span></h4>
+            <h4>Conciliação Bancária <span id="js-quantidade-registros">(0 registros)</span></h4>
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras">
           </div>
           <div class="d-flex align-items-center justify-content-end">

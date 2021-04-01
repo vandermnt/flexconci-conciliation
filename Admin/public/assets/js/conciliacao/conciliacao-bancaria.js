@@ -35,20 +35,9 @@ let selectedSales = [];
 checker.addGroups([
 	{ name: 'empresa', options: { inputName: 'grupos_clientes' } },
 	{ name: 'adquirente', options: { inputName: 'adquirentes' } },
-	{ name: 'bandeira', options: { inputName: 'bandeiras' } },
-	{ name: 'modalidade', options: { inputName: 'modalidades' } },
-	{ name: 'estabelecimento', options: { inputName: 'estabelecimentos' } },
-	{ name: 'status-conciliacao', options: { inputName: 'status_conciliacao' } },
-	{ name: 'status-financeiro', options: { inputName: 'status_financeiro' } },
 ]);
 
-modalFilter.addGroups([
-	'empresa',
-	'adquirente',
-	'bandeira',
-	'modalidade',
-	'estabelecimento',
-]);
+modalFilter.addGroups(['empresa', 'adquirente']);
 
 salesContainer.setupApi(apiConfig);
 

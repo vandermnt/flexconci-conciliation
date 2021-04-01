@@ -8,6 +8,7 @@ use App\StatusConciliacaoModel;
 use App\StatusFinanceiroModel;
 use App\GruposClientesModel;
 use App\ClienteOperadoraModel;
+use App\Filters\PagamentosOperadorasFilter;
 
 class ConciliacaoBancariaController extends Controller
 {
@@ -93,7 +94,7 @@ class ConciliacaoBancariaController extends Controller
 		$filters['cliente_id'] = session('codigologin');
 
 		try {
-			$query = VendasFilter::filter($filters)
+			$query = PagamentosOperadorasFilter::filter($filters)
 				->getQuery();
 
 			$sales = (clone $query)->paginate($perPage);
@@ -109,7 +110,7 @@ class ConciliacaoBancariaController extends Controller
 			]);
 		} catch (Exception $e) {
 			return response()->json([
-				'message' => 'Não foi possível realizar a consulta em Vendas Operadoras.',
+				'message' => 'Não foi possível realizar a consulta em Pagamentos Operadoras.',
 			], 500);
 		}
 	}

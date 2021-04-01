@@ -29,7 +29,7 @@ class PagamentosOperadorasFilter extends BaseFilter
 
 	public static function filter($params)
 	{
-		$vendasFilter = app(VendasFilter::class);
+		$vendasFilter = app(PagamentosOperadorasFilter::class);
 		return $vendasFilter->apply($params);
 	}
 
@@ -48,26 +48,26 @@ class PagamentosOperadorasFilter extends BaseFilter
 				'lista_bancos.BANCO',
 				'pagamentos_operadoras.AGENCIA',
 				'pagamentos_operadoras.CONTA',
-				'adquirentes.ADQUIRENTE as OPERADORA',
-				DB::raw('SUM(pagamentos_operadoras.VALOR_LIQUIDO)')
+				'adquirentes.ADQUIRENTE',
+				DB::raw('SUM(pagamentos_operadoras.VALOR_LIQUIDO) as VALOR_PREVISTO_OPERADORA')
 			]
 		)
-			// ->leftJoin('lista_bancos', 'lista_bancos.CODIGO', 'pagamentos_operadoras.COD_BANCO')
-			// ->leftJoin('adquirentes', 'adquirentes.CODIGO', 'pagamentos_operadoras.COD_ADQUIRENTE')
-			->where('vendas.COD_CLIENTE', $filters['cliente_id'])
-			->get();
+			->leftJoin('lista_bancos', 'lista_bancos.CODIGO', 'pagamentos_operadoras.COD_BANCO')
+			->leftJoin('adquirentes', 'adquirentes.CODIGO', 'pagamentos_operadoras.COD_ADQUIRENTE')
+			->where('pagamentos_operadoras.COD_CLIENTE', $filters['cliente_id'])
+			->groupBy('pagamentos_operadoras.DATA_PAGAMENTO', 'lista_bancos.BANCO', 'pagamentos_operadoras.AGENCIA', 'pagamentos_operadoras.CONTA', 'adquirentes.ADQUIRENTE');
 
 		if (Arr::has($filters, 'id')) {
 			$this->query->whereIn('vendas.CODIGO', $filters['id']);
 		}
-		// if (Arr::has($filters, ['data_inicial', 'data_final'])) {
-		// 	$this->query->whereBetween('vendas.DATA_VENDA', [
-		// 		$filters['data_inicial'],
-		// 		$filters['data_final']
-		// 	]);
-		// }
+		if (Arr::has($filters, ['data_inicial', 'data_final'])) {
+			$this->query->whereBetween('pagamentos_operadoras.DATA_PAGAMENTO', [
+				$filters['data_inicial'],
+				$filters['data_final']
+			]);
+		}
 		if (Arr::has($filters, 'grupos_clientes')) {
-			$this->query->whereIn('vendas.EMPRESA', function ($query) use ($filters) {
+			$this->query->whereIn('pagamentos_operadoras.EMPRESA', function ($query) use ($filters) {
 				$query->select('NOME_EMPRESA')
 					->from('grupos_clientes')
 					->whereIn('grupos_clientes.CODIGO', $filters['grupos_clientes']);
