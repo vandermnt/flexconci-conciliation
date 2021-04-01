@@ -46,9 +46,11 @@ class PagamentosOperadorasFilter extends BaseFilter
 			[
 				'pagamentos_operadoras.DATA_PAGAMENTO',
 				'lista_bancos.BANCO',
+				'lista_bancos.IMAGEM_LINK as BANCO_IMAGEM',
 				'pagamentos_operadoras.AGENCIA',
 				'pagamentos_operadoras.CONTA',
 				'adquirentes.ADQUIRENTE',
+				'adquirentes.IMAGEM as ADQUIRENTE_IMAGEM',
 				DB::raw('SUM(pagamentos_operadoras.VALOR_LIQUIDO) as VALOR_PREVISTO_OPERADORA')
 			]
 		)

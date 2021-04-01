@@ -157,28 +157,55 @@
           <td data-column="DESCRICAO_ERP"></td>
         @endif
         <td data-column="DATA_PAGAMENTO" data-format='date'></td>
-        <td data-column="BANCO"></td>
+        <td
+          data-image="BANCO_IMAGEM"
+          data-default-image="assets/images/widgets/cards.svg"
+          data-column="BANCO"
+          data-default-value="Sem identificação"
+        >
+          <div
+            class="icon-image tooltip-hint tooltip-left"
+            data-title="BANCO"
+            data-default-title="Sem identificação">
+          </div>
+        </td>
         <td data-column="AGENCIA"></td>
 				<td data-column="CONTA"></td>
-				<td data-column="ADQUIRENTE"></td>
+				<td
+          data-image="ADQUIRENTE_IMAGEM"
+          data-default-image="assets/images/widgets/cards.svg"
+          data-column="ADQUIRENTE"
+          data-default-value="Sem identificação"
+        >
+          <div
+            class="icon-image tooltip-hint tooltip-left"
+            data-title="ADQUIRENTE"
+            data-default-title="Sem identificação">
+          </div>
+        </td>
 				<td data-column="VALOR_PREVISTO_OPERADORA" data-format="currency"></td>
 				<td data-column="VALOR_EXTRATO_BANCARIO" data-format="currency"></td>
-				<td data-column="DIFERENCA"></td>
+				<td data-column="DIFERENCA" data-format="currency"></td>
 				<td data-column="STATUS"></td>
 				<td data-column="HISTORICO"></td>
       </tr>
     </tbody>
     <tfoot>
       <tr>
-        <td></td>
-        <td></td>
+        <td>Totais</td>
+        @isset($actions)
+          <td></td>
+        @endisset
+				@if($isColumnVisible('ID_ERP'))
+          <td></td>
+        @endif
         <td></td>
         <td></td>
 				<td></td>
 				<td></td>
-				<td></td>
-        <td></td>
-        <td></td>
+				<td data-column="TOTAL_PREVISTO_OPERADORA" data-format="currency">R$ 0,00</td>
+        <td data-column="TOTAL_EXTRATO_BANCARIO" data-format="currency">R$ 0,00</td>
+        <td data-column="TOTAL_DIFERENCA" data-format="currency">R$ 0,00</td>
 				<td></td>
 				<td></td>
       </tr>
