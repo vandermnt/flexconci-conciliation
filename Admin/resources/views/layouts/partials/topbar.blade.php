@@ -109,7 +109,7 @@
 					</a>
 					<a id="itemMenu" class="dropdown-item submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('conciliacao-bancaria') }}" role="button"
 					aria-haspopup="false" aria-expanded="false">
-					<span class="nav-user-name hidden-sm"><i class="fas fa-coins mr-1"></i>Conciliação Bancária </span>
+					<span class="nav-user-name hidden-sm"><i class="fas fa-university mr-1"></i>Conciliação Bancária </span>
 					</a>
 				</div>
 			</div>

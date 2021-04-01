@@ -107,7 +107,7 @@
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras">
           </div>
           <div class="d-flex align-items-center justify-content-end">
-            <button id="js-exportar" class="btn button no-hover">
+						<button id="js-exportar" class="btn button no-hover">
               <div class="conciflex-icon icon-md">
                   <img src="assets/images/widgets/excel-file.svg" alt="Excel">
               </div>
@@ -117,18 +117,18 @@
         </div>
 
         <x-tables.tabela-conciliacao-bancaria
-          id="js-tabela-operadoras"
+					id="js-tabela-operadoras"
           class="mt-3"
           :headers="[
-            'actions' => 'Status',
+            'actions' => 'Ações',
           ]"
 					:hiddenColumns="[
-						'ID_ERP', 'DIVERGENCIA', 'STATUS_FINANCEIRO', 'JUSTIFICATIVA'
+						'ID_ERP'
 					]"
         >
           <x-slot name="actions">
             <td>
-              <div class="actions-cell d-flex align-items-center justify-content-between">
+              <div class="actions-cell d-flex align-items-center justify-content-beetwen">
                 <input
                     class="mr-2"
                     name="id_operadora"
@@ -143,9 +143,6 @@
                 >
                     <i class="fas fa-eye"></i>
                 </div>
-                <div class="tooltip-hint tooltip-left ml-2" data-title="STATUS_CONCILIACAO">
-                    <img data-image="STATUS_CONCILIACAO_IMAGEM">
-                </div>
               </div>
             </td>
           </x-slot>
@@ -159,7 +156,7 @@
       </div>
     </div>
     <div class="modais">
-        <x-modal
+        {{-- <x-modal
           id="comprovante-modal"
           modal-label-id="comprovante"
           modal-label="Comprovante"
@@ -223,7 +220,7 @@
             Imprimir
           </button>
         </x-slot>
-      </x-modal>
+      </x-modal> --}}
     </div>
   </main>
 
@@ -244,8 +241,4 @@
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/conciliacao/conciliacao-bancaria.js') }}"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script type="text/javascript">
-		document.querySelector('.js-show-details').classList.remove('d-flex')
-		document.querySelector('.js-show-details').classList.add('d-none')
-	</script>
 @endsection
