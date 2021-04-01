@@ -271,18 +271,18 @@ function openConfirmDialog(title = '', onReply = (value) => {}, config = {}) {
 }
 
 function openUrl(baseUrl, params, options = { target: '_blank' }) {
-  const url = api.urlBuilder(baseUrl, params);
-  const a = document.createElement('a');
+	const url = api.urlBuilder(baseUrl, params);
+	const a = document.createElement('a');
 
-  a.href = url;
-  a.target = options.target;
-  a.click();
+	a.href = url;
+	a.target = options.target;
+	a.click();
 }
 
 function redirectTo(baseUrl, params) {
-  const url = api.urlBuilder(baseUrl, params);
+	const url = api.urlBuilder(baseUrl, params);
 
-  openUrl(url, params, { target: '' });
+	openUrl(url, params, { target: '' });
 }
 
 function recreateNode(element = '') {
