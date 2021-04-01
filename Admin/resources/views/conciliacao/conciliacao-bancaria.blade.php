@@ -25,6 +25,7 @@
           id="js-form-pesquisa"
           :urls="[
             ['operadoras' => route('vendas-operadoras.search')],
+						{{-- ['operadoras' => route('conciliacao-bancaria.search')], --}}
             ['filtrar-operadoras' => route('vendas-operadoras.filter')],
             ['exportar' => route('vendas-operadoras.export')],
             ['imprimir' => route('vendas-operadoras.print', ['id' => ':id'])],

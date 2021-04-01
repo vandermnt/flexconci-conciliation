@@ -52,19 +52,20 @@ class PagamentosOperadorasFilter extends BaseFilter
 				DB::raw('SUM(pagamentos_operadoras.VALOR_LIQUIDO)')
 			]
 		)
-			->leftJoin('lista_bancos', 'lista_bancos.CODIGO', 'pagamentos_operadoras.COD_BANCO')
-			->leftJoin('adquirentes', 'adquirentes.CODIGO', 'pagamentos_operadoras.COD_ADQUIRENTE')
-			->where('vendas.COD_CLIENTE', $filters['cliente_id']);
+			// ->leftJoin('lista_bancos', 'lista_bancos.CODIGO', 'pagamentos_operadoras.COD_BANCO')
+			// ->leftJoin('adquirentes', 'adquirentes.CODIGO', 'pagamentos_operadoras.COD_ADQUIRENTE')
+			->where('vendas.COD_CLIENTE', $filters['cliente_id'])
+			->get();
 
 		if (Arr::has($filters, 'id')) {
 			$this->query->whereIn('vendas.CODIGO', $filters['id']);
 		}
-		if (Arr::has($filters, ['data_inicial', 'data_final'])) {
-			$this->query->whereBetween('vendas.DATA_VENDA', [
-				$filters['data_inicial'],
-				$filters['data_final']
-			]);
-		}
+		// if (Arr::has($filters, ['data_inicial', 'data_final'])) {
+		// 	$this->query->whereBetween('vendas.DATA_VENDA', [
+		// 		$filters['data_inicial'],
+		// 		$filters['data_final']
+		// 	]);
+		// }
 		if (Arr::has($filters, 'grupos_clientes')) {
 			$this->query->whereIn('vendas.EMPRESA', function ($query) use ($filters) {
 				$query->select('NOME_EMPRESA')

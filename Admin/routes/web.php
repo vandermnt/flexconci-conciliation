@@ -71,6 +71,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 	//CONCILIACAO BANCARIA
 	Route::get('/conciliacao-bancaria', 'ConciliacaoBancariaController@index')->name('conciliacao-bancaria');
+	Route::get('/conciliacao-bancaria/search', 'ConciliacaoBancariaController@search')->name('conciliacao-bancaria.search');
 
 	Route::match(['get', 'post'], '/conciliacao-manual', 'ConciliacaoAutomaticaVendasController@conciliarManualmente');
 	Route::match(['get', 'post'], '/conciliacao-justificada-venda', 'ConciliacaoAutomaticaVendasController@conciliacaoJustificadaVenda');
