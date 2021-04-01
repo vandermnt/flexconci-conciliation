@@ -71,15 +71,16 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/conciliacao-vendas/exportar/operadoras', 'ConciliacaoVendasController@exportarOperadoras')
 		->name('conciliacao-vendas.exportar.operadoras');
 
+	//CONCILIACAO BANCARIA
+	Route::get('/conciliacao-bancaria', 'ConciliacaoBancariaController@index')->name('conciliacao-bancaria');
+	Route::post('/conciliacao-bancaria/search', 'ConciliacaoBancariaController@search')->name('conciliacao-bancaria.search');
+
 	Route::match(['get', 'post'], '/conciliacao-manual', 'ConciliacaoAutomaticaVendasController@conciliarManualmente');
 	Route::match(['get', 'post'], '/conciliacao-justificada-venda', 'ConciliacaoAutomaticaVendasController@conciliacaoJustificadaVenda');
 	Route::match(['get', 'post'], '/conciliacao-justificada-vendaerp', 'ConciliacaoAutomaticaVendasController@conciliacaoJustificadaVendaErp');
 	Route::match(['get', 'post'], '/conciliar', 'ConciliacaoAutomaticaVendasController@saveConciliacao');
 
 	//VENDAS - RECEBIMENTOS OPERADORAS
-	// Route::get('/recebimentos-operadora', 'RecebimentosOperadoraController@recebimentosOperadora');
-	// Route::match(['get', 'post'], '/consultar-recebimentos-operadora', 'RecebimentosOperadoraController@consultarRecebimentosOperadoras');
-	// Route::get('/download-vendas-operadora', 'RecebimentosOperadoraController@downloadTable');
 	Route::get('/recebimentos-operadoras', 'RecebimentosOperadorasController@index')->name('recebimentos-operadoras.index');
 	Route::post('/recebimentos-operadoras/buscar', 'RecebimentosOperadorasController@search')->name('recebimentos-operadoras.search');
 	Route::post('/recebimentos-operadoras/filtrar', 'RecebimentosOperadorasController@filter')->name('recebimentos-operadoras.filter');
@@ -120,35 +121,32 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/justificativa/{codigo}', 'CadastroJustificativaController@show');
 
 	//CADASTROS
-  Route::get('/cadastro-banco', 'BancoController@index');
-  Route::get('/cadastro-adquirente', 'AdquirenteController@index');
-  Route::get('/cadastro-bandeira', 'BandeiraController@index');
-  Route::get('/cadastro-taxa', 'TaxaController@index');
-  Route::get('/load-adquirentes', 'AdquirenteController@allAdquirentes');
-  Route::get('/load-bancos', 'BancoController@allBancos');
-  Route::get('/load-bandeiras', 'BandeiraController@allBandeiras');
-  Route::get('/load-taxas', 'TaxaController@allTaxas');
-  Route::post('/cadastro-adquirente', 'AdquirenteController@cadastrarAdquirente');
-  Route::post('/cadastro-banco', 'BancoController@cadastrarBanco');
-  Route::post('/cadastro-bandeira', 'BandeiraController@cadastrarBandeira');
-  Route::post('/cadastro-taxa', 'TaxaController@cadastrarTaxa');
-  Route::put('/update-adquirente/{codigo}', 'AdquirenteController@updateAdquirente');
-  Route::put('/update-banco/{codigo}', 'BancoController@updateBanco');
-  Route::put('/update-bandeira/{codigo}', 'BandeiraController@updateBandeira');
-  Route::put('/update-taxa/{codigo}', 'TaxaController@updateTaxa');
-  Route::get('/delete-adquirente/{codigo}', 'AdquirenteController@excluirAdquirente');
-  Route::get('/delete-banco/{codigo}', 'BancoController@excluirBanco');
-  Route::get('/delete-taxa/{codigo}', 'TaxaController@excluirTaxa');
+	Route::get('/cadastro-banco', 'BancoController@index');
+	Route::get('/cadastro-adquirente', 'AdquirenteController@index');
+	Route::get('/cadastro-bandeira', 'BandeiraController@index');
+	Route::get('/cadastro-taxa', 'TaxaController@index');
+	Route::get('/load-adquirentes', 'AdquirenteController@allAdquirentes');
+	Route::get('/load-bancos', 'BancoController@allBancos');
+	Route::get('/load-bandeiras', 'BandeiraController@allBandeiras');
+	Route::get('/load-taxas', 'TaxaController@allTaxas');
+	Route::post('/cadastro-adquirente', 'AdquirenteController@cadastrarAdquirente');
+	Route::post('/cadastro-banco', 'BancoController@cadastrarBanco');
+	Route::post('/cadastro-bandeira', 'BandeiraController@cadastrarBandeira');
+	Route::post('/cadastro-taxa', 'TaxaController@cadastrarTaxa');
+	Route::put('/update-adquirente/{codigo}', 'AdquirenteController@updateAdquirente');
+	Route::put('/update-banco/{codigo}', 'BancoController@updateBanco');
+	Route::put('/update-bandeira/{codigo}', 'BandeiraController@updateBandeira');
+	Route::put('/update-taxa/{codigo}', 'TaxaController@updateTaxa');
+	Route::get('/delete-adquirente/{codigo}', 'AdquirenteController@excluirAdquirente');
+	Route::get('/delete-banco/{codigo}', 'BancoController@excluirBanco');
+	Route::get('/delete-taxa/{codigo}', 'TaxaController@excluirTaxa');
 	Route::get('/search-taxa/{codigo}/{operadora}', 'TaxaController@searchTaxas');
 
-  // DESCONCILIACAO FEITA PELO ADM
-  Route::get('/adm/desconciliacao', 'AdmDesconciliacaoController@index');
-  Route::put('/adm/desconciliar', 'AdmDesconciliacaoController@desconciliar');
+	// DESCONCILIACAO FEITA PELO ADM
+	Route::get('/adm/desconciliacao', 'AdmDesconciliacaoController@index');
+	Route::put('/adm/desconciliar', 'AdmDesconciliacaoController@desconciliar');
 
 	//CONCILIAÇÃO
-	Route::get('/conciliacao-bancaria', function () {
-		return view('conciliacao.conciliacao-bancaria');
-	});
 	Route::post('/enviar-extrato', 'ConciliacaoController@conciliacaoBancaria');
 	Route::get('/atualizar-conciliacoes-processadas', 'ConciliacaoController@atualizarConciliacoesProcessadas');
 
@@ -171,12 +169,12 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/recebimentos-futuros/filtrar', 'RecebimentosFuturosController@filter')->name('recebimentos-futuros.filter');
 	Route::get('/recebimentos-futuros/exportar', 'RecebimentosFuturosController@export')->name('recebimentos-futuros.export');
 
-    Route::get('/cielo/credenciamento', 'EdiServices\CieloEdiController@index')->name('cielo.credenciamento');
-    Route::get('/cielo/authenticate', 'EdiServices\CieloEdiController@authenticate')->name('cielo.authenticate');
-    Route::get('/cielo/callback', 'EdiServices\CieloEdiController@callback')->name('cielo.callback');
-    Route::get('/cielo/autorizacao', 'EdiServices\CieloEdiController@authorize')->name('cielo.authorize');
-    Route::get('/cielo/registro-edi', 'EdiServices\CieloEdiController@ediRegister')->name('cielo.register-edi');
-    Route::get('/cielo/resultados', 'EdiServices\CieloEdiController@show')->name('cielo.results');
+	Route::get('/cielo/credenciamento', 'EdiServices\CieloEdiController@index')->name('cielo.credenciamento');
+	Route::get('/cielo/authenticate', 'EdiServices\CieloEdiController@authenticate')->name('cielo.authenticate');
+	Route::get('/cielo/callback', 'EdiServices\CieloEdiController@callback')->name('cielo.callback');
+	Route::get('/cielo/autorizacao', 'EdiServices\CieloEdiController@authorize')->name('cielo.authorize');
+	Route::get('/cielo/registro-edi', 'EdiServices\CieloEdiController@ediRegister')->name('cielo.register-edi');
+	Route::get('/cielo/resultados', 'EdiServices\CieloEdiController@show')->name('cielo.results');
 });
 
 Route::get('/credenciamento-cielo', function () {
