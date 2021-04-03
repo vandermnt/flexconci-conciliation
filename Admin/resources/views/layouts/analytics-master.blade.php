@@ -24,6 +24,7 @@
         <link href="{{ URL::asset('assets/css/app.min.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{ URL::asset('assets/css/icons.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{ URL::asset('assets/css/teste.css')}}" rel="stylesheet" type="text/css" />
+				<link href="{{ URL::asset('assets/css/analytics-master.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{ URL::asset('assets/css/topbar.css')}}" rel="stylesheet" type="text/css" />
 
         @yield('headerStyle')
