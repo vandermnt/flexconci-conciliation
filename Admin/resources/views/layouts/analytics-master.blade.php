@@ -71,6 +71,7 @@
 
         <!-- App js -->
         <script src="{{ URL::asset('assets/js/app.js') }}"></script>
+				<script src="{{ URL::asset('assets/js/topbar/submenu.js') }}"></script>
         <script src="https://kit.fontawesome.com/9a0b64c7c3.js" crossorigin="anonymous"></script>
         <!-- footerScript -->
         @yield('footerScript')
