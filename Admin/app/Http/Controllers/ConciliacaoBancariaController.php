@@ -94,14 +94,17 @@ class ConciliacaoBancariaController extends Controller
 		$filters['cliente_id'] = session('codigologin');
 
 		try {
-			$query = PagamentosOperadorasFilter::filter($filters)
+			$queries = PagamentosOperadorasFilter::filter($filters)
 				->getQuery();
+			$query = $queries[0];
+			$totalsQuery = $queries[1];
 
 			$sales = (clone $query)->paginate($perPage);
 			$totals = [
-				'TOTAL_BRUTO' => (clone $query)->sum('VALOR_BRUTO'),
-				'TOTAL_LIQUIDO' => (clone $query)->sum('VALOR_LIQUIDO'),
-				'TOTAL_PREVISTO_OPERADORA' => (clone $query)->sum('VALOR_LIQUIDO')
+				// 'TOTAL_BRUTO' => (clone $query)->sum('VALOR_BRUTO'),
+				// 'TOTAL_LIQUIDO' => (clone $query)->sum('VALOR_LIQUIDO'),
+				// 'TOTAL_PREVISTO_OPERADORA' => (clone $totalsQuery)->sum('VALOR_LIQUIDO')
+				'TOTAL_PREVISTO_OPERADORA' => $totalsQuery
 			];
 			$totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
 

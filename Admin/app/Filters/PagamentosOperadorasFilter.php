@@ -12,6 +12,7 @@ use App\PagamentoOperadoraModel;
 class PagamentosOperadorasFilter extends BaseFilter
 {
 	protected $query = null;
+	protected $totalsQuery = null;
 	protected $whiteList = [
 		'id',
 		'cliente_id',
@@ -59,11 +60,20 @@ class PagamentosOperadorasFilter extends BaseFilter
 			->where('pagamentos_operadoras.COD_CLIENTE', $filters['cliente_id'])
 			->groupBy('pagamentos_operadoras.DATA_PAGAMENTO', 'lista_bancos.BANCO', 'pagamentos_operadoras.AGENCIA', 'pagamentos_operadoras.CONTA', 'adquirentes.ADQUIRENTE');
 
+		// $this->$totalsQuery = PagamentoOperadoraModel::where('COD_CLIENTE', $filters['cliente_id'])->get();
+		$this->totalsQuery = PagamentoOperadoraModel::select('*')
+			->where('COD_CLIENTE', 584)
+			->get();
+
 		if (Arr::has($filters, 'id')) {
 			$this->query->whereIn('vendas.CODIGO', $filters['id']);
 		}
 		if (Arr::has($filters, ['data_inicial', 'data_final'])) {
 			$this->query->whereBetween('pagamentos_operadoras.DATA_PAGAMENTO', [
+				$filters['data_inicial'],
+				$filters['data_final']
+			]);
+			$this->totalsQuery->whereBetween('pagamentos_operadoras.DATA_PAGAMENTO', [
 				$filters['data_inicial'],
 				$filters['data_final']
 			]);
@@ -74,9 +84,15 @@ class PagamentosOperadorasFilter extends BaseFilter
 					->from('grupos_clientes')
 					->whereIn('grupos_clientes.CODIGO', $filters['grupos_clientes']);
 			});
+			$this->totalsQuery->whereIn('pagamentos_operadoras.EMPRESA', function ($query) use ($filters) {
+				$query->select('NOME_EMPRESA')
+					->from('grupos_clientes')
+					->whereIn('grupos_clientes.CODIGO', $filters['grupos_clientes']);
+			});
 		}
 		if (Arr::has($filters, 'adquirentes')) {
 			$this->query->whereIn('adquirentes.CODIGO', $filters['adquirentes']);
+			$this->totalsQuery->whereIn('adquirentes.CODIGO', $filters['adquirentes']);
 		}
 		if (Arr::has($filters, 'bandeiras')) {
 			$this->query->whereIn('bandeira.CODIGO', $filters['bandeiras']);
@@ -101,6 +117,10 @@ class PagamentosOperadorasFilter extends BaseFilter
 
 	public function getQuery()
 	{
-		return $this->query;
+		return [$this->query, $this->totalsQuery];
+	}
+
+	public function totals()
+	{
 	}
 }
