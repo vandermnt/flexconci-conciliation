@@ -156,41 +156,32 @@
       </div>
     </div>
     <div class="modais">
-    </div>
-		<div class="modal fade modal-extrato-bancario" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Envie seus extratos bancários aqui</h5>
-					</div>
+			<x-modal
+        id="js-extrato-bancario"
+        modal-label-id="modal-extrato-bancario-label"
+        modal-label="Envie seus extratos bancários aqui"
+    	>
+        <x-slot name="content">
 					<div class="modal-body">
 						<input
 						id="teste"
 						type="file"
 						class="dropify"
-						data-height="70"
-						>
-						<input
-						id="teste"
-						type="file"
-						class="dropify"
-						data-height="70"
-						>
-						<input
-						id="teste"
-						type="file"
-						class="dropify"
-						data-height="70"
+						name="extratos[]"
+						multiple
+						{{-- accept=".ofx" --}}
 						>
 						<button type="button" class="btn btn-primary w-100 mt-2" data-dismiss="modal">Enviar</button>
 					</div>
+        </x-slot>
+
+        <x-slot name="footer">
 					<div class="modal-footer">
 						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-						<button type="button" class="btn btn-success">Confirmar</button>
 					</div>
-				</div>
-			</div>
-		</div>
+        </x-slot>
+    </x-modal>
+    </div>
   </main>
 
   <div id="js-loader" class="loader hidden"></div>

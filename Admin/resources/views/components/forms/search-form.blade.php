@@ -28,8 +28,8 @@
 						/>
 					</div>
 				</div>
-				<div class="col d-flex align-bottom justify-content-end w-100 extrato-bancario">
-					<button type="button" class="btn btn-outline-primary btn-lg"><i class="fas fa-university mr-2"></i>Enviar extrato bancário</button>
+				<div class="col d-flex align-bottom justify-content-end w-100">
+					<button type="button" class="btn btn-lg extrato-bancario-button" data-target="#js-extrato-bancario" data-toggle="modal"><i class="fas fa-university mr-2"></i>Enviar extrato bancário</button>
 				</div>
 			</div>
 		@else
