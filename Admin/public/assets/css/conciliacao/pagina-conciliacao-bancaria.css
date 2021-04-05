@@ -98,3 +98,18 @@
 .extrato-bancario button:hover {
 	background-color: #303e67;
 }
+
+.modal-extrato-bancario .modal-header {
+	background-color: white;
+	border: none;
+	justify-content: center;
+}
+
+.modal-extrato-bancario .modal-body button {
+	background-color: #2d5275;
+	box-shadow: none;
+}
+
+.modal-extrato-bancario .modal-footer {
+	background-color: white;
+}

@@ -4,9 +4,9 @@
   <link href="{{ URL::asset('plugins/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{ URL::asset('plugins/datatables/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{ URL::asset('plugins/datatables/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
-	<link href="{{ URL::asset('plugins/animate/animate.css')}}" rel="stylesheet" type="text/css">
-  <link href="{{ URL::asset('assets/css/globals/global.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{ URL::asset('plugins/dropify/css/dropify.min.css')}}" rel="stylesheet">
   <link href="{{ URL::asset('assets/css/teste.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{ URL::asset('assets/css/globals/global.css') }}" rel="stylesheet" type="text/css"/>
   <link rel="stylesheet" href="{{ URL::asset('assets/css/conciliacao/pagina-conciliacao-bancaria.css') }}" type="text/css">
 @endsection
 
@@ -103,7 +103,7 @@
       <div class="vendas">
         <div class="tabela-info d-flex align-items-center justify-content-between flex-wrap">
 					<div class="table-description d-flex align-items-center justify-content-start w-100 mb-2 extrato-bancario">
-            <button type="button" class="btn btn-outline-primary btn-lg"><i class="fas fa-university mr-2"></i>Enviar extrato bancário</button>
+            <button id="btn-extrato-bancario" type="button" class="btn btn-outline-primary btn-lg" data-target="#exampleModal" data-toggle="modal"><i class="fas fa-university mr-2"></i>Enviar extrato bancário</button>
           </div>
           <div class="table-description d-flex align-items-center justify-content-end">
             <h4>Conciliação Bancária <span id="js-quantidade-registros">(0 registros)</span></h4>
@@ -159,78 +159,49 @@
       </div>
     </div>
     <div class="modais">
-        {{-- <x-modal
-          id="comprovante-modal"
-          modal-label-id="comprovante"
-          modal-label="Comprovante"
-        >
-          <x-slot name="content">
-            <div class="comprovante">
-              <div class="header">
-                <h4 class="font-weight-bold">
-                    <span data-key="NOME_EMPRESA"></span>
-                </h4>
-                <h6>
-                    CNPJ: <span data-key="CNPJ"></span>
-                </h6>
-              </div>
-              <hr>
-              <div class="body">
-                <h6>
-                    DATA VENDA: <span data-key="DATA_VENDA" data-format="date"></span>
-                </h6>
-                <h6>
-                    OPERADORA: <span data-key="ADQUIRENTE"></span>
-                </h6>
-                <h6>
-                    BANDEIRA: <span data-key="BANDEIRA"></span>
-                </h6>
-                <h6>
-                    FORMA DE PAGAMENTO: <span data-key="MODALIDADE"></span>
-                </h6>
-                <h6>
-                    ESTABELECIMENTO: <span data-key="ESTABELECIMENTO"></span>
-                </h6>
-                <h6>
-                    CARTAO: <span data-key="CARTAO"></span>
-                </h6>
-                <h6 class="font-weight-bold">
-                    VALOR: <span data-key="VALOR_BRUTO" data-format="currency"></span>
-                </h6>
-                <h6>
-                    DATA PREVISÃO: <span data-key="DATA_PREVISAO" data-format="date"></span>
-                </h6>
-              </div>
-            </div>
-          </x-slot>
-
-          <x-slot name="footer">
-            <button
-            type="button"
-            class="btn btn-danger font-weight-bold"
-            data-action="close"
-            data-dismiss="modal"
-          >
-            Fechar
-          </button>
-
-          <button
-            type="button"
-            class="btn btn-success font-weight-bold"
-            data-action="print"
-            data-dismiss="modal"
-          >
-            Imprimir
-          </button>
-        </x-slot>
-      </x-modal> --}}
     </div>
+		<div class="modal fade modal-extrato-bancario" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Envie seus extratos bancários aqui</h5>
+					</div>
+					<div class="modal-body">
+						<input
+						id="teste"
+						type="file"
+						class="dropify"
+						data-height="70"
+						>
+						<input
+						id="teste"
+						type="file"
+						class="dropify"
+						data-height="70"
+						>
+						<input
+						id="teste"
+						type="file"
+						class="dropify"
+						data-height="70"
+						>
+						<button type="button" class="btn btn-primary w-100 mt-2" data-dismiss="modal">Enviar</button>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+						<button type="button" class="btn btn-success">Confirmar</button>
+					</div>
+				</div>
+			</div>
+		</div>
   </main>
 
   <div id="js-loader" class="loader hidden"></div>
 @endsection
 
 @section('footerScript')
+	<script src="{{ URL::asset('assets/pages/jquery.form-upload.init.js')}}"></script>
+	<script src="{{ URL::asset('plugins/dropify/js/dropify.min.js')}}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/api.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/formatter.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/pagination.js') }}"></script>
@@ -243,5 +214,4 @@
   <script defer src="{{ URL::asset('assets/js/proxy/SalesContainerProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/conciliacao/conciliacao-bancaria.js') }}"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 @endsection
