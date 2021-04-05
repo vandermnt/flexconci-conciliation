@@ -98,3 +98,7 @@
 .extrato-bancario button:hover {
 	background-color: #303e67;
 }
+
+.conc-bancaria{
+	margin-bottom: 8px;
+}

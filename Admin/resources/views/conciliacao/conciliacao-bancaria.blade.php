@@ -102,9 +102,6 @@
 
       <div class="vendas">
         <div class="tabela-info d-flex align-items-center justify-content-between flex-wrap">
-					<div class="table-description d-flex align-items-center justify-content-start w-100 mb-2 extrato-bancario">
-            <button type="button" class="btn btn-outline-primary btn-lg"><i class="fas fa-university mr-2"></i>Enviar extrato bancário</button>
-          </div>
           <div class="table-description d-flex align-items-center justify-content-end">
             <h4>Conciliação Bancária <span id="js-quantidade-registros">(0 registros)</span></h4>
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras">
