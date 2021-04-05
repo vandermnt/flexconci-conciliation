@@ -46,9 +46,7 @@
         <div class="row form-group">
           <div class="col-sm-6">
             <input type="hidden" value="{{$clientes_operadora}}" name="clientes-operadora">
-            <select class="form-control" name="operadora-estabelecimento">
-
-
+            <select class="form-control search" name="operadora-estabelecimento">
             </select>
             <!-- <input type="textarea" class="form-control" name="bancos-pesquisados"> -->
           </div>
@@ -57,9 +55,72 @@
           </div> -->
         </div>
       </div>
+
+      <div class="col-sm-12 form">
+        <div class="container">
+          <div class="item">
+            <h6>Bandeira </h6>
+            <select class="form-control" name="bandeira">
+              @foreach($bandeiras as $bandeira)
+              <option value="{{ $bandeira->CODIGO }}"> {{ $bandeira->BANDEIRA }}</option>
+              @endforeach
+            </select>
+          </div>
+
+          <div class="item">
+            <h6>Forma de Pgto. </h6>
+            <select class="form-control" name="forma_pagamento">
+              @foreach($formas_pagamento as $forma_pagamento)
+              <option value="{{ $forma_pagamento->CODIGO }}"> {{ $forma_pagamento->DESCRICAO }}</option>
+              @endforeach
+            </select>
+          </div>
+
+          <div class="item">
+            <h6> Total Parcelas </h6>
+            <select class="form-control" name="total_parcelas">
+              <option value="1"> 1 </option>
+              <option value="2"> 2 </option>
+              <option value="3"> 3 </option>
+              <option value="4"> 4 </option>
+              <option value="5"> 5 </option>
+              <option value="6"> 6 </option>
+              <option value="7"> 7 </option>
+              <option value="8"> 8 </option>
+              <option value="9"> 9 </option>
+              <option value="10"> 10 </option>
+              <option value="11"> 11 </option>
+              <option value="12"> 12 </option>
+            </select>
+          </div>
+          <div class="item">
+            <h6> Taxa </h6>
+            <input class="form-control" name="taxa" onKeyPress="return(mascaraTaxa(this,'.',',',event))">
+          </div>
+
+          <div class="item">
+            <h6> Tarifa Mínima </h6>
+            <input class="form-control" name="tarifa_minima" onKeyPress="return(mascaraTaxa(this,'.',',',event))">
+          </div>
+
+          <div class="item">
+            <h6> Taxa Ant. Aut. </h6>
+            <input class="form-control" name="taxa_ant_aut" onKeyPress="return(mascaraTaxa(this,'.',',',event))">
+          </div>
+
+          <div class="item">
+            <h6> Dt. Vigência Inicial </h6>
+            <input type="date" class="form-control" name="data-vigencia-inicial">
+          </div>
+          <div class="item">
+            <h6> Dt. Vigência Final </h6>
+            <input type="date" class="form-control" name="data-vigencia-final">
+          </div>
+        </div>
+
       <div class="modal-footer" style="border-top: none !important">
-        <button type="button" class="btn button no-hover mr-1 submit-form" data-dismiss="modal"><b><i class="fas fa-plus"></i> Cadastrar</b></button>
-        <button type="button" class="btn button no-hover mr-1 search"><b><i class="fas fa-search"></i> Pesquisar</b></button>
+        <button type="button" class="btn button no-hover mr-1 submit-form"><b><i class="fas fa-plus"></i> Cadastrar</b></button>
+        <!-- <button type="button" class="btn button no-hover mr-1 search"><b><i class="fas fa-search"></i> Pesquisar</b></button> -->
       </div>
     </div>
 
@@ -72,13 +133,16 @@
       <table id="tabela-adquirentes" class="table">
         <thead>
           <tr style="background: #2D5275; ">
-            <th> CÓDIGO </th>
-            <th> CLIENTE </th>
-            <th> TAXA </th>
-            <th> BANDEIRA </th>
-            <th> MODALIDADE </th>
-            <th> DATA VIGÊNCIA </th>
-            <th> AÇÕES </th>
+            <th> Operadora </th>
+            <th> Bandeira </th>
+            <th> Forma Pgto. </th>
+            <th> Total Parcelas </th>
+            <th> Taxa </th>
+            <th> Tarifa Mínima </th>
+            <th> Taxa Ant. Aut </th>
+            <th> Data Vig. Inicial </th>
+            <th> Data Vig. Final </th>
+            <th> Ações </th>
           </tr>
         </thead>
         <tbody id="conteudo_tabe">
@@ -139,16 +203,16 @@
               <option value="{{ $operadora->CODIGO }}"> {{ $operadora->ADQUIRENTE }}</option>
               @endforeach
             </select>
-            <h6>Forma de Pagamento: </h6>
+            <!-- <h6>Forma de Pagamento: </h6>
             <select class="form-control" name="forma_pagamento">
               @foreach($formas_pagamento as $forma_pagamento)
               <option value="{{ $forma_pagamento->CODIGO }}"> {{ $forma_pagamento->DESCRICAO }}</option>
               @endforeach
-            </select>
+            </select> -->
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal"><b>Cancelar</b></button>name
           <button type="button" class="btn btn-success bt-salva-tx"><b>Cadastrar</b></button>
         </div>
       </div>
