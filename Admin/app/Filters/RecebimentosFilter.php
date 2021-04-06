@@ -16,6 +16,8 @@ class RecebimentosFilter extends BaseFilter
 		'data_final',
 		'grupos_clientes',
 		'adquirentes',
+		'bandeiras',
+		'modalidades',
 		'estabelecimentos',
 		'domicilios_bancarios',
 		'recebimento_conciliado_erp',
@@ -122,6 +124,9 @@ class RecebimentosFilter extends BaseFilter
 		}
 		if (Arr::has($filters, 'bandeiras')) {
 			$this->query->whereIn('bandeira.CODIGO', $filters['bandeiras']);
+		}
+		if (Arr::has($filters, 'modalidades')) {
+			$this->query->whereIn('modalidade.CODIGO', $filters['modalidades']);
 		}
 		if (Arr::has($filters, 'status_conciliacao')) {
 			$this->query->whereIn('pagamentos_operadoras.COD_STATUS', $filters['status_conciliacao']);
