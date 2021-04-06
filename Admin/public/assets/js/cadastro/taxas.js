@@ -8,9 +8,12 @@ const taxasCarregadas = document.querySelector(
   'input[name="taxas-carregadas"]'
 );
 
-const buttonCadastroTaxa = document.querySelector(".bt-cadastro-tx");
+let form_empresa;
+let form_operadora_estabelecimento;
+const buttonCadastroTaxa = document.querySelector(".submit-form");
 const buttonSalvaCadastro = document.querySelector(".bt-salva-tx");
-const buttonPesquisaTaxa = document.querySelector(".search");
+const selectPesquisaTaxa = document.querySelector(".search");
+const selectClientes = document.querySelector("select[name='clientes']");
 const buttonSalvaEdicao = document.querySelector(".bt-salva-edicao-tx");
 const buttonSimExclusao = document.querySelector("#sim");
 const token = document.getElementById("token").value;
@@ -19,7 +22,7 @@ const headers = new Headers({
   "X-CSRF-TOKEN": token
 });
 
-buttonPesquisaTaxa.addEventListener("click", function() {
+selectPesquisaTaxa.addEventListener("change", function() {
   const empresa = document.querySelector("select[name='clientes']");
   const empresa_selecionada = empresa.options[empresa.selectedIndex].value;
 
@@ -30,10 +33,37 @@ buttonPesquisaTaxa.addEventListener("click", function() {
     operadora_estabelecimento.options[operadora_estabelecimento.selectedIndex]
       .value;
 
+  form_empresa = empresa_selecionada;
+  form_operadora_estabelecimento = operadora_estabelecimento_selecionado;
+
   pesquisarTaxa(empresa_selecionada, operadora_estabelecimento_selecionado);
 });
 
-document.addEventListener("change", function() {
+buttonCadastroTaxa.addEventListener("click", function() {
+  const data = {
+    empresa: form_empresa,
+    operadora_estabelecimento: form_operadora_estabelecimento,
+    taxa: document.querySelector("input[name='taxa']").value,
+    tarifa_minima: document.querySelector("input[name='tarifa_minima']").value,
+    taxa_ant_aut: document.querySelector("input[name='taxa_ant_aut']").value,
+    forma_pagamento: document.querySelector(
+      "select[name='forma_pagamento']"
+    ).value,
+    total_parcelas: document.querySelector("select[name='total_parcelas']")
+      .value,
+    bandeira: document.querySelector("select[name='bandeira']").value,
+    data_vigencia_inicial: document.querySelector(
+      "input[name='data-vigencia-inicial']"
+    ).value,
+    data_vigencia_final: document.querySelector(
+      "input[name='data-vigencia-final']"
+    ).value
+  };
+
+  cadastrarTaxa(data);
+});
+
+selectClientes.addEventListener("change", function() {
   const codigo_estabelecimento_converter = document.querySelector(
     "input[name='clientes-operadora']"
   ).value;
@@ -50,10 +80,16 @@ document.addEventListener("change", function() {
   );
 
   combo_operadora_estabelecimento.innerHTML = "";
+
+  let option = document.createElement("option");
+  option.text = "-- Selecione uma Operadora/Estabelecimento --";
+  // option.selected = true;
+  combo_operadora_estabelecimento.add(option);
+
   for (object of operadora_estabelecimento) {
     if (object.COD_CLIENTE == id_cliente) {
       let option = document.createElement("option");
-      option.text = `${object.ADQUIRENTE} / ${object.CODIGO_ESTABELECIMENTO}`;
+      option.text = `${object.ADQUIRENTE} | ${object.CODIGO_ESTABELECIMENTO} | ${object.CPF_CNPJ}`;
       option.value = object.CODIGO;
       combo_operadora_estabelecimento.add(option);
     }
@@ -119,12 +155,14 @@ function pesquisarTaxa(empresa, operadora_estabelecimento) {
     headers: headers
   }).then(function(response) {
     response.json().then(function(data) {
+      console.log(data.taxas);
       renderizaTabela(data.taxas);
     });
   });
 }
 
 function editarTaxa(e, codigo_taxa) {
+  e.preventDefault();
   const input = document.querySelector(`input[class='${codigo_taxa}']`);
   input.disabled = false;
 
@@ -172,8 +210,6 @@ function salvarEdicaoTaxa(taxa) {
 }
 
 function cadastrarTaxa(taxa) {
-  const token = document.getElementById("token").value;
-
   fetch("cadastro-taxa", {
     method: "POST",
     headers: headers,
@@ -181,12 +217,12 @@ function cadastrarTaxa(taxa) {
   })
     .then(function(response) {
       response.json().then(function(data) {
-        document.querySelector(".success-save-tx").style.display = "block";
-
-        setTimeout(function() {
-          document.querySelector(".success-save-tx").style.display = "none";
-          document.querySelector('input[name="taxa"]').value = "";
-        }, 2500);
+        // document.querySelector(".success-save-tx").style.display = "block";
+        //
+        // setTimeout(function() {
+        //   document.querySelector(".success-save-tx").style.display = "none";
+        //   document.querySelector('input[name="taxa"]').value = "";
+        // }, 2500);
 
         atualizaTabela();
       });
@@ -199,7 +235,7 @@ function atualizaTabela() {
 }
 
 function buscarTodasTaxas() {
-  fetch("load-taxas", {
+  fetch(`/search-taxa/${form_empresa}/${form_operadora_estabelecimento}`, {
     method: "GET",
     headers: new Headers({
       "Content-Type": "application/json",
@@ -208,6 +244,7 @@ function buscarTodasTaxas() {
     })
   }).then(function(response) {
     response.json().then(function(data) {
+      console.log(data.taxas);
       renderizaTabela(data.taxas);
     });
   });
@@ -222,15 +259,25 @@ function renderizaTabela(taxas) {
   document.querySelector("#conteudo_tabe").innerHTML = "";
 
   let html = "";
-
   for (taxa of taxas) {
     html += `<tr>
-    <td> ${taxa.CODIGO} </td>
-    <td> ${taxa.NOME_FANTASIA} </td>
-    <td> <input value='${taxa.TAXA}' disabled class="${taxa.CODIGO}"> </td>
+    <td> ${taxa.ADQUIRENTE} </td>
     <td> ${taxa.BANDEIRA} </td>
-    <td>  </td>
-    <td> ${formataData(taxa.DATA_VIGENCIA)} </td>
+    <td> ${taxa.DESCRICAO} </td>
+    <td> <input value='${taxa.TOTAL_PARCELAS}' disabled> </td>
+    <td> <input value='${
+      taxa.TAXA
+    }'  onKeyPress="return(mascaraTaxa(this,'.',',',event))" disabled class="${
+      taxa.CODIGO
+    }"> </td>
+    <td> <input value='${
+      taxa.TARIFA_MINIMA
+    }' onKeyPress="return(mascaraTaxa(this,'.',',',event))" disabled> </td>
+    <td> <input value='${
+      taxa.TAXA_ANT_AUT
+    }' onKeyPress="return(mascaraTaxa(this,'.',',',event))" disabled> </td>
+    <td> ${formataData(taxa.DATA_VIGENCIA_INICIAL)} </td>
+    <td> ${formataData(taxa.DATA_VIGENCIA_FINAL)} </td>
     <td class='excluir'>
     <a href='#' onclick='editarTaxa(event, ${
       taxa.CODIGO
@@ -246,6 +293,7 @@ function renderizaTabela(taxas) {
     "#qtd-registros"
   ).innerHTML = `Total de taxas (${taxas.length} registros)`;
   document.querySelector("#conteudo_tabe").innerHTML = html;
+  window.scrollTo(0, 350);
 }
 
 function excluirTaxa(e, codigo_taxa) {
