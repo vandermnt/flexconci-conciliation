@@ -28,6 +28,8 @@ const boxes = getBoxes();
 checker.addGroups([
 	{ name: 'empresa', options: { inputName: 'grupos_clientes' } },
 	{ name: 'adquirente', options: { inputName: 'adquirentes' } },
+	{ name: 'bandeira', options: { inputName: 'bandeiras' } },
+	{ name: 'modalidade', options: { inputName: 'modalidades' } },
 	{ name: 'estabelecimento', options: { inputName: 'estabelecimentos' } },
 	{ name: 'status-conciliacao', options: { inputName: 'status_conciliacao' } },
 	{
@@ -36,7 +38,13 @@ checker.addGroups([
 	},
 ]);
 
-modalFilter.addGroups(['empresa', 'adquirente', 'estabelecimento']);
+modalFilter.addGroups([
+	'empresa',
+	'adquirente',
+	'bandeira',
+	'modalidade',
+	'estabelecimento',
+]);
 
 searchForm.onSubmit(async (event) => {
 	const resultadosDOM = document.querySelector('.resultados');
