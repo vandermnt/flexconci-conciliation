@@ -35,7 +35,7 @@
               <p class="m-0">Data de Pagamento</p>
               <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-            <input type="text" class="form-control" name="DATA_PAGAMENTO">
+            <input type="date" class="form-control" name="DATA_PAGAMENTO">
           </div>
         </th>
         <th>
@@ -59,7 +59,7 @@
               <p class="m-0">Agencia</p>
               <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-            <input type="date" class="form-control" name="AGENCIA">
+            <input type="text" class="form-control" name="AGENCIA">
           </div>
         </th>
 				<th>

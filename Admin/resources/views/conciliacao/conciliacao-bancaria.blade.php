@@ -4,9 +4,9 @@
   <link href="{{ URL::asset('plugins/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{ URL::asset('plugins/datatables/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{ URL::asset('plugins/datatables/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
-	<link href="{{ URL::asset('plugins/animate/animate.css')}}" rel="stylesheet" type="text/css">
-  <link href="{{ URL::asset('assets/css/globals/global.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{ URL::asset('plugins/dropify/css/dropify.min.css')}}" rel="stylesheet">
   <link href="{{ URL::asset('assets/css/teste.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{ URL::asset('assets/css/globals/global.css') }}" rel="stylesheet" type="text/css"/>
   <link rel="stylesheet" href="{{ URL::asset('assets/css/conciliacao/pagina-conciliacao-bancaria.css') }}" type="text/css">
 @endsection
 
@@ -101,7 +101,7 @@
       </div>
 
       <div class="vendas">
-        <div class="tabela-info d-flex align-items-center justify-content-between">
+        <div class="tabela-info d-flex align-items-center justify-content-between flex-wrap">
           <div class="table-description d-flex align-items-center justify-content-end">
             <h4>Conciliação Bancária <span id="js-quantidade-registros">(0 registros)</span></h4>
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras">
@@ -156,71 +156,31 @@
       </div>
     </div>
     <div class="modais">
-        {{-- <x-modal
-          id="comprovante-modal"
-          modal-label-id="comprovante"
-          modal-label="Comprovante"
-        >
-          <x-slot name="content">
-            <div class="comprovante">
-              <div class="header">
-                <h4 class="font-weight-bold">
-                    <span data-key="NOME_EMPRESA"></span>
-                </h4>
-                <h6>
-                    CNPJ: <span data-key="CNPJ"></span>
-                </h6>
-              </div>
-              <hr>
-              <div class="body">
-                <h6>
-                    DATA VENDA: <span data-key="DATA_VENDA" data-format="date"></span>
-                </h6>
-                <h6>
-                    OPERADORA: <span data-key="ADQUIRENTE"></span>
-                </h6>
-                <h6>
-                    BANDEIRA: <span data-key="BANDEIRA"></span>
-                </h6>
-                <h6>
-                    FORMA DE PAGAMENTO: <span data-key="MODALIDADE"></span>
-                </h6>
-                <h6>
-                    ESTABELECIMENTO: <span data-key="ESTABELECIMENTO"></span>
-                </h6>
-                <h6>
-                    CARTAO: <span data-key="CARTAO"></span>
-                </h6>
-                <h6 class="font-weight-bold">
-                    VALOR: <span data-key="VALOR_BRUTO" data-format="currency"></span>
-                </h6>
-                <h6>
-                    DATA PREVISÃO: <span data-key="DATA_PREVISAO" data-format="date"></span>
-                </h6>
-              </div>
-            </div>
-          </x-slot>
-
-          <x-slot name="footer">
-            <button
-            type="button"
-            class="btn btn-danger font-weight-bold"
-            data-action="close"
-            data-dismiss="modal"
-          >
-            Fechar
-          </button>
-
-          <button
-            type="button"
-            class="btn btn-success font-weight-bold"
-            data-action="print"
-            data-dismiss="modal"
-          >
-            Imprimir
-          </button>
+			<x-modal
+        id="js-extrato-bancario"
+        modal-label-id="modal-extrato-bancario-label"
+        modal-label="Envie seus extratos bancários aqui"
+    	>
+        <x-slot name="content">
+					<div class="modal-body">
+						<input
+						id="teste"
+						type="file"
+						class="dropify"
+						name="extratos[]"
+						multiple
+						{{-- accept=".ofx" --}}
+						>
+						<button type="button" class="btn btn-primary w-100 mt-2" data-dismiss="modal">Enviar</button>
+					</div>
         </x-slot>
-      </x-modal> --}}
+
+        <x-slot name="footer">
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+					</div>
+        </x-slot>
+    </x-modal>
     </div>
   </main>
 
@@ -228,6 +188,8 @@
 @endsection
 
 @section('footerScript')
+	<script src="{{ URL::asset('assets/pages/jquery.form-upload.init.js')}}"></script>
+	<script src="{{ URL::asset('plugins/dropify/js/dropify.min.js')}}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/api.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/formatter.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/pagination.js') }}"></script>
@@ -240,5 +202,4 @@
   <script defer src="{{ URL::asset('assets/js/proxy/SalesContainerProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/conciliacao/conciliacao-bancaria.js') }}"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 @endsection

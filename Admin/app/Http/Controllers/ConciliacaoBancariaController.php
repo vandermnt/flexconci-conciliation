@@ -2,13 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
+use App\Filters\VendasFilter;
+use App\Filters\VendasSubFilter;
+use App\Filters\PagamentosOperadorasFilter;
 use App\VendasModel;
+use App\JustificativaModel;
+use App\MeioCaptura;
 use App\StatusConciliacaoModel;
 use App\StatusFinanceiroModel;
 use App\GruposClientesModel;
+use App\AdquirentesModel;
 use App\ClienteOperadoraModel;
-use App\Filters\PagamentosOperadorasFilter;
+use App\Exports\CSV\RetornoVendasOperadorasExport;
+use App\Exports\VendasOperadorasExport;
 
 class ConciliacaoBancariaController extends Controller
 {
@@ -94,7 +103,38 @@ class ConciliacaoBancariaController extends Controller
 		$filters['cliente_id'] = session('codigologin');
 
 		try {
-			$query = PagamentosOperadorasFilter::filter($filters)
+			$queries = PagamentosOperadorasFilter::filter($filters)
+				->getQuery();
+			$query = $queries[0];
+			$totalsQuery = $queries[1];
+
+			$sales = (clone $query)->paginate($perPage);
+			$totals = [
+				'TOTAL_PREVISTO_OPERADORA' => (clone $totalsQuery)->sum('VALOR_LIQUIDO'),
+			];
+
+			return response()->json([
+				'vendas' => $sales,
+				'totais' => $totals,
+			]);
+		} catch (Exception $e) {
+			return response()->json([
+				'message' => 'Não foi possível realizar a consulta em Vendas Operadoras.',
+			], 500);
+		}
+	}
+
+	public function filter(Request $request)
+	{
+		$allowedPerPage = [10, 20, 50, 100, 200];
+		$perPage = $request->input('por_pagina', 10);
+		$perPage = in_array($perPage, $allowedPerPage) ? $perPage : 10;
+		$filters = $request->input('filters');
+		$filters['cliente_id'] = session('codigologin');
+		$subfilters = $request->input('subfilters');
+
+		try {
+			$query = VendasSubFilter::subfilter($filters, $subfilters)
 				->getQuery();
 
 			$sales = (clone $query)->paginate($perPage);
@@ -110,9 +150,142 @@ class ConciliacaoBancariaController extends Controller
 			]);
 		} catch (Exception $e) {
 			return response()->json([
-				'message' => 'Não foi possível realizar a consulta em Pagamentos Operadoras.',
+				'message' => 'Não foi possível realizar a consulta em Vendas Operadoras.',
 			], 500);
 		}
+	}
+
+	public function justify(Request $request)
+	{
+		$ids = $request->input('id') ?? [];
+		$idJustificativa = $request->input('justificativa') ?? null;
+
+		$justificativa = JustificativaModel::where('CODIGO', $idJustificativa)
+			->where('COD_CLIENTE', session('codigologin'))
+			->first();
+
+		if (is_null($justificativa)) {
+			return response()->json([
+				'status' => 'erro',
+				'mensagem' => 'A justificativa deve ser informada.'
+			], 400);
+		}
+
+		$statusNaoConciliado = StatusConciliacaoModel::naoConciliada()->first()->CODIGO;
+		$statusJustificado = StatusConciliacaoModel::justificada()->first();
+
+		$validIds = VendasModel::whereIn('CODIGO', $ids)
+			->where('COD_CLIENTE', session('codigologin'))
+			->where('COD_STATUS_CONCILIACAO', $statusNaoConciliado)
+			->pluck('CODIGO')
+			->toArray();
+
+		VendasModel::whereIn('CODIGO', $validIds)
+			->update([
+				'JUSTIFICATIVA' => $justificativa->JUSTIFICATIVA,
+				'COD_STATUS_CONCILIACAO' => $statusJustificado->CODIGO,
+			]);
+
+		$sales = VendasFilter::filter([
+			'id' => $validIds,
+			'cliente_id' => session('codigologin')
+		])->getQuery()->get();
+
+		$totals = [
+			'TOTAL_BRUTO' => $sales->sum('VALOR_BRUTO'),
+			'TOTAL_LIQUIDO' => $sales->sum('VALOR_LIQUIDO'),
+		];
+		$totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
+
+		return response()->json([
+			'status' => 'sucesso',
+			'mensagem' => 'As vendas foram justificadas com sucesso.',
+			'vendas' => $sales,
+			'totais' => $totals,
+		], 200);
+	}
+
+	public function unjustify(Request $request)
+	{
+		$ids = $request->input('id') ?? [];
+
+		$statusJustificado = StatusConciliacaoModel::justificada()->first()->CODIGO;
+		$statusNaoConciliado = StatusConciliacaoModel::naoConciliada()->first();
+
+		$validIds = VendasModel::whereIn('CODIGO', $ids)
+			->where('COD_CLIENTE', session('codigologin'))
+			->where('COD_STATUS_CONCILIACAO', $statusJustificado)
+			->pluck('CODIGO')
+			->toArray();
+
+		VendasModel::whereIn('CODIGO', $validIds)
+			->update([
+				'JUSTIFICATIVA' => null,
+				'COD_STATUS_CONCILIACAO' => $statusNaoConciliado->CODIGO,
+			]);
+
+		$sales = VendasFilter::filter([
+			'id' => $validIds,
+			'cliente_id' => session('codigologin'),
+		])->getQuery()->get();
+
+		$totals = [
+			'TOTAL_BRUTO' => $sales->sum('VALOR_BRUTO'),
+			'TOTAL_LIQUIDO' => $sales->sum('VALOR_LIQUIDO'),
+		];
+		$totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
+
+		return response()->json([
+			'status' => 'sucesso',
+			'mensagem' => 'As vendas foram desjustificadas com sucesso.',
+			'vendas' => $sales,
+			'totais' => $totals,
+		], 200);
+	}
+
+	public function export(Request $request)
+	{
+		set_time_limit(300);
+
+		$sort = [
+			'column' => $request->input('sort_column', 'DATA_VENDA'),
+			'direction' => $request->input('sort_direction', 'asc')
+		];
+		$filters = $request->except(['_token', 'sort_column', 'sort_direction']);
+		$filters['sort'] = $sort;
+		$subfilters = $request->except(['_token']);
+		Arr::set($filters, 'cliente_id', session('codigologin'));
+		return (new VendasOperadorasExport($filters, $subfilters))->download('vendas_operadoras_' . time() . '.xlsx');
+	}
+
+	public function exportCsv(Request $request)
+	{
+		set_time_limit(300);
+
+		$sort = [
+			'column' => $request->input('sort_column', 'DATA_VENDA'),
+			'direction' => $request->input('sort_direction', 'asc')
+		];
+		$filters = $request->except(['_token', 'sort_column', 'sort_direction']);
+		$filters['sort'] = $sort;
+		$subfilters = $request->except(['_token']);
+		Arr::set($filters, 'cliente_id', session('codigologin'));
+		return (new RetornoVendasOperadorasExport($filters, $subfilters))->download('vendas_operadoras_' . time() . '.csv');
+	}
+
+	public function print(Request $request, $id)
+	{
+		$sale = VendasFilter::filter([
+			'id' => [$id],
+			'cliente_id' => session('codigologin')
+		])
+			->getQuery()
+			->first();
+		$customPaper = array(0, 0, 240.53, 210.28);
+
+		return \PDF::loadView('vendas.comprovante-venda-operadora', compact('sale'))
+			->setPaper($customPaper, 'landscape')
+			->stream('comprovante_venda_' . $id . '_' . time() . '.pdf');
 	}
 
 	/**

@@ -55,6 +55,7 @@ salesContainer.onEvent('fetch', (sales) => {
 		body: sales.get('sales') || [],
 		footer: sales.get('totals') || {},
 	});
+
 	tableRender.render();
 	sales.get('pagination').render();
 });
