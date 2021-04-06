@@ -30,8 +30,8 @@ class PagamentosOperadorasFilter extends BaseFilter
 
 	public static function filter($params)
 	{
-		$vendasFilter = app(PagamentosOperadorasFilter::class);
-		return $vendasFilter->apply($params);
+		$pagamentosOperadorasFilter = app(PagamentosOperadorasFilter::class);
+		return $pagamentosOperadorasFilter->apply($params);
 	}
 
 	public function apply($params)
@@ -43,27 +43,60 @@ class PagamentosOperadorasFilter extends BaseFilter
 		$filters = Arr::except($params, 'sort');
 		$sort = collect(Arr::only($params, 'sort'))->get('sort');
 
-		$this->query = PagamentoOperadoraModel::select(
-			[
-				'pagamentos_operadoras.DATA_PAGAMENTO',
-				'lista_bancos.BANCO',
-				'lista_bancos.IMAGEM_LINK as BANCO_IMAGEM',
-				'pagamentos_operadoras.AGENCIA',
-				'pagamentos_operadoras.CONTA',
-				'adquirentes.ADQUIRENTE',
-				'adquirentes.IMAGEM as ADQUIRENTE_IMAGEM',
-				DB::raw('SUM(pagamentos_operadoras.VALOR_LIQUIDO) as VALOR_PREVISTO_OPERADORA')
-			]
-		)
-			->leftJoin('lista_bancos', 'lista_bancos.CODIGO', 'pagamentos_operadoras.COD_BANCO')
-			->leftJoin('adquirentes', 'adquirentes.CODIGO', 'pagamentos_operadoras.COD_ADQUIRENTE')
-			->where('pagamentos_operadoras.COD_CLIENTE', $filters['cliente_id'])
-			->groupBy('pagamentos_operadoras.DATA_PAGAMENTO', 'lista_bancos.BANCO', 'pagamentos_operadoras.AGENCIA', 'pagamentos_operadoras.CONTA', 'adquirentes.ADQUIRENTE');
+		$this->totalsQuery = PagamentoOperadoraModel::select([
+			'pagamentos_operadoras.DATA_PAGAMENTO',
+			'pagamentos_operadoras.EMPRESA',
+			'pagamentos_operadoras.COD_ADQUIRENTE',
+		])
+			->where('pagamentos_operadoras.COD_CLIENTE', $filters['cliente_id']);
 
-		// $this->$totalsQuery = PagamentoOperadoraModel::where('COD_CLIENTE', $filters['cliente_id'])->get();
-		$this->totalsQuery = PagamentoOperadoraModel::select('*')
-			->where('COD_CLIENTE', 584)
-			->get();
+		if (Arr::has($filters, 'grupos_clientes')) {
+
+			$this->query = PagamentoOperadoraModel::select(
+				[
+					'pagamentos_operadoras.DATA_PAGAMENTO',
+					'lista_bancos.BANCO',
+					'lista_bancos.IMAGEM_LINK as BANCO_IMAGEM',
+					'pagamentos_operadoras.AGENCIA',
+					'pagamentos_operadoras.CONTA',
+					'adquirentes.ADQUIRENTE',
+					'adquirentes.IMAGEM as ADQUIRENTE_IMAGEM',
+					DB::raw('SUM(pagamentos_operadoras.VALOR_LIQUIDO) as VALOR_PREVISTO_OPERADORA')
+				]
+			)
+				->leftJoin('lista_bancos', 'pagamentos_operadoras.COD_BANCO', 'lista_bancos.CODIGO')
+				->leftJoin('adquirentes', 'pagamentos_operadoras.COD_ADQUIRENTE', 'adquirentes.CODIGO')
+				->where('pagamentos_operadoras.COD_CLIENTE', $filters['cliente_id'])
+				->groupBy('pagamentos_operadoras.DATA_PAGAMENTO', 'pagamentos_operadoras.CONTA', 'pagamentos_operadoras.AGENCIA', 'lista_bancos.BANCO', 'adquirentes.ADQUIRENTE', 'pagamentos_operadoras.EMPRESA');
+
+			$this->query->whereIn('pagamentos_operadoras.EMPRESA', function ($query) use ($filters) {
+				$query->select('NOME_EMPRESA')
+					->from('grupos_clientes')
+					->whereIn('grupos_clientes.CODIGO', $filters['grupos_clientes']);
+			});
+			$this->totalsQuery->whereIn('pagamentos_operadoras.EMPRESA', function ($query) use ($filters) {
+				$query->select('NOME_EMPRESA')
+					->from('grupos_clientes')
+					->whereIn('grupos_clientes.CODIGO', $filters['grupos_clientes']);
+			});
+		} else {
+			$this->query = PagamentoOperadoraModel::select(
+				[
+					'pagamentos_operadoras.DATA_PAGAMENTO',
+					'lista_bancos.BANCO',
+					'lista_bancos.IMAGEM_LINK as BANCO_IMAGEM',
+					'pagamentos_operadoras.AGENCIA',
+					'pagamentos_operadoras.CONTA',
+					'adquirentes.ADQUIRENTE',
+					'adquirentes.IMAGEM as ADQUIRENTE_IMAGEM',
+					DB::raw('SUM(pagamentos_operadoras.VALOR_LIQUIDO) as VALOR_PREVISTO_OPERADORA')
+				]
+			)
+				->leftJoin('lista_bancos', 'pagamentos_operadoras.COD_BANCO', 'lista_bancos.CODIGO')
+				->leftJoin('adquirentes', 'pagamentos_operadoras.COD_ADQUIRENTE', 'adquirentes.CODIGO')
+				->where('pagamentos_operadoras.COD_CLIENTE', $filters['cliente_id'])
+				->groupBy('pagamentos_operadoras.DATA_PAGAMENTO', 'pagamentos_operadoras.CONTA', 'pagamentos_operadoras.AGENCIA', 'lista_bancos.BANCO', 'adquirentes.ADQUIRENTE');
+		}
 
 		if (Arr::has($filters, 'id')) {
 			$this->query->whereIn('vendas.CODIGO', $filters['id']);
@@ -78,21 +111,9 @@ class PagamentosOperadorasFilter extends BaseFilter
 				$filters['data_final']
 			]);
 		}
-		if (Arr::has($filters, 'grupos_clientes')) {
-			$this->query->whereIn('pagamentos_operadoras.EMPRESA', function ($query) use ($filters) {
-				$query->select('NOME_EMPRESA')
-					->from('grupos_clientes')
-					->whereIn('grupos_clientes.CODIGO', $filters['grupos_clientes']);
-			});
-			$this->totalsQuery->whereIn('pagamentos_operadoras.EMPRESA', function ($query) use ($filters) {
-				$query->select('NOME_EMPRESA')
-					->from('grupos_clientes')
-					->whereIn('grupos_clientes.CODIGO', $filters['grupos_clientes']);
-			});
-		}
 		if (Arr::has($filters, 'adquirentes')) {
-			$this->query->whereIn('adquirentes.CODIGO', $filters['adquirentes']);
-			$this->totalsQuery->whereIn('adquirentes.CODIGO', $filters['adquirentes']);
+			$this->query->whereIn('pagamentos_operadoras.COD_ADQUIRENTE', $filters['adquirentes']);
+			$this->totalsQuery->whereIn('pagamentos_operadoras.COD_ADQUIRENTE', $filters['adquirentes']);
 		}
 		if (Arr::has($filters, 'bandeiras')) {
 			$this->query->whereIn('bandeira.CODIGO', $filters['bandeiras']);
@@ -118,9 +139,5 @@ class PagamentosOperadorasFilter extends BaseFilter
 	public function getQuery()
 	{
 		return [$this->query, $this->totalsQuery];
-	}
-
-	public function totals()
-	{
 	}
 }

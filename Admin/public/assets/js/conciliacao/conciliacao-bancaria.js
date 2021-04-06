@@ -56,8 +56,6 @@ salesContainer.onEvent('fetch', (sales) => {
 		footer: sales.get('totals') || {},
 	});
 
-	console.log(sales.get('totals'));
-
 	tableRender.render();
 	sales.get('pagination').render();
 });
