@@ -30,9 +30,6 @@
             ['retorno-recebimento' => route('recebimentos-operadoras.retorno-recebimento')],
           ]"
           :hidden-fields="[
-            'bandeiras',
-            'modalidades',
-            'modalidades',
             'status-conciliacao',
             'status-financeiro',
             'domicilios-bancarios',
@@ -41,7 +38,9 @@
           :form-data="[
             'empresas' => $empresas,
             'adquirentes' => $adquirentes,
-            'estabelecimentos' => $estabelecimentos,
+						'bandeiras' => $bandeiras,
+						'modalidades' => $modalidades,
+            'estabelecimentos' => $estabelecimentos
           ]"
         >
         <x-slot name="fields">
