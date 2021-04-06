@@ -187,7 +187,7 @@
             </button>
             <button id="js-desjustificar-erp" class="btn mr-1 button no-hover">
               <i class="fas fa-comment-slash"></i>
-              Desjustificar
+              Desfazer Justificativa
             </button>
             <button
               id="js-exportar-erp"
