@@ -97,7 +97,7 @@
           <div class="d-flex align-items-center justify-content-end">
             <button id="js-desjustificar" class="btn button no-hover mr-1">
               <i class="fas fa-comment-slash"></i>
-              Desjustificar
+              Desfazer Justificativa
             </button>
             <button id="js-retorno-csv" class="btn button no-hover mr-1 tooltip-hint" data-title="Arquivo de integração para a realização da baixa/liquidação">
               <div class="conciflex-icon icon-md">
