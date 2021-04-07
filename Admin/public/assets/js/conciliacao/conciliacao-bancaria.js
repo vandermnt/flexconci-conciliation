@@ -178,11 +178,11 @@ tableRender.onRenderRow((row, data, tableRenderInstance) => {
 		}
 	});
 
-	const showDetailsDOM = row.querySelector('td .js-show-details');
+	// const showDetailsDOM = row.querySelector('td .js-show-details');
 
-	showDetailsDOM.addEventListener('click', (event) => {
-		showTicket(row.dataset.id);
-	});
+	// showDetailsDOM.addEventListener('click', (event) => {
+	// 	showTicket(row.dataset.id);
+	// });
 
 	_defaultEvents.table.onRenderRow(row, data, tableRenderInstance);
 });

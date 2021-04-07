@@ -111,6 +111,18 @@
 	box-shadow: none;
 }
 
+.modais .modal-footer {
+	padding: 0px;
+}
+
 .conc-bancaria {
 	margin-bottom: 8px;
+}
+
+#comprovante-modal {
+	padding-left: 17px;
+}
+
+#comprovante-modal .modal-dialog {
+	max-width: 1140px !important;
 }
