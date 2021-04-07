@@ -25,7 +25,7 @@
           id="js-form-pesquisa"
           :urls="[
 						['operadoras' => route('conciliacao-bancaria.search')],
-            ['filtrar-operadoras' => route('vendas-operadoras.filter')],
+            ['filtrar-operadoras' => route('conciliacao-bancaria.filter')],
             ['exportar' => route('vendas-operadoras.export')],
             ['imprimir' => route('vendas-operadoras.print', ['id' => ':id'])],
             ['desjustificar' => route('vendas-operadoras.unjustify')],
@@ -136,7 +136,7 @@
                     data-value-key="ID"
                 >
                 <div
-                    class="tooltip-hint tooltip-left d-flex align-items-center js-show-details"
+                    class="tooltip-hint tooltip-left d-flex align-items-center"
                     data-default-title="Visualizar Detalhes"
                     data-toggle="modal"
                     data-target="#comprovante-modal"
@@ -172,6 +172,77 @@
 						{{-- accept=".ofx" --}}
 						>
 						<button type="button" class="btn btn-primary w-100 mt-2" data-dismiss="modal">Enviar</button>
+					</div>
+        </x-slot>
+
+        <x-slot name="footer">
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+					</div>
+        </x-slot>
+    </x-modal>
+		<x-modal
+        id="comprovante-modal"
+        modal-label-id="comprovante-modal-label"
+        modal-label="Comprovante"
+    	>
+        <x-slot name="content">
+					<div class="modal-body">
+
+						<div class="vendas">
+							<div class="tabela-info d-flex align-items-center justify-content-between flex-wrap">
+								<div class="table-description d-flex align-items-center justify-content-end">
+									<h4>Conciliação Bancária <span id="js-quantidade-registros">(0 registros)</span></h4>
+									<img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras">
+								</div>
+								<div class="d-flex align-items-center justify-content-end">
+									<button id="js-exportar" class="btn button no-hover">
+										<div class="conciflex-icon icon-md">
+												<img src="assets/images/widgets/excel-file.svg" alt="Excel">
+										</div>
+										Exportar
+									</button>
+								</div>
+							</div>
+			
+							<x-tables.tabela-conciliacao-bancaria
+								id="js-tabela-operadoras"
+								class="mt-3"
+								:headers="[
+									'actions' => 'Ações',
+								]"
+								:hiddenColumns="[
+									'ID_ERP'
+								]"
+							>
+								<x-slot name="actions">
+									<td>
+										<div class="actions-cell d-flex align-items-center justify-content-beetwen">
+											<input
+													class="mr-2"
+													name="id_operadora"
+													type="checkbox"
+													data-value-key="ID"
+											>
+											<div
+													class="tooltip-hint tooltip-left d-flex align-items-center"
+													data-default-title="Visualizar Detalhes"
+													data-toggle="modal"
+													data-target="#comprovante-modal"
+											>
+													<i class="fas fa-eye"></i>
+											</div>
+										</div>
+									</td>
+								</x-slot>
+							</x-tables.tabela-conciliacao-bancaria>
+			
+							<x-tables.table-navigation
+								pagination-id="js-paginacao-operadoras"
+								per-page-select-id="js-por-pagina"
+								:options="['10', '20', '50', '100', '200']"
+							/>
+						</div>
 					</div>
         </x-slot>
 

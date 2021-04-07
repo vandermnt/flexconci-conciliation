@@ -6,8 +6,8 @@ use PDF;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Filters\VendasFilter;
-use App\Filters\VendasSubFilter;
 use App\Filters\PagamentosOperadorasFilter;
+use App\Filters\VendasSubFilter;
 use App\VendasModel;
 use App\JustificativaModel;
 use App\MeioCaptura;
@@ -18,6 +18,7 @@ use App\AdquirentesModel;
 use App\ClienteOperadoraModel;
 use App\Exports\CSV\RetornoVendasOperadorasExport;
 use App\Exports\VendasOperadorasExport;
+use App\Filters\PagamentosOperadorasSubFilter;
 
 class ConciliacaoBancariaController extends Controller
 {
@@ -134,15 +135,16 @@ class ConciliacaoBancariaController extends Controller
 		$subfilters = $request->input('subfilters');
 
 		try {
-			$query = VendasSubFilter::subfilter($filters, $subfilters)
+			$query = PagamentosOperadorasSubFilter::subfilter($filters, $subfilters)
 				->getQuery();
 
 			$sales = (clone $query)->paginate($perPage);
+			//print_r($sales);
 			$totals = [
-				'TOTAL_BRUTO' => (clone $query)->sum('VALOR_BRUTO'),
-				'TOTAL_LIQUIDO' => (clone $query)->sum('VALOR_LIQUIDO'),
+				// 'TOTAL_BRUTO' => (clone $query)->sum('VALOR_BRUTO'),
+				'TOTAL_PREVISTO_OPERADORA' => (clone $query)->sum('VALOR_PREVISTO_OPERADORA'),
 			];
-			$totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
+			// $totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
 
 			return response()->json([
 				'vendas' => $sales,
