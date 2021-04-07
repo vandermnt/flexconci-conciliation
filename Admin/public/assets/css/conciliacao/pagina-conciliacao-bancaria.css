@@ -120,9 +120,13 @@
 }
 
 #comprovante-modal {
-	padding-left: 17px;
+	padding: 0px 0px 10px 10px;
 }
 
 #comprovante-modal .modal-dialog {
-	max-width: 1140px !important;
+	max-width: 1400px !important;
 }
+
+/* #comprovante-modal table th input {
+	min-width: 50px;
+} */
