@@ -25,53 +25,17 @@
               <input type="text" class="form-control" name="DESCRICAO_ERP">
             </div>
           </th>
-        @endif
-        <th class="input-data">
-          <div class="d-flex flex-column align-items-center">
-            <div
-              class="d-flex align-items-center justify-content-center table-sorter mb-2"
-              data-tbsort-by="DATA_PAGAMENTO"
-            >
-              <p class="m-0">Data<br> de<br> Pagamento</p>
-              <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
-            </div>
-            <input type="date" class="form-control" name="DATA_PAGAMENTO">
-          </div>
-        </th>
+        @endiF
         <th>
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
-              data-tbsort-by="BANCO"
+              data-tbsort-by="STATUS"
             >
-              <p class="m-0">Banco</p>
+              <p class="m-0">Status</p>
               <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-            <input type="text" class="form-control" name="BANCO">
-          </div>
-        </th>
-        <th>
-          <div class="d-flex flex-column align-items-center">
-            <div
-              class="d-flex align-items-center justify-content-center table-sorter mb-2"
-              data-tbsort-by="AGENCIA"
-            >
-              <p class="m-0">Agencia</p>
-              <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
-            </div>
-            <input type="text" class="form-control" name="AGENCIA">
-          </div>
-        </th>
-				<th>
-          <div class="d-flex flex-column align-items-center">
-            <div
-              class="d-flex align-items-center justify-content-center table-sorter mb-2"
-              data-tbsort-by="CONTA"
-            >
-              <p class="m-0">Conta</p>
-              <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
-            </div>
-            <input type="text" class="form-control" name="CONTA">
+            <input type="text" class="form-control" name="STATUS">
           </div>
         </th>
         <th>
@@ -86,90 +50,43 @@
             <input type="text" class="form-control" name="ADQUIRENTE">
           </div>
         </th>
-				<th>
-          <div class="d-flex flex-column align-items-center">
-            <div
-              class="d-flex align-items-center justify-content-center table-sorter mb-2"
-              data-tbsort-by="VALOR_PREVISTO_OPERADORA"
-            >
-              <p class="m-0">Valor<br> Previsto<br> Operadora</p>
-              <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
-            </div>
-						<input type="number" min="0" step="0.01" class="form-control" name="VALOR_PREVISTO_OPERADORA">
-          </div>
-        </th>
-				<th>
-          <div class="d-flex flex-column align-items-center">
-            <div
-              class="d-flex align-items-center justify-content-center table-sorter mb-2"
-              data-tbsort-by="VALOR_EXTRATO_BANCARIO"
-            >
-              <p class="m-0">Valor<br> Extrato<br> Bancário</p>
-              <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
-            </div>
-            <input type="text" class="form-control" name="VALOR_EXTRATO_BANCARIO">
-          </div>
-        </th>
-				<th>
-          <div class="d-flex flex-column align-items-center">
-            <div
-              class="d-flex align-items-center justify-content-center table-sorter mb-2"
-              data-tbsort-by="DIFERENCA"
-            >
-              <p class="m-0">Diferença</p>
-              <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
-            </div>
-            <input type="text" class="form-control" name="DIFERENCA">
-          </div>
-        </th>
-				<th>
-          <div class="d-flex flex-column align-items-center">
-            <div
-              class="d-flex align-items-center justify-content-center table-sorter mb-2"
-              data-tbsort-by="STATUS"
-            >
-              <p class="m-0">Status</p>
-              <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
-            </div>
-            <input type="text" class="form-control" name="STATUS">
-          </div>
-        </th>
-				<th>
-          <div class="d-flex flex-column align-items-center">
-            <div
-              class="d-flex align-items-center justify-content-center table-sorter mb-2"
-              data-tbsort-by="USUARIO_IMPORTACAO"
-            >
-              <p class="m-0">Usuário<br> Importação</p>
-              <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
-            </div>
-            <input type="text" class="form-control" name="USUARIO_IMPORTACAO">
-          </div>
-        </th>
-				<th>
-          <div class="d-flex flex-column align-items-center">
-            <div
-              class="d-flex align-items-center justify-content-center table-sorter mb-2"
-              data-tbsort-by="HORA_IMPORTACAO"
-            >
-              <p class="m-0">Hora<br> Importação</p>
-              <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
-            </div>
-            <input type="text" class="form-control" name="HORA_IMPORTACAO">
-          </div>
-        </th>
 				<th class="input-data">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
-              data-tbsort-by="DATA_IMPORTACAO"
+              data-tbsort-by="DATA"
             >
-              <p class="m-0">Data<br> Importação</p>
+              <p class="m-0">Data</p>
               <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-            <input type="date" class="form-control" name="DATA_IMPORTACAO">
+            <input type="date" class="form-control" name="DATA">
           </div>
         </th>
+				<th>
+          <div class="d-flex flex-column align-items-center">
+            <div
+              class="d-flex align-items-center justify-content-center table-sorter mb-2"
+              data-tbsort-by="DESCRICAO"
+            >
+              <p class="m-0">Descrição</p>
+              <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
+            <input type="text" class="form-control" name="DESCRICAO">
+          </div>
+        </th>
+				<th>
+          <div class="d-flex flex-column align-items-center">
+            <div
+              class="d-flex align-items-center justify-content-center table-sorter mb-2"
+              data-tbsort-by="VALOR"
+            >
+              <p class="m-0">Valor</p>
+              <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
+						<input type="number" min="0" step="0.01" class="form-control" name="VALOR">
+          </div>
+        </th>
+
       </tr>
     </thead>
     <tbody>
@@ -180,40 +97,11 @@
         @if($isColumnVisible('ID_ERP'))
           <td data-column="DESCRICAO_ERP"></td>
         @endif
-        <td data-column="DATA_PAGAMENTO" data-format='date'></td>
-        <td
-          data-image="BANCO_IMAGEM"
-          data-default-image="assets/images/widgets/cards.svg"
-          data-column="BANCO"
-          data-default-value="Sem identificação"
-        >
-          <div
-            class="icon-image tooltip-hint tooltip-left"
-            data-title="BANCO"
-            data-default-title="Sem identificação">
-          </div>
-        </td>
-        <td data-column="AGENCIA"></td>
-				<td data-column="CONTA"></td>
-				<td
-          data-image="ADQUIRENTE_IMAGEM"
-          data-default-image="assets/images/widgets/cards.svg"
-          data-column="ADQUIRENTE"
-          data-default-value="Sem identificação"
-        >
-          <div
-            class="icon-image tooltip-hint tooltip-left"
-            data-title="ADQUIRENTE"
-            data-default-title="Sem identificação">
-          </div>
-        </td>
-				<td data-column="VALOR_PREVISTO_OPERADORA" data-format="currency"></td>
-				<td data-column="VALOR_EXTRATO_BANCARIO" data-format="currency"></td>
-				<td data-column="DIFERENCA" data-format="currency"></td>
-				<td data-column="STATUS"></td>
-				<td data-column="USUARIO_IMPORTACAO"></td>
-				<td data-column="HORA_IMPORTACAO"></td>
-				<td data-column="DATA_IMPORTACAO"></td>
+        <td data-column="STATUS"></td>
+        <td data-column="ADQUIRENTE"></td>
+				<td data-column="DATA" data-format="date"></td>
+				<td data-column="DESCRICAO" data-format="date"></td>
+				<td data-column="VALOR" data-format="currency"></td>
       </tr>
     </tbody>
     <tfoot>
@@ -227,12 +115,6 @@
         @endif
         <td></td>
         <td></td>
-				<td></td>
-				<td></td>
-				<td data-column="TOTAL_PREVISTO_OPERADORA" data-format="currency">R$ 0,00</td>
-        <td data-column="TOTAL_EXTRATO_BANCARIO" data-format="currency">R$ 0,00</td>
-        <td data-column="TOTAL_DIFERENCA" data-format="currency">R$ 0,00</td>
-				<td></td>
 				<td></td>
 				<td></td>
 				<td></td>

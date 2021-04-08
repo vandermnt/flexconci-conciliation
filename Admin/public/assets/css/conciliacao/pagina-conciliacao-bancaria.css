@@ -123,14 +123,16 @@
 	padding: 0px 0px 10px 10px;
 }
 
-/* VER AMANHÃ */
-
 #comprovante-modal .modal-dialog {
 	max-width: 1800px !important;
 }
 
 #comprovante-modal .table-description {
 	margin-bottom: 15px;
+}
+
+#comprovante-modal .row .vendas {
+	vertical-align: bottom;
 }
 
 #comprovante-modal table th {
