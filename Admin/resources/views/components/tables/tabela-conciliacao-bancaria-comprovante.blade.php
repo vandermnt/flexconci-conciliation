@@ -74,7 +74,7 @@
             <input type="text" class="form-control" name="FORMA_PAGAMENTO">
           </div>
         </th>
-				<th>
+				<th class="input-data">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
