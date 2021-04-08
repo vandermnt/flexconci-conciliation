@@ -26,14 +26,14 @@
             </div>
           </th>
         @endif
-        <th>
+        <th class="input-data">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
               data-tbsort-by="DATA_PAGAMENTO"
             >
-              <p class="m-0">Data de Pagamento</p>
-              <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              <p class="m-0">Data<br> de<br> Pagamento</p>
+              <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
             <input type="date" class="form-control" name="DATA_PAGAMENTO">
           </div>
@@ -45,7 +45,7 @@
               data-tbsort-by="BANCO"
             >
               <p class="m-0">Banco</p>
-              <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
             <input type="text" class="form-control" name="BANCO">
           </div>
@@ -57,7 +57,7 @@
               data-tbsort-by="AGENCIA"
             >
               <p class="m-0">Agencia</p>
-              <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
             <input type="text" class="form-control" name="AGENCIA">
           </div>
@@ -69,7 +69,7 @@
               data-tbsort-by="CONTA"
             >
               <p class="m-0">Conta</p>
-              <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
             <input type="text" class="form-control" name="CONTA">
           </div>
@@ -81,7 +81,7 @@
               data-tbsort-by="ADQUIRENTE"
             >
               <p class="m-0">Operadora</p>
-              <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
             <input type="text" class="form-control" name="ADQUIRENTE">
           </div>
@@ -92,8 +92,8 @@
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
               data-tbsort-by="VALOR_PREVISTO_OPERADORA"
             >
-              <p class="m-0">Valor Previsto Operadora</p>
-              <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              <p class="m-0">Valor<br> Previsto<br> Operadora</p>
+              <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
 						<input type="number" min="0" step="0.01" class="form-control" name="VALOR_PREVISTO_OPERADORA">
           </div>
@@ -104,8 +104,8 @@
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
               data-tbsort-by="VALOR_EXTRATO_BANCARIO"
             >
-              <p class="m-0">Valor Extrato Bancário</p>
-              <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              <p class="m-0">Valor<br> Extrato<br> Bancário</p>
+              <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
             <input type="text" class="form-control" name="VALOR_EXTRATO_BANCARIO">
           </div>
@@ -117,7 +117,7 @@
               data-tbsort-by="DIFERENCA"
             >
               <p class="m-0">Diferença</p>
-              <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
             <input type="text" class="form-control" name="DIFERENCA">
           </div>
@@ -129,7 +129,7 @@
               data-tbsort-by="STATUS"
             >
               <p class="m-0">Status</p>
-              <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
             <input type="text" class="form-control" name="STATUS">
           </div>
@@ -140,8 +140,8 @@
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
               data-tbsort-by="USUARIO_IMPORTACAO"
             >
-              <p class="m-0">Usuário Importação</p>
-              <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              <p class="m-0">Usuário<br> Importação</p>
+              <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
             <input type="text" class="form-control" name="USUARIO_IMPORTACAO">
           </div>
@@ -152,22 +152,22 @@
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
               data-tbsort-by="HORA_IMPORTACAO"
             >
-              <p class="m-0">Hora Importação</p>
-              <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              <p class="m-0">Hora<br> Importação</p>
+              <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
             <input type="text" class="form-control" name="HORA_IMPORTACAO">
           </div>
         </th>
-				<th>
+				<th class="input-data">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
               data-tbsort-by="DATA_IMPORTACAO"
             >
-              <p class="m-0">Data Importação</p>
-              <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+              <p class="m-0">Data<br> Importação</p>
+              <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-            <input type="date" class="form-control" name="DATA_IMPORTACAO">
+            <input type="date" class="form-control input-data" name="DATA_IMPORTACAO">
           </div>
         </th>
       </tr>

@@ -4,9 +4,9 @@
   <link href="{{ URL::asset('plugins/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{ URL::asset('plugins/datatables/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{ URL::asset('plugins/datatables/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
-	<link href="{{ URL::asset('plugins/animate/animate.css')}}" rel="stylesheet" type="text/css">
-  <link href="{{ URL::asset('assets/css/globals/global.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{ URL::asset('plugins/dropify/css/dropify.min.css')}}" rel="stylesheet">
   <link href="{{ URL::asset('assets/css/teste.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{ URL::asset('assets/css/globals/global.css') }}" rel="stylesheet" type="text/css"/>
   <link rel="stylesheet" href="{{ URL::asset('assets/css/conciliacao/pagina-conciliacao-bancaria.css') }}" type="text/css">
 @endsection
 
@@ -25,7 +25,7 @@
           id="js-form-pesquisa"
           :urls="[
 						['operadoras' => route('conciliacao-bancaria.search')],
-            ['filtrar-operadoras' => route('vendas-operadoras.filter')],
+            ['filtrar-operadoras' => route('conciliacao-bancaria.filter')],
             ['exportar' => route('vendas-operadoras.export')],
             ['imprimir' => route('vendas-operadoras.print', ['id' => ':id'])],
             ['desjustificar' => route('vendas-operadoras.unjustify')],
@@ -101,7 +101,7 @@
       </div>
 
       <div class="vendas">
-        <div class="tabela-info d-flex align-items-center justify-content-between">
+        <div class="tabela-info d-flex align-items-center justify-content-between flex-wrap">
           <div class="table-description d-flex align-items-center justify-content-end">
             <h4>Conciliação Bancária <span id="js-quantidade-registros">(0 registros)</span></h4>
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras">
@@ -136,7 +136,7 @@
                     data-value-key="ID"
                 >
                 <div
-                    class="tooltip-hint tooltip-left d-flex align-items-center js-show-details"
+                    class="tooltip-hint tooltip-left d-flex align-items-center"
                     data-default-title="Visualizar Detalhes"
                     data-toggle="modal"
                     data-target="#comprovante-modal"
@@ -156,71 +156,140 @@
       </div>
     </div>
     <div class="modais">
-        {{-- <x-modal
-          id="comprovante-modal"
-          modal-label-id="comprovante"
-          modal-label="Comprovante"
-        >
-          <x-slot name="content">
-            <div class="comprovante">
-              <div class="header">
-                <h4 class="font-weight-bold">
-                    <span data-key="NOME_EMPRESA"></span>
-                </h4>
-                <h6>
-                    CNPJ: <span data-key="CNPJ"></span>
-                </h6>
-              </div>
-              <hr>
-              <div class="body">
-                <h6>
-                    DATA VENDA: <span data-key="DATA_VENDA" data-format="date"></span>
-                </h6>
-                <h6>
-                    OPERADORA: <span data-key="ADQUIRENTE"></span>
-                </h6>
-                <h6>
-                    BANDEIRA: <span data-key="BANDEIRA"></span>
-                </h6>
-                <h6>
-                    FORMA DE PAGAMENTO: <span data-key="MODALIDADE"></span>
-                </h6>
-                <h6>
-                    ESTABELECIMENTO: <span data-key="ESTABELECIMENTO"></span>
-                </h6>
-                <h6>
-                    CARTAO: <span data-key="CARTAO"></span>
-                </h6>
-                <h6 class="font-weight-bold">
-                    VALOR: <span data-key="VALOR_BRUTO" data-format="currency"></span>
-                </h6>
-                <h6>
-                    DATA PREVISÃO: <span data-key="DATA_PREVISAO" data-format="date"></span>
-                </h6>
-              </div>
-            </div>
-          </x-slot>
-
-          <x-slot name="footer">
-            <button
-            type="button"
-            class="btn btn-danger font-weight-bold"
-            data-action="close"
-            data-dismiss="modal"
-          >
-            Fechar
-          </button>
-
-          <button
-            type="button"
-            class="btn btn-success font-weight-bold"
-            data-action="print"
-            data-dismiss="modal"
-          >
-            Imprimir
-          </button>
+			<x-modal
+        id="js-extrato-bancario"
+        modal-label-id="modal-extrato-bancario-label"
+        modal-label="Envie seus extratos bancários aqui"
+    	>
+        <x-slot name="content">
+					<div class="modal-body">
+						<input
+						id="teste"
+						type="file"
+						class="dropify"
+						name="extratos[]"
+						multiple
+						{{-- accept=".ofx" --}}
+						>
+						<button type="button" class="btn btn-primary w-100 mt-2" data-dismiss="modal">Enviar</button>
+					</div>
         </x-slot>
-      </x-modal> --}}
+
+        <x-slot name="footer">
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+					</div>
+        </x-slot>
+    </x-modal>
+		<x-modal
+        id="comprovante-modal"
+        modal-label-id="comprovante-modal-label"
+        modal-label="Data: DD/MM/YYYY | FOTO DO BANCO, AGÊNCIA: 000 C/C: 00000"
+    	>
+        <x-slot name="content">
+					<div class="modal-body">
+						<div class="row w-100 mt-3">
+							<div class="vendas col-6">
+								<div class="tabela-info d-flex align-items-center justify-content-between flex-wrap">
+									<div class="table-description d-flex align-items-center justify-content-end">
+										<h4>Conciliação Bancária<span id="js-quantidade-registros">(0 registros)</span></h4>
+										<img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras">
+									</div>
+								</div>
+				
+								<x-tables.tabela-conciliacao-bancaria-comprovante
+									id="js-tabela-conciliacao-bancaria-comprovante"
+									class="mt-3"
+									:headers="[
+										'actions' => 'Ações',
+									]"
+									:hiddenColumns="[
+										'ID_ERP'
+									]"
+								>
+									<x-slot name="actions">
+										<td>
+											<div class="actions-cell d-flex align-items-center justify-content-beetwen">
+												<input
+														class="mr-2"
+														name="id_operadora"
+														type="checkbox"
+														data-value-key="ID"
+												>
+												<div
+														class="tooltip-hint tooltip-left d-flex align-items-center"
+														data-default-title="Visualizar Detalhes"
+														data-toggle="modal"
+														data-target="#comprovante-modal"
+												>
+														<i class="fas fa-eye"></i>
+												</div>
+											</div>
+										</td>
+									</x-slot>
+								</x-tables.tabela-conciliacao-bancaria-comprovante>
+				
+								<x-tables.table-navigation
+									pagination-id="js-paginacao-conciliacao-bancaria-comprovante"
+									per-page-select-id="js-por-pagina"
+									:options="['10', '20', '50', '100', '200']"
+								/>
+							</div>
+							<div class="vendas col-6">
+								<div class="tabela-info d-flex align-items-center justify-content-between flex-wrap">
+									<div class="table-description d-flex align-items-center justify-content-end">
+										<h4>Lançamentos importados do seu Extrato Bancário<span id="js-quantidade-registros">(0 registros)</span></h4>
+										<img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras">
+									</div>
+								</div>
+				
+								<x-tables.tabela-extrato-bancario
+									id="js-tabela-extrato-bancario"
+									class="mt-3"
+									:headers="[
+										'actions' => 'Ações',
+									]"
+									:hiddenColumns="[
+										'ID_ERP'
+									]"
+								>
+									<x-slot name="actions">
+										<td>
+											<div class="actions-cell d-flex align-items-center justify-content-beetwen">
+												<input
+														class="mr-2"
+														name="id_operadora"
+														type="checkbox"
+														data-value-key="ID"
+												>
+												<div
+														class="tooltip-hint tooltip-left d-flex align-items-center"
+														data-default-title="Visualizar Detalhes"
+														data-toggle="modal"
+														data-target="#comprovante-modal"
+												>
+														<i class="fas fa-eye"></i>
+												</div>
+											</div>
+										</td>
+									</x-slot>
+								</x-tables.tabela-extrato-bancario>
+				
+								<x-tables.table-navigation
+									pagination-id="js-paginacao-extrato-bancario"
+									per-page-select-id="js-por-pagina"
+									:options="['10', '20', '50', '100', '200']"
+								/>
+							</div>
+						</div>
+					</div>
+        </x-slot>
+        <x-slot name="footer">
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+					</div>
+        </x-slot>
+    </x-modal>
     </div>
   </main>
 
@@ -228,6 +297,8 @@
 @endsection
 
 @section('footerScript')
+	<script src="{{ URL::asset('assets/pages/jquery.form-upload.init.js')}}"></script>
+	<script src="{{ URL::asset('plugins/dropify/js/dropify.min.js')}}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/api.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/formatter.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/pagination.js') }}"></script>
@@ -240,5 +311,6 @@
   <script defer src="{{ URL::asset('assets/js/proxy/SalesContainerProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/conciliacao/conciliacao-bancaria.js') }}"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script defer src="{{ URL::asset('assets/js/conciliacao/comprovante/conciliacao-bancaria-comprovante.js') }}"></script>
+	<script defer src="{{ URL::asset('assets/js/conciliacao/comprovante/extrato-bancario.js') }}"></script>
 @endsection

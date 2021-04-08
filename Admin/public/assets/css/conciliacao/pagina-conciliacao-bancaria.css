@@ -89,3 +89,77 @@
 	margin: 0;
 	padding: 0;
 }
+
+.extrato-bancario-button {
+	background-color: white;
+	border-color: #2d5275;
+	color: #2d5275;
+	box-shadow: none;
+}
+
+.extrato-bancario-button:hover {
+	background-color: #2d5275;
+	color: white;
+}
+
+.extrato-bancario-button:focus {
+	box-shadow: none;
+}
+
+#js-extrato-bancario .modal-body button {
+	background-color: #2d5275;
+	box-shadow: none;
+}
+
+.modais .modal-footer {
+	padding: 0px;
+}
+
+.conc-bancaria {
+	margin-bottom: 8px;
+}
+
+#comprovante-modal {
+	padding: 0px 0px 10px 10px;
+}
+
+/* VER AMANHÃ */
+
+#comprovante-modal .modal-dialog {
+	max-width: 1800px !important;
+}
+
+#comprovante-modal .table-description {
+	margin-bottom: 15px;
+}
+
+#comprovante-modal table th {
+	max-width: 100px !important;
+	padding-right: 2px !important;
+	padding-left: 2px !important;
+}
+
+#comprovante-modal table th input {
+	max-width: 75px !important;
+	min-width: 75px !important;
+	padding: 0px;
+}
+
+#comprovante-modal table .input-data {
+	max-width: 135px !important;
+	/* padding-right: 2px !important;
+	padding-left: 2px !important; */
+}
+
+#comprovante-modal table .input-data input {
+	max-width: 100% !important;
+	width: 100% !important;
+}
+
+#comprovante-modal table th .table-sorter {
+	flex-wrap: wrap;
+}
+
+#comprovante-modal table th .table-sorter p {
+	width: 100%;
+}

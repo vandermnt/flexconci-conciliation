@@ -8,7 +8,7 @@
   aria-labelledby="{{ $attributes->get('modal-label-id') }}"
   aria-hidden="true"
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <header class="modal-header d-flex align-items-center">
         <h5

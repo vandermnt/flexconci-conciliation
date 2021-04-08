@@ -19,7 +19,7 @@ const salesContainer = new SalesContainerProxy({
 	},
 });
 const tableRender = createTableRender({
-	table: '#js-tabela-operadoras',
+	table: '#js-tabela-conciliacao-bancaria-comprovante',
 	locale: 'pt-br',
 	formatter,
 });
@@ -82,7 +82,9 @@ salesContainer.onEvent('fail', (err) => {
 
 salesContainer.setPaginationConfig(
 	{
-		paginationContainer: document.querySelector('#js-paginacao-operadoras'),
+		paginationContainer: document.querySelector(
+			'#js-paginacao-conciliacao-bancaria-comprovante'
+		),
 	},
 	async (page, pagination, event) => {
 		await buildRequest({
