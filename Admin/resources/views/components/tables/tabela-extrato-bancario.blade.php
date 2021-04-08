@@ -35,7 +35,7 @@
               <p class="m-0">Status</p>
               <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-            <input type="text" class="form-control" name="STATUS">
+            <input type="text" class="form-control resize" name="STATUS">
           </div>
         </th>
         <th>
@@ -47,7 +47,7 @@
               <p class="m-0">Operadora</p>
               <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-            <input type="text" class="form-control" name="ADQUIRENTE">
+            <input type="text" class="form-control resize" name="ADQUIRENTE">
           </div>
         </th>
 				<th class="input-data">
@@ -59,7 +59,7 @@
               <p class="m-0">Data</p>
               <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-            <input type="date" class="form-control" name="DATA">
+            <input type="date" class="form-control fix-width" name="DATA">
           </div>
         </th>
 				<th>
@@ -71,7 +71,7 @@
               <p class="m-0">Descrição</p>
               <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-            <input type="text" class="form-control" name="DESCRICAO">
+            <input type="text" class="form-control fix-width" name="DESCRICAO">
           </div>
         </th>
 				<th>
@@ -83,7 +83,7 @@
               <p class="m-0">Valor</p>
               <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-						<input type="number" min="0" step="0.01" class="form-control" name="VALOR">
+						<input type="number" min="0" step="0.01" class="form-control resize" name="VALOR">
           </div>
         </th>
 
@@ -106,7 +106,7 @@
     </tbody>
     <tfoot>
       <tr>
-        <td>Totais</td>
+        <td></td>
         @isset($actions)
           <td></td>
         @endisset
@@ -115,8 +115,20 @@
         @endif
         <td></td>
         <td></td>
-				<td></td>
-				<td></td>
+				<td>Total</td>
+				<td>330</td>
+      </tr>
+			<tr>
+        <td></td>
+        @isset($actions)
+          <td></td>
+        @endisset
+				@if($isColumnVisible('ID_ERP'))
+          <td></td>
+        @endif
+        <td></td>
+        <td></td>
+				<td>Total Selecionado</td>
 				<td></td>
       </tr>
     </tfoot>

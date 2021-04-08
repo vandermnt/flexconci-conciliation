@@ -35,7 +35,7 @@
               <p class="m-0">Status</p>
               <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-            <input type="text" class="form-control" name="STATUS">
+            <input type="text" class="form-control resize" name="STATUS">
           </div>
         </th>
         <th>
@@ -47,7 +47,7 @@
               <p class="m-0">Empresa</p>
               <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-            <input type="text" class="form-control" name="EMPRESA">
+            <input type="text" class="form-control resize" name="EMPRESA">
           </div>
         </th>
 				<th>
@@ -59,7 +59,7 @@
               <p class="m-0">Bandeira</p>
               <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-            <input type="text" class="form-control" name="BANDEIRA">
+            <input type="text" class="form-control resize" name="BANDEIRA">
           </div>
         </th>
         <th>
@@ -71,10 +71,10 @@
               <p class="m-0">Forma<br> de<br> Pagamento</p>
               <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-            <input type="text" class="form-control" name="FORMA_PAGAMENTO">
+            <input type="text" class="form-control resize" name="FORMA_PAGAMENTO">
           </div>
         </th>
-				<th class="input-data">
+				<th>
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -83,7 +83,7 @@
               <p class="m-0">Estabelecimento</p>
               <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-						<input type="text" class="form-control" name="ESTABELECIMENTO">
+						<input type="text" class="form-control fix-width" name="ESTABELECIMENTO">
           </div>
         </th>
 				<th>
@@ -95,7 +95,7 @@
               <p class="m-0">Valor</p>
               <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-            <input type="number" min="0" step="0.01" class="form-control" name="VALOR">
+            <input type="number" min="0" step="0.01" class="form-control resize" name="VALOR">
           </div>
         </th>
       </tr>
@@ -118,7 +118,7 @@
     </tbody>
     <tfoot>
       <tr>
-        <td>Totais</td>
+        <td></td>
         @isset($actions)
           <td></td>
         @endisset
@@ -128,8 +128,21 @@
         <td></td>
         <td></td>
 				<td></td>
+				<td>Total</td>
+				<td>330</td>
+      </tr>
+			<tr>
+        <td></td>
+        @isset($actions)
+          <td></td>
+        @endisset
+				@if($isColumnVisible('ID_ERP'))
+          <td></td>
+        @endif
+        <td></td>
+        <td></td>
 				<td></td>
-				<td></td>
+				<td>Total Selecionado</td>
 				<td></td>
       </tr>
     </tfoot>
