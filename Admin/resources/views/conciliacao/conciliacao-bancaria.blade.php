@@ -188,7 +188,7 @@
     	>
         <x-slot name="content">
 					<div class="modal-body">
-						<div class="row w-100 mt-2">
+						<div class="row w-100 mt-3">
 							<div class="vendas col-6">
 								<div class="tabela-info d-flex align-items-center justify-content-between flex-wrap">
 									<div class="table-description d-flex align-items-center justify-content-end">
@@ -197,8 +197,8 @@
 									</div>
 								</div>
 				
-								<x-tables.tabela-conciliacao-bancaria
-									id="js-tabela-operadoras"
+								<x-tables.tabela-conciliacao-bancaria-comprovante
+									id="js-tabela-conciliacao-bancaria-comprovante"
 									class="mt-3"
 									:headers="[
 										'actions' => 'Ações',
@@ -227,10 +227,10 @@
 											</div>
 										</td>
 									</x-slot>
-								</x-tables.tabela-conciliacao-bancaria>
+								</x-tables.tabela-conciliacao-bancaria-comprovante>
 				
 								<x-tables.table-navigation
-									pagination-id="js-paginacao-operadoras"
+									pagination-id="js-paginacao-conciliacao-bancaria-comprovante"
 									per-page-select-id="js-por-pagina"
 									:options="['10', '20', '50', '100', '200']"
 								/>
@@ -243,8 +243,8 @@
 									</div>
 								</div>
 				
-								<x-tables.tabela-conciliacao-bancaria
-									id="js-tabela-operadoras"
+								<x-tables.tabela-extrato-bancario
+									id="js-tabela-extrato-bancario"
 									class="mt-3"
 									:headers="[
 										'actions' => 'Ações',
@@ -273,10 +273,10 @@
 											</div>
 										</td>
 									</x-slot>
-								</x-tables.tabela-conciliacao-bancaria>
+								</x-tables.tabela-extrato-bancario>
 				
 								<x-tables.table-navigation
-									pagination-id="js-paginacao-operadoras"
+									pagination-id="js-paginacao-extrato-bancario"
 									per-page-select-id="js-por-pagina"
 									:options="['10', '20', '50', '100', '200']"
 								/>
@@ -311,4 +311,6 @@
   <script defer src="{{ URL::asset('assets/js/proxy/SalesContainerProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/conciliacao/conciliacao-bancaria.js') }}"></script>
+	<script defer src="{{ URL::asset('assets/js/conciliacao/comprovante/conciliacao-bancaria-comprovante.js') }}"></script>
+	<script defer src="{{ URL::asset('assets/js/conciliacao/comprovante/extrato-bancario.js') }}"></script>
 @endsection

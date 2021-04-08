@@ -129,29 +129,37 @@
 	max-width: 1800px !important;
 }
 
-/* #comprovante-modal table th{
-	max-width: 236px !important;
-	padding: 0px 0px 20px 20px;
-} */
+#comprovante-modal .table-description {
+	margin-bottom: 15px;
+}
 
-#comprovante-modal table th input{
-	width: 100% !important;
+#comprovante-modal table th {
+	max-width: 100px !important;
+	padding-right: 2px !important;
+	padding-left: 2px !important;
+}
+
+#comprovante-modal table th input {
+	max-width: 75px !important;
+	min-width: 75px !important;
+	padding: 0px;
+}
+
+#comprovante-modal table .input-data {
+	max-width: 135px !important;
+	/* padding-right: 2px !important;
+	padding-left: 2px !important; */
+}
+
+#comprovante-modal table .input-data input {
 	max-width: 100% !important;
-	min-width: 100px !important;
+	width: 100% !important;
 }
 
-/* #comprovante-modal table th .table-sorter{
+#comprovante-modal table th .table-sorter {
 	flex-wrap: wrap;
-} */
-
-#comprovante-modal table th .table-sorter p{
-	/* display: flex; */
-	/* width: 100%;
-	word-break: break-all;
-	white-space: normal; */
 }
 
-/* #comprovante-modal table th table-sorter{
-	max-width: 30px !important;
-	flex-wrap: wrap;
-} */
+#comprovante-modal table th .table-sorter p {
+	width: 100%;
+}
