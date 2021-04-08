@@ -95,7 +95,7 @@
               <p class="m-0">Valor Previsto Operadora</p>
               <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-            <input type="text" class="form-control" name="VALOR_PREVISTO_OPERADORA">
+						<input type="number" min="0" step="0.01" class="form-control" name="VALOR_PREVISTO_OPERADORA">
           </div>
         </th>
 				<th>
