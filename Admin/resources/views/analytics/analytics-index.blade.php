@@ -375,6 +375,50 @@
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="header-title mt-0">Recebimentos Futuros</h4>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="media my-3">
+                    <img src="{{ URL::asset('assets/images/widgets/dollar.png')}}" style="width: auto !important; margin-right: 20px" alt="" class="thumb-md rounded-circle">
+                    <div class="media-body align-self-center text-truncate">
+                      <h4 class="mt-0 mb-1 font-weight-semibold text-dark font-24">R$ <?php echo number_format($total_futuro->val_liquido, 2, ",", ".");  ?> </h4>
+                      <p class="text-muted mb-0 font-12">Recebimentos previstos do dia <?php echo date("d/m/Y", strtotime('+1 days')) ?> em diante.</p>
+                    </div><!--end media-body-->
+                  </div>
+                </div><!--end col-->
+                <div class="col-md-8">
+                  <!-- <ul class="nav-border nav nav-pills" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link font-weight-semibold" data-toggle="tab" href="#Today" role="tab">Today</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link font-weight-semibold" data-toggle="tab" href="#This_Week" role="tab">This Week</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active font-weight-semibold" data-toggle="tab" href="#This_Month" role="tab">This Month</a>
+                    </li>
+                  </ul> -->
+                </div><!--end col-->
+              </div> <!--end row-->
+              <div class="tab-content">
+                <div class="tab-pane pt-3" id="Today" role="tabpanel">
+                  <!-- <div id="eco_dash" class="apex-charts"></div> -->
+                </div><!-- Tab panes -->
+                <div class="tab-pane pt-3" id="This_Week" role="tabpanel">
+                  <!-- <div id="Top_Week" class="apex-charts"></div> -->
+                </div><!-- Tab panes -->
+                <div class="tab-pane active pt-3" id="This_Month" role="tabpanel">
+                  <canvas id="bar" class="drop-shadow w-100"  height="350"></canvas>
+                </div><!-- Tab panes -->
+              </div><!-- Tab content -->
+            </div><!--end card-body-->
+          </div><!--end card-->
+        </div><!--end col-->
+      </div><!--end row-->
       @component('analytics.component.modal-credenciamento-success')
       @endcomponent
       @component('analytics.component.modal-credenciamento-error')
@@ -391,6 +435,12 @@
     <script src="{{ URL::asset('assets/js/dashboard/graficos.js')}}"></script>
     <script src="{{ URL::asset('assets/js/dashboard/formata-valores.js')}}"></script>
     <script type="text/javascript" src="assets/js/grafico-dash-vendas.js"> </script>
+
+    <script src="{{ URL::asset('plugins/chartjs/chart.min.js')}}"></script>
+    <script src="{{ URL::asset('plugins/chartjs/roundedBar.min.js')}}"></script>
+    <script src="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.min.js')}}"></script>
+    <script src="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-us-aea-en.js')}}"></script>
+    <script src="{{ URL::asset('assets/pages-material/jquery.ecommerce_dashboard.init.js')}}"></script>
 
     <script>
     $(window).on("load", function() {
