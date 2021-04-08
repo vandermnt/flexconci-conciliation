@@ -123,10 +123,35 @@
 	padding: 0px 0px 10px 10px;
 }
 
+/* VER AMANHÃ */
+
 #comprovante-modal .modal-dialog {
-	max-width: 1400px !important;
+	max-width: 1800px !important;
 }
 
-/* #comprovante-modal table th input {
-	min-width: 50px;
+/* #comprovante-modal table th{
+	max-width: 236px !important;
+	padding: 0px 0px 20px 20px;
+} */
+
+#comprovante-modal table th input{
+	width: 100% !important;
+	max-width: 100% !important;
+	min-width: 100px !important;
+}
+
+/* #comprovante-modal table th .table-sorter{
+	flex-wrap: wrap;
+} */
+
+#comprovante-modal table th .table-sorter p{
+	/* display: flex; */
+	/* width: 100%;
+	word-break: break-all;
+	white-space: normal; */
+}
+
+/* #comprovante-modal table th table-sorter{
+	max-width: 30px !important;
+	flex-wrap: wrap;
 } */
