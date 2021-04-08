@@ -102,7 +102,12 @@ class RecebimentosFilter extends BaseFilter
 			->leftJoin('lista_bancos', 'lista_bancos.CODIGO', 'pagamentos_operadoras.COD_BANCO')
 			->leftJoin('meio_captura', 'meio_captura.CODIGO', 'pagamentos_operadoras.COD_MEIO_CAPTURA')
 			->leftJoin('status_conciliacao', 'status_conciliacao.CODIGO', 'pagamentos_operadoras.COD_STATUS')
-			->where('pagamentos_operadoras.COD_CLIENTE', $filters['cliente_id']);
+			->where(
+				[
+					['pagamentos_operadoras.COD_CLIENTE', $filters['cliente_id']],
+					['tipo_pagamento.CODIGO', '!=', 3]
+				]
+			);
 
 		if (Arr::has($filters, 'id')) {
 			$this->query->whereIn('pagamentos_operadoras.CODIGO', $filters['id']);
