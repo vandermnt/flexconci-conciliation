@@ -61,6 +61,9 @@ class RecebimentosFilter extends BaseFilter
 				'pagamentos_operadoras.NUMERO_CARTAO as CARTAO',
 				'pagamentos_operadoras.VALOR_BRUTO',
 				'pagamentos_operadoras.TAXA_ANTECIPACAO',
+				'pagamentos_operadoras.VALOR_TAXA_ANTECIPACAO',
+				'pagamentos_operadoras.NUMERO_RESUMO_VENDA',
+				'pagamentos_operadoras.NUMERO_TERMINAL',
 				DB::raw('(
           (`pagamentos_operadoras`.`VALOR_BRUTO` - `pagamentos_operadoras`.`VALOR_LIQUIDO`) * 100)
             / `pagamentos_operadoras`.`VALOR_BRUTO`
@@ -69,14 +72,14 @@ class RecebimentosFilter extends BaseFilter
           (`pagamentos_operadoras`.`VALOR_BRUTO` - `pagamentos_operadoras`.`VALOR_LIQUIDO`)
             as `VALOR_TAXA`'),
 				'pagamentos_operadoras.VALOR_LIQUIDO',
-				DB::raw('
-        if(coalesce(`vendas`.`TAXA_MINIMA`, 0) <> 0, \'Sim\', \'Não\')
-            as `POSSUI_TAXA_MINIMA`'),
+				// DB::raw('
+				// if(coalesce(`vendas`.`TAXA_MINIMA`, 0) <> 0, \'Sim\', \'Não\')
+				//     as `POSSUI_TAXA_MINIMA`'),
 				'pagamentos_operadoras.PARCELA',
 				'pagamentos_operadoras.TOTAL_PARCELAS',
-				'vendas.HORA_TRANSACAO',
+				// 'vendas.HORA_TRANSACAO',
 				'pagamentos_operadoras.ID_LOJA as ESTABELECIMENTO',
-				'vendas.TERMINAL',
+				// 'vendas.TERMINAL',
 				'lista_bancos.NOME_WEB as BANCO',
 				'lista_bancos.IMAGEM_LINK as BANCO_IMAGEM',
 				'pagamentos_operadoras.AGENCIA',
@@ -85,13 +88,12 @@ class RecebimentosFilter extends BaseFilter
 				'produto_web.PRODUTO_WEB as PRODUTO',
 				'meio_captura.DESCRICAO as MEIOCAPTURA',
 				'status_conciliacao.STATUS_CONCILIACAO',
-				'vendas.DIVERGENCIA',
-				'vendas.JUSTIFICATIVA',
+				'pagamentos_operadoras.DIVERGENCIA',
+				'pagamentos_operadoras.JUSTIFICATIVA',
 				'pagamentos_operadoras.COD_TIPO_PAGAMENTO',
-				DB::raw('IF(vendas_erp.RETORNO_ERP_BAIXA = \'S\', \'Sim\', \'Não\') as RETORNO_ERP_BAIXA'),
+				// DB::raw('IF(vendas_erp.RETORNO_ERP_BAIXA = \'S\', \'Sim\', \'Não\') as RETORNO_ERP_BAIXA'),
 			])
-			->leftJoin('vendas', 'vendas.CODIGO', 'pagamentos_operadoras.COD_VENDA')
-			->leftJoin('vendas_erp', 'vendas.COD_VENDA_ERP', 'vendas_erp.CODIGO')
+			// ->leftJoin('vendas_erp', 'vendas.COD_VENDA_ERP', 'vendas_erp.CODIGO')
 			->leftJoin('produto_web', 'produto_web.CODIGO', 'pagamentos_operadoras.COD_PRODUTO')
 			->leftJoin('grupos_clientes', 'grupos_clientes.CODIGO', 'pagamentos_operadoras.COD_GRUPO_CLIENTE')
 			->leftJoin('adquirentes', 'adquirentes.CODIGO', 'pagamentos_operadoras.COD_ADQUIRENTE')
