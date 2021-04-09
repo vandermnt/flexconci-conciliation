@@ -68,7 +68,7 @@
           data-format="currency"
           data-key="TOTAL_TAXA"
           content-class="text-danger"
-          icon-path="assets/images/financeiro/despesas.svg"
+          icon-path="assets/images/financeiro/accounts.svg"
           icon-description="Valor Taxa"
           :dataset="[
               'hint' => 'Valor total de taxas que sua empresa irá pagar quando as vendas forem liquidadas/depositadas pelas operadoras.'
@@ -80,7 +80,7 @@
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_LIQUIDO"
-          icon-path="assets/images/financeiro/liquido.svg"
+          icon-path="assets/images/financeiro/save-money.svg"
           icon-description="Valor Líquido"
           :dataset="[
               'hint' => 'Valor total líquido que será pago nos respectivos vencimentos pelas operadoras.'

@@ -20,17 +20,6 @@
 	}
 }
 
-#pagina-vendas-operadoras .boxes h4 {
-	font-size: 0.845rem;
-	font-weight: 700;
-	color: #000444;
-}
-
-#pagina-vendas-operadoras .boxes p {
-	font-size: 1rem;
-	margin: 0;
-}
-
 #pagina-vendas-operadoras .boxes img {
 	width: 40px;
 	max-width: 100%;
@@ -88,4 +77,16 @@
 #pagina-vendas-operadoras #comprovante-modal .modal-body {
 	margin: 0;
 	padding: 0;
+}
+
+#pagina-vendas-operadoras .boxes h4 {
+	font-size: 0.845rem;
+	font-weight: normal !important;
+	color: #000444;
+}
+
+#pagina-vendas-operadoras .boxes p {
+	font-size: 1.1rem;
+	margin: 0;
+	font-weight: 700;
 }
