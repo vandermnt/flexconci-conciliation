@@ -244,12 +244,12 @@
           <div class="d-flex flex-column align-items-center">
             <div
                 class="d-flex align-items-center justify-content-center table-sorter mb-2"
-                data-tbsort-by="TAXA_ANTECIPACAO_PERCENTUAL"
+                data-tbsort-by="TAXA_ANTECIPADA_PERCENTUAL"
             >
                 <p class="m-0">Taxa Antec. %</p>
                 <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-            <input type="number" min="0" step="0.01" class="form-control" name="TAXA_ANTECIPACAO_PERCENTUAL">
+            <input type="number" min="0" step="0.01" class="form-control" name="TAXA_ANTECIPADA_PERCENTUAL">
           </div>
         </th>
         <th>
