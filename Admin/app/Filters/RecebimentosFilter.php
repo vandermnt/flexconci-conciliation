@@ -60,6 +60,7 @@ class RecebimentosFilter extends BaseFilter
 				'pagamentos_operadoras.TID',
 				'pagamentos_operadoras.NUMERO_CARTAO as CARTAO',
 				'pagamentos_operadoras.VALOR_BRUTO',
+				'pagamentos_operadoras.TAXA_ANTECIPACAO',
 				DB::raw('(
           (`pagamentos_operadoras`.`VALOR_BRUTO` - `pagamentos_operadoras`.`VALOR_LIQUIDO`) * 100)
             / `pagamentos_operadoras`.`VALOR_BRUTO`
@@ -67,8 +68,6 @@ class RecebimentosFilter extends BaseFilter
 				DB::raw('
           (`pagamentos_operadoras`.`VALOR_BRUTO` - `pagamentos_operadoras`.`VALOR_LIQUIDO`)
             as `VALOR_TAXA`'),
-				DB::raw('null as `TAXA_ANTECIPACAO_PERCENTUAL`'),
-				DB::raw('null as `VALOR_ANTECIPACAO`'),
 				'pagamentos_operadoras.VALOR_LIQUIDO',
 				DB::raw('
         if(coalesce(`vendas`.`TAXA_MINIMA`, 0) <> 0, \'Sim\', \'Não\')

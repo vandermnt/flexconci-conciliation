@@ -244,12 +244,12 @@
           <div class="d-flex flex-column align-items-center">
             <div
                 class="d-flex align-items-center justify-content-center table-sorter mb-2"
-                data-tbsort-by="TAXA_ANTECIPADA_PERCENTUAL"
+                data-tbsort-by="TAXA_ANTECIPACAO"
             >
                 <p class="m-0">Taxa Antec. %</p>
                 <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-            <input type="number" min="0" step="0.01" class="form-control" name="TAXA_ANTECIPADA_PERCENTUAL">
+            <input type="number" min="0" step="0.01" class="form-control" name="TAXA_ANTECIPACAO">
           </div>
         </th>
         <th>
@@ -529,7 +529,7 @@
         <td data-column="VALOR_BRUTO" data-format="currency"></td>
         <td class="text-danger" data-column="TAXA_PERCENTUAL" data-format="number"></td>
         <td class="text-danger" data-reverse-value="true" data-column="VALOR_TAXA" data-format="currency"></td>
-        <td class="text-danger" data-reverse-value="true" data-column="TAXA_ANTECIPACAO_PERCENTUAL" data-format="number"></td>
+        <td class="text-danger" data-reverse-value="true" data-column="TAXA_ANTECIPACAO" data-format="number"></td>
         <td data-column="VALOR_LIQUIDO" data-format="currency"></td>
         <td data-column="POSSUI_TAXA_MINIMA"></td>
         <td data-column="PARCELA"></td>
@@ -587,7 +587,7 @@
         <td data-column="TOTAL_BRUTO" data-format="currency"></td>
         <td></td>
         <td data-column="TOTAL_TAXA" data-reverse-value="true" data-format="currency" class="text-danger"></td>
-        <td></td>
+        <td data-column="TOTAL_ANTECIPACAO" data-reverse-value="true" data-format="currency" class="text-danger"></td>
         <td data-column="TOTAL_LIQUIDO" data-format="currency"></td>
         <td></td>
         <td></td>
@@ -604,6 +604,9 @@
         <td></td>
         <td></td>
         <td></td>
+				<td></td>
+        <td></td>
+				<td></td>
       </tr>
     </tfoot>
   </table>
