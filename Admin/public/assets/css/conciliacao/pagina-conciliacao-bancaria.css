@@ -119,41 +119,37 @@
 	margin-bottom: 8px;
 }
 
-#comprovante-modal {
-	padding: 0px 0px 10px 10px;
-}
+/* TIRAR A PADDING INLINE STYLE */
 
-/* VER AMANHÃ */
+#comprovante-modal {
+	/* padding: 0px 0px 10px 10px !important;
+	/* padding-right: 10px !important;*/
+	padding-left: 17px !important;
+}
 
 #comprovante-modal .modal-dialog {
 	max-width: 1800px !important;
 }
 
-#comprovante-modal .table-description {
-	margin-bottom: 15px;
+/* #comprovante-modal table th {
+	max-width: 120px !important;
 }
 
-#comprovante-modal table th {
-	max-width: 100px !important;
-	padding-right: 2px !important;
-	padding-left: 2px !important;
+#comprovante-modal table th .flex-column {
+	max-width: 120px !important;
 }
+*/
 
-#comprovante-modal table th input {
-	max-width: 75px !important;
-	min-width: 75px !important;
+.fix-width {
+	max-width: 250px !important;
+	width: 100% !important;
 	padding: 0px;
 }
 
-#comprovante-modal table .input-data {
-	max-width: 135px !important;
-	/* padding-right: 2px !important;
-	padding-left: 2px !important; */
-}
-
-#comprovante-modal table .input-data input {
-	max-width: 100% !important;
-	width: 100% !important;
+.resize {
+	max-width: 70px !important;
+	min-width: 70px !important;
+	padding: 0px;
 }
 
 #comprovante-modal table th .table-sorter {
@@ -162,4 +158,12 @@
 
 #comprovante-modal table th .table-sorter p {
 	width: 100%;
+}
+
+#comprovante-modal header {
+	background-color: white;
+}
+
+#comprovante-modal header h5 {
+	color: #7081b9;
 }
