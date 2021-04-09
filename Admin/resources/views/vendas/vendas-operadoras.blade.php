@@ -47,7 +47,7 @@
       </div>
     </div>
 
-    <div class="resultados hidden">
+    <div class="resultados hidden teste">
       <div class="boxes">
         <x-box
           class="tooltip-hint"
@@ -55,7 +55,7 @@
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_BRUTO"
-          icon-path="assets/images/financeiro/bruto.svg"
+          icon-path="assets/images/financeiro/growth.svg"
           icon-description="Valor Bruto"
           :dataset="[
               'hint' => 'Valor total bruto vendido nas operadoras.'
