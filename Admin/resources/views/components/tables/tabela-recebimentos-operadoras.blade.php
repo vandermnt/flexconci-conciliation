@@ -352,12 +352,12 @@
           <div class="d-flex flex-column align-items-center">
             <div
                 class="d-flex align-items-center justify-content-center table-sorter mb-2"
-                data-tbsort-by="TERMINAL"
+                data-tbsort-by="NUMERO_TERMINAL"
             >
                 <p class="m-0">Núm. Máquina</p>
                 <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-            <input type="text" class="form-control" name="TERMINAL">
+            <input type="text" class="form-control" name="NUMERO_TERMINAL">
           </div>
         </th>
         <th>
@@ -538,7 +538,7 @@
 				<td data-column="COD_AJUSTE"></td>
 				<td data-column="DESC_AJUSTE"></td>
 				<td data-column="CLASSIFICACAO_AJUSTE"></td>
-        <td data-column="TERMINAL"></td>
+        <td data-column="NUMERO_TERMINAL"></td>
         <td
           data-image="BANCO_IMAGEM"
           data-default-image="assets/images/widgets/cards.svg"

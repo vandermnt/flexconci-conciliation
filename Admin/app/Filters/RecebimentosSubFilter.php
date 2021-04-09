@@ -36,7 +36,7 @@ class RecebimentosSubFilter extends BaseSubFilter
 		'TOTAL_PARCELAS',
 		'HORA',
 		'ESTABELECIMENTO',
-		'TERMINAL',
+		'NUMERO_TERMINAL',
 		'BANCO',
 		'AGENCIA',
 		'CONTA',
