@@ -91,14 +91,13 @@
 }
 
 .extrato-bancario-button {
-	background-color: white;
-	border-color: #2d5275;
-	color: #2d5275;
+	background-color: #257e4a;
+	color: white;
+	border-color: #257e4a;
 	box-shadow: none;
 }
 
 .extrato-bancario-button:hover {
-	background-color: #2d5275;
 	color: white;
 }
 
@@ -131,15 +130,6 @@
 	max-width: 1800px !important;
 }
 
-/* #comprovante-modal table th {
-	max-width: 120px !important;
-}
-
-#comprovante-modal table th .flex-column {
-	max-width: 120px !important;
-}
-*/
-
 .fix-width {
 	max-width: 250px !important;
 	width: 100% !important;
@@ -164,4 +154,16 @@
 
 #comprovante-modal header h5 {
 	color: #7081b9;
+}
+
+@media (max-width: 1400px) {
+	#comprovante-modal .table-responsive {
+		overflow-x: hidden;
+	}
+}
+
+@media (max-width: 1300px) {
+	#comprovante-modal .table-responsive {
+		overflow-x: auto;
+	}
 }
