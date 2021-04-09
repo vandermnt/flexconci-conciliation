@@ -62,6 +62,7 @@ class RecebimentosFilter extends BaseFilter
 				'pagamentos_operadoras.VALOR_BRUTO',
 				'pagamentos_operadoras.TAXA_ANTECIPACAO',
 				'pagamentos_operadoras.VALOR_TAXA_ANTECIPACAO',
+				'pagamentos_operadoras.NUMERO_RESUMO_VENDA',
 				DB::raw('(
           (`pagamentos_operadoras`.`VALOR_BRUTO` - `pagamentos_operadoras`.`VALOR_LIQUIDO`) * 100)
             / `pagamentos_operadoras`.`VALOR_BRUTO`
@@ -105,7 +106,7 @@ class RecebimentosFilter extends BaseFilter
 			->where(
 				[
 					['pagamentos_operadoras.COD_CLIENTE', $filters['cliente_id']],
-					['tipo_pagamento.CODIGO', '!=', 3]
+					// ['tipo_pagamento.CODIGO', '!=', 3]
 				]
 			);
 

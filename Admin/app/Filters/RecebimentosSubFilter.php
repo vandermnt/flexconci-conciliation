@@ -25,6 +25,7 @@ class RecebimentosSubFilter extends BaseSubFilter
 		'AUTORIZACAO',
 		'TID',
 		'CARTAO',
+		'NUMERO_RESUMO_VENDA',
 		'VALOR_BRUTO',
 		'TAXA_PERCENTUAL',
 		'VALOR_TAXA',
