@@ -188,19 +188,21 @@
     	>
         <x-slot name="content">
 					<div class="modal-body">
+						<div class="tabela-info d-flex align-items-center justify-content-between flex-wrap mt-3">
+							<div class="w-50 mb-auto">
+								<div class="table-description d-flex align-items-center justify-content-center">
+									<h4 class="text-center">Lançamentos de pagamentos previstos pela (FOTO OPERADORA)<span id="js-quantidade-registros"><br>(0 registros)</span></h4>
+									{{-- <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras"> --}}
+								</div>
+							</div>
+							<div class="w-50 mb-auto">
+								<div class="table-description d-flex align-items-center justify-content-center">
+									<h4 class="text-center">Lançamentos importados do seu extrato bancário<span id="js-quantidade-registros"><br>(0 registros)</span></h4>
+									{{-- <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras"> --}}
+								</div>
+							</div>
+						</div>
 						<div class="row w-100 mt-3">
-							<div class="col-6 tabela-info d-flex align-items-center justify-content-between flex-wrap mb-4 mt-2">
-								<div class="table-description d-flex align-items-center justify-content-end">
-									<h4>Conciliação Bancária<span id="js-quantidade-registros">(0 registros)</span></h4>
-									<img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras">
-								</div>
-							</div>
-							<div class="col-6 tabela-info d-flex align-items-center justify-content-between flex-wrap mt-auto mb-4 mt-2">
-								<div class="table-description d-flex align-items-center justify-content-end">
-									<h4>Lançamentos importados do seu Extrato Bancário<span id="js-quantidade-registros">(0 registros)</span></h4>
-									<img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras">
-								</div>
-							</div>
 							<div class="vendas col-6 mt-auto">
 								<x-tables.tabela-conciliacao-bancaria-comprovante
 									id="js-tabela-conciliacao-bancaria-comprovante"
