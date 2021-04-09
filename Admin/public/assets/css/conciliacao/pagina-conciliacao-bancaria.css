@@ -143,13 +143,11 @@
 .fix-width {
 	max-width: 250px !important;
 	width: 100% !important;
-	padding: 0px;
 }
 
 .resize {
 	max-width: 70px !important;
 	min-width: 70px !important;
-	padding: 0px;
 }
 
 #comprovante-modal table th .table-sorter {
