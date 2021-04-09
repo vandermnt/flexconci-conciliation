@@ -27,6 +27,16 @@
       <a class="dropdown-item" href="{{ url('cadastro-bandeira')}}"> Bandeiras </a>
     </div>
   </li>
+	@else
+		<li class="dropdown" onmouseover="showSubmenu(this);" onmouseout="hiddeSubmenu(this);">
+			<a id="dropdownCadastros" class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
+			aria-haspopup="false" aria-expanded="false">
+			<span class="ml-1 nav-user-name hidden-sm"> Cadastros <i class="mdi mdi-chevron-down"></i> </span>
+		</a>
+		<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownCadastros">
+			<a class="dropdown-item" href="{{ url('/justificativas') }}"> Justificativas </a>
+		</div>
+	</li>
   @endif
   <li class="hidden-sm">
     <a class="nav-link" data-toggle="modal" data-target="#chamado" style="color: white; cursor: pointer">
