@@ -31,6 +31,7 @@ class RecebimentosSubFilter extends BaseSubFilter
 		'VALOR_TAXA',
 		'VALOR_LIQUIDO',
 		'TAXA_ANTECIPACAO',
+		'VALOR_TAXA_ANTECIPACAO',
 		'POSSUI_TAXA_MINIMA',
 		'PARCELA',
 		'TOTAL_PARCELAS',
@@ -56,7 +57,8 @@ class RecebimentosSubFilter extends BaseSubFilter
 		'VALOR_LIQUIDO',
 		'PARCELA',
 		'TOTAL_PARCELAS',
-		'TAXA_ANTECIPACAO'
+		'TAXA_ANTECIPACAO',
+		'VALOR_TAXA_ANTECIPACAO'
 	];
 
 	public static function subfilter($filters, $subfilters)
