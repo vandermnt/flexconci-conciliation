@@ -105,7 +105,7 @@ class RecebimentosFilter extends BaseFilter
 			->where(
 				[
 					['pagamentos_operadoras.COD_CLIENTE', $filters['cliente_id']],
-					// ['tipo_pagamento.CODIGO', '!=', 3]
+					['tipo_pagamento.CODIGO', '!=', 3]
 				]
 			);
 

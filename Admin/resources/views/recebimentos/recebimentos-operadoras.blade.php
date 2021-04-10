@@ -108,7 +108,7 @@
           content="-R$ 0,00"
           content-class="text-danger"
           data-format="currency"
-          data-key="TOTAL_VALOR_ANTECIPACAO"
+          data-key="TOTAL_VALOR_TAXA_ANTECIPACAO"
           icon-path="assets/images/financeiro/perda.svg"
           icon-description="Antecipação"
 					:dataset="[
