@@ -428,7 +428,7 @@
     @stop
 
     @section('footerScript')
-    <script src="{{ URL::asset('plugins/apexcharts/irregular-data-series.js')}}"></script>
+    <!-- <script src="{{ URL::asset('plugins/apexcharts/irregular-data-series.js')}}"></script> -->
     <script src="{{ URL::asset('plugins/apexcharts/ohlc.js')}}"></script>
     <!-- <script src="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.min.js') }}"></script> -->
     <script src="{{ URL::asset('assets/js/dashboard/export-pdf.js')}}"></script>
@@ -439,7 +439,7 @@
     <script src="{{ URL::asset('assets/pages-material/jquery.ecommerce_dashboard.init.js')}}"></script>
 
     <script src="{{ URL::asset('plugins/chartjs/chart.min.js')}}"></script>
-    <script src="{{ URL::asset('plugins/chartjs/roundedBar.min.js')}}"></script>
+    <!-- <script src="{{ URL::asset('plugins/chartjs/roundedBar.min.js')}}"></script> -->
     <!-- <script src="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.min.js')}}"></script> -->
     <!-- <script src="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-us-aea-en.js')}}"></script> -->
 
@@ -462,7 +462,6 @@
       preCarregarGraficoVendasBandeira(grafico_vendas_bandeira);
       preCarregarGraficoVendasModalidade(grafico_vendas_modalidade);
       preCarregarGraficoVendasProduto(grafico_vendas_produto);
-      console.log(dados_recebimentos_futuros);
       carregaGraficoRecebimentosFuturos(dados_recebimentos_futuros);
     });
 
@@ -582,9 +581,6 @@
 
               pagamentos_normais = response[2];
               pagamentos_antecipados = response[3];
-
-              console.log(response[0]);
-              console.log(response[1]);
 
               pagamentos_normais_bancos = response[4];
               pagamentos_antecipados_bancos = response[5];
