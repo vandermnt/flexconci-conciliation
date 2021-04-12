@@ -462,8 +462,7 @@
       preCarregarGraficoVendasBandeira(grafico_vendas_bandeira);
       preCarregarGraficoVendasModalidade(grafico_vendas_modalidade);
       preCarregarGraficoVendasProduto(grafico_vendas_produto);
-
-      // carregaGraficoRecebimentosFuturos(dados_recebimentos_futuros);
+      carregaGraficoRecebimentosFuturos(venda_prevista_pagamento);
     });
 
     let bancos_dados = <?php echo $dados_bancos ?>;

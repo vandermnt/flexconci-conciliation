@@ -5,7 +5,7 @@
  */
 function carregaGraficoRecebimentosFuturos(recebimentos) {
   "use strict";
-  document.addEventListener("DOMContentLoaded", function(event) {
+
     let dados_grafico_recebimentos = [];
     let labels_grafico = [];
     let valores_grafico = [];
@@ -222,5 +222,4 @@ function carregaGraficoRecebimentosFuturos(recebimentos) {
         }
       }
     });
-  });
 }

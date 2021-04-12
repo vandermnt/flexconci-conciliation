@@ -16,8 +16,6 @@ fetch("dados-calendario")
         venda_prevista_pagamento = resultado.previstos;
         venda_paga = resultado.pagos;
         renderizaCalendario();
-
-        carregaGraficoRecebimentosFuturos(venda_prevista_pagamento);
       })
       .catch(erro => {
         console.log("Erro ao converter JSON: " + erro);
