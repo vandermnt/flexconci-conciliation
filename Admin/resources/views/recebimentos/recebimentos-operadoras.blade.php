@@ -71,7 +71,7 @@
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_BRUTO"
-          icon-path="assets/images/financeiro/bruto.svg"
+          icon-path="assets/images/financeiro/growth.svg"
           icon-description="Valor Bruto"
 					:dataset="[
 						'hint' => 'Valor total bruto pago pelas operadoras.'
@@ -96,7 +96,7 @@
           content-class="text-danger"
           data-format="currency"
           data-key="TOTAL_TAXA"
-          icon-path="assets/images/financeiro/despesas.svg"
+          icon-path="assets/images/financeiro/accounts.svg"
           icon-description="Taxa Adm."
 					:dataset="[
 						'hint' => 'Valores cobrados referentes a taxas administrativas de cada venda.'
@@ -158,7 +158,7 @@
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_LIQUIDO"
-          icon-path="assets/images/financeiro/liquido.svg"
+          icon-path="assets/images/financeiro/save-money.svg"
           icon-description="Valor Líquido"
 					:dataset="[
 						'hint' => 'Valor total recebido após todos os descontos e ajustes.'
