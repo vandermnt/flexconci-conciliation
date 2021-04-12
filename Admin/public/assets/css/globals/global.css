@@ -140,6 +140,87 @@ html {
 	background-color: #2d5275;
 }
 
+.table-config {
+  width: 100%;
+  max-width: 200px;
+  transition: max-width 0.5s;
+  position: relative;
+}
+
+.table-config.has-focus {
+  max-width: 300px;
+}
+
+.table-config-control {
+  width: 100%;
+  border-radius: 4px;
+}
+
+.table-config-control > * {
+  pointer-events: none;
+}
+
+.table-config.has-focus .table-config-control {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  box-shadow: none;
+}
+
+.table-config-body {
+  display: none;
+  background: white;
+  border: 1px solid #2d5275;
+  border-top: none;
+  position: absolute;
+  right: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.table-config.has-focus .table-config-body {
+  display: block;
+}
+
+.table-config-list {
+  max-height: 256px;
+  background: white;
+  overflow-y: auto;
+}
+
+.table-config-list .table-config-option {
+  display: flex;
+  align-items: center;
+  padding: 2px 8px;
+  transition: background 0.2s, color 0.1s;
+}
+
+.table-config-list .table-config-option:hover {
+  background: #2d5275;
+  color: white;
+}
+
+.table-config-list .table-config-option span {
+  margin: 0 4px;
+}
+
+.table-config-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* padding: 4px; */
+}
+
+.table-config-actions button {
+  width: 100%;
+  flex: 1;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.table-config-actions button > * {
+  pointer-events: none;
+}
+
 .table-responsive {
 	max-height: 600px;
 }
