@@ -4,7 +4,6 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <link href="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.css')}}" rel="stylesheet"/>
 <link href="{{ URL::asset('assets/css/dashboard/dashboard.css')}}" rel="stylesheet" type="text/css" />
-<script src="{{ URL::asset('assets/pages-material/jquery.ecommerce_dashboard.init.js')}}"></script>
 <script src="{{ URL::asset('assets/js/dashboard/calendario.js')}}"></script>
 <!-- <link href="{{ URL::asset('assets/css/globals/global.css')}}" rel="stylesheet" type="text/css" /> -->
 <link href='lib/main.css' rel='stylesheet' />
@@ -437,6 +436,7 @@
     <script src="{{ URL::asset('assets/js/dashboard/graficos.js')}}"></script>
     <script src="{{ URL::asset('assets/js/dashboard/formata-valores.js')}}"></script>
     <script type="text/javascript" src="assets/js/grafico-dash-vendas.js"> </script>
+    <script src="{{ URL::asset('assets/pages-material/jquery.ecommerce_dashboard.init.js')}}"></script>
 
     <script src="{{ URL::asset('plugins/chartjs/chart.min.js')}}"></script>
     <script src="{{ URL::asset('plugins/chartjs/roundedBar.min.js')}}"></script>
