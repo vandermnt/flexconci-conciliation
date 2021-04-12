@@ -65,7 +65,7 @@ class DashboardController extends Controller
 		$dados_calendario_previsao = DB::table('vendas')
 			->select('vendas.DATA_PREVISTA_PAGTO')    // dd($pagamento_antecipado_operadora);
 			->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
-			->where('vendas.DATA_PREVISTA_PAGTO', '>=', $data_atual)
+			->where('vendas.DATA_PREVISTA_PAGTO', '>', $data_atual)
 			->where('cod_cliente', '=', session('codigologin'))
 			->groupBy('vendas.DATA_PREVISTA_PAGTO')
 			->get();
