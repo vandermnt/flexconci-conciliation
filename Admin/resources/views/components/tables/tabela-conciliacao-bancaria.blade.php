@@ -138,12 +138,12 @@
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
-              data-tbsort-by="USUARIO_IMPORTACAO"
+              data-tbsort-by="DATA_IMPORTACAO"
             >
-              <p class="m-0">Usuário Importação</p>
+              <p class="m-0">Data Importação</p>
               <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-            <input type="text" class="form-control" name="USUARIO_IMPORTACAO">
+            <input type="date" class="form-control" name="DATA_IMPORTACAO">
           </div>
         </th>
 				<th>
@@ -162,12 +162,12 @@
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
-              data-tbsort-by="DATA_IMPORTACAO"
+              data-tbsort-by="USUARIO_IMPORTACAO"
             >
-              <p class="m-0">Data Importação</p>
+              <p class="m-0">Usuário Importação</p>
               <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-            <input type="date" class="form-control" name="DATA_IMPORTACAO">
+            <input type="text" class="form-control" name="USUARIO_IMPORTACAO">
           </div>
         </th>
       </tr>
@@ -211,9 +211,9 @@
 				<td data-column="VALOR_EXTRATO_BANCARIO" data-format="currency"></td>
 				<td data-column="DIFERENCA" data-format="currency"></td>
 				<td data-column="STATUS"></td>
-				<td data-column="USUARIO_IMPORTACAO"></td>
-				<td data-column="HORA_IMPORTACAO"></td>
 				<td data-column="DATA_IMPORTACAO"></td>
+				<td data-column="HORA_IMPORTACAO"></td>
+				<td data-column="USUARIO_IMPORTACAO"></td>
       </tr>
     </tbody>
     <tfoot>

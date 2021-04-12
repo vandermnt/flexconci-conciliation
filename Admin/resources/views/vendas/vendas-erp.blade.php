@@ -51,7 +51,7 @@
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_BRUTO"
-          icon-path="assets/images/financeiro/bruto.svg"
+          icon-path="assets/images/financeiro/growth.svg"
           icon-description="Valor Bruto"
           :dataset="[
               'hint' => 'Valor total bruto do seu sistema.'
@@ -64,7 +64,7 @@
           data-format="currency"
           data-key="TOTAL_TAXA"
           content-class="text-danger"
-          icon-path="assets/images/financeiro/despesas.svg"
+          icon-path="assets/images/financeiro/accounts.svg"
           icon-description="Valor Taxa"
           :dataset="[
               'hint' => 'Valor total de taxas do seu sistema.'
@@ -76,7 +76,7 @@
           content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_LIQUIDO"
-          icon-path="assets/images/financeiro/liquido.svg"
+          icon-path="assets/images/financeiro/save-money.svg"
           icon-description="Valor Líquido"
           :dataset="[
             'hint' => 'Valor total líquido do seu sistema.'
