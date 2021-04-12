@@ -116,7 +116,7 @@ class RecebimentosOperadorasController extends Controller
 				'TOTAL_CANCELAMENTO' => 0,
 				'TOTAL_CHARGEBACK' => 0,
 				'PAG_AVULSO' => 0,
-				'TOTAL_ANTECIPACAO' => 0,
+				'TOTAL_VALOR_TAXA_ANTECIPACAO' => (clone $query)->sum('pagamentos_operadoras.VALOR_TAXA_ANTECIPACAO'),
 				'TOTAL_DESPESAS' => 0
 
 			];
@@ -158,7 +158,7 @@ class RecebimentosOperadorasController extends Controller
 					->where('COD_TIPO_PAGAMENTO', 2)
 					->sum('VALOR_BRUTO'),
 				'PAG_AVULSO' => 0,
-				'TOTAL_ANTECIPACAO' => 0,
+				'TOTAL_VALOR_TAXA_ANTECIPACAO' => (clone $query)->sum('VALOR_TAXA_ANTECIPACAO'),
 				'TOTAL_DESPESAS' => 0
 			];
 			$totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];

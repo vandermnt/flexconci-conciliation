@@ -91,14 +91,13 @@
 }
 
 .extrato-bancario-button {
-	background-color: white;
+	background-color: #2d5275;
+	color: white;
 	border-color: #2d5275;
-	color: #2d5275;
 	box-shadow: none;
 }
 
 .extrato-bancario-button:hover {
-	background-color: #2d5275;
 	color: white;
 }
 
@@ -120,40 +119,23 @@
 }
 
 #comprovante-modal {
-	padding: 0px 0px 10px 10px;
+	padding-left: 17px !important;
 }
-
-/* VER AMANHÃ */
 
 #comprovante-modal .modal-dialog {
 	max-width: 1800px !important;
 }
 
-#comprovante-modal .table-description {
-	margin-bottom: 15px;
-}
-
-#comprovante-modal table th {
-	max-width: 100px !important;
-	padding-right: 2px !important;
-	padding-left: 2px !important;
-}
-
-#comprovante-modal table th input {
-	max-width: 75px !important;
-	min-width: 75px !important;
+.fix-width {
+	max-width: 250px !important;
+	width: 100% !important;
 	padding: 0px;
 }
 
-#comprovante-modal table .input-data {
-	max-width: 135px !important;
-	/* padding-right: 2px !important;
-	padding-left: 2px !important; */
-}
-
-#comprovante-modal table .input-data input {
-	max-width: 100% !important;
-	width: 100% !important;
+.resize {
+	max-width: 70px !important;
+	min-width: 70px !important;
+	padding: 0px;
 }
 
 #comprovante-modal table th .table-sorter {
@@ -162,4 +144,36 @@
 
 #comprovante-modal table th .table-sorter p {
 	width: 100%;
+}
+
+#comprovante-modal header {
+	background-color: white;
+}
+
+#comprovante-modal header h5 {
+	color: #2d5275;
+}
+
+#comprovante-modal .modal-header button {
+	color: gray;
+}
+
+#comprovante-modal .tabela-info {
+	padding: 0px 12px !important;
+}
+
+#comprovante-modal .table-description h4 {
+	color: #2d5275 !important;
+}
+
+@media (max-width: 1400px) {
+	#comprovante-modal .table-responsive {
+		overflow-x: hidden;
+	}
+}
+
+@media (max-width: 1300px) {
+	#comprovante-modal .table-responsive {
+		overflow-x: auto;
+	}
 }

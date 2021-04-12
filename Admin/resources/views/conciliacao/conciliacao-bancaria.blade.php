@@ -188,15 +188,22 @@
     	>
         <x-slot name="content">
 					<div class="modal-body">
-						<div class="row w-100 mt-3">
-							<div class="vendas col-6">
-								<div class="tabela-info d-flex align-items-center justify-content-between flex-wrap">
-									<div class="table-description d-flex align-items-center justify-content-end">
-										<h4>Conciliação Bancária<span id="js-quantidade-registros">(0 registros)</span></h4>
-										<img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras">
-									</div>
+						<div class="tabela-info d-flex align-items-center justify-content-between flex-wrap mt-3">
+							<div class="w-50 mb-auto">
+								<div class="table-description d-flex align-items-center justify-content-center">
+									<h4 class="text-center">Lançamentos de pagamentos previstos pela (FOTO OPERADORA)<span id="js-quantidade-registros"><br>(0 registros)</span></h4>
+									{{-- <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras"> --}}
 								</div>
-				
+							</div>
+							<div class="w-50 mb-auto">
+								<div class="table-description d-flex align-items-center justify-content-center">
+									<h4 class="text-center">Lançamentos importados do seu extrato bancário<span id="js-quantidade-registros"><br>(0 registros)</span></h4>
+									{{-- <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras"> --}}
+								</div>
+							</div>
+						</div>
+						<div class="row w-100 mt-3">
+							<div class="vendas col-6 mt-auto">
 								<x-tables.tabela-conciliacao-bancaria-comprovante
 									id="js-tabela-conciliacao-bancaria-comprovante"
 									class="mt-3"
@@ -235,14 +242,7 @@
 									:options="['10', '20', '50', '100', '200']"
 								/>
 							</div>
-							<div class="vendas col-6">
-								<div class="tabela-info d-flex align-items-center justify-content-between flex-wrap">
-									<div class="table-description d-flex align-items-center justify-content-end">
-										<h4>Lançamentos importados do seu Extrato Bancário<span id="js-quantidade-registros">(0 registros)</span></h4>
-										<img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras">
-									</div>
-								</div>
-				
+							<div class="vendas col-6 mt-auto">
 								<x-tables.tabela-extrato-bancario
 									id="js-tabela-extrato-bancario"
 									class="mt-3"

@@ -12,6 +12,39 @@ const searchForm = createSearchForm({
 	checker,
 });
 const boxes = getBoxes();
+boxes.forEach((box) => {
+	const boxDOM = box.get('element');
+
+	if (boxDOM.dataset.key === 'TOTAL_PENDENCIAS_OPERADORAS') {
+		boxDOM.addEventListener('click', () => {
+			window.scrollTo(0, document.querySelector('.vendas + .vendas').offsetTop);
+		});
+
+		return;
+	}
+
+	boxDOM.addEventListener('click', (event) => {
+		toggleElementVisibility('#js-loader');
+		const status = event.target.closest('.box').dataset.status;
+
+		if (status === '*') {
+			activeStatus = selectedStatus;
+		} else {
+			activeStatus = [status];
+		}
+
+		salesErpContainer.set('active', 'search');
+
+		buildRequest('erp', { page: 1 }, { status_conciliacao: activeStatus })
+			.get()
+			.then(() => {
+				updateUIOperadoras();
+				tableRenderErp.clearFilters();
+				toggleElementVisibility('#js-loader');
+			});
+	});
+});
+
 const apiConfig = {
 	headers: {
 		'X-CSRF-TOKEN': searchForm.getInput('_token').value,
@@ -1098,39 +1131,6 @@ Array.from(
 	document.querySelectorAll('#js-justificar-modal *[data-dismiss="modal"]')
 ).forEach((element) => {
 	element.addEventListener('click', closeJustifyModal);
-});
-
-boxes.forEach((box) => {
-	const boxDOM = box.get('element');
-
-	if (boxDOM.dataset.key === 'TOTAL_PENDENCIAS_OPERADORAS') {
-		boxDOM.addEventListener('click', () => {
-			window.scrollTo(0, document.querySelector('.vendas + .vendas').offsetTop);
-		});
-
-		return;
-	}
-
-	boxDOM.addEventListener('click', (event) => {
-		toggleElementVisibility('#js-loader');
-		const status = event.target.closest('.box').dataset.status;
-
-		if (status === '*') {
-			activeStatus = selectedStatus;
-		} else {
-			activeStatus = [status];
-		}
-
-		salesErpContainer.set('active', 'search');
-
-		buildRequest('erp', { page: 1 }, { status_conciliacao: activeStatus })
-			.get()
-			.then(() => {
-				updateUIOperadoras();
-				tableRenderErp.clearFilters();
-				toggleElementVisibility('#js-loader');
-			});
-	});
 });
 
 document

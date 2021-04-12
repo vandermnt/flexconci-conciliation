@@ -196,12 +196,12 @@
           <div class="d-flex flex-column align-items-center">
             <div
                 class="d-flex align-items-center justify-content-center table-sorter mb-2"
-                data-tbsort-by="RESUMO"
+                data-tbsort-by="NUMERO_RESUMO_VENDA"
             >
                 <p class="m-0">Resumo</p>
                 <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-            <input type="text" class="form-control" name="RESUMO">
+            <input type="text" class="form-control" name="NUMERO_RESUMO_VENDA">
           </div>
         </th>
         <th>
@@ -244,12 +244,24 @@
           <div class="d-flex flex-column align-items-center">
             <div
                 class="d-flex align-items-center justify-content-center table-sorter mb-2"
-                data-tbsort-by="TAXA_ANTECIPACAO_PERCENTUAL"
+                data-tbsort-by="TAXA_ANTECIPACAO"
             >
                 <p class="m-0">Taxa Antec. %</p>
                 <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-            <input type="number" min="0" step="0.01" class="form-control" name="TAXA_ANTECIPACAO_PERCENTUAL">
+            <input type="number" min="0" step="0.01" class="form-control" name="TAXA_ANTECIPACAO">
+          </div>
+        </th>
+				<th>
+          <div class="d-flex flex-column align-items-center">
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="VALOR_TAXA_ANTECIPACAO"
+            >
+                <p class="m-0">Taxa Antec. R$</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
+            <input type="number" min="0" step="0.01" class="form-control" name="VALOR_TAXA_ANTECIPACAO">
           </div>
         </th>
         <th>
@@ -352,12 +364,12 @@
           <div class="d-flex flex-column align-items-center">
             <div
                 class="d-flex align-items-center justify-content-center table-sorter mb-2"
-                data-tbsort-by="TERMINAL"
+                data-tbsort-by="NUMERO_TERMINAL"
             >
                 <p class="m-0">Núm. Máquina</p>
                 <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-            <input type="text" class="form-control" name="TERMINAL">
+            <input type="text" class="form-control" name="NUMERO_TERMINAL">
           </div>
         </th>
         <th>
@@ -525,11 +537,12 @@
         <td data-column="AUTORIZACAO"></td>
         <td data-column="TID"></td>
         <td data-column="CARTAO"></td>
-				<td data-column="RESUMO"></td>
+				<td data-column="NUMERO_RESUMO_VENDA"></td>
         <td data-column="VALOR_BRUTO" data-format="currency"></td>
-        <td class="text-danger" data-column="TAXA_PERCENTUAL" data-format="number"></td>
+        <td data-column="TAXA_PERCENTUAL" data-format="number"></td>
         <td class="text-danger" data-reverse-value="true" data-column="VALOR_TAXA" data-format="currency"></td>
-        <td class="text-danger" data-reverse-value="true" data-column="TAXA_ANTECIPACAO_PERCENTUAL" data-format="number"></td>
+        <td data-column="TAXA_ANTECIPACAO" data-format="number"></td>
+				<td class="text-danger" data-column="VALOR_TAXA_ANTECIPACAO" data-format="number"></td>
         <td data-column="VALOR_LIQUIDO" data-format="currency"></td>
         <td data-column="POSSUI_TAXA_MINIMA"></td>
         <td data-column="PARCELA"></td>
@@ -538,7 +551,7 @@
 				<td data-column="COD_AJUSTE"></td>
 				<td data-column="DESC_AJUSTE"></td>
 				<td data-column="CLASSIFICACAO_AJUSTE"></td>
-        <td data-column="TERMINAL"></td>
+        <td data-column="NUMERO_TERMINAL"></td>
         <td
           data-image="BANCO_IMAGEM"
           data-default-image="assets/images/widgets/cards.svg"
@@ -588,6 +601,7 @@
         <td></td>
         <td data-column="TOTAL_TAXA" data-reverse-value="true" data-format="currency" class="text-danger"></td>
         <td></td>
+				<td class="text-danger" data-column="TOTAL_VALOR_TAXA_ANTECIPACAO" data-format="currency"></td>
         <td data-column="TOTAL_LIQUIDO" data-format="currency"></td>
         <td></td>
         <td></td>
@@ -604,6 +618,9 @@
         <td></td>
         <td></td>
         <td></td>
+				<td></td>
+        <td></td>
+				<td></td>
       </tr>
     </tfoot>
   </table>
