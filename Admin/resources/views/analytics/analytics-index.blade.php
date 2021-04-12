@@ -387,7 +387,7 @@
                     <img src="{{ URL::asset('assets/images/widgets/dollar.svg')}}" style="width: auto !important; margin-right: 20px;" alt="" class="thumb-md rounded-circle">
                     <div class="media-body align-self-center text-truncate">
                       <h4 class="mt-0 mb-1 font-weight-semibold text-dark font-24">R$ <?php echo number_format($total_futuro->val_liquido, 2, ",", ".");  ?> </h4>
-                      <p class="text-muted mb-0 font-12">Recebimentos previstos do dia <?php echo date("d/m/Y", strtotime('+1 days')) ?> em diante.</p>
+                      <p style="color: #454942" class="mb-0 font-12">Recebimentos previstos do dia <?php echo date("d/m/Y", strtotime('+1 days')) ?> em diante.</p>
                     </div><!--end media-body-->
                   </div>
                 </div><!--end col-->
