@@ -94,7 +94,32 @@
             <h4>Vendas Operadoras <span id="js-quantidade-registros">(0 registros)</span></h4>
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras">
           </div>
-          <div class="d-flex align-items-center justify-content-end">
+          <div class="d-flex flex-fill align-items-center justify-content-end">
+            <div class="table-config mr-1">
+              <button class="table-config-control btn button no-hover">
+                <i class="fas fa-cog"></i>
+                Configurar tabela
+              </button>
+              <div class="table-config-body">
+                <div class="table-config-list">
+                  <div template class="table-config-option">
+                    <input
+                      type="checkbox"
+                      data-group="tb-config-columns"
+                      data-checker="global"
+                      template
+                    >
+                    <span>Todos</span>
+                  </div>
+                </div>
+                <div class="table-config-actions">
+                  <button class="btn btn-primary" data-action="confirm">
+                    Confirmar
+                    <i class="fa fa-check-circle"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
             <button id="js-desjustificar" class="btn button no-hover mr-1">
               <i class="fas fa-comment-slash"></i>
               Desfazer Justificativa
@@ -239,5 +264,5 @@
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/vendas/vendas-operadoras.js') }}"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script defer src="{{ URL::asset('assets/js/sweetalert.min.js') }}"></script>
 @endsection

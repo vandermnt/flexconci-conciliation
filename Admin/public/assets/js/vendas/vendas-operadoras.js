@@ -326,3 +326,39 @@ document.querySelector('#js-retorno-csv')
 
 document.querySelector('#js-desjustificar')
   .addEventListener('click', confirmUnjustify);
+
+document.querySelector('.table-config-control').addEventListener('click', element => {
+  const tableConfig = document.querySelector('.table-config');
+  tableConfig.classList.toggle('has-focus');
+});
+
+document.querySelector('.table-config-actions').addEventListener('click', element => {
+  const tableConfig = document.querySelector('.table-config');
+  tableConfig.classList.remove('has-focus');
+});
+
+window.addEventListener('load', () => {
+  const tableConfigList = document.querySelector('.table-config-list');
+  const configOptionTemplate = tableConfigList.querySelector('.table-config-option[template]').cloneNode(true);
+
+  tableConfigList.innerHTML = "";
+  tableConfigList.appendChild(configOptionTemplate);
+  const tableHeaders = [...document.querySelectorAll('table th[data-column]')];
+  tableHeaders.forEach(header => {
+    const key = header.dataset.column;
+    const title = header.dataset.title;
+    const configOption = configOptionTemplate.cloneNode(true);
+    const configCheckbox = configOption.querySelector('input');
+    const configTitle = configOption.querySelector('span');
+
+    configCheckbox.dataset.checker = 'checkbox';
+    configCheckbox.value = key;
+    configTitle.textContent = title;
+
+    tableConfigList.appendChild(configOption);
+  });
+
+  const checkGroup = configOptionTemplate.querySelector('input').dataset.group;
+  checker.addGroup(checkGroup);
+  checker.checkAll(checkGroup);
+});
