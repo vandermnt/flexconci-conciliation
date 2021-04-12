@@ -133,7 +133,6 @@ function carregaGraficoRecebimentosFuturos(recebimentos) {
       valores_grafico.push(total_meses[i].total)
     }
 
-    console.log(valores_grafico);
     var currentChartCanvas = document.querySelector("#bar");
 
     var currentChart = new Chart(currentChartCanvas, {

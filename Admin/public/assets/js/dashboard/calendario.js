@@ -18,7 +18,7 @@ fetch("dados-calendario")
         renderizaCalendario();
       })
       .catch(erro => {
-        console.log("Erro ao converter JSON: " + erro);
+        console.log(erro);
       });
   })
   .catch(e => console.log(e));
