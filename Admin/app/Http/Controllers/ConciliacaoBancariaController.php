@@ -7,14 +7,12 @@ use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Filters\VendasFilter;
 use App\Filters\PagamentosOperadorasFilter;
-use App\Filters\VendasSubFilter;
+use App\Filters\PagamentosOperadorasComprovanteFilter;
 use App\VendasModel;
 use App\JustificativaModel;
-use App\MeioCaptura;
 use App\StatusConciliacaoModel;
 use App\StatusFinanceiroModel;
 use App\GruposClientesModel;
-use App\AdquirentesModel;
 use App\ClienteOperadoraModel;
 use App\Exports\CSV\RetornoVendasOperadorasExport;
 use App\Exports\VendasOperadorasExport;
@@ -290,6 +288,35 @@ class ConciliacaoBancariaController extends Controller
 			->stream('comprovante_venda_' . $id . '_' . time() . '.pdf');
 	}
 
+	public function searchComprovante(Request $request)
+	{
+		$allowedPerPage = [10, 20, 50, 100, 200];
+		$perPage = $request->input('por_pagina', 10);
+		$perPage = in_array($perPage, $allowedPerPage) ? $perPage : 10;
+		$filters = $request->all();
+		$filters['cliente_id'] = session('codigologin');
+
+		try {
+			$queries = PagamentosOperadorasComprovanteFilter::filter($filters)
+				->getQuery();
+			$query = $queries[0];
+			$totalsQuery = $queries[1];
+
+			$sales = (clone $query)->paginate($perPage);
+			// $totals = [
+			// 	'TOTAL_PREVISTO_OPERADORA' => (clone $totalsQuery)->sum('VALOR_LIQUIDO'),
+			// ];
+
+			return response()->json([
+				'vendas' => $sales,
+				// 'totais' => $totals,
+			]);
+		} catch (Exception $e) {
+			return response()->json([
+				'message' => 'Não foi possível realizar a consulta em Vendas Operadoras.',
+			], 500);
+		}
+	}
 	/**
 	 * Show the form for creating a new resource.
 	 *

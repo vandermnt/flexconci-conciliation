@@ -132,8 +132,8 @@
 }
 
 .resize {
-	max-width: 70px !important;
-	min-width: 70px !important;
+	max-width: 110px !important;
+	min-width: 110px !important;
 }
 
 #comprovante-modal table th .table-sorter {
@@ -164,13 +164,27 @@
 	color: #2d5275 !important;
 }
 
-@media (max-width: 1400px) {
-	#comprovante-modal .table-responsive {
-		overflow-x: hidden;
+#comprovante-modal .table-responsive {
+	overflow-x: hidden;
+	min-height: 528px;
+	max-height: 528px;
+}
+
+@media (max-width: 1800px) {
+	.resize {
+		max-width: 80px !important;
+		min-width: 80px !important;
 	}
 }
 
-@media (max-width: 1300px) {
+@media (max-width: 1500px) {
+	.resize {
+		max-width: 70px !important;
+		min-width: 70px !important;
+	}
+}
+
+@media (max-width: 1400px) {
 	#comprovante-modal .table-responsive {
 		overflow-x: auto;
 	}

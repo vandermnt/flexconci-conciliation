@@ -30,6 +30,7 @@
             ['imprimir' => route('vendas-operadoras.print', ['id' => ':id'])],
             ['desjustificar' => route('vendas-operadoras.unjustify')],
             ['retorno-csv' => route('vendas-operadoras.retorno-csv')],
+						{{-- ['comprovante' => route('conciliacao-bancaria.searchComprovante')], --}}
           ]"
           :hidden-fields="[
             'domicilios-bancarios',
@@ -237,12 +238,12 @@
 								</x-tables.tabela-conciliacao-bancaria-comprovante>
 				
 								<x-tables.table-navigation
-									pagination-id="js-paginacao-conciliacao-bancaria-comprovante"
-									per-page-select-id="js-por-pagina"
+									pagination-id="js-paginacao-comprovante"
+									per-page-select-id="js-por-pagina-comprovante"
 									:options="['10', '20', '50', '100', '200']"
 								/>
 							</div>
-							<div class="vendas col-6 mt-auto">
+							{{-- <div class="vendas col-6 mt-auto">
 								<x-tables.tabela-extrato-bancario
 									id="js-tabela-extrato-bancario"
 									class="mt-3"
@@ -277,10 +278,10 @@
 				
 								<x-tables.table-navigation
 									pagination-id="js-paginacao-extrato-bancario"
-									per-page-select-id="js-por-pagina"
+									per-page-select-id="js-por-pagina-extrato-bancario"
 									:options="['10', '20', '50', '100', '200']"
 								/>
-							</div>
+							</div> --}}
 						</div>
 					</div>
         </x-slot>
@@ -312,5 +313,5 @@
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/conciliacao/conciliacao-bancaria.js') }}"></script>
 	<script defer src="{{ URL::asset('assets/js/conciliacao/comprovante/conciliacao-bancaria-comprovante.js') }}"></script>
-	<script defer src="{{ URL::asset('assets/js/conciliacao/comprovante/extrato-bancario.js') }}"></script>
+	{{-- <script defer src="{{ URL::asset('assets/js/conciliacao/comprovante/extrato-bancario.js') }}"></script> --}}
 @endsection
