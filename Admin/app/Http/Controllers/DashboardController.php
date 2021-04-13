@@ -156,6 +156,7 @@ class DashboardController extends Controller
 		$dados_calendario_pagamento = DB::table('pagamentos_operadoras')
 			->select('pagamentos_operadoras.*', 'pagamentos_operadoras.DATA_PAGAMENTO')
 			->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
+			->whereIn('COD_TIPO_PAGAMENTO', [1, 2])
 			->where('pagamentos_operadoras.DATA_PAGAMENTO', '>=', $um_mes_atras)
 			->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'))
 			->groupBy('pagamentos_operadoras.DATA_PAGAMENTO')
