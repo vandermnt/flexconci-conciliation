@@ -270,14 +270,14 @@
                   R$ <?php echo number_format($total_mes->val_liquido, 2, ",", ".");  ?>
                 </h4>
               </div>
-              <div class="col-6" class="recebimentos">
+              <!-- <div class="col-6" class="recebimentos">
                 <div class="tooltip-hint" data-title='São todos os recebimentos previstos do dia <?php echo date("d/m/Y", strtotime('+1 days')) ?> em diante.'>
                   <h4 class="wallet-title m-0">
                     <i class="fas fa-info-circle"></i> Recebimentos Futuros
                   </h4>
                 </div>
                 <h4>R$ <?php echo number_format($total_futuro->val_liquido, 2, ",", ".");  ?> </h4>
-              </div>
+              </div> -->
             </div>
           </div> <br>
           <ul class="nav nav-pills nav-justified" role="tablist">
