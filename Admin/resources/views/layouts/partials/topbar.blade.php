@@ -12,7 +12,7 @@
       </a>
       <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownAdministrativo">
         <a class="dropdown-item" href="#"> Conciliação Automática </a>
-        <a class="dropdown-item" href="#"> Desconciliação Automática </a>
+        <a class="dropdown-item" href="/adm/desconciliacao"> Desconciliação Automática </a>
       </div>
     </li>
 
@@ -25,6 +25,8 @@
       <a class="dropdown-item" href="{{ url('cadastro-adquirente')}}"> Operadoras </a>
       <a class="dropdown-item" href="{{ url('cadastro-banco')}}"> Bancos </a>
       <a class="dropdown-item" href="{{ url('cadastro-bandeira')}}"> Bandeiras </a>
+      <a class="dropdown-item" href="{{ url('cadastro-taxa')}}"> Taxas </a>
+			<a class="dropdown-item" href="{{ url('/justificativas') }}"> Justificativas </a>
     </div>
   </li>
 	@else
@@ -58,161 +60,17 @@
 </a>
 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownUserSettings">
   <a class="dropdown-item" href="{{ url('/logout') }}"><i class="dripicons-exit mr-2"></i> Sair </a>
-  @if(Auth::user()->USUARIO_GLOBAL === 'S')
   <a class="dropdown-item" data-toggle="modal" data-target="#troca_cliente"><i class="dripicons-clockwise mr-2"></i> Trocar Empresa </a>
-  @endif
 </div>
 </li>
-<!-- <li class="mr-2">
-<a href="#" class="nav-link" data-toggle="modal" data-animation="fade" data-target=".modal-rightbar">
-<i data-feather="align-right" class="align-self-center"></i>
-</a>
-</li> -->
 </ul>
 
-<ul class="list-unstyled topbar-nav mb-0">
-  <!-- <li>
-  <a href="/crm/crm-index">
-  <span class="responsive-logo">
-  <img src="{{ URL::asset('assets/images/logo-sm.png')}}" alt="logo-small" class="logo-sm align-self-center" height="34">
-</span>
-</a>
-</li> -->
+<ul class="topbar-icons list-unstyled topbar-nav mb-0">
 <li style="margin-left: 30px; margin-top: -3px; ">
   <a class="nav-link" href="{{ url('/')  }}">
     <img src="{{ URL::asset('assets/images/logconcibr.png')}}" style="width: 130px;" alt="">
   </a>
 </li>
-<!-- <li>
-<a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
-aria-haspopup="false" aria-expanded="false">
-<span class="ml-1 nav-user-name hidden-sm">Antecipacao <i class="mdi mdi-chevron-down"></i> </span>
-</a>
-<div class="dropdown-menu dropdown-menu-left" style="background: #2D5275;">
-<a style="color: white" class="dropdown-item"  href="/anticipation"> Antecipacao de Vendas</a>
-</div>
-</li> -->
-<!-- <li>
-<a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
-aria-haspopup="false" aria-expanded="false">
-<span class="ml-1 nav-user-name hidden-sm">Dashboard <i class="mdi mdi-chevron-down"></i> </span>
-</a>
-<div class="dropdown-menu dropdown-menu-left" style="background: #2D5275;">
-<a style="color: white" class="dropdown-item" href="#"> Gerencial</a>
-<a style="color: white" class="dropdown-item" href="#"> Diagnóstico Financeiro </a>
-
-</div>
-</li>
-
-<li>
-<a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
-aria-haspopup="false" aria-expanded="false">
-<span class="ml-1 nav-user-name hidden-sm">Conciliação <i class="mdi mdi-chevron-down"></i> </span>
-</a>
-<div class="dropdown-menu dropdown-menu-left" style="background: #2D5275;">
-<a style="color: white" class="dropdown-item" href="#"> Conferência Manual de Vendas</a>
-<a style="color: white" class="dropdown-item" href="#"> Conferência Automática de Vendas </a>
-<a style="color: white" class="dropdown-item" href="#"> Conciliação de Pagamentos </a>
-<a style="color: white" class="dropdown-item" href="#"> Conciliação Bancária </a>
-<a style="color: white" class="dropdown-item" href="#"> Conciliação de Taxas </a>
-<a style="color: white" class="dropdown-item" href="#"> Conciliação de Aluguel e Outras Despesas </a>
-
-</div>
-</li>
-
-<li>
-<a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
-aria-haspopup="false" aria-expanded="false">
-<span class="ml-1 nav-user-name hidden-sm">Vendas <i class="mdi mdi-chevron-down"></i> </span>
-</a>
-<div class="dropdown-menu dropdown-menu-left" style="background: #2D5275;">
-<a style="color: white" class="dropdown-item" href="/vendasoperadoras"> Vendas Operadoras</a>
-<a style="color: white" class="dropdown-item" href="#"> Vendas sistema de gestão (ERP) </a>
-</div>
-</li>
-
-<li>
-<a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
-aria-haspopup="false" aria-expanded="false">
-<span class="ml-1 nav-user-name hidden-sm">Recebimentos <i class="mdi mdi-chevron-down"></i> </span>
-</a>
-<div class="dropdown-menu dropdown-menu-left" style="background: #2D5275;">
-<a style="color: white" class="dropdown-item" href="#"> Recebimentos Operadoras</a>
-<a style="color: white" class="dropdown-item" href="#"> Recebimentos Antecipados </a>
-<a style="color: white" class="dropdown-item" href="#"> Despesas Extras (DOC/TEC/Aluguel/Outras/Tarifas)</a>
-<a style="color: white" class="dropdown-item" href="#"> Previsão de Recebimentos Futuros</a>
-
-
-</div>
-</li> -->
-<!-- <li>
-<a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
-aria-haspopup="false" aria-expanded="false">
-<span class="ml-1 nav-user-name hidden-sm">Antecipacao <i class="mdi mdi-chevron-down"></i> </span>
-</a>
-<div class="dropdown-menu dropdown-menu-left">
-<a class="dropdown-item" href="#"> Antecipacao de Vendas</a>
-</div>
-</li> -->
-<!-- <li class="dropdown">
-<a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
-aria-haspopup="false" aria-expanded="false">
-<span class="ml-1 p-2 bg-soft-classic nav-user-name hidden-sm rounded">System <i class="mdi mdi-chevron-down"></i> </span>
-</a>
-<div class="dropdown-menu dropdown-xl dropdown-menu-left p-0">
-<div class="row no-gutters">
-<div class="col-12 col-lg-6">
-<div class="text-center system-text">
-<h4 class="text-white">The Poworfull Dashboard</h4>
-<p class="text-white">See all the pages Metrica.</p>
-<a href="https://themesbrand.com/metrica/" class="btn btn-sm btn-pink mt-2">See Dashboard</a>
-</div>
-<div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">
-<div class="carousel-inner">
-<div class="carousel-item active">
-<img src="{{ URL::asset('assets/images/dashboard/dash-1.png')}}" class="d-block img-fluid" alt="...">
-</div>
-<div class="carousel-item">
-<img src="{{ URL::asset('assets/images/dashboard/dash-4.png')}}" class="d-block img-fluid" alt="...">
-</div>
-<div class="carousel-item">
-<img src="{{ URL::asset('assets/images/dashboard/dash-2.png')}}" class="d-block img-fluid" alt="...">
-</div>
-<div class="carousel-item">
-<img src="{{ URL::asset('assets/images/dashboard/dash-3.png')}}" class="d-block img-fluid" alt="...">
-</div>
-</div>
-</div>
-</div>
-<div class="col-12 col-lg-6">
-<div class="divider-custom mb-0">
-<div class="divider-text bg-light">All Dashboard</div>
-</divi>
-<div class="p-4">
-<div class="row">
-<div class="col-6">
-<a class="dropdown-item mb-2" href="/analytics/analytics-index"> Analytics</a>
-<a class="dropdown-item mb-2" href="/crypto/crypto-index"> Crypto</a>
-<a class="dropdown-item mb-2" href="/crm/crm-index"> CRM</a>
-<a class="dropdown-item" href="/projects/projects-index"> Project</a>
-</div>
-<div class="col-6">
-<a class="dropdown-item mb-2" href="/ecommerce/ecommerce-index"> Ecommerce</a>
-<a class="dropdown-item mb-2" href="/helpdesk/helpdesk-index"> Helpdesk</a>
-<a class="dropdown-item" href="/hospital/hospital-index"> Hospital</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</li> -->
-<!-- <li class="hide-phone app-search">
-<form role="search" class="">
-<input type="text" id="AllCompo" placeholder="Search..." class="form-control">
-<a href=""><i class="fas fa-search"></i></a>
-</form>
-</li> -->
 </ul>
 </nav>
 <!-- end navbar-->
@@ -223,12 +81,8 @@ aria-haspopup="false" aria-expanded="false">
     <ul class="list-unstyled topbar-nav mb-0" style="margin-left: 30px">
       <li>
         <a id="itemMenu" class="submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user"  href="{{ url('/') }}" role="button">
-          <span class="ml-1 nav-user-name hidden-sm"><i class="fas fa-chart-bar"></i> Dashboard </span>
+          <span class="nav-user-name hidden-sm"><i class="fas fa-chart-bar mr-1"></i> Dashboard </span>
         </a>
-        <!-- <div class="dropdown-menu dropdown-menu-left" style="background: white;">
-        <a  class="dropdown-item" href="{{ url('/') }}"> Gerencial</a>
-        <a  class="dropdown-item" href="#"> Diagnóstico Financeiro </a>
-      </div> -->
     </li>
 
 		<li>
@@ -263,6 +117,14 @@ aria-haspopup="false" aria-expanded="false">
 					aria-haspopup="false" aria-expanded="false">
 					<span class="nav-user-name hidden-sm"><i class="fas fa-percent mr-1"></i> Conciliação de Taxas </span>
 					</a> --}}
+					<a id="itemMenu" class="dropdown-item submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('conciliacao-taxas') }}" role="button"
+					aria-haspopup="false" aria-expanded="false">
+					<span class="nav-user-name hidden-sm"><i class="fas fa-percent mr-1"></i> Conciliação de Taxas </span>
+					</a>
+					<a id="itemMenu" class="dropdown-item submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('conciliacao-bancaria') }}" role="button"
+					aria-haspopup="false" aria-expanded="false">
+					<span class="nav-user-name hidden-sm"><i class="fas fa-university mr-1"></i>Conciliação Bancária </span>
+					</a>
 				</div>
 			</div>
 		</li>
@@ -354,7 +216,7 @@ aria-haspopup="false" aria-expanded="false">
           <div class="col-sm-12">
             <select id="troca_cliente" class="form-control" name="empresaescolhida">
               @foreach(Session::get('clientes') as $cliente)
-              <option value="{{ $cliente->CODIGO }}">{{ $cliente->NOME}}</option>
+              <option value="{{ $cliente->CODIGO }}">{{ $cliente->NOME_FANTASIA}}</option>
               @endforeach
             </select>
           </div>

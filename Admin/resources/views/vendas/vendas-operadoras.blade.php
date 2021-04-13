@@ -47,7 +47,7 @@
       </div>
     </div>
 
-    <div class="resultados hidden">
+    <div class="resultados hidden teste">
       <div class="boxes">
         <x-box
           class="tooltip-hint"

@@ -9,7 +9,6 @@
 @stop
 
 @section('content')
-
 <div id="tudo_page" class="container-fluid">
   <div class="row">
     <div class="col-sm-12">
@@ -157,9 +156,6 @@
   </div>
 </div>
 @section('footerScript')
-<script src="{{ URL::asset('plugins/datatables/dataTables.responsive.min.js')}}"></script>
-<script src="{{ URL::asset('plugins/datatables/responsive.bootstrap4.min.js')}}"></script>
-<script src="{{ URL::asset('assets/pages/jquery.datatable.init.js')}}"></script>
 <script src="{{ URL::asset('assets/js/cadastro/bancos.js')}}"></script>
 @stop
 

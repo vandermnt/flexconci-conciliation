@@ -1,6 +1,7 @@
 @extends('layouts.analytics-master')
 
 @section('headerStyle')
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <link href="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.css')}}" rel="stylesheet"/>
 <link href="{{ URL::asset('assets/css/dashboard/dashboard.css')}}" rel="stylesheet" type="text/css" />
 <script src="{{ URL::asset('assets/js/dashboard/calendario.js')}}"></script>
@@ -14,58 +15,6 @@
 <div id="dashboard_styles" class="container-fluid">
   @component('analytics.component.modal-aviso-geral')
   @endcomponent
-  {{-- <div class="row">
-    <div class="col-lg-12 boxs">
-      <div class="row">
-        <div class="col-md-6 col-lg-3">
-          <div class="card report-card">
-            <div class="card-body body-box">
-              <div class="row d-flex">
-                <div class="col-12">
-                  <p class="font-weight-semibold font-12">Suporte</p>
-                </div>
-                <div class="col-12" style="margin-top: -20px">
-                  <div class="row">
-                    <div class="col-12" align="center">
-                      <img class="img-card-suport" src="{{ url('assets/images/suporte.png') }}">
-                      <h5 class="my-3 tel">(44) 3020-0220</h5>
-                    </div>
-                  </div>
-                  <div class="col-12" style="margin-top: -20px">
-                    <h6 class="my-3 label-atendimento">Atendimento | Segunda a sexta-feira - das 08:00h às 18:00h</h6>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        @component('analytics.component.box-aviso')
-        @slot('titulo_box')
-        Divergências - Conc. de vendas
-        @endslot
-        @slot('body_box')
-        Não há divergências no momento
-        @endslot
-        @endcomponent
-        @component('analytics.component.box-aviso')
-        @slot('titulo_box')
-        Divergências - Taxas
-        @endslot
-        @slot('body_box')
-        Não há divergências no momento
-        @endslot
-        @endcomponent
-        @component('analytics.component.box-aviso')
-        @slot('titulo_box')
-        Divergências - Conc. Bancária
-        @endslot
-        @slot('body_box')
-        Não há divergências no momento
-        @endslot
-        @endcomponent
-      </div>
-    </div>
-  </div> --}}
 
   <div class="row">
     <div class="col-sm-12">
@@ -321,14 +270,14 @@
                   R$ <?php echo number_format($total_mes->val_liquido, 2, ",", ".");  ?>
                 </h4>
               </div>
-              <div class="col-6" class="recebimentos">
+              <!-- <div class="col-6" class="recebimentos">
                 <div class="tooltip-hint" data-title='São todos os recebimentos previstos do dia <?php echo date("d/m/Y", strtotime('+1 days')) ?> em diante.'>
                   <h4 class="wallet-title m-0">
                     <i class="fas fa-info-circle"></i> Recebimentos Futuros
                   </h4>
                 </div>
                 <h4>R$ <?php echo number_format($total_futuro->val_liquido, 2, ",", ".");  ?> </h4>
-              </div>
+              </div> -->
             </div>
           </div> <br>
           <ul class="nav nav-pills nav-justified" role="tablist">
@@ -427,6 +376,50 @@
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="header-title mt-0">Recebimentos Futuros</h4>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="media my-3">
+                    <img src="{{ URL::asset('assets/images/widgets/dollar.svg')}}" style="width: auto !important; margin-right: 20px;" alt="" class="thumb-md rounded-circle">
+                    <div class="media-body align-self-center text-truncate">
+                      <h4 class="mt-0 mb-1 font-weight-semibold text-dark font-24">R$ <?php echo number_format($total_futuro->val_liquido, 2, ",", ".");  ?> </h4>
+                      <p style="color: #454942" class="mb-0 font-12">Recebimentos previstos do dia <?php echo date("d/m/Y", strtotime('+1 days')) ?> em diante.</p>
+                    </div><!--end media-body-->
+                  </div>
+                </div><!--end col-->
+                <div class="col-md-8">
+                  <!-- <ul class="nav-border nav nav-pills" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link font-weight-semibold" data-toggle="tab" href="#Today" role="tab">Today</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link font-weight-semibold" data-toggle="tab" href="#This_Week" role="tab">This Week</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active font-weight-semibold" data-toggle="tab" href="#This_Month" role="tab">This Month</a>
+                    </li>
+                  </ul> -->
+                </div><!--end col-->
+              </div> <!--end row-->
+              <div class="tab-content">
+                <div class="tab-pane pt-3" id="Today" role="tabpanel">
+                  <!-- <div id="eco_dash" class="apex-charts"></div> -->
+                </div><!-- Tab panes -->
+                <div class="tab-pane pt-3" id="This_Week" role="tabpanel">
+                  <!-- <div id="Top_Week" class="apex-charts"></div> -->
+                </div><!-- Tab panes -->
+                <div class="tab-pane active pt-3" id="This_Month" role="tabpanel">
+                  <canvas id="bar" class="drop-shadow w-100"  height="350"></canvas>
+                </div><!-- Tab panes -->
+              </div><!-- Tab content -->
+            </div><!--end card-body-->
+          </div><!--end card-->
+        </div><!--end col-->
+      </div><!--end row-->
       @component('analytics.component.modal-credenciamento-success')
       @endcomponent
       @component('analytics.component.modal-credenciamento-error')
@@ -435,7 +428,7 @@
     @stop
 
     @section('footerScript')
-    <script src="{{ URL::asset('plugins/apexcharts/irregular-data-series.js')}}"></script>
+    <!-- <script src="{{ URL::asset('plugins/apexcharts/irregular-data-series.js')}}"></script> -->
     <script src="{{ URL::asset('plugins/apexcharts/ohlc.js')}}"></script>
     <!-- <script src="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.min.js') }}"></script> -->
     <script src="{{ URL::asset('assets/js/dashboard/export-pdf.js')}}"></script>
@@ -443,6 +436,12 @@
     <script src="{{ URL::asset('assets/js/dashboard/graficos.js')}}"></script>
     <script src="{{ URL::asset('assets/js/dashboard/formata-valores.js')}}"></script>
     <script type="text/javascript" src="assets/js/grafico-dash-vendas.js"> </script>
+    <script src="{{ URL::asset('assets/pages-material/jquery.ecommerce_dashboard.init.js')}}"></script>
+
+    <script src="{{ URL::asset('plugins/chartjs/chart.min.js')}}"></script>
+    <!-- <script src="{{ URL::asset('plugins/chartjs/roundedBar.min.js')}}"></script> -->
+    <!-- <script src="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.min.js')}}"></script> -->
+    <!-- <script src="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-us-aea-en.js')}}"></script> -->
 
     <script>
     $(window).on("load", function() {
@@ -457,11 +456,13 @@
       const grafico_vendas_bandeira = <?php echo $dados_dash_vendas_bandeira ?>;
       const grafico_vendas_produto =  <?php echo $dados_dash_vendas_produto ?>;
       const grafico_vendas_modalidade = <?php echo $dados_dash_vendas_modalidade ?>;
+      const dados_recebimentos_futuros = <?php echo $dados_calendario_previsao ?>;
 
       preCarregarGraficoVendas(grafico_vendas_operadora);
       preCarregarGraficoVendasBandeira(grafico_vendas_bandeira);
       preCarregarGraficoVendasModalidade(grafico_vendas_modalidade);
       preCarregarGraficoVendasProduto(grafico_vendas_produto);
+      carregaGraficoRecebimentosFuturos(dados_recebimentos_futuros);
     });
 
     let bancos_dados = <?php echo $dados_bancos ?>;
@@ -580,9 +581,6 @@
 
               pagamentos_normais = response[2];
               pagamentos_antecipados = response[3];
-
-              console.log(response[0]);
-              console.log(response[1]);
 
               pagamentos_normais_bancos = response[4];
               pagamentos_antecipados_bancos = response[5];
