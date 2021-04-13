@@ -212,7 +212,7 @@
           <div class="col-sm-12">
             <select id="troca_cliente" class="form-control" name="empresaescolhida">
               @foreach(Session::get('clientes') as $cliente)
-              <option value="{{ $cliente->CODIGO }}">{{ $cliente->NOME}}</option>
+              <option value="{{ $cliente->CODIGO }}">{{ $cliente->NOME_FANTASIA}}</option>
               @endforeach
             </select>
           </div>
