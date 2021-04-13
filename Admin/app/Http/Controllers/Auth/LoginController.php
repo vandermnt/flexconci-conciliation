@@ -129,4 +129,16 @@ class LoginController extends Controller
 			return json_encode(false);
 		}
 	}
+
+	public function trocarEmpresa(Request $request) {
+    $cod_empresa = $request['empresaescolhida'];
+
+    session()->put('codigologin', $cod_empresa);
+
+    $user = User::where('CODIGO', '=', $request['usuario_global'])->first();
+
+    Auth::login($user);
+
+    return response()->json(200);
+  }
 }

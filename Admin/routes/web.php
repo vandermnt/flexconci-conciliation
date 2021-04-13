@@ -157,7 +157,9 @@ Route::group(['middleware' => 'auth'], function () {
 	//ENVIO EMAIL CHAMADO
 	Route::get('/enviar-email', 'DashboardController@enviaEmail');
 
-
+	//TROCA EMPRESA
+	Route::post('/troca-empresa', 'Auth\LoginController@trocarEmpresa');
+	
 	//IMPRESSAO VENDAS
 	Route::get('/impressao-vendas/{codigo}', 'VendasController@impressaoCupom');
 	Route::post('/dados-cliente', 'ClienteController@dadosCliente');
