@@ -72,9 +72,9 @@ Route::group(['middleware' => 'auth'], function () {
 		->name('conciliacao-vendas.exportar.operadoras');
 
 	//CONCILIACAO BANCARIA
-	Route::get('/conciliacao-bancaria', 'ConciliacaoBancariaController@index')->name('conciliacao-bancaria');
-	Route::post('/conciliacao-bancaria/search', 'ConciliacaoBancariaController@search')->name('conciliacao-bancaria.search');
-	Route::post('/conciliacao-bancaria/filtrar', 'ConciliacaoBancariaController@filter')->name('conciliacao-bancaria.filter');
+	// Route::get('/conciliacao-bancaria', 'ConciliacaoBancariaController@index')->name('conciliacao-bancaria');
+	// Route::post('/conciliacao-bancaria/search', 'ConciliacaoBancariaController@search')->name('conciliacao-bancaria.search');
+	// Route::post('/conciliacao-bancaria/filtrar', 'ConciliacaoBancariaController@filter')->name('conciliacao-bancaria.filter');
 
 	Route::match(['get', 'post'], '/conciliacao-manual', 'ConciliacaoAutomaticaVendasController@conciliarManualmente');
 	Route::match(['get', 'post'], '/conciliacao-justificada-venda', 'ConciliacaoAutomaticaVendasController@conciliacaoJustificadaVenda');
@@ -152,14 +152,14 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/atualizar-conciliacoes-processadas', 'ConciliacaoController@atualizarConciliacoesProcessadas');
 
 	//CONCILIAÇÃO DE TAXAS
-	Route::get('/conciliacao-taxas', 'ConciliacaoTaxasController@index')->name('conciliacao-taxas');
+	// Route::get('/conciliacao-taxas', 'ConciliacaoTaxasController@index')->name('conciliacao-taxas');
 
 	//ENVIO EMAIL CHAMADO
 	Route::get('/enviar-email', 'DashboardController@enviaEmail');
 
 	//TROCA EMPRESA
 	Route::post('/troca-empresa', 'Auth\LoginController@trocarEmpresa');
-	
+
 	//IMPRESSAO VENDAS
 	Route::get('/impressao-vendas/{codigo}', 'VendasController@impressaoCupom');
 	Route::post('/dados-cliente', 'ClienteController@dadosCliente');

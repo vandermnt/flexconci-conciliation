@@ -182,10 +182,7 @@ const _events = {
 
 checker.addGroups([
 	{ name: 'empresa', options: { inputName: 'grupos_clientes' } },
-<<<<<<< HEAD
-=======
 	{ name: 'adquirente', options: { inputName: 'adquirentes' } },
->>>>>>> 66b032ef4eadcaba65fa7064f912df082b335c65
 	{ name: 'status-conciliacao', options: { inputName: 'status_conciliacao' } },
 ]);
 
@@ -881,11 +878,6 @@ function justifyOperadora() {
 				TOTAL_PENDENCIAS_OPERADORAS: totals.TOTAL_PENDENCIAS_OPERADORAS,
 			});
 
-<<<<<<< HEAD
-			console.log(boxes);
-
-=======
->>>>>>> 66b032ef4eadcaba65fa7064f912df082b335c65
 			tableRender.set('data', {
 				body: [...updatedSales] || [],
 				footer: { ...totals } || {},
@@ -1148,38 +1140,6 @@ document
 	});
 document.querySelector('#dropdownCadastros').addEventListener('click', (e) => {
 	$('#dropdownCadastros').dropdown('toggle');
-<<<<<<< HEAD
-});
-document
-	.querySelector('#dropdownAdministrativo')
-	.addEventListener('click', (e) => {
-		$('#dropdownAdministrativo').dropdown('toggle');
-	});
-
-[
-	'VALOR_TAXA',
-	'PERCENTUAL_TAXA',
-	'TAXA',
-	'TAXA_OPERADORA',
-	'TAXA_DIFERENCA',
-].forEach((column) => {
-	const tdErp = document.querySelector(
-		`#js-tabela-erp td[data-column=${column}]`
-	);
-	const tdOperadora = document.querySelector(
-		`#js-tabela-operadoras td[data-column=${column}]`
-	);
-
-	if (tdErp) {
-		tdErp.classList.remove('text-danger');
-	}
-
-	if (tdOperadora) {
-		tdOperadora.classList.remove('text-danger');
-	}
-});
-
-=======
 });
 
 [
@@ -1205,7 +1165,6 @@ document
 	}
 });
 
->>>>>>> 66b032ef4eadcaba65fa7064f912df082b335c65
 document
 	.querySelector('#js-tabela-erp tfoot td[data-column="TOTAL_TAXA"]')
 	.classList.remove('text-danger');

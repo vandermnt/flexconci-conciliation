@@ -113,18 +113,6 @@
 					aria-haspopup="false" aria-expanded="false">
 					<span class="nav-user-name hidden-sm"><i class="far fa-handshake mr-1"></i> Conciliação de Vendas </span>
 					</a>
-					{{-- <a id="itemMenu" class="dropdown-item submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('conciliacao-taxas') }}" role="button"
-					aria-haspopup="false" aria-expanded="false">
-					<span class="nav-user-name hidden-sm"><i class="fas fa-percent mr-1"></i> Conciliação de Taxas </span>
-					</a> --}}
-					<a id="itemMenu" class="dropdown-item submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('conciliacao-taxas') }}" role="button"
-					aria-haspopup="false" aria-expanded="false">
-					<span class="nav-user-name hidden-sm"><i class="fas fa-percent mr-1"></i> Conciliação de Taxas </span>
-					</a>
-					<a id="itemMenu" class="dropdown-item submenu-item nav-linkk dropdown-toggle waves-effect waves-light nav-user" href="{{ route('conciliacao-bancaria') }}" role="button"
-					aria-haspopup="false" aria-expanded="false">
-					<span class="nav-user-name hidden-sm"><i class="fas fa-university mr-1"></i>Conciliação Bancária </span>
-					</a>
 				</div>
 			</div>
 		</li>

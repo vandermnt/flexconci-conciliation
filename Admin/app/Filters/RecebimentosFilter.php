@@ -72,42 +72,21 @@ class RecebimentosFilter extends BaseFilter
           (`pagamentos_operadoras`.`VALOR_BRUTO` - `pagamentos_operadoras`.`VALOR_LIQUIDO`)
             as `VALOR_TAXA`'),
 				'pagamentos_operadoras.VALOR_LIQUIDO',
-				DB::raw('
-        if(coalesce(`vendas`.`TAXA_MINIMA`, 0) <> 0, \'Sim\', \'Não\')
-            as `POSSUI_TAXA_MINIMA`'),
-				'pagamentos_operadoras.PARCELA',
 				'pagamentos_operadoras.TOTAL_PARCELAS',
-				'vendas.HORA_TRANSACAO',
-				'pagamentos_operadoras.ID_LOJA as ESTABELECIMENTO',
-				'vendas.TERMINAL',
-				// DB::raw('
-				// if(coalesce(`vendas`.`TAXA_MINIMA`, 0) <> 0, \'Sim\', \'Não\')
-				//     as `POSSUI_TAXA_MINIMA`'),
 				'pagamentos_operadoras.PARCELA',
-				'pagamentos_operadoras.TOTAL_PARCELAS',
-				// 'vendas.HORA_TRANSACAO',
 				'pagamentos_operadoras.ID_LOJA as ESTABELECIMENTO',
 				'lista_bancos.NOME_WEB as BANCO',
 				'lista_bancos.IMAGEM_LINK as BANCO_IMAGEM',
 				'pagamentos_operadoras.AGENCIA',
 				'pagamentos_operadoras.CONTA',
 				'pagamentos_operadoras.OBSERVACOES',
-				'produto_web.PRODUTO_WEB as PRODUTO',
-				'meio_captura.DESCRICAO as MEIOCAPTURA',
-				'status_conciliacao.STATUS_CONCILIACAO',
-				'vendas.DIVERGENCIA',
-				'vendas.JUSTIFICATIVA',
-				'pagamentos_operadoras.COD_TIPO_PAGAMENTO',
-				DB::raw('IF(vendas_erp.RETORNO_ERP_BAIXA = \'S\', \'Sim\', \'Não\') as RETORNO_ERP_BAIXA'),
-			])
-			->leftJoin('vendas', 'vendas.CODIGO', 'pagamentos_operadoras.COD_VENDA')
-			->leftJoin('vendas_erp', 'vendas.COD_VENDA_ERP', 'vendas_erp.CODIGO')
 				'pagamentos_operadoras.DIVERGENCIA',
 				'pagamentos_operadoras.JUSTIFICATIVA',
 				'pagamentos_operadoras.COD_TIPO_PAGAMENTO',
-				// DB::raw('IF(vendas_erp.RETORNO_ERP_BAIXA = \'S\', \'Sim\', \'Não\') as RETORNO_ERP_BAIXA'),
+				'produto_web.PRODUTO_WEB as PRODUTO',
+				'meio_captura.DESCRICAO as MEIOCAPTURA',
+				'status_conciliacao.STATUS_CONCILIACAO',
 			])
-			// ->leftJoin('vendas_erp', 'vendas.COD_VENDA_ERP', 'vendas_erp.CODIGO')
 			->leftJoin('produto_web', 'produto_web.CODIGO', 'pagamentos_operadoras.COD_PRODUTO')
 			->leftJoin('grupos_clientes', 'grupos_clientes.CODIGO', 'pagamentos_operadoras.COD_GRUPO_CLIENTE')
 			->leftJoin('adquirentes', 'adquirentes.CODIGO', 'pagamentos_operadoras.COD_ADQUIRENTE')
@@ -155,7 +134,7 @@ class RecebimentosFilter extends BaseFilter
 			$filterValue = $recebimento_conciliado_erp[0];
 			$whereOperator = $filterValue === 'true' ? '!=' : "=";
 
-			$this->query->where('ID_VENDA_ERP', $whereOperator, null);
+			// $this->query->where('ID_VENDA_ERP', $whereOperator, null);
 		}
 		if (Arr::has($filters, 'domicilios_bancarios')) {
 			$this->query->whereIn('lista_bancos.CODIGO', function ($query) use ($filters) {
