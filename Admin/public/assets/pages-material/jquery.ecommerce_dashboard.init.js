@@ -3,224 +3,343 @@
  * Author: Mannatthemes
  * Ecommerce Dashboard Js
  */
-function carregaGraficoRecebimentosFuturos(recebimentos) {
-  "use strict";
-  document.addEventListener("DOMContentLoaded", function(event) {
-    let dados_grafico_recebimentos = [];
-    let labels_grafico = [];
-    let valores_grafico = [];
-    let meses_ano_seguinte;
-    let meses = {
-      "0": [],
-      "1": [],
-      "2": [],
-      "3": [],
-      "4": [],
-      "5": [],
-      "6": [],
-      "7": [],
-      "8": [],
-      "9": [],
-      "10": [],
-      "11": []
-    };
-    let total_meses = [
-      { mes: "Jan", total: 0 },
-      { mes: "Fev", total: 0 },
-      { mes: "Mar", total: 0 },
-      { mes: "Abr", total: 0 },
-      { mes: "Mai", total: 0 },
-      { mes: "Jun", total: 0 },
-      { mes: "Jul", total: 0 },
-      { mes: "Ago", total: 0 },
-      { mes: "Set", total: 0 },
-      { mes: "Out", total: 0 },
-      { mes: "Nov", total: 0 },
-      { mes: "Dez", total: 0 }
-    ];
-
-    const data = new Date();
-    const ano = data.getFullYear();
-    const mes_atual = data.getMonth();
-
-    for (let recebimento of recebimentos) {
-      if (
-        recebimento.DATA_PREVISTA_PAGTO >= `${ano}-01-01` &&
-        recebimento.DATA_PREVISTA_PAGTO <= `${ano}-01-01`
-      ) {
-        meses["0"].push(recebimento);
-        total_meses[0].total += parseFloat(recebimento.val_liquido);
-      } else if (
-        recebimento.DATA_PREVISTA_PAGTO >= `${ano}-02-01` &&
-        recebimento.DATA_PREVISTA_PAGTO <= `${ano}-02-28`
-      ) {
-        meses["1"].push(recebimento);
-        total_meses[1].total += parseFloat(recebimento.val_liquido);
-      } else if (
-        recebimento.DATA_PREVISTA_PAGTO >= `${ano}-03-01` &&
-        recebimento.DATA_PREVISTA_PAGTO <= `${ano}-03-30`
-      ) {
-        meses["2"].push(recebimento);
-        total_meses[2].total += parseFloat(recebimento.val_liquido);
-      } else if (
-        recebimento.DATA_PREVISTA_PAGTO >= `${ano}-04-01` &&
-        recebimento.DATA_PREVISTA_PAGTO <= `${ano}-04-30`
-      ) {
-        meses["3"].push(recebimento);
-        total_meses[3].total += parseFloat(recebimento.val_liquido);
-      } else if (
-        recebimento.DATA_PREVISTA_PAGTO >= `${ano}-05-01` &&
-        recebimento.DATA_PREVISTA_PAGTO <= `${ano}-05-30`
-      ) {
-        meses["4"].push(recebimento);
-        total_meses[4].total += parseFloat(recebimento.val_liquido);
-      } else if (
-        recebimento.DATA_PREVISTA_PAGTO >= `${ano}-06-01` &&
-        recebimento.DATA_PREVISTA_PAGTO <= `${ano}-06-30`
-      ) {
-        meses["5"].push(recebimento);
-        total_meses[5].total += parseFloat(recebimento.val_liquido);
-      } else if (
-        recebimento.DATA_PREVISTA_PAGTO >= `${ano}-07-01` &&
-        recebimento.DATA_PREVISTA_PAGTO <= `${ano}-07-30`
-      ) {
-        meses["6"].push(recebimento);
-        total_meses[6].total += parseFloat(recebimento.val_liquido);
-      } else if (
-        recebimento.DATA_PREVISTA_PAGTO >= `${ano}-08-01` &&
-        recebimento.DATA_PREVISTA_PAGTO <= `${ano}-08-30`
-      ) {
-        meses["7"].push(recebimento);
-        total_meses[7].total += parseFloat(recebimento.val_liquido);
-      } else if (
-        recebimento.DATA_PREVISTA_PAGTO >= `${ano}-09-01` &&
-        recebimento.DATA_PREVISTA_PAGTO <= `${ano}-09-30`
-      ) {
-        meses["8"].push(recebimento);
-        total_meses[8].total += parseFloat(recebimento.val_liquido);
-      } else if (
-        recebimento.DATA_PREVISTA_PAGTO >= `${ano}-10-01` &&
-        recebimento.DATA_PREVISTA_PAGTO <= `${ano}-10-30`
-      ) {
-        meses["9"].push(recebimento);
-        total_meses[9].total += parseFloat(recebimento.val_liquido);
-      } else if (
-        recebimento.DATA_PREVISTA_PAGTO >= `${ano}-11-01` &&
-        recebimento.DATA_PREVISTA_PAGTO <= `${ano}-11-30`
-      ) {
-        meses["10"].push(recebimento);
-        total_meses[10].total += parseFloat(recebimento.val_liquido);
-      } else if (
-        recebimento.DATA_PREVISTA_PAGTO >= `${ano}-12-01` &&
-        recebimento.DATA_PREVISTA_PAGTO <= `${ano}-12-30`
-      ) {
-        meses["11"].push(recebimento);
-        total_meses[11].total += parseFloat(recebimento.val_liquido);
-      }
+(function($) {
+    'use strict';
+    $(function() {
+    if ($("#bar").length) {
+        var currentChartCanvas = $("#bar").get(0).getContext("2d");
+        
+        var currentChart = new Chart(currentChartCanvas, {
+            type: 'bar',    
+            data: {
+                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                datasets: [{
+                    label: "Revenue",
+                    backgroundColor: "#0b7af3",
+                    borderColor: "transparent",
+                    borderWidth: 2,
+                    categoryPercentage: 0.5,
+                    hoverBackgroundColor: "#136dd0",
+                    hoverBorderColor: "transparent",
+                    data: [30, 39, 20, 31, 41, 25, 20, 39, 20, 31, 41, 25],
+                },]        
+            },
+            
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                legend : {
+                    display: false,
+                    labels : {
+                        fontColor : '#50649c'  
+                    }
+                },  
+                tooltips: {
+                    enabled: true,
+                    callbacks: {
+                        label: function(tooltipItems, data) {
+                            return data.datasets[tooltipItems.datasetIndex].label +' $ ' + tooltipItems.yLabel + 'k';
+                        }
+                    }
+                },
+                
+                scales: {
+                    xAxes: [{
+                        barPercentage: 0.35,
+                        categoryPercentage: 0.4,
+                        display: true,
+                        gridLines: {
+                            color: "transparent",
+                            borderDash: [0],       
+                            zeroLineColor: "transparent",
+                            zeroLineBorderDash: [2],
+                            zeroLineBorderDashOffset: [2] ,         
+                        },
+                        ticks: {
+                            fontColor: '#a4abc5',
+                            beginAtZero: true,
+                            padding: 12,
+                        },
+                        
+                    }],
+                    yAxes: [{
+                        gridLines: {
+                            color: "#8997bd29", 
+                            borderDash: [3],
+                            drawBorder: false,
+                            drawTicks: false,
+                            zeroLineColor: "#8997bd29",
+                            zeroLineBorderDash: [2],
+                            zeroLineBorderDashOffset: [2] ,           
+                        },
+                        ticks: {                           
+                            fontColor: '#a4abc5',
+                            beginAtZero: true,
+                            padding: 12,
+                            callback: function(value) {
+                                if ( !(value % 10) ) {
+                                    return '$' + value + 'k'
+                                }
+                            }
+                        },                        
+                    }]
+                },
+                
+            }
+        });
     }
+    
+    });
+})(jQuery);
 
-    for (let i = mes_atual; i < 12; i++) {
-      if (i >= mes_atual) {
-        dados_grafico_recebimentos.push(total_meses[i]);
-        labels_grafico.push(total_meses[i].mes)
-        valores_grafico.push(total_meses[i].total)
-      }
-    }
 
-    for (let i = 0; i < mes_atual; i++) {
-      dados_grafico_recebimentos.push(total_meses[i]);
-      labels_grafico.push(total_meses[i].mes)
-      valores_grafico.push(total_meses[i].total)
-    }
-
-    console.log(valores_grafico);
-    var currentChartCanvas = document.querySelector("#bar");
-
-    var currentChart = new Chart(currentChartCanvas, {
-      type: "bar",
-      data: {
-        labels: labels_grafico,
-        datasets: [
-          {
-            // label: "Revenue",
-            backgroundColor: "#2D93AD",
-            borderColor: "transparent",
-            borderWidth: 2,
-            categoryPercentage: 0.5,
-            hoverBackgroundColor: "#136dd0",
-            hoverBorderColor: "transparent",
-            data: valores_grafico
-          }
-        ]
+var options = {
+  chart: {
+      height: 350,
+      type: 'line',
+      stacked: true,
+      toolbar: {
+        show: false,
+        autoSelected: 'zoom'
       },
+      dropShadow: {
+        enabled: true,
+        top: 12,
+        left: 0,
+        bottom: 0,
+        right: 0,
+        blur: 2,
+        color: '#45404a2e',
+        opacity: 0.35
+      },
+  },
+  colors: ['#2a77f4', '#1ccab8', '#f02fc2'],
+  dataLabels: {
+      enabled: false
+  },
+  stroke: {
+      curve: 'smooth',
+      width: [4, 4],
+      dashArray: [0, 3]
+  },
+  grid: {
+    borderColor: "#45404a2e",
+    padding: {
+      left: 0,
+      right: 0
+    },
+    strokeDashArray: 4,
+  },
+  markers: {
+    size: 0,
+    hover: {
+      size: 0
+    }
+  },
+  series: [{
+      name: 'Revenue',
+      data: [0,60,20,90,45,110,55,130,44,110,75,200]
+  }, {
+      name: 'New Orders',
+      data: [0,45,10,75,35,94,40,115,30,105,65,190]
+  }],
 
-      options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        legend: {
-          display: false,
-          labels: {
-            fontColor: "#50649c"
-          }
-        },
-        tooltips: {
+  xaxis: {
+      type: 'datetime',
+      categories: ["2020-09-19T00:00:00", "2020-09-19T01:30:00", "2020-09-19T02:30:00", "2020-09-19T03:30:00", "2020-09-19T04:30:00", "2020-09-19T05:30:00", "2020-09-19T06:30:00", "2020-09-19T07:30:00", "2020-09-19T08:30:00", "2020-09-19T09:30:00", "2020-09-19T10:30:00", "2020-09-19T11:30:00"],
+      axisBorder: {
+        show: true,
+        color: '#45404a2e',
+      },  
+      axisTicks: {
+        show: true,
+        color: '#45404a2e',
+      },                  
+  },
+
+  fill: {
+    type: 'gradient',
+    gradient: {
+      gradientToColors: ['#F55555', '#B5AC49', '#6094ea']
+    },
+  },
+  tooltip: {
+      x: {
+          format: 'dd/MM/yy HH:mm'
+      },
+  },
+  legend: {
+    show: false,
+    position: 'top',
+    horizontalAlign: 'right'
+  },
+}
+
+var chart = new ApexCharts(
+  document.querySelector("#eco_dash"),
+  options
+);
+
+chart.render();
+
+
+var options = {
+    series: [{
+    name: 'Revenue',
+    data: [31, 40, 28, 51, 42, 109, 100]
+  },],
+    chart: {
+    height: 350,
+    type: 'area',
+    toolbar: {
+      show: false,
+    }
+  },
+  dataLabels: {
+    enabled: false
+  },
+  stroke: {
+    curve: 'smooth',
+    width: 2,
+  },
+  colors: ['#1eca87'],
+  xaxis: {
+    type: 'day',
+    categories: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+  },
+  yaxis: {
+    labels: {
+        formatter: function (value) {
+            return "$" + value + "k";
+        }
+    },
+  },
+  legend: {
+    show: false,
+  },
+  grid: {
+    borderColor: "#45404a2e",
+    padding: {
+      left: 0,
+      right: 0
+    },
+    strokeDashArray: 4,
+  },
+  tooltip: {
+    x: {
+      format: 'dd/MM/yy HH:mm'
+    },
+  },
+};
+
+var chart = new ApexCharts(document.querySelector("#Top_Week"), options);
+chart.render();
+
+
+//Device-widget
+
+
+var options = {
+    chart: {
+        height: 235,
+        type: 'donut',
+        dropShadow: {
           enabled: true,
-          callbacks: {
-            label: function(tooltipItems, data) {
-              return (
-                // data.datasets[tooltipItems.datasetIndex].label +
-                // " R$ " +
-                formataMoeda(tooltipItems.yLabel)
-              );
-            }
-          }
-        },
-
-        scales: {
-          xAxes: [
-            {
-              barPercentage: 0.35,
-              categoryPercentage: 0.4,
-              display: true,
-              gridLines: {
-                color: "transparent",
-                borderDash: [0],
-                zeroLineColor: "transparent",
-                zeroLineBorderDash: [2],
-                zeroLineBorderDashOffset: [2]
-              },
-              ticks: {
-                fontColor: "#a4abc5",
-                beginAtZero: true,
-                padding: 12
-              }
-            }
-          ],
-          yAxes: [
-            {
-              gridLines: {
-                color: "#8997bd29",
-                borderDash: [3],
-                drawBorder: false,
-                drawTicks: false,
-                zeroLineColor: "#8997bd29",
-                zeroLineBorderDash: [2],
-                zeroLineBorderDashOffset: [2]
-              },
-              ticks: {
-                fontColor: "#a4abc5",
-                beginAtZero: true,
-                padding: 12,
-                callback: function(value) {
-                  if (!(value % 10)) {
-                    return formataMoeda(value);
-                  }
-                }
-              }
-            }
-          ]
+          top: 10,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          blur: 2,
+          color: '#45404a2e',
+          opacity: 0.15
+      },
+    }, 
+    plotOptions: {
+      pie: {
+        donut: {
+          size: '85%'
         }
       }
-    });
-  });
-}
+    },
+    dataLabels: {
+      enabled: false,
+      },
+      stroke: {
+        show: true,
+        width: 2,
+        colors: ['transparent']
+    },
+   
+    series: [10, 65, 25,],
+    legend: {
+        show: false,
+        position: 'bottom',
+        horizontalAlign: 'center',
+        verticalAlign: 'middle',
+        floating: false,
+        fontSize: '14px',
+        offsetX: 0,
+        offsetY: 5
+    },
+    labels: [ "Footwear", "Electronic", "Clothes"],
+    colors: ["#2ddab5", '#0b7af3', "#fd3c97"],
+   
+    responsive: [{
+        breakpoint: 600,
+        options: {
+          plotOptions: {
+              donut: {
+                customScale: 0.2
+              }
+            },        
+            chart: {
+                height: 240
+            },
+            legend: {
+                show: false
+            },
+        }
+    }],
+  
+    tooltip: {
+      y: {
+          formatter: function (val) {
+              return   val + " %"
+          }
+      }
+    }
+    
+  }
+  
+  var chart = new ApexCharts(
+    document.querySelector("#eco_categories"),
+    options
+  );
+  
+  chart.render();
+
+   
+$('#usa').vectorMap({
+  map: 'us_aea_en',
+  backgroundColor: 'transparent',
+  borderColor: '#818181',
+  regionStyle: {
+    initial: {
+      fill: '#0b7af31c',
+    }
+  },
+  series: {
+    regions: [{
+        values: {
+            "US-VA": '#0b7af357',
+            "US-PA": '#0b7af357',
+            "US-TN": '#0b7af357',
+            "US-WY": '#0b7af357',
+            "US-WA": '#0b7af357',
+            "US-TX": '#0b7af357',
+        },
+        attribute: 'fill',
+    }]
+  },
+});
+
