@@ -52,19 +52,16 @@ class PagamentosOperadorasComprovanteFilter extends BaseFilter
 
 		$this->query = PagamentoOperadoraModel::select(
 			[
-				'pagamentos_operadoras.DATA_PAGAMENTO',
-				'lista_bancos.BANCO',
-				'lista_bancos.IMAGEM_LINK as BANCO_IMAGEM',
-				'pagamentos_operadoras.AGENCIA',
-				'pagamentos_operadoras.CONTA',
-				'pagamentos_operadoras.COD_FORMA_PAGAMENTO as FORMA_PAGAMENTO',
 				'pagamentos_operadoras.EMPRESA',
+				'lista_bancos.BANCO',
+				'bandeira.BANDEIRA',
 				'adquirentes.ADQUIRENTE',
-				'adquirentes.IMAGEM as ADQUIRENTE_IMAGEM',
+				'pagamentos_operadoras.COD_FORMA_PAGAMENTO as FORMA_PAGAMENTO',
 				DB::raw('SUM(pagamentos_operadoras.VALOR_LIQUIDO) as VALOR_PREVISTO_OPERADORA')
 			]
 		)
 			->leftJoin('lista_bancos', 'pagamentos_operadoras.COD_BANCO', 'lista_bancos.CODIGO')
+			->leftJoin('bandeira', 'pagamentos_operadoras.COD_BANDEIRA', 'bandeira.BANDEIRA')
 			->leftJoin('adquirentes', 'pagamentos_operadoras.COD_ADQUIRENTE', 'adquirentes.CODIGO')
 			->where('pagamentos_operadoras.COD_CLIENTE', $filters['cliente_id'])
 			->groupBy('pagamentos_operadoras.DATA_PAGAMENTO', 'pagamentos_operadoras.CONTA', 'pagamentos_operadoras.AGENCIA', 'lista_bancos.BANCO', 'adquirentes.ADQUIRENTE');

@@ -177,11 +177,35 @@ tableRender.onRenderRow((row, data, tableRenderInstance) => {
 		}
 	});
 
-	// const showDetailsDOM = row.querySelector('td .js-show-details');
+	const showComprovanteDOM = row.querySelector('td .js-show-comprovante');
 
-	// showDetailsDOM.addEventListener('click', (event) => {
-	// 	showTicket(row.dataset.id);
-	// });
+	showComprovanteDOM.addEventListener('click', (event) => {
+		const cells = row.querySelectorAll('td');
+
+		const comprovanteFilters = [
+			'DATA_PAGAMENTO',
+			'AGENCIA',
+			'CONTA',
+			'BANCO',
+			'ADQUIRENTE',
+		];
+		const filtersQuery = {};
+		cells.forEach((cell) => {
+			if (cell.dataset.column) {
+				let value;
+				const column = cell.dataset.column;
+				if (comprovanteFilters.includes(column)) {
+					if (cell.dataset.image) {
+						value = cell.querySelector('.icon-image').dataset.title;
+					} else {
+						value = cell.innerHTML;
+					}
+					filtersQuery[`${column.toLowerCase()}`] = value;
+				}
+			}
+		});
+		renderComprovanteTableData(filtersQuery);
+	});
 
 	_defaultEvents.table.onRenderRow(row, data, tableRenderInstance);
 });

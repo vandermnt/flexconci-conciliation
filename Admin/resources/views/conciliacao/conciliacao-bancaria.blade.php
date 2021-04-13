@@ -137,7 +137,7 @@
                     data-value-key="ID"
                 >
                 <div
-                    class="tooltip-hint tooltip-left d-flex align-items-center"
+                    class="tooltip-hint tooltip-left d-flex align-items-center js-show-comprovante"
                     data-default-title="Visualizar Detalhes"
                     data-toggle="modal"
                     data-target="#comprovante-modal"
@@ -243,7 +243,7 @@
 									:options="['10', '20', '50', '100', '200']"
 								/>
 							</div>
-							<div class="vendas col-6 mt-auto">
+							{{-- <div class="vendas col-6 mt-auto">
 								<x-tables.tabela-extrato-bancario
 									id="js-tabela-extrato-bancario"
 									class="mt-3"
@@ -281,14 +281,11 @@
 									per-page-select-id="js-por-pagina-extrato-bancario"
 									:options="['10', '20', '50', '100', '200']"
 								/>
-							</div>
+							</div> --}}
 						</div>
 					</div>
         </x-slot>
         <x-slot name="footer">
-					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-					</div>
         </x-slot>
     </x-modal>
     </div>
@@ -313,5 +310,5 @@
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/conciliacao/conciliacao-bancaria.js') }}"></script>
 	<script defer src="{{ URL::asset('assets/js/conciliacao/comprovante/conciliacao-bancaria-comprovante.js') }}"></script>
-	<script defer src="{{ URL::asset('assets/js/conciliacao/comprovante/extrato-bancario.js') }}"></script>
+	{{-- <script defer src="{{ URL::asset('assets/js/conciliacao/comprovante/extrato-bancario.js') }}"></script> --}}
 @endsection

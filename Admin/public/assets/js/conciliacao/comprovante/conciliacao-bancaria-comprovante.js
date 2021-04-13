@@ -56,9 +56,7 @@ salesContainerComprovante.onEvent('fail', (err) => {
 
 salesContainerComprovante.setPaginationConfig(
 	{
-		paginationContainer: document.querySelector(
-			'#js-paginacao-conciliacao-bancaria-comprovante'
-		),
+		paginationContainer: document.querySelector('#js-paginacao-comprovante'),
 	},
 	async (page, pagination, event) => {
 		await buildRequestComprovante({
@@ -111,19 +109,6 @@ function buildRequestComprovante(params) {
 	};
 }
 
-searchForm.onSubmit(async (event) => {
-	await salesContainerComprovante.search({
-		params: {
-			por_pagina: document.querySelector('#js-por-pagina').value,
-		},
-		body: { ...searchForm.serialize() },
-	});
-
-	tableRenderComprovante.clearFilters();
-	tableRenderComprovante.clearSortFilter();
-	window.scrollTo(0, document.querySelector('.resultados').offsetTop);
-});
-
 tableRenderComprovante.shouldSelectRow((elementDOM) => {
 	let shouldSelect = _defaultEvents.table.shouldSelectRow(elementDOM);
 	if (['i', 'input'].includes(elementDOM.tagName.toLowerCase())) {
@@ -154,12 +139,6 @@ tableRenderComprovante.onRenderRow((row, data, tableRenderInstance) => {
 		}
 	});
 
-	// const showDetailsDOM = row.querySelector('td .js-show-details');
-
-	// showDetailsDOM.addEventListener('click', (event) => {
-	// 	showTicket(row.dataset.id);
-	// });
-
 	_defaultEvents.table.onRenderRow(row, data, tableRenderInstance);
 });
 
@@ -186,7 +165,7 @@ tableRenderComprovante.onSort(async (elementDOM, tableInstance) => {
 	await buildRequestComprovante(params).get();
 });
 
-async function onPerPageChanged(event) {
+async function onComprovantePerPageChanged(event) {
 	salesContainerComprovante
 		.get('search')
 		.get('pagination')
@@ -316,12 +295,17 @@ Array.from(
 
 document
 	.querySelector('#js-por-pagina')
-	.addEventListener('change', onPerPageChanged);
+	.addEventListener('change', onComprovantePerPageChanged);
 
-document.querySelector('#js-exportar').addEventListener('click', exportar);
+async function renderComprovanteTableData(filtersQuery) {
+	await salesContainerComprovante.search({
+		params: {
+			por_pagina: document.querySelector('#js-por-pagina-comprovante').value,
+		},
+		body: filtersQuery,
+	});
 
-document.querySelector('#js-retorno-csv').addEventListener('click', retornoCsv);
-
-document
-	.querySelector('#js-desjustificar')
-	.addEventListener('click', confirmUnjustify);
+	tableRender.clearFilters();
+	tableRender.clearSortFilter();
+	window.scrollTo(0, document.querySelector('.resultados').offsetTop);
+}

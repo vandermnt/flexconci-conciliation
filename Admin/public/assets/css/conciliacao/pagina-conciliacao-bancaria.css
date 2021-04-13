@@ -166,11 +166,11 @@
 
 #comprovante-modal .table-responsive {
 	overflow-x: hidden;
-	min-height: 528px;
-	max-height: 528px;
+	min-height: 370px;
+	max-height: 370px;
 }
 
-@media (max-width: 1800px) {
+/* @media (max-width: 1800px) {
 	.resize {
 		max-width: 80px !important;
 		min-width: 80px !important;
@@ -182,7 +182,7 @@
 		max-width: 70px !important;
 		min-width: 70px !important;
 	}
-}
+} */
 
 @media (max-width: 1400px) {
 	#comprovante-modal .table-responsive {
