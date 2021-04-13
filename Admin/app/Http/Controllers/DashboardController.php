@@ -142,12 +142,13 @@ class DashboardController extends Controller
 
 	public function dadosCalendario() {
 		$data_atual = date('Y/m/d');
-		$um_mes_atras = date('Y/m/d', strtotime('-1 month', strtotime($data_atual)));
+		$um_mes_atras = date('Y/m/d', strtotime('-2 month', strtotime($data_atual)));
+		$data_formatada_calendario = date("Y-m-d", strtotime($um_mes_atras));
 
 		$dados_calendario_previsao = DB::table('vendas')
 			->select('vendas.DATA_PREVISTA_PAGTO')
 			->selectRaw('sum(VALOR_LIQUIDO) as val_liquido')
-			->where('vendas.DATA_PREVISTA_PAGTO', '>=', $data_atual)
+			->where('vendas.DATA_PREVISTA_PAGTO', '>=', date('Y/m/d'))
 			->where('cod_cliente', '=', session('codigologin'))
 			->groupBy('vendas.DATA_PREVISTA_PAGTO')
 			->get();
@@ -160,7 +161,7 @@ class DashboardController extends Controller
 			->groupBy('pagamentos_operadoras.DATA_PAGAMENTO')
 			->get();
 
-		return response()->json(['previstos' => $dados_calendario_previsao, 'pagos' => $dados_calendario_pagamento]);
+		return response()->json(['previstos' => $dados_calendario_previsao, 'pagos' => $dados_calendario_pagamento, 'um_mes_atras' => $data_formatada_calendario]);
 	}
 
 	public function exportarPdfVendasOperadoras($codigo_periodo)

@@ -6,6 +6,8 @@ const data = new Date(),
 const data_atual = [ano, mes, dia].join("-");
 let venda_prevista_pagamento;
 let venda_paga;
+let um_mes_atras;
+
 fetch("dados-calendario")
   .then(response => {
     response
@@ -15,10 +17,13 @@ fetch("dados-calendario")
 
         venda_prevista_pagamento = resultado.previstos;
         venda_paga = resultado.pagos;
+        um_mes_atras = resultado.um_mes_atras;
+
+        console.log(um_mes_atras);
         renderizaCalendario();
       })
       .catch(erro => {
-        console.log(erro);
+        console.log("Erro ao converter JSON: " + erro);
       });
   })
   .catch(e => console.log(e));
@@ -74,7 +79,11 @@ function renderizaCalendario() {
 
         showRecebiveis(data_clicada, valor, color, jsEvent);
       }
-    }
+    },
+    validRange: {
+      start: um_mes_atras,//start date here
+       //end date here
+    },
   });
 
   $(".fc-prev-button").append('<i class="glyphicon"...</i>');
