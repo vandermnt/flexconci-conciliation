@@ -36,6 +36,18 @@
             <input type="text" class="form-control" name="TIPO_LANCAMENTO">
           </div>
         </th>
+				<th>
+          <div class="d-flex flex-column align-items-center">
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="TIPO_PAGAMENTO"
+            >
+                <p class="m-0">Tipo Recebimento</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
+            <input type="text" class="form-control" name="TIPO_PAGAMENTO">
+          </div>
+        </th>
         <th>
           <div class="d-flex flex-column align-items-center">
             <div
@@ -130,18 +142,6 @@
                 <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
             <input type="text" class="form-control" name="MODALIDADE">
-          </div>
-        </th>
-        <th>
-          <div class="d-flex flex-column align-items-center">
-            <div
-                class="d-flex align-items-center justify-content-center table-sorter mb-2"
-                data-tbsort-by="TIPO_PAGAMENTO"
-            >
-                <p class="m-0">Tipo Recebimento</p>
-                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
-            </div>
-            <input type="text" class="form-control" name="TIPO_PAGAMENTO">
           </div>
         </th>
         <th>
@@ -501,6 +501,7 @@
         @endisset
         <td data-column="DESCRICAO_ERP"></td>
 				<td data-column="TIPO_LANCAMENTO"></td>
+				<td data-column="TIPO_PAGAMENTO"></td>
         <td data-column="NOME_EMPRESA"></td>
         <td data-column="CNPJ"></td>
         <td data-column="DATA_VENDA" data-format="date"></td>
@@ -532,7 +533,6 @@
           </div>
         </td>
         <td data-column="MODALIDADE"></td>
-        <td data-column="TIPO_PAGAMENTO"></td>
         <td data-column="NSU"></td>
         <td data-column="AUTORIZACAO"></td>
         <td data-column="TID"></td>
