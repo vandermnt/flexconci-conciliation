@@ -113,7 +113,7 @@
 				<td data-column="BANDEIRA"></td>
 				<td data-column="FORMA_PAGAMENTO"></td>
 				<td data-column="ESTABELECIMENTO"></td>
-				<td data-column="VALOR"></td>
+				<td data-column="VALOR" data-format="currency"></td>
       </tr>
     </tbody>
     <tfoot>

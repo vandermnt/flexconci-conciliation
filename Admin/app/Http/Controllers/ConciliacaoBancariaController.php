@@ -137,7 +137,6 @@ class ConciliacaoBancariaController extends Controller
 				->getQuery();
 
 			$sales = (clone $query)->paginate($perPage);
-			//print_r($sales);
 			$totals = [
 				// 'TOTAL_BRUTO' => (clone $query)->sum('VALOR_BRUTO'),
 				'TOTAL_PREVISTO_OPERADORA' => (clone $query)->sum('VALOR_PREVISTO_OPERADORA'),

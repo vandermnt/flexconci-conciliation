@@ -33,8 +33,8 @@ const apiConfig = {
 let selectedSales = [];
 
 checker.addGroups([
-	{name: 'empresa', options: {inputName: 'grupos_clientes'}},
-	{name: 'adquirente', options: {inputName: 'adquirentes'}},
+	{ name: 'empresa', options: { inputName: 'grupos_clientes' } },
+	{ name: 'adquirente', options: { inputName: 'adquirentes' } },
 ]);
 
 modalFilter.addGroups(['empresa', 'adquirente']);
@@ -105,10 +105,10 @@ function buildRequest(params) {
 		...tableRender.serializeSortFilter(),
 	};
 	const bodyPayload = isSearchActive
-		? {...filters}
+		? { ...filters }
 		: {
-				filters: {...filters},
-				subfilters: {...tableRender.serializeTableFilters()},
+				filters: { ...filters },
+				subfilters: { ...tableRender.serializeTableFilters() },
 		  };
 
 	const requestPayload = {
@@ -139,7 +139,7 @@ searchForm.onSubmit(async (event) => {
 		params: {
 			por_pagina: document.querySelector('#js-por-pagina').value,
 		},
-		body: {...searchForm.serialize()},
+		body: { ...searchForm.serialize() },
 	});
 
 	tableRender.clearFilters();
@@ -213,11 +213,11 @@ async function onPerPageChanged(event) {
 	salesContainer
 		.get('search')
 		.get('pagination')
-		.setOptions({perPage: event.target.value});
+		.setOptions({ perPage: event.target.value });
 	salesContainer
 		.get('filtered')
 		.get('pagination')
-		.setOptions({perPage: event.target.value});
+		.setOptions({ perPage: event.target.value });
 	await buildRequest({
 		page: 1,
 		por_pagina: event.target.value,
