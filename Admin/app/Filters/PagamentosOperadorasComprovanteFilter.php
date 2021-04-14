@@ -35,27 +35,22 @@ class PagamentosOperadorasComprovanteFilter extends BaseFilter
 		$filters = Arr::except($params, 'sort');
 		$sort = collect(Arr::only($params, 'sort'))->get('sort');
 
-		$this->totalsQuery = PagamentoOperadoraModel::select([
-			'pagamentos_operadoras.DATA_PAGAMENTO',
-			'pagamentos_operadoras.EMPRESA',
-			'pagamentos_operadoras.COD_ADQUIRENTE',
-		])
-			->where('pagamentos_operadoras.COD_CLIENTE', $filters['cliente_id']);
-
 		$this->query = PagamentoOperadoraModel::select(
 			[
 				'pagamentos_operadoras.DATA_PAGAMENTO',
 				'pagamentos_operadoras.EMPRESA',
+				'pagamentos_operadoras.ID_LOJA as ESTABELECIMENTO',
+				'modalidade.DESCRICAO as FORMA_PAGAMENTO',
 				'lista_bancos.BANCO',
 				'bandeira.BANDEIRA',
 				'adquirentes.ADQUIRENTE',
-				'pagamentos_operadoras.COD_FORMA_PAGAMENTO as FORMA_PAGAMENTO',
 				DB::raw('SUM(pagamentos_operadoras.VALOR_LIQUIDO) as VALOR')
 			]
 		)
 			->leftJoin('lista_bancos', 'pagamentos_operadoras.COD_BANCO', 'lista_bancos.CODIGO')
 			->leftJoin('bandeira', 'pagamentos_operadoras.COD_BANDEIRA', 'bandeira.CODIGO')
 			->leftJoin('adquirentes', 'pagamentos_operadoras.COD_ADQUIRENTE', 'adquirentes.CODIGO')
+			->leftJoin('modalidade', 'pagamentos_operadoras.COD_FORMA_PAGAMENTO', 'modalidade.CODIGO')
 			->where('pagamentos_operadoras.COD_CLIENTE', $filters['cliente_id'])
 			->groupBy('pagamentos_operadoras.DATA_PAGAMENTO', 'pagamentos_operadoras.CONTA', 'pagamentos_operadoras.AGENCIA', 'lista_bancos.BANCO', 'adquirentes.ADQUIRENTE', 'pagamentos_operadoras.EMPRESA');
 
@@ -82,6 +77,6 @@ class PagamentosOperadorasComprovanteFilter extends BaseFilter
 
 	public function getQuery()
 	{
-		return [$this->query, $this->totalsQuery];
+		return $this->query;
 	}
 }

@@ -21,9 +21,9 @@ salesContainerComprovante.onEvent('beforeFetch', () => {
 
 salesContainerComprovante.onEvent('fetch', (sales) => {
 	toggleElementVisibility('#js-loader');
-	document.querySelector('#js-quantidade-registros').textContent = `(${
-		sales.get('pagination').options.total || 0
-	} registros)`;
+	document.querySelector(
+		'#js-quantidade-registros-comprovante'
+	).textContent = `(${sales.get('pagination').options.total || 0} registros)`;
 
 	tableRenderComprovante.set('data', {
 		body: sales.get('sales') || [],
