@@ -76,6 +76,7 @@ function buildRequestComprovante(params) {
 
 	const filters = {
 		...searchForm.serialize(),
+		...comprovanteTableFilters,
 		...tableRenderComprovante.serializeSortFilter(),
 	};
 	const bodyPayload = isSearchActive
@@ -144,7 +145,7 @@ tableRenderComprovante.onRenderRow((row, data, tableRenderInstance) => {
 
 tableRenderComprovante.onFilter(async (filters) => {
 	const params = {
-		por_pagina: document.querySelector('#js-por-pagina').value,
+		por_pagina: document.querySelector('#js-por-pagina-comprovante').value,
 	};
 
 	salesContainerComprovante.toggleActiveData('filter');
@@ -158,7 +159,7 @@ tableRenderComprovante.onFilter(async (filters) => {
 
 tableRenderComprovante.onSort(async (elementDOM, tableInstance) => {
 	const params = {
-		por_pagina: document.querySelector('#js-por-pagina').value,
+		por_pagina: document.querySelector('#js-por-pagina-comprovante').value,
 	};
 
 	_defaultEvents.table.onSort(elementDOM, tableInstance);
@@ -294,18 +295,58 @@ Array.from(
 });
 
 document
-	.querySelector('#js-por-pagina')
+	.querySelector('#js-por-pagina-comprovante')
 	.addEventListener('change', onComprovantePerPageChanged);
 
-async function renderComprovanteTableData(filtersQuery) {
+function renderComprovanteModal(id) {
+	const sale = salesContainer
+		.get('data')
+		.get('sales')
+		.find((sale) => sale.ID === id);
+	const modal = document.querySelector('#comprovante-modal');
+	const modalTitle = modal.querySelector('.modal-title');
+	const operadoraImg = document.querySelector(
+		'#comprovante-table-description img'
+	);
+	const formattedData = sale.DATA_PAGAMENTO.replace('-', '/')
+		.replace('-', '/')
+		.split('/')
+		.reverse()
+		.join('/');
+	modalTitle.innerHTML = `Data: ${formattedData} | AGÊNCIA: ${sale.AGENCIA} | C/C: ${sale.CONTA} | Banco: <img class='ml-1' src='${sale.BANCO_IMAGEM}' />`;
+	operadoraImg.setAttribute('src', `${sale.ADQUIRENTE_IMAGEM}`);
+	renderComprovanteTable(sale);
+}
+
+async function renderComprovanteTable(sale) {
+	setComprovanteTableFilters(sale);
 	await salesContainerComprovante.search({
 		params: {
 			por_pagina: document.querySelector('#js-por-pagina-comprovante').value,
 		},
-		body: filtersQuery,
+		body: {
+			...comprovanteTableFilters,
+		},
 	});
+
+	const total = salesContainerComprovante.get('data').get('pagination').options
+		.total;
+	document.querySelector(
+		'#js-quantidade-registros-comprovante'
+	).innerHTML = `(${total} registros)`;
 
 	tableRender.clearFilters();
 	tableRender.clearSortFilter();
-	window.scrollTo(0, document.querySelector('.resultados').offsetTop);
+}
+
+let comprovanteTableFilters = {};
+
+function setComprovanteTableFilters(sale) {
+	comprovanteTableFilters = {
+		data_pagamento: sale.DATA_PAGAMENTO,
+		conta: sale.CONTA,
+		agencia: sale.AGENCIA,
+		adquirente: sale.ADQUIRENTE,
+		banco: sale.BANCO,
+	};
 }

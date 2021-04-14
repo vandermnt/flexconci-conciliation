@@ -299,16 +299,16 @@ class ConciliacaoBancariaController extends Controller
 			$queries = PagamentosOperadorasComprovanteFilter::filter($filters)
 				->getQuery();
 			$query = $queries[0];
-			$totalsQuery = $queries[1];
+			// $totalsQuery = $queries[1];
 
 			$sales = (clone $query)->paginate($perPage);
-			// $totals = [
-			// 	'TOTAL_PREVISTO_OPERADORA' => (clone $totalsQuery)->sum('VALOR_LIQUIDO'),
-			// ];
+			$totals = [
+				'TOTAL_PREVISTO_OPERADORA' => (clone $query)->sum('VALOR_LIQUIDO'),
+			];
 
 			return response()->json([
 				'vendas' => $sales,
-				// 'totais' => $totals,
+				'totais' => $totals,
 			]);
 		} catch (Exception $e) {
 			return response()->json([

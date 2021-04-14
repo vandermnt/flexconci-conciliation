@@ -185,14 +185,13 @@
 		<x-modal
         id="comprovante-modal"
         modal-label-id="comprovante-modal-label"
-        modal-label="Data: DD/MM/YYYY | FOTO DO BANCO, AGÊNCIA: 000 C/C: 00000"
     	>
         <x-slot name="content">
 					<div class="modal-body">
 						<div class="tabela-info d-flex align-items-center justify-content-between flex-wrap mt-3">
 							<div class="w-50 mb-auto">
-								<div class="table-description d-flex align-items-center justify-content-center">
-									<h4 class="text-center">Lançamentos de pagamentos previstos pela (FOTO OPERADORA)<span id="js-quantidade-registros"><br>(0 registros)</span></h4>
+								<div id="comprovante-table-description" class="table-description d-flex align-items-center justify-content-center">
+									<h4 class="text-center">Lançamentos de pagamentos previstos pela Operadora<br><img src="assets/images/widgets/cards.svg"/><br><span id="js-quantidade-registros-comprovante">(0 registros)</span></h4>
 									{{-- <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras"> --}}
 								</div>
 							</div>
@@ -243,7 +242,7 @@
 									:options="['10', '20', '50', '100', '200']"
 								/>
 							</div>
-							{{-- <div class="vendas col-6 mt-auto">
+							<div class="vendas col-6 mt-auto">
 								<x-tables.tabela-extrato-bancario
 									id="js-tabela-extrato-bancario"
 									class="mt-3"
@@ -281,7 +280,7 @@
 									per-page-select-id="js-por-pagina-extrato-bancario"
 									:options="['10', '20', '50', '100', '200']"
 								/>
-							</div> --}}
+							</div>
 						</div>
 					</div>
         </x-slot>

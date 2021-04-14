@@ -129,7 +129,7 @@
         <td></td>
 				<td></td>
 				<td>Total</td>
-				<td>330</td>
+				<td data-column="TOTAL_PREVISTO_OPERADORA" data-format="currency">R$ 0,00</td>
       </tr>
 			<tr>
         <td></td>

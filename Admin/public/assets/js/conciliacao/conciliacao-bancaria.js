@@ -180,31 +180,7 @@ tableRender.onRenderRow((row, data, tableRenderInstance) => {
 	const showComprovanteDOM = row.querySelector('td .js-show-comprovante');
 
 	showComprovanteDOM.addEventListener('click', (event) => {
-		const cells = row.querySelectorAll('td');
-
-		const comprovanteFilters = [
-			'DATA_PAGAMENTO',
-			'AGENCIA',
-			'CONTA',
-			'BANCO',
-			'ADQUIRENTE',
-		];
-		const filtersQuery = {};
-		cells.forEach((cell) => {
-			if (cell.dataset.column) {
-				let value;
-				const column = cell.dataset.column;
-				if (comprovanteFilters.includes(column)) {
-					if (cell.dataset.image) {
-						value = cell.querySelector('.icon-image').dataset.title;
-					} else {
-						value = cell.innerHTML;
-					}
-					filtersQuery[`${column.toLowerCase()}`] = value;
-				}
-			}
-		});
-		renderComprovanteTableData(filtersQuery);
+		renderComprovanteModal(row.dataset.id);
 	});
 
 	_defaultEvents.table.onRenderRow(row, data, tableRenderInstance);

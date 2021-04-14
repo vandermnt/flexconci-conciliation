@@ -11,11 +11,11 @@
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <header class="modal-header d-flex align-items-center">
-        <h5
-          class="modal-title" id="{{ $attributes->get('modal-label-id') }}"
-        >
-          {{ $attributes->get('modal-label') }}
-        </h5>
+				<h5
+					class="modal-title" id="{{ $attributes->get('modal-label-id') }}"
+				>
+					{{ $attributes->get('modal-label') ?? 'Modal Title'}}
+				</h5>
         <button
           class="close"
           type="button"
