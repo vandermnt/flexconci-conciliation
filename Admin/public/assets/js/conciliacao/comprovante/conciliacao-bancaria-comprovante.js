@@ -1,66 +1,40 @@
-const checker = new Checker();
-const modalFilter = new ModalFilter();
-const formatter = new Formatter({
-	locale: 'pt-BR',
-	currencyOptions: {
-		type: 'BRL',
-	},
-});
-const searchForm = createSearchForm({
-	form: '#js-form-pesquisa',
-	inputs: ['_token', 'data_inicial', 'data_final'],
-	checker,
-});
-const salesContainer = new SalesContainerProxy({
-	id: 'operadoras',
+const salesContainerComprovante = new SalesContainerProxy({
+	id: 'comprovante',
 	links: {
-		search: searchForm.get('form').dataset.urlOperadoras,
+		search: searchForm.get('form').dataset.urlComprovante,
 		filter: searchForm.get('form').dataset.urlFiltrarOperadoras,
 	},
 });
-const tableRender = createTableRender({
+const tableRenderComprovante = createTableRender({
 	table: '#js-tabela-conciliacao-bancaria-comprovante',
 	locale: 'pt-br',
 	formatter,
 });
-const boxes = getBoxes();
-const apiConfig = {
-	headers: {
-		'X-CSRF-TOKEN': searchForm.getInput('_token').value,
-		'Content-Type': 'application/json',
-	},
-};
-let selectedSales = [];
 
-checker.addGroups([
-	{ name: 'empresa', options: { inputName: 'grupos_clientes' } },
-	{ name: 'adquirente', options: { inputName: 'adquirentes' } },
-]);
+let selectedComprovanteSales = [];
 
-modalFilter.addGroups(['empresa', 'adquirente']);
+salesContainerComprovante.setupApi(apiConfig);
 
-salesContainer.setupApi(apiConfig);
-
-salesContainer.onEvent('beforeFetch', () => {
+salesContainerComprovante.onEvent('beforeFetch', () => {
 	toggleElementVisibility('#js-loader');
 });
 
-salesContainer.onEvent('fetch', (sales) => {
+salesContainerComprovante.onEvent('fetch', (sales) => {
 	toggleElementVisibility('#js-loader');
 	document.querySelector('#js-quantidade-registros').textContent = `(${
 		sales.get('pagination').options.total || 0
 	} registros)`;
 
-	tableRender.set('data', {
+	tableRenderComprovante.set('data', {
 		body: sales.get('sales') || [],
 		footer: sales.get('totals') || {},
 	});
 
-	tableRender.render();
+	tableRenderComprovante.render();
 	sales.get('pagination').render();
 });
 
-salesContainer.onEvent('search', (sales) => {
+salesContainerComprovante.onEvent('search', (sales) => {
 	const resultadosDOM = document.querySelector('.resultados');
 
 	const totals = sales.get('totals');
@@ -75,42 +49,41 @@ salesContainer.onEvent('search', (sales) => {
 	}
 });
 
-salesContainer.onEvent('fail', (err) => {
+salesContainerComprovante.onEvent('fail', (err) => {
 	document.querySelector('#js-loader').classList.remove('hidden');
 	document.querySelector('#js-loader').classList.add('hidden');
 });
 
-salesContainer.setPaginationConfig(
+salesContainerComprovante.setPaginationConfig(
 	{
-		paginationContainer: document.querySelector(
-			'#js-paginacao-conciliacao-bancaria-comprovante'
-		),
+		paginationContainer: document.querySelector('#js-paginacao-comprovante'),
 	},
 	async (page, pagination, event) => {
-		await buildRequest({
+		await buildRequestComprovante({
 			page,
 			por_pagina: pagination.options.perPage,
 		}).get();
 	}
 );
 
-function buildRequest(params) {
+function buildRequestComprovante(params) {
 	let requestHandler = () => {};
 
-	const isSearchActive = salesContainer.get('active') === 'search';
+	const isSearchActive = salesContainerComprovante.get('active') === 'search';
 	const sendRequest = isSearchActive
-		? salesContainer.search.bind(salesContainer)
-		: salesContainer.filter.bind(salesContainer);
+		? salesContainerComprovante.search.bind(salesContainerComprovante)
+		: salesContainerComprovante.filter.bind(salesContainerComprovante);
 
 	const filters = {
 		...searchForm.serialize(),
-		...tableRender.serializeSortFilter(),
+		...comprovanteTableFilters,
+		...tableRenderComprovante.serializeSortFilter(),
 	};
 	const bodyPayload = isSearchActive
 		? { ...filters }
 		: {
 				filters: { ...filters },
-				subfilters: { ...tableRender.serializeTableFilters() },
+				subfilters: { ...tableRenderComprovante.serializeTableFilters() },
 		  };
 
 	const requestPayload = {
@@ -120,8 +93,8 @@ function buildRequest(params) {
 
 	requestHandler = async (params) => {
 		requestPayload.params = {
-			por_pagina: salesContainer.get('search').get('pagination').options
-				.perPage,
+			por_pagina: salesContainerComprovante.get('search').get('pagination')
+				.options.perPage,
 			...params,
 		};
 
@@ -137,20 +110,7 @@ function buildRequest(params) {
 	};
 }
 
-searchForm.onSubmit(async (event) => {
-	await salesContainer.search({
-		params: {
-			por_pagina: document.querySelector('#js-por-pagina').value,
-		},
-		body: { ...searchForm.serialize() },
-	});
-
-	tableRender.clearFilters();
-	tableRender.clearSortFilter();
-	window.scrollTo(0, document.querySelector('.resultados').offsetTop);
-});
-
-tableRender.shouldSelectRow((elementDOM) => {
+tableRenderComprovante.shouldSelectRow((elementDOM) => {
 	let shouldSelect = _defaultEvents.table.shouldSelectRow(elementDOM);
 	if (['i', 'input'].includes(elementDOM.tagName.toLowerCase())) {
 		shouldSelect = false;
@@ -161,67 +121,61 @@ tableRender.shouldSelectRow((elementDOM) => {
 	return shouldSelect;
 });
 
-tableRender.onRenderRow((row, data, tableRenderInstance) => {
+tableRenderComprovante.onRenderRow((row, data, tableRenderInstance) => {
 	const checkboxDOM = row.querySelector('td input[data-value-key]');
 	const value = data[checkboxDOM.dataset.valueKey];
 	checkboxDOM.value = value;
-	checkboxDOM.checked = selectedSales.includes(value);
+	checkboxDOM.checked = selectedComprovanteSales.includes(value);
 
 	checkboxDOM.addEventListener('change', (event) => {
 		const target = event.target;
 		const value = event.target.value;
 
-		if (target.checked && !selectedSales.includes(value)) {
-			selectedSales.push(value);
-		} else if (!target.checked && selectedSales.includes(value)) {
-			selectedSales = [
-				...selectedSales.filter((selected) => selected !== value),
+		if (target.checked && !selectedComprovanteSales.includes(value)) {
+			selectedComprovanteSales.push(value);
+		} else if (!target.checked && selectedComprovanteSales.includes(value)) {
+			selectedComprovanteSales = [
+				...selectedComprovanteSales.filter((selected) => selected !== value),
 			];
 		}
 	});
 
-	// const showDetailsDOM = row.querySelector('td .js-show-details');
-
-	// showDetailsDOM.addEventListener('click', (event) => {
-	// 	showTicket(row.dataset.id);
-	// });
-
 	_defaultEvents.table.onRenderRow(row, data, tableRenderInstance);
 });
 
-tableRender.onFilter(async (filters) => {
+tableRenderComprovante.onFilter(async (filters) => {
 	const params = {
-		por_pagina: document.querySelector('#js-por-pagina').value,
+		por_pagina: document.querySelector('#js-por-pagina-comprovante').value,
 	};
 
-	salesContainer.toggleActiveData('filter');
+	salesContainerComprovante.toggleActiveData('filter');
 	if (Object.keys(filters).length === 0) {
-		salesContainer.toggleActiveData('search');
+		salesContainerComprovante.toggleActiveData('search');
 		params.page = 1;
 	}
 
-	await buildRequest(params).get();
+	await buildRequestComprovante(params).get();
 });
 
-tableRender.onSort(async (elementDOM, tableInstance) => {
+tableRenderComprovante.onSort(async (elementDOM, tableInstance) => {
 	const params = {
-		por_pagina: document.querySelector('#js-por-pagina').value,
+		por_pagina: document.querySelector('#js-por-pagina-comprovante').value,
 	};
 
 	_defaultEvents.table.onSort(elementDOM, tableInstance);
-	await buildRequest(params).get();
+	await buildRequestComprovante(params).get();
 });
 
-async function onPerPageChanged(event) {
-	salesContainer
+async function onComprovantePerPageChanged(event) {
+	salesContainerComprovante
 		.get('search')
 		.get('pagination')
 		.setOptions({ perPage: event.target.value });
-	salesContainer
+	salesContainerComprovante
 		.get('filtered')
 		.get('pagination')
 		.setOptions({ perPage: event.target.value });
-	await buildRequest({
+	await buildRequestComprovante({
 		page: 1,
 		por_pagina: event.target.value,
 	}).get();
@@ -232,8 +186,10 @@ function exportar() {
 	setTimeout(() => {
 		openUrl(searchForm.get('form').dataset.urlExportar, {
 			...searchForm.serialize(),
-			...tableRender.serializeTableFilters(),
-			...serializeTableSortToExport(tableRender.serializeSortFilter()),
+			...tableRenderComprovante.serializeTableFilters(),
+			...serializeTableSortToExport(
+				tableRenderComprovante.serializeSortFilter()
+			),
 		});
 	}, 500);
 }
@@ -243,14 +199,16 @@ function retornoCsv() {
 	setTimeout(() => {
 		openUrl(searchForm.get('form').dataset.urlRetornoCsv, {
 			...searchForm.serialize(),
-			...tableRender.serializeTableFilters(),
-			...serializeTableSortToExport(tableRender.serializeSortFilter()),
+			...tableRenderComprovante.serializeTableFilters(),
+			...serializeTableSortToExport(
+				tableRenderComprovante.serializeSortFilter()
+			),
 		});
 	}, 500);
 }
 
 function showTicket(id) {
-	const sale = salesContainer
+	const sale = salesContainerComprovante
 		.get('data')
 		.get('sales')
 		.find((sale) => sale.ID === id);
@@ -268,7 +226,7 @@ function showTicket(id) {
 }
 
 function confirmUnjustify() {
-	if (selectedSales.length < 1) {
+	if (selectedComprovanteSales.length < 1) {
 		swal('Ooops...', 'Selecione ao menos uma venda operadora.', 'error');
 		return;
 	}
@@ -288,7 +246,7 @@ function unjustify() {
 		.post(baseUrl, {
 			...apiConfig,
 			body: JSON.stringify({
-				id: selectedSales,
+				id: selectedComprovanteSales,
 			}),
 		})
 		.then((json) => {
@@ -297,7 +255,7 @@ function unjustify() {
 				return;
 			}
 
-			const sales = salesContainer.get('data');
+			const sales = salesContainerComprovante.get('data');
 
 			const updatedSales = updateData(
 				[...sales.get('sales')],
@@ -307,14 +265,14 @@ function unjustify() {
 
 			sales.set('sales', [...updatedSales]);
 
-			selectedSales = [];
+			selectedComprovanteSales = [];
 
-			tableRender.set('data', {
+			tableRenderComprovante.set('data', {
 				body: [...updatedSales] || [],
 				footer: sales.get('totals') || {},
 			});
 
-			tableRender.render();
+			tableRenderComprovante.render();
 			swal('Justificativa desfeita!', json.mensagem, 'success');
 		})
 		.finally(() => {
@@ -337,13 +295,58 @@ Array.from(
 });
 
 document
-	.querySelector('#js-por-pagina')
-	.addEventListener('change', onPerPageChanged);
+	.querySelector('#js-por-pagina-comprovante')
+	.addEventListener('change', onComprovantePerPageChanged);
 
-document.querySelector('#js-exportar').addEventListener('click', exportar);
+function renderComprovanteModal(id) {
+	const sale = salesContainer
+		.get('data')
+		.get('sales')
+		.find((sale) => sale.ID === id);
+	const modal = document.querySelector('#comprovante-modal');
+	const modalTitle = modal.querySelector('.modal-title');
+	const operadoraImg = document.querySelector(
+		'#comprovante-table-description img'
+	);
+	const formattedData = sale.DATA_PAGAMENTO.replace('-', '/')
+		.replace('-', '/')
+		.split('/')
+		.reverse()
+		.join('/');
+	modalTitle.innerHTML = `Data: ${formattedData} | AGÊNCIA: ${sale.AGENCIA} | C/C: ${sale.CONTA} | Banco: <img class='ml-1' src='${sale.BANCO_IMAGEM}' />`;
+	operadoraImg.setAttribute('src', `${sale.ADQUIRENTE_IMAGEM}`);
+	renderComprovanteTable(sale);
+}
 
-document.querySelector('#js-retorno-csv').addEventListener('click', retornoCsv);
+async function renderComprovanteTable(sale) {
+	setComprovanteTableFilters(sale);
+	await salesContainerComprovante.search({
+		params: {
+			por_pagina: document.querySelector('#js-por-pagina-comprovante').value,
+		},
+		body: {
+			...comprovanteTableFilters,
+		},
+	});
 
-document
-	.querySelector('#js-desjustificar')
-	.addEventListener('click', confirmUnjustify);
+	const total = salesContainerComprovante.get('data').get('pagination').options
+		.total;
+	document.querySelector(
+		'#js-quantidade-registros-comprovante'
+	).innerHTML = `(${total} registros)`;
+
+	tableRender.clearFilters();
+	tableRender.clearSortFilter();
+}
+
+let comprovanteTableFilters = {};
+
+function setComprovanteTableFilters(sale) {
+	comprovanteTableFilters = {
+		data_pagamento: sale.DATA_PAGAMENTO,
+		conta: sale.CONTA,
+		agencia: sale.AGENCIA,
+		adquirente: sale.ADQUIRENTE,
+		banco: sale.BANCO,
+	};
+}

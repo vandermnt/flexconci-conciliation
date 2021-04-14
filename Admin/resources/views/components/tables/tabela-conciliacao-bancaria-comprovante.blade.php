@@ -113,7 +113,7 @@
 				<td data-column="BANDEIRA"></td>
 				<td data-column="FORMA_PAGAMENTO"></td>
 				<td data-column="ESTABELECIMENTO"></td>
-				<td data-column="VALOR"></td>
+				<td data-column="VALOR" data-format="currency"></td>
       </tr>
     </tbody>
     <tfoot>
@@ -129,7 +129,7 @@
         <td></td>
 				<td></td>
 				<td>Total</td>
-				<td>330</td>
+				<td data-column="TOTAL_PREVISTO_OPERADORA" data-format="currency">R$ 0,00</td>
       </tr>
 			<tr>
         <td></td>

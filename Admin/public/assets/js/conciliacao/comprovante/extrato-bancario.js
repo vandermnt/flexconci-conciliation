@@ -1,66 +1,40 @@
-const checker = new Checker();
-const modalFilter = new ModalFilter();
-const formatter = new Formatter({
-	locale: 'pt-BR',
-	currencyOptions: {
-		type: 'BRL',
-	},
-});
-const searchForm = createSearchForm({
-	form: '#js-form-pesquisa',
-	inputs: ['_token', 'data_inicial', 'data_final'],
-	checker,
-});
-const salesContainer = new SalesContainerProxy({
-	id: 'operadoras',
+const salesContainerExtrato = new SalesContainerProxy({
+	id: 'extrato',
 	links: {
-		search: searchForm.get('form').dataset.urlOperadoras,
+		search: searchForm.get('form').dataset.urlComprovante,
 		filter: searchForm.get('form').dataset.urlFiltrarOperadoras,
 	},
 });
-const tableRender = createTableRender({
+const tableRenderExtrato = createTableRender({
 	table: '#js-tabela-extrato-bancario',
 	locale: 'pt-br',
 	formatter,
 });
-const boxes = getBoxes();
-const apiConfig = {
-	headers: {
-		'X-CSRF-TOKEN': searchForm.getInput('_token').value,
-		'Content-Type': 'application/json',
-	},
-};
-let selectedSales = [];
 
-checker.addGroups([
-	{ name: 'empresa', options: { inputName: 'grupos_clientes' } },
-	{ name: 'adquirente', options: { inputName: 'adquirentes' } },
-]);
+let selectedExtratoSales = [];
 
-modalFilter.addGroups(['empresa', 'adquirente']);
+salesContainerExtrato.setupApi(apiConfig);
 
-salesContainer.setupApi(apiConfig);
-
-salesContainer.onEvent('beforeFetch', () => {
+salesContainerExtrato.onEvent('beforeFetch', () => {
 	toggleElementVisibility('#js-loader');
 });
 
-salesContainer.onEvent('fetch', (sales) => {
+salesContainerExtrato.onEvent('fetch', (sales) => {
 	toggleElementVisibility('#js-loader');
 	document.querySelector('#js-quantidade-registros').textContent = `(${
 		sales.get('pagination').options.total || 0
 	} registros)`;
 
-	tableRender.set('data', {
+	tableRenderExtrato.set('data', {
 		body: sales.get('sales') || [],
 		footer: sales.get('totals') || {},
 	});
 
-	tableRender.render();
+	tableRenderExtrato.render();
 	sales.get('pagination').render();
 });
 
-salesContainer.onEvent('search', (sales) => {
+salesContainerExtrato.onEvent('search', (sales) => {
 	const resultadosDOM = document.querySelector('.resultados');
 
 	const totals = sales.get('totals');
@@ -75,42 +49,42 @@ salesContainer.onEvent('search', (sales) => {
 	}
 });
 
-salesContainer.onEvent('fail', (err) => {
+salesContainerExtrato.onEvent('fail', (err) => {
 	document.querySelector('#js-loader').classList.remove('hidden');
 	document.querySelector('#js-loader').classList.add('hidden');
 });
 
-salesContainer.setPaginationConfig(
+salesContainerExtrato.setPaginationConfig(
 	{
 		paginationContainer: document.querySelector(
 			'#js-paginacao-extrato-bancario'
 		),
 	},
 	async (page, pagination, event) => {
-		await buildRequest({
+		await buildRequestComprovante({
 			page,
 			por_pagina: pagination.options.perPage,
 		}).get();
 	}
 );
 
-function buildRequest(params) {
+function buildRequestComprovante(params) {
 	let requestHandler = () => {};
 
-	const isSearchActive = salesContainer.get('active') === 'search';
+	const isSearchActive = salesContainerExtrato.get('active') === 'search';
 	const sendRequest = isSearchActive
-		? salesContainer.search.bind(salesContainer)
-		: salesContainer.filter.bind(salesContainer);
+		? salesContainerExtrato.search.bind(salesContainerExtrato)
+		: salesContainerExtrato.filter.bind(salesContainerExtrato);
 
 	const filters = {
 		...searchForm.serialize(),
-		...tableRender.serializeSortFilter(),
+		...tableRenderExtrato.serializeSortFilter(),
 	};
 	const bodyPayload = isSearchActive
 		? { ...filters }
 		: {
 				filters: { ...filters },
-				subfilters: { ...tableRender.serializeTableFilters() },
+				subfilters: { ...tableRenderExtrato.serializeTableFilters() },
 		  };
 
 	const requestPayload = {
@@ -120,7 +94,7 @@ function buildRequest(params) {
 
 	requestHandler = async (params) => {
 		requestPayload.params = {
-			por_pagina: salesContainer.get('search').get('pagination').options
+			por_pagina: salesContainerExtrato.get('search').get('pagination').options
 				.perPage,
 			...params,
 		};
@@ -138,19 +112,20 @@ function buildRequest(params) {
 }
 
 searchForm.onSubmit(async (event) => {
-	await salesContainer.search({
+	await salesContainerExtrato.search({
 		params: {
-			por_pagina: document.querySelector('#js-por-pagina').value,
+			por_pagina: document.querySelector('#js-por-pagina-extrato-bancario')
+				.value,
 		},
 		body: { ...searchForm.serialize() },
 	});
 
-	tableRender.clearFilters();
-	tableRender.clearSortFilter();
+	tableRenderExtrato.clearFilters();
+	tableRenderExtrato.clearSortFilter();
 	window.scrollTo(0, document.querySelector('.resultados').offsetTop);
 });
 
-tableRender.shouldSelectRow((elementDOM) => {
+tableRenderExtrato.shouldSelectRow((elementDOM) => {
 	let shouldSelect = _defaultEvents.table.shouldSelectRow(elementDOM);
 	if (['i', 'input'].includes(elementDOM.tagName.toLowerCase())) {
 		shouldSelect = false;
@@ -161,21 +136,21 @@ tableRender.shouldSelectRow((elementDOM) => {
 	return shouldSelect;
 });
 
-tableRender.onRenderRow((row, data, tableRenderInstance) => {
+tableRenderExtrato.onRenderRow((row, data, tableRenderInstance) => {
 	const checkboxDOM = row.querySelector('td input[data-value-key]');
 	const value = data[checkboxDOM.dataset.valueKey];
 	checkboxDOM.value = value;
-	checkboxDOM.checked = selectedSales.includes(value);
+	checkboxDOM.checked = selectedExtratoSales.includes(value);
 
 	checkboxDOM.addEventListener('change', (event) => {
 		const target = event.target;
 		const value = event.target.value;
 
-		if (target.checked && !selectedSales.includes(value)) {
-			selectedSales.push(value);
-		} else if (!target.checked && selectedSales.includes(value)) {
-			selectedSales = [
-				...selectedSales.filter((selected) => selected !== value),
+		if (target.checked && !selectedExtratoSales.includes(value)) {
+			selectedExtratoSales.push(value);
+		} else if (!target.checked && selectedExtratoSales.includes(value)) {
+			selectedExtratoSales = [
+				...selectedExtratoSales.filter((selected) => selected !== value),
 			];
 		}
 	});
@@ -189,39 +164,39 @@ tableRender.onRenderRow((row, data, tableRenderInstance) => {
 	_defaultEvents.table.onRenderRow(row, data, tableRenderInstance);
 });
 
-tableRender.onFilter(async (filters) => {
+tableRenderExtrato.onFilter(async (filters) => {
 	const params = {
-		por_pagina: document.querySelector('#js-por-pagina').value,
+		por_pagina: document.querySelector('#js-por-pagina-extrato-bancario').value,
 	};
 
-	salesContainer.toggleActiveData('filter');
+	salesContainerExtrato.toggleActiveData('filter');
 	if (Object.keys(filters).length === 0) {
-		salesContainer.toggleActiveData('search');
+		salesContainerExtrato.toggleActiveData('search');
 		params.page = 1;
 	}
 
-	await buildRequest(params).get();
+	await buildRequestComprovante(params).get();
 });
 
-tableRender.onSort(async (elementDOM, tableInstance) => {
+tableRenderExtrato.onSort(async (elementDOM, tableInstance) => {
 	const params = {
-		por_pagina: document.querySelector('#js-por-pagina').value,
+		por_pagina: document.querySelector('#js-por-pagina-extrato-bancario').value,
 	};
 
 	_defaultEvents.table.onSort(elementDOM, tableInstance);
-	await buildRequest(params).get();
+	await buildRequestComprovante(params).get();
 });
 
 async function onPerPageChanged(event) {
-	salesContainer
+	salesContainerExtrato
 		.get('search')
 		.get('pagination')
 		.setOptions({ perPage: event.target.value });
-	salesContainer
+	salesContainerExtrato
 		.get('filtered')
 		.get('pagination')
 		.setOptions({ perPage: event.target.value });
-	await buildRequest({
+	await buildRequestComprovante({
 		page: 1,
 		por_pagina: event.target.value,
 	}).get();
@@ -232,8 +207,8 @@ function exportar() {
 	setTimeout(() => {
 		openUrl(searchForm.get('form').dataset.urlExportar, {
 			...searchForm.serialize(),
-			...tableRender.serializeTableFilters(),
-			...serializeTableSortToExport(tableRender.serializeSortFilter()),
+			...tableRenderExtrato.serializeTableFilters(),
+			...serializeTableSortToExport(tableRenderExtrato.serializeSortFilter()),
 		});
 	}, 500);
 }
@@ -243,14 +218,14 @@ function retornoCsv() {
 	setTimeout(() => {
 		openUrl(searchForm.get('form').dataset.urlRetornoCsv, {
 			...searchForm.serialize(),
-			...tableRender.serializeTableFilters(),
-			...serializeTableSortToExport(tableRender.serializeSortFilter()),
+			...tableRenderExtrato.serializeTableFilters(),
+			...serializeTableSortToExport(tableRenderExtrato.serializeSortFilter()),
 		});
 	}, 500);
 }
 
 function showTicket(id) {
-	const sale = salesContainer
+	const sale = salesContainerExtrato
 		.get('data')
 		.get('sales')
 		.find((sale) => sale.ID === id);
@@ -268,7 +243,7 @@ function showTicket(id) {
 }
 
 function confirmUnjustify() {
-	if (selectedSales.length < 1) {
+	if (selectedExtratoSales.length < 1) {
 		swal('Ooops...', 'Selecione ao menos uma venda operadora.', 'error');
 		return;
 	}
@@ -288,7 +263,7 @@ function unjustify() {
 		.post(baseUrl, {
 			...apiConfig,
 			body: JSON.stringify({
-				id: selectedSales,
+				id: selectedExtratoSales,
 			}),
 		})
 		.then((json) => {
@@ -297,7 +272,7 @@ function unjustify() {
 				return;
 			}
 
-			const sales = salesContainer.get('data');
+			const sales = salesContainerExtrato.get('data');
 
 			const updatedSales = updateData(
 				[...sales.get('sales')],
@@ -307,14 +282,14 @@ function unjustify() {
 
 			sales.set('sales', [...updatedSales]);
 
-			selectedSales = [];
+			selectedExtratoSales = [];
 
-			tableRender.set('data', {
+			tableRenderExtrato.set('data', {
 				body: [...updatedSales] || [],
 				footer: sales.get('totals') || {},
 			});
 
-			tableRender.render();
+			tableRenderExtrato.render();
 			swal('Justificativa desfeita!', json.mensagem, 'success');
 		})
 		.finally(() => {
@@ -337,7 +312,7 @@ Array.from(
 });
 
 document
-	.querySelector('#js-por-pagina')
+	.querySelector('#js-por-pagina-extrato-bancario')
 	.addEventListener('change', onPerPageChanged);
 
 document.querySelector('#js-exportar').addEventListener('click', exportar);

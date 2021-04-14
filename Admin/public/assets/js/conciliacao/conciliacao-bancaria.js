@@ -122,7 +122,6 @@ function buildRequest(params) {
 				.perPage,
 			...params,
 		};
-
 		await sendRequest(requestPayload);
 	};
 
@@ -178,11 +177,11 @@ tableRender.onRenderRow((row, data, tableRenderInstance) => {
 		}
 	});
 
-	// const showDetailsDOM = row.querySelector('td .js-show-details');
+	const showComprovanteDOM = row.querySelector('td .js-show-comprovante');
 
-	// showDetailsDOM.addEventListener('click', (event) => {
-	// 	showTicket(row.dataset.id);
-	// });
+	showComprovanteDOM.addEventListener('click', (event) => {
+		renderComprovanteModal(row.dataset.id);
+	});
 
 	_defaultEvents.table.onRenderRow(row, data, tableRenderInstance);
 });
@@ -339,9 +338,3 @@ document
 	.addEventListener('change', onPerPageChanged);
 
 document.querySelector('#js-exportar').addEventListener('click', exportar);
-
-document.querySelector('#js-retorno-csv').addEventListener('click', retornoCsv);
-
-document
-	.querySelector('#js-desjustificar')
-	.addEventListener('click', confirmUnjustify);

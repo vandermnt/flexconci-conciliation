@@ -54,6 +54,7 @@ class PagamentosOperadorasFilter extends BaseFilter
 
 			$this->query = PagamentoOperadoraModel::select(
 				[
+					'pagamentos_operadoras.CODIGO as ID',
 					'pagamentos_operadoras.DATA_PAGAMENTO',
 					'lista_bancos.BANCO',
 					'lista_bancos.IMAGEM_LINK as BANCO_IMAGEM',
@@ -82,6 +83,7 @@ class PagamentosOperadorasFilter extends BaseFilter
 		} else {
 			$this->query = PagamentoOperadoraModel::select(
 				[
+					'pagamentos_operadoras.CODIGO as ID',
 					'pagamentos_operadoras.DATA_PAGAMENTO',
 					'lista_bancos.BANCO',
 					'lista_bancos.IMAGEM_LINK as BANCO_IMAGEM',

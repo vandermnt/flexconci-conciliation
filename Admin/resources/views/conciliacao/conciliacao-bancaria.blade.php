@@ -30,6 +30,7 @@
             ['imprimir' => route('vendas-operadoras.print', ['id' => ':id'])],
             ['desjustificar' => route('vendas-operadoras.unjustify')],
             ['retorno-csv' => route('vendas-operadoras.retorno-csv')],
+						['comprovante' => route('conciliacao-bancaria.searchComprovante')],
           ]"
           :hidden-fields="[
             'domicilios-bancarios',
@@ -136,7 +137,7 @@
                     data-value-key="ID"
                 >
                 <div
-                    class="tooltip-hint tooltip-left d-flex align-items-center"
+                    class="tooltip-hint tooltip-left d-flex align-items-center js-show-comprovante"
                     data-default-title="Visualizar Detalhes"
                     data-toggle="modal"
                     data-target="#comprovante-modal"
@@ -184,14 +185,13 @@
 		<x-modal
         id="comprovante-modal"
         modal-label-id="comprovante-modal-label"
-        modal-label="Data: DD/MM/YYYY | FOTO DO BANCO, AGÊNCIA: 000 C/C: 00000"
     	>
         <x-slot name="content">
 					<div class="modal-body">
 						<div class="tabela-info d-flex align-items-center justify-content-between flex-wrap mt-3">
 							<div class="w-50 mb-auto">
-								<div class="table-description d-flex align-items-center justify-content-center">
-									<h4 class="text-center">Lançamentos de pagamentos previstos pela (FOTO OPERADORA)<span id="js-quantidade-registros"><br>(0 registros)</span></h4>
+								<div id="comprovante-table-description" class="table-description d-flex align-items-center justify-content-center">
+									<h4 class="text-center">Lançamentos de pagamentos previstos pela Operadora<br><img src="assets/images/widgets/cards.svg"/><br><span id="js-quantidade-registros-comprovante">(0 registros)</span></h4>
 									{{-- <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras"> --}}
 								</div>
 							</div>
@@ -237,8 +237,8 @@
 								</x-tables.tabela-conciliacao-bancaria-comprovante>
 				
 								<x-tables.table-navigation
-									pagination-id="js-paginacao-conciliacao-bancaria-comprovante"
-									per-page-select-id="js-por-pagina"
+									pagination-id="js-paginacao-comprovante"
+									per-page-select-id="js-por-pagina-comprovante"
 									:options="['10', '20', '50', '100', '200']"
 								/>
 							</div>
@@ -277,7 +277,7 @@
 				
 								<x-tables.table-navigation
 									pagination-id="js-paginacao-extrato-bancario"
-									per-page-select-id="js-por-pagina"
+									per-page-select-id="js-por-pagina-extrato-bancario"
 									:options="['10', '20', '50', '100', '200']"
 								/>
 							</div>
@@ -285,9 +285,6 @@
 					</div>
         </x-slot>
         <x-slot name="footer">
-					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-					</div>
         </x-slot>
     </x-modal>
     </div>
@@ -312,5 +309,5 @@
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/conciliacao/conciliacao-bancaria.js') }}"></script>
 	<script defer src="{{ URL::asset('assets/js/conciliacao/comprovante/conciliacao-bancaria-comprovante.js') }}"></script>
-	<script defer src="{{ URL::asset('assets/js/conciliacao/comprovante/extrato-bancario.js') }}"></script>
+	{{-- <script defer src="{{ URL::asset('assets/js/conciliacao/comprovante/extrato-bancario.js') }}"></script> --}}
 @endsection

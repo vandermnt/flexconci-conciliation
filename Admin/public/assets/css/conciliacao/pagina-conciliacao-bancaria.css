@@ -129,13 +129,11 @@
 .fix-width {
 	max-width: 250px !important;
 	width: 100% !important;
-	padding: 0px;
 }
 
 .resize {
-	max-width: 70px !important;
-	min-width: 70px !important;
-	padding: 0px;
+	max-width: 110px !important;
+	min-width: 110px !important;
 }
 
 #comprovante-modal table th .table-sorter {
@@ -158,6 +156,12 @@
 	color: gray;
 }
 
+#comprovante-modal .modal-header img {
+	width: auto;
+	height: auto;
+	width: 80px;
+}
+
 #comprovante-modal .tabela-info {
 	padding: 0px 12px !important;
 }
@@ -166,13 +170,34 @@
 	color: #2d5275 !important;
 }
 
-@media (max-width: 1400px) {
-	#comprovante-modal .table-responsive {
-		overflow-x: hidden;
+#comprovante-modal .table-description img {
+	width: auto;
+	height: auto;
+	width: 70px;
+	margin: 5px 0px;
+}
+
+#comprovante-modal .table-responsive {
+	overflow-x: hidden;
+	min-height: 370px;
+	max-height: 370px;
+}
+
+@media (max-width: 1800px) {
+	.resize {
+		max-width: 80px !important;
+		min-width: 80px !important;
 	}
 }
 
-@media (max-width: 1300px) {
+@media (max-width: 1500px) {
+	.resize {
+		max-width: 70px !important;
+		min-width: 70px !important;
+	}
+}
+
+@media (max-width: 1400px) {
 	#comprovante-modal .table-responsive {
 		overflow-x: auto;
 	}
