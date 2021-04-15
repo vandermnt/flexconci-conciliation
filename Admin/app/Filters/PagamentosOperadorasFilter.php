@@ -79,18 +79,6 @@ class PagamentosOperadorasFilter extends BaseFilter
 				]
 			)->groupBy('pagamentos_operadoras.DATA_PAGAMENTO', 'pagamentos_operadoras.AGENCIA', 'pagamentos_operadoras.CONTA', 'lista_bancos.BANCO', 'adquirentes.ADQUIRENTE');
 
-		// if (Arr::has($filters, 'grupos_clientes')) {
-		// 	$this->query->whereIn('pagamentos_operadoras.EMPRESA', function ($query) use ($filters) {
-		// 		$query->select('NOME_EMPRESA')
-		// 			->from('grupos_clientes')
-		// 			->whereIn('grupos_clientes.CODIGO', $filters['grupos_clientes']);
-		// 	});
-		// 	$this->totalsQuery->whereIn('pagamentos_operadoras.EMPRESA', function ($query) use ($filters) {
-		// 		$query->select('NOME_EMPRESA')
-		// 			->from('grupos_clientes')
-		// 			->whereIn('grupos_clientes.CODIGO', $filters['grupos_clientes']);
-		// 	});
-		// }
 		if (Arr::has($filters, ['data_inicial', 'data_final'])) {
 			$this->query->whereBetween('pagamentos_operadoras.DATA_PAGAMENTO', [
 				$filters['data_inicial'],
@@ -103,6 +91,7 @@ class PagamentosOperadorasFilter extends BaseFilter
 		}
 		if (Arr::has($filters, 'adquirentes')) {
 			$this->query->whereIn('pagamentos_operadoras.COD_ADQUIRENTE', $filters['adquirentes']);
+			$this->totalsQuery->whereIn('pagamentos_operadoras.COD_ADQUIRENTE', $filters['adquirentes']);
 		}
 
 		$this->buildOrderClause($sort);
