@@ -1,8 +1,8 @@
 const salesContainerComprovante = new SalesContainerProxy({
 	id: 'comprovante',
 	links: {
-		search: searchForm.get('form').dataset.urlComprovante,
-		filter: searchForm.get('form').dataset.urlFiltrarOperadoras,
+		search: searchForm.get('form').dataset.urlComprovantes,
+		filter: searchForm.get('form').dataset.urlFiltrarComprovantes,
 	},
 });
 const tableRenderComprovante = createTableRender({

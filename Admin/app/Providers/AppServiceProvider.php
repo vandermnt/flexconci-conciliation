@@ -13,8 +13,11 @@ use App\Filters\RecebimentosSubFilter;
 use App\Filters\RecebimentosFuturosSubFilter;
 use App\Filters\PagamentosOperadorasFilter;
 use App\Filters\PagamentosOperadorasSubFilter;
+use App\Filters\PagamentosOperadorasComprovanteFilter;
+use App\Filters\PagamentosOperadorasComprovanteSubFilter;
 use App\EdiServices\Cielo\CieloEdiAuthorize;
 use App\EdiServices\Cielo\CieloEdiRegister;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -56,6 +59,9 @@ class AppServiceProvider extends ServiceProvider
 		$this->app->bind(PagamentosOperadorasFilter::class, function ($app) {
 			return new PagamentosOperadorasFilter;
 		});
+		$this->app->bind(PagamentosOperadorasComprovanteFilter::class, function ($app) {
+			return new PagamentosOperadorasComprovanteFilter;
+		});
 		$this->app->bind(VendasErpSubFilter::class, function ($app) {
 			return new VendasErpSubFilter($app->make(VendasErpFilter::class));
 		});
@@ -70,6 +76,9 @@ class AppServiceProvider extends ServiceProvider
 		});
 		$this->app->bind(PagamentosOperadorasSubFilter::class, function ($app) {
 			return new PagamentosOperadorasSubFilter($app->make(PagamentosOperadorasFilter::class));
+		});
+		$this->app->bind(PagamentosOperadorasComprovanteSubFilter::class, function ($app) {
+			return new PagamentosOperadorasComprovanteSubFilter($app->make(PagamentosOperadorasComprovanteFilter::class));
 		});
 	}
 

@@ -30,7 +30,8 @@
             ['imprimir' => route('vendas-operadoras.print', ['id' => ':id'])],
             ['desjustificar' => route('vendas-operadoras.unjustify')],
             ['retorno-csv' => route('vendas-operadoras.retorno-csv')],
-						['comprovante' => route('conciliacao-bancaria.searchComprovante')],
+						['comprovantes' => route('conciliacao-bancaria.searchComprovante')],
+						['filtrar-comprovantes' => route('conciliacao-bancaria.filterComprovante')],
           ]"
           :hidden-fields="[
             'domicilios-bancarios',
@@ -39,10 +40,11 @@
             'modalidades', 
             'estabelecimentos',
 						'status-conciliacao',
-						'status-financeiro'
+						'status-financeiro',
+						'empresas'
           ]"
           :form-data="[
-            'empresas' => $empresas,
+            {{-- 'empresas' => $empresas, --}}
             'adquirentes' => $adquirentes,
           ]"
         />
