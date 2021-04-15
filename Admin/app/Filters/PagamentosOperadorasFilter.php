@@ -58,18 +58,17 @@ class PagamentosOperadorasFilter extends BaseFilter
 				]
 			);
 
-		$this->query = DB::table('pagamentos_operadoras')
-			->select([
-				'pagamentos_operadoras.CODIGO as ID',
-				'pagamentos_operadoras.DATA_PAGAMENTO',
-				'lista_bancos.BANCO',
-				'lista_bancos.IMAGEM_LINK as BANCO_IMAGEM',
-				'pagamentos_operadoras.AGENCIA',
-				'pagamentos_operadoras.CONTA',
-				'adquirentes.ADQUIRENTE',
-				'adquirentes.IMAGEM as ADQUIRENTE_IMAGEM',
-				DB::raw('SUM(pagamentos_operadoras.VALOR_LIQUIDO) as VALOR_PREVISTO_OPERADORA'),
-			])
+		$this->query = PagamentoOperadoraModel::select([
+			'pagamentos_operadoras.CODIGO as ID',
+			'pagamentos_operadoras.DATA_PAGAMENTO',
+			'lista_bancos.BANCO',
+			'lista_bancos.IMAGEM_LINK as BANCO_IMAGEM',
+			'pagamentos_operadoras.AGENCIA',
+			'pagamentos_operadoras.CONTA',
+			'adquirentes.ADQUIRENTE',
+			'adquirentes.IMAGEM as ADQUIRENTE_IMAGEM',
+			DB::raw('SUM(pagamentos_operadoras.VALOR_LIQUIDO) as VALOR_PREVISTO_OPERADORA'),
+		])
 			->leftJoin('adquirentes', 'adquirentes.CODIGO', 'pagamentos_operadoras.COD_ADQUIRENTE')
 			->leftJoin('tipo_pagamento', 'tipo_pagamento.CODIGO', 'pagamentos_operadoras.COD_TIPO_PAGAMENTO')
 			->leftJoin('lista_bancos', 'lista_bancos.CODIGO', 'pagamentos_operadoras.COD_BANCO')
