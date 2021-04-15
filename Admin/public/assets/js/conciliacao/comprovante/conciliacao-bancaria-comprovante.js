@@ -313,7 +313,7 @@ function renderComprovanteModal(id) {
 		.split('/')
 		.reverse()
 		.join('/');
-	modalTitle.innerHTML = `Data: ${formattedData} | AGÊNCIA: ${sale.AGENCIA} | C/C: ${sale.CONTA} | Banco: <img class='ml-1' src='${sale.BANCO_IMAGEM}' />`;
+	modalTitle.innerHTML = `<img class='ml-1' src='${sale.BANCO_IMAGEM}'/> AG. ${sale.AGENCIA} | CC. ${sale.CONTA} | ${formattedData}`;
 	operadoraImg.setAttribute('src', `${sale.ADQUIRENTE_IMAGEM}`);
 	renderComprovanteTable(sale);
 }
