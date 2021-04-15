@@ -64,16 +64,11 @@ class RecebimentosFilter extends BaseFilter
 				'pagamentos_operadoras.VALOR_TAXA_ANTECIPACAO',
 				'pagamentos_operadoras.NUMERO_RESUMO_VENDA',
 				'pagamentos_operadoras.NUMERO_TERMINAL',
-				DB::raw('(
-          (`pagamentos_operadoras`.`VALOR_BRUTO` - `pagamentos_operadoras`.`VALOR_LIQUIDO`) * 100)
-            / `pagamentos_operadoras`.`VALOR_BRUTO`
-            as `TAXA_PERCENTUAL`'),
-				DB::raw('
-          (`pagamentos_operadoras`.`VALOR_BRUTO` - `pagamentos_operadoras`.`VALOR_LIQUIDO`)
-            as `VALOR_TAXA`'),
+				'pagamentos_operadoras.TAXA_PERCENTUAL',
+				'pagamentos_operadoras.VALOR_TAXA',
 				'pagamentos_operadoras.VALOR_LIQUIDO',
-				'pagamentos_operadoras.TOTAL_PARCELAS',
 				'pagamentos_operadoras.PARCELA',
+				'pagamentos_operadoras.TOTAL_PARCELAS',
 				'pagamentos_operadoras.ID_LOJA as ESTABELECIMENTO',
 				'lista_bancos.NOME_WEB as BANCO',
 				'lista_bancos.IMAGEM_LINK as BANCO_IMAGEM',
@@ -83,9 +78,6 @@ class RecebimentosFilter extends BaseFilter
 				'pagamentos_operadoras.DIVERGENCIA',
 				'pagamentos_operadoras.JUSTIFICATIVA',
 				'pagamentos_operadoras.COD_TIPO_PAGAMENTO',
-				'produto_web.PRODUTO_WEB as PRODUTO',
-				'meio_captura.DESCRICAO as MEIOCAPTURA',
-				'status_conciliacao.STATUS_CONCILIACAO',
 			])
 			->leftJoin('produto_web', 'produto_web.CODIGO', 'pagamentos_operadoras.COD_PRODUTO')
 			->leftJoin('grupos_clientes', 'grupos_clientes.CODIGO', 'pagamentos_operadoras.COD_GRUPO_CLIENTE')
