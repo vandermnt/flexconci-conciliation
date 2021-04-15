@@ -46,36 +46,41 @@ class PagamentosOperadorasFilter extends BaseFilter
 		$this->totalsQuery = PagamentoOperadoraModel::select([
 			'pagamentos_operadoras.DATA_PAGAMENTO',
 			'pagamentos_operadoras.EMPRESA',
-			'pagamentos_operadoras.COD_ADQUIRENTE',
+			'pagamentos_operadoras.VALOR_LIQUIDO',
+			'adquirentes.ADQUIRENTE',
 		])
-			->where('pagamentos_operadoras.COD_CLIENTE', $filters['cliente_id']);
+			->leftJoin('tipo_pagamento', 'tipo_pagamento.CODIGO', 'pagamentos_operadoras.COD_TIPO_PAGAMENTO')
+			->leftJoin('adquirentes', 'adquirentes.CODIGO', 'pagamentos_operadoras.COD_ADQUIRENTE')
+			->where(
+				[
+					['pagamentos_operadoras.COD_CLIENTE', $filters['cliente_id']],
+					['tipo_pagamento.CODIGO', '!=', 3]
+				]
+			);
+
+		$this->query = DB::table('pagamentos_operadoras')
+			->select([
+				'pagamentos_operadoras.CODIGO as ID',
+				'pagamentos_operadoras.DATA_PAGAMENTO',
+				'lista_bancos.BANCO',
+				'lista_bancos.IMAGEM_LINK as BANCO_IMAGEM',
+				'pagamentos_operadoras.AGENCIA',
+				'pagamentos_operadoras.CONTA',
+				'adquirentes.ADQUIRENTE',
+				'adquirentes.IMAGEM as ADQUIRENTE_IMAGEM',
+				DB::raw('SUM(pagamentos_operadoras.VALOR_LIQUIDO) as VALOR_PREVISTO_OPERADORA'),
+			])
+			->leftJoin('adquirentes', 'adquirentes.CODIGO', 'pagamentos_operadoras.COD_ADQUIRENTE')
+			->leftJoin('tipo_pagamento', 'tipo_pagamento.CODIGO', 'pagamentos_operadoras.COD_TIPO_PAGAMENTO')
+			->leftJoin('lista_bancos', 'lista_bancos.CODIGO', 'pagamentos_operadoras.COD_BANCO')
+			->where(
+				[
+					['pagamentos_operadoras.COD_CLIENTE', $filters['cliente_id']],
+					['tipo_pagamento.CODIGO', '!=', 3]
+				]
+			)->groupBy('pagamentos_operadoras.DATA_PAGAMENTO', 'pagamentos_operadoras.AGENCIA', 'pagamentos_operadoras.CONTA', 'lista_bancos.BANCO', 'adquirentes.ADQUIRENTE', 'pagamentos_operadoras.EMPRESA');
 
 		if (Arr::has($filters, 'grupos_clientes')) {
-
-			$this->query = PagamentoOperadoraModel::select(
-				[
-					'pagamentos_operadoras.CODIGO as ID',
-					'pagamentos_operadoras.DATA_PAGAMENTO',
-					'lista_bancos.BANCO',
-					'lista_bancos.IMAGEM_LINK as BANCO_IMAGEM',
-					'pagamentos_operadoras.AGENCIA',
-					'pagamentos_operadoras.CONTA',
-					'adquirentes.ADQUIRENTE',
-					'adquirentes.IMAGEM as ADQUIRENTE_IMAGEM',
-					DB::raw('SUM(pagamentos_operadoras.VALOR_LIQUIDO) as VALOR_PREVISTO_OPERADORA')
-				]
-			)
-				->leftJoin('lista_bancos', 'pagamentos_operadoras.COD_BANCO', 'lista_bancos.CODIGO')
-				->leftJoin('adquirentes', 'pagamentos_operadoras.COD_ADQUIRENTE', 'adquirentes.CODIGO')
-				->leftJoin('tipo_pagamento', 'tipo_pagamento.CODIGO', 'pagamentos_operadoras.COD_TIPO_PAGAMENTO')
-				->where(
-					[
-						['pagamentos_operadoras.COD_CLIENTE', $filters['cliente_id']],
-						['tipo_pagamento.CODIGO', '!=', 3]
-					]
-				)
-				->groupBy('pagamentos_operadoras.DATA_PAGAMENTO', 'pagamentos_operadoras.CONTA', 'pagamentos_operadoras.AGENCIA', 'lista_bancos.BANCO', 'adquirentes.ADQUIRENTE', 'pagamentos_operadoras.EMPRESA');
-
 			$this->query->whereIn('pagamentos_operadoras.EMPRESA', function ($query) use ($filters) {
 				$query->select('NOME_EMPRESA')
 					->from('grupos_clientes')
@@ -86,28 +91,6 @@ class PagamentosOperadorasFilter extends BaseFilter
 					->from('grupos_clientes')
 					->whereIn('grupos_clientes.CODIGO', $filters['grupos_clientes']);
 			});
-		} else {
-			$this->query = PagamentoOperadoraModel::select(
-				[
-					'pagamentos_operadoras.CODIGO as ID',
-					'pagamentos_operadoras.DATA_PAGAMENTO',
-					'lista_bancos.BANCO',
-					'lista_bancos.IMAGEM_LINK as BANCO_IMAGEM',
-					'pagamentos_operadoras.AGENCIA',
-					'pagamentos_operadoras.CONTA',
-					'adquirentes.ADQUIRENTE',
-					'adquirentes.IMAGEM as ADQUIRENTE_IMAGEM',
-					DB::raw('SUM(pagamentos_operadoras.VALOR_LIQUIDO) as VALOR_PREVISTO_OPERADORA')
-				]
-			)
-				->leftJoin('lista_bancos', 'pagamentos_operadoras.COD_BANCO', 'lista_bancos.CODIGO')
-				->leftJoin('adquirentes', 'pagamentos_operadoras.COD_ADQUIRENTE', 'adquirentes.CODIGO')
-				->where('pagamentos_operadoras.COD_CLIENTE', $filters['cliente_id'])
-				->groupBy('pagamentos_operadoras.DATA_PAGAMENTO', 'pagamentos_operadoras.CONTA', 'pagamentos_operadoras.AGENCIA', 'lista_bancos.BANCO', 'adquirentes.ADQUIRENTE');
-		}
-
-		if (Arr::has($filters, 'id')) {
-			$this->query->whereIn('vendas.CODIGO', $filters['id']);
 		}
 		if (Arr::has($filters, ['data_inicial', 'data_final'])) {
 			$this->query->whereBetween('pagamentos_operadoras.DATA_PAGAMENTO', [
@@ -121,22 +104,6 @@ class PagamentosOperadorasFilter extends BaseFilter
 		}
 		if (Arr::has($filters, 'adquirentes')) {
 			$this->query->whereIn('pagamentos_operadoras.COD_ADQUIRENTE', $filters['adquirentes']);
-			$this->totalsQuery->whereIn('pagamentos_operadoras.COD_ADQUIRENTE', $filters['adquirentes']);
-		}
-		if (Arr::has($filters, 'bandeiras')) {
-			$this->query->whereIn('bandeira.CODIGO', $filters['bandeiras']);
-		}
-		if (Arr::has($filters, 'modalidades')) {
-			$this->query->whereIn('modalidade.CODIGO', $filters['modalidades']);
-		}
-		if (Arr::has($filters, 'estabelecimentos')) {
-			$this->query->whereIn('vendas.ESTABELECIMENTO', $filters['estabelecimentos']);
-		}
-		if (Arr::has($filters, 'status_conciliacao')) {
-			$this->query->whereIn('status_conciliacao.CODIGO', $filters['status_conciliacao']);
-		}
-		if (Arr::has($filters, 'status_financeiro')) {
-			$this->query->whereIn('status_financeiro.CODIGO', $filters['status_financeiro']);
 		}
 
 		$this->buildOrderClause($sort);

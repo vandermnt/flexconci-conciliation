@@ -109,7 +109,7 @@ class ConciliacaoBancariaController extends Controller
 
 			$sales = (clone $query)->paginate($perPage);
 			$totals = [
-				'TOTAL_PREVISTO_OPERADORA' => (clone $totalsQuery)->sum('VALOR_LIQUIDO'),
+				'TOTAL_PREVISTO_OPERADORA' => (clone $totalsQuery)->sum('pagamentos_operadoras.VALOR_LIQUIDO'),
 			];
 
 			return response()->json([
