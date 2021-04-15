@@ -193,13 +193,13 @@
 						<div class="tabela-info d-flex align-items-center justify-content-between flex-wrap mt-3">
 							<div class="w-50 mb-auto">
 								<div id="comprovante-table-description" class="table-description d-flex align-items-center justify-content-center">
-									<h4 class="text-center">Lançamentos de pagamentos previstos pela Operadora<br><img src="assets/images/widgets/cards.svg"/><br><span id="js-quantidade-registros-comprovante">(0 registros)</span></h4>
+									<h4 class="text-center">Recebimentos<img class="operadora-img" src="assets/images/widgets/cards.svg"/><br><span id="js-quantidade-registros-comprovante">(0 registros)</span></h4>
 									{{-- <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras"> --}}
 								</div>
 							</div>
 							<div class="w-50 mb-auto">
 								<div class="table-description d-flex align-items-center justify-content-center">
-									<h4 class="text-center">Lançamentos importados do seu extrato bancário<span id="js-quantidade-registros"><br>(0 registros)</span></h4>
+									<h4 class="text-center">Lançamentos Extrato<img id="extrato-img" src="assets/images/conciliacao/bank.svg"/><br><span id="js-quantidade-registros">(0 registros)</span></h4>
 									{{-- <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras"> --}}
 								</div>
 							</div>
