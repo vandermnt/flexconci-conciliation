@@ -60,13 +60,13 @@ function geraTabelaDetalhamentoCalendario(
   pgto_antecipado
 ) {
   let html = "<tr>";
-  html += "<td>" + "<b> Bruto: </b>" + formataMoeda(val_bruto) + "</td>";
+  html += "<td>" + "<b> Valor Total Bruto: </b>" + formataMoeda(val_bruto) + "</td>";
   html += "</tr>";
   html += "<tr>";
   html += "<td>" + "<b>Ajuste a Crédito: </b>" + "0,00" + "</td>";
   html += "</tr>";
   html += "<tr>";
-  html += "<td>" + "<b> Taxa Adm.: </b>" + formataMoeda(taxa_adm) + "</td>";
+  html += "<td>" + "<b> Custo Taxa: </b>" + formataMoeda(taxa_adm) + "</td>";
   html += "</tr>";
   html += "<tr>";
   html += "<td>" + "<b> Custo Antecipação: </b>" + "R$ 0,00" + "</td>";
