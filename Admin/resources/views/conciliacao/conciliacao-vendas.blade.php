@@ -37,7 +37,6 @@
             ['justificar-operadoras' => route('vendas-operadoras.justify')],
           ]"
           :hidden-fields="[
-            'adquirentes',
             'bandeiras',
             'modalidades',
             'estabelecimentos',
@@ -47,6 +46,7 @@
           ]"
           :form-data="[
             'empresas' => $empresas,
+						'adquirentes' => $adquirentes,
             'status_conciliacao' => $status_conciliacao,
           ]"
         />
@@ -145,6 +145,7 @@
             'hint' => 'Total de vendas das operadoras que ficaram sem conciliar. Principais motivos: venda não lançada no seu sistema, valor errado, bandeira errada, data da venda errada, NSU ou autorização errado.',
             'status' => '2',
           ]"
+					resumo="resumo"
         />
       </div>
 
@@ -403,7 +404,5 @@
   <script defer src="{{ URL::asset('assets/js/proxy/SalesContainerProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/conciliacao/conciliacao-vendas.js') }}"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 @endsection

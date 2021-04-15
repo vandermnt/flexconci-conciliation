@@ -25,17 +25,19 @@ class RecebimentosSubFilter extends BaseSubFilter
 		'AUTORIZACAO',
 		'TID',
 		'CARTAO',
+		'NUMERO_RESUMO_VENDA',
 		'VALOR_BRUTO',
 		'TAXA_PERCENTUAL',
 		'VALOR_TAXA',
 		'VALOR_LIQUIDO',
 		'TAXA_ANTECIPACAO',
+		'VALOR_TAXA_ANTECIPACAO',
 		'POSSUI_TAXA_MINIMA',
 		'PARCELA',
 		'TOTAL_PARCELAS',
-		'HORA',
 		'ESTABELECIMENTO',
 		'TERMINAL',
+		'NUMERO_TERMINAL',
 		'BANCO',
 		'AGENCIA',
 		'CONTA',
@@ -43,7 +45,6 @@ class RecebimentosSubFilter extends BaseSubFilter
 		'PRODUTO',
 		'MEIOCAPTURA',
 		'STATUS_CONCILIACAO',
-		'STATUS_CONCILIADO',
 		'DIVERGENCIA',
 		'JUSTIFICATIVA',
 		'RETORNO_ERP_BAIXA'
@@ -55,7 +56,8 @@ class RecebimentosSubFilter extends BaseSubFilter
 		'VALOR_LIQUIDO',
 		'PARCELA',
 		'TOTAL_PARCELAS',
-		'TAXA_ANTECIPACAO'
+		'TAXA_ANTECIPACAO',
+		'VALOR_TAXA_ANTECIPACAO',
 	];
 
 	public static function subfilter($filters, $subfilters)

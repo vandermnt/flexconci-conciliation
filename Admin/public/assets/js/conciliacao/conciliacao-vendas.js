@@ -182,6 +182,7 @@ const _events = {
 
 checker.addGroups([
 	{ name: 'empresa', options: { inputName: 'grupos_clientes' } },
+	{ name: 'adquirente', options: { inputName: 'adquirentes' } },
 	{ name: 'status-conciliacao', options: { inputName: 'status_conciliacao' } },
 ]);
 
@@ -877,8 +878,6 @@ function justifyOperadora() {
 				TOTAL_PENDENCIAS_OPERADORAS: totals.TOTAL_PENDENCIAS_OPERADORAS,
 			});
 
-			console.log(boxes);
-
 			tableRender.set('data', {
 				body: [...updatedSales] || [],
 				footer: { ...totals } || {},
@@ -1142,11 +1141,6 @@ document
 document.querySelector('#dropdownCadastros').addEventListener('click', (e) => {
 	$('#dropdownCadastros').dropdown('toggle');
 });
-document
-	.querySelector('#dropdownAdministrativo')
-	.addEventListener('click', (e) => {
-		$('#dropdownAdministrativo').dropdown('toggle');
-	});
 
 [
 	'VALOR_TAXA',

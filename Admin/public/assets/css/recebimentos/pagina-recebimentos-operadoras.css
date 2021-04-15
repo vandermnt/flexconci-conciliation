@@ -1,20 +1,31 @@
 #pagina-recebimentos-operadoras .boxes {
-  grid-gap: 8px;
-  margin-bottom: 24px;
+	grid-gap: 8px;
+	margin-bottom: 24px;
 }
 
 #pagina-recebimentos-operadoras .boxes .card.box {
-  margin: 0;
+	margin: 0;
 }
 
 #pagina-recebimentos-operadoras #js-abrir-modal-retorno.tooltip-hint::before {
-    width: 100%;
-    max-width: 128px;
-    transform: translateX(-50%);
+	width: 100%;
+	max-width: 128px;
+	transform: translateX(-50%);
 }
-
 
 #pagina-recebimentos-operadoras #js-abrir-modal-retorno.tooltip-hint::before,
 #pagina-recebimentos-operadoras #js-abrir-modal-retorno.tooltip-hint::after {
-    z-index: 24;
+	z-index: 24;
+}
+
+#pagina-recebimentos-operadoras .boxes h4 {
+	font-size: 0.845rem;
+	font-weight: normal !important;
+	color: #000444;
+}
+
+#pagina-recebimentos-operadoras .boxes p {
+	font-size: 1.1rem;
+	margin: 0;
+	font-weight: 700;
 }

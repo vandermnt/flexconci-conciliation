@@ -118,6 +118,7 @@ class RecebimentosOperadorasController extends Controller
 				'PAG_AVULSO' => 0,
 				'TOTAL_ANTECIPACAO' => (clone $query)->sum('pagamentos_operadoras.TAXA_ANTECIPACAO'),
 				'TOTAL_VALOR_ANTECIPACAO' => (clone $query)->sum('pagamentos_operadoras.VALOR_TAXA_ANTECIPACAO'),
+				'TOTAL_VALOR_TAXA_ANTECIPACAO' => (clone $query)->sum('pagamentos_operadoras.VALOR_TAXA_ANTECIPACAO'),
 				'TOTAL_DESPESAS' => 0
 
 			];
@@ -161,6 +162,7 @@ class RecebimentosOperadorasController extends Controller
 				'PAG_AVULSO' => 0,
 				'TOTAL_ANTECIPACAO' => (clone $query)->sum('TAXA_ANTECIPACAO'),
 				'TOTAL_VALOR_ANTECIPACAO' => (clone $query)->sum('VALOR_TAXA_ANTECIPACAO'),
+				'TOTAL_VALOR_TAXA_ANTECIPACAO' => (clone $query)->sum('VALOR_TAXA_ANTECIPACAO'),
 				'TOTAL_DESPESAS' => 0
 			];
 			$totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
