@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Filters\VendasFilter;
 use App\Filters\PagamentosOperadorasFilter;
 use App\Filters\PagamentosOperadorasComprovanteFilter;
+use App\Filters\PagamentosOperadorasComprovanteSubFilter;
 use App\VendasModel;
 use App\JustificativaModel;
 use App\StatusConciliacaoModel;
@@ -303,6 +304,35 @@ class ConciliacaoBancariaController extends Controller
 			$sales = (clone $query)->paginate($perPage);
 			$totals = [
 				'TOTAL_PREVISTO_OPERADORA' => (clone $totalsQuery)->sum('pagamentos_operadoras.VALOR_LIQUIDO'),
+			];
+
+			return response()->json([
+				'vendas' => $sales,
+				'totais' => $totals,
+			]);
+		} catch (Exception $e) {
+			return response()->json([
+				'message' => 'Não foi possível realizar a consulta em Vendas Operadoras.',
+			], 500);
+		}
+	}
+
+	public function filterComprovante(Request $request)
+	{
+		$allowedPerPage = [10, 20, 50, 100, 200];
+		$perPage = $request->input('por_pagina', 10);
+		$perPage = in_array($perPage, $allowedPerPage) ? $perPage : 10;
+		$filters = $request->input('filters');
+		$filters['cliente_id'] = session('codigologin');
+		$subfilters = $request->input('subfilters');
+
+		try {
+			$query = PagamentosOperadorasComprovanteSubFilter::subfilter($filters, $subfilters)
+				->getQuery();
+
+			$sales = (clone $query)->paginate($perPage);
+			$totals = [
+				'TOTAL_PREVISTO_OPERADORA' => (clone $query)->sum('VALOR')
 			];
 
 			return response()->json([

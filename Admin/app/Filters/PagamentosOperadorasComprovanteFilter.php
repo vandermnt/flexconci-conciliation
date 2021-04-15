@@ -50,11 +50,11 @@ class PagamentosOperadorasComprovanteFilter extends BaseFilter
 
 		$this->query = PagamentoOperadoraModel::select([
 			'pagamentos_operadoras.DATA_PAGAMENTO',
-			'pagamentos_operadoras.EMPRESA',
+			'pagamentos_operadoras.EMPRESA as NOME_EMPRESA',
 			'pagamentos_operadoras.ID_LOJA as ESTABELECIMENTO',
 			'pagamentos_operadoras.CONTA',
 			'pagamentos_operadoras.AGENCIA',
-			'modalidade.DESCRICAO as FORMA_PAGAMENTO',
+			'modalidade.DESCRICAO as MODALIDADE',
 			'lista_bancos.BANCO',
 			'bandeira.BANDEIRA',
 			'adquirentes.ADQUIRENTE',
@@ -71,7 +71,7 @@ class PagamentosOperadorasComprovanteFilter extends BaseFilter
 					['tipo_pagamento.CODIGO', '!=', 3]
 				]
 			)
-			->groupBy('pagamentos_operadoras.DATA_PAGAMENTO', 'pagamentos_operadoras.AGENCIA', 'pagamentos_operadoras.CONTA', 'lista_bancos.BANCO', 'adquirentes.ADQUIRENTE', 'pagamentos_operadoras.EMPRESA');
+			->groupBy('pagamentos_operadoras.DATA_PAGAMENTO', 'pagamentos_operadoras.AGENCIA', 'pagamentos_operadoras.CONTA', 'lista_bancos.BANCO', 'adquirentes.ADQUIRENTE', 'pagamentos_operadoras.EMPRESA', 'bandeira.BANDEIRA', 'modalidade.descricao', 'pagamentos_operadoras.ID_LOJA');
 
 		if (Arr::has($filters, 'data_pagamento')) {
 			$this->query->where('pagamentos_operadoras.DATA_PAGAMENTO', $filters['data_pagamento']);

@@ -33,11 +33,11 @@ const apiConfig = {
 let selectedSales = [];
 
 checker.addGroups([
-	{ name: 'empresa', options: { inputName: 'grupos_clientes' } },
+	// { name: 'empresa', options: { inputName: 'grupos_clientes' } },
 	{ name: 'adquirente', options: { inputName: 'adquirentes' } },
 ]);
 
-modalFilter.addGroups(['empresa', 'adquirente']);
+modalFilter.addGroups(['adquirente']);
 
 salesContainer.setupApi(apiConfig);
 

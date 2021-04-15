@@ -42,12 +42,12 @@
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
-              data-tbsort-by="EMPRESA"
+              data-tbsort-by="NOME_EMPRESA"
             >
               <p class="m-0">Empresa</p>
               <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-            <input type="text" class="form-control resize" name="EMPRESA">
+            <input type="text" class="form-control resize" name="NOME_EMPRESA">
           </div>
         </th>
 				<th>
@@ -66,12 +66,12 @@
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
-              data-tbsort-by="FORMA_PAGAMENTO"
+              data-tbsort-by="MODALIDADE"
             >
               <p class="m-0">Forma<br> de<br> Pagamento</p>
               <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-            <input type="text" class="form-control resize" name="FORMA_PAGAMENTO">
+            <input type="text" class="form-control resize" name="MODALIDADE">
           </div>
         </th>
 				<th>
@@ -109,9 +109,9 @@
           <td data-column="DESCRICAO_ERP"></td>
         @endif
         <td data-column="STATUS"></td>
-        <td data-column="EMPRESA"></td>
+        <td data-column="NOME_EMPRESA"></td>
 				<td data-column="BANDEIRA"></td>
-				<td data-column="FORMA_PAGAMENTO"></td>
+				<td data-column="MODALIDADE"></td>
 				<td data-column="ESTABELECIMENTO"></td>
 				<td data-column="VALOR" data-format="currency"></td>
       </tr>

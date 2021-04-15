@@ -77,7 +77,7 @@
   @if($isFieldVisible('adquirentes'))
     <div class="input-group">
       <x-forms.form-group
-        :label="$getLabel('adquirente') ?? 'Adquirente:'"
+        :label="$getLabel('adquirente') ?? 'Operadora:'"
         id="adquirente"
         type="text"
         data-group="adquirente"
