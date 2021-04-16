@@ -26,7 +26,7 @@
 					required
 				/>
 			</div>
-			<div class="d-flex align-bottom justify-content-end">
+			<div class="d-flex align-bottom justify-content-end w-50">
 				<button type="button" class="btn btn-lg extrato-bancario-button" data-target="#js-extrato-bancario" data-toggle="modal"><i class="fas fa-university mr-2"></i>Enviar extrato bancário</button>
 			</div>
 		</div>

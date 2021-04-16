@@ -267,7 +267,7 @@
 									:options="['5', '10', '20', '50', '100', '200']"
 								/>
 							</div>
-							<div class="vendas col-6 mt-auto">
+							<div class="vendas col-6 mb-auto">
 								<x-tables.tabela-extrato-bancario
 									id="js-tabela-extrato-bancario"
 									class="mt-3"
