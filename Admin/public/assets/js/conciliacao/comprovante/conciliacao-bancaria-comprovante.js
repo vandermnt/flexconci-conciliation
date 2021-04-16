@@ -305,15 +305,13 @@ function renderComprovanteModal(id) {
 		.find((sale) => sale.ID === id);
 	const modal = document.querySelector('#comprovante-modal');
 	const modalTitle = modal.querySelector('.modal-title');
-	const operadoraImg = document.querySelector(
-		'#comprovante-table-description img'
-	);
+	const operadoraImg = document.querySelector('.comprovante-operadora-img');
 	const formattedData = sale.DATA_PAGAMENTO.replace('-', '/')
 		.replace('-', '/')
 		.split('/')
 		.reverse()
 		.join('/');
-	modalTitle.innerHTML = `<img class='ml-1' src='${sale.BANCO_IMAGEM}'/> AG. ${sale.AGENCIA} | CC. ${sale.CONTA} | ${formattedData}`;
+	modalTitle.innerHTML = `<img class='ml-1 mr-3' src='${sale.BANCO_IMAGEM}'/> AG. ${sale.AGENCIA} | CC. ${sale.CONTA} | ${formattedData}`;
 	operadoraImg.setAttribute('src', `${sale.ADQUIRENTE_IMAGEM}`);
 	renderComprovanteTable(sale);
 }
