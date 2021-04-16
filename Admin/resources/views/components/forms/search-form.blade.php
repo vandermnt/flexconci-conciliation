@@ -7,31 +7,29 @@
   @csrf
   @if($isFieldVisible('datas'))
 		@if(Route::current()->getName() == 'conciliacao-bancaria')
-			<div class="row conc-bancaria">
-				<div class="col">
-					<div class="input-group">
-						<x-forms.form-group
-							:label="$getLabel('data_inicial') ?? 'Data Inicial:'"
-							id="data-inicial"
-							type="date"
-							name="data_inicial"
-							:value="$getData('data_inicial') ?? date('Y-m-01')"
-							required 
-						/>
-						<x-forms.form-group
-							:label="$getLabel('data_final') ?? 'Data Final:'"
-							id="data-final"
-							type="date"
-							name="data_final"
-							:value="$getData('data_final') ?? date('Y-m-d')"
-							required
-						/>
-					</div>
-				</div>
-				<div class="col d-flex align-bottom justify-content-end w-100">
-					<button type="button" class="btn btn-lg extrato-bancario-button" data-target="#js-extrato-bancario" data-toggle="modal"><i class="fas fa-university mr-2"></i>Enviar extrato bancário</button>
-				</div>
+		<div class="d-flex flex-nowrap conciliacao-bancaria-form">
+			<div class="input-group">
+				<x-forms.form-group
+					:label="$getLabel('data_inicial') ?? 'Data Inicial:'"
+					id="data-inicial"
+					type="date"
+					name="data_inicial"
+					:value="$getData('data_inicial') ?? date('Y-m-01')"
+					required 
+				/>
+				<x-forms.form-group
+					:label="$getLabel('data_final') ?? 'Data Final:'"
+					id="data-final"
+					type="date"
+					name="data_final"
+					:value="$getData('data_final') ?? date('Y-m-d')"
+					required
+				/>
 			</div>
+			<div class="d-flex align-bottom justify-content-end">
+				<button type="button" class="btn btn-lg extrato-bancario-button" data-target="#js-extrato-bancario" data-toggle="modal"><i class="fas fa-university mr-2"></i>Enviar extrato bancário</button>
+			</div>
+		</div>
 		@else
 			<div class="input-group">
 				<x-forms.form-group

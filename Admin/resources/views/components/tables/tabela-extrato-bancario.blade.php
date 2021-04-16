@@ -30,18 +30,6 @@
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
-              data-tbsort-by="STATUS"
-            >
-              <p class="m-0">Status</p>
-              <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
-            </div>
-            <input type="text" class="form-control resize" name="STATUS">
-          </div>
-        </th>
-        <th>
-          <div class="d-flex flex-column align-items-center">
-            <div
-              class="d-flex align-items-center justify-content-center table-sorter mb-2"
               data-tbsort-by="ADQUIRENTE"
             >
               <p class="m-0">Operadora</p>
@@ -97,7 +85,6 @@
         @if($isColumnVisible('ID_ERP'))
           <td data-column="DESCRICAO_ERP"></td>
         @endif
-        <td data-column="STATUS"></td>
         <td data-column="ADQUIRENTE"></td>
 				<td data-column="DATA" data-format="date"></td>
 				<td data-column="DESCRICAO" data-format="date"></td>
@@ -114,7 +101,6 @@
           <td></td>
         @endif
         <td></td>
-        <td></td>
 				<td>Total</td>
 				<td>330</td>
       </tr>
@@ -126,7 +112,6 @@
 				@if($isColumnVisible('ID_ERP'))
           <td></td>
         @endif
-        <td></td>
         <td></td>
 				<td>Total Selecionado</td>
 				<td></td>
