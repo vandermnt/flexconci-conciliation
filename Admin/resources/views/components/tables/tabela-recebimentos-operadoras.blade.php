@@ -276,6 +276,18 @@
             <input type="number" min="0" step="0.01" class="form-control" name="VALOR_LIQUIDO">
           </div>
         </th>
+				<th>
+          <div class="d-flex flex-column align-items-center">
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="NUMERO_OPERACAO_ANTECIPACAO"
+            >
+                <p class="m-0">Op. Antecipação</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
+            <input type="number" min="0" step="0.01" class="form-control" name="NUMERO_OPERACAO_ANTECIPACAO">
+          </div>
+        </th>
         <th>
           <div class="d-flex flex-column align-items-center">
             <div
@@ -544,6 +556,7 @@
         <td data-column="TAXA_ANTECIPACAO" data-format="number"></td>
 				<td data-reverse-value="true" class="text-danger" data-column="VALOR_TAXA_ANTECIPACAO" data-format="number"></td>
         <td data-column="VALOR_LIQUIDO" data-format="currency"></td>
+				<td data-column="NUMERO_OPERACAO_ANTECIPACAO"></td>
         <td data-column="POSSUI_TAXA_MINIMA"></td>
         <td data-column="PARCELA"></td>
         <td data-column="TOTAL_PARCELAS"></td>
@@ -604,6 +617,7 @@
         <td></td>
 				<td class="text-danger" data-reverse-value="true" data-column="TOTAL_VALOR_TAXA_ANTECIPACAO" data-format="currency"></td>
         <td data-column="TOTAL_LIQUIDO" data-format="currency"></td>
+				<td></td>
         <td></td>
         <td></td>
         <td></td>
