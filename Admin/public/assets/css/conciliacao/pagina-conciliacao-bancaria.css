@@ -138,17 +138,16 @@
 	min-width: 110px !important;
 }
 
-.conciliacao-bancaria-form .input-group {
-	grid-template-columns: repeat(4, 2fr) !important;
-	margin-bottom: 8px;
-}
-
 #comprovante-modal table th .table-sorter {
 	flex-wrap: wrap;
 }
 
 #comprovante-modal table th .table-sorter p {
 	width: 100%;
+}
+
+#comprovante-modal .modal-content .modal-body p {
+	color: #231f20;
 }
 
 #comprovante-modal header {
@@ -207,8 +206,16 @@
 
 #comprovante-modal .table-responsive {
 	overflow-x: auto;
-	min-height: 370px;
 	max-height: 370px;
+}
+
+.input-group {
+	width: 75%;
+}
+
+.conciliacao-bancaria-form .input-group {
+	grid-template-columns: repeat(5, 2fr) !important;
+	margin-bottom: 8px;
 }
 
 @media (max-width: 1800px) {
