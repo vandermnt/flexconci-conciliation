@@ -26,18 +26,6 @@
             </div>
           </th>
         @endiF
-        <th>
-          <div class="d-flex flex-column align-items-center">
-            <div
-              class="d-flex align-items-center justify-content-center table-sorter mb-2"
-              data-tbsort-by="ADQUIRENTE"
-            >
-              <p class="m-0">Operadora</p>
-              <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
-            </div>
-            <input type="text" class="form-control resize" name="ADQUIRENTE">
-          </div>
-        </th>
 				<th class="input-data">
           <div class="d-flex flex-column align-items-center">
             <div
@@ -62,6 +50,18 @@
             <input type="text" class="form-control fix-width" name="DESCRICAO">
           </div>
         </th>
+        <th>
+          <div class="d-flex flex-column align-items-center">
+            <div
+              class="d-flex align-items-center justify-content-center table-sorter mb-2"
+              data-tbsort-by="ADQUIRENTE"
+            >
+              <p class="m-0">Operadora</p>
+              <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
+            <input type="text" class="form-control resize" name="ADQUIRENTE">
+          </div>
+        </th>
 				<th>
           <div class="d-flex flex-column align-items-center">
             <div
@@ -74,7 +74,6 @@
 						<input type="number" min="0" step="0.01" class="form-control resize" name="VALOR">
           </div>
         </th>
-
       </tr>
     </thead>
     <tbody>
@@ -85,9 +84,9 @@
         @if($isColumnVisible('ID_ERP'))
           <td data-column="DESCRICAO_ERP"></td>
         @endif
-        <td data-column="ADQUIRENTE"></td>
 				<td data-column="DATA" data-format="date"></td>
 				<td data-column="DESCRICAO" data-format="date"></td>
+        <td data-column="ADQUIRENTE"></td>
 				<td data-column="VALOR" data-format="currency"></td>
       </tr>
     </tbody>

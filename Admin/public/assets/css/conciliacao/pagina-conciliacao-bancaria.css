@@ -194,14 +194,14 @@
 	width: auto !important;
 	height: auto;
 	width: 40px !important;
-	margin: 0px 8px 0px 0px;
+	margin: 0px 0px 0px 0px !important;
 }
 
 .comprovante-operadora-img {
 	width: auto !important;
 	height: auto;
 	width: 70px !important;
-	margin: 0px 8px 0px 0px;
+	margin: 0px 0px 0px 0px !important;
 }
 
 #comprovante-modal .table-responsive {

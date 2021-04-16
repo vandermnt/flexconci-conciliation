@@ -205,13 +205,13 @@
 								</div> --}}
 								<div class="tabela-info d-flex align-items-center justify-content-between flex-wrap">
 									<div class="table-description d-flex align-items-center justify-content-end">
-										<h4 class="text-center">Recebimentos <span id="js-quantidade-registros-comprovante">(0 registros)</span></h4>
 										<img class="comprovante-operadora-img" src="assets/images/widgets/cards.svg"/>
+										<h4 class="text-center">Recebimentos <span id="js-quantidade-registros-comprovante">(0 registros)</span></h4>
 									</div>
 									<div class="d-flex align-items-center justify-content-end">
 										<button id="js-exportar" class="btn button no-hover">
 											<div class="conciflex-icon icon-md">
-													<img src="assets/images/widgets/check.svg" alt="Excel">
+												<img src="assets/images/widgets/check.svg" alt="Excel">
 											</div>
 											Filtrar conciliadas
 										</button>
@@ -221,8 +221,16 @@
 							<div class="w-50 mb-auto">
 								<div class="tabela-info d-flex align-items-center justify-content-between flex-wrap">
 									<div class="table-description d-flex align-items-center justify-content-end">
-										<h4 class="text-center">Lançamentos Extrato Bancário <span id="js-quantidade-registros-extrato">(0 registros)</span></h4>
 										<img class="comprovante-extrato-img" src="assets/images/conciliacao/bank.svg"/>
+										<h4 class="text-center">Lançamentos Extrato Bancário <span id="js-quantidade-registros-extrato">(0 registros)</span></h4>
+									</div>
+									<div class="d-flex align-items-center justify-content-end">
+										<button id="js-exportar" class="btn button no-hover">
+											<div class="conciflex-icon icon-md">
+												<img src="assets/images/widgets/check.svg" alt="Excel">
+											</div>
+											Filtrar conciliadas
+										</button>
 									</div>
 								</div>
 							</div>
