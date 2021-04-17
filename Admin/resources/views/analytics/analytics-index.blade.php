@@ -510,7 +510,7 @@
 
                 html += "<div class='col-12 row align-self-center' style='text-align: center;align-items: center;justify-content: center'>"
                 html += "<div class='col-4' style='margin: 0'>"
-                html += "<div class='tooltip-hint' data-title='"+ bancos.BANCO_NOME + "'><img src='" + bancos.IMAGEM + "' class='align-self-center img-bancos-detalhamento'></div>"
+                html += "<div class='tooltip-hint' data-title='"+ bancos.BANCO_NOME + "'><div class='img-detalhamento-operadoras' style='background-image: url(" + bancos.IMAGEM + ")'/> </div>"
                 html += "</div>"
                 html += "<div class='col-4 media-body align-self-center'>"
                 html += "<h4 style='font-size: 13px; margin-left: -30px'>" + "AG: " + bancos.AGENCIA + "- C/C: " + bancos.CONTA + "</h4>"
@@ -592,7 +592,7 @@
 
                 html += "<div class='col-12 row' style='text-align: center;align-items: center;justify-content: center'>"
                 html += "<div class='col-4' style='margin: 0'>"
-                html += "<div class='tooltip-hint' data-title='"+ bancos.BANCO_NOME + "'>" + "<img src='" + bancos.IMAGEM + "' style='width: 60px; ;' class='align-self-center img-bancos-detalhamento'></div>"
+                html += "<div class='tooltip-hint' data-title='"+ bancos.BANCO_NOME + "'><div class='img-detalhamento-operadoras' style='background-image: url(" + bancos.IMAGEM + ")'/> </div>"
                 html += "</div>"
                 html += "<div class='col-4 media-body align-self-center'>"
                 html += "<h4 style='font-size: 13px; margin-left: -30px'>" + "AG: " + bancos.AGENCIA + "- C/C: " + bancos.CONTA + "</h4>"
