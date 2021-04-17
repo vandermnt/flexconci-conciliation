@@ -56,7 +56,7 @@
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
               data-tbsort-by="MODALIDADE"
             >
-              <p class="m-0">Forma<br> de<br> Pagamento</p>
+              <p class="m-0">F. Pagamento</p>
               <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
             <input type="text" class="form-control resize" name="MODALIDADE" autocomplete="off">

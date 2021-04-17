@@ -190,56 +190,60 @@
     	>
         <x-slot name="content">
 					<div class="modal-body">
-						<div class="tabela-info d-flex align-items-center justify-content-between flex-wrap mt-4">
-							<div class="w-50 mb-auto">
-								{{-- <div id="comprovante-table-description" class="table-description d-flex align-items-center justify-content-start">
-									<h4 class="text-center">Recebimentos<img class="comprovante-operadora-img" src="assets/images/widgets/cards.svg"/><span id="js-quantidade-registros-comprovante">(0 registros)</span></h4>
-									<div class="d-flex align-items-center justify-content-end">
-										<button id="js-exportar" class="btn button no-hover">
-											<div class="conciflex-icon icon-md">
-												<img src="assets/images/widgets/excel-file.svg" alt="Excel">
-											</div>
-											Exportar
-										</button>
-									</div>
-								</div> --}}
-								<div class="tabela-info d-flex align-items-center justify-content-between flex-wrap">
-									<div class="table-description d-flex align-items-center justify-content-end">
-										<img class="comprovante-operadora-img" src="assets/images/widgets/cards.svg"/>
-										<h4 class="text-center">Recebimentos <span id="js-quantidade-registros-comprovante">(0 registros)</span></h4>
-									</div>
-									<div class="d-flex align-items-center justify-content-end">
-										<button id="js-exportar" class="btn button no-hover">
-											<div class="conciflex-icon icon-md">
-												<img src="assets/images/widgets/check.svg" alt="Excel">
-											</div>
-											Filtrar conciliadas
-										</button>
-									</div>
+						<div class="tabela-info d-flex align-items-center justify-content-between flex-wrap mt-2">
+							<div class="w-50 mt-auto tabela-info">
+								<div class="table-description d-flex align-items-center justify-content-start w-100">
+									<img class="comprovante-operadora-img" src="assets/images/widgets/cards.svg"/>
+									<h4 class="text-center">Recebimentos <span id="js-quantidade-registros-comprovante">(0 registros)</span></h4>
+									<img src="assets/images/widgets/arrow-down.svg" alt="">
 								</div>
 							</div>
-							<div class="w-50 mb-auto">
-								<div class="tabela-info d-flex align-items-center justify-content-between flex-wrap">
-									<div class="table-description d-flex align-items-center justify-content-end">
-										<img class="comprovante-extrato-img" src="assets/images/conciliacao/bank.svg"/>
-										<h4 class="text-center">Lançamentos Extrato Bancário <span id="js-quantidade-registros-extrato">(0 registros)</span></h4>
-									</div>
-									<div class="d-flex align-items-center justify-content-end">
-										<button id="js-exportar" class="btn button no-hover">
-											<div class="conciflex-icon icon-md">
-												<img src="assets/images/widgets/check.svg" alt="Excel">
-											</div>
-											Filtrar conciliadas
-										</button>
-									</div>
+							<div class="w-50 mb-auto tabela-info">
+								<div class="table-description d-flex align-items-center justify-content-start w-100">
+									<img class="comprovante-extrato-img" src="assets/images/conciliacao/bank.svg"/>
+									<h4 class="text-center">Lançamentos Extrato Bancário <span id="js-quantidade-registros-extrato">(0 registros)</span></h4>
+									<img src="assets/images/widgets/arrow-down.svg" alt="">
+								</div>
+							</div>
+						<div class="d-flex align-items-center w-100">
+							<div class="w-50 tabela-info">
+								<div class="d-flex align-items-center justify-content-end mt-5 mb-2 w-100">
+									<button id="js-exportar" class="btn button no-hover">
+										<div class="conciflex-icon icon-md">
+											<img src="assets/images/widgets/check.svg" alt="Excel">
+										</div>
+										Filtrar conciliadas
+									</button>
+									<button id="js-exportar" class="btn button no-hover ml-2">
+										<div class="conciflex-icon icon-md">
+											<img src="assets/images/widgets/x.svg" alt="Excel">
+										</div>
+										Filtrar não conciliadas
+									</button>
+								</div>
+							</div>
+							<div class="w-50 tabela-info">
+								<div class="d-flex align-items-center justify-content-end mt-5 mb-2 w-100">
+									<button id="js-exportar" class="btn button no-hover">
+										<div class="conciflex-icon icon-md">
+											<img src="assets/images/widgets/check.svg" alt="Excel">
+										</div>
+										Filtrar conciliadas
+									</button>
+									<button id="js-exportar" class="btn button no-hover ml-2">
+										<div class="conciflex-icon icon-md">
+											<img src="assets/images/widgets/x.svg" alt="Excel">
+										</div>
+										Filtrar não conciliadas
+									</button>
 								</div>
 							</div>
 						</div>
-						<div class="row w-100 mt-3">
-							<div class="vendas col-6 mt-auto">
+						<div class="row w-100">
+							<div class="vendas col-6">
 								<x-tables.tabela-conciliacao-bancaria-comprovante
 									id="js-tabela-conciliacao-bancaria-comprovante"
-									class="mt-3"
+									class="mt-2"
 									:headers="[
 										'actions' => 'Ações | Status',
 									]"
@@ -256,14 +260,6 @@
 														type="checkbox"
 														data-value-key="ID"
 												>
-												<div
-														class="tooltip-hint tooltip-left d-flex align-items-center"
-														data-default-title="Visualizar Detalhes"
-														data-toggle="modal"
-														data-target="#comprovante-modal"
-												>
-														<i class="fas fa-eye"></i>
-												</div>
 											</div>
 										</td>
 									</x-slot>
@@ -275,10 +271,10 @@
 									:options="['5', '10', '20', '50', '100', '200']"
 								/>
 							</div>
-							<div class="vendas col-6 mb-auto">
+							<div class="vendas col-6">
 								<x-tables.tabela-extrato-bancario
 									id="js-tabela-extrato-bancario"
-									class="mt-3"
+									class="mt-2"
 									:headers="[
 										'actions' => 'Ações | Status',
 									]"
@@ -295,14 +291,6 @@
 														type="checkbox"
 														data-value-key="ID"
 												>
-												<div
-														class="tooltip-hint tooltip-left d-flex align-items-center"
-														data-default-title="Visualizar Detalhes"
-														data-toggle="modal"
-														data-target="#comprovante-modal"
-												>
-														<i class="fas fa-eye"></i>
-												</div>
 											</div>
 										</td>
 									</x-slot>
