@@ -95,7 +95,7 @@
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras">
           </div>
           <div class="d-flex flex-fill align-items-center justify-content-end">
-            <div class="table-config mr-1">
+            <div id="js-table-config" class="table-config mr-1">
               <button class="table-config-control btn button no-hover">
                 <i class="fas fa-cog"></i>
                 Configurar tabela
@@ -262,6 +262,8 @@
   <script defer src="{{ URL::asset('assets/js/proxy/SalesProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SalesContainerProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/ui/table-section.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/ui/table-config.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/vendas/vendas-operadoras.js') }}"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script defer src="{{ URL::asset('assets/js/sweetalert.min.js') }}"></script>
