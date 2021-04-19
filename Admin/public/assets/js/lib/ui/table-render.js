@@ -19,6 +19,7 @@ function TableRender(options = {}) {
 			onRender: null,
 			onRenderRow: () => {},
 			onRenderCell: () => {},
+      afterRender: null,
 			shouldSelectRow: () => true,
 			onSelectRow: () => {},
 			onFilter: () => {},
@@ -73,6 +74,10 @@ TableRender.prototype.onRenderCell = function (
 	handler = (element = null, data = {}) => {}
 ) {
 	this.set('onRenderCell', handler);
+};
+
+TableRender.prototype.afterRender = function (handler = (instance = this) => {}) {
+	this.set('afterRender', handler);
 };
 
 TableRender.prototype.shouldSelectRow = function (handler = (element) => true) {
@@ -173,6 +178,7 @@ TableRender.prototype.render = function () {
 	const onRenderCell = this.get('onRenderCell');
 	const onSelectRow = this.get('onSelectRow');
 	const onSort = this.get('onSort');
+	const afterRender = this.get('afterRender');
 
 	if (!table) {
 		return;
@@ -254,6 +260,10 @@ TableRender.prototype.render = function () {
 			onRenderCell(tableCell, this.get('data').footer || {});
 		}
 	});
+
+  if(afterRender && typeof afterRender === 'function') {
+    afterRender(this);
+  }
 };
 
 function tableRenderHandler() {
