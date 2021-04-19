@@ -49,6 +49,7 @@ class PagamentosOperadorasComprovanteFilter extends BaseFilter
 			);
 
 		$this->query = PagamentoOperadoraModel::select([
+			'pagamentos_operadoras.CODIGO as ID',
 			'pagamentos_operadoras.DATA_PAGAMENTO',
 			'pagamentos_operadoras.EMPRESA as NOME_EMPRESA',
 			'pagamentos_operadoras.ID_LOJA as ESTABELECIMENTO',
@@ -67,7 +68,7 @@ class PagamentosOperadorasComprovanteFilter extends BaseFilter
 			->leftJoin('bandeira', 'bandeira.CODIGO', 'pagamentos_operadoras.COD_BANDEIRA')
 			->where(
 				[
-					['pagamentos_operadoras.COD_CLIENTE', $filters['cliente_id']],
+					['pagamentos_operadoras.COD_CLIENTE',  $filters['cliente_id']],
 					['tipo_pagamento.CODIGO', '!=', 3]
 				]
 			)

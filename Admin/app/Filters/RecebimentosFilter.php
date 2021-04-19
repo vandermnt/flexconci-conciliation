@@ -65,13 +65,6 @@ class RecebimentosFilter extends BaseFilter
 				'pagamentos_operadoras.NUMERO_RESUMO_VENDA',
 				'pagamentos_operadoras.NUMERO_TERMINAL',
 				'pagamentos_operadoras.TAXA_PERCENTUAL',
-				// DB::raw('(
-				//   (`pagamentos_operadoras`.`VALOR_BRUTO` - `pagamentos_operadoras`.`VALOR_LIQUIDO`) * 100)
-				//     / `pagamentos_operadoras`.`VALOR_BRUTO`
-				//     as `TAXA_PERCENTUAL`'),
-				// DB::raw('
-				//   (`pagamentos_operadoras`.`VALOR_BRUTO` - `pagamentos_operadoras`.`VALOR_LIQUIDO`)
-				//     as `VALOR_TAXA`'),
 				'pagamentos_operadoras.VALOR_TAXA',
 				'pagamentos_operadoras.VALOR_LIQUIDO',
 				'pagamentos_operadoras.PARCELA',

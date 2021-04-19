@@ -56,7 +56,7 @@
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
               data-tbsort-by="MODALIDADE"
             >
-              <p class="m-0">Forma<br> de<br> Pagamento</p>
+              <p class="m-0">F. Pagamento</p>
               <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
             <input type="text" class="form-control resize" name="MODALIDADE" autocomplete="off">
@@ -104,19 +104,6 @@
       </tr>
     </tbody>
     <tfoot>
-      <tr>
-        <td></td>
-        @isset($actions)
-          <td></td>
-        @endisset
-				@if($isColumnVisible('ID_ERP'))
-          <td></td>
-        @endif
-        <td></td>
-        <td></td>
-				<td>Total</td>
-				<td data-column="TOTAL_PREVISTO_OPERADORA" data-format="currency">R$ 0,00</td>
-      </tr>
 			<tr>
         <td></td>
         @isset($actions)
@@ -127,8 +114,18 @@
         @endif
         <td></td>
         <td></td>
-				<td>Total Selecionado</td>
-				<td></td>
+				<td class="totals">
+					<div class="d-flex flex-wrap text-center">
+						<span class="w-100">Total Selecionado</span>
+						<span class="w-100">Total</span>
+					</div>
+				</td>
+				<td class="totals">
+					<div class="d-flex flex-wrap text-center">
+						<span id="total-selecionado-comprovante" class="w-100 text-center">R$ 0,00</span>
+						<span id="total-comprovante" class="w-100 text-center" data-column="TOTAL_PREVISTO_OPERADORA" data-format="currency">R$ 0,00</span>
+					</div>
+				</td>
       </tr>
     </tfoot>
   </table>

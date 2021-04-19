@@ -165,7 +165,7 @@
 #comprovante-modal .modal-header img {
 	width: auto;
 	height: auto;
-	width: 80px;
+	width: 100px;
 }
 
 #comprovante-modal .modal-content {
@@ -175,6 +175,7 @@
 }
 
 #comprovante-modal .modal-dialog {
+	overflow-y: hidden;
 	max-width: 100%;
 	width: 100%;
 	height: 100%;
@@ -194,23 +195,27 @@
 	width: auto !important;
 	height: auto;
 	width: 40px !important;
-	margin: 0px 8px 0px 0px;
+	margin: 0px 10px 0px 0px !important;
 }
 
 .comprovante-operadora-img {
 	width: auto !important;
 	height: auto;
 	width: 70px !important;
-	margin: 0px 8px 0px 0px;
+	margin: 0px 10px 0px 0px !important;
 }
 
 #comprovante-modal .table-responsive {
 	overflow-x: auto;
-	max-height: 370px;
+	max-height: 350px;
+}
+
+#comprovante-modal .totals span {
+	padding: 8px;
 }
 
 .input-group {
-	width: 75%;
+	width: 76%;
 }
 
 .conciliacao-bancaria-form .input-group {
@@ -220,20 +225,23 @@
 
 @media (max-width: 1800px) {
 	.resize {
-		max-width: 80px !important;
+		max-width: 100% !important;
 		min-width: 80px !important;
 	}
 }
 
 @media (max-width: 1500px) {
 	.resize {
-		max-width: 70px !important;
+		max-width: 100% !important;
 		min-width: 70px !important;
+	}
+	#comprovante-modal .table-responsive {
+		max-height: 350px;
 	}
 }
 
-/* @media (max-width: 1400px) {
+@media (max-width: 1400px) {
 	#comprovante-modal .table-responsive {
-		overflow-x: auto;
+		max-height: 330px;
 	}
-} */
+}
