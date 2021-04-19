@@ -67,6 +67,8 @@ salesContainerComprovante.setPaginationConfig(
 );
 
 function buildRequestComprovante(params) {
+	setComprovanteTotalValue();
+	clearSelectedValue();
 	let requestHandler = () => {};
 
 	const isSearchActive = salesContainerComprovante.get('active') === 'search';
@@ -138,8 +140,8 @@ tableRenderComprovante.onRenderRow((row, data, tableRenderInstance) => {
 				...selectedComprovanteSales.filter((selected) => selected !== value),
 			];
 		}
+		updateSelectedValue();
 	});
-
 	_defaultEvents.table.onRenderRow(row, data, tableRenderInstance);
 });
 
@@ -299,6 +301,7 @@ document
 	.addEventListener('change', onComprovantePerPageChanged);
 
 function renderComprovanteModal(id) {
+	clearSelectedValue();
 	const sale = salesContainer
 		.get('data')
 		.get('sales')
@@ -327,6 +330,8 @@ async function renderComprovanteTable(sale) {
 		},
 	});
 
+	setComprovanteTotalValue();
+
 	const total = salesContainerComprovante.get('data').get('pagination').options
 		.total;
 	document.querySelector(
@@ -347,4 +352,49 @@ function setComprovanteTableFilters(sale) {
 		adquirente: sale.ADQUIRENTE,
 		banco: sale.BANCO,
 	};
+}
+
+function updateSelectedValue() {
+	const td = document.querySelector('#total-selecionado-comprovante');
+	if (selectedComprovanteSales.length > 0) {
+		let totalValue = 0;
+		selectedComprovanteSales.forEach((id) => {
+			const sale = salesContainerComprovante
+				.get('data')
+				.get('sales')
+				.find((sale) => sale.ID === id);
+			totalValue += parseFloat(sale['VALOR']);
+		});
+
+		const cellValue = totalValue;
+		const defaultCellValue = 0;
+		const format = 'currency';
+
+		const formattedValue = tableRender.formatCell(
+			cellValue,
+			format,
+			defaultCellValue
+		);
+		td.innerHTML = formattedValue;
+	} else {
+		clearSelectedValue();
+	}
+}
+
+function clearSelectedValue() {
+	selectedComprovanteSales = [];
+	const td = document.querySelector('#total-selecionado-comprovante');
+	td.innerHTML = 'R$ 0,00';
+}
+
+function setComprovanteTotalValue() {
+	const totalValue = parseFloat(
+		salesContainerComprovante.get('data').get('totals').TOTAL_PREVISTO_OPERADORA
+	);
+	const totalValueDOM = document.querySelector('#total-comprovante');
+	totalValueDOM.innerHTML = tableRenderComprovante.formatCell(
+		totalValue,
+		'currency',
+		0
+	);
 }

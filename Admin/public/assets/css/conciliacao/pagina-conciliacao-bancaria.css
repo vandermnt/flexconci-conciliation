@@ -175,6 +175,7 @@
 }
 
 #comprovante-modal .modal-dialog {
+	overflow-y: hidden;
 	max-width: 100%;
 	width: 100%;
 	height: 100%;
@@ -209,6 +210,10 @@
 	max-height: 350px;
 }
 
+#comprovante-modal .totals span {
+	padding: 8px;
+}
+
 .input-group {
 	width: 76%;
 }
@@ -230,10 +235,13 @@
 		max-width: 100% !important;
 		min-width: 70px !important;
 	}
+	#comprovante-modal .table-responsive {
+		max-height: 350px;
+	}
 }
 
-/* @media (max-width: 1400px) {
+@media (max-width: 1400px) {
 	#comprovante-modal .table-responsive {
-		overflow-x: auto;
+		max-height: 330px;
 	}
-} */
+}

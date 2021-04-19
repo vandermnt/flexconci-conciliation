@@ -219,7 +219,6 @@ TableRender.prototype.render = function () {
 		if (onSelectRow && typeof onSelectRow === 'function') {
 			tableRow.addEventListener('click', (e) => {
 				const shouldUpdate = this.get('shouldSelectRow')(e.target);
-				console.log(tableRow);
 
 				if (!shouldUpdate) return;
 
