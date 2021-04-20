@@ -191,45 +191,29 @@
 				<x-slot name="header">
 					<div class="boxes">
 						<x-box
-							class="tooltip-hint"
 							title="DATA RECEBIMENTO"
 							content=""
 							data-format="text"
 							data-key="DATA_PAGAMENTO"
-							:dataset="[
-									'hint' => 'Data Recebimento.'
-							]"
 						/>
 						<x-box
-							class="tooltip-hint"
 							title="BANCO"
 							content=""
 							data-format="text"
 							data-type="image"
 							data-key="BANCO_IMAGEM"
-							:dataset="[
-									'hint' => 'Banco.'
-							]"
 						/>
 						<x-box
-							class="tooltip-hint"
 							title="AGÊNCIA"
 							content=""
 							data-format="text"
 							data-key="AGENCIA"
-							:dataset="[
-									'hint' => 'Agência.'
-							]"
 						/>
 						<x-box
-							class="tooltip-hint"
 							title="CONTA"
 							content=""
 							data-format="text"
 							data-key="CONTA"
-							:dataset="[
-									'hint' => 'Conta.'
-							]"
 						/>
 					</div>
 					<button
