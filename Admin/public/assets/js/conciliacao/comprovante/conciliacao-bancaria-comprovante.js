@@ -47,6 +47,7 @@ salesContainerComprovante.onEvent('search', (sales) => {
 	if (resultadosDOM.classList.contains('hidden')) {
 		resultadosDOM.classList.remove('hidden');
 	}
+	updateTotals();
 });
 
 salesContainerComprovante.onEvent('fail', (err) => {
@@ -67,8 +68,6 @@ salesContainerComprovante.setPaginationConfig(
 );
 
 function buildRequestComprovante(params) {
-	setComprovanteTotalValue();
-	clearSelectedValue();
 	let requestHandler = () => {};
 
 	const isSearchActive = salesContainerComprovante.get('active') === 'search';
@@ -157,6 +156,7 @@ tableRenderComprovante.onFilter(async (filters) => {
 	}
 
 	await buildRequestComprovante(params).get();
+	updateTotals();
 });
 
 tableRenderComprovante.onSort(async (elementDOM, tableInstance) => {
@@ -301,7 +301,6 @@ document
 	.addEventListener('change', onComprovantePerPageChanged);
 
 function renderComprovanteModal(id) {
-	clearSelectedValue();
 	const sale = salesContainer
 		.get('data')
 		.get('sales')
@@ -330,13 +329,12 @@ async function renderComprovanteTable(sale) {
 		},
 	});
 
-	setComprovanteTotalValue();
-
 	const total = salesContainerComprovante.get('data').get('pagination').options
 		.total;
 	document.querySelector(
 		'#js-quantidade-registros-comprovante'
 	).innerHTML = `(${total} registros)`;
+	setComprovanteTotalValue();
 
 	tableRender.clearFilters();
 	tableRender.clearSortFilter();
@@ -355,7 +353,6 @@ function setComprovanteTableFilters(sale) {
 }
 
 function updateSelectedValue() {
-	const td = document.querySelector('#total-selecionado-comprovante');
 	if (selectedComprovanteSales.length > 0) {
 		let totalValue = 0;
 		selectedComprovanteSales.forEach((id) => {
@@ -375,26 +372,36 @@ function updateSelectedValue() {
 			format,
 			defaultCellValue
 		);
-		td.innerHTML = formattedValue;
+		document.querySelector(
+			'#total-selecionado-comprovante'
+		).innerHTML = formattedValue;
 	} else {
 		clearSelectedValue();
 	}
 }
 
-function clearSelectedValue() {
-	selectedComprovanteSales = [];
-	const td = document.querySelector('#total-selecionado-comprovante');
-	td.innerHTML = 'R$ 0,00';
-}
-
 function setComprovanteTotalValue() {
+	if (salesContainerComprovante) {
+	}
 	const totalValue = parseFloat(
 		salesContainerComprovante.get('data').get('totals').TOTAL_PREVISTO_OPERADORA
 	);
+
 	const totalValueDOM = document.querySelector('#total-comprovante');
 	totalValueDOM.innerHTML = tableRenderComprovante.formatCell(
 		totalValue,
 		'currency',
 		0
 	);
+}
+
+function clearSelectedValue() {
+	selectedComprovanteSales = [];
+	document.querySelector('#total-selecionado-comprovante').innerHTML =
+		'R$ 0,00';
+}
+
+function updateTotals() {
+	clearSelectedValue();
+	setComprovanteTotalValue();
 }
