@@ -2,6 +2,7 @@
   class="card box {{ $attributes->get('class') }}"
   data-key="{{ $attributes->get('data-key') }}"
   data-format="{{ $attributes->get('data-format') }}"
+	data-type="{{ $attributes->get('data-type') }}"
   @php echo $renderDataset() @endphp
 >
   <div class="card-body">

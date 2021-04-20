@@ -162,12 +162,6 @@
 	color: gray;
 }
 
-#comprovante-modal .modal-header img {
-	width: auto;
-	height: auto;
-	width: 100px;
-}
-
 #comprovante-modal .modal-content {
 	height: auto;
 	min-height: 100%;
@@ -221,6 +215,14 @@
 .conciliacao-bancaria-form .input-group {
 	grid-template-columns: repeat(5, 2fr) !important;
 	margin-bottom: 8px;
+}
+
+#comprovante-modal header {
+	padding-bottom: 0px;
+}
+
+#comprovante-modal header .box img {
+	width: 75px;
 }
 
 @media (max-width: 1800px) {

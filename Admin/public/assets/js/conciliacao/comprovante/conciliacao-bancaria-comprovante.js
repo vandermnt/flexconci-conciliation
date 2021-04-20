@@ -306,15 +306,24 @@ function renderComprovanteModal(id) {
 		.get('sales')
 		.find((sale) => sale.ID === id);
 	const modal = document.querySelector('#comprovante-modal');
-	const modalTitle = modal.querySelector('.modal-title');
-	const operadoraImg = document.querySelector('.comprovante-operadora-img');
-	const formattedData = sale.DATA_PAGAMENTO.replace('-', '/')
-		.replace('-', '/')
-		.split('/')
-		.reverse()
-		.join('/');
-	modalTitle.innerHTML = `<img class='ml-1 mr-3' src='${sale.BANCO_IMAGEM}'/> AG. ${sale.AGENCIA} | CC. ${sale.CONTA} | ${formattedData}`;
-	operadoraImg.setAttribute('src', `${sale.ADQUIRENTE_IMAGEM}`);
+	const headerBoxes = modal
+		.querySelector('.boxes')
+		.querySelectorAll('[data-key]');
+	headerBoxes.forEach((box) => {
+		let content;
+		if (box.dataset.type) {
+			console.log(box);
+			content = `<img src="${sale.BANCO_IMAGEM}" alt>`;
+		} else {
+			content = sale[box.dataset.key];
+		}
+		box.querySelector('.content').innerHTML = content;
+	});
+	document
+		.querySelector('.comprovante-operadora-img')
+		.setAttribute('src', `${sale.ADQUIRENTE_IMAGEM}`);
+	tableRenderComprovante.clearFilters();
+	tableRenderComprovante.clearSortFilter();
 	renderComprovanteTable(sale);
 }
 
