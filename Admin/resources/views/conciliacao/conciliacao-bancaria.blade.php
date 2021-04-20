@@ -188,6 +188,59 @@
         id="comprovante-modal"
         modal-label-id="comprovante-modal-label"
     	>
+				<x-slot name="header">
+					<div class="boxes">
+						<x-box
+							class="tooltip-hint"
+							title="DATA RECEBIMENTO"
+							content=""
+							data-format="text"
+							data-key="DATA_PAGAMENTO"
+							:dataset="[
+									'hint' => 'Data Recebimento.'
+							]"
+						/>
+						<x-box
+							class="tooltip-hint"
+							title="BANCO"
+							content=""
+							data-format="text"
+							data-type="image"
+							data-key="BANCO_IMAGEM"
+							:dataset="[
+									'hint' => 'Banco.'
+							]"
+						/>
+						<x-box
+							class="tooltip-hint"
+							title="AGÊNCIA"
+							content=""
+							data-format="text"
+							data-key="AGENCIA"
+							:dataset="[
+									'hint' => 'Agência.'
+							]"
+						/>
+						<x-box
+							class="tooltip-hint"
+							title="CONTA"
+							content=""
+							data-format="text"
+							data-key="CONTA"
+							:dataset="[
+									'hint' => 'Conta.'
+							]"
+						/>
+					</div>
+					<button
+						class="close"
+						type="button"
+						data-dismiss="modal"
+						data-label="Close"
+					>
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</x-slot>
         <x-slot name="content">
 					<div class="modal-body">
 						<div class="tabela-info d-flex align-items-center justify-content-between flex-wrap mt-2">
@@ -207,7 +260,7 @@
 							</div>
 						<div class="d-flex align-items-center w-100">
 							<div class="w-50 tabela-info">
-								<div class="d-flex align-items-center justify-content-end mt-5 mb-2 w-100">
+								<div class="d-flex align-items-center justify-content-end mt-3 mb-2 w-100">
 									<button id="js-exportar" class="btn button no-hover">
 										<div class="conciflex-icon icon-md">
 											<img src="assets/images/widgets/check.svg" alt="Excel">
@@ -223,7 +276,7 @@
 								</div>
 							</div>
 							<div class="w-50 tabela-info">
-								<div class="d-flex align-items-center justify-content-end mt-5 mb-2 w-100">
+								<div class="d-flex align-items-center justify-content-end mt-3 mb-2 w-100">
 									<button id="js-exportar" class="btn button no-hover">
 										<div class="conciflex-icon icon-md">
 											<img src="assets/images/widgets/check.svg" alt="Excel">

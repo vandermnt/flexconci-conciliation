@@ -10,20 +10,24 @@
 >
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
-      <header class="modal-header d-flex align-items-center">
-				<h5
-					class="modal-title" id="{{ $attributes->get('modal-label-id') }}"
-				>
-					{{ $attributes->get('modal-label') ?? 'Modal Title'}}
-				</h5>
-        <button
-          class="close"
-          type="button"
-          data-dismiss="modal"
-          data-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
+      <header class="modal-header d-flex">
+				@if($attributes->get('id') == 'comprovante-modal')
+					{{$header}}
+				@else
+					<h5
+						class="modal-title" id="{{ $attributes->get('modal-label-id') }}"
+					>
+						{{ $attributes->get('modal-label') ?? 'Modal Title'}}
+					</h5>
+					<button
+						class="close"
+						type="button"
+						data-dismiss="modal"
+						data-label="Close"
+					>
+						<span aria-hidden="true">&times;</span>
+					</button>
+				@endif
       </header>
       <main class="modal-body">
         {{ $content }}
