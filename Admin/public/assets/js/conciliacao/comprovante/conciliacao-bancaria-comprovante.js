@@ -126,7 +126,7 @@ tableRenderComprovante.onRenderRow((row, data, tableRenderInstance) => {
 	const checkboxDOM = row.querySelector('td input[data-value-key]');
 	const value = data[checkboxDOM.dataset.valueKey];
 	checkboxDOM.value = value;
-	checkboxDOM.checked = selectedComprovanteSales.includes(value);
+	checkboxDOM.checked = false;
 
 	checkboxDOM.addEventListener('change', (event) => {
 		const target = event.target;
