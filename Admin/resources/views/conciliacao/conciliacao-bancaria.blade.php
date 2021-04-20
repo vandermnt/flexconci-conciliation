@@ -230,14 +230,12 @@
 						<div class="tabela-info d-flex align-items-center justify-content-between flex-wrap mt-2">
 							<div class="w-50 mt-auto tabela-info">
 								<div class="table-description d-flex align-items-center justify-content-start w-100">
-									<img class="comprovante-operadora-img" src="assets/images/widgets/cards.svg"/>
-									<h4 class="text-center">Recebimentos <span id="js-quantidade-registros-comprovante">(0 registros)</span></h4>
+									<h4 id="js-comprovante-table-title" class="text-center">Recebimentos</h4>
 									<img src="assets/images/widgets/arrow-down.svg" alt="">
 								</div>
 							</div>
 							<div class="w-50 mb-auto tabela-info">
 								<div class="table-description d-flex align-items-center justify-content-start w-100">
-									<img class="comprovante-extrato-img" src="assets/images/conciliacao/bank.svg"/>
 									<h4 class="text-center">Lançamentos Extrato Bancário <span id="js-quantidade-registros-extrato">(0 registros)</span></h4>
 									<img src="assets/images/widgets/arrow-down.svg" alt="">
 								</div>

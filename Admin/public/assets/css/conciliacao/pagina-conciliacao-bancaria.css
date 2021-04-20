@@ -22,11 +22,12 @@
 
 #pagina-vendas-operadoras .boxes h4 {
 	font-size: 0.845rem;
-	font-weight: 700;
+	font-weight: 400;
 	color: #000444;
 }
 
 #pagina-vendas-operadoras .boxes p {
+	font-weight: 700;
 	font-size: 1rem;
 	margin: 0;
 }
@@ -183,20 +184,6 @@
 
 #comprovante-modal .table-description h4 {
 	color: #2d5275 !important;
-}
-
-.comprovante-extrato-img {
-	width: auto !important;
-	height: auto;
-	width: 40px !important;
-	margin: 0px 10px 0px 0px !important;
-}
-
-.comprovante-operadora-img {
-	width: auto !important;
-	height: auto;
-	width: 70px !important;
-	margin: 0px 10px 0px 0px !important;
 }
 
 #comprovante-modal .table-responsive {
