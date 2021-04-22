@@ -79,6 +79,7 @@ class RecebimentosFilter extends BaseFilter
 				'pagamentos_operadoras.JUSTIFICATIVA',
 				'pagamentos_operadoras.COD_TIPO_PAGAMENTO',
 				'pagamentos_operadoras.NUMERO_OPERACAO_ANTECIPACAO',
+				'status_conciliacao.STATUS_CONCILIACAO',
 			])
 			->leftJoin('produto_web', 'produto_web.CODIGO', 'pagamentos_operadoras.COD_PRODUTO')
 			->leftJoin('grupos_clientes', 'grupos_clientes.CODIGO', 'pagamentos_operadoras.COD_GRUPO_CLIENTE')
