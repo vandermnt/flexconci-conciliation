@@ -110,6 +110,8 @@ paymentsContainer.onEvent('search', (payments) => {
 		const value = negativeBoxes[boxDOM.dataset.key];
 		if (value < 0) {
 			boxDOM.querySelector('.content').classList.add('text-danger');
+		} else {
+			boxDOM.querySelector('.content').classList.remove('text-danger');
 		}
 	});
 });
