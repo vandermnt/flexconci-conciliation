@@ -319,9 +319,10 @@ function renderComprovanteModal(id) {
 		}
 		box.querySelector('.content').innerHTML = content;
 	});
-	document
-		.querySelector('.comprovante-operadora-img')
-		.setAttribute('src', `${sale.ADQUIRENTE_IMAGEM}`);
+	document.querySelector(
+		'#js-comprovante-table-title'
+	).innerHTML = `Recebimentos ${sale.ADQUIRENTE} <span id="js-quantidade-registros-comprovante"></span>`;
+
 	tableRenderComprovante.clearFilters();
 	tableRenderComprovante.clearSortFilter();
 	renderComprovanteTable(sale);
@@ -342,7 +343,7 @@ async function renderComprovanteTable(sale) {
 		.total;
 	document.querySelector(
 		'#js-quantidade-registros-comprovante'
-	).innerHTML = `(${total} registros)`;
+	).textContent = `(${total} registros)`;
 	setComprovanteTotalValue();
 
 	tableRender.clearFilters();

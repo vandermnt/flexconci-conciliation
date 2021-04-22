@@ -92,8 +92,7 @@
         <x-box
 					class="tooltip-hint"
           title="CUSTO TAXA"
-          content="-R$ 0,00"
-          content-class="text-danger"
+          content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_TAXA"
           icon-path="assets/images/financeiro/accounts.svg"
@@ -105,8 +104,7 @@
         <x-box
 					class="tooltip-hint"
           title="CUSTO ANTECIPAÇÃO"
-          content="-R$ 0,00"
-          content-class="text-danger"
+          content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_VALOR_TAXA_ANTECIPACAO"
           icon-path="assets/images/financeiro/perda.svg"
@@ -143,7 +141,7 @@
 					class="tooltip-hint"
           title="AJUSTE A DÉBITO"
           content="-R$ 0,00"
-          content-class="text-danger"
+          {{-- content-class="text-danger" --}}
           data-format="currency"
           data-key="TOTAL_DESPESAS"
           icon-path="assets/images/financeiro/ajuste-debito.svg"
