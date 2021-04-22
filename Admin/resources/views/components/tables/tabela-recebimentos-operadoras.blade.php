@@ -456,18 +456,20 @@
             <input type="text" class="form-control" name="MEIOCAPTURA">
           </div>
         </th>
-        <th>
-          <div class="d-flex flex-column align-items-center">
-            <div
-                class="d-flex align-items-center justify-content-center table-sorter mb-2"
-                data-tbsort-by="STATUS_CONCILIACAO"
-            >
-                <p class="m-0">Status Conciliação Rec</p>
-                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
-            </div>
-            <input type="text" class="form-control" name="STATUS_CONCILIACAO">
-          </div>
-         </th>
+				@if(Auth::user()->USUARIO_GLOBAL === 'S')
+					<th>
+						<div class="d-flex flex-column align-items-center">
+							<div
+									class="d-flex align-items-center justify-content-center table-sorter mb-2"
+									data-tbsort-by="STATUS_CONCILIACAO"
+							>
+									<p class="m-0">Status Conciliação Rec</p>
+									<img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+							</div>
+							<input type="text" class="form-control" name="STATUS_CONCILIACAO">
+						</div>
+					</th>
+				@endif
         <th>
           <div class="d-flex flex-column align-items-center">
             <div
@@ -583,7 +585,9 @@
         <td data-column="OBSERVACOES"></td>
         <td data-column="PRODUTO"></td>
         <td data-column="MEIOCAPTURA"></td>
-        <td data-column="STATUS_CONCILIACAO"></td>
+				@if(Auth::user()->USUARIO_GLOBAL === 'S')
+					<td data-column="STATUS_CONCILIACAO"></td>
+				@endif
         <td data-column="DIVERGENCIA"></td>
         <td data-column="JUSTIFICATIVA"></td>
         <td data-column="RETORNO_ERP_BAIXA"></td>
@@ -616,7 +620,9 @@
         <td></td>
 				<td class="text-danger" data-column="TOTAL_VALOR_TAXA_ANTECIPACAO" data-reverse-value="true" data-format="currency"></td>
         <td data-column="TOTAL_LIQUIDO" data-format="currency"></td>
-				<td></td>
+				@if(Auth::user()->USUARIO_GLOBAL === 'S')
+					<td></td>
+				@endif
         <td></td>
         <td></td>
         <td></td>
