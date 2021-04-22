@@ -80,6 +80,7 @@ class RecebimentosFilter extends BaseFilter
 				'pagamentos_operadoras.COD_TIPO_PAGAMENTO',
 				'pagamentos_operadoras.NUMERO_OPERACAO_ANTECIPACAO',
 				'status_conciliacao.STATUS_CONCILIACAO',
+				'tipo_lancamento.TIPO_LANCAMENTO',
 			])
 			->leftJoin('produto_web', 'produto_web.CODIGO', 'pagamentos_operadoras.COD_PRODUTO')
 			->leftJoin('grupos_clientes', 'grupos_clientes.CODIGO', 'pagamentos_operadoras.COD_GRUPO_CLIENTE')
@@ -87,6 +88,7 @@ class RecebimentosFilter extends BaseFilter
 			->leftJoin('bandeira', 'bandeira.CODIGO', 'pagamentos_operadoras.COD_BANDEIRA')
 			->leftJoin('modalidade', 'modalidade.CODIGO', 'pagamentos_operadoras.COD_FORMA_PAGAMENTO')
 			->leftJoin('tipo_pagamento', 'tipo_pagamento.CODIGO', 'pagamentos_operadoras.COD_TIPO_PAGAMENTO')
+			->leftJoin('tipo_lancamento', 'tipo_lancamento.CODIGO', 'pagamentos_operadoras.COD_TIPO_LANCAMENTO')
 			->leftJoin('lista_bancos', 'lista_bancos.CODIGO', 'pagamentos_operadoras.COD_BANCO')
 			->leftJoin('meio_captura', 'meio_captura.CODIGO', 'pagamentos_operadoras.COD_MEIO_CAPTURA')
 			->leftJoin('status_conciliacao', 'status_conciliacao.CODIGO', 'pagamentos_operadoras.COD_STATUS')
