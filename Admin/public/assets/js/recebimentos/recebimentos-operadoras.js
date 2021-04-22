@@ -93,11 +93,24 @@ paymentsContainer.onEvent('fetch', (payments) => {
 
 paymentsContainer.onEvent('search', (payments) => {
 	const totals = payments.get('totals');
+	const negativeBoxes = {
+		TOTAL_TAXA: (totals.TOTAL_TAXA || 0) * -1,
+		TOTAL_VALOR_TAXA_ANTECIPACAO:
+			(totals.TOTAL_VALOR_TAXA_ANTECIPACAO || 0) * -1,
+		TOTAL_DESPESAS: (totals.TOTAL_DESPESAS || 0) * -1,
+		TOTAL_CHARGEBACK: (totals.TOTAL_CHARGEBACK || 0) * -1,
+		TOTAL_CANCELAMENTO: (totals.TOTAL_CHARGEBACK || 0) * -1,
+	};
 	updateBoxes(boxes, {
 		...totals,
-		TOTAL_TAXA: (totals.TOTAL_TAXA || 0) * -1,
-		TOTAL_ANTECIPACAO: (totals.TOTAL_ANTECIPACAO || 0) * -1,
-		TOTAL_DESPESAS: (totals.TOTAL_DESPESAS || 0) * -1,
+		...negativeBoxes,
+	});
+	boxes.forEach((box) => {
+		const boxDOM = box.get('element');
+		const value = negativeBoxes[boxDOM.dataset.key];
+		if (value < 0) {
+			boxDOM.querySelector('.content').classList.add('text-danger');
+		}
 	});
 });
 
