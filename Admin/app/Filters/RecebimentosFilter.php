@@ -81,6 +81,7 @@ class RecebimentosFilter extends BaseFilter
 				'pagamentos_operadoras.NUMERO_OPERACAO_ANTECIPACAO',
 				'status_conciliacao.STATUS_CONCILIACAO',
 				'tipo_lancamento.TIPO_LANCAMENTO',
+				'produto_web.PRODUTO_WEB as PRODUTO',
 			])
 			->leftJoin('produto_web', 'produto_web.CODIGO', 'pagamentos_operadoras.COD_PRODUTO')
 			->leftJoin('grupos_clientes', 'grupos_clientes.CODIGO', 'pagamentos_operadoras.COD_GRUPO_CLIENTE')
