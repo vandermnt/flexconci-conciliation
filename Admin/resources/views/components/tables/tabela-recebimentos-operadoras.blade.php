@@ -372,7 +372,7 @@
             <input type="text" class="form-control" name="CLASSIFICACAO_AJUSTE">
           </div>
         </th>
-        <th>
+        {{-- <th>
           <div class="d-flex flex-column align-items-center">
             <div
                 class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -383,7 +383,7 @@
             </div>
             <input type="text" class="form-control" name="NUMERO_TERMINAL">
           </div>
-        </th>
+        </th> --}}
         <th>
           <div class="d-flex flex-column align-items-center">
             <div
@@ -474,13 +474,13 @@
                 class="d-flex align-items-center justify-content-center table-sorter mb-2"
                 data-tbsort-by="DIVERGENCIA"
             >
-                <p class="m-0">Divergência Venda</p>
+                <p class="m-0 tooltip-hint divergencia-col-hint" :dataset="['hint' => 'Apenas um teste']">Divergência Venda</p>
                 <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
             <input type="text" class="form-control" name="DIVERGENCIA">
           </div>
          </th>
-         <th>
+         {{-- <th>
           <div class="d-flex flex-column align-items-center">
             <div
                 class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -491,7 +491,7 @@
             </div>
             <input type="text" class="form-control" name="JUSTIFICATIVA">
           </div>
-        </th>
+        </th> --}}
          <th>
           <div class="d-flex flex-column align-items-center">
             <div
@@ -564,7 +564,7 @@
 				<td data-column="COD_AJUSTE"></td>
 				<td data-column="DESC_AJUSTE"></td>
 				<td data-column="CLASSIFICACAO_AJUSTE"></td>
-        <td data-column="NUMERO_TERMINAL"></td>
+        {{-- <td data-column="NUMERO_TERMINAL"></td> --}}
         <td
           data-image="BANCO_IMAGEM"
           data-default-image="assets/images/widgets/cards.svg"
@@ -585,7 +585,7 @@
         <td data-column="MEIOCAPTURA"></td>
         <td data-column="STATUS_CONCILIACAO"></td>
         <td data-column="DIVERGENCIA"></td>
-        <td data-column="JUSTIFICATIVA"></td>
+        {{-- <td data-column="JUSTIFICATIVA"></td> --}}
         <td data-column="RETORNO_ERP_BAIXA"></td>
       </tr>
     </tbody>
@@ -633,9 +633,7 @@
         <td></td>
         <td></td>
         <td></td>
-		<td></td>
-        <td></td>
-		<td></td>
+				<td></td>
       </tr>
     </tfoot>
   </table>
