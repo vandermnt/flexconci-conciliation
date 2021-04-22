@@ -101,6 +101,7 @@ paymentsContainer.onEvent('search', (payments) => {
 		TOTAL_CHARGEBACK: (totals.TOTAL_CHARGEBACK || 0) * -1,
 		TOTAL_CANCELAMENTO: (totals.TOTAL_CHARGEBACK || 0) * -1,
 	};
+	console.log(negativeBoxes);
 	updateBoxes(boxes, {
 		...totals,
 		...negativeBoxes,
