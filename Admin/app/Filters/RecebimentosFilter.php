@@ -82,6 +82,8 @@ class RecebimentosFilter extends BaseFilter
 				'pagamentos_operadoras.JUSTIFICATIVA',
 				'pagamentos_operadoras.COD_TIPO_PAGAMENTO',
 				'pagamentos_operadoras.NUMERO_OPERACAO_ANTECIPACAO',
+				'controle_ajustes.CODIGO_OPERADORA as COD_AJUSTE',
+				'controle_ajustes.DESCRICAO_OPERADORA as DESC_AJUSTE'
 			])
 			->leftJoin('produto_web', 'produto_web.CODIGO', 'pagamentos_operadoras.COD_PRODUTO')
 			->leftJoin('grupos_clientes', 'grupos_clientes.CODIGO', 'pagamentos_operadoras.COD_GRUPO_CLIENTE')
@@ -92,6 +94,10 @@ class RecebimentosFilter extends BaseFilter
 			->leftJoin('lista_bancos', 'lista_bancos.CODIGO', 'pagamentos_operadoras.COD_BANCO')
 			->leftJoin('meio_captura', 'meio_captura.CODIGO', 'pagamentos_operadoras.COD_MEIO_CAPTURA')
 			->leftJoin('status_conciliacao', 'status_conciliacao.CODIGO', 'pagamentos_operadoras.COD_STATUS')
+			->leftJoin('controle_ajustes', function ($join) {
+				$join->on('controle_ajustes.CODIGO', '=', 'pagamentos_operadoras.COD_AJUSTE');
+				$join->on('controle_ajustes.COD_ADQUIRENTE', '=', 'pagamentos_operadoras.COD_ADQUIRENTE');
+			})
 			->where(
 				[
 					['pagamentos_operadoras.COD_CLIENTE', $filters['cliente_id']],
