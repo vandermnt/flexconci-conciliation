@@ -24,6 +24,33 @@ const tableRender = createTableRender({
 	formatter,
 });
 const boxes = getBoxes();
+let boxFilter;
+
+boxes.forEach((box) => {
+	const boxDOM = box.get('element');
+
+	boxDOM.addEventListener('click', (event) => {
+		toggleElementVisibility('#js-loader');
+		console.log(boxDOM.dataset.key);
+		const status = event.target.closest('.box').dataset.status;
+		if (status == 'active') {
+			if ((bomxDOM.dataset.key = 'TOTAL_DESPESAS')) {
+				boxFilter = 'Ajuste a Débito';
+			} else if ((bomxDOM.dataset.key = 'PAG_AVULSO')) {
+				boxFilter = 'Ajuste a Crédito';
+			}
+			paymentsContainer.set('active', 'filter');
+			buildRequest({ page: 1, por_pagina: pagination.options.perPage })
+				.get()
+				.then(() => {
+					tableRender.clearFilters();
+					toggleElementVisibility('#js-loader');
+				});
+		} else {
+			toggleElementVisibility('#js-loader');
+		}
+	});
+});
 
 checker.addGroups([
 	{ name: 'empresa', options: { inputName: 'grupos_clientes' } },
@@ -97,7 +124,7 @@ paymentsContainer.onEvent('search', (payments) => {
 		TOTAL_TAXA: (totals.TOTAL_TAXA || 0) * -1,
 		TOTAL_VALOR_TAXA_ANTECIPACAO:
 			(totals.TOTAL_VALOR_TAXA_ANTECIPACAO || 0) * -1,
-		TOTAL_DESPESAS: (totals.TOTAL_DESPESAS || 0) * -1,
+		TOTAL_DESPESAS: totals.TOTAL_DESPESAS || 0,
 		TOTAL_CHARGEBACK: (totals.TOTAL_CHARGEBACK || 0) * -1,
 		TOTAL_CANCELAMENTO: (totals.TOTAL_CHARGEBACK || 0) * -1,
 	};
@@ -112,7 +139,8 @@ paymentsContainer.onEvent('search', (payments) => {
 		if (value < 0) {
 			boxDOM.querySelector('.content').classList.add('text-danger');
 		} else {
-			boxDOM.querySelector('.content').classList.remove('text-danger');
+			if (boxDOM.dataset.key != 'TOTAL_DESPESAS')
+				boxDOM.querySelector('.content').classList.remove('text-danger');
 		}
 	});
 });
@@ -146,11 +174,16 @@ function buildRequest(params) {
 		...searchForm.serialize(),
 		...tableRender.serializeSortFilter(),
 	};
+
+	const subfilters = {
+		...tableRender.serializeTableFilters(),
+		...boxFilter,
+	};
 	const bodyPayload = isSearchActive
 		? { ...filters }
 		: {
 				filters: { ...filters },
-				subfilters: { ...tableRender.serializeTableFilters() },
+				subfilters: { ...subfilters },
 		  };
 
 	const requestPayload = {

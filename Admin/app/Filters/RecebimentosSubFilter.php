@@ -21,6 +21,7 @@ class RecebimentosSubFilter extends BaseSubFilter
 		'BANDEIRA',
 		'MODALIDADE',
 		'TIPO_PAGAMENTO',
+		'TIPO_LANCAMENTO',
 		'NSU',
 		'AUTORIZACAO',
 		'TID',

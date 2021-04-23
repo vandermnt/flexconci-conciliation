@@ -82,6 +82,11 @@ class RecebimentosFilter extends BaseFilter
 				'pagamentos_operadoras.JUSTIFICATIVA',
 				'pagamentos_operadoras.COD_TIPO_PAGAMENTO',
 				'pagamentos_operadoras.NUMERO_OPERACAO_ANTECIPACAO',
+				'pagamentos_operadoras.RETORNO_BAIXA as RETORNO_ERP_BAIXA',
+				'controle_ajustes.CODIGO_OPERADORA as COD_AJUSTE',
+				'controle_ajustes.DESCRICAO_OPERADORA as DESC_AJUSTE',
+				'tipo_lancamento.TIPO_LANCAMENTO',
+				'tipo_lancamento.CODIGO as COD_TIPO_LANCAMENTO'
 			])
 			->leftJoin('produto_web', 'produto_web.CODIGO', 'pagamentos_operadoras.COD_PRODUTO')
 			->leftJoin('grupos_clientes', 'grupos_clientes.CODIGO', 'pagamentos_operadoras.COD_GRUPO_CLIENTE')
@@ -89,15 +94,22 @@ class RecebimentosFilter extends BaseFilter
 			->leftJoin('bandeira', 'bandeira.CODIGO', 'pagamentos_operadoras.COD_BANDEIRA')
 			->leftJoin('modalidade', 'modalidade.CODIGO', 'pagamentos_operadoras.COD_FORMA_PAGAMENTO')
 			->leftJoin('tipo_pagamento', 'tipo_pagamento.CODIGO', 'pagamentos_operadoras.COD_TIPO_PAGAMENTO')
+			->leftJoin('tipo_lancamento', 'tipo_lancamento.CODIGO', 'pagamentos_operadoras.COD_TIPO_LANCAMENTO')
 			->leftJoin('lista_bancos', 'lista_bancos.CODIGO', 'pagamentos_operadoras.COD_BANCO')
 			->leftJoin('meio_captura', 'meio_captura.CODIGO', 'pagamentos_operadoras.COD_MEIO_CAPTURA')
 			->leftJoin('status_conciliacao', 'status_conciliacao.CODIGO', 'pagamentos_operadoras.COD_STATUS')
+			->leftJoin('controle_ajustes', function ($join) {
+				$join->on('controle_ajustes.CODIGO', '=', 'pagamentos_operadoras.COD_AJUSTE');
+				$join->on('controle_ajustes.COD_ADQUIRENTE', '=', 'pagamentos_operadoras.COD_ADQUIRENTE');
+			})
 			->where(
-				[
-					['pagamentos_operadoras.COD_CLIENTE', $filters['cliente_id']],
-					['tipo_pagamento.CODIGO', '!=', 3]
-				]
-			);
+				'pagamentos_operadoras.COD_CLIENTE',
+				$filters['cliente_id'],
+			)
+			->where(function ($query) {
+				$query->where('tipo_pagamento.CODIGO', '!=', 3)
+					->orWhereNull('tipo_pagamento.CODIGO');
+			});
 
 		if (Arr::has($filters, 'id')) {
 			$this->query->whereIn('pagamentos_operadoras.CODIGO', $filters['id']);
