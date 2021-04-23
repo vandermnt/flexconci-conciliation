@@ -83,6 +83,7 @@
           content="R$ 0,00"
           data-format="currency"
           data-key="PAG_AVULSO"
+					data-status="active"
           icon-path="assets/images/financeiro/pagamentos.svg"
           icon-description="Pag. Avulso"
 					:dataset="[
