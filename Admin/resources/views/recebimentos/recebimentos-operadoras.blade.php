@@ -83,11 +83,11 @@
           content="R$ 0,00"
           data-format="currency"
           data-key="PAG_AVULSO"
-					data-status="active"
           icon-path="assets/images/financeiro/pagamentos.svg"
           icon-description="Pag. Avulso"
 					:dataset="[
-						'hint' => 'Recebimentos realizados que não tem vínculo com vendas, porém, fazem parte do depósito realizado no banco. Exemplo: Devolução de valores cobrados a maior, acordo comercial para isenção de aluguel de máquina entre outros.'
+						'hint' => 'Recebimentos realizados que não tem vínculo com vendas, porém, fazem parte do depósito realizado no banco. Exemplo: Devolução de valores cobrados a maior, acordo comercial para isenção de aluguel de máquina entre outros.',
+						'status' => '*'
 					]"
 				/>
         <x-box
@@ -145,11 +145,11 @@
           content-class="text-danger"
           data-format="currency"
           data-key="TOTAL_DESPESAS"
-					data-status="active"
           icon-path="assets/images/financeiro/ajuste-debito.svg"
           icon-description="Outras Despesas"
 					:dataset="[
-						'hint' => 'Descontos realizados pelas operadoras referente a outras tarifas. Exemplo: Anuidade, DOC/TED, Aluguel de máquina entre outros.'
+						'hint' => 'Descontos realizados pelas operadoras referente a outras tarifas. Exemplo: Anuidade, DOC/TED, Aluguel de máquina entre outros.',
+						'status' => '*'
 					]"
 				/>
         <x-box

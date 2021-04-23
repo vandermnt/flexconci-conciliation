@@ -31,7 +31,7 @@ boxes.forEach((box) => {
 
 	boxDOM.addEventListener('click', (event) => {
 		const status = event.target.closest('.box').dataset.status;
-		if (status == 'active') {
+		if (status == '*') {
 			toggleElementVisibility('#js-loader');
 			let codTipoLancamento;
 			boxDOM.dataset.key == 'TOTAL_DESPESAS'
