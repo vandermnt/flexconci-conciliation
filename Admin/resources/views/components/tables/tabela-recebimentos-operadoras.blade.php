@@ -474,7 +474,7 @@
                 class="d-flex align-items-center justify-content-center table-sorter mb-2"
                 data-tbsort-by="DIVERGENCIA"
             >
-                <p class="m-0 tooltip-hint divergencia-col-hint" :dataset="['hint' => 'Apenas um teste']">Divergência Venda</p>
+                <p class="m-0">Divergência Venda</p>
                 <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
             <input type="text" class="form-control" name="DIVERGENCIA">
