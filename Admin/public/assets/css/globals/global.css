@@ -601,3 +601,8 @@ table tr.marcada td {
 .tabela-info .button {
 	font-weight: normal;
 }
+
+#empresas-modal .modal-dialog {
+	width: 100%;
+	max-width: 800px !important;
+}
