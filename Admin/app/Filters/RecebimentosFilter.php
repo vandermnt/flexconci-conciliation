@@ -83,6 +83,7 @@ class RecebimentosFilter extends BaseFilter
 				'tipo_lancamento.TIPO_LANCAMENTO',
 				'produto_web.PRODUTO_WEB as PRODUTO',
 				'meio_captura.DESCRICAO as MEIOCAPTURA',
+				'pagamentos_operadoras.RETORNO_BAIXA as RETORNO_ERP_BAIXA',
 			])
 			->leftJoin('produto_web', 'produto_web.CODIGO', 'pagamentos_operadoras.COD_PRODUTO')
 			->leftJoin('grupos_clientes', 'grupos_clientes.CODIGO', 'pagamentos_operadoras.COD_GRUPO_CLIENTE')
@@ -95,11 +96,13 @@ class RecebimentosFilter extends BaseFilter
 			->leftJoin('meio_captura', 'meio_captura.CODIGO', 'pagamentos_operadoras.COD_MEIO_CAPTURA')
 			->leftJoin('status_conciliacao', 'status_conciliacao.CODIGO', 'pagamentos_operadoras.COD_STATUS')
 			->where(
-				[
-					['pagamentos_operadoras.COD_CLIENTE', $filters['cliente_id']],
-					['tipo_pagamento.CODIGO', '!=', 3]
-				]
-			);
+				'pagamentos_operadoras.COD_CLIENTE',
+				$filters['cliente_id'],
+			)
+			->where(function ($query) {
+				$query->where('tipo_pagamento.CODIGO', '!=', 3)
+					->orWhereNull('tipo_pagamento.CODIGO');
+			});
 
 		if (Arr::has($filters, 'id')) {
 			$this->query->whereIn('pagamentos_operadoras.CODIGO', $filters['id']);
