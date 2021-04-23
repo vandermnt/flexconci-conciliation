@@ -140,10 +140,11 @@
         <x-box
 					class="tooltip-hint"
           title="AJUSTE A DÉBITO"
-          content="-R$ 0,00"
-          {{-- content-class="text-danger" --}}
+          content="R$ 0,00"
+          content-class="text-danger"
           data-format="currency"
           data-key="TOTAL_DESPESAS"
+					data-status="active"
           icon-path="assets/images/financeiro/ajuste-debito.svg"
           icon-description="Outras Despesas"
 					:dataset="[
