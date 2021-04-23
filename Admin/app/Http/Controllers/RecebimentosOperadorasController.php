@@ -115,12 +115,11 @@ class RecebimentosOperadorasController extends Controller
 				'TOTAL_LIQUIDO' => (clone $query)->sum('pagamentos_operadoras.VALOR_LIQUIDO'),
 				'TOTAL_CANCELAMENTO' => 0,
 				'TOTAL_CHARGEBACK' => 0,
-				'PAG_AVULSO' => 0,
 				'TOTAL_ANTECIPACAO' => (clone $query)->sum('pagamentos_operadoras.TAXA_ANTECIPACAO'),
 				'TOTAL_VALOR_ANTECIPACAO' => (clone $query)->sum('pagamentos_operadoras.VALOR_TAXA_ANTECIPACAO'),
+				'PAG_AVULSO' => (clone $query)->where('tipo_lancamento.CODIGO', 3)->sum('pagamentos_operadoras.VALOR_LIQUIDO'),
 				'TOTAL_VALOR_TAXA_ANTECIPACAO' => (clone $query)->sum('pagamentos_operadoras.VALOR_TAXA_ANTECIPACAO'),
-				'TOTAL_DESPESAS' => 0
-
+				'TOTAL_DESPESAS' => (clone $query)->where('tipo_lancamento.CODIGO', 2)->sum('pagamentos_operadoras.VALOR_LIQUIDO')
 			];
 			$totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
 
@@ -159,11 +158,11 @@ class RecebimentosOperadorasController extends Controller
 				'PAG_ANTECIPADO' => (clone $query)
 					->where('COD_TIPO_PAGAMENTO', 2)
 					->sum('VALOR_BRUTO'),
-				'PAG_AVULSO' => 0,
 				'TOTAL_ANTECIPACAO' => (clone $query)->sum('TAXA_ANTECIPACAO'),
 				'TOTAL_VALOR_ANTECIPACAO' => (clone $query)->sum('VALOR_TAXA_ANTECIPACAO'),
+				'PAG_AVULSO' => (clone $query)->where('COD_TIPO_LANCAMENTO', 3)->sum('VALOR_LIQUIDO'),
 				'TOTAL_VALOR_TAXA_ANTECIPACAO' => (clone $query)->sum('VALOR_TAXA_ANTECIPACAO'),
-				'TOTAL_DESPESAS' => 0
+				'TOTAL_DESPESAS' => (clone $query)->where('COD_TIPO_LANCAMENTO', 2)->sum('VALOR_LIQUIDO')
 			];
 			$totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
 
