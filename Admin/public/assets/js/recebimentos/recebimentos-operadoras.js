@@ -24,29 +24,26 @@ const tableRender = createTableRender({
 	formatter,
 });
 const boxes = getBoxes();
-let boxFilter;
+let boxFilter = {};
 
 boxes.forEach((box) => {
 	const boxDOM = box.get('element');
 
 	boxDOM.addEventListener('click', (event) => {
-		toggleElementVisibility('#js-loader');
-		console.log(boxDOM.dataset.key);
 		const status = event.target.closest('.box').dataset.status;
 		if (status == 'active') {
-			if ((bomxDOM.dataset.key = 'TOTAL_DESPESAS')) {
-				boxFilter = 'Ajuste a Débito';
-			} else if ((bomxDOM.dataset.key = 'PAG_AVULSO')) {
-				boxFilter = 'Ajuste a Crédito';
-			}
-			paymentsContainer.set('active', 'filter');
-			buildRequest({ page: 1, por_pagina: pagination.options.perPage })
+			toggleElementVisibility('#js-loader');
+			let codTipoLancamento;
+			boxDOM.dataset.key == 'TOTAL_DESPESAS'
+				? (codTipoLancamento = 2)
+				: (codTipoLancamento = 3);
+			boxFilter['cod_tipo_lancamento'] = codTipoLancamento;
+			paymentsContainer.set('active', 'search');
+			buildRequest()
 				.get()
 				.then(() => {
 					tableRender.clearFilters();
-					toggleElementVisibility('#js-loader');
 				});
-		} else {
 			toggleElementVisibility('#js-loader');
 		}
 	});
@@ -173,11 +170,11 @@ function buildRequest(params) {
 	const filters = {
 		...searchForm.serialize(),
 		...tableRender.serializeSortFilter(),
+		...boxFilter,
 	};
 
 	const subfilters = {
 		...tableRender.serializeTableFilters(),
-		...boxFilter,
 	};
 	const bodyPayload = isSearchActive
 		? { ...filters }
