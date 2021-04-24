@@ -22,7 +22,6 @@ class RecebimentosFilter extends BaseFilter
 		'domicilios_bancarios',
 		'recebimento_conciliado_erp',
 		'tipo_pagamento',
-		'cod_tipo_lancamento'
 	];
 
 	public static function filter($params)
@@ -104,10 +103,6 @@ class RecebimentosFilter extends BaseFilter
 				$query->where('tipo_pagamento.CODIGO', '!=', 3)
 					->orWhereNull('tipo_pagamento.CODIGO');
 			});
-
-		if (Arr::has($filters, 'cod_tipo_lancamento')) {
-			$this->query->where('tipo_lancamento.CODIGO', $filters['cod_tipo_lancamento']);
-		}
 
 		if (Arr::has($filters, 'id')) {
 			$this->query->whereIn('pagamentos_operadoras.CODIGO', $filters['id']);

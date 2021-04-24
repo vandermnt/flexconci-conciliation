@@ -29,3 +29,7 @@
 	margin: 0;
 	font-weight: 700;
 }
+
+#pagina-recebimentos-operadoras .box-subfilter {
+	cursor: pointer;
+}
