@@ -36,8 +36,8 @@
           :hidden-fields="[
             'domicilios-bancarios',
             'descricao-erp',
-						'bandeiras', 
-            'modalidades', 
+						'bandeiras',
+            'modalidades',
             'estabelecimentos',
 						'status-conciliacao',
 						'status-financeiro',
@@ -166,15 +166,17 @@
     	>
         <x-slot name="content">
 					<div class="modal-body">
-						<input
-						id="teste"
-						type="file"
-						class="dropify"
-						name="extratos[]"
-						multiple
-						{{-- accept=".ofx" --}}
-						>
-						<button type="button" class="btn btn-primary w-100 mt-2" data-dismiss="modal">Enviar</button>
+            <form id="upload-file">
+              <input
+              type="file"
+              class="dropify"
+              name="extratos[]"
+              multiple
+              >
+            </form>
+
+            <input type ="hidden" name="_token" value="{{{ csrf_token() }}}">
+						<button name="submit-extrato" type="button" class="btn btn-primary w-100 mt-2" data-dismiss="modal">Enviar</button>
 					</div>
         </x-slot>
 
@@ -299,7 +301,7 @@
 										</td>
 									</x-slot>
 								</x-tables.tabela-conciliacao-bancaria-comprovante>
-				
+
 								<x-tables.table-navigation
 									pagination-id="js-paginacao-comprovante"
 									per-page-select-id="js-por-pagina-comprovante"
@@ -330,7 +332,7 @@
 										</td>
 									</x-slot>
 								</x-tables.tabela-extrato-bancario>
-				
+
 								<x-tables.table-navigation
 									pagination-id="js-paginacao-extrato-bancario"
 									per-page-select-id="js-por-pagina-extrato-bancario"
@@ -365,5 +367,6 @@
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/conciliacao/conciliacao-bancaria.js') }}"></script>
 	<script defer src="{{ URL::asset('assets/js/conciliacao/comprovante/conciliacao-bancaria-comprovante.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/conciliacao/envia-extrato.js') }}"></script>
 	{{-- <script defer src="{{ URL::asset('assets/js/conciliacao/comprovante/extrato-bancario.js') }}"></script> --}}
 @endsection
