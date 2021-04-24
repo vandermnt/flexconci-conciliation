@@ -24,6 +24,30 @@ const tableRender = createTableRender({
 	formatter,
 });
 const boxes = getBoxes();
+let boxFilter = {};
+
+boxes.forEach((box) => {
+	const boxDOM = box.get('element');
+
+	boxDOM.addEventListener('click', (event) => {
+		const status = event.target.closest('.box').dataset.status;
+		if (status == '*') {
+			toggleElementVisibility('#js-loader');
+			let codTipoLancamento;
+			boxDOM.dataset.key == 'TOTAL_DESPESAS'
+				? (codTipoLancamento = 2)
+				: (codTipoLancamento = 3);
+			boxFilter['cod_tipo_lancamento'] = codTipoLancamento;
+			paymentsContainer.set('active', 'search');
+			buildRequest()
+				.get()
+				.then(() => {
+					tableRender.clearFilters();
+				});
+			toggleElementVisibility('#js-loader');
+		}
+	});
+});
 
 checker.addGroups([
 	{ name: 'empresa', options: { inputName: 'grupos_clientes' } },
@@ -97,7 +121,7 @@ paymentsContainer.onEvent('search', (payments) => {
 		TOTAL_TAXA: (totals.TOTAL_TAXA || 0) * -1,
 		TOTAL_VALOR_TAXA_ANTECIPACAO:
 			(totals.TOTAL_VALOR_TAXA_ANTECIPACAO || 0) * -1,
-		TOTAL_DESPESAS: (totals.TOTAL_DESPESAS || 0) * -1,
+		TOTAL_DESPESAS: totals.TOTAL_DESPESAS || 0,
 		TOTAL_CHARGEBACK: (totals.TOTAL_CHARGEBACK || 0) * -1,
 		TOTAL_CANCELAMENTO: (totals.TOTAL_CHARGEBACK || 0) * -1,
 	};
@@ -112,7 +136,8 @@ paymentsContainer.onEvent('search', (payments) => {
 		if (value < 0) {
 			boxDOM.querySelector('.content').classList.add('text-danger');
 		} else {
-			boxDOM.querySelector('.content').classList.remove('text-danger');
+			if (boxDOM.dataset.key != 'TOTAL_DESPESAS')
+				boxDOM.querySelector('.content').classList.remove('text-danger');
 		}
 	});
 });
@@ -145,12 +170,17 @@ function buildRequest(params) {
 	const filters = {
 		...searchForm.serialize(),
 		...tableRender.serializeSortFilter(),
+		...boxFilter,
+	};
+
+	const subfilters = {
+		...tableRender.serializeTableFilters(),
 	};
 	const bodyPayload = isSearchActive
 		? { ...filters }
 		: {
 				filters: { ...filters },
-				subfilters: { ...tableRender.serializeTableFilters() },
+				subfilters: { ...subfilters },
 		  };
 
 	const requestPayload = {

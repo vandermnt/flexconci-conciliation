@@ -73,11 +73,13 @@ class PagamentosOperadorasFilter extends BaseFilter
 			->leftJoin('tipo_pagamento', 'tipo_pagamento.CODIGO', 'pagamentos_operadoras.COD_TIPO_PAGAMENTO')
 			->leftJoin('lista_bancos', 'lista_bancos.CODIGO', 'pagamentos_operadoras.COD_BANCO')
 			->where(
-				[
-					['pagamentos_operadoras.COD_CLIENTE', $filters['cliente_id']],
-					['tipo_pagamento.CODIGO', '!=', 3]
-				]
-			)->groupBy('pagamentos_operadoras.DATA_PAGAMENTO', 'pagamentos_operadoras.AGENCIA', 'pagamentos_operadoras.CONTA', 'lista_bancos.BANCO', 'adquirentes.ADQUIRENTE');
+				'pagamentos_operadoras.COD_CLIENTE',
+				$filters['cliente_id'],
+			)
+			->where(function ($query) {
+				$query->where('tipo_pagamento.CODIGO', '!=', 3)
+					->orWhereNull('tipo_pagamento.CODIGO');
+			})->groupBy('pagamentos_operadoras.DATA_PAGAMENTO', 'pagamentos_operadoras.AGENCIA', 'pagamentos_operadoras.CONTA', 'lista_bancos.BANCO', 'adquirentes.ADQUIRENTE');
 
 		if (Arr::has($filters, ['data_inicial', 'data_final'])) {
 			$this->query->whereBetween('pagamentos_operadoras.DATA_PAGAMENTO', [

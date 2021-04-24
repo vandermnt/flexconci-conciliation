@@ -174,13 +174,20 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/recebimentos-futuros/filtrar', 'RecebimentosFuturosController@filter')->name('recebimentos-futuros.filter');
 	Route::get('/recebimentos-futuros/exportar', 'RecebimentosFuturosController@export')->name('recebimentos-futuros.export');
 
-	Route::get('/cielo/credenciamento', 'EdiServices\CieloEdiController@index')->name('cielo.credenciamento');
-	Route::get('/cielo/authenticate', 'EdiServices\CieloEdiController@authenticate')->name('cielo.authenticate');
-	Route::get('/cielo/callback', 'EdiServices\CieloEdiController@callback')->name('cielo.callback');
-	Route::get('/cielo/autorizacao', 'EdiServices\CieloEdiController@authorize')->name('cielo.authorize');
-	Route::get('/cielo/registro-edi', 'EdiServices\CieloEdiController@ediRegister')->name('cielo.register-edi');
-	Route::get('/cielo/resultados', 'EdiServices\CieloEdiController@show')->name('cielo.results');
+	// Route::get('/cielo/credenciamento', 'EdiServices\CieloEdiController@index')->name('cielo.credenciamento');
+	// Route::get('/cielo/authenticate', 'EdiServices\CieloEdiController@authenticate')->name('cielo.authenticate');
+	// Route::get('/cielo/callback', 'EdiServices\CieloEdiController@callback')->name('cielo.callback');
+	// Route::get('/cielo/autorizacao', 'EdiServices\CieloEdiController@authorize')->name('cielo.authorize');
+	// Route::get('/cielo/registro-edi', 'EdiServices\CieloEdiController@ediRegister')->name('cielo.register-edi');
+	// Route::get('/cielo/resultados', 'EdiServices\CieloEdiController@show')->name('cielo.results');
 });
+
+Route::get('/cielo/credenciamento', 'EdiServices\CieloEdiController@index')->name('cielo.credenciamento');
+Route::get('/cielo/authenticate', 'EdiServices\CieloEdiController@authenticate')->name('cielo.authenticate');
+Route::get('/cielo/callback', 'EdiServices\CieloEdiController@callback')->name('cielo.callback');
+Route::get('/cielo/autorizacao', 'EdiServices\CieloEdiController@authorize')->name('cielo.authorize');
+Route::get('/cielo/registro-edi', 'EdiServices\CieloEdiController@ediRegister')->name('cielo.register-edi');
+Route::get('/cielo/resultados', 'EdiServices\CieloEdiController@show')->name('cielo.results');
 
 Route::get('/credenciamento-cielo', function () {
 	return view('authentication.auth-lock-screen');
