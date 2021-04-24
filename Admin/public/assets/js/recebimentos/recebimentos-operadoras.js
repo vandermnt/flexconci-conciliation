@@ -24,7 +24,7 @@ const tableRender = createTableRender({
 	formatter,
 });
 const boxes = getBoxes();
-let boxFilter = {};
+let boxSubFilter = {};
 
 boxes.forEach((box) => {
 	const boxDOM = box.get('element');
@@ -33,12 +33,12 @@ boxes.forEach((box) => {
 		const status = event.target.closest('.box').dataset.status;
 		if (status == '*') {
 			toggleElementVisibility('#js-loader');
-			let codTipoLancamento;
+			let tipoLancamento;
 			boxDOM.dataset.key == 'TOTAL_DESPESAS'
-				? (codTipoLancamento = 2)
-				: (codTipoLancamento = 3);
-			boxFilter['cod_tipo_lancamento'] = codTipoLancamento;
-			paymentsContainer.set('active', 'search');
+				? (tipoLancamento = 'Ajuste a Débito')
+				: (tipoLancamento = 'Ajuste a Crédito');
+			boxSubFilter['TIPO_LANCAMENTO'] = tipoLancamento;
+			paymentsContainer.set('active', 'filter');
 			buildRequest()
 				.get()
 				.then(() => {
@@ -170,11 +170,11 @@ function buildRequest(params) {
 	const filters = {
 		...searchForm.serialize(),
 		...tableRender.serializeSortFilter(),
-		...boxFilter,
 	};
 
 	const subfilters = {
 		...tableRender.serializeTableFilters(),
+		...boxSubFilter,
 	};
 	const bodyPayload = isSearchActive
 		? { ...filters }
