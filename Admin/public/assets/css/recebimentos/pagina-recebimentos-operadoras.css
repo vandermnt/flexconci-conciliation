@@ -18,16 +18,10 @@
 	z-index: 24;
 }
 
-.divergencia-col-hint::before,
-.divergencia-col-hint::after {
-	z-index: 24;
-}
-
-.divergencia-col-hint::before {
-	width: 100%;
-	max-width: 128px;
+#pagina-recebimentos-operadoras thead .tooltip-hint::before {
+	max-width: 70%;
+	white-space: pre-line;
 	transform: translateX(-50%);
-	height: 200px;
 }
 
 #pagina-recebimentos-operadoras .boxes h4 {
