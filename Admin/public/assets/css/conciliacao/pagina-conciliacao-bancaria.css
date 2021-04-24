@@ -153,6 +153,7 @@
 
 #comprovante-modal header {
 	background-color: white;
+	border-bottom: none;
 }
 
 #comprovante-modal header h5 {
