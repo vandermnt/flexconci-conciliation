@@ -22,7 +22,6 @@ class RecebimentosFilter extends BaseFilter
 		'domicilios_bancarios',
 		'recebimento_conciliado_erp',
 		'tipo_pagamento',
-		'cod_tipo_lancamento'
 	];
 
 	public static function filter($params)
@@ -87,7 +86,6 @@ class RecebimentosFilter extends BaseFilter
 				'controle_ajustes.CODIGO_OPERADORA as COD_AJUSTE',
 				'controle_ajustes.DESCRICAO_OPERADORA as DESC_AJUSTE',
 				'tipo_lancamento.TIPO_LANCAMENTO',
-				'tipo_lancamento.CODIGO as COD_TIPO_LANCAMENTO'
 			])
 			->leftJoin('produto_web', 'produto_web.CODIGO', 'pagamentos_operadoras.COD_PRODUTO')
 			->leftJoin('grupos_clientes', 'grupos_clientes.CODIGO', 'pagamentos_operadoras.COD_GRUPO_CLIENTE')
@@ -111,10 +109,6 @@ class RecebimentosFilter extends BaseFilter
 				$query->where('tipo_pagamento.CODIGO', '!=', 3)
 					->orWhereNull('tipo_pagamento.CODIGO');
 			});
-
-		if (Arr::has($filters, 'cod_tipo_lancamento')) {
-			$this->query->where('tipo_lancamento.CODIGO', $filters['cod_tipo_lancamento']);
-		}
 
 		if (Arr::has($filters, 'id')) {
 			$this->query->whereIn('pagamentos_operadoras.CODIGO', $filters['id']);

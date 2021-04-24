@@ -156,9 +156,7 @@ class RecebimentosOperadorasController extends Controller
 				'PAG_ANTECIPADO' => (clone $query)
 					->where('COD_TIPO_PAGAMENTO', 2)
 					->sum('VALOR_BRUTO'),
-				'PAG_AVULSO' => (clone $query)->where('COD_TIPO_LANCAMENTO', 3)->sum('VALOR_LIQUIDO'),
 				'TOTAL_VALOR_TAXA_ANTECIPACAO' => (clone $query)->sum('VALOR_TAXA_ANTECIPACAO'),
-				'TOTAL_DESPESAS' => (clone $query)->where('COD_TIPO_LANCAMENTO', 2)->sum('VALOR_LIQUIDO')
 			];
 			$totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
 

@@ -78,7 +78,7 @@
 					]"
 				/>
         <x-box
-					class="tooltip-hint"
+					class="tooltip-hint box-subfilter"
           title="AJUSTE A CRÉDITO"
           content="R$ 0,00"
           data-format="currency"
@@ -139,7 +139,7 @@
 					]"
 				/>
         <x-box
-					class="tooltip-hint"
+					class="tooltip-hint box-subfilter"
           title="AJUSTE A DÉBITO"
           content="R$ 0,00"
           content-class="text-danger"
