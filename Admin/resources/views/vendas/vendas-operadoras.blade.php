@@ -264,6 +264,7 @@
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/ui/table-section.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/ui/table-config.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/table-dragger-wrapper.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/vendas/vendas-operadoras.js') }}"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script defer src="{{ URL::asset('assets/js/sweetalert.min.js') }}"></script>

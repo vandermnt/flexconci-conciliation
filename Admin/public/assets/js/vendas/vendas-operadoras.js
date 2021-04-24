@@ -1,3 +1,16 @@
+const tbDnd = createScrollableTableDragger({
+  wrapper: '.table-responsive',
+  table: '.table-responsive > table#js-tabela-operadoras',
+  draggerConfig: {
+    mode: 'column',
+    dragHandler: '.draggable',
+    onlyBody: false,
+    animation: 300
+  },
+  rows: ['#js-tabela-operadoras tbody tr']
+});
+tbDnd.bindEvents();
+
 const checker = new Checker();
 const modalFilter = new ModalFilter();
 const formatter = new Formatter({
