@@ -13,7 +13,7 @@
           </th>
         @endisset
         @if($isColumnVisible('ID_ERP'))
-          <th data-tb-section="DESCRICAO_ERP" data-th-title="ID. ERP">
+          <th class="draggable" data-tb-section="DESCRICAO_ERP" data-th-title="ID. ERP">
             <div class="d-flex flex-column align-items-center" data-table-toggle="table-sort">
               <div
                 class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -26,7 +26,7 @@
             </div>
           </th>
         @endif
-        <th data-tb-section="NOME_EMPRESA" data-th-title="Empresa">
+        <th class="draggable" data-tb-section="NOME_EMPRESA" data-th-title="Empresa">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -38,7 +38,7 @@
             <input type="text" class="form-control" name="NOME_EMPRESA">
           </div>
         </th>
-        <th data-tb-section="CNPJ" data-th-title="CNPJ">
+        <th class="draggable" data-tb-section="CNPJ" data-th-title="CNPJ">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -50,7 +50,7 @@
             <input type="text" class="form-control" name="CNPJ">
           </div>
         </th>
-        <th data-tb-section="DATA_VENDA" data-th-title="Venda">
+        <th class="draggable" data-tb-section="DATA_VENDA" data-th-title="Venda">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -62,7 +62,7 @@
             <input type="date" class="form-control" name="DATA_VENDA">
           </div>
         </th>
-        <th data-tb-section="DATA_PREVISAO" data-th-title="Previsão">
+        <th class="draggable" data-tb-section="DATA_PREVISAO" data-th-title="Previsão">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -74,7 +74,7 @@
             <input type="date" class="form-control" name="DATA_PREVISAO">
           </div>
         </th>
-        <th data-tb-section="ADQUIRENTE" data-th-title="Operadora">
+        <th class="draggable" data-tb-section="ADQUIRENTE" data-th-title="Operadora">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -86,7 +86,7 @@
             <input type="text" class="form-control" name="ADQUIRENTE">
           </div>
         </th>
-        <th data-tb-section="BANDEIRA" data-th-title="Bandeira">
+        <th class="draggable" data-tb-section="BANDEIRA" data-th-title="Bandeira">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -98,7 +98,7 @@
             <input type="text" class="form-control" name="BANDEIRA">
           </div>
         </th>
-        <th data-tb-section="MODALIDADE" data-th-title="Forma de Pagamento">
+        <th class="draggable" data-tb-section="MODALIDADE" data-th-title="Forma de Pagamento">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -110,7 +110,7 @@
             <input type="text" class="form-control" name="MODALIDADE">
           </div>
         </th>
-        <th data-tb-section="NSU" data-th-title="NSU">
+        <th class="draggable" data-tb-section="NSU" data-th-title="NSU">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -122,7 +122,7 @@
             <input type="text" class="form-control" name="NSU">
           </div>
         </th>
-        <th data-tb-section="AUTORIZACAO" data-th-title="Autorização">
+        <th class="draggable" data-tb-section="AUTORIZACAO" data-th-title="Autorização">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -134,7 +134,7 @@
             <input type="text" class="form-control" name="AUTORIZACAO">
           </div>
         </th>
-        <th data-tb-section="TID" data-th-title="TID">
+        <th class="draggable" data-tb-section="TID" data-th-title="TID">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -146,7 +146,7 @@
             <input type="text" class="form-control" name="TID">
           </div>
         </th>
-        <th data-tb-section="CARTAO" data-th-title="Cartão">
+        <th class="draggable" data-tb-section="CARTAO" data-th-title="Cartão">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -159,7 +159,7 @@
           </div>
         </th>
 				@if($isColumnVisible('RESUMO'))
-					<th data-tb-section="RESUMO" data-th-title="Resumo">
+					<th class="draggable" data-tb-section="RESUMO" data-th-title="Resumo">
 						<div class="d-flex flex-column align-items-center">
 							<div
 								class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -172,7 +172,7 @@
 						</div>
 					</th>
 				@endif
-        <th data-tb-section="VALOR_BRUTO" data-th-title="Valor Bruto">
+        <th class="draggable" data-tb-section="VALOR_BRUTO" data-th-title="Valor Bruto">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -184,7 +184,7 @@
             <input type="number" min="0" step="0.01" class="form-control" name="VALOR_BRUTO">
           </div>
         </th>
-        <th data-tb-section="PERCENTUAL_TAXA" data-th-title="Taxa %">
+        <th class="draggable" data-tb-section="PERCENTUAL_TAXA" data-th-title="Taxa %">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -196,7 +196,7 @@
             <input type="number" min="0" step="0.01" class="form-control" name="PERCENTUAL_TAXA">
           </div>
         </th>
-        <th data-tb-section="VALOR_TAXA" data-th-title="Taxa R$">
+        <th class="draggable" data-tb-section="VALOR_TAXA" data-th-title="Taxa R$">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -208,7 +208,7 @@
             <input type="number" min="0" step="0.01" class="form-control" name="VALOR_TAXA">
           </div>
         </th>
-        <th data-tb-section="VALOR_LIQUIDO" data-th-title="Valor Líquido">
+        <th class="draggable" data-tb-section="VALOR_LIQUIDO" data-th-title="Valor Líquido">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -220,7 +220,7 @@
             <input type="number" min="0" step="0.01" class="form-control" name="VALOR_LIQUIDO">
           </div>
         </th>
-        <th data-tb-section="POSSUI_TAXA_MINIMA" data-th-title="Possui Tarifa Mínima">
+        <th class="draggable" data-tb-section="POSSUI_TAXA_MINIMA" data-th-title="Possui Tarifa Mínima">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -232,7 +232,7 @@
             <input type="text" class="form-control" name="POSSUI_TAXA_MINIMA">
           </div>
         </th>
-        <th data-tb-section="PARCELA" data-th-title="Parcela">
+        <th class="draggable" data-tb-section="PARCELA" data-th-title="Parcela">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -244,7 +244,7 @@
             <input type="text" class="form-control" name="PARCELA">
           </div>
         </th>
-        <th data-tb-section="TOTAL_PARCELAS" data-th-title="Total Parc.">
+        <th class="draggable" data-tb-section="TOTAL_PARCELAS" data-th-title="Total Parc.">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -256,7 +256,7 @@
             <input type="text" class="form-control" name="TOTAL_PARCELAS">
           </div>
         </th>
-        <th data-tb-section="HORA_TRANSACAO" data-th-title="Hora">
+        <th class="draggable" data-tb-section="HORA_TRANSACAO" data-th-title="Hora">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -268,7 +268,7 @@
             <input type="text" class="form-control" name="HORA_TRANSACAO">
           </div>
         </th>
-        <th data-tb-section="ESTABELECIMENTO" data-th-title="Estabelecimento">
+        <th class="draggable" data-tb-section="ESTABELECIMENTO" data-th-title="Estabelecimento">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -280,7 +280,7 @@
             <input type="text" class="form-control" name="ESTABELECIMENTO">
           </div>
         </th>
-        <th data-tb-section="TERMINAL" data-th-title="Núm. Máquina">
+        <th class="draggable" data-tb-section="TERMINAL" data-th-title="Núm. Máquina">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -292,7 +292,7 @@
             <input type="text" class="form-control" name="TERMINAL">
           </div>
         </th>
-        <th data-tb-section="BANCO" data-th-title="Banco">
+        <th class="draggable" data-tb-section="BANCO" data-th-title="Banco">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -304,7 +304,7 @@
             <input type="text" class="form-control" name="BANCO">
           </div>
         </th>
-        <th data-tb-section="AGENCIA" data-th-title="Agência">
+        <th class="draggable" data-tb-section="AGENCIA" data-th-title="Agência">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -316,7 +316,7 @@
             <input type="text" class="form-control" name="AGENCIA">
           </div>
         </th>
-        <th data-tb-section="CONTA" data-th-title="Conta">
+        <th class="draggable" data-tb-section="CONTA" data-th-title="Conta">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -328,7 +328,7 @@
             <input type="text" class="form-control" name="CONTA">
           </div>
         </th>
-        <th data-tb-section="OBSERVACOES" data-th-title="Observação">
+        <th class="draggable" data-tb-section="OBSERVACOES" data-th-title="Observação">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -340,7 +340,7 @@
             <input type="text" class="form-control" name="OBSERVACOES">
           </div>
         </th>
-        <th data-tb-section="PRODUTO" data-th-title="Produto">
+        <th class="draggable" data-tb-section="PRODUTO" data-th-title="Produto">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -352,7 +352,7 @@
             <input type="text" class="form-control" name="PRODUTO">
           </div>
         </th>
-        <th data-tb-section="MEIOCAPTURA" data-th-title="Meio de Captura">
+        <th class="draggable" data-tb-section="MEIOCAPTURA" data-th-title="Meio de Captura">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -364,7 +364,7 @@
             <input type="text" class="form-control" name="MEIOCAPTURA">
           </div>
         </th>
-        <th data-tb-section="STATUS_CONCILIACAO" data-th-title="Status Conciliação">
+        <th class="draggable" data-tb-section="STATUS_CONCILIACAO" data-th-title="Status Conciliação">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -377,7 +377,7 @@
           </div>
          </th>
          @if($isColumnVisible('DIVERGENCIA'))
-          <th data-tb-section="DIVERGENCIA" data-th-title="Divergência">
+          <th class="draggable" data-tb-section="DIVERGENCIA" data-th-title="Divergência">
             <div class="d-flex flex-column align-items-center">
               <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -390,7 +390,7 @@
             </div>
           </th>
          @endif
-        <th data-tb-section="STATUS_FINANCEIRO" data-th-title="Status Financeiro">
+        <th class="draggable" data-tb-section="STATUS_FINANCEIRO" data-th-title="Status Financeiro">
           <div class="d-flex flex-column align-items-center">
             <div
             class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -402,7 +402,7 @@
             <input type="text" class="form-control" name="STATUS_FINANCEIRO">
           </div>
          </th>
-         <th data-tb-section="JUSTIFICATIVA" data-th-title="Justificativa">
+         <th class="draggable" data-tb-section="JUSTIFICATIVA" data-th-title="Justificativa">
           <div class="d-flex flex-column align-items-center">
             <div
               class="d-flex align-items-center justify-content-center table-sorter mb-2"
