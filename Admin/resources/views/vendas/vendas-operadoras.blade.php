@@ -95,31 +95,7 @@
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras">
           </div>
           <div class="d-flex flex-fill align-items-center justify-content-end">
-            <div id="js-table-config" class="table-config mr-1">
-              <button class="table-config-control btn button no-hover">
-                <i class="fas fa-cog"></i>
-                Configurar tabela
-              </button>
-              <div class="table-config-body">
-                <div class="table-config-list">
-                  <div template class="table-config-option">
-                    <input
-                      type="checkbox"
-                      data-group="tb-config-columns"
-                      data-checker="global"
-                      template
-                    >
-                    <span>Todos</span>
-                  </div>
-                </div>
-                <div class="table-config-actions">
-                  <button class="btn btn-primary" data-action="confirm">
-                    Confirmar
-                    <i class="fa fa-check-circle"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
+            <x-table-config-dropdown id="js-table-config" class="mr-1" checker-group="tb-config-columns" />
             <button id="js-desjustificar" class="btn button no-hover mr-1">
               <i class="fas fa-comment-slash"></i>
               Desfazer Justificativa
