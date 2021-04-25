@@ -241,6 +241,12 @@ TableSectionContainer.prototype.refreshAll = function() {
   this.refresh(sectionKeys);
 }
 
+TableSectionContainer.prototype.getSectionsByVisibility = function({ mustBeVisible = true }) {
+  const sections = this.toSimpleObject();
+
+  return sections.filter(section => section.isVisible === mustBeVisible);
+}
+
 function tableSectionContainerHandler() {
 	return {
 		set: function (target, name, value) {

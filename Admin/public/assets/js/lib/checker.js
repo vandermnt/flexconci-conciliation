@@ -100,6 +100,22 @@ Checker.prototype.uncheckAll = function (name) {
     this._toggleCheck(name, false);
 }
 
+Checker.prototype.checkOnly = function (name, valuesToBeChecked = []) {
+  if(valuesToBeChecked.length === this.groups[name].checkboxes.length) {
+    this.checkAll(name);
+    return;
+  }
+
+  const selector = valuesToBeChecked.map((value => {
+    return `input[type="checkbox"][data-checker="checkbox"][data-group="${name}"][value="${value}"]:not(:checked)`;
+  }))
+    .join(', ');
+
+  const checkboxes = [...document.querySelectorAll(selector)];
+  checkboxes.forEach(checkbox => checkbox.checked = true);
+  return true;
+}
+
 /**
  * @function addGroup
  * Add new group to checkers.group array and register the new group event listeners.
