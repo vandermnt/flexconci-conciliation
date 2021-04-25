@@ -151,6 +151,8 @@ class DragAndDrop {
 class DndWithScroll extends DragAndDrop {
   constructor(options) {
     super(options);
+    this.fixator = options.fixator || null;
+    this.sliderForTable = options.sliderForTable || null;
     this.tableWrap = options.tableWrap;
     this.handler = options.draggerConfig.dragHandler;
     this.columnAvatar = '.gu-mirror';
@@ -161,6 +163,12 @@ class DndWithScroll extends DragAndDrop {
     this.scrollOnDrag = this.scrollOnDrag.bind(this);
     this.onDragStart = this.onDragStart.bind(this);
     this.onDrop = this.onDrop.bind(this);
+    this._events = options.events || {};
+  }
+
+  init() {
+    this.fixator && this.fixator.init();
+    this.sliderForTable && this.sliderForTable.init();
   }
 
   commitTableScroll() {
@@ -178,14 +186,14 @@ class DndWithScroll extends DragAndDrop {
 
   onDragStart() {
     $(this.ignoreColumn).addClass(this.ignoreClass);
-    sliderForTable.scroll = false;
+    this.sliderForTable.scroll = false;
     $(this.tableWrap).scrollLeft(this.tableScroll);
     $(document).on('mousemove', this.scrollOnDrag);
   }
 
   onDrop() {
     $(document).off('mousemove', this.scrollOnDrag);
-    fixator.update();
+    this.fixator && this.fixator.update();
   }
 
   get coords() {
@@ -200,27 +208,38 @@ class DndWithScroll extends DragAndDrop {
         right: $(this.tableWrap)[0].getBoundingClientRect().right
       }
     };
+  }
 
+  _bindCustomEvents() {
+    const allowedEvents = ['drag', 'drop'];
+    Object.keys(this._events).forEach(eventName => {
+      if(!allowedEvents.includes(eventName)) return;
 
+      const event = this._events[eventName];
+      if(event && typeof event === 'function') {
+        this.dragger.on(eventName, event);
+      }
+    });
   }
 
   bindEvents() {
+    this._bindCustomEvents();
     $(this.handler).on('mousedown', this.commitTableScroll);
     this.dragger.on('drag', this.onDragStart);
     this.dragger.on('drop', this.onDrop);
   }
 }
-let fixator = null;
-let sliderForTable = null;
 
 function createScrollableTableDragger(options = {}) {
-  fixator = new Fixator({
+  const fixator = new Fixator({
     wrapper: options.wrapper || '.table',
     table: options.table || ".table > table",
     rows: options.rows || []
   });
-  sliderForTable = new GrabAndSlide(options.wrapper || '.table');
+  const sliderForTable = new GrabAndSlide(options.wrapper || '.table');
   const scrollableDragger = new DndWithScroll({
+    fixator,
+    sliderForTable,
     tableWrap: options.wrapper || '.table',
     table: options.table || ".table > table",
     draggerConfig: options.draggerConfig || {
@@ -228,11 +247,12 @@ function createScrollableTableDragger(options = {}) {
       dragHandler: '.handler',
       onlyBody: false,
       animation: 300
-    }
+    },
+    events: options.events || {},
   });
 
-  fixator.init();
-  sliderForTable.init();
+  scrollableDragger.init();
+  scrollableDragger.bindEvents();
 
   return scrollableDragger;
 }

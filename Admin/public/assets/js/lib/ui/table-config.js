@@ -28,10 +28,9 @@ TableConfig.prototype._registerEvents = function() {
     confirmButton.addEventListener('click', (e) => {
       const checkerGroup = this.get('checkerGroup');
       const checker = this.get('checker');
-      const sectionContainer = this.get('sectionContainer');
 
-      sectionContainer.show(checker.getCheckedValues(checkerGroup));
-      sectionContainer.hide(checker.getUncheckedValues(checkerGroup));
+      this.show(checker.getCheckedValues(checkerGroup));
+      this.hide(checker.getUncheckedValues(checkerGroup));
     });
     confirmButton.addEventListener('click', this.toggleDropdownMenu.bind(this));
   }
@@ -39,6 +38,14 @@ TableConfig.prototype._registerEvents = function() {
   if(tbConfigControl) {
     tbConfigControl.addEventListener('click', this.toggleDropdownMenu.bind(this));
   }
+}
+
+TableConfig.prototype.show = function(sections = []) {
+  this.get('sectionContainer').show(sections);
+}
+
+TableConfig.prototype.hide = function(sections = []) {
+  this.get('sectionContainer').hide(sections);
 }
 
 TableConfig.prototype.toggleDropdownMenu = function() {
