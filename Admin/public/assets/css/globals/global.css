@@ -244,8 +244,14 @@ html {
 .table-config-actions button {
   width: 100%;
   flex: 1;
+  color: white;
+  background-color: #2d5275;
   border-radius: 0;
   box-shadow: none;
+}
+
+.table-config-actions button:hover {
+  color: white;
 }
 
 .table-config-actions button > * {
