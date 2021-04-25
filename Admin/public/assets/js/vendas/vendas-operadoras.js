@@ -1,4 +1,4 @@
-const tbDnd = createScrollableTableDragger({
+const scrollableDragger = createScrollableTableDragger({
   wrapper: '.table-responsive',
   table: '.table-responsive > table#js-tabela-operadoras',
   draggerConfig: {
@@ -9,7 +9,6 @@ const tbDnd = createScrollableTableDragger({
   },
   rows: ['#js-tabela-operadoras tbody tr']
 });
-tbDnd.bindEvents();
 
 const checker = new Checker();
 const modalFilter = new ModalFilter();
@@ -348,5 +347,6 @@ window.addEventListener('load', () => {
   tableConfig.init();
   tableRender.afterRender((tableInstance) => {
     tableConfig.get('sectionContainer').refreshAll();
+    scrollableDragger.fixator.update();
   });
 });
