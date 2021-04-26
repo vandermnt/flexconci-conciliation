@@ -66,7 +66,7 @@
     <div class="resultados hidden">
       <div class="boxes">
         <x-box
-					class="tooltip-hint"
+					class="tooltip-hint box-subfilter"
           title="VALOR TOTAL BRUTO"
           content="R$ 0,00"
           data-format="currency"
@@ -74,7 +74,8 @@
           icon-path="assets/images/financeiro/growth.svg"
           icon-description="Valor Bruto"
 					:dataset="[
-						'hint' => 'Valor total bruto pago pelas operadoras.'
+						'hint' => 'Valor total bruto pago pelas operadoras.',
+						'status' => '*'
 					]"
 				/>
         <x-box

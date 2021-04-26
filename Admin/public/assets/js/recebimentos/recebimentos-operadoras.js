@@ -34,16 +34,18 @@ boxes.forEach((box) => {
 		if (status == '*') {
 			toggleElementVisibility('#js-loader');
 			let tipoLancamento;
-			boxDOM.dataset.key == 'TOTAL_DESPESAS'
-				? (tipoLancamento = 'Ajuste a Débito')
-				: (tipoLancamento = 'Ajuste a Crédito');
-			boxSubFilter['TIPO_LANCAMENTO'] = tipoLancamento;
-			paymentsContainer.set('active', 'filter');
-			buildRequest()
-				.get()
-				.then(() => {
-					tableRender.clearFilters();
-				});
+			if (boxDOM.dataset.key == 'TOTAL_BRUTO') {
+				tableRender.clearFilters();
+				tableRender.clearSortFilter();
+				paymentsContainer.set('active', 'search');
+			} else {
+				boxDOM.dataset.key == 'TOTAL_DESPESAS'
+					? (tipoLancamento = 'Ajuste a Débito')
+					: (tipoLancamento = 'Ajuste a Crédito');
+				boxSubFilter['TIPO_LANCAMENTO'] = tipoLancamento;
+				paymentsContainer.set('active', 'filter');
+			}
+			buildRequest().get();
 			toggleElementVisibility('#js-loader');
 		}
 	});
