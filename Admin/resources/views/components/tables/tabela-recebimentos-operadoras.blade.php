@@ -474,9 +474,9 @@
           <div class="d-flex flex-column align-items-center">
             <div
                 class="d-flex align-items-center justify-content-center table-sorter mb-2 tooltip-hint"
-                data-tbsort-by="DIVERGENCIA" data-title="Essa coluna apresenta se houve divergência quando 
-								conciliamos a venda do Seta com a venda da operadora. Dependendo
-								do tipo de divergência não faremos a baixa/liquidação no Seta."
+                data-tbsort-by="DIVERGENCIA" data-title="Aqui ficam os campos que deram divergência quando conciliamos a
+								venda do Seta versus operadora. Dependendo do campo que deu divervência
+								não faremos a baixa no Seta."
             >
                 <p class="m-0">Divergência Venda</p>
                 <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
