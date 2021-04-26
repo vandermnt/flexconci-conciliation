@@ -1,3 +1,7 @@
+:root {
+  --table-max-height: 528px;
+}
+
 #pagina-vendas-operadoras .resultados {
 	margin-top: 48px;
 }
@@ -37,44 +41,91 @@
 
 #pagina-vendas-operadoras td.actions-cell .link-impressao.tooltip-hint::before {
 	transform: translateX(-8%);
+  margin-top: 48px;
+}
+
+#pagina-vendas-operadoras .boxes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 24px;
+}
+
+#pagina-vendas-operadoras .boxes h4 {
+  font-size: 0.845rem;
+  font-weight: 700;
+  color: #000444;
+}
+
+#pagina-vendas-operadoras .boxes p {
+  font-size: 1rem;
+  margin: 0;
+}
+
+#pagina-vendas-operadoras .boxes img {
+  width: 40px;
+  max-width: 100%;
+}
+
+#pagina-vendas-operadoras table i {
+  font-size: 18px;
+  color: #2d5275;
+  cursor: pointer;
+}
+
+#pagina-vendas-operadoras table .actions-cell {
+  display: flex;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+#pagina-vendas-operadoras table .actions-cell > * {
+  margin: 0 !important;
+}
+
+#pagina-vendas-operadoras table .actions-cell > * + * {
+  margin-left: 16px !important;
+}
+
+#pagina-vendas-operadoras table .actions-cell .link-impressao.tooltip-hint::before {
+  transform: translateX(-8%);
 }
 
 #pagina-vendas-operadoras .modais .comprovante {
-	background-color: #f3f781 !important;
+  background-color: #f3f781 !important;
 }
 
 #pagina-vendas-operadoras .modais .comprovante h4 {
-	color: #303e67;
-	font-size: 14px;
+  color: #303e67;
+  font-size: 14px;
 }
 
 #pagina-vendas-operadoras .modais .comprovante h6 {
-	font-size: 12px;
+  font-size: 12px;
 }
 
 #pagina-vendas-operadoras .modais .comprovante hr {
-	width: 100%;
-	border-color: black;
-	padding: 0;
-	margin: 0;
+  width: 100%;
+  border-color: black;
+  padding: 0;
+  margin: 0;
 }
 
 #pagina-vendas-operadoras .modais .comprovante .header,
 #pagina-vendas-operadoras .modais .comprovante .body {
-	padding: 16px;
+  padding: 16px;
 }
 
 #pagina-vendas-operadoras .modais .comprovante,
 #pagina-vendas-operadoras .modais .comprovante .header,
 #pagina-vendas-operadoras .modais .comprovante .body {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 #pagina-vendas-operadoras #comprovante-modal .modal-body {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 }

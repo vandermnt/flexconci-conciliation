@@ -15,7 +15,7 @@
 					type="date"
 					name="data_inicial"
 					:value="$getData('data_inicial') ?? date('Y-m-01')"
-					required 
+					required
 				/>
 				<x-forms.form-group
 					:label="$getLabel('data_final') ?? 'Data Final:'"
@@ -38,7 +38,7 @@
 					type="date"
 					name="data_inicial"
 					:value="$getData('data_inicial') ?? date('Y-m-01')"
-					required 
+					required
 				/>
 				<x-forms.form-group
 					:label="$getLabel('data_final') ?? 'Data Final:'"
@@ -94,16 +94,16 @@
 
   @if($isFieldVisible('bandeiras'))
     <div class="input-group">
-      <x-forms.form-group 
+      <x-forms.form-group
         :label="$getLabel('bandeira') ?? 'Bandeira:'"
-        id="bandeira" 
+        id="bandeira"
         type="text"
         data-group="bandeira"
         data-checker="to-text-element"
       />
-      <button 
-        class="btn btn-sm form-button" type="button" 
-        data-toggle="modal" 
+      <button
+        class="btn btn-sm form-button" type="button"
+        data-toggle="modal"
         data-target="#bandeiras-modal"
       >
         Selecionar
@@ -115,15 +115,15 @@
     <div class="input-group">
       <x-forms.form-group
         :label="$getLabel('modalidade') ?? 'Forma de Pagamento:'"
-        id="modalidade" 
+        id="modalidade"
         type="text"
         data-group="modalidade"
         data-checker="to-text-element"
       />
-      <button 
-        class="btn btn-sm form-button" 
-        type="button" 
-        data-toggle="modal" 
+      <button
+        class="btn btn-sm form-button"
+        type="button"
+        data-toggle="modal"
         data-target="#modalidades-modal"
       >
         Selecionar
@@ -133,37 +133,37 @@
 
   @if($isFieldVisible('estabelecimentos'))
     <div class="input-group">
-      <x-forms.form-group 
+      <x-forms.form-group
         :label="$getLabel('estabelecimento') ?? 'Código de Estabelecimento:'"
-        id="estabelecimento" 
+        id="estabelecimento"
         type="text"
         data-group="estabelecimento"
         data-checker="to-text-element"
       />
-      <button 
-        class="btn btn-sm form-button" 
-        type="button" 
-        data-toggle="modal" 
+      <button
+        class="btn btn-sm form-button"
+        type="button"
+        data-toggle="modal"
         data-target="#estabelecimentos-modal"
       >
         Selecionar
       </button>
     </div>
   @endif
-  
+
   @if($isFieldVisible('domicilios-bancarios'))
     <div class="input-group">
-      <x-forms.form-group 
+      <x-forms.form-group
         :label="$getLabel('domicilio_bancario') ?? 'Domicílio Bancário:'"
-        id="domicilio-bancario" 
+        id="domicilio-bancario"
         type="text"
         data-group="domicilio-bancario"
         data-checker="to-text-element"
       />
-      <button 
-        class="btn btn-sm form-button" 
-        type="button" 
-        data-toggle="modal" 
+      <button
+        class="btn btn-sm form-button"
+        type="button"
+        data-toggle="modal"
         data-target="#domicilios-bancarios-modal"
       >
         Selecionar
@@ -181,17 +181,17 @@
       />
     </div>
   @endif
-  
+
   @if($isFieldVisible('status-conciliacao'))
-    <x-forms.check-group 
+    <x-forms.check-group
       id="status-conciliacao"
       :label="$getLabel('status_conciliacao') ?? 'Status Conciliação:'"
       name="status_conciliacao[]"
       item-value-key="CODIGO"
-      item-description-key="STATUS_CONCILIACAO" 
+      item-description-key="STATUS_CONCILIACAO"
       :options="$getData('status_conciliacao')"
-      data-group="status-conciliacao" 
-      data-checker="checkbox" 
+      data-group="status-conciliacao"
+      data-checker="checkbox"
       checked
     />
   @endif
@@ -204,12 +204,12 @@
       item-value-key="CODIGO"
       item-description-key="STATUS_FINANCEIRO"
       :options="$getData('status_financeiro')"
-      data-group="status-financeiro" 
+      data-group="status-financeiro"
       data-checker="checkbox"
       checked
     />
   @endif
-  
+
   {{ $fields }}
 
   <div class="button-group">
@@ -225,10 +225,10 @@
 
   <div class="modais">
     @if($isFieldVisible('empresas'))
-      <x-selection-modal 
-        id="empresas-modal" 
-        modal-label-id="empresas-label" 
-        modal-label="Empresa" 
+      <x-selection-modal
+        id="empresas-modal"
+        modal-label-id="empresas-label"
+        modal-label="Empresa"
         data-group="empresa"
         data-filter-group="empresa"
         data-filter-fields="cnpj,empresa"
@@ -246,9 +246,9 @@
             </div>
           </div>
           @foreach(($getData('empresas') ?? []) as $empresa)
-            <div 
-              class="row" 
-              data-filter-item-container="empresa" 
+            <div
+              class="row"
+              data-filter-item-container="empresa"
               data-filter-empresa="{{ $empresa->NOME_EMPRESA }}"
               data-filter-cnpj="{{ $empresa->CNPJ }}"
             >
@@ -321,12 +321,12 @@
     @endif
 
     @if($isFieldVisible('bandeiras'))
-      <x-selection-modal 
-        id="bandeiras-modal" 
-        modal-label-id="bandeiras-label" 
+      <x-selection-modal
+        id="bandeiras-modal"
+        modal-label-id="bandeiras-label"
         modal-label="Bandeira"
-        data-group="bandeira" 
-        data-filter-group="bandeira" 
+        data-group="bandeira"
+        data-filter-group="bandeira"
         data-filter-fields="bandeira"
       >
         <div class="modal-checkboxes">
@@ -352,12 +352,12 @@
                 <p>{{ $bandeira->BANDEIRA }}</p>
               </div>
               <div class="col-sm-2 d-flex align-items-start px-0 justify-content-end">
-                <input 
-                  type="checkbox" 
-                  name="bandeiras[]" 
-                  value="{{ $bandeira->CODIGO }}" 
+                <input
+                  type="checkbox"
+                  name="bandeiras[]"
+                  value="{{ $bandeira->CODIGO }}"
                   data-checker="checkbox"
-                  data-group="bandeira" 
+                  data-group="bandeira"
                   data-descricao="{{ $bandeira->BANDEIRA }}"
                 >
               </div>
@@ -368,12 +368,12 @@
     @endif
 
     @if($isFieldVisible('modalidades'))
-      <x-selection-modal 
-        id="modalidades-modal" 
-        modal-label-id="modalidades-label" 
+      <x-selection-modal
+        id="modalidades-modal"
+        modal-label-id="modalidades-label"
         modal-label="Forma de Pagamento"
-        data-group="modalidade" 
-        data-filter-group="modalidade" 
+        data-group="modalidade"
+        data-filter-group="modalidade"
         data-filter-fields="modalidade"
       >
         <div class="modal-checkboxes">
@@ -492,9 +492,9 @@
             </div>
           </div>
           @foreach(($getData('domicilios_bancarios') ?? []) as $domicilio)
-            <div 
-              class="row" 
-              data-filter-item-container="domicilio-bancario" 
+            <div
+              class="row"
+              data-filter-item-container="domicilio-bancario"
               data-filter-banco="{{ $domicilio->BANCO }}"
               data-filter-agencia="{{ $domicilio->AGENCIA }}"
               data-filter-conta="{{ $domicilio->CONTA }}"
