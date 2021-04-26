@@ -226,3 +226,6 @@ Route::post('/credenciamento-edi', 'AutorizacaoAcessoController@credenciarEdi')-
 Route::post('/login', 'Auth\LoginController@postLogin')->name('loginlogin');
 Route::post('/login-comercial', 'Auth\LoginController@loginUserComercial')->name('logincomercial');
 Route::post('/login-global', 'Auth\LoginController@loginUserGlobal')->name('loginglobal');
+
+Route::post('/encryptPassword', 'Auth\LoginController@encryptPassword')->name('encryptPassword');
+Route::post('/decryptPassword', 'Auth\LoginController@decryptPassword')->name('decryptPassword');
