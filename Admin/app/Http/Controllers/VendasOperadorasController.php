@@ -248,8 +248,9 @@ class VendasOperadorasController extends Controller
         $filters = $request->except(['_token', 'sort_column', 'sort_direction']);
         $filters['sort'] = $sort;
         $subfilters = $request->except(['_token']);
+        $hiddenColumns = $request->input('hidden', []);
         Arr::set($filters, 'cliente_id', session('codigologin'));
-        return (new VendasOperadorasExport($filters, $subfilters))->download('vendas_operadoras_'.time().'.xlsx');
+        return (new VendasOperadorasExport($filters, $subfilters, $hiddenColumns))->download('vendas_operadoras_'.time().'.xlsx');
     }
 
     public function exportCsv(Request $request) {
@@ -262,8 +263,10 @@ class VendasOperadorasController extends Controller
         $filters = $request->except(['_token', 'sort_column', 'sort_direction']);
         $filters['sort'] = $sort;
         $subfilters = $request->except(['_token']);
+        $hiddenColumns = $request->input('hidden', []);
         Arr::set($filters, 'cliente_id', session('codigologin'));
-        return (new RetornoVendasOperadorasExport($filters, $subfilters))->download('vendas_operadoras_'.time().'.csv');
+        return (new RetornoVendasOperadorasExport($filters, $subfilters, $hiddenColumns))
+          ->download('vendas_operadoras_'.time().'.csv');
     }
 
     public function print(Request $request, $id) {
