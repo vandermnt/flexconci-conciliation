@@ -131,7 +131,7 @@ class LoginController extends Controller
 		}
 	}
 
-	public function rememberPassword(Request $request)
+	public function encryptPassword(Request $request)
 	{
 		$securePassword = Crypt::encryptString($request->input('password'));
 		return response()->json(['password' => $securePassword]);
