@@ -9,6 +9,7 @@ use App\User;
 use App\ClienteModel;
 use Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Crypt;
 
 class LoginController extends Controller
 {
@@ -130,15 +131,21 @@ class LoginController extends Controller
 		}
 	}
 
-	public function trocarEmpresa(Request $request) {
-    $cod_empresa = $request['empresaescolhida'];
+	public function trocarEmpresa(Request $request)
+	{
+		$cod_empresa = $request['empresaescolhida'];
 
-    session()->put('codigologin', $cod_empresa);
+		session()->put('codigologin', $cod_empresa);
 
-    $user = User::where('CODIGO', '=', $request['usuario_global'])->first();
+		$user = User::where('CODIGO', '=', $request['usuario_global'])->first();
 
-    Auth::login($user);
+		Auth::login($user);
 
-    return response()->json(200);
-  }
+		return response()->json(200);
+	}
+	public function rememberPassword(Request $request)
+	{
+		$securePassword = Crypt::encryptString($request->input('password'));
+		return response()->json(['password' => $securePassword]);
+	}
 }

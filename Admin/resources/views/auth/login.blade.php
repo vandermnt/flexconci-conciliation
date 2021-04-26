@@ -203,6 +203,7 @@ Launch static backdrop modal
 </div>
 <script src="{{ URL::asset('plugins/sweet-alert2/sweetalert2.min.js')}}"></script>
 <script src="{{ URL::asset('assets/pages/jquery.sweet-alert.init.js')}}"></script>
+<script defer src="{{ URL::asset('assets/js/login/index.js') }}"></script>
 <script>
 
   function togglePasswordVisibility() {
@@ -249,6 +250,7 @@ $('#submitFormLogin').click(function() {
     }),
     dataType: 'json',
     success: function(response) {
+			rememberCredentials();
       if (response) {
 
         if (response[1] == 'user_global') {
