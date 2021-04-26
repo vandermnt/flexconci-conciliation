@@ -84,6 +84,7 @@ class RecebimentosFilter extends BaseFilter
 				'produto_web.PRODUTO_WEB as PRODUTO',
 				'meio_captura.DESCRICAO as MEIOCAPTURA',
 				'pagamentos_operadoras.RETORNO_BAIXA as RETORNO_ERP_BAIXA',
+				'pagamentos_operadoras.COD_TIPO_LANCAMENTO'
 			])
 			->leftJoin('produto_web', 'produto_web.CODIGO', 'pagamentos_operadoras.COD_PRODUTO')
 			->leftJoin('grupos_clientes', 'grupos_clientes.CODIGO', 'pagamentos_operadoras.COD_GRUPO_CLIENTE')
