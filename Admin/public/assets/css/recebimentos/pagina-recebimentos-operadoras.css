@@ -19,7 +19,7 @@
 }
 
 #pagina-recebimentos-operadoras thead .tooltip-hint::before {
-	max-width: 45%;
+	width: 128px;
 	white-space: pre-line;
 	transform: translateX(-50%);
 }
