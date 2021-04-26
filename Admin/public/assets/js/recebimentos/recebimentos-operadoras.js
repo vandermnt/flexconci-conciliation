@@ -37,6 +37,7 @@ boxes.forEach((box) => {
 			if (boxDOM.dataset.key == 'TOTAL_BRUTO') {
 				tableRender.clearFilters();
 				tableRender.clearSortFilter();
+				boxSubFilter = {};
 				paymentsContainer.set('active', 'search');
 			} else {
 				boxDOM.dataset.key == 'TOTAL_DESPESAS'
