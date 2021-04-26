@@ -558,7 +558,7 @@
         <td data-column="TAXA_PERCENTUAL" data-format="number"></td>
         <td class="text-danger" data-reverse-value="true" data-column="VALOR_TAXA" data-format="currency"></td>
         <td data-column="TAXA_ANTECIPACAO" data-format="number"></td>
-				<td class="text-danger" data-column="VALOR_TAXA_ANTECIPACAO" data-reverse-value="true" data-format="number"></td>
+				<td class="text-danger" data-column="VALOR_TAXA_ANTECIPACAO" data-reverse-value="true" data-format="currency"></td>
         <td data-column="VALOR_LIQUIDO" data-format="currency"></td>
 				<td data-column="NUMERO_OPERACAO_ANTECIPACAO"></td>
         <td data-column="POSSUI_TAXA_MINIMA"></td>
