@@ -251,7 +251,7 @@ $('#submitFormLogin').click(function() {
     }),
     dataType: 'json',
     success: function(response) {
-			rememberCredentials();
+			encryptPassword()
       if (response) {
 
         if (response[1] == 'user_global') {
