@@ -54,7 +54,6 @@ class VendasErpExport extends BaseExport implements FromQuery, WithStrictNullCom
     ];
 
     public function __construct($filters, $subfilters, $hidden = [], $dynamicHeaders = []) {
-      dd($filters, $subfilters, $hidden, $dynamicHeaders);
       parent::__construct($filters, $subfilters, $hidden, $dynamicHeaders);
     }
 
