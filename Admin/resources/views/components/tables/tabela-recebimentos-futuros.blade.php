@@ -12,7 +12,7 @@
               </div>
             </th>
           @endisset
-          <th>
+          <th class="draggable" data-tb-section="NOME_EMPRESA" data-th-title="Empresa">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -24,7 +24,7 @@
                 <input type="text" class="form-control" name="NOME_EMPRESA">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="CNPJ" data-th-title="CNPJ">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -36,7 +36,7 @@
                 <input type="text" class="form-control" name="CNPJ">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="DATA_VENDA" data-th-title="Venda">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -48,7 +48,7 @@
                 <input type="date" class="form-control" name="DATA_VENDA">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="DATA_PREVISAO" data-th-title="Previsão">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -60,7 +60,7 @@
                 <input type="date" class="form-control" name="DATA_PREVISAO">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="DATA_PAGAMENTO" data-th-title="Pagamento">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -72,7 +72,7 @@
                 <input type="date" class="form-control" name="DATA_PAGAMENTO">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="ADQUIRENTE" data-th-title="Operadora">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -84,7 +84,7 @@
                 <input type="text" class="form-control" name="ADQUIRENTE">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="BANDEIRA" data-th-title="Bandeira">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -96,7 +96,7 @@
                 <input type="text" class="form-control" name="BANDEIRA">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="MODALIDADE" data-th-title="Forma de Pagamento">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -108,7 +108,7 @@
                 <input type="text" class="form-control" name="MODALIDADE">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="NSU" data-th-title="NSU">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -120,7 +120,7 @@
                 <input type="text" class="form-control" name="NSU">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="AUTORIZACAO" data-th-title="Autorização">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -132,7 +132,7 @@
                 <input type="text" class="form-control" name="AUTORIZACAO">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="TID" data-th-title="TID">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -144,7 +144,7 @@
                 <input type="text" class="form-control" name="TID">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="CARTAO" data-th-title="Cartão">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -156,7 +156,7 @@
                 <input type="text" class="form-control" name="CARTAO">
             </div>
           </th>
-					<th>
+					<th class="draggable" data-tb-section="RESUMO" data-th-title="Resumo">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -168,7 +168,7 @@
                 <input type="text" class="form-control" name="RESUMO">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="VALOR_BRUTO" data-th-title="Valor Bruto">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -180,7 +180,7 @@
                 <input type="number" min="0" step="0.01" class="form-control" name="VALOR_BRUTO">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="TAXA_PERCENTUAL" data-th-title="Taxa %">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -192,7 +192,7 @@
                 <input type="number" min="0" step="0.01" class="form-control" name="TAXA_PERCENTUAL">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="VALOR_TAXA" data-th-title="Taxa R$">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -204,7 +204,7 @@
                 <input type="number" min="0" step="0.01" class="form-control" name="VALOR_TAXA">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="TAXA_ANTECIPACAO_PERCENTUAL" data-th-title="Taxa Antec. %">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -216,7 +216,7 @@
                 <input type="number" min="0" step="0.01" class="form-control" name="TAXA_ANTECIPACAO_PERCENTUAL">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="VALOR_LIQUIDO" data-th-title="Valor Líquido">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -228,7 +228,7 @@
                 <input type="number" min="0" step="0.01" class="form-control" name="VALOR_LIQUIDO">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="POSSUI_TAXA_MINIMA" data-th-title="Possui Tarifa Mínima">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -240,7 +240,7 @@
                 <input type="text" class="form-control" name="POSSUI_TAXA_MINIMA">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="PARCELA" data-th-title="Parcela">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -252,7 +252,7 @@
                 <input type="text" class="form-control" name="PARCELA">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="TOTAL_PARCELAS" data-th-title="Total Parc.">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -264,7 +264,7 @@
                 <input type="text" class="form-control" name="TOTAL_PARCELAS">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="HORA_TRANSACAO" data-th-title="Hora">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -276,7 +276,7 @@
                 <input type="text" class="form-control" name="HORA_TRANSACAO">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="ESTABELECIMENTO" data-th-title="Estabelecimento">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -288,7 +288,7 @@
                 <input type="text" class="form-control" name="ESTABELECIMENTO">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="TERMINAL" data-th-title="Núm. Máquina">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -300,7 +300,7 @@
                 <input type="text" class="form-control" name="TERMINAL">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="BANCO" data-th-title="Banco">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -312,7 +312,7 @@
                 <input type="text" class="form-control" name="BANCO">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="AGENCIA" data-th-title="Agência">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -324,7 +324,7 @@
                 <input type="text" class="form-control" name="AGENCIA">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="CONTA" data-th-title="Conta">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -336,7 +336,7 @@
                 <input type="text" class="form-control" name="CONTA">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="OBSERVACOES" data-th-title="Observação">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -348,7 +348,7 @@
                 <input type="text" class="form-control" name="OBSERVACOES">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="PRODUTO" data-th-title="Produto">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -360,7 +360,7 @@
                 <input type="text" class="form-control" name="PRODUTO">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="MEIOCAPTURA" data-th-title="Meio de Captura">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -372,7 +372,7 @@
                 <input type="text" class="form-control" name="MEIOCAPTURA">
             </div>
           </th>
-          <th>
+          <th class="draggable" data-tb-section="STATUS_CONCILIACAO" data-th-title="Status Conciliação">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -384,7 +384,7 @@
                 <input type="text" class="form-control" name="STATUS_CONCILIACAO">
             </div>
            </th>
-          <th>
+          <th class="draggable" data-tb-section="DIVERGENCIA" data-th-title="Divergência">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -396,7 +396,7 @@
                 <input type="text" class="form-control" name="DIVERGENCIA">
             </div>
            </th>
-          <th>
+          <th class="draggable" data-tb-section="STATUS_FINANCEIRO" data-th-title="Status Financeiro">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -408,7 +408,7 @@
                 <input type="text" class="form-control" name="STATUS_FINANCEIRO">
             </div>
            </th>
-           <th>
+           <th class="draggable" data-tb-section="JUSTIFICATIVA" data-th-title="Justificativa">
             <div class="d-flex flex-column align-items-center">
                 <div
                     class="d-flex align-items-center justify-content-center table-sorter mb-2"
@@ -427,12 +427,13 @@
           @isset($actions)
             {{ $actions }}
           @endisset
-          <td data-column="NOME_EMPRESA"></td>
-          <td data-column="CNPJ"></td>
-          <td data-column="DATA_VENDA" data-format="date"></td>
-          <td data-column="DATA_PREVISAO" data-format="date"></td>
-          <td data-column="DATA_PAGAMENTO" data-format="date"></td>
+          <td data-tb-section="NOME_EMPRESA" data-column="NOME_EMPRESA"></td>
+          <td data-tb-section="CNPJ" data-column="CNPJ"></td>
+          <td data-tb-section="DATA_VENDA" data-column="DATA_VENDA" data-format="date"></td>
+          <td data-tb-section="DATA_PREVISAO" data-column="DATA_PREVISAO" data-format="date"></td>
+          <td data-tb-section="DATA_PAGAMENTO" data-column="DATA_PAGAMENTO" data-format="date"></td>
           <td
+            data-tb-section="ADQUIRENTE"
             data-image="ADQUIRENTE_IMAGEM"
             data-default-image="assets/images/widgets/cards.svg"
             data-column="ADQUIRENTE"
@@ -445,6 +446,7 @@
             </div>
           </td>
           <td
+            data-tb-section="BANDEIRA"
             data-image="BANDEIRA_IMAGEM"
             data-default-image="assets/images/widgets/cards.svg"
             data-column="BANDEIRA"
@@ -457,24 +459,45 @@
             >
             </div>
           </td>
-          <td data-column="MODALIDADE"></td>
-          <td data-column="NSU"></td>
-          <td data-column="AUTORIZACAO"></td>
-          <td data-column="TID"></td>
-          <td data-column="CARTAO"></td>
-					<td data-column="RESUMO"></td>
-          <td data-column="VALOR_BRUTO" data-format="currency"></td>
-          <td class="text-danger" data-column="TAXA_PERCENTUAL" data-format="number"></td>
-          <td class="text-danger" data-reverse-value="true" data-column="VALOR_TAXA" data-format="currency"></td>
-          <td class="text-danger" data-reverse-value="true" data-column="TAXA_ANTECIPACAO_PERCENTUAL" data-format="number"></td>
-          <td data-column="VALOR_LIQUIDO" data-format="currency"></td>
-          <td data-column="POSSUI_TAXA_MINIMA"></td>
-          <td data-column="PARCELA"></td>
-          <td data-column="TOTAL_PARCELAS"></td>
-          <td data-column="HORA_TRANSACAO" data-format="time"></td>
-          <td data-column="ESTABELECIMENTO"></td>
-          <td data-column="TERMINAL"></td>
+          <td data-tb-section="MODALIDADE" data-column="MODALIDADE"></td>
+          <td data-tb-section="NSU" data-column="NSU"></td>
+          <td data-tb-section="AUTORIZACAO" data-column="AUTORIZACAO"></td>
+          <td data-tb-section="TID" data-column="TID"></td>
+          <td data-tb-section="CARTAO" data-column="CARTAO"></td>
+					<td data-tb-section="RESUMO" data-column="RESUMO"></td>
+          <td data-tb-section="VALOR_BRUTO" data-column="VALOR_BRUTO" data-format="currency"></td>
           <td
+            data-tb-section="TAXA_PERCENTUAL"
+            data-column="TAXA_PERCENTUAL"
+            data-format="number"
+            class="text-danger"
+          >
+          </td>
+          <td
+            data-tb-section="VALOR_TAXA"
+            data-column="VALOR_TAXA"
+            data-reverse-value="true"
+            data-format="currency"
+            class="text-danger"
+          >
+          </td>
+          <td
+            data-tb-section="TAXA_ANTECIPACAO_PERCENTUAL"
+            data-column="TAXA_ANTECIPACAO_PERCENTUAL"
+            data-reverse-value="true"
+            data-format="number"
+            class="text-danger"
+          >
+          </td>
+          <td data-tb-section="VALOR_LIQUIDO" data-column="VALOR_LIQUIDO" data-format="currency"></td>
+          <td data-tb-section="POSSUI_TAXA_MINIMA" data-column="POSSUI_TAXA_MINIMA"></td>
+          <td data-tb-section="PARCELA" data-column="PARCELA"></td>
+          <td data-tb-section="TOTAL_PARCELAS" data-column="TOTAL_PARCELAS"></td>
+          <td data-tb-section="HORA_TRANSACAO" data-column="HORA_TRANSACAO" data-format="time"></td>
+          <td data-tb-section="ESTABELECIMENTO" data-column="ESTABELECIMENTO"></td>
+          <td data-tb-section="TERMINAL" data-column="TERMINAL"></td>
+          <td
+            data-tb-section="BANCO"
             data-image="BANCO_IMAGEM"
             data-default-image="assets/images/widgets/cards.svg"
             data-column="BANCO"
@@ -487,56 +510,56 @@
             >
             </div>
           </td>
-          <td data-column="AGENCIA"></td>
-          <td data-column="CONTA"></td>
-          <td data-column="OBSERVACOES"></td>
-          <td data-column="PRODUTO"></td>
-          <td data-column="MEIOCAPTURA"></td>
-          <td data-column="STATUS_CONCILIACAO"></td>
-          <td data-column="DIVERGENCIA"></td>
-          <td data-column="STATUS_FINANCEIRO"></td>
-          <td data-column="JUSTIFICATIVA"></td>
+          <td data-tb-section="AGENCIA" data-column="AGENCIA"></td>
+          <td data-tb-section="CONTA" data-column="CONTA"></td>
+          <td data-tb-section="OBSERVACOES" data-column="OBSERVACOES"></td>
+          <td data-tb-section="PRODUTO" data-column="PRODUTO"></td>
+          <td data-tb-section="MEIOCAPTURA" data-column="MEIOCAPTURA"></td>
+          <td data-tb-section="STATUS_CONCILIACAO" data-column="STATUS_CONCILIACAO"></td>
+          <td data-tb-section="DIVERGENCIA" data-column="DIVERGENCIA"></td>
+          <td data-tb-section="STATUS_FINANCEIRO" data-column="STATUS_FINANCEIRO"></td>
+          <td data-tb-section="JUSTIFICATIVA" data-column="JUSTIFICATIVA"></td>
         </tr>
       </tbody>
       <tfoot>
         <tr>
-          <td>Totais</td>
           @isset($actions)
-            <td></td>
+            <td>Totais</td>
           @endisset
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-					<td></td>
-          <td></td>
-          <td></td>
-          <td data-column="TOTAL_BRUTO" data-format="currency"></td>
-          <td></td>
-          <td data-column="TOTAL_TAXA" data-reverse-value="true" data-format="currency" class="text-danger"></td>
-          <td></td>
-          <td data-column="TOTAL_LIQUIDO" data-format="currency"></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td data-tb-section="NOME_EMPRESA"></td>
+          <td data-tb-section="CNPJ"></td>
+          <td data-tb-section="DATA_VENDA"></td>
+          <td data-tb-section="DATA_PREVISAO"></td>
+          <td data-tb-section="DATA_PAGAMENTO"></td>
+          <td data-tb-section="ADQUIRENTE"></td>
+          <td data-tb-section="BANDEIRA"></td>
+          <td data-tb-section="MODALIDADE"></td>
+          <td data-tb-section="NSU"></td>
+          <td data-tb-section="AUTORIZACAO"></td>
+          <td data-tb-section="TID"></td>
+          <td data-tb-section="CARTAO"></td>
+          <td data-tb-section="RESUMO"></td>
+          <td data-tb-section="VALOR_BRUTO" data-column="TOTAL_BRUTO" data-format="currency"></td>
+          <td data-tb-section="TAXA_PERCENTUAL"></td>
+          <td data-tb-section="VALOR_TAXA" data-column="TOTAL_TAXA" data-reverse-value="true" data-format="currency" class="text-danger"></td>
+          <td data-tb-section="TAXA_ANTECIPACAO_PERCENTUAL"></td>
+          <td data-tb-section="VALOR_LIQUIDO" data-column="TOTAL_LIQUIDO" data-format="currency"></td>
+          <td data-tb-section="POSSUI_TAXA_MINIMA"></td>
+          <td data-tb-section="PARCELA"></td>
+					<td data-tb-section="TOTAL_PARCELAS"></td>
+          <td data-tb-section="HORA_TRANSACAO"></td>
+          <td data-tb-section="ESTABELECIMENTO"></td>
+          <td data-tb-section="TERMINAL"></td>
+          <td data-tb-section="BANCO"></td>
+          <td data-tb-section="AGENCIA"></td>
+          <td data-tb-section="CONTA"></td>
+          <td data-tb-section="OBSERVACOES"></td>
+          <td data-tb-section="PRODUTO"></td>
+          <td data-tb-section="MEIOCAPTURA"></td>
+          <td data-tb-section="STATUS_CONCILIACAO"></td>
+          <td data-tb-section="DIVERGENCIA"></td>
+          <td data-tb-section="STATUS_FINANCEIRO"></td>
+          <td data-tb-section="JUSTIFICATIVA"></td>
         </tr>
       </tfoot>
     </table>
