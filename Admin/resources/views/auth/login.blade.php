@@ -210,7 +210,7 @@ Launch static backdrop modal
 <script src="{{ URL::asset('assets/pages/jquery.sweet-alert.init.js')}}"></script>
 <script defer src="{{ URL::asset('assets/js/lib/api.js') }}"></script>
 <script defer src="{{ URL::asset('assets/js/login/index.js') }}"></script>
-<script>
+<script defer>
 
   function togglePasswordVisibility() {
     const passwordIcon = $('#js-toggle-password i').first();
