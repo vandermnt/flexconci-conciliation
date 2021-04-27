@@ -132,17 +132,28 @@
 	text-align: center;
 }
 
+#pagina-vendas-operadoras #comprovante-modal .modal-header {
+	background-color: #ffffff;
+	padding: 0px;
+	border: none;
+}
+
 #pagina-vendas-operadoras #comprovante-modal .modal-body {
 	margin: 0;
 	padding: 0;
 }
 
 #pagina-vendas-operadoras #comprovante-modal .body h6 {
+	color: #231f20;
 	margin: 5px;
 }
 
 #pagina-vendas-operadoras #comprovante-modal .comprovante-image {
 	width: auto;
-	width: 76px;
+	width: 72px;
 	margin-left: 2px;
+}
+
+#pagina-vendas-operadoras #comprovante-modal .comprovante-adquirente-image {
+	width: 108px;
 }

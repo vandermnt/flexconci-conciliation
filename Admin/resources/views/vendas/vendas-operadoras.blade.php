@@ -166,7 +166,7 @@
               </div> --}}
               <div class="body">
                 <h6>
-                  <img class="comprovante-image" data-key="ADQUIRENTE_IMAGEM" data-type="image" src=""/>
+                  <img class="comprovante-image comprovante-adquirente-image" data-key="ADQUIRENTE_IMAGEM" data-type="image" src=""/>
                 </h6>
                 <h6>
                   <img class="comprovante-image" data-key="BANDEIRA_IMAGEM" data-type="image" src=""/>
@@ -177,14 +177,14 @@
 								<h6>
 									PRODUTO: <span data-key="PRODUTO"></span>
 								</h6>
-								<hr>
+								<span>*****************************************************</span>
 								<h6>
 									NOME DA EMPRESA: <span data-key="NOME_EMPRESA"></span>
 								</h6>
 								<h6>
 									CNPJ: <span data-key="CNPJ"></span>
 								</h6>
-								<hr>
+								<span>*****************************************************</span>
 								<h6>
 									ESTABELECIMENTO: <span data-key="ESTABELECIMENTO"></span>
 								</h6>
@@ -198,10 +198,7 @@
 									AUT: <span data-key="AUTORIZACAO"></span>
 								</h6>
 								<h6>
-									DATA + HORA: <span data-key="DATA_VENDA" data-format="date"></span>
-								</h6>
-								<h6>
-									DATA VENDA: <span data-key="DATA_VENDA" data-format="date"></span>
+									DATA VENDA: <span data-key="DATA_VENDA" data-format="date"></span> <span data-key="HORA_TRANSACAO"></span>
 								</h6>
                 <h6>
 									PREVISÃO: <span data-key="DATA_PREVISAO" data-format="date"></span>
