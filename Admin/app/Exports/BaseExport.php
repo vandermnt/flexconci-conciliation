@@ -8,16 +8,34 @@ class BaseExport
   protected $subfilters;
   protected $keys = [];
   protected $hidden;
+  protected $dynamicHeaders;
 
-  public function __construct($filters, $subfilters, $hidden = []) {
+  public function __construct($filters, $subfilters, $hidden = [], $dynamicHeaders = []) {
     $this->filters = $filters;
     $this->subfilters = $subfilters;
     $this->hidden = $hidden;
+    $this->dynamicHeaders = $dynamicHeaders;
   }
 
   public function getHeaders() {
-    return collect($this->keys)
-      ->except($this->hidden)
+    $keys = collect($this->keys);
+    $allowed = $keys->keys();
+
+    $mergedHeaders = collect($this->dynamicHeaders)
+      ->only($allowed)
+      ->keys()
+      ->reduce(function($merged, $dynamicHeaderKey) use ($keys) {
+        $newHeader = $this->dynamicHeaders[$dynamicHeaderKey];
+        if(!$newHeader) return $merged;
+
+        $newHeader = ucwords(mb_strtolower($this->dynamicHeaders[$dynamicHeaderKey]));
+        $type = $keys->get($dynamicHeaderKey)['type'];
+
+        $keys->put($dynamicHeaderKey, ['header' => $newHeader, 'type' => $type]);
+        return $keys;
+      }, $keys);
+
+    return $mergedHeaders->except($this->hidden)
       ->pluck('header')
       ->toArray();
   }
