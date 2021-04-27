@@ -76,7 +76,7 @@
 
 																				<div class="form-group form-check">
 																					<input type="checkbox" class="form-check-input" id="remember-me">
-																					<label class="form-check-label" for="remember-me">Lembrar-me</label>
+																					<label class="form-check-label text-muted" for="remember-me">Lembrar-me</label>
 																				</div>
 
                                         <div class="form-group row mt-4">
