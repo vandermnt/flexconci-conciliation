@@ -146,7 +146,13 @@ class LoginController extends Controller
 
 	public function encryptPassword(Request $request)
 	{
-		$securePassword = Crypt::encryptString($request->input('password'));
-		return response()->json(['password' => $securePassword]);
+		$encrypted = Crypt::encryptString($request->autenticacao['password']);
+		return response()->json(['password' => $encrypted]);
+	}
+
+	public function decryptPassword(Request $request)
+	{
+		$decrypted = Crypt::decryptString($request->password);
+		return response()->json(['password' => $decrypted]);
 	}
 }
