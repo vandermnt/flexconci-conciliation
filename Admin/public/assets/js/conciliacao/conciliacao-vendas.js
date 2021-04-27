@@ -1011,6 +1011,7 @@ function exportar(event) {
 		isErp ? 'urlExportarErp' : 'urlExportarOperadoras'
 	];
 	const currentTableRender = isErp ? tableRenderErp : tableRender;
+  const currentTableConfig = isErp ? tableConfigErp : tableConfig;
 
 	swal('Aguarde um momento...', 'A sua planilha está sendo gerada.', 'warning');
 	setTimeout(() => {
@@ -1018,6 +1019,7 @@ function exportar(event) {
 			...{ ...searchForm.serialize(), status_conciliacao: [...activeStatus] },
 			...currentTableRender.serializeTableFilters(),
 			...serializeTableSortToExport(currentTableRender.serializeSortFilter()),
+      hidden: currentTableConfig.get('hiddenSections'),
 		});
 	}, 500);
 }

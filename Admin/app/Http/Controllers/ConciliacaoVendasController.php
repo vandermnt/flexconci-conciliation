@@ -15,8 +15,8 @@ use App\Filters\VendasErpFilter;
 use App\Filters\VendasFilter;
 use App\Filters\VendasErpSubFilter;
 use App\Filters\VendasSubFilter;
-use App\Exports\VendasOperadorasExport;
-use App\Exports\VendasErpExport;
+use App\Exports\VendasConciliacaoExport;
+use App\Exports\VendasErpConciliacaoExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
@@ -335,14 +335,15 @@ class ConciliacaoVendasController extends Controller
 
 		$headers = ClienteModel::select(
 			[
-				'erp.TITULO_CAMPO_ADICIONAL1 as TITULO_CAMPO1',
-				'erp.TITULO_CAMPO_ADICIONAL2 as TITULO_CAMPO2',
-				'erp.TITULO_CAMPO_ADICIONAL3 as TITULO_CAMPO3'
+				'erp.TITULO_CAMPO_ADICIONAL1 as CAMPO1',
+				'erp.TITULO_CAMPO_ADICIONAL2 as CAMPO2',
+				'erp.TITULO_CAMPO_ADICIONAL3 as CAMPO3'
 			]
 		)
 			->leftJoin('erp', 'clientes.COD_ERP', 'erp.CODIGO')
 			->where('clientes.CODIGO', session('codigologin'))
-			->first();
+			->first()
+      ->toArray();
 
 		$sort = [
 			'column' => $request->input('sort_column', 'DATA_VENDA'),
@@ -352,7 +353,8 @@ class ConciliacaoVendasController extends Controller
 		$filters['sort'] = $sort;
 		$subfilters = $request->except(['_token']);
 		Arr::set($filters, 'cliente_id', session('codigologin'));
-		return (new VendasErpExport($filters, $subfilters, $headers))->download('vendas_erp_' . time() . '.xlsx');
+    $hiddenColumns = $request->input('hidden', []);
+		return (new VendasErpConciliacaoExport($filters, $subfilters, $hiddenColumns, $headers))->download('vendas_erp_' . time() . '.xlsx');
 	}
 
 	public function exportarOperadoras(Request $request)
@@ -375,7 +377,8 @@ class ConciliacaoVendasController extends Controller
 		$filters['status_conciliacao'] = in_array($status_nao_conciliada, $status_conciliacao) ?
 			[$status_nao_conciliada] : [null];
 
-		return (new VendasOperadorasExport($filters, $subfilters))->download('vendas_operadoras_' . time() . '.xlsx');
+    $hiddenColumns = $request->input('hidden', []);
+		return (new VendasConciliacaoExport($filters, $subfilters, $hiddenColumns))->download('vendas_operadoras_' . time() . '.xlsx');
 	}
 
 	/**
