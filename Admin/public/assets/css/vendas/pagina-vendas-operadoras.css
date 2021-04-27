@@ -29,10 +29,6 @@
 	max-width: 100%;
 }
 
-#pagina-vendas-operadoras .table-responsive {
-	max-height: 528px;
-}
-
 #pagina-vendas-operadoras table i {
 	font-size: 18px;
 	color: #2d5275;
@@ -70,20 +66,6 @@
   font-size: 18px;
   color: #2d5275;
   cursor: pointer;
-}
-
-#pagina-vendas-operadoras table .actions-cell {
-  display: flex;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-#pagina-vendas-operadoras table .actions-cell > * {
-  margin: 0 !important;
-}
-
-#pagina-vendas-operadoras table .actions-cell > * + * {
-  margin-left: 16px !important;
 }
 
 #pagina-vendas-operadoras table .actions-cell .link-impressao.tooltip-hint::before {
