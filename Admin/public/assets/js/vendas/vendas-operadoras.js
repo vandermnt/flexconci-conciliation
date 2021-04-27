@@ -170,7 +170,6 @@ tableRender.shouldSelectRow((elementDOM) => {
 });
 
 tableRender.onRenderRow((row, data, tableRenderInstance) => {
-	console.log(data);
 	const checkboxDOM = row.querySelector('td input[data-value-key]');
 	const value = data[checkboxDOM.dataset.valueKey];
 	checkboxDOM.value = value;
@@ -263,14 +262,19 @@ function showTicket(id) {
 		.get('data')
 		.get('sales')
 		.find((sale) => sale.ID === id);
+	console.log(sale);
 	Array.from(
 		document.querySelectorAll('#comprovante-modal *[data-key]')
 	).forEach((element) => {
-		element.textContent = formatter.format(
-			element.dataset.format || 'text',
-			sale[element.dataset.key],
-			''
-		);
+		if (element.dataset.type == 'image') {
+			element.setAttribute('src', sale[element.dataset.key]);
+		} else {
+			element.textContent = formatter.format(
+				element.dataset.format || 'text',
+				sale[element.dataset.key],
+				''
+			);
+		}
 	});
 
 	document.querySelector('#comprovante-modal').dataset.saleId = id;

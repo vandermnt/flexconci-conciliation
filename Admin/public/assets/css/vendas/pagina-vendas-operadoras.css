@@ -39,8 +39,12 @@
 	transform: translateX(-8%);
 }
 
+#pagina-vendas-operadoras #comprovante-modal .modal-footer {
+	background-color: #ffffff !important;
+}
+
 #pagina-vendas-operadoras .modais .comprovante {
-	background-color: #f3f781 !important;
+	background-color: #ffffff !important;
 }
 
 #pagina-vendas-operadoras .modais .comprovante h4 {
@@ -77,4 +81,14 @@
 #pagina-vendas-operadoras #comprovante-modal .modal-body {
 	margin: 0;
 	padding: 0;
+}
+
+#pagina-vendas-operadoras #comprovante-modal .body h6 {
+	margin: 5px;
+}
+
+#pagina-vendas-operadoras #comprovante-modal .comprovante-image {
+	width: auto;
+	width: 76px;
+	margin-left: 2px;
 }

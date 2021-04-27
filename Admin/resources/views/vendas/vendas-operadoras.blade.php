@@ -161,39 +161,55 @@
         >
           <x-slot name="content">
             <div class="comprovante">
-              <div class="header">
-                <h4 class="font-weight-bold">
-                    <span data-key="NOME_EMPRESA"></span>
-                </h4>
-                <h6>
-                    CNPJ: <span data-key="CNPJ"></span>
-                </h6>
-              </div>
-              <hr>
+              {{-- <div class="header">
+              </div> --}}
               <div class="body">
                 <h6>
-                    DATA VENDA: <span data-key="DATA_VENDA" data-format="date"></span>
+                  <img class="comprovante-image" data-key="ADQUIRENTE_IMAGEM" data-type="image" src=""/>
                 </h6>
                 <h6>
-                    OPERADORA: <span data-key="ADQUIRENTE"></span>
-                </h6>
-                <h6>
-                    BANDEIRA: <span data-key="BANDEIRA"></span>
+                  <img class="comprovante-image" data-key="BANDEIRA_IMAGEM" data-type="image" src=""/>
                 </h6>
                 <h6>
                     FORMA DE PAGAMENTO: <span data-key="MODALIDADE"></span>
                 </h6>
+								<h6>
+									PRODUTO: <span data-key="PRODUTO"></span>
+								</h6>
+								<hr>
+								<h6>
+									NOME DA EMPRESA: <span data-key="NOME_EMPRESA"></span>
+								</h6>
+								<h6>
+									CNPJ: <span data-key="CNPJ"></span>
+								</h6>
+								<hr>
+								<h6>
+									ESTABELECIMENTO: <span data-key="ESTABELECIMENTO"></span>
+								</h6>
+								<h6>
+									CARTAO: <span data-key="CARTAO"></span>
+								</h6>
+								<h6>
+									NSU: <span data-key="NSU"></span>
+								</h6>
+								<h6>
+									AUT: <span data-key="AUTORIZACAO"></span>
+								</h6>
+								<h6>
+									DATA + HORA: <span data-key="DATA_VENDA" data-format="date"></span>
+								</h6>
+								<h6>
+									DATA VENDA: <span data-key="DATA_VENDA" data-format="date"></span>
+								</h6>
                 <h6>
-                    ESTABELECIMENTO: <span data-key="ESTABELECIMENTO"></span>
-                </h6>
+									PREVISÃO: <span data-key="DATA_PREVISAO" data-format="date"></span>
+								</h6>
                 <h6>
-                    CARTAO: <span data-key="CARTAO"></span>
+                  PARCELA: <span data-key="PARCELA"></span>
                 </h6>
                 <h6 class="font-weight-bold">
-                    VALOR: <span data-key="VALOR_BRUTO" data-format="currency"></span>
-                </h6>
-                <h6>
-                    DATA PREVISÃO: <span data-key="DATA_PREVISAO" data-format="date"></span>
+                  VALOR: <span data-key="VALOR_BRUTO" data-format="currency"></span>
                 </h6>
               </div>
             </div>
