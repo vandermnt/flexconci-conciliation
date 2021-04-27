@@ -103,8 +103,10 @@ Checker.prototype.uncheckAll = function (name) {
 Checker.prototype.checkOnly = function (name, valuesToBeChecked = []) {
   if(valuesToBeChecked.length === this.groups[name].checkboxes.length) {
     this.checkAll(name);
-    return;
+    return true;
   }
+
+  if(valuesToBeChecked.length < 1) return true;
 
   const selector = valuesToBeChecked.map((value => {
     return `input[type="checkbox"][data-checker="checkbox"][data-group="${name}"][value="${value}"]:not(:checked)`;
