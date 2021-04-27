@@ -74,6 +74,11 @@
                                         </div>
                                         <!--end form-group-->
 
+																				<div class="form-group form-check">
+																					<input type="checkbox" class="form-check-input" id="remember-me">
+																					<label class="form-check-label" for="remember-me">Lembrar-me</label>
+																				</div>
+
                                         <div class="form-group row mt-4">
                                             <div class="col-sm-6">
                                             </div>
@@ -251,7 +256,7 @@ $('#submitFormLogin').click(function() {
     }),
     dataType: 'json',
     success: function(response) {
-			encryptPassword()
+			document.querySelector('#remember-me').checked ? (encryptPassword()) : (clearCredentials())
       if (response) {
 
         if (response[1] == 'user_global') {

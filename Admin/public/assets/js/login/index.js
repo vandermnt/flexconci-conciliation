@@ -1,13 +1,17 @@
 const usernameInput = document.querySelector('#username');
 const passwordInput = document.querySelector('#userpassword');
 
+if (localStorage.getItem('email')) {
+	usernameInput.value = localStorage.getItem('email');
+}
+
 const storedUsername = localStorage.getItem('email');
 const storedPassword = localStorage.getItem('password');
+const rememberMe = localStorage.getItem('remember-me');
 
-if (storedUsername) {
+if (rememberMe) {
+	document.querySelector('#remember-me').checked = true;
 	usernameInput.value = storedUsername;
-}
-if (storedPassword) {
 	decryptPassword();
 }
 
@@ -24,6 +28,7 @@ function encryptPassword() {
 		},
 		dataType: 'JSON',
 		success: function (res) {
+			localStorage.setItem('remember-me', true);
 			localStorage.setItem('email', autenticacao.user);
 			localStorage.setItem('password', res.password);
 		},
@@ -46,4 +51,10 @@ function decryptPassword() {
 			passwordInput.value = res.password;
 		},
 	});
+}
+
+function clearCredentials() {
+	localStorage.removeItem('remember-me');
+	localStorage.removeItem('email');
+	localStorage.removeItem('password');
 }
