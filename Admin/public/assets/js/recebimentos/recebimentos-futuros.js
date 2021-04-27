@@ -218,6 +218,6 @@ window.addEventListener('load', () => {
   tableConfig.init();
   tableRender.afterRender((tableInstance) => {
     tableConfig.get('sectionContainer').refreshAll();
-    // scrollableDragger.fixator.update();
+    scrollableDragger.fixator.update();
   });
 });

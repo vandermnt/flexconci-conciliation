@@ -173,7 +173,8 @@
             <h4>Recebimentos Operadoras <span id="js-quantidade-registros">(0 registros)</span></h4>
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas ERP">
           </div>
-          <div class="actions d-flex align-items-center justify-content-end">
+          <div class="actions d-flex flex-fill align-items-center justify-content-end">
+            <x-table-config-dropdown id="js-table-config" class="mr-1" checker-group="tb-config-columns" />
             @if(Auth::user()->USUARIO_GLOBAL === 'S')
               <button
                 id="js-abrir-modal-retorno"
@@ -205,7 +206,11 @@
           :headers="[
             'RETORNO_ERP_BAIXA' => 'Baixa Executada '.($erp->ERP ?? 'ERP'),
           ]"
-        />
+        >
+          <x-slot name="actions">
+            <td></td>
+          </x-slot>
+        </x-tables.tabela-recebimentos-operadoras>
         <x-tables.table-navigation
           pagination-id="js-paginacao-recebimentos"
           per-page-select-id="js-por-pagina"
@@ -267,6 +272,9 @@
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/PaymentsProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/PaymentsContainerProxy.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/ui/table-section.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/ui/table-config.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/table-dragger-wrapper.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/recebimentos/recebimentos-operadoras.js') }}"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
