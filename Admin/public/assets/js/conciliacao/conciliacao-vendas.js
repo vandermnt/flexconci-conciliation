@@ -84,6 +84,40 @@ const tableRenderErp = createTableRender({
 	formatter,
 });
 
+const scrollableDragger = createScrollableTableDragger({
+  wrapper: '*[data-table-type="operadoras"] .table-responsive',
+  table: 'table#js-tabela-operadoras',
+  draggerConfig: {
+    mode: 'column',
+    dragHandler: '.draggable',
+    onlyBody: false,
+    animation: 300
+  },
+  rows: ['#js-tabela-operadoras tbody tr']
+});
+const scrollableDraggerErp = createScrollableTableDragger({
+  wrapper: '*[data-table-type="erp"] .table-responsive',
+  table: 'table#js-tabela-erp',
+  draggerConfig: {
+    mode: 'column',
+    dragHandler: '.draggable',
+    onlyBody: false,
+    animation: 300
+  },
+  rows: ['#js-tabela-erp tbody tr']
+});
+
+const tableConfig = new TableConfig({
+  tableSelector: '#js-tabela-operadoras',
+  rootElement: '#js-table-config-operadoras',
+  checkerGroup: 'tb-config-operadoras'
+});
+const tableConfigErp = new TableConfig({
+  tableSelector: '#js-tabela-erp',
+  rootElement: '#js-table-config-erp',
+  checkerGroup: 'tb-config-erp'
+});
+
 const _events = {
 	salesContainer: {
 		onFetch: (key, sales) => {
@@ -1171,3 +1205,16 @@ document
 document
 	.querySelector('#js-tabela-operadoras tfoot td[data-column="TOTAL_TAXA"]')
 	.classList.remove('text-danger');
+
+window.addEventListener('load', () => {
+  tableConfig.init();
+  tableConfigErp.init();
+  tableRender.afterRender((tableInstance) => {
+    tableConfig.get('sectionContainer').refreshAll();
+    scrollableDragger.fixator.update();
+  });
+  tableRenderErp.afterRender((tableInstance) => {
+    tableConfigErp.get('sectionContainer').refreshAll();
+    scrollableDraggerErp.fixator.update();
+  });
+});
