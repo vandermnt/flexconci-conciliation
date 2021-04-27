@@ -441,6 +441,20 @@ table tr.marcada td {
 	color: white;
 }
 
+table .actions-cell {
+  display: flex;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+table .actions-cell > * {
+  margin: 0 !important;
+}
+
+table .actions-cell > * + * {
+  margin-left: 16px !important;
+}
+
 .table-sorter {
 	width: 100%;
 	cursor: pointer;
