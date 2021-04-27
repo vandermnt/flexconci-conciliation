@@ -19,9 +19,24 @@ const salesContainer = new SalesContainerProxy({
 	},
 });
 const tableRender = createTableRender({
-	table: '#js-tabela-operadoras',
+	table: '#js-tabela-bancaria',
 	locale: 'pt-br',
 	formatter,
+});
+const tableConfig = new TableConfig({
+  tableSelector: '#js-tabela-bancaria',
+  rootElement: '#js-table-config',
+});
+const scrollableDragger = createScrollableTableDragger({
+  wrapper: '.table-responsive',
+  table: '.table-responsive > table#js-tabela-bancaria',
+  draggerConfig: {
+    mode: 'column',
+    dragHandler: '.draggable',
+    onlyBody: false,
+    animation: 300
+  },
+  rows: ['#js-tabela-bancaria tbody tr']
 });
 const boxes = getBoxes();
 const apiConfig = {
@@ -82,7 +97,7 @@ salesContainer.onEvent('fail', (err) => {
 
 salesContainer.setPaginationConfig(
 	{
-		paginationContainer: document.querySelector('#js-paginacao-operadoras'),
+		paginationContainer: document.querySelector('#js-paginacao-bancaria'),
 	},
 	async (page, pagination, event) => {
 		await buildRequest({
@@ -338,3 +353,11 @@ document
 	.addEventListener('change', onPerPageChanged);
 
 document.querySelector('#js-exportar').addEventListener('click', exportar);
+
+window.addEventListener('load', () => {
+  tableConfig.init();
+  tableRender.afterRender((tableInstance) => {
+    tableConfig.get('sectionContainer').refreshAll();
+    scrollableDragger.fixator.update();
+  });
+});
