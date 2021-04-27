@@ -471,8 +471,6 @@
         <th>
           <div class="d-flex flex-column align-items-center">
             <div
-                class="d-flex align-items-center justify-content-center table-sorter mb-2"
-                data-tbsort-by="DIVERGENCIA"
                 class="d-flex align-items-center justify-content-center table-sorter mb-2 tooltip-hint"
                 data-tbsort-by="DIVERGENCIA" data-title="Aqui ficam os campos que deram divergência quando conciliamos a
 								venda do Seta versus operadora. Dependendo do campo que deu divervência
