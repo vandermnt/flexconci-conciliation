@@ -269,6 +269,7 @@ function exportar() {
 			...searchForm.serialize(),
 			...tableRender.serializeTableFilters(),
 			...serializeTableSortToExport(tableRender.serializeSortFilter()),
+      hidden: tableConfig.get('hiddenSections'),
 		});
 	}, 500);
 }
@@ -280,6 +281,7 @@ function retornoCsv() {
 			...searchForm.serialize(),
 			...tableRender.serializeTableFilters(),
 			...serializeTableSortToExport(tableRender.serializeSortFilter()),
+      hidden: tableConfig.get('hiddenSections'),
 		});
 	}, 500);
 }
