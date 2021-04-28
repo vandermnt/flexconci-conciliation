@@ -47,7 +47,8 @@ class BaseExport
 
   public function getValues($item) {
     $serializedItem = $this->serializeItem($item);
-    $values = $this->serializeItem($serializedItem)
+    $values = collect($this->keys)
+      ->except($this->hidden)
       ->keys()
       ->reduce(function ($values, $key) use ($serializedItem) {
         $value = $serializedItem->get($key);
