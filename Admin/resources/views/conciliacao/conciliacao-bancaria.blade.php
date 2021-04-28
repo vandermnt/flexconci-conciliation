@@ -32,6 +32,8 @@
             ['retorno-csv' => route('vendas-operadoras.retorno-csv')],
 						['comprovantes' => route('conciliacao-bancaria.searchComprovante')],
 						['filtrar-comprovantes' => route('conciliacao-bancaria.filterComprovante')],
+						['extratos' => route('conciliacao-bancaria.searchExtrato')],
+						['filtrar-extratos' =>route('conciliacao-bancaria.filterExtrato')],
           ]"
           :hidden-fields="[
             'domicilios-bancarios',
@@ -52,56 +54,6 @@
     </div>
 
     <div class="resultados hidden">
-      <div class="boxes conciliacao-taxas">
-        {{-- <x-box
-          class="tooltip-hint"
-          title="VALOR TOTAL BRUTO"
-          content="R$ 0,00"
-          data-format="currency"
-          data-key="TOTAL_BRUTO"
-          icon-path="assets/images/financeiro/bruto.svg"
-          icon-description="Valor Bruto"
-          :dataset="[
-              'hint' => 'Valor total bruto vendido nas operadoras.'
-          ]"
-        />
-				<x-box
-          class="tooltip-hint"
-          title="VALOR LÍQUIDO ACORDADO"
-          content="R$ 0,00"
-          data-format="currency"
-          data-key="TOTAL_TAXA_ACORDADA"
-          icon-path="assets/images/financeiro/despesas.svg"
-          icon-description="Valor Líquido"
-          :dataset="[
-              'hint' => 'Valor total líquido que será pago nos respectivos vencimentos pelas operadoras.'
-          ]"
-        />
-				<x-box
-          class="tooltip-hint"
-          title="VALOR LÍQUIDO PRATICADO"
-          content="R$ 0,00"
-          data-format="currency"
-          data-key="TOTAL_TAXA"
-          icon-path="assets/images/financeiro/despesas.svg"
-          icon-description="Valor Taxa"
-          :dataset="[
-              'hint' => 'Valor total de taxas que sua empresa irá pagar quando as vendas forem liquidadas/depositadas pelas operadoras.'
-          ]"
-        />
-				<x-box
-          class="tooltip-hint"
-          title="DIFERENÇA DE TAXAS"
-          content="R$ 0,00"
-          data-format="currency"
-          data-key="TOTAL_LIQUIDO"
-          icon-path="assets/images/financeiro/alerta.svg"
-          icon-description="Valor Líquido"
-          :dataset="[
-              'hint' => 'Valor total líquido que será pago nos respectivos vencimentos pelas operadoras.'
-          ]"
-        /> --}}
-      </div>
 
       <div class="vendas">
         <div class="tabela-info d-flex align-items-center justify-content-between flex-wrap">
@@ -193,14 +145,12 @@
 						<x-box
 							title="DATA RECEBIMENTO"
 							content=""
-							data-format="text"
+							data-format="date"
 							data-key="DATA_PAGAMENTO"
 						/>
 						<x-box
 							title="BANCO"
 							content=""
-							data-format="text"
-							data-type="image"
 							data-key="BANCO_IMAGEM"
 						/>
 						<x-box
@@ -236,7 +186,7 @@
 							</div>
 							<div class="w-50 mb-auto tabela-info">
 								<div class="table-description d-flex align-items-center justify-content-start w-100">
-									<h4 class="text-center">Lançamentos Extrato Bancário <span id="js-quantidade-registros-extrato">(0 registros)</span></h4>
+									<h4 id="js-extrato-table-title" class="text-center">Lançamentos do seu Extrato Bancário</h4>
 									<img src="assets/images/widgets/arrow-down.svg" alt="">
 								</div>
 							</div>
@@ -308,7 +258,7 @@
 							</div>
 							<div class="vendas col-6">
 								<x-tables.tabela-extrato-bancario
-									id="js-tabela-extrato-bancario"
+									id="js-tabela-extrato"
 									class="mt-2"
 									:headers="[
 										'actions' => 'Ações | Status',
@@ -332,8 +282,8 @@
 								</x-tables.tabela-extrato-bancario>
 				
 								<x-tables.table-navigation
-									pagination-id="js-paginacao-extrato-bancario"
-									per-page-select-id="js-por-pagina-extrato-bancario"
+									pagination-id="js-paginacao-extrato"
+									per-page-select-id="js-por-pagina-extrato"
 									:options="['5', '10', '20', '50', '100', '200']"
 								/>
 							</div>
@@ -350,8 +300,8 @@
 @endsection
 
 @section('footerScript')
-	<script src="{{ URL::asset('assets/pages/jquery.form-upload.init.js')}}"></script>
-	<script src="{{ URL::asset('plugins/dropify/js/dropify.min.js')}}"></script>
+	<script defer src="{{ URL::asset('assets/pages/jquery.form-upload.init.js')}}"></script>
+	<script defer src="{{ URL::asset('plugins/dropify/js/dropify.min.js')}}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/api.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/formatter.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/lib/pagination.js') }}"></script>
@@ -365,5 +315,5 @@
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/conciliacao/conciliacao-bancaria.js') }}"></script>
 	<script defer src="{{ URL::asset('assets/js/conciliacao/comprovante/conciliacao-bancaria-comprovante.js') }}"></script>
-	{{-- <script defer src="{{ URL::asset('assets/js/conciliacao/comprovante/extrato-bancario.js') }}"></script> --}}
+	<script defer src="{{ URL::asset('assets/js/conciliacao/comprovante/extrato-bancario.js') }}"></script>
 @endsection

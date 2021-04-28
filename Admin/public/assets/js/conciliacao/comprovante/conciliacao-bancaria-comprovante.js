@@ -311,11 +311,14 @@ function renderComprovanteModal(id) {
 		.querySelectorAll('[data-key]');
 	headerBoxes.forEach((box) => {
 		let content;
-		if (box.dataset.type) {
-			console.log(box);
-			content = `<img src="${sale.BANCO_IMAGEM}" alt>`;
+		if (!box.dataset.format) {
+			content = `<img src="${sale[box.dataset.key]}" alt>`;
 		} else {
-			content = sale[box.dataset.key];
+			content = formatter.format(
+				box.dataset.format || 'text',
+				sale[box.dataset.key],
+				''
+			);
 		}
 		box.querySelector('.content').innerHTML = content;
 	});
@@ -326,6 +329,7 @@ function renderComprovanteModal(id) {
 	tableRenderComprovante.clearFilters();
 	tableRenderComprovante.clearSortFilter();
 	renderComprovanteTable(sale);
+	renderExtratoTable();
 }
 
 async function renderComprovanteTable(sale) {

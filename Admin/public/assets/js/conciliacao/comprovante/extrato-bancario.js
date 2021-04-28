@@ -1,12 +1,12 @@
 const salesContainerExtrato = new SalesContainerProxy({
 	id: 'extrato',
 	links: {
-		search: searchForm.get('form').dataset.urlComprovante,
-		filter: searchForm.get('form').dataset.urlFiltrarOperadoras,
+		search: searchForm.get('form').dataset.urlExtratos,
+		filter: searchForm.get('form').dataset.urlFiltrarExtratos,
 	},
 });
 const tableRenderExtrato = createTableRender({
-	table: '#js-tabela-extrato-bancario',
+	table: '#js-tabela-extrato',
 	locale: 'pt-br',
 	formatter,
 });
@@ -21,7 +21,7 @@ salesContainerExtrato.onEvent('beforeFetch', () => {
 
 salesContainerExtrato.onEvent('fetch', (sales) => {
 	toggleElementVisibility('#js-loader');
-	document.querySelector('#js-quantidade-registros').textContent = `(${
+	document.querySelector('#js-quantidade-registros-extrato').innerHTML = `(${
 		sales.get('pagination').options.total || 0
 	} registros)`;
 
@@ -47,6 +47,7 @@ salesContainerExtrato.onEvent('search', (sales) => {
 	if (resultadosDOM.classList.contains('hidden')) {
 		resultadosDOM.classList.remove('hidden');
 	}
+	updateTotals();
 });
 
 salesContainerExtrato.onEvent('fail', (err) => {
@@ -56,19 +57,17 @@ salesContainerExtrato.onEvent('fail', (err) => {
 
 salesContainerExtrato.setPaginationConfig(
 	{
-		paginationContainer: document.querySelector(
-			'#js-paginacao-extrato-bancario'
-		),
+		paginationContainer: document.querySelector('#js-paginacao-extrato'),
 	},
 	async (page, pagination, event) => {
-		await buildRequestComprovante({
+		await buildRequestExtrato({
 			page,
 			por_pagina: pagination.options.perPage,
 		}).get();
 	}
 );
 
-function buildRequestComprovante(params) {
+function buildRequestExtrato(params) {
 	let requestHandler = () => {};
 
 	const isSearchActive = salesContainerExtrato.get('active') === 'search';
@@ -78,6 +77,7 @@ function buildRequestComprovante(params) {
 
 	const filters = {
 		...searchForm.serialize(),
+		...extratoTableFilters,
 		...tableRenderExtrato.serializeSortFilter(),
 	};
 	const bodyPayload = isSearchActive
@@ -111,20 +111,6 @@ function buildRequestComprovante(params) {
 	};
 }
 
-searchForm.onSubmit(async (event) => {
-	await salesContainerExtrato.search({
-		params: {
-			por_pagina: document.querySelector('#js-por-pagina-extrato-bancario')
-				.value,
-		},
-		body: { ...searchForm.serialize() },
-	});
-
-	tableRenderExtrato.clearFilters();
-	tableRenderExtrato.clearSortFilter();
-	window.scrollTo(0, document.querySelector('.resultados').offsetTop);
-});
-
 tableRenderExtrato.shouldSelectRow((elementDOM) => {
 	let shouldSelect = _defaultEvents.table.shouldSelectRow(elementDOM);
 	if (['i', 'input'].includes(elementDOM.tagName.toLowerCase())) {
@@ -140,7 +126,7 @@ tableRenderExtrato.onRenderRow((row, data, tableRenderInstance) => {
 	const checkboxDOM = row.querySelector('td input[data-value-key]');
 	const value = data[checkboxDOM.dataset.valueKey];
 	checkboxDOM.value = value;
-	checkboxDOM.checked = selectedExtratoSales.includes(value);
+	checkboxDOM.checked = false;
 
 	checkboxDOM.addEventListener('change', (event) => {
 		const target = event.target;
@@ -153,41 +139,36 @@ tableRenderExtrato.onRenderRow((row, data, tableRenderInstance) => {
 				...selectedExtratoSales.filter((selected) => selected !== value),
 			];
 		}
+		updateSelectedValue();
 	});
-
-	// const showDetailsDOM = row.querySelector('td .js-show-details');
-
-	// showDetailsDOM.addEventListener('click', (event) => {
-	// 	showTicket(row.dataset.id);
-	// });
-
 	_defaultEvents.table.onRenderRow(row, data, tableRenderInstance);
 });
 
-tableRenderExtrato.onFilter(async (filters) => {
-	const params = {
-		por_pagina: document.querySelector('#js-por-pagina-extrato-bancario').value,
-	};
+// tableRenderExtrato.onFilter(async (filters) => {
+// 	const params = {
+// 		por_pagina: document.querySelector('#js-por-pagina-extrato').value,
+// 	};
 
-	salesContainerExtrato.toggleActiveData('filter');
-	if (Object.keys(filters).length === 0) {
-		salesContainerExtrato.toggleActiveData('search');
-		params.page = 1;
-	}
+// 	salesContainerExtrato.toggleActiveData('filter');
+// 	if (Object.keys(filters).length === 0) {
+// 		salesContainerExtrato.toggleActiveData('search');
+// 		params.page = 1;
+// 	}
 
-	await buildRequestComprovante(params).get();
-});
+// 	await buildRequestExtrato(params).get();
+// 	updateTotals();
+// });
 
 tableRenderExtrato.onSort(async (elementDOM, tableInstance) => {
 	const params = {
-		por_pagina: document.querySelector('#js-por-pagina-extrato-bancario').value,
+		por_pagina: document.querySelector('#js-por-pagina-extrato').value,
 	};
 
 	_defaultEvents.table.onSort(elementDOM, tableInstance);
-	await buildRequestComprovante(params).get();
+	await buildRequestExtrato(params).get();
 });
 
-async function onPerPageChanged(event) {
+async function onExtratoPerPageChanged(event) {
 	salesContainerExtrato
 		.get('search')
 		.get('pagination')
@@ -196,7 +177,7 @@ async function onPerPageChanged(event) {
 		.get('filtered')
 		.get('pagination')
 		.setOptions({ perPage: event.target.value });
-	await buildRequestComprovante({
+	await buildRequestExtrato({
 		page: 1,
 		por_pagina: event.target.value,
 	}).get();
@@ -312,13 +293,83 @@ Array.from(
 });
 
 document
-	.querySelector('#js-por-pagina-extrato-bancario')
-	.addEventListener('change', onPerPageChanged);
+	.querySelector('#js-por-pagina-extrato')
+	.addEventListener('change', onExtratoPerPageChanged);
 
-document.querySelector('#js-exportar').addEventListener('click', exportar);
+async function renderExtratoTable() {
+	document.querySelector(
+		'#js-extrato-table-title'
+	).innerHTML = `Lançamentos do seu Extrato Bancário <span id="js-quantidade-registros-extrato"></span>`;
 
-document.querySelector('#js-retorno-csv').addEventListener('click', retornoCsv);
+	await salesContainerExtrato.search({
+		params: {
+			por_pagina: document.querySelector('#js-por-pagina-extrato').value,
+		},
+		body: {
+			filters: {},
+		},
+	});
 
-document
-	.querySelector('#js-desjustificar')
-	.addEventListener('click', confirmUnjustify);
+	const total = salesContainerExtrato.get('data').get('pagination').options
+		.total;
+
+	document.querySelector(
+		'#js-quantidade-registros-extrato'
+	).innerHTML = `(${total} registros)`;
+
+	// tableRenderExtrato.clearFilters();
+	// tableRenderExtrato.clearSortFilter();
+}
+
+function updateSelectedValue() {
+	if (selectedExtratoSales.length > 0) {
+		let totalValue = 0;
+		selectedExtratoSales.forEach((id) => {
+			const sale = salesContainerExtrato
+				.get('data')
+				.get('sales')
+				.find((sale) => sale.ID === id);
+			totalValue += parseFloat(sale['VALOR']);
+		});
+
+		const cellValue = totalValue;
+		const defaultCellValue = 0;
+		const format = 'currency';
+
+		const formattedValue = tableRender.formatCell(
+			cellValue,
+			format,
+			defaultCellValue
+		);
+		// document.querySelector(
+		// 	'#total-selecionado-extrato'
+		// ).innerHTML = formattedValue;
+	} else {
+		clearSelectedValue();
+	}
+}
+
+function setExtratoTotalValue() {
+	if (salesContainerExtrato) {
+	}
+	const totalValue = parseFloat(
+		salesContainerExtrato.get('data').get('totals').TOTAL_PREVISTO_OPERADORA
+	);
+
+	// const totalValueDOM = document.querySelector('#total-extrato');
+	// totalValueDOM.innerHTML = tableRenderExtrato.formatCell(
+	// 	totalValue,
+	// 	'currency',
+	// 	0
+	// );
+}
+
+function clearSelectedValue() {
+	selectedExtratoSales = [];
+	// document.querySelector('#total-selecionado-extrato').innerHTML = 'R$ 0,00';
+}
+
+function updateTotals() {
+	clearSelectedValue();
+	setExtratoTotalValue();
+}
