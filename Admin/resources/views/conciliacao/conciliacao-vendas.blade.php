@@ -213,6 +213,7 @@
             'TITULO_CAMPO1' => $erp->TITULO_CAMPO1,
             'TITULO_CAMPO2' => $erp->TITULO_CAMPO2,
             'TITULO_CAMPO3' => $erp->TITULO_CAMPO3,
+            'RETORNO_ERP' => 'Venda Corrigida '.($erp->ERP ?? 'ERP'),
             'actions' => 'Ações | Status'
           ]"
           :hidden-columns="[

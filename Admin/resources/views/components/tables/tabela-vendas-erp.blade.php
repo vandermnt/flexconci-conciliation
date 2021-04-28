@@ -8,7 +8,7 @@
           @isset($actions)
             <th>
               <div class="d-flex flex-column justify-content-end">
-                <p class="m-0">{{ $getHeader('actions') ?? 'Ações' }}</p>
+                <p class="m-0">{{ $getHeader('actions', 'Ações') }}</p>
               </div>
             </th>
           @endisset
@@ -186,19 +186,14 @@
               <input type="number" min="0" step="0.01" class="form-control" name="VALOR_TAXA">
             </div>
           </th>
-          @php
-            $taxaHeader = is_null($getHeader('TAXA')) ?
-                  'Taxa %' :
-                  ucwords(mb_strtolower($getHeader('TAXA'), 'utf-8'));
-          @endphp
-          <th class="draggable" data-tb-section="TAXA" data-th-title="{{ $taxaHeader }}">
+          <th class="draggable" data-tb-section="TAXA" data-th-title="{{ $getHeader('TAXA', 'Taxa %') }}">
             <div class="d-flex flex-column align-items-center">
               <div
                 class="d-flex align-items-center justify-content-center table-sorter mb-2"
                 data-tbsort-by="TAXA"
               >
                 <p class="m-0">
-                  {{ $taxaHeader }}
+                  {{ $getHeader('TAXA', 'Taxa %') }}
                 </p>
                 <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
               </div>
@@ -233,19 +228,14 @@
               </div>
             </th>
           @endif
-          @php
-            $valorLiquidoHeader = is_null($getHeader('VALOR_LIQUIDO')) ?
-                    'Valor Líquido' :
-                    ucwords(mb_strtolower($getHeader('VALOR_LIQUIDO'), 'utf-8'));
-          @endphp
-          <th class="draggable" data-tb-section="VALOR_LIQUIDO_PARCELA" data-th-title="{{ $valorLiquidoHeader }}">
+          <th class="draggable" data-tb-section="VALOR_LIQUIDO_PARCELA" data-th-title="{{ $getHeader('VALOR_LIQUIDO', 'Valor Líquido') }}">
             <div class="d-flex flex-column align-items-center">
               <div
                 class="d-flex align-items-center justify-content-center table-sorter mb-2"
                 data-tbsort-by="VALOR_LIQUIDO_PARCELA"
               >
                 <p class="m-0">
-                  {{ $valorLiquidoHeader }}
+                  {{ $getHeader('VALOR_LIQUIDO', 'Valor Líquido') }}
                 </p>
                 <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
               </div>
@@ -442,76 +432,57 @@
               <input type="text" class="form-control" name="JUSTIFICATIVA">
             </div>
           </th>
-           @php
-            $campo1Header = is_null($getHeader('TITULO_CAMPO1')) ?
-                    'Campo 1' :
-                    ucwords(mb_strtolower($getHeader('TITULO_CAMPO1'), 'utf-8'));
-           @endphp
-           <th class="draggable" data-tb-section="CAMPO1" data-th-title="{{ $campo1Header }}">
+           <th class="draggable" data-tb-section="CAMPO1" data-th-title="{{ $getHeader('TITULO_CAMPO1', 'Campo 1') }}">
             <div class="d-flex flex-column align-items-center">
               <div
                 class="d-flex align-items-center justify-content-center table-sorter mb-2"
                 data-tbsort-by="CAMPO1"
               >
                 <p class="m-0">
-                  {{ $campo1Header }}
+                  {{ $getHeader('TITULO_CAMPO1', 'Campo 1') }}
                 </p>
                 <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
               </div>
               <input type="text" class="form-control" name="CAMPO1">
             </div>
           </th>
-          @php
-            $campo2Header = is_null($getHeader('TITULO_CAMPO2')) ?
-                    'Campo 2' :
-                    ucwords(mb_strtolower($getHeader('TITULO_CAMPO2'), 'utf-8'));
-           @endphp
-          <th class="draggable" data-tb-section="CAMPO2" data-th-title="{{ $campo2Header }}">
+          <th class="draggable" data-tb-section="CAMPO2" data-th-title="{{ $getHeader('TITULO_CAMPO2', 'Campo 2') }}">
             <div class="d-flex flex-column align-items-center">
               <div
                 class="d-flex align-items-center justify-content-center table-sorter mb-2"
                 data-tbsort-by="CAMPO2"
               >
                 <p class="m-0">
-                  {{ $campo2Header }}
+                  {{ $getHeader('TITULO_CAMPO2', 'Campo 2') }}
                 </p>
                 <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
               </div>
               <input type="text" class="form-control" name="CAMPO2">
             </div>
           </th>
-          @php
-            $campo3Header = is_null($getHeader('TITULO_CAMPO3')) ?
-                    'Campo 3' :
-                    ucwords(mb_strtolower($getHeader('TITULO_CAMPO3'), 'utf-8'));
-           @endphp
-          <th class="draggable" data-tb-section="CAMPO3" data-th-title="{{ $campo3Header }}">
+          <th class="draggable" data-tb-section="CAMPO3" data-th-title="{{ $getHeader('TITULO_CAMPO3', 'Campo 3') }}">
             <div class="d-flex flex-column align-items-center">
               <div
                 class="d-flex align-items-center justify-content-center table-sorter mb-2"
                 data-tbsort-by="CAMPO3"
               >
                 <p class="m-0">
-                  {{ $campo3Header }}
+                  {{ $getHeader('TITULO_CAMPO3', 'Campo 3') }}
                 </p>
                 <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
               </div>
               <input type="text" class="form-control" name="CAMPO3">
             </div>
           </th>
-          @php
-            $retornoErpHeader = Route::currentRouteName() == 'conciliacao-vendas' ?
-              'Venda Corrigida '.($erp->ERP ?? 'ERP') :
-              'Retorno Venda '.($erp->ERP ?? 'ERP');
-          @endphp
           @if($isColumnVisible('RETORNO_ERP'))
-            <th class="draggable" data-tb-section="RETORNO_ERP" data-th-title="{{ $retornoErpHeader }}">
+
+            <th class="draggable" data-tb-section="RETORNO_ERP" data-th-title="{{ $getHeader('RETORNO_ERP', 'Retorno Venda '.($erp->ERP ?? 'ERP')) }}">
               <div class="d-flex flex-column align-items-center">
                 <div
                   class="d-flex align-items-center justify-content-center table-sorter mb-2"
                   data-tbsort-by="RETORNO_ERP"
                 >
-                  <p class="m-0">{{ $retornoErpHeader }}</p>
+                  <p class="m-0">{{ $getHeader('RETORNO_ERP', 'Retorno Venda '.($erp->ERP ?? 'ERP')) }}</p>
                   <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
                 </div>
                 <input type="text" class="form-control" name="RETORNO_ERP">
