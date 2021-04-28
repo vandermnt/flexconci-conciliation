@@ -9,6 +9,7 @@ use App\User;
 use App\ClienteModel;
 use Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Crypt;
 
 class LoginController extends Controller
 {
@@ -128,5 +129,17 @@ class LoginController extends Controller
 
 			return json_encode(false);
 		}
+	}
+
+	public function encryptPassword(Request $request)
+	{
+		$encrypted = Crypt::encryptString($request->autenticacao['password']);
+		return response()->json(['password' => $encrypted]);
+	}
+
+	public function decryptPassword(Request $request)
+	{
+		$decrypted = Crypt::decryptString($request->password);
+		return response()->json(['password' => $decrypted]);
 	}
 }
