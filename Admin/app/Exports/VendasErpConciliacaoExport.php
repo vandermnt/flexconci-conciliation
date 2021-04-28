@@ -26,7 +26,7 @@ class VendasErpConciliacaoExport extends BaseExport implements FromQuery, WithSt
       'NSU' => ['header' => 'NSU', 'type' => 'forceToString'],
       'CODIGO_AUTORIZACAO' => ['header' => 'Autorização', 'type' => 'forceToString'],
       'TID' => ['header' => 'TID', 'type' => 'forceToString'],
-      'VALOR_VENDA_PARCELA' => ['header' => 'Valor Bruto', 'type' => 'numeric'],
+      'VALOR_VENDA' => ['header' => 'Valor Bruto', 'type' => 'numeric'],
       'VALOR_TAXA' => ['header' => 'Taxa R$', 'type' => 'numeric'],
       'TAXA' => ['header' => 'Taxa %', 'type' => 'numeric'],
       'TAXA_OPERADORA' => ['Taxa Op. %' => 'Taxa %', 'type' => 'numeric'],
