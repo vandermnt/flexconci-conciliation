@@ -1,0 +1,24 @@
+/* .about-gerencial {
+	background-color: #2d5275;
+	color: #fff;
+	box-shadow: none;
+}
+
+.about-gerencial:hover {
+	color: #fff;
+}
+
+.about-gerencial:focus {
+	box-shadow: none;
+} */
+
+.about-gerencial {
+	width: auto;
+	width: 36px !important;
+}
+
+.about-gerencial::before {
+	width: 128px;
+	/* white-space: pre-line; */
+	transform: translateX(-50%);
+}
