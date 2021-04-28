@@ -90,7 +90,8 @@
             <h4>Vendas {{ $erp->ERP ?? 'ERP' }} <span id="js-quantidade-registros">(0 registros)</span></h4>
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas ERP">
           </div>
-          <div class="acoes d-flex align-items-center justify-content-between">
+          <div class="acoes d-flex flex-fill align-items-center justify-content-end">
+            <x-table-config-dropdown id="js-table-config" class="mr-1" checker-group="tb-config-columns" />
             <button id="js-exportar" class="btn button no-hover">
               <div class="conciflex-icon icon-md">
                 <img src="assets/images/widgets/excel-file.svg" alt="Excel">
@@ -154,6 +155,9 @@
   <script defer src="{{ URL::asset('assets/js/proxy/SalesProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SalesContainerProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/ui/table-section.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/ui/table-config.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/table-dragger-wrapper.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/vendas/vendas-erp.js') }}"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

@@ -10,94 +10,60 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class VendasConciliacaoExport implements FromQuery, WithStrictNullComparison, ShouldAutoSize, WithHeadings, WithMapping
+class VendasConciliacaoExport extends BaseExport implements FromQuery, WithStrictNullComparison, ShouldAutoSize, WithHeadings, WithMapping
 {
-    use Exportable;
+  use Exportable;
 
-    protected $filters;
-    protected $subfilters;
+  protected $keys = [
+    'NOME_EMPRESA' => ['header' => 'Empresa', 'type' => 'string'],
+    'CNPJ' => ['header' => 'CNPJ', 'type' => 'forceToString'],
+    'DATA_VENDA' => ['header' => 'Venda', 'type' => 'date'],
+    'DATA_PREVISAO' => ['header' => 'Previsão', 'type' => 'date'],
+    'ADQUIRENTE' => ['header' => 'Operadora', 'type' => 'string'],
+    'BANDEIRA' => ['header' => 'Bandeira', 'type' => 'string'],
+    'MODALIDADE' => ['header' => 'Forma de Pagamento', 'type' => 'string'],
+    'NSU' => ['header' => 'NSU', 'type' => 'forceToString'],
+    'AUTORIZACAO' => ['header' => 'Autorização', 'type' => 'forceToString'],
+    'TID' => ['header' => 'TID', 'type' => 'forceToString'],
+    'CARTAO' => ['header' => 'Cartão', 'type' => 'forceToString'],
+    'VALOR_BRUTO' => ['header' => 'Valor Bruto', 'type' => 'numeric'],
+    'PERCENTUAL_TAXA' => ['header' => 'Taxa %', 'type' => 'numeric'],
+    'VALOR_TAXA' => ['header' => 'Taxa R$', 'type' => 'numeric'],
+    'VALOR_LIQUIDO' => ['header' => 'Valor Líquido', 'type' => 'numeric'],
+    'POSSUI_TAXA_MINIMA' => ['header' => 'Possui Tarifa Mínima', 'type' => 'string'],
+    'PARCELA' => ['header' => 'Parcela', 'type' => 'string'],
+    'TOTAL_PARCELAS' => ['header' => 'Total Parcelas', 'type' => 'string'],
+    'HORA_TRANSACAO' => ['header' => 'Hora', 'type' => 'string'],
+    'ESTABELECIMENTO' => ['header' => 'Estabelecimento', 'type' => 'forceToString'],
+    'TERMINAL' => ['header' => 'Núm. Máquina', 'type' => 'forceToString'],
+    'BANCO' => ['header' => 'Banco', 'type' => 'string'],
+    'AGENCIA' => ['header' => 'Agencia', 'type' => 'forceToString'],
+    'CONTA' => ['header' => 'Conta', 'type' => 'forceToString'],
+    'OBSERVACOES' => ['header' => 'Observação', 'type' => 'string'],
+    'PRODUTO' => ['header' => 'Produto', 'type' => 'string'],
+    'MEIOCAPTURA' => ['header' => 'Meio de Captura', 'type' => 'string'],
+    'STATUS_CONCILIACAO' => ['header' => 'Status Conciliação', 'type' => 'string'],
+    'STATUS_FINANCEIRO' => ['header' => 'Status Financeiro', 'type' => 'string'],
+    'JUSTIFICATIVA' => ['header' => 'Justificativa', 'type' => 'string'],
+  ];
 
-    public function __construct($filters, $subfilters) {
-        $this->filters = $filters;
-        $this->subfilters = $subfilters;
-    }
+  public function __construct($filters, $subfilters, $hidden = []) {
+    parent::__construct($filters, $subfilters, $hidden);
+  }
 
-    public function headings(): array
-    {
-        return [
-            'ID. ERP',
-            'Empresa',
-            'CNPJ',
-            'Venda',
-            'Previsão',
-            'Operadora',
-            'Bandeira',
-            'Forma de Pagamento',
-            'NSU',
-            'Autorização',
-            'TID',
-            'Cartão',
-            'Valor Bruto',
-            'Taxa %',
-            'Taxa R$',
-            'Valor Líquido',
-            'Possui Tarifa Mínima',
-            'Parcela',
-            'Total Parc.',
-            'Hora',
-            'Estabelecimento',
-            'Núm. Máquina',
-            'Banco',
-            'Agencia',
-            'Conta',
-            'Observação',
-            'Produto',
-            'Meio de Captura',
-            'Status Conciliação',
-            'Status Financeiro',
-        ];
-    }
+  public function headings(): array
+  {
+    return $this->getHeaders();
+  }
 
-    public function map($venda): array
-    {
-        return [
-            $venda->ID,
-            $venda->NOME_EMPRESA,
-            $venda->CNPJ." ",
-            is_null($venda->DATA_VENDA) ? null : date_format(date_create($venda->DATA_VENDA), 'd/m/Y'),
-            is_null($venda->DATA_PREVISAO) ? null : date_format(date_create($venda->DATA_PREVISAO), 'd/m/Y'),
-            $venda->ADQUIRENTE,
-            $venda->BANDEIRA,
-            $venda->MODALIDADE,
-            $venda->NSU." ",
-            $venda->AUTORIZACAO." ",
-            $venda->TID." ",
-            $venda->CARTAO." ",
-            $venda->VALOR_BRUTO ?? 0,
-            $venda->PERCENTUAL_TAXA ?? 0,
-            ($venda->VALOR_TAXA ?? 0) * -1,
-            $venda->VALOR_LIQUIDO ?? 0,
-            $venda->POSSUI_TAXA_MINIMA,
-            $venda->PARCELA,
-            $venda->TOTAL_PARCELAS,
-            $venda->HORA_TRANSACAO,
-            $venda->ESTABELECIMENTO." ",
-            $venda->TERMINAL." ",
-            $venda->BANCO,
-            $venda->AGENCIA." ",
-            $venda->CONTA." ",
-            $venda->OBSERVACOES,
-            $venda->PRODUTO,
-            $venda->MEIOCAPTURA,
-            $venda->STATUS_CONCILIACAO,
-            $venda->STATUS_FINANCEIRO,
-        ];
-    }
+  public function map($venda): array
+  {
+    return $this->getValues($venda);
+  }
 
-    public function query()
-    {
-        return VendasSubFilter::subfilter($this->filters, $this->subfilters)
-            ->getQuery()
-            ->orderBy('DATA_VENDA');
-    }
+  public function query()
+  {
+    return VendasSubFilter::subfilter($this->filters, $this->subfilters)
+      ->getQuery();
+  }
 }
