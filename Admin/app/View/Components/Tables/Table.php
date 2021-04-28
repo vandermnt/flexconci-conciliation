@@ -23,8 +23,14 @@ class Table extends Component
         return !in_array($columnName, $this->hiddenColumns);
     }
 
-    public function getHeader($headerName = '') {
-        return $this->headers[$headerName] ?? null;
+    public function getHeader($headerName = null, $defaultValue = null) {
+      $header = $this->headers[$headerName];
+      if(!$header) {
+        return $defaultValue;
+      }
+
+      $formattedHeader = ucwords(mb_strtolower($header, 'utf-8'));
+      return $formattedHeader;
     }
 
     /**

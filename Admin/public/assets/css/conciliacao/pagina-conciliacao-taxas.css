@@ -25,10 +25,6 @@
 	max-width: 100%;
 }
 
-#pagina-vendas-operadoras .table-responsive {
-	max-height: 528px;
-}
-
 #pagina-vendas-operadoras table i {
 	font-size: 18px;
 	color: #2d5275;

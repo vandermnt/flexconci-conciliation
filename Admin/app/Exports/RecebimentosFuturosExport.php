@@ -10,101 +10,63 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class RecebimentosFuturosExport implements FromQuery, WithStrictNullComparison, ShouldAutoSize, WithHeadings, WithMapping
+class RecebimentosFuturosExport extends BaseExport implements FromQuery, WithStrictNullComparison, ShouldAutoSize, WithHeadings, WithMapping
 {
-    use Exportable;
+  use Exportable;
 
-    protected $filters;
-    protected $subfilters;
+  protected $keys = [
+    'NOME_EMPRESA' => ['header' => 'Empresa', 'type' => 'string'],
+    'CNPJ' => ['header' => 'CNPJ', 'type' => 'forceToString'],
+    'DATA_VENDA' => ['header' => 'Venda', 'type' => 'date'],
+    'DATA_PREVISAO' => ['header' => 'Previsão', 'type' => 'date'],
+    'DATA_PAGAMENTO' => ['header' => 'Pagamento', 'type' => 'date'],
+    'ADQUIRENTE' => ['header' => 'Operadora', 'type' => 'string'],
+    'BANDEIRA' => ['header' => 'Bandeira', 'type' => 'string'],
+    'MODALIDADE' => ['header' => 'Forma de Pagamento', 'type' => 'string'],
+    'NSU' => ['header' => 'NSU', 'type' => 'forceToString'],
+    'AUTORIZACAO' => ['header' => 'Autorização', 'type' => 'forceToString'],
+    'TID' => ['header' => 'TID', 'type' => 'forceToString'],
+    'CARTAO' => ['header' => 'Cartão', 'type' => 'forceToString'],
+    'VALOR_BRUTO' => ['header' => 'Valor Bruto', 'type' => 'numeric'],
+    'TAXA_PERCENTUAL' => ['header' => 'Taxa %', 'type' => 'numeric'],
+    'VALOR_TAXA' => ['header' => 'Taxa R$', 'type' => 'numeric'],
+    'TAXA_ANTECIPACAO_PERCENTUAL' => ['header' => 'Taxa Antec. %', 'type' => 'numeric'],
+    'VALOR_LIQUIDO' => ['header' => 'Valor Líquido', 'type' => 'numeric'],
+    'POSSUI_TAXA_MINIMA' => ['header' => 'Possui Tarifa Mínima', 'type' => 'forceToString'],
+    'PARCELA' => ['header' => 'Parcela', 'type' => 'string'],
+    'TOTAL_PARCELAS' => ['header' => 'Total Parc.', 'type' => 'string'],
+    'HORA_TRANSACAO' => ['header' => 'Hora', 'type' => 'string'],
+    'ESTABELECIMENTO' => ['header' => 'Estabelecimento', 'type' => 'forceToString'],
+    'TERMINAL' => ['header' => 'Núm. Máquina', 'type' => 'forceToString'],
+    'BANCO' => ['header' => 'Banco', 'type' => 'string'],
+    'AGENCIA' => ['header' => 'Agencia', 'type' => 'forceToString'],
+    'CONTA' => ['header' => 'Conta', 'type' => 'forceToString'],
+    'OBSERVACOES' => ['header' => 'Observação', 'type' => 'string'],
+    'PRODUTO' => ['header' => 'Produto', 'type' => 'string'],
+    'MEIOCAPTURA' => ['header' => 'Meio de Captura', 'type' => 'string'],
+    'STATUS_CONCILIACAO' => ['header' => 'Status Conciliação', 'type' => 'string'],
+    'DIVERGENCIA' => ['header' => 'Divergência', 'type' => 'string'],
+    'STATUS_FINANCEIRO' => ['header' => 'Status Financeiro', 'type' => 'string'],
+    'JUSTIFICATIVA' => ['header' => 'Justificativa', 'type' => 'string'],
+  ];
 
-    public function __construct($filters, $subfilters) {
-        $this->filters = $filters;
-        $this->subfilters = $subfilters;
-    }
+  public function __construct($filters, $subfilters, $hidden = [], $dynamicHeaders = []) {
+    parent::__construct($filters, $subfilters, $hidden, $dynamicHeaders);
+  }
 
-    public function headings(): array
-    {
-        return [
-            'ID',
-            'Empresa',
-            'CNPJ',
-            'Venda',
-            'Previsão',
-            'Pagamento',
-            'Operadora',
-            'Bandeira',
-            'Forma de Pagamento',
-            'NSU',
-            'Autorização',
-            'TID',
-            'Cartão',
-            'Valor Bruto',
-            'Taxa %',
-            'Taxa R$',
-            'Taxa Antec. %',
-            'Valor Líquido',
-            'Possui Tarifa Mínima',
-            'Parcela',
-            'Total Parc.',
-            'Hora',
-            'Estabelecimento',
-            'Núm. Máquina',
-            'Banco',
-            'Agencia',
-            'Conta',
-            'Observação',
-            'Produto',
-            'Meio de Captura',
-            'Status Conciliação',
-            'Divergência',
-            'Status Financeiro',
-            'Justificativa',
-        ];
-    }
+  public function headings(): array
+  {
+    return $this->getHeaders();
+  }
 
-    public function map($item): array
-    {
-        return [
-            $item->ID,
-            $item->NOME_EMPRESA,
-            $item->CNPJ." ",
-            is_null($item->DATA_VENDA) ? null : date_format(date_create($item->DATA_VENDA), 'd/m/Y'),
-            is_null($item->DATA_PREVISAO) ? null : date_format(date_create($item->DATA_PREVISAO), 'd/m/Y'),
-            is_null($item->DATA_PAGAMENTO) ? null : date_format(date_create($item->DATA_PAGAMENTO), 'd/m/Y'),
-            $item->ADQUIRENTE,
-            $item->BANDEIRA,
-            $item->MODALIDADE,
-            $item->NSU." ",
-            $item->AUTORIZACAO." ",
-            $item->TID." ",
-            $item->CARTAO." ",
-            $item->VALOR_BRUTO ?? 0,
-            $item->TAXA_PERCENTUAL ?? 0,
-            ($item->VALOR_TAXA ?? 0) * -1,
-            0,
-            $item->VALOR_LIQUIDO ?? 0,
-            $item->POSSUI_TAXA_MINIMA." ",
-            $item->PARCELA,
-            $item->TOTAL_PARCELAS,
-            $item->HORA,
-            $item->ESTABELECIMENTO." ",
-            $item->TERMINAL." ",
-            $item->BANCO,
-            $item->AGENCIA." ",
-            $item->CONTA." ",
-            $item->OBSERVACOES,
-            $item->PRODUTO,
-            $item->MEIOCAPTURA,
-            $item->STATUS_CONCILIACAO,
-            $item->DIVERGENCIA,
-            $item->STATUS_FINANCEIRO,
-            $item->JUSTIFICATIVA
-        ];
-    }
+  public function map($item): array
+  {
+    return $this->getValues($item);
+  }
 
-    public function query()
-    {
-        return RecebimentosFuturosSubFilter::subfilter($this->filters, $this->subfilters)
-            ->getQuery();
-    }
+  public function query()
+  {
+    return RecebimentosFuturosSubFilter::subfilter($this->filters, $this->subfilters)
+      ->getQuery();
+  }
 }
