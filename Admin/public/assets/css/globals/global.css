@@ -770,3 +770,20 @@ table .actions-cell > * + * {
 	width: 100%;
 	max-width: 800px !important;
 }
+
+#upload-file  input[type=file]::-webkit-file-upload-button {
+    border: 1px solid;
+    border-radius: 7px;
+    background: #2D5275;
+    color: white;
+}
+
+#label-modal-success {
+  display: none;
+  color: green;
+}
+
+
+#label-modal-progress {
+  display: none;
+}

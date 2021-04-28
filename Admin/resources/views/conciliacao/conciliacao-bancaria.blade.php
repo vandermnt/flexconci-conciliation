@@ -167,23 +167,28 @@
     	>
         <x-slot name="content">
 					<div class="modal-body">
+            <p style="text-align: center">
+              <img src="{{ URL::asset('assets/images/upload-ofx.svg')}}" style="width: 250px;">
+              <h4 id="label-modal-progress"> Estamos processando seu extrato! </h4>
+              <h4 id="label-modal-success"> <i class="far fa-check-circle"></i> Processamos seu extrato com sucesso! Agora você pode consultar sua conciliação bancária. </h4>
+            </p>
             <form id="upload-file">
               <input
               type="file"
-              class="dropify"
+              class=""
               name="extratos[]"
               multiple
               >
             </form>
 
             <input type ="hidden" name="_token" value="{{{ csrf_token() }}}">
-						<button name="submit-extrato" type="button" class="btn btn-primary w-100 mt-2" data-dismiss="modal">Enviar</button>
+						<button name="submit-extrato" type="button" class="btn btn-primary w-100 mt-2">Enviar</button>
 					</div>
         </x-slot>
 
         <x-slot name="footer">
 					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+						<button type="button" class="btn btn-danger close-modal" data-dismiss="modal">Cancelar</button>
 					</div>
         </x-slot>
     </x-modal>
