@@ -147,7 +147,8 @@ class RecebimentosFuturosController extends Controller
       $filters['sort'] = $sort;
       $subfilters = $request->except(['_token']);
       Arr::set($filters, 'cliente_id', session('codigologin'));
-      return (new RecebimentosFuturosExport($filters, $subfilters))->download('recebimentos_operadoras_'.time().'.xlsx');
+      $hiddenColumns = $request->input('hidden', []);
+      return (new RecebimentosFuturosExport($filters, $subfilters, $hiddenColumns))->download('recebimentos_operadoras_'.time().'.xlsx');
     }
 
     /**

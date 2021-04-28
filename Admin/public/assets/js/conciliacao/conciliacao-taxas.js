@@ -19,9 +19,24 @@ const salesContainer = new SalesContainerProxy({
 	},
 });
 const tableRender = createTableRender({
-	table: '#js-tabela-operadoras',
+	table: '#js-tabela-taxas',
 	locale: 'pt-br',
 	formatter,
+});
+const tableConfig = new TableConfig({
+  tableSelector: '#js-tabela-taxas',
+  rootElement: '#js-table-config',
+});
+const scrollableDragger = createScrollableTableDragger({
+  wrapper: '.table-responsive',
+  table: '.table-responsive > table#js-tabela-taxas',
+  draggerConfig: {
+    mode: 'column',
+    dragHandler: '.draggable',
+    onlyBody: false,
+    animation: 300
+  },
+  rows: ['#js-tabela-taxas tbody tr']
 });
 const boxes = getBoxes();
 const apiConfig = {
@@ -92,7 +107,7 @@ salesContainer.onEvent('fail', (err) => {
 
 salesContainer.setPaginationConfig(
 	{
-		paginationContainer: document.querySelector('#js-paginacao-operadoras'),
+		paginationContainer: document.querySelector('#js-paginacao-taxas'),
 	},
 	async (page, pagination, event) => {
 		await buildRequest({
@@ -350,8 +365,10 @@ document
 
 document.querySelector('#js-exportar').addEventListener('click', exportar);
 
-document.querySelector('#js-retorno-csv').addEventListener('click', retornoCsv);
-
-document
-	.querySelector('#js-desjustificar')
-	.addEventListener('click', confirmUnjustify);
+window.addEventListener('load', () => {
+  tableConfig.init();
+  tableRender.afterRender((tableInstance) => {
+    tableConfig.get('sectionContainer').refreshAll();
+    scrollableDragger.fixator.update();
+  });
+});

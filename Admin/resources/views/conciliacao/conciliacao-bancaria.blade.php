@@ -36,8 +36,8 @@
           :hidden-fields="[
             'domicilios-bancarios',
             'descricao-erp',
-						'bandeiras', 
-            'modalidades', 
+						'bandeiras',
+            'modalidades',
             'estabelecimentos',
 						'status-conciliacao',
 						'status-financeiro',
@@ -109,7 +109,8 @@
             <h4>Conciliação Bancária <span id="js-quantidade-registros">(0 registros)</span></h4>
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras">
           </div>
-          <div class="d-flex align-items-center justify-content-end">
+          <div class="d-flex flex-fill align-items-center justify-content-end">
+            <x-table-config-dropdown id="js-table-config" class="mr-1" checker-group="tb-config-columns" />
 						<button id="js-exportar" class="btn button no-hover">
               <div class="conciflex-icon icon-md">
                   <img src="assets/images/widgets/excel-file.svg" alt="Excel">
@@ -120,7 +121,7 @@
         </div>
 
         <x-tables.tabela-conciliacao-bancaria
-					id="js-tabela-operadoras"
+					id="js-tabela-bancaria"
           class="mt-3"
           :headers="[
             'actions' => 'Ações',
@@ -152,7 +153,7 @@
         </x-tables.tabela-conciliacao-bancaria>
 
         <x-tables.table-navigation
-          pagination-id="js-paginacao-operadoras"
+          pagination-id="js-paginacao-bancaria"
           per-page-select-id="js-por-pagina"
           :options="['10', '20', '50', '100', '200']"
         />
@@ -299,7 +300,7 @@
 										</td>
 									</x-slot>
 								</x-tables.tabela-conciliacao-bancaria-comprovante>
-				
+
 								<x-tables.table-navigation
 									pagination-id="js-paginacao-comprovante"
 									per-page-select-id="js-por-pagina-comprovante"
@@ -330,7 +331,7 @@
 										</td>
 									</x-slot>
 								</x-tables.tabela-extrato-bancario>
-				
+
 								<x-tables.table-navigation
 									pagination-id="js-paginacao-extrato-bancario"
 									per-page-select-id="js-por-pagina-extrato-bancario"
@@ -363,6 +364,9 @@
   <script defer src="{{ URL::asset('assets/js/proxy/SalesProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SalesContainerProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/ui/table-section.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/ui/table-config.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/table-dragger-wrapper.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/conciliacao/conciliacao-bancaria.js') }}"></script>
 	<script defer src="{{ URL::asset('assets/js/conciliacao/comprovante/conciliacao-bancaria-comprovante.js') }}"></script>
 	{{-- <script defer src="{{ URL::asset('assets/js/conciliacao/comprovante/extrato-bancario.js') }}"></script> --}}

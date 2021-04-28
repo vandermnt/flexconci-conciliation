@@ -3,115 +3,69 @@
 namespace App\Exports\CSV;
 
 use App\Filters\RecebimentosSubFilter;
+use App\Exports\BaseExport;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class RetornoRecebimentosOperadorasExport implements FromQuery, WithStrictNullComparison, WithHeadings, WithMapping
+class RetornoRecebimentosOperadorasExport extends BaseExport implements FromQuery, WithStrictNullComparison, WithHeadings, WithMapping
 {
 	use Exportable;
 
-	protected $filters;
-	protected $subfilters;
+  protected $keys = [
+    'DESCRICAO_ERP' => ['header' => 'ID. ERP', 'type' => 'string'],
+    'TIPO_LANCAMENTO' => ['header' => 'Tipo de Lançamento', 'type' => 'string'],
+    'NOME_EMPRESA' => ['header' => 'Empresa', 'type' => 'string'],
+    'CNPJ' => ['header' => 'CNPJ', 'type' => 'forceToString'],
+    'DATA_VENDA' => ['header' => 'Venda', 'type' => 'date'],
+    'DATA_PREVISAO' => ['header' => 'Previsão', 'type' => 'date'],
+    'DATA_PAGAMENTO' => ['header' => 'Pagamento', 'type' => 'date'],
+    'ADQUIRENTE' => ['header' => 'Operadora', 'type' => 'string'],
+    'BANDEIRA' => ['header' => 'Bandeira', 'type' => 'string'],
+    'MODALIDADE' => ['header' => 'Forma de Pagamento', 'type' => 'string'],
+    'TIPO_PAGAMENTO' => ['header' => 'Tipo de Recebimento', 'type' => 'string'],
+    'NSU' => ['header' => 'NSU', 'type' => 'forceToString'],
+    'AUTORIZACAO' => ['header' => 'Autorização', 'type' => 'forceToString'],
+    'TID' => ['header' => 'TID', 'type' => 'forceToString'],
+    'CARTAO' => ['header' => 'Cartão', 'type' => 'forceToString'],
+    'VALOR_BRUTO' => ['header' => 'Valor Bruto', 'type' => 'numeric'],
+    'TAXA_PERCENTUAL' => ['header' => 'Taxa %', 'type' => 'numeric'],
+    'VALOR_TAXA' => ['header' => 'Taxa R$', 'type' => 'numeric'],
+    'TAXA_ANTECIPACAO' => ['header' => 'Taxa Antec. %', 'type' => 'numeric'],
+    'VALOR_LIQUIDO' => ['header' => 'Valor Líquido', 'type' => 'numeric'],
+    'POSSUI_TAXA_MINIMA' => ['header' => 'Possui Tarifa Mínima', 'type' => 'forceToString'],
+    'PARCELA' => ['header' => 'Parcela', 'type' => 'string'],
+    'TOTAL_PARCELAS' => ['header' => 'Total Parc.', 'type' => 'string'],
+    'ESTABELECIMENTO' => ['header' => 'Estabelecimento', 'type' => 'forceToString'],
+    'COD_AJUSTE' => ['header' => 'Cód. Ajuste', 'type' => 'forceToString'],
+    'DESC_AJUSTE' => ['header' => 'Desc. Ajuste', 'type' => 'forceToString'],
+    'CLASSIFICACAO_AJUSTE' => ['header' => 'Classificação Ajuste', 'type' => 'forceToString'],
+    'BANCO' => ['header' => 'Banco', 'type' => 'string'],
+    'AGENCIA' => ['header' => 'Agência', 'type' => 'forceToString'],
+    'CONTA' => ['header' => 'Conta', 'type' => 'forceToString'],
+    'OBSERVACOES' => ['header' => 'Observação', 'type' => 'string'],
+    'PRODUTO' => ['header' => 'Produto', 'type' => 'string'],
+    'MEIOCAPTURA' => ['header' => 'Meio de Captura', 'type' => 'string'],
+    'STATUS_CONCILIACAO' => ['header' => 'Status Conciliação Rec', 'type' => 'string'],
+    'DIVERGENCIA' => ['header' => 'Divergência Venda', 'type' => 'string'],
+    'RETORNO_ERP_BAIXA' => ['header' => 'Baixa Realizada ERP', 'type' => 'string'],
+  ];
 
-	public function __construct($filters, $subfilters)
-	{
-		$this->filters = $filters;
-		$this->subfilters = $subfilters;
-	}
+	public function __construct($filters, $subfilters, $hidden = []) {
+    parent::__construct($filters, $subfilters, $hidden);
+  }
 
 	public function headings(): array
-	{
-		return [
-			'ID. ERP',
-			'Tipo de Lançamento',
-			'Empresa',
-			'CNPJ',
-			'Venda',
-			'Previsão',
-			'Pagamento',
-			'Operadora',
-			'Bandeira',
-			'Forma de Pagamento',
-			'Tipo de Recebimento',
-			'NSU',
-			'Autorização',
-			'TID',
-			'Cartão',
-			'Resumo',
-			'Valor Bruto',
-			'Taxa %',
-			'Taxa R$',
-			'Taxa Antec. %',
-			'Valor Líquido',
-			'Possui Tarifa Mínima',
-			'Parcela',
-			'Total Parc.',
-			'Estabelecimento',
-			'Cód. Ajuste',
-			'Desc. Ajuste',
-			'Classificação Ajuste',
-			'Núm. Máquina',
-			'Banco',
-			'Agencia',
-			'Conta',
-			'Observação',
-			'Produto',
-			'Meio de Captura',
-			'Status Conciliação Rec',
-			'Divergência Venda',
-			'Justificativa',
-			'Baixa Realizada ERP',
-		];
-	}
+  {
+    return $this->getHeaders();
+  }
 
 	public function map($item): array
-	{
-		return [
-			trim($item->DESCRICAO_ERP, " "),
-			trim($item->TIPO_LANCAMENTO, " "),
-			trim($item->NOME_EMPRESA, " "),
-			trim($item->CNPJ, " "),
-			is_null($item->DATA_VENDA) ? null : date_format(date_create($item->DATA_VENDA), 'd/m/Y'),
-			is_null($item->DATA_PREVISAO) ? null : date_format(date_create($item->DATA_PREVISAO), 'd/m/Y'),
-			is_null($item->DATA_PAGAMENTO) ? null : date_format(date_create($item->DATA_PAGAMENTO), 'd/m/Y'),
-			trim($item->ADQUIRENTE, " "),
-			trim($item->BANDEIRA, " "),
-			trim($item->MODALIDADE, " "),
-			trim($item->TIPO_PAGAMENTO, " "),
-			trim($item->NSU, " "),
-			trim($item->AUTORIZACAO, " "),
-			trim($item->TID, " "),
-			trim($item->CARTAO, " "),
-			trim($item->RESUMO, " "),
-			round(($item->VALOR_BRUTO ?? 0), 2),
-			round(($item->TAXA_PERCENTUAL ?? 0), 2),
-			round((($item->VALOR_TAXA ?? 0) * -1), 2),
-			round(($item->TAXA_ANTECIPACAO ?? 0), 2),
-			round(($item->VALOR_LIQUIDO ?? 0), 2),
-			trim($item->POSSUI_TAXA_MINIMA, " "),
-			trim($item->PARCELA, " "),
-			trim($item->TOTAL_PARCELAS, " "),
-			trim($item->ESTABELECIMENTO, " "),
-			trim($item->COD_AJUSTE, " "),
-			trim($item->DESC_AJUSTE, " "),
-			trim($item->CLASSIFICACAO_AJUSTE, " "),
-			trim($item->TERMINAL, " "),
-			trim($item->BANCO, " "),
-			trim($item->AGENCIA, " "),
-			trim($item->CONTA, " "),
-			trim($item->OBSERVACOES, " "),
-			trim($item->PRODUTO, " "),
-			trim($item->MEIOCAPTURA, " "),
-			trim($item->STATUS_CONCILIACAO, " "),
-			trim($item->DIVERGENCIA, " "),
-			trim($item->JUSTIFICATIVA, " "),
-			trim($item->RETORNO_ERP_BAIXA, " "),
-
-		];
-	}
+  {
+    return $this->getValues($item);
+  }
 
 	public function query()
 	{

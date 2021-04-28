@@ -20,7 +20,9 @@ html {
 }
 
 .sindu_dragger li:first-child,
-.sindu_dragger li table {}
+.sindu_dragger li table {
+  height: 100% !important;
+}
 
 .sindu_dragger li td.hidden, .sindu_dragger li th.hidden {}
 
@@ -437,6 +439,20 @@ table tr.marcada {
 
 table tr.marcada td {
 	color: white;
+}
+
+table .actions-cell {
+  display: flex;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+table .actions-cell > * {
+  margin: 0 !important;
+}
+
+table .actions-cell > * + * {
+  margin-left: 16px !important;
 }
 
 .table-sorter {
