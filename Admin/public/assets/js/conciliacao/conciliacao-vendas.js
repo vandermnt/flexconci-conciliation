@@ -87,24 +87,28 @@ const tableRenderErp = createTableRender({
 const scrollableDragger = createScrollableTableDragger({
   wrapper: '*[data-table-type="operadoras"] .table-responsive',
   table: 'table#js-tabela-operadoras',
+  slider: '.draggable',
   draggerConfig: {
     mode: 'column',
     dragHandler: '.draggable',
     onlyBody: false,
     animation: 300
   },
-  rows: ['#js-tabela-operadoras tbody tr']
+  rows: ['#js-tabela-operadoras tbody tr'],
+  elementsToIgnore: ['.draggable input']
 });
 const scrollableDraggerErp = createScrollableTableDragger({
   wrapper: '*[data-table-type="erp"] .table-responsive',
   table: 'table#js-tabela-erp',
+  slider: '.draggable',
   draggerConfig: {
     mode: 'column',
     dragHandler: '.draggable',
     onlyBody: false,
     animation: 300
   },
-  rows: ['#js-tabela-erp tbody tr']
+  rows: ['#js-tabela-erp tbody tr'],
+  elementsToIgnore: ['.draggable input']
 });
 
 const tableConfig = new TableConfig({
