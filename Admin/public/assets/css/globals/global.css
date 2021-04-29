@@ -26,6 +26,10 @@ html {
 
 .sindu_dragger li td.hidden, .sindu_dragger li th.hidden {}
 
+.sindu_dragger li .icon-image {
+  height: unset !important;
+}
+
 .sindu_dragger table {
   background-color: transparent !important;
   border-collapse: collapse !important;
@@ -81,7 +85,9 @@ html {
 
 .tooltip-hint {
 	text-decoration: none;
-	font: 500 12px Poppins, sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  font-family: Poppins, sans-serif;
 	position: relative;
 }
 

@@ -4,6 +4,7 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <link href="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.css')}}" rel="stylesheet"/>
 <link href="{{ URL::asset('assets/css/dashboard/dashboard.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ URL::asset('assets/css/analytics-index.css')}}" rel="stylesheet" type="text/css" />
 <script src="{{ URL::asset('assets/js/dashboard/calendario.js')}}"></script>
 <!-- <link href="{{ URL::asset('assets/css/globals/global.css')}}" rel="stylesheet" type="text/css" /> -->
 <link href='lib/main.css' rel='stylesheet' />
