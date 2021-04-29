@@ -213,6 +213,23 @@
 	width: 75px;
 }
 
+.modal-table {
+	width: 45%;
+}
+
+.btn-conciliar {
+	background-color: #2d5275;
+	color: #fff;
+}
+
+.btn-conciliar:hover {
+	color: #fff;
+}
+
+.btn-conciliar:focus {
+	box-shadow: none;
+}
+
 @media (max-width: 1800px) {
 	.resize {
 		max-width: 100% !important;

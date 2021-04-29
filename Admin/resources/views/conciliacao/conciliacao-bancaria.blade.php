@@ -185,21 +185,12 @@
 				</x-slot>
         <x-slot name="content">
 					<div class="modal-body">
-						<div class="tabela-info d-flex align-items-center justify-content-between flex-wrap mt-2">
-							<div class="w-50 mt-auto tabela-info">
-								<div class="table-description d-flex align-items-center justify-content-start w-100">
+						<div class="tabela-info d-flex align-items-center justify-content-center mt-2">
+							<div class="modal-table mr-2 mb-auto">
+								<div class="table-description d-flex justify-content-start">
 									<h4 id="js-comprovante-table-title" class="text-center">Recebimentos</h4>
 									<img src="assets/images/widgets/arrow-down.svg" alt="">
 								</div>
-							</div>
-							<div class="w-50 mb-auto tabela-info">
-								<div class="table-description d-flex align-items-center justify-content-start w-100">
-									<h4 id="js-extrato-table-title" class="text-center">Lançamentos do seu Extrato Bancário</h4>
-									<img src="assets/images/widgets/arrow-down.svg" alt="">
-								</div>
-							</div>
-						<div class="d-flex align-items-center w-100">
-							<div class="w-50 tabela-info">
 								<div class="d-flex align-items-center justify-content-end mt-3 mb-2 w-100">
 									<button id="js-exportar" class="btn button no-hover">
 										<div class="conciflex-icon icon-md">
@@ -214,26 +205,6 @@
 										Filtrar não conciliadas
 									</button>
 								</div>
-							</div>
-							<div class="w-50 tabela-info">
-								<div class="d-flex align-items-center justify-content-end mt-3 mb-2 w-100">
-									<button id="js-exportar" class="btn button no-hover">
-										<div class="conciflex-icon icon-md">
-											<img src="assets/images/widgets/check.svg" alt="Excel">
-										</div>
-										Filtrar conciliadas
-									</button>
-									<button id="js-exportar" class="btn button no-hover ml-2">
-										<div class="conciflex-icon icon-md">
-											<img src="assets/images/widgets/x.svg" alt="Excel">
-										</div>
-										Filtrar não conciliadas
-									</button>
-								</div>
-							</div>
-						</div>
-						<div class="row w-100">
-							<div class="vendas col-6">
 								<x-tables.tabela-conciliacao-bancaria-comprovante
 									id="js-tabela-conciliacao-bancaria-comprovante"
 									class="mt-2"
@@ -264,7 +235,28 @@
 									:options="['5', '10', '20', '50', '100', '200']"
 								/>
 							</div>
-							<div class="vendas col-6">
+							<div>
+								<button class="btn btn-conciliar">Conciliar</button>
+							</div>
+							<div class="modal-table mb-auto ml-2">
+								<div class="table-description d-flex justify-content-start">
+									<h4 id="js-extrato-table-title" class="text-center">Lançamentos do seu Extrato Bancário</h4>
+									<img src="assets/images/widgets/arrow-down.svg" alt="">
+								</div>
+								<div class="d-flex align-items-center justify-content-end mt-3 mb-2 w-100">
+									<button id="js-exportar" class="btn button no-hover">
+										<div class="conciflex-icon icon-md">
+											<img src="assets/images/widgets/check.svg" alt="Excel">
+										</div>
+										Filtrar conciliadas
+									</button>
+									<button id="js-exportar" class="btn button no-hover ml-2">
+										<div class="conciflex-icon icon-md">
+											<img src="assets/images/widgets/x.svg" alt="Excel">
+										</div>
+										Filtrar não conciliadas
+									</button>
+								</div>
 								<x-tables.tabela-extrato-bancario
 									id="js-tabela-extrato"
 									class="mt-2"
@@ -295,7 +287,6 @@
 									:options="['5', '10', '20', '50', '100', '200']"
 								/>
 							</div>
-						</div>
 					</div>
         </x-slot>
         <x-slot name="footer">
