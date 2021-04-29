@@ -26,13 +26,15 @@ const tableRender = createTableRender({
 const scrollableDragger = createScrollableTableDragger({
   wrapper: '.table-responsive',
   table: '.table-responsive > table#js-tabela-recebimentos',
+  slider: '.draggable',
   draggerConfig: {
     mode: 'column',
     dragHandler: '.draggable',
     onlyBody: false,
     animation: 300
   },
-  rows: ['#js-tabela-recebimentos tbody tr']
+  rows: ['#js-tabela-recebimentos tbody tr'],
+  elementsToIgnore: ['.draggable input']
 });
 const tableConfig = new TableConfig({
   tableSelector: '#js-tabela-recebimentos',
