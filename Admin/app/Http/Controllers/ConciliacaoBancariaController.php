@@ -19,6 +19,7 @@ use App\Exports\CSV\RetornoVendasOperadorasExport;
 use App\Exports\VendasOperadorasExport;
 use App\Filters\PagamentosOperadorasSubFilter;
 use App\Filters\ExtratoBancarioFilter;
+use App\Filters\ExtratoBancarioSubFilter;
 
 class ConciliacaoBancariaController extends Controller
 {
@@ -372,30 +373,30 @@ class ConciliacaoBancariaController extends Controller
 
 	public function filterExtrato(Request $request)
 	{
-		// $allowedPerPage = [5, 10, 20, 50, 100, 200];
-		// $perPage = $request->input('por_pagina', 10);
-		// $perPage = in_array($perPage, $allowedPerPage) ? $perPage : 10;
-		// $filters = $request->input('filters');
-		// $filters['cliente_id'] = session('codigologin');
-		// $subfilters = $request->input('subfilters');
+		$allowedPerPage = [5, 10, 20, 50, 100, 200];
+		$perPage = $request->input('por_pagina', 10);
+		$perPage = in_array($perPage, $allowedPerPage) ? $perPage : 10;
+		$filters = $request->input('filters');
+		$filters['cliente_id'] = session('codigologin');
+		$subfilters = $request->input('subfilters');
 
-		// try {
-		// 	$query = PagamentosOperadorasComprovanteSubFilter::subfilter($filters, $subfilters)
-		// 		->getQuery();
+		try {
+			$query = ExtratoBancarioSubFilter::subfilter($filters, $subfilters)
+				->getQuery();
 
-		// 	$sales = (clone $query)->paginate($perPage);
-		// 	$totals = [
-		// 		'TOTAL_PREVISTO_OPERADORA' => (clone $query)->sum('VALOR')
-		// 	];
+			$sales = (clone $query)->paginate($perPage);
+			$totals = [
+				'TOTAL_PREVISTO_OPERADORA' => (clone $query)->sum('VALOR')
+			];
 
-		// 	return response()->json([
-		// 		'vendas' => $sales,
-		// 		'totais' => $totals,
-		// 	]);
-		// } catch (Exception $e) {
-		// 	return response()->json([
-		// 		'message' => 'Não foi possível realizar a consulta em Vendas Operadoras.',
-		// 	], 500);
-		// }
+			return response()->json([
+				'vendas' => $sales,
+				'totais' => $totals,
+			]);
+		} catch (Exception $e) {
+			return response()->json([
+				'message' => 'Não foi possível realizar a consulta em Vendas Operadoras.',
+			], 500);
+		}
 	}
 }
