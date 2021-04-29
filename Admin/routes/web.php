@@ -75,6 +75,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/conciliacao-bancaria/filtrar', 'ConciliacaoBancariaController@filter')->name('conciliacao-bancaria.filter');
 	Route::post('/conciliacao-bancaria/searchComprovante', 'ConciliacaoBancariaController@searchComprovante')->name('conciliacao-bancaria.searchComprovante');
 	Route::post('/conciliacao-bancaria/filtrarComprovante', 'ConciliacaoBancariaController@filterComprovante')->name('conciliacao-bancaria.filterComprovante');
+	Route::post('/conciliacao-bancaria/searchExtrato', 'ConciliacaoBancariaController@searchExtrato')->name('conciliacao-bancaria.searchExtrato');
+	Route::post('/conciliacao-bancaria/filtrarExtrato', 'ConciliacaoBancariaController@filterExtrato')->name('conciliacao-bancaria.filterExtrato');
 
 	Route::match(['get', 'post'], '/conciliacao-manual', 'ConciliacaoAutomaticaVendasController@conciliarManualmente');
 	Route::match(['get', 'post'], '/conciliacao-justificada-venda', 'ConciliacaoAutomaticaVendasController@conciliacaoJustificadaVenda');
