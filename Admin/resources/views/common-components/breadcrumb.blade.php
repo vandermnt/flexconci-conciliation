@@ -11,7 +11,9 @@
 		</div>
 		<div class="d-flex align-items-center">
 			<h4 class="page-title">{{$title}}</h4>
-			<img class="about-gerencial ml-3 tooltip-hint" src="assets/images/widgets/youtube.png" alt="Entenda a tela gerencial !" data-title="Entenda a tela gerencial !">
+			<div class="tooltip-hint about-gerencial" data-title="Entenda a tela gerencial !">
+				<img class="ml-2" src="assets/images/widgets/youtube.png" alt="Entenda a tela gerencial !">
+			</div>
 		</div>
 	@else
 		<div class="float-right">
