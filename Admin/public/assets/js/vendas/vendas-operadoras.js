@@ -1,15 +1,3 @@
-const scrollableDragger = createScrollableTableDragger({
-	wrapper: '.table-responsive',
-	table: '.table-responsive > table#js-tabela-operadoras',
-	draggerConfig: {
-		mode: 'column',
-		dragHandler: '.draggable',
-		onlyBody: false,
-		animation: 300,
-	},
-	rows: ['#js-tabela-operadoras tbody tr'],
-});
-
 const checker = new Checker();
 const modalFilter = new ModalFilter();
 const formatter = new Formatter({
@@ -38,6 +26,19 @@ const tableRender = createTableRender({
 const tableConfig = new TableConfig({
 	tableSelector: '#js-tabela-operadoras',
 	rootElement: '#js-table-config',
+});
+const scrollableDragger = createScrollableTableDragger({
+  wrapper: '.table-responsive',
+  table: '.table-responsive > table#js-tabela-operadoras',
+  slider: '.draggable',
+  draggerConfig: {
+    mode: 'column',
+    dragHandler: '.draggable',
+    onlyBody: false,
+    animation: 300
+  },
+  rows: ['#js-tabela-operadoras tbody tr'],
+  elementsToIgnore: ['.draggable input']
 });
 const boxes = getBoxes();
 const apiConfig = {
