@@ -163,10 +163,12 @@ class DndWithScroll extends DragAndDrop {
     this.scrollOnDrag = this.scrollOnDrag.bind(this);
     this.onDragStart = this.onDragStart.bind(this);
     this.onDrop = this.onDrop.bind(this);
+    this.elementsToIgnore = options.elementsToIgnore || [];
     this._events = options.events || {};
   }
 
   init() {
+    this._ignoreElements();
     this.fixator && this.fixator.init();
     this.sliderForTable && this.sliderForTable.init();
   }
@@ -210,6 +212,14 @@ class DndWithScroll extends DragAndDrop {
     };
   }
 
+  _ignoreElements() {
+    this.elementsToIgnore.forEach(selector => {
+      $(selector).on('mousedown', event => event.stopImmediatePropagation());
+      $(selector).on('mousemove', event => event.stopImmediatePropagation());
+      $(selector).on('mouseup', event => event.stopImmediatePropagation());
+    });
+  }
+
   _bindCustomEvents() {
     const allowedEvents = ['drag', 'drop'];
     Object.keys(this._events).forEach(eventName => {
@@ -236,7 +246,7 @@ function createScrollableTableDragger(options = {}) {
     table: options.table || ".table > table",
     rows: options.rows || []
   });
-  const sliderForTable = new GrabAndSlide(options.wrapper || '.table');
+  const sliderForTable = new GrabAndSlide(options.slider || options.wrapper || '.table');
   const scrollableDragger = new DndWithScroll({
     fixator,
     sliderForTable,
@@ -249,6 +259,7 @@ function createScrollableTableDragger(options = {}) {
       animation: 300
     },
     events: options.events || {},
+    elementsToIgnore: options.elementsToIgnore || [],
   });
 
   scrollableDragger.init();

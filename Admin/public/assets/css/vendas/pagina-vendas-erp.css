@@ -12,6 +12,20 @@
 	cursor: pointer;
 }
 
+#pagina-vendas-erp table td, #pagina-vendas-erp table th {
+  width: unset !important;
+  min-width: fit-content !important;
+}
+
+#pagina-vendas-erp .sindu_dragger li .tooltip-hint {
+  font-size: unset !important;
+}
+
+#pagina-vendas-erp .sindu_dragger li .tooltip-hint::before,
+#pagina-vendas-erp .sindu_dragger li .tooltip-hint::after {
+  display: none;
+}
+
 #pagina-vendas-erp td.actions-cell img {
 	margin-left: 8px;
 }

@@ -30,13 +30,15 @@ const tableConfig = new TableConfig({
 const scrollableDragger = createScrollableTableDragger({
   wrapper: '.table-responsive',
   table: '.table-responsive > table#js-tabela-bancaria',
+  slider: '.draggable',
   draggerConfig: {
     mode: 'column',
     dragHandler: '.draggable',
     onlyBody: false,
     animation: 300
   },
-  rows: ['#js-tabela-bancaria tbody tr']
+  rows: ['#js-tabela-bancaria tbody tr'],
+  elementsToIgnore: ['.draggable input']
 });
 const boxes = getBoxes();
 const apiConfig = {
