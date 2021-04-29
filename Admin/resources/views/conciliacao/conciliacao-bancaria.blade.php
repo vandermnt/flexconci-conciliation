@@ -227,6 +227,7 @@
 									per-page-select-id="js-por-pagina-comprovante"
 									:options="['5', '10', '20', '50', '100', '200']"
 								/>
+								<h6 id="total-selecionado-comprovante" class="selected-total-text">Total Selecionado R$ 0,00</h6>
 							</div>
 							<div>
 								<button class="btn btn-conciliar">Conciliar</button>
@@ -279,6 +280,7 @@
 									per-page-select-id="js-por-pagina-extrato"
 									:options="['5', '10', '20', '50', '100', '200']"
 								/>
+								<h6 id="total-selecionado-extrato" class="selected-total-text">Total Selecionado R$ 0,00</h6>
 							</div>
 					</div>
         </x-slot>
