@@ -131,7 +131,6 @@ tableRenderComprovante.onRenderRow((row, data, tableRenderInstance) => {
 	checkboxDOM.addEventListener('change', (event) => {
 		const target = event.target;
 		const value = event.target.value;
-
 		if (target.checked && !selectedComprovanteSales.includes(value)) {
 			selectedComprovanteSales.push(value);
 		} else if (!target.checked && selectedComprovanteSales.includes(value)) {
@@ -376,7 +375,6 @@ function updateSelectedValue() {
 				.find((sale) => sale.ID === id);
 			totalValue += parseFloat(sale['VALOR']);
 		});
-
 		const cellValue = totalValue;
 		const defaultCellValue = 0;
 		const format = 'currency';
@@ -388,7 +386,7 @@ function updateSelectedValue() {
 		);
 		document.querySelector(
 			'#total-selecionado-comprovante'
-		).innerHTML = formattedValue;
+		).innerHTML = `Total Selecionado ${formattedValue}`;
 	} else {
 		clearSelectedValue();
 	}
@@ -412,7 +410,7 @@ function setComprovanteTotalValue() {
 function clearSelectedValue() {
 	selectedComprovanteSales = [];
 	document.querySelector('#total-selecionado-comprovante').innerHTML =
-		'R$ 0,00';
+		'Total Selecionado R$ 0,00';
 }
 
 function updateTotals() {
