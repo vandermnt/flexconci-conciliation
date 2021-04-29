@@ -17,6 +17,8 @@ use App\Filters\PagamentosOperadorasComprovanteFilter;
 use App\Filters\PagamentosOperadorasComprovanteSubFilter;
 use App\EdiServices\Cielo\CieloEdiAuthorize;
 use App\EdiServices\Cielo\CieloEdiRegister;
+use App\Filters\ExtratoBancarioFilter;
+use App\Filters\ExtratoBancarioSubFilter;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -62,6 +64,9 @@ class AppServiceProvider extends ServiceProvider
 		$this->app->bind(PagamentosOperadorasComprovanteFilter::class, function ($app) {
 			return new PagamentosOperadorasComprovanteFilter;
 		});
+		$this->app->bind(ExtratoBancarioFilter::class, function ($app) {
+			return new ExtratoBancarioFilter;
+		});
 		$this->app->bind(VendasErpSubFilter::class, function ($app) {
 			return new VendasErpSubFilter($app->make(VendasErpFilter::class));
 		});
@@ -79,6 +84,9 @@ class AppServiceProvider extends ServiceProvider
 		});
 		$this->app->bind(PagamentosOperadorasComprovanteSubFilter::class, function ($app) {
 			return new PagamentosOperadorasComprovanteSubFilter($app->make(PagamentosOperadorasComprovanteFilter::class));
+		});
+		$this->app->bind(ExtratoBancarioSubFilter::class, function ($app) {
+			return new ExtratoBancarioSubFilter($app->make(ExtratoBancarioFilter::class));
 		});
 	}
 

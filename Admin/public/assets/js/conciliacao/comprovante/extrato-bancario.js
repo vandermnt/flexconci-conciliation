@@ -77,7 +77,6 @@ function buildRequestExtrato(params) {
 
 	const filters = {
 		...searchForm.serialize(),
-		...extratoTableFilters,
 		...tableRenderExtrato.serializeSortFilter(),
 	};
 	const bodyPayload = isSearchActive
@@ -144,20 +143,20 @@ tableRenderExtrato.onRenderRow((row, data, tableRenderInstance) => {
 	_defaultEvents.table.onRenderRow(row, data, tableRenderInstance);
 });
 
-// tableRenderExtrato.onFilter(async (filters) => {
-// 	const params = {
-// 		por_pagina: document.querySelector('#js-por-pagina-extrato').value,
-// 	};
+tableRenderExtrato.onFilter(async (filters) => {
+	const params = {
+		por_pagina: document.querySelector('#js-por-pagina-extrato').value,
+	};
 
-// 	salesContainerExtrato.toggleActiveData('filter');
-// 	if (Object.keys(filters).length === 0) {
-// 		salesContainerExtrato.toggleActiveData('search');
-// 		params.page = 1;
-// 	}
+	salesContainerExtrato.toggleActiveData('filter');
+	if (Object.keys(filters).length === 0) {
+		salesContainerExtrato.toggleActiveData('search');
+		params.page = 1;
+	}
 
-// 	await buildRequestExtrato(params).get();
-// 	updateTotals();
-// });
+	await buildRequestExtrato(params).get();
+	updateTotals();
+});
 
 tableRenderExtrato.onSort(async (elementDOM, tableInstance) => {
 	const params = {
@@ -317,8 +316,8 @@ async function renderExtratoTable() {
 		'#js-quantidade-registros-extrato'
 	).innerHTML = `(${total} registros)`;
 
-	// tableRenderExtrato.clearFilters();
-	// tableRenderExtrato.clearSortFilter();
+	tableRenderExtrato.clearFilters();
+	tableRenderExtrato.clearSortFilter();
 }
 
 function updateSelectedValue() {
