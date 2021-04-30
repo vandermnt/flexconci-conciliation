@@ -29,7 +29,8 @@
 			modal-label="Conheça nossa tela gerencial"
 		>
 			<x-slot name="content">
-				<div class="modal-body">
+				<div>
+					<iframe width="565" height="315" src="https://www.youtube.com/embed/Oz1zbSC00O8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 				</div>
 			</x-slot>
 

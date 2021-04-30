@@ -19,10 +19,13 @@
 
 .about-gerencial::before {
 	width: 128px;
-	/* white-space: pre-line; */
 	transform: translateX(-50%);
 }
 
-.about-gerencial:hover {
+.about-gerencial img:hover {
 	cursor: pointer;
+}
+
+#about-gerencial .modal-dialog {
+	width: 600px;
 }
