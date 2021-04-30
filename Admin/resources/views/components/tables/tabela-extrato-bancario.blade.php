@@ -102,17 +102,14 @@
         <td></td>
 				<td class="totals">
 					<div class="d-flex flex-wrap text-center">
-						<span class="w-100">Total Selecionado</span>
 						<span class="w-100">Total</span>
 					</div>
 				</td>
 				<td class="totals">
 					<div class="d-flex flex-wrap text-center">
-						<span id="total-selecionado-extrato" class="w-100 text-center">R$ 0,00</span>
 						<span id="total-extrato" class="w-100 text-center" data-column="TOTAL_EXTRATO" data-format="currency">R$ 0,00</span>
 					</div>
 				</td>
-				<td></td>
       </tr>
     </tfoot>
   </table>

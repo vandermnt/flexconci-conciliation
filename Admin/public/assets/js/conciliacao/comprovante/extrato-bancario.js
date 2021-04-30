@@ -47,7 +47,7 @@ salesContainerExtrato.onEvent('search', (sales) => {
 	if (resultadosDOM.classList.contains('hidden')) {
 		resultadosDOM.classList.remove('hidden');
 	}
-	updateTotals();
+	updateTotalsExtrato();
 });
 
 salesContainerExtrato.onEvent('fail', (err) => {
@@ -138,7 +138,7 @@ tableRenderExtrato.onRenderRow((row, data, tableRenderInstance) => {
 				...selectedExtratoSales.filter((selected) => selected !== value),
 			];
 		}
-		updateSelectedValue();
+		updateSelectedExtratoValue();
 	});
 	_defaultEvents.table.onRenderRow(row, data, tableRenderInstance);
 });
@@ -155,7 +155,7 @@ tableRenderExtrato.onFilter(async (filters) => {
 	}
 
 	await buildRequestExtrato(params).get();
-	updateTotals();
+	updateTotalsExtrato();
 });
 
 tableRenderExtrato.onSort(async (elementDOM, tableInstance) => {
@@ -320,7 +320,7 @@ async function renderExtratoTable() {
 	tableRenderExtrato.clearSortFilter();
 }
 
-function updateSelectedValue() {
+function updateSelectedExtratoValue() {
 	if (selectedExtratoSales.length > 0) {
 		let totalValue = 0;
 		selectedExtratoSales.forEach((id) => {
@@ -344,7 +344,7 @@ function updateSelectedValue() {
 		// 	'#total-selecionado-extrato'
 		// ).innerHTML = formattedValue;
 	} else {
-		clearSelectedValue();
+		clearSelectedExtratoValue();
 	}
 }
 
@@ -363,12 +363,12 @@ function setExtratoTotalValue() {
 	// );
 }
 
-function clearSelectedValue() {
+function clearSelectedExtratoValue() {
 	selectedExtratoSales = [];
 	// document.querySelector('#total-selecionado-extrato').innerHTML = 'R$ 0,00';
 }
 
-function updateTotals() {
-	clearSelectedValue();
+function updateTotalsExtrato() {
+	clearSelectedExtratoValue();
 	setExtratoTotalValue();
 }
