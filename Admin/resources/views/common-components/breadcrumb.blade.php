@@ -10,7 +10,7 @@
 			<h4 class="page-title">{{$title}}</h4>
 			<div class="tooltip-hint about-gerencial" data-title="Clique aqui e entenda a tela gerencial">
 				<img class="ml-2" src="assets/images/widgets/youtube.png" alt="Entenda a tela gerencial !"
-				data-toggle="modal" data-target="#about-gerencial">
+				data-toggle="modal" data-target="#about-gerencial-modal">
 			</div>
 		</div>
 	@else
