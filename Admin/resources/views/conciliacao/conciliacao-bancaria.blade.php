@@ -320,4 +320,5 @@
   <script defer src="{{ URL::asset('assets/js/conciliacao/conciliacao-bancaria.js') }}"></script>
 	<script defer src="{{ URL::asset('assets/js/conciliacao/comprovante/conciliacao-bancaria-comprovante.js') }}"></script>
 	<script defer src="{{ URL::asset('assets/js/conciliacao/comprovante/extrato-bancario.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/conciliacao/envia-extrato.js') }}"></script>
 @endsection

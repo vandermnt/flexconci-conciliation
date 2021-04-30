@@ -124,6 +124,7 @@ class ConciliacaoController extends Controller{
             $dados_arquivo_extrato->NUMERO_CONTA = $conta;
             $dados_arquivo_extrato->DT_START = $date_start;
             $dados_arquivo_extrato->DT_END = $date_end;
+            $dados_arquivo_extrato->CODIGO_CLIENTE = session('codigologin');
             $dados_arquivo_extrato->save();
           }
         }
