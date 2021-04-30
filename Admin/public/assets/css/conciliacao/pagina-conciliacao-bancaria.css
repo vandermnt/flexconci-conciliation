@@ -233,8 +233,8 @@
 .selected-total-text {
 	text-align: right;
 	font-size: 1rem;
-	color: #2d5275 !important;
-	font-weight: 500 !important;
+	color: #303e67;
+	font-weight: 600;
 }
 
 #comprovante-modal footer .form-group {
