@@ -23,6 +23,23 @@ const tableRender = createTableRender({
 	locale: 'pt-br',
 	formatter,
 });
+const tableConfig = new TableConfig({
+  tableSelector: '#js-tabela-recebimentos',
+  rootElement: '#js-table-config',
+});
+const scrollableDragger = createScrollableTableDragger({
+  wrapper: '.table-responsive',
+  table: '.table-responsive > table#js-tabela-recebimentos',
+  slider: '.draggable',
+  draggerConfig: {
+    mode: 'column',
+    dragHandler: '.draggable',
+    onlyBody: false,
+    animation: 300
+  },
+  rows: ['#js-tabela-recebimentos tbody tr'],
+  elementsToIgnore: ['.draggable input']
+});
 const boxes = getBoxes();
 let boxSubFilter = {};
 
@@ -254,6 +271,7 @@ function exportar() {
 			...searchForm.serialize(),
 			...tableRender.serializeTableFilters(),
 			...serializeTableSortToExport(tableRender.serializeSortFilter()),
+      hidden: tableConfig.get('hiddenSections'),
 		});
 	}, 500);
 }
@@ -265,6 +283,7 @@ function retornoCsv() {
 			...searchForm.serialize(),
 			...tableRender.serializeTableFilters(),
 			...serializeTableSortToExport(tableRender.serializeSortFilter()),
+      hidden: tableConfig.get('hiddenSections'),
 		});
 	}, 500);
 }
@@ -405,4 +424,12 @@ document
 
 document.querySelector('#dropdownCadastros').addEventListener('click', (e) => {
 	$('#dropdownCadastros').dropdown('toggle');
+});
+
+window.addEventListener('load', () => {
+  tableConfig.init();
+  tableRender.afterRender((tableInstance) => {
+    tableConfig.get('sectionContainer').refreshAll();
+    // scrollableDragger.fixator.update();
+  });
 });

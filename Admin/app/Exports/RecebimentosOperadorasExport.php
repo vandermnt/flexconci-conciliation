@@ -10,110 +10,62 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class RecebimentosOperadorasExport implements FromQuery, WithStrictNullComparison, ShouldAutoSize, WithHeadings, WithMapping
+class RecebimentosOperadorasExport extends BaseExport implements FromQuery, WithStrictNullComparison, ShouldAutoSize, WithHeadings, WithMapping
 {
 	use Exportable;
 
-	protected $filters;
-	protected $subfilters;
+  protected $keys = [
+    'DESCRICAO_ERP' => ['header' => 'ID. ERP', 'type' => 'string'],
+    'TIPO_LANCAMENTO' => ['header' => 'Tipo de Lançamento', 'type' => 'string'],
+    'NOME_EMPRESA' => ['header' => 'Empresa', 'type' => 'string'],
+    'CNPJ' => ['header' => 'CNPJ', 'type' => 'forceToString'],
+    'DATA_VENDA' => ['header' => 'Venda', 'type' => 'date'],
+    'DATA_PREVISAO' => ['header' => 'Previsão', 'type' => 'date'],
+    'DATA_PAGAMENTO' => ['header' => 'Pagamento', 'type' => 'date'],
+    'ADQUIRENTE' => ['header' => 'Operadora', 'type' => 'string'],
+    'BANDEIRA' => ['header' => 'Bandeira', 'type' => 'string'],
+    'MODALIDADE' => ['header' => 'Forma de Pagamento', 'type' => 'string'],
+    'TIPO_PAGAMENTO' => ['header' => 'Tipo de Recebimento', 'type' => 'string'],
+    'NSU' => ['header' => 'NSU', 'type' => 'forceToString'],
+    'AUTORIZACAO' => ['header' => 'Autorização', 'type' => 'forceToString'],
+    'TID' => ['header' => 'TID', 'type' => 'forceToString'],
+    'CARTAO' => ['header' => 'Cartão', 'type' => 'forceToString'],
+    'VALOR_BRUTO' => ['header' => 'Valor Bruto', 'type' => 'numeric'],
+    'TAXA_PERCENTUAL' => ['header' => 'Taxa %', 'type' => 'numeric'],
+    'VALOR_TAXA' => ['header' => 'Taxa R$', 'type' => 'numeric'],
+    'TAXA_ANTECIPACAO' => ['header' => 'Taxa Antec. %', 'type' => 'numeric'],
+    'VALOR_LIQUIDO' => ['header' => 'Valor Líquido', 'type' => 'numeric'],
+    'POSSUI_TAXA_MINIMA' => ['header' => 'Possui Tarifa Mínima', 'type' => 'forceToString'],
+    'PARCELA' => ['header' => 'Parcela', 'type' => 'string'],
+    'TOTAL_PARCELAS' => ['header' => 'Total Parc.', 'type' => 'string'],
+    'ESTABELECIMENTO' => ['header' => 'Estabelecimento', 'type' => 'forceToString'],
+    'COD_AJUSTE' => ['header' => 'Cód. Ajuste', 'type' => 'forceToString'],
+    'DESC_AJUSTE' => ['header' => 'Desc. Ajuste', 'type' => 'forceToString'],
+    'CLASSIFICACAO_AJUSTE' => ['header' => 'Classificação Ajuste', 'type' => 'forceToString'],
+    'BANCO' => ['header' => 'Banco', 'type' => 'string'],
+    'AGENCIA' => ['header' => 'Agência', 'type' => 'forceToString'],
+    'CONTA' => ['header' => 'Conta', 'type' => 'forceToString'],
+    'OBSERVACOES' => ['header' => 'Observação', 'type' => 'string'],
+    'PRODUTO' => ['header' => 'Produto', 'type' => 'string'],
+    'MEIOCAPTURA' => ['header' => 'Meio de Captura', 'type' => 'string'],
+    'STATUS_CONCILIACAO' => ['header' => 'Status Conciliação Rec', 'type' => 'string'],
+    'DIVERGENCIA' => ['header' => 'Divergência Venda', 'type' => 'string'],
+    'RETORNO_ERP_BAIXA' => ['header' => 'Baixa Realizada ERP', 'type' => 'string'],
+  ];
 
-	public function __construct($filters, $subfilters)
-	{
-		$this->filters = $filters;
-		$this->subfilters = $subfilters;
-	}
+	public function __construct($filters, $subfilters, $hidden = []) {
+    parent::__construct($filters, $subfilters, $hidden);
+  }
 
 	public function headings(): array
-	{
-		return [
-			'ID',
-			'Tipo de Lançamento',
-			'Empresa',
-			'CNPJ',
-			'Venda',
-			'Previsão',
-			'Pagamento',
-			'Operadora',
-			'Bandeira',
-			'Forma de Pagamento',
-			'Tipo de Recebimento',
-			'NSU',
-			'Autorização',
-			'TID',
-			'Cartão',
-			'Resumo',
-			'Valor Bruto',
-			'Taxa %',
-			'Taxa R$',
-			'Taxa Antec. %',
-			'Taxa Antec. R$',
-			'Valor Líquido',
-			'Possui Tarifa Mínima',
-			'Parcela',
-			'Total Parc.',
-			'Estabelecimento',
-			'Cód. Ajuste',
-			'Desc. Ajuste',
-			'Classificação Ajuste',
-			'Núm. Máquina',
-			'Banco',
-			'Agência',
-			'Conta',
-			'Observação',
-			'Produto',
-			'Meio de Captura',
-			'Status Conciliação Rec',
-			'Divergência Venda',
-			'Justificativa',
-			'Baixa Realizada ERP',
-		];
-	}
+  {
+    return $this->getHeaders();
+  }
 
 	public function map($item): array
-	{
-		return [
-			$item->DESCRICAO_ERP,
-			$item->TIPO_LANCAMENTO,
-			$item->NOME_EMPRESA,
-			$item->CNPJ . " ",
-			is_null($item->DATA_VENDA) ? null : date_format(date_create($item->DATA_VENDA), 'd/m/Y'),
-			is_null($item->DATA_PREVISAO) ? null : date_format(date_create($item->DATA_PREVISAO), 'd/m/Y'),
-			is_null($item->DATA_PAGAMENTO) ? null : date_format(date_create($item->DATA_PAGAMENTO), 'd/m/Y'),
-			$item->ADQUIRENTE,
-			$item->BANDEIRA,
-			$item->MODALIDADE,
-			$item->TIPO_PAGAMENTO,
-			$item->NSU . " ",
-			$item->AUTORIZACAO . " ",
-			$item->TID . " ",
-			$item->CARTAO . " ",
-			$item->RESUMO . " ",
-			round(($item->VALOR_BRUTO ?? 0), 2),
-			round(($item->TAXA_PERCENTUAL ?? 0), 2),
-			round((($item->VALOR_TAXA ?? 0) * -1), 2),
-			round(($item->TAXA_ANTECIPACAO ?? 0), 2),
-			round(($item->VALOR_TAXA_ANTECIPACAO ?? 0), 2),
-			round(($item->VALOR_LIQUIDO ?? 0), 2),
-			$item->POSSUI_TAXA_MINIMA . " ",
-			$item->PARCELA,
-			$item->TOTAL_PARCELAS,
-			$item->ESTABELECIMENTO . " ",
-			$item->COD_AJUSTE . " ",
-			$item->DESC_AJUSTE . " ",
-			$item->CLASSIFICACAO_AJUSTE . " ",
-			$item->TERMINAL . " ",
-			$item->BANCO,
-			$item->AGENCIA . " ",
-			$item->CONTA . " ",
-			$item->OBSERVACOES,
-			$item->PRODUTO,
-			$item->MEIOCAPTURA,
-			$item->STATUS_CONCILIACAO,
-			$item->DIVERGENCIA,
-			$item->JUSTIFICATIVA,
-			$item->RETORNO_ERP_BAIXA
-		];
-	}
+  {
+    return $this->getValues($item);
+  }
 
 	public function query()
 	{

@@ -188,7 +188,8 @@ class RecebimentosOperadorasController extends Controller
 		$filters['sort'] = $sort;
 		$subfilters = $request->except(['_token']);
 		Arr::set($filters, 'cliente_id', session('codigologin'));
-		return (new RecebimentosOperadorasExport($filters, $subfilters))->download('recebimentos_operadoras_' . time() . '.xlsx');
+    $hiddenColumns = $request->input('hidden', []);
+		return (new RecebimentosOperadorasExport($filters, $subfilters, $hiddenColumns))->download('recebimentos_operadoras_' . time() . '.xlsx');
 	}
 
 	public function exportCsv(Request $request)
@@ -203,7 +204,8 @@ class RecebimentosOperadorasController extends Controller
 		$filters['sort'] = $sort;
 		$subfilters = $request->except(['_token']);
 		Arr::set($filters, 'cliente_id', session('codigologin'));
-		return (new RetornoRecebimentosOperadorasExport($filters, $subfilters))->download('recebimentos_operadoras_' . time() . '.csv');
+    $hiddenColumns = $request->input('hidden', []);
+		return (new RetornoRecebimentosOperadorasExport($filters, $subfilters, $hiddenColumns))->download('recebimentos_operadoras_' . time() . '.csv');
 	}
 
 	/**

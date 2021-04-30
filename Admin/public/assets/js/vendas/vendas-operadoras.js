@@ -23,6 +23,23 @@ const tableRender = createTableRender({
   locale: 'pt-br',
   formatter,
 });
+const tableConfig = new TableConfig({
+  tableSelector: '#js-tabela-operadoras',
+  rootElement: '#js-table-config',
+});
+const scrollableDragger = createScrollableTableDragger({
+  wrapper: '.table-responsive',
+  table: '.table-responsive > table#js-tabela-operadoras',
+  slider: '.draggable',
+  draggerConfig: {
+    mode: 'column',
+    dragHandler: '.draggable',
+    onlyBody: false,
+    animation: 300
+  },
+  rows: ['#js-tabela-operadoras tbody tr'],
+  elementsToIgnore: ['.draggable input']
+});
 const boxes = getBoxes();
 const apiConfig = {
     headers: {
@@ -227,6 +244,7 @@ function exportar() {
       ...searchForm.serialize(),
       ...tableRender.serializeTableFilters(),
       ...serializeTableSortToExport(tableRender.serializeSortFilter()),
+      hidden: tableConfig.get('hiddenSections'),
     });
   }, 500);
 }
@@ -238,6 +256,7 @@ function retornoCsv() {
       ...searchForm.serialize(),
       ...tableRender.serializeTableFilters(),
       ...serializeTableSortToExport(tableRender.serializeSortFilter()),
+      hidden: tableConfig.get('hiddenSections'),
     });
   }, 500);
 }
@@ -326,3 +345,11 @@ document.querySelector('#js-retorno-csv')
 
 document.querySelector('#js-desjustificar')
   .addEventListener('click', confirmUnjustify);
+
+window.addEventListener('load', () => {
+  tableConfig.init();
+  tableRender.afterRender((tableInstance) => {
+    tableConfig.get('sectionContainer').refreshAll();
+    scrollableDragger.fixator.update();
+  });
+});

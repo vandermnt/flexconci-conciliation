@@ -84,6 +84,44 @@ const tableRenderErp = createTableRender({
 	formatter,
 });
 
+const scrollableDragger = createScrollableTableDragger({
+  wrapper: '*[data-table-type="operadoras"] .table-responsive',
+  table: 'table#js-tabela-operadoras',
+  slider: '.draggable',
+  draggerConfig: {
+    mode: 'column',
+    dragHandler: '.draggable',
+    onlyBody: false,
+    animation: 300
+  },
+  rows: ['#js-tabela-operadoras tbody tr'],
+  elementsToIgnore: ['.draggable input']
+});
+const scrollableDraggerErp = createScrollableTableDragger({
+  wrapper: '*[data-table-type="erp"] .table-responsive',
+  table: 'table#js-tabela-erp',
+  slider: '.draggable',
+  draggerConfig: {
+    mode: 'column',
+    dragHandler: '.draggable',
+    onlyBody: false,
+    animation: 300
+  },
+  rows: ['#js-tabela-erp tbody tr'],
+  elementsToIgnore: ['.draggable input']
+});
+
+const tableConfig = new TableConfig({
+  tableSelector: '#js-tabela-operadoras',
+  rootElement: '#js-table-config-operadoras',
+  checkerGroup: 'tb-config-operadoras'
+});
+const tableConfigErp = new TableConfig({
+  tableSelector: '#js-tabela-erp',
+  rootElement: '#js-table-config-erp',
+  checkerGroup: 'tb-config-erp'
+});
+
 const _events = {
 	salesContainer: {
 		onFetch: (key, sales) => {
@@ -977,6 +1015,7 @@ function exportar(event) {
 		isErp ? 'urlExportarErp' : 'urlExportarOperadoras'
 	];
 	const currentTableRender = isErp ? tableRenderErp : tableRender;
+  const currentTableConfig = isErp ? tableConfigErp : tableConfig;
 
 	swal('Aguarde um momento...', 'A sua planilha está sendo gerada.', 'warning');
 	setTimeout(() => {
@@ -984,6 +1023,7 @@ function exportar(event) {
 			...{ ...searchForm.serialize(), status_conciliacao: [...activeStatus] },
 			...currentTableRender.serializeTableFilters(),
 			...serializeTableSortToExport(currentTableRender.serializeSortFilter()),
+      hidden: currentTableConfig.get('hiddenSections'),
 		});
 	}, 500);
 }
@@ -1171,3 +1211,16 @@ document
 document
 	.querySelector('#js-tabela-operadoras tfoot td[data-column="TOTAL_TAXA"]')
 	.classList.remove('text-danger');
+
+window.addEventListener('load', () => {
+  tableConfig.init();
+  tableConfigErp.init();
+  tableRender.afterRender((tableInstance) => {
+    tableConfig.get('sectionContainer').refreshAll();
+    scrollableDragger.fixator.update();
+  });
+  tableRenderErp.afterRender((tableInstance) => {
+    tableConfigErp.get('sectionContainer').refreshAll();
+    scrollableDraggerErp.fixator.update();
+  });
+});
