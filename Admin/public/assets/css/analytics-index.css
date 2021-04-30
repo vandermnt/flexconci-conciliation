@@ -1,17 +1,3 @@
-/* .about-gerencial {
-	background-color: #2d5275;
-	color: #fff;
-	box-shadow: none;
-}
-
-.about-gerencial:hover {
-	color: #fff;
-}
-
-.about-gerencial:focus {
-	box-shadow: none;
-} */
-
 .about-gerencial img {
 	width: auto;
 	width: 36px !important;
@@ -22,12 +8,8 @@
 	transform: translateX(-50%);
 }
 
-.about-gerencial img:hover {
+.about-gerencial:hover {
 	cursor: pointer;
-}
-
-#about-gerencial-modal .modal-dialog {
-	width: 600px;
 }
 
 #about-gerencial-modal .modal-dialog {
