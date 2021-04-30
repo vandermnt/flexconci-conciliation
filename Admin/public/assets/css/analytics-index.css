@@ -26,6 +26,27 @@
 	cursor: pointer;
 }
 
-#about-gerencial .modal-dialog {
+#about-gerencial-modal .modal-dialog {
 	width: 600px;
+}
+
+#about-gerencial-modal .modal-dialog {
+	width: 600px;
+}
+
+#about-gerencial-modal .modal-body {
+	padding-top: 0px !important;
+}
+
+#about-gerencial-modal footer,
+header {
+	background-color: #fff !important;
+}
+
+#about-gerencial-modal header {
+	border: none;
+}
+
+#about-gerencial-modal footer {
+	padding: 0px;
 }
