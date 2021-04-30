@@ -23,6 +23,22 @@
       @slot('item1') Dashboard @endslot
       @endcomponent
     </div>
+		<x-modal
+			id="about-gerencial"
+			modal-label-id="about-gerencial-label"
+			modal-label="Conheça nossa tela gerencial"
+		>
+			<x-slot name="content">
+				<div class="modal-body">
+				</div>
+			</x-slot>
+
+			<x-slot name="footer">
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+				</div>
+			</x-slot>
+    </x-modal>
   </div>
   <div class="row">
     <div class="col-lg-6">
