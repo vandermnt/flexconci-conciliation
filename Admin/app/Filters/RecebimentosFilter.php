@@ -85,7 +85,7 @@ class RecebimentosFilter extends BaseFilter
 				'meio_captura.DESCRICAO as MEIOCAPTURA',
 				'pagamentos_operadoras.RETORNO_BAIXA as RETORNO_ERP_BAIXA',
 				'pagamentos_operadoras.COD_TIPO_LANCAMENTO',
-				'controle_ajustes.CODIGO_OPERADORA as COD_AJUSTE',
+				'pagamentos_operadoras.COD_AJUSTE',
 				'controle_ajustes.DESCRICAO_OPERADORA as DESC_AJUSTE',
 			])
 			->leftJoin('produto_web', 'produto_web.CODIGO', 'pagamentos_operadoras.COD_PRODUTO')
