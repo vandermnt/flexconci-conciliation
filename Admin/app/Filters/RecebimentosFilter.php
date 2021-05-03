@@ -86,12 +86,6 @@ class RecebimentosFilter extends BaseFilter
 				'produto_web.PRODUTO_WEB as PRODUTO',
 				'meio_captura.DESCRICAO as MEIOCAPTURA',
 				'status_conciliacao.STATUS_CONCILIACAO',
-				'pagamentos_operadoras.NUMERO_OPERACAO_ANTECIPACAO',
-				'pagamentos_operadoras.RETORNO_BAIXA as RETORNO_ERP_BAIXA',
-				'pagamentos_operadoras.COD_AJUSTE',
-				'controle_ajustes.DESCRICAO_OPERADORA as DESC_AJUSTE',
-				'tipo_lancamento.TIPO_LANCAMENTO',
-
 			])
 			->leftJoin('produto_web', 'produto_web.CODIGO', 'pagamentos_operadoras.COD_PRODUTO')
 			->leftJoin('grupos_clientes', 'grupos_clientes.CODIGO', 'pagamentos_operadoras.COD_GRUPO_CLIENTE')
