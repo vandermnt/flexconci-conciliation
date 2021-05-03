@@ -23,7 +23,51 @@ const tableRender = createTableRender({
 	locale: 'pt-br',
 	formatter,
 });
+const tableConfig = new TableConfig({
+  tableSelector: '#js-tabela-recebimentos',
+  rootElement: '#js-table-config',
+});
+const scrollableDragger = createScrollableTableDragger({
+  wrapper: '.table-responsive',
+  table: '.table-responsive > table#js-tabela-recebimentos',
+  slider: '.draggable',
+  draggerConfig: {
+    mode: 'column',
+    dragHandler: '.draggable',
+    onlyBody: false,
+    animation: 300
+  },
+  rows: ['#js-tabela-recebimentos tbody tr'],
+  elementsToIgnore: ['.draggable input']
+});
 const boxes = getBoxes();
+let boxSubFilter = {};
+
+boxes.forEach((box) => {
+	const boxDOM = box.get('element');
+
+	boxDOM.addEventListener('click', (event) => {
+		const status = event.target.closest('.box').dataset.status;
+		if (status == '*') {
+			toggleElementVisibility('#js-loader');
+			let tipoLancamento;
+			if (boxDOM.dataset.key == 'TOTAL_BRUTO') {
+				tableRender.clearFilters();
+				tableRender.clearSortFilter();
+				boxSubFilter = {};
+				paymentsContainer.set('active', 'search');
+			} else {
+				boxDOM.dataset.key == 'TOTAL_DESPESAS'
+					? (tipoLancamento = 'Ajuste a Débito')
+					: (tipoLancamento = 'Ajuste a Crédito');
+				boxSubFilter['TIPO_LANCAMENTO'] = tipoLancamento;
+				paymentsContainer.set('active', 'filter');
+			}
+			buildRequest().get();
+			toggleElementVisibility('#js-loader');
+		}
+	});
+});
 
 checker.addGroups([
 	{ name: 'empresa', options: { inputName: 'grupos_clientes' } },
@@ -93,11 +137,27 @@ paymentsContainer.onEvent('fetch', (payments) => {
 
 paymentsContainer.onEvent('search', (payments) => {
 	const totals = payments.get('totals');
+	const negativeBoxes = {
+		TOTAL_TAXA: (totals.TOTAL_TAXA || 0) * -1,
+		TOTAL_VALOR_TAXA_ANTECIPACAO:
+			(totals.TOTAL_VALOR_TAXA_ANTECIPACAO || 0) * -1,
+		TOTAL_DESPESAS: totals.TOTAL_DESPESAS || 0,
+		TOTAL_CHARGEBACK: (totals.TOTAL_CHARGEBACK || 0) * -1,
+		TOTAL_CANCELAMENTO: (totals.TOTAL_CHARGEBACK || 0) * -1,
+	};
 	updateBoxes(boxes, {
 		...totals,
-		TOTAL_TAXA: (totals.TOTAL_TAXA || 0) * -1,
-		TOTAL_ANTECIPACAO: (totals.TOTAL_ANTECIPACAO || 0) * -1,
-		TOTAL_DESPESAS: (totals.TOTAL_DESPESAS || 0) * -1,
+		...negativeBoxes,
+	});
+	boxes.forEach((box) => {
+		const boxDOM = box.get('element');
+		const value = negativeBoxes[boxDOM.dataset.key];
+		if (value < 0) {
+			boxDOM.querySelector('.content').classList.add('text-danger');
+		} else {
+			if (boxDOM.dataset.key != 'TOTAL_DESPESAS')
+				boxDOM.querySelector('.content').classList.remove('text-danger');
+		}
 	});
 });
 
@@ -130,11 +190,16 @@ function buildRequest(params) {
 		...searchForm.serialize(),
 		...tableRender.serializeSortFilter(),
 	};
+
+	const subfilters = {
+		...tableRender.serializeTableFilters(),
+		...boxSubFilter,
+	};
 	const bodyPayload = isSearchActive
 		? { ...filters }
 		: {
 				filters: { ...filters },
-				subfilters: { ...tableRender.serializeTableFilters() },
+				subfilters: { ...subfilters },
 		  };
 
 	const requestPayload = {
@@ -206,6 +271,7 @@ function exportar() {
 			...searchForm.serialize(),
 			...tableRender.serializeTableFilters(),
 			...serializeTableSortToExport(tableRender.serializeSortFilter()),
+      hidden: tableConfig.get('hiddenSections'),
 		});
 	}, 500);
 }
@@ -217,6 +283,7 @@ function retornoCsv() {
 			...searchForm.serialize(),
 			...tableRender.serializeTableFilters(),
 			...serializeTableSortToExport(tableRender.serializeSortFilter()),
+      hidden: tableConfig.get('hiddenSections'),
 		});
 	}, 500);
 }
@@ -357,4 +424,12 @@ document
 
 document.querySelector('#dropdownCadastros').addEventListener('click', (e) => {
 	$('#dropdownCadastros').dropdown('toggle');
+});
+
+window.addEventListener('load', () => {
+  tableConfig.init();
+  tableRender.afterRender((tableInstance) => {
+    tableConfig.get('sectionContainer').refreshAll();
+    // scrollableDragger.fixator.update();
+  });
 });

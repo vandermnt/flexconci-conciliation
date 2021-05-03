@@ -1,6 +1,44 @@
-html {
-	scroll-behavior: smooth;
+* {
+  box-sizing: border-box;
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  --table-max-height: 600px;
+}
+
+/** --- table-dragger-wrapper --- */
+.sindu_dragger {
+  display: flex;
+}
+.sindu_dragger li {
+  float: none;
+  margin-right: -1px !important;
+}
+
+.sindu_dragger li:first-child,
+.sindu_dragger li table {
+  height: 100% !important;
+}
+
+.sindu_dragger li td.hidden, .sindu_dragger li th.hidden {}
+
+.sindu_dragger li .icon-image {
+  height: unset !important;
+}
+
+.sindu_dragger table {
+  background-color: transparent !important;
+  border-collapse: collapse !important;
+}
+
+.sindu_dragger table td {
+  width: min-content !important;
+}
+/** --- table-dragger-wrapper --- */
 
 .topbarr {
 	z-index: 24;
@@ -47,7 +85,9 @@ html {
 
 .tooltip-hint {
 	text-decoration: none;
-	font: 500 12px Poppins, sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  font-family: Poppins, sans-serif;
 	position: relative;
 }
 
@@ -140,16 +180,111 @@ html {
 	background-color: #2d5275;
 }
 
+.table-config {
+  width: 100%;
+  max-width: 200px;
+  transition: max-width 0.5s;
+  position: relative;
+}
+
+.table-config.has-focus {
+  max-width: 300px;
+}
+
+.table-config-control {
+  width: 100%;
+  border-radius: 4px;
+}
+
+.table-config-control > * {
+  pointer-events: none;
+}
+
+.table-config.has-focus .table-config-control {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  box-shadow: none;
+}
+
+.table-config-body {
+  display: none;
+  background: white;
+  border: 1px solid #2d5275;
+  border-top: none;
+  position: absolute;
+  right: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.table-config.has-focus .table-config-body {
+  display: block;
+}
+
+.table-config-list {
+  max-height: 256px;
+  background: white;
+  overflow-y: auto;
+}
+
+.table-config-list .table-config-option {
+  display: flex;
+  align-items: center;
+  padding: 2px 8px;
+  transition: background 0.2s, color 0.1s;
+}
+
+.table-config-list .table-config-option:hover {
+  background: #2d5275;
+  color: white;
+}
+
+.table-config-list .table-config-option span {
+  margin: 0 4px;
+}
+
+.table-config-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table-config-actions button {
+  width: 100%;
+  flex: 1;
+  color: white;
+  background-color: #2d5275;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.table-config-actions button:hover {
+  color: white;
+}
+
+.table-config-actions button > * {
+  pointer-events: none;
+}
+
 .table-responsive {
-	max-height: 600px;
+  width: 100%;
+  max-height: var(--table-max-height);
+  overflow: auto;
+  position: relative;
+}
+
+.table-responsive table.table td,
+.table-responsive table.table th {
+  max-width: unset !important;
 }
 
 table {
-	white-space: nowrap;
-	position: relative;
-	background-color: transparent;
-	border: none;
-	margin: 0 !important;
+  background-color: transparent;
+  border: none;
+  border-collapse: collapse !important;
+  white-space: nowrap;
+  margin: 0 !important;
+  position: relative;
 }
 
 table i {
@@ -191,9 +326,14 @@ table td {
 	margin: 0;
 }
 
+table th > * {
+  color: #231F20;
+}
+
 table th {
-	z-index: 4;
-	background-color: #fff !important;
+  z-index: 4;
+  color: transparent !important;
+  background-color: #FFF !important;
 }
 
 table th p {
@@ -249,49 +389,50 @@ table td[data-image] {
 }
 
 table td[data-image] > .icon-image {
-	width: 64%;
-	background-image: url(../../images/adquirentes/pagseguro.svg);
-	background-image: url(../../images/adquirentes/pagseguro-v2.png);
-	background-image: url(../../images/adquirentes/cielo.svg);
-	background-image: url(../../images/adquirentes/omni.svg);
-	background-image: url(../../images/adquirentes/rede.png);
-	background-image: url(../../images/adquirentes/stone.png);
-	background-image: url(../../images/adquirentes/truckpag.png);
+  width: 64%;
+  background-image: url(../../images/adquirentes/pagseguro.svg);
+  background-image: url(../../images/adquirentes/pagseguro-v2.png);
+  background-image: url(../../images/adquirentes/cielo.svg);
+  background-image: url(../../images/adquirentes/omni.svg);
+  background-image: url(../../images/adquirentes/rede.png);
+  background-image: url(../../images/adquirentes/stone.png);
+  background-image: url(../../images/adquirentes/truckpag.png);
 
-	background-image: url(../../images/bancos/banco-do-brasil.png);
-	background-image: url(../../images/bancos/bradesco.png);
-	background-image: url(../../images/bancos/banrisul.png);
-	background-image: url(../../images/bancos/caixa.png);
-	background-image: url(../../images/bancos/inter.png);
-	background-image: url(../../images/bancos/itau.png);
-	background-image: url(../../images/bancos/santander.png);
-	background-image: url(../../images/bancos/sicoob.png);
-	background-image: url(../../images/bancos/sicredi.png);
-	background-image: url(../../images/bancos/topazio.png);
-	background-image: url(../../images/bancos/tribanco.png);
+  background-image: url(../../images/bancos/banco-do-brasil.png);
+  background-image: url(../../images/bancos/bradesco.png);
+  background-image: url(../../images/bancos/banrisul.png);
+  background-image: url(../../images/bancos/caixa.png);
+  background-image: url(../../images/bancos/inter.png);
+  background-image: url(../../images/bancos/itau.png);
+  background-image: url(../../images/bancos/santander.png);
+  background-image: url(../../images/bancos/sicoob.png);
+  background-image: url(../../images/bancos/sicredi.png);
+  background-image: url(../../images/bancos/topazio.png);
+  background-image: url(../../images/bancos/tribanco.png);
 
-	background-image: url(../../images/bandeiras/alelo.svg);
-	background-image: url(../../images/bandeiras/amex.png);
-	background-image: url(../../images/bandeiras/amex.svg);
-	background-image: url(../../images/bandeiras/banescard.svg);
-	background-image: url(../../images/bandeiras/cabal.svg);
-	background-image: url(../../images/bandeiras/cooper.png);
-	background-image: url(../../images/bandeiras/diners.svg);
-	background-image: url(../../images/bandeiras/elo.png);
-	background-image: url(../../images/bandeiras/elo.svg);
-	background-image: url(../../images/bandeiras/hipercard.svg);
-	background-image: url(../../images/bandeiras/jcb.svg);
-	background-image: url(../../images/bandeiras/mastercard.png);
-	background-image: url(../../images/bandeiras/mastercard.svg);
-	background-image: url(../../images/bandeiras/sodexo.svg);
-	background-image: url(../../images/bandeiras/sorocred.png);
-	background-image: url(../../images/bandeiras/ticket.png);
-	background-image: url(../../images/bandeiras/visa.svg);
-	background-image: url(../../images/bandeiras/vr.png);
-	background-image: url(../../images/widgets/cards.svg);
-	background-origin: border-box;
-	padding: 12px !important;
-	margin: 2px auto;
+  background-image: url(../../images/bandeiras/alelo.svg);
+  background-image: url(../../images/bandeiras/amex.png);
+  background-image: url(../../images/bandeiras/amex.svg);
+  background-image: url(../../images/bandeiras/banescard.svg);
+  background-image: url(../../images/bandeiras/cabal.svg);
+  background-image: url(../../images/bandeiras/cooper.png);
+  background-image: url(../../images/bandeiras/diners.svg);
+  background-image: url(../../images/bandeiras/elo.png);
+  background-image: url(../../images/bandeiras/elo.svg);
+  background-image: url(../../images/bandeiras/hipercard.svg);
+  background-image: url(../../images/bandeiras/jcb.svg);
+  background-image: url(../../images/bandeiras/mastercard.png);
+  background-image: url(../../images/bandeiras/mastercard.svg);
+  background-image: url(../../images/bandeiras/sodexo.svg);
+  background-image: url(../../images/bandeiras/sorocred.png);
+  background-image: url(../../images/bandeiras/ticket.png);
+  background-image: url(../../images/bandeiras/visa.svg);
+  background-image: url(../../images/bandeiras/vr.png);
+  background-image: url(../../images/widgets/cards.svg);
+  background-origin: border-box;
+  padding: 12px !important;
+  margin: 2px 0;
+  display: inline-block !important;
 }
 
 table .form-control {
@@ -304,6 +445,20 @@ table tr.marcada {
 
 table tr.marcada td {
 	color: white;
+}
+
+table .actions-cell {
+  display: flex;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+table .actions-cell > * {
+  margin: 0 !important;
+}
+
+table .actions-cell > * + * {
+  margin-left: 16px !important;
 }
 
 .table-sorter {
@@ -331,6 +486,21 @@ table tr.marcada td {
 
 .table-sort-icon[data-sort-order='desc'] {
 	content: url('../../images/widgets/down-arrow.svg');
+}
+
+.is_grabbing {
+  cursor: -webkit-grabbing;
+}
+
+.table-fix {
+  height: 0 !important;
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  overflow: hidden;
+}
+.table-fix table {
+  border-collapse: collapse !important;
 }
 
 .actions-cell img {
@@ -600,4 +770,9 @@ table tr.marcada td {
 
 .tabela-info .button {
 	font-weight: normal;
+}
+
+#empresas-modal .modal-dialog {
+	width: 100%;
+	max-width: 800px !important;
 }

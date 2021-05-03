@@ -19,3 +19,7 @@
 	margin: 0;
 	font-weight: 700;
 }
+
+.actions button {
+	font-weight: normal;
+}

@@ -94,7 +94,8 @@
             <h4>Vendas Operadoras <span id="js-quantidade-registros">(0 registros)</span></h4>
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras">
           </div>
-          <div class="d-flex align-items-center justify-content-end">
+          <div class="d-flex flex-fill align-items-center justify-content-end">
+            <x-table-config-dropdown id="js-table-config" class="mr-1" checker-group="tb-config-columns" />
             <button id="js-desjustificar" class="btn button no-hover mr-1">
               <i class="fas fa-comment-slash"></i>
               Desfazer Justificativa
@@ -161,39 +162,52 @@
         >
           <x-slot name="content">
             <div class="comprovante">
-              <div class="header">
-                <h4 class="font-weight-bold">
-                    <span data-key="NOME_EMPRESA"></span>
-                </h4>
-                <h6>
-                    CNPJ: <span data-key="CNPJ"></span>
-                </h6>
-              </div>
-              <hr>
+              {{-- <div class="header">
+              </div> --}}
               <div class="body">
                 <h6>
-                    DATA VENDA: <span data-key="DATA_VENDA" data-format="date"></span>
+                  <img class="comprovante-image comprovante-adquirente-image" data-key="ADQUIRENTE_IMAGEM" data-type="image" src=""/>
                 </h6>
                 <h6>
-                    OPERADORA: <span data-key="ADQUIRENTE"></span>
-                </h6>
-                <h6>
-                    BANDEIRA: <span data-key="BANDEIRA"></span>
+                  <img class="comprovante-image" data-key="BANDEIRA_IMAGEM" data-type="image" src=""/>
                 </h6>
                 <h6>
                     FORMA DE PAGAMENTO: <span data-key="MODALIDADE"></span>
                 </h6>
+								<h6>
+									PRODUTO: <span data-key="PRODUTO"></span>
+								</h6>
+								<span>*****************************************************</span>
+								<h6>
+									NOME DA EMPRESA: <span data-key="NOME_EMPRESA"></span>
+								</h6>
+								<h6>
+									CNPJ: <span data-key="CNPJ"></span>
+								</h6>
+								<span>*****************************************************</span>
+								<h6>
+									ESTABELECIMENTO: <span data-key="ESTABELECIMENTO"></span>
+								</h6>
+								<h6>
+									CARTAO: <span data-key="CARTAO"></span>
+								</h6>
+								<h6>
+									NSU: <span data-key="NSU"></span>
+								</h6>
+								<h6>
+									AUT: <span data-key="AUTORIZACAO"></span>
+								</h6>
+								<h6>
+									DATA VENDA: <span data-key="DATA_VENDA" data-format="date"></span> <span data-key="HORA_TRANSACAO"></span>
+								</h6>
                 <h6>
-                    ESTABELECIMENTO: <span data-key="ESTABELECIMENTO"></span>
-                </h6>
+									PREVISÃO: <span data-key="DATA_PREVISAO" data-format="date"></span>
+								</h6>
                 <h6>
-                    CARTAO: <span data-key="CARTAO"></span>
+                  PARCELA: <span data-key="PARCELA"></span>
                 </h6>
                 <h6 class="font-weight-bold">
-                    VALOR: <span data-key="VALOR_BRUTO" data-format="currency"></span>
-                </h6>
-                <h6>
-                    DATA PREVISÃO: <span data-key="DATA_PREVISAO" data-format="date"></span>
+                  VALOR: <span data-key="VALOR_BRUTO" data-format="currency"></span>
                 </h6>
               </div>
             </div>
@@ -237,7 +251,10 @@
   <script defer src="{{ URL::asset('assets/js/proxy/SalesProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SalesContainerProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/ui/table-section.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/ui/table-config.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/table-dragger-wrapper.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/vendas/vendas-operadoras.js') }}"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script defer src="{{ URL::asset('assets/js/sweetalert.min.js') }}"></script>
 @endsection

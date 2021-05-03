@@ -1,3 +1,7 @@
+:root {
+	--table-max-height: 528px;
+}
+
 #pagina-vendas-operadoras .resultados {
 	margin-top: 48px;
 }
@@ -25,10 +29,6 @@
 	max-width: 100%;
 }
 
-#pagina-vendas-operadoras .table-responsive {
-	max-height: 528px;
-}
-
 #pagina-vendas-operadoras table i {
 	font-size: 18px;
 	color: #2d5275;
@@ -37,10 +37,50 @@
 
 #pagina-vendas-operadoras td.actions-cell .link-impressao.tooltip-hint::before {
 	transform: translateX(-8%);
+	margin-top: 48px;
+}
+
+#pagina-vendas-operadoras .boxes {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-gap: 24px;
+}
+
+#pagina-vendas-operadoras .boxes h4 {
+	font-size: 0.845rem;
+	font-weight: 700;
+	color: #000444;
+}
+
+#pagina-vendas-operadoras .boxes p {
+	font-size: 1rem;
+	margin: 0;
+}
+
+#pagina-vendas-operadoras .boxes img {
+	width: 40px;
+	max-width: 100%;
+}
+
+#pagina-vendas-operadoras table i {
+	font-size: 18px;
+	color: #2d5275;
+	cursor: pointer;
+}
+
+#pagina-vendas-operadoras
+	table
+	.actions-cell
+	.link-impressao.tooltip-hint::before {
+	transform: translateX(-8%);
+}
+
+#pagina-vendas-operadoras #comprovante-modal .modal-footer {
+	background-color: #ffffff !important;
 }
 
 #pagina-vendas-operadoras .modais .comprovante {
-	background-color: #f3f781 !important;
+	background-color: #ffffff !important;
 }
 
 #pagina-vendas-operadoras .modais .comprovante h4 {
@@ -74,7 +114,27 @@
 	text-align: center;
 }
 
+#pagina-vendas-operadoras #comprovante-modal .modal-header {
+	background-color: #ffffff;
+	padding: 0px;
+	border: none;
+}
+
 #pagina-vendas-operadoras #comprovante-modal .modal-body {
 	margin: 0;
 	padding: 0;
+}
+
+#pagina-vendas-operadoras #comprovante-modal .body h6 {
+	color: #231f20;
+	margin: 5px;
+}
+
+#pagina-vendas-operadoras #comprovante-modal .comprovante-image {
+	width: auto;
+	width: 72px;
+}
+
+#pagina-vendas-operadoras #comprovante-modal .comprovante-adquirente-image {
+	width: 108px;
 }

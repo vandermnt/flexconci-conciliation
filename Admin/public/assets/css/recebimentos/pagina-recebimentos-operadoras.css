@@ -18,6 +18,12 @@
 	z-index: 24;
 }
 
+#pagina-recebimentos-operadoras thead .tooltip-hint::before {
+	width: 128px;
+	white-space: pre-line;
+	transform: translateX(-50%);
+}
+
 #pagina-recebimentos-operadoras .boxes h4 {
 	font-size: 0.845rem;
 	font-weight: normal !important;
@@ -28,4 +34,12 @@
 	font-size: 1.1rem;
 	margin: 0;
 	font-weight: 700;
+}
+
+#pagina-recebimentos-operadoras .box-subfilter {
+	cursor: pointer;
+}
+
+.actions button {
+	font-weight: normal;
 }

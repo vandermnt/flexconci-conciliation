@@ -21,6 +21,7 @@ class RecebimentosSubFilter extends BaseSubFilter
 		'BANDEIRA',
 		'MODALIDADE',
 		'TIPO_PAGAMENTO',
+		'TIPO_LANCAMENTO',
 		'NSU',
 		'AUTORIZACAO',
 		'TID',
@@ -47,7 +48,11 @@ class RecebimentosSubFilter extends BaseSubFilter
 		'STATUS_CONCILIACAO',
 		'DIVERGENCIA',
 		'JUSTIFICATIVA',
-		'RETORNO_ERP_BAIXA'
+		'RETORNO_ERP_BAIXA',
+		'NUMERO_OPERACAO_ANTECIPACAO',
+		'COD_AJUSTE',
+		'DESC_AJUSTE',
+		'CLASSIFICACAO_AJUSTE'
 	];
 	protected $numericFilters = [
 		'VALOR_BRUTO',

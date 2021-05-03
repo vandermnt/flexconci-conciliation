@@ -23,6 +23,23 @@ const tableRender = createTableRender({
   locale: 'pt-br',
   formatter,
 });
+const scrollableDragger = createScrollableTableDragger({
+  wrapper: '.table-responsive',
+  table: '.table-responsive > table#js-tabela-erp',
+  slider: '.draggable',
+  draggerConfig: {
+    mode: 'column',
+    dragHandler: '.draggable',
+    onlyBody: false,
+    animation: 300
+  },
+  rows: ['#js-tabela-erp tbody tr'],
+  elementsToIgnore: ['.draggable input']
+});
+const tableConfig = new TableConfig({
+  tableSelector: '#js-tabela-erp',
+  rootElement: '#js-table-config',
+});
 const boxes = getBoxes();
 
 checker.addGroups([
@@ -184,7 +201,8 @@ function exportar() {
     openUrl(searchForm.get('form').dataset.urlExportar, {
       ...searchForm.serialize(),
       ...tableRender.serializeTableFilters(),
-      ...serializeTableSortToExport(tableRender.serializeSortFilter())
+      ...serializeTableSortToExport(tableRender.serializeSortFilter()),
+      hidden: tableConfig.get('hiddenSections'),
     });
   }, 500);
 }
@@ -197,3 +215,11 @@ document.querySelector('#js-por-pagina')
 
 document.querySelector('#js-exportar')
   .addEventListener('click', exportar);
+
+window.addEventListener('load', () => {
+  tableConfig.init();
+  tableRender.afterRender((tableInstance) => {
+    tableConfig.get('sectionContainer').refreshAll();
+    scrollableDragger.fixator.update();
+  });
+});

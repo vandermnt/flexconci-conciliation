@@ -72,7 +72,7 @@
         <script src="{{ URL::asset('assets/js/feather.min.js') }}"></script>
         <script src="{{ URL::asset('assets/js/jquery.slimscroll.min.js') }}"></script>
         <script src="{{ URL::asset('plugins/apexcharts/apexcharts.min.js') }}"></script>
-        <script src="https://cdn.jsdelivr.net/npm/table-dragger@1.0.2/dist/table-dragger.min.js"></script>
+        <script src="{{ URL::asset('assets/js/table-dragger.min.js') }}"></script>
         <!-- App js -->
         <script src="{{ URL::asset('assets/js/app.js') }}"></script>
 				<script src="{{ URL::asset('assets/js/topbar/submenu.js') }}"></script>

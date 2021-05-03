@@ -66,7 +66,7 @@
     <div class="resultados hidden">
       <div class="boxes">
         <x-box
-					class="tooltip-hint"
+					class="tooltip-hint box-subfilter"
           title="VALOR TOTAL BRUTO"
           content="R$ 0,00"
           data-format="currency"
@@ -74,11 +74,12 @@
           icon-path="assets/images/financeiro/growth.svg"
           icon-description="Valor Bruto"
 					:dataset="[
-						'hint' => 'Valor total bruto pago pelas operadoras.'
+						'hint' => 'Valor total bruto pago pelas operadoras.',
+						'status' => '*'
 					]"
 				/>
         <x-box
-					class="tooltip-hint"
+					class="tooltip-hint box-subfilter"
           title="AJUSTE A CRÉDITO"
           content="R$ 0,00"
           data-format="currency"
@@ -86,14 +87,14 @@
           icon-path="assets/images/financeiro/pagamentos.svg"
           icon-description="Pag. Avulso"
 					:dataset="[
-						'hint' => 'Recebimentos realizados que não tem vínculo com vendas, porém, fazem parte do depósito realizado no banco. Exemplo: Devolução de valores cobrados a maior, acordo comercial para isenção de aluguel de máquina entre outros.'
+						'hint' => 'Recebimentos realizados que não tem vínculo com vendas, porém, fazem parte do depósito realizado no banco. Exemplo: Devolução de valores cobrados a maior, acordo comercial para isenção de aluguel de máquina entre outros.',
+						'status' => '*'
 					]"
 				/>
         <x-box
 					class="tooltip-hint"
           title="CUSTO TAXA"
-          content="-R$ 0,00"
-          content-class="text-danger"
+          content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_TAXA"
           icon-path="assets/images/financeiro/accounts.svg"
@@ -105,8 +106,7 @@
         <x-box
 					class="tooltip-hint"
           title="CUSTO ANTECIPAÇÃO"
-          content="-R$ 0,00"
-          content-class="text-danger"
+          content="R$ 0,00"
           data-format="currency"
           data-key="TOTAL_VALOR_TAXA_ANTECIPACAO"
           icon-path="assets/images/financeiro/perda.svg"
@@ -140,16 +140,17 @@
 					]"
 				/>
         <x-box
-					class="tooltip-hint"
+					class="tooltip-hint box-subfilter"
           title="AJUSTE A DÉBITO"
-          content="-R$ 0,00"
+          content="R$ 0,00"
           content-class="text-danger"
           data-format="currency"
           data-key="TOTAL_DESPESAS"
           icon-path="assets/images/financeiro/ajuste-debito.svg"
           icon-description="Outras Despesas"
 					:dataset="[
-						'hint' => 'Descontos realizados pelas operadoras referente a outras tarifas. Exemplo: Anuidade, DOC/TED, Aluguel de máquina entre outros.'
+						'hint' => 'Descontos realizados pelas operadoras referente a outras tarifas. Exemplo: Anuidade, DOC/TED, Aluguel de máquina entre outros.',
+						'status' => '*'
 					]"
 				/>
         <x-box
@@ -172,7 +173,8 @@
             <h4>Recebimentos Operadoras <span id="js-quantidade-registros">(0 registros)</span></h4>
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas ERP">
           </div>
-          <div class="actions d-flex align-items-center justify-content-end">
+          <div class="actions d-flex flex-fill align-items-center justify-content-end">
+            <x-table-config-dropdown id="js-table-config" class="mr-1" checker-group="tb-config-columns" />
             @if(Auth::user()->USUARIO_GLOBAL === 'S')
               <button
                 id="js-abrir-modal-retorno"
@@ -202,9 +204,13 @@
           id="js-tabela-recebimentos"
           class="mt-3"
           :headers="[
-            'RETORNO_ERP_BAIXA' => 'Baixa Realizada '.($erp->ERP ?? 'ERP'),
+            'RETORNO_ERP_BAIXA' => 'Baixa Executada '.($erp->ERP ?? 'ERP'),
           ]"
-        />
+        >
+          <x-slot name="actions">
+            <td></td>
+          </x-slot>
+        </x-tables.tabela-recebimentos-operadoras>
         <x-tables.table-navigation
           pagination-id="js-paginacao-recebimentos"
           per-page-select-id="js-por-pagina"
@@ -266,6 +272,9 @@
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/PaymentsProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/PaymentsContainerProxy.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/ui/table-section.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/ui/table-config.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/table-dragger-wrapper.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/recebimentos/recebimentos-operadoras.js') }}"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

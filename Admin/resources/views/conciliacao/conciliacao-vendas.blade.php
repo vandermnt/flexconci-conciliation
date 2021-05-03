@@ -149,13 +149,14 @@
         />
       </div>
 
-      <div class="vendas">
+      <div class="vendas" data-table-type="erp">
         <div class="tabela-info d-flex align-items-center justify-content-between">
           <div class="table-description d-flex align-items-center justify-content-end">
             <h4>Vendas {{ $erp->ERP ?? 'ERP' }} <span id="js-quantidade-registros-erp">(0 registros)</span></h4>
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas ERP">
           </div>
-          <div class="acoes d-flex align-items-center justify-content-between">
+          <div class="acoes d-flex flex-fill align-items-center justify-content-end">
+            <x-table-config-dropdown id="js-table-config-erp" class="mr-1" checker-group="tb-config-erp" />
             <div
               class="retorno-erp tooltip-hint font-weight-bold"
               data-title="Clicando aqui vamos efetuar a correção no seu sistema dos campos &quot;data de vencimento&quot;, &quot;taxa&quot; e &quot;valor líquido&quot;."
@@ -212,6 +213,7 @@
             'TITULO_CAMPO1' => $erp->TITULO_CAMPO1,
             'TITULO_CAMPO2' => $erp->TITULO_CAMPO2,
             'TITULO_CAMPO3' => $erp->TITULO_CAMPO3,
+            'RETORNO_ERP' => 'Venda Corrigida '.($erp->ERP ?? 'ERP'),
             'actions' => 'Ações | Status'
           ]"
           :hidden-columns="[
@@ -247,13 +249,14 @@
         />
       </div>
 
-      <div class="vendas">
+      <div class="vendas" data-table-type="operadoras">
         <div class="tabela-info d-flex align-items-center justify-content-between">
           <div class="table-description d-flex align-items-center justify-content-end">
             <h4>Vendas Operadoras Não Conciliadas <span id="js-quantidade-registros-operadoras">(0 registros)</span></h4>
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras">
           </div>
-          <div class="d-flex align-items-center justify-content-end">
+          <div class="d-flex flex-fill align-items-center justify-content-end">
+            <x-table-config-dropdown id="js-table-config-operadoras" class="mr-1" checker-group="tb-config-operadoras" />
             <button
               id="js-justificar-operadora"
               class="btn mr-1 button no-hover"
@@ -403,6 +406,9 @@
   <script defer src="{{ URL::asset('assets/js/proxy/SalesProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SalesContainerProxy.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/proxy/SearchFormProxy.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/ui/table-section.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/ui/table-config.js') }}"></script>
+  <script defer src="{{ URL::asset('assets/js/lib/table-dragger-wrapper.js') }}"></script>
   <script defer src="{{ URL::asset('assets/js/conciliacao/conciliacao-vendas.js') }}"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 @endsection
