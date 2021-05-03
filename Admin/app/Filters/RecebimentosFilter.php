@@ -80,7 +80,6 @@ class RecebimentosFilter extends BaseFilter
 				'pagamentos_operadoras.COD_TIPO_PAGAMENTO',
 				'pagamentos_operadoras.NUMERO_OPERACAO_ANTECIPACAO',
 				'status_conciliacao.STATUS_CONCILIACAO',
-				'tipo_lancamento.TIPO_LANCAMENTO',
 				'produto_web.PRODUTO_WEB as PRODUTO',
 				'meio_captura.DESCRICAO as MEIOCAPTURA',
 				'pagamentos_operadoras.RETORNO_BAIXA as RETORNO_ERP_BAIXA',
