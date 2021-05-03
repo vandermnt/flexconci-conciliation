@@ -100,8 +100,8 @@ class RecebimentosFilter extends BaseFilter
 			->leftJoin('meio_captura', 'meio_captura.CODIGO', 'pagamentos_operadoras.COD_MEIO_CAPTURA')
 			->leftJoin('status_conciliacao', 'status_conciliacao.CODIGO', 'pagamentos_operadoras.COD_STATUS')
 			->leftJoin('controle_ajustes', function ($join) {
-				$join->on('controle_ajustes.CODIGO', '=', 'pagamentos_operadoras.COD_AJUSTE');
 				$join->on('controle_ajustes.COD_ADQUIRENTE', '=', 'pagamentos_operadoras.COD_ADQUIRENTE');
+				$join->on('controle_ajustes.CODIGO_OPERADORA', '=', 'pagamentos_operadoras.COD_AJUSTE');
 			})
 			->leftJoin('tipo_ajuste', 'tipo_ajuste.CODIGO', 'controle_ajustes.COD_TIPO_AJUSTE_SISTEMA')
 			->where(
