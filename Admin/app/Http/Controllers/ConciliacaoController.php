@@ -74,12 +74,10 @@ class ConciliacaoController extends Controller{
           else if (strpos($dados_formatados[$i], '<BANKID>') !== false) {
             $bankid = explode("<BANKID>", $dados_formatados[$i]);
             $banco = $bankid[1];
-            // $dados_arquivo_extratos->CODIGO_BANCO = $banco[1];
           }
           else if (strpos($dados_formatados[$i], '<ACCTID>') !== false) {
             $acctid = explode("<ACCTID>", $dados_formatados[$i]);
             $conta = $acctid[1];
-            // $dados_arquivo_extratos->NUMERO_CONTA = $conta[1];
           }
           else if (strpos($dados_formatados[$i], '<DTSTART>') !== false) {
             $dt_start = explode("<DTSTART>", $dados_formatados[$i]);
@@ -94,6 +92,9 @@ class ConciliacaoController extends Controller{
           else if (strpos($dados_formatados[$i], '<DTPOSTED>') !== false) {
             $dtposted = explode("<DTPOSTED>", $dados_formatados[$i]);
             $dados_arquivo_extratos->DTPOSTED = $dtposted[1];
+
+            $formata_dtposted = DateTime::createFromFormat('YmdHis', $dtposted[1]);
+            $dataPosted = $formata_dtposted->format('Y-m-d');
           }
           else if (strpos($dados_formatados[$i], '<TRNAMT>') !== false) {
             $trnamt = explode("<TRNAMT>", $dados_formatados[$i]);
@@ -124,7 +125,7 @@ class ConciliacaoController extends Controller{
             $dados_arquivo_extrato = new DadosArquivoConciliacaoBancariaModel();
             $dados_arquivo_extrato->CODIGO_CONCILIACAO_BANCARIA = $extrato->CODIGO;
             $dados_arquivo_extrato->TRNTYPE = $dados_arquivo_extratos->TRNTYPE;
-            $dados_arquivo_extrato->DTPOSTED = $dados_arquivo_extratos->DTPOSTED;
+            $dados_arquivo_extrato->DTPOSTED = $dataPosted;
             $dados_arquivo_extrato->TRNAMT = $dados_arquivo_extratos->TRNAMT;
             $dados_arquivo_extrato->FITID = $dados_arquivo_extratos->FITID;
             $dados_arquivo_extrato->MEMO = $dados_arquivo_extratos->MEMO;
