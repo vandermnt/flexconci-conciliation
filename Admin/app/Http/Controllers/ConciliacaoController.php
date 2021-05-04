@@ -20,12 +20,13 @@ class ConciliacaoController extends Controller{
     $banco = null;
     $date_start = null;
     $date_end = null;
+    $existsTransacao = false;
 
     $arquivos = Request::file('extratos');
+    $transacoes = DadosArquivoConciliacaoBancariaModel::where('CODIGO_CLIENTE', session('codigologin'))->get();
 
     try {
       for($i=0; $i<count($arquivos); $i++){
-
 
         $extrato = new ConciliacaoBancariaModel();
         $dados_arquivo_extratos = new DadosArquivoConciliacaoBancariaModel();
@@ -45,7 +46,7 @@ class ConciliacaoController extends Controller{
 
         $nome_arquivo = $file->getClientOriginalName();
         // // $extensao_arquivo = $file->getClientOriginalExtension();
-        //
+
         $file->storeAs('extratos-bancarios', $nome_arquivo, 'archive');
 
         $contents = fopen(public_path("extratos-bancarios/".$nome_arquivo), "r");
@@ -122,20 +123,29 @@ class ConciliacaoController extends Controller{
 
             $chave = $dados_arquivo_extratos->TRNTYPE . $dados_arquivo_extratos->DTPOSTED . $trnamt . $dados_arquivo_extratos->FITID .
             $memo . $banco . $conta;
-            $dados_arquivo_extrato = new DadosArquivoConciliacaoBancariaModel();
-            $dados_arquivo_extrato->CODIGO_CONCILIACAO_BANCARIA = $extrato->CODIGO;
-            $dados_arquivo_extrato->TRNTYPE = $dados_arquivo_extratos->TRNTYPE;
-            $dados_arquivo_extrato->DTPOSTED = $dataPosted;
-            $dados_arquivo_extrato->TRNAMT = $dados_arquivo_extratos->TRNAMT;
-            $dados_arquivo_extrato->FITID = $dados_arquivo_extratos->FITID;
-            $dados_arquivo_extrato->MEMO = $dados_arquivo_extratos->MEMO;
-            $dados_arquivo_extrato->CODIGO_BANCO = $banco;
-            $dados_arquivo_extrato->NUMERO_CONTA = $conta;
-            $dados_arquivo_extrato->DT_START = $date_start;
-            $dados_arquivo_extrato->DT_END = $date_end;
-            $dados_arquivo_extrato->CODIGO_CLIENTE = session('codigologin');
-            $dados_arquivo_extrato->CHAVE = $chave;
-            $dados_arquivo_extrato->save();
+
+            foreach ($transacoes as $transacao) {
+              if ($transacao->CHAVE === $chave) {
+                $existsTransacao = true;
+              }
+            }
+
+            if (!$existsTransacao) {
+              $dados_arquivo_extrato = new DadosArquivoConciliacaoBancariaModel();
+              $dados_arquivo_extrato->CODIGO_CONCILIACAO_BANCARIA = $extrato->CODIGO;
+              $dados_arquivo_extrato->TRNTYPE = $dados_arquivo_extratos->TRNTYPE;
+              $dados_arquivo_extrato->DTPOSTED = $dataPosted;
+              $dados_arquivo_extrato->TRNAMT = $dados_arquivo_extratos->TRNAMT;
+              $dados_arquivo_extrato->FITID = $dados_arquivo_extratos->FITID;
+              $dados_arquivo_extrato->MEMO = $dados_arquivo_extratos->MEMO;
+              $dados_arquivo_extrato->CODIGO_BANCO = $banco;
+              $dados_arquivo_extrato->NUMERO_CONTA = $conta;
+              $dados_arquivo_extrato->DT_START = $date_start;
+              $dados_arquivo_extrato->DT_END = $date_end;
+              $dados_arquivo_extrato->CODIGO_CLIENTE = session('codigologin');
+              $dados_arquivo_extrato->CHAVE = $chave;
+              $dados_arquivo_extrato->save();
+            }
           }
         }
       }
