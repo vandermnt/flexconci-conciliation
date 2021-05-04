@@ -1,5 +1,6 @@
 const btEnviarExtrato = document.querySelector("button[name='submit-extrato']");
 const btCloseModal = document.querySelector(".close-modal");
+const btCancelModal = document.querySelector("#js-extrato-bancario button[class='close']");
 
 btEnviarExtrato.addEventListener("click", function() {
   const isValid = document.querySelector("input[name='extratos[]']").files.length
@@ -13,6 +14,11 @@ btEnviarExtrato.addEventListener("click", function() {
 });
 
 btCloseModal.addEventListener("click", function() {
+  document.getElementById("label-modal-progress").style.display = "none";
+  document.getElementById("label-modal-success").style.display = "none";
+});
+
+btCancelModal.addEventListener("click", function() {
   document.getElementById("label-modal-progress").style.display = "none";
   document.getElementById("label-modal-success").style.display = "none";
 });
