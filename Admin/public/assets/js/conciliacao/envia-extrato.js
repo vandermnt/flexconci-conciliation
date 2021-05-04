@@ -2,8 +2,14 @@ const btEnviarExtrato = document.querySelector("button[name='submit-extrato']");
 const btCloseModal = document.querySelector(".close-modal");
 
 btEnviarExtrato.addEventListener("click", function() {
-  document.getElementById("label-modal-progress").style.display = "block";
-  uploadExtrato();
+  const isValid = document.querySelector("input[name='extratos[]']").files.length
+
+  if (isValid > 0) {
+    document.getElementById("label-modal-progress").style.display = "block";
+    uploadExtrato();
+  } else {
+    alert("Escolha um arquivo!");
+  }
 });
 
 btCloseModal.addEventListener("click", function() {
@@ -13,7 +19,6 @@ btCloseModal.addEventListener("click", function() {
 
 function uploadExtrato() {
   const file = new FormData(document.getElementById("upload-file"));
-
 
   fetch("enviar-extrato", {
     method: "POST",
