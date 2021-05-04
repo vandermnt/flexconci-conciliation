@@ -16,11 +16,13 @@ btEnviarExtrato.addEventListener("click", function() {
 btCloseModal.addEventListener("click", function() {
   document.getElementById("label-modal-progress").style.display = "none";
   document.getElementById("label-modal-success").style.display = "none";
+  const isValid = document.querySelector("input[name='extratos[]']").value = ''
 });
 
 btCancelModal.addEventListener("click", function() {
   document.getElementById("label-modal-progress").style.display = "none";
   document.getElementById("label-modal-success").style.display = "none";
+  const isValid = document.querySelector("input[name='extratos[]']").value = ''
 });
 
 function uploadExtrato() {
