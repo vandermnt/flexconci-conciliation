@@ -113,6 +113,14 @@ class ConciliacaoController extends Controller{
           }
 
           else if(strpos($dados_formatados[$i], '</STMTTRN>') !== false) {
+            $tiraEspacoMemo = explode(" ", $dados_arquivo_extratos->MEMO);
+            $tiraEspacoTrnamt = explode(",", $dados_arquivo_extratos->TRNAMT);
+
+            $memo = implode("", $tiraEspacoMemo);
+            $trnamt = implode("", $tiraEspacoTrnamt);
+
+            $chave = $dados_arquivo_extratos->TRNTYPE . $dados_arquivo_extratos->DTPOSTED . $trnamt . $dados_arquivo_extratos->FITID .
+            $memo . $banco . $conta;
             $dados_arquivo_extrato = new DadosArquivoConciliacaoBancariaModel();
             $dados_arquivo_extrato->CODIGO_CONCILIACAO_BANCARIA = $extrato->CODIGO;
             $dados_arquivo_extrato->TRNTYPE = $dados_arquivo_extratos->TRNTYPE;
@@ -125,6 +133,7 @@ class ConciliacaoController extends Controller{
             $dados_arquivo_extrato->DT_START = $date_start;
             $dados_arquivo_extrato->DT_END = $date_end;
             $dados_arquivo_extrato->CODIGO_CLIENTE = session('codigologin');
+            $dados_arquivo_extrato->CHAVE = $chave;
             $dados_arquivo_extrato->save();
           }
         }
