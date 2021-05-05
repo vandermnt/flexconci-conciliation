@@ -126,7 +126,7 @@
 }
 
 #comprovante-modal .modal-dialog {
-	max-width: 1800px !important;
+	max-width: 100% !important;
 }
 
 .fix-width {

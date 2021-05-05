@@ -81,10 +81,10 @@ function buildRequestComprovante(params) {
 		...tableRenderComprovante.serializeSortFilter(),
 	};
 	const bodyPayload = isSearchActive
-		? { ...filters }
+		? {...filters}
 		: {
-				filters: { ...filters },
-				subfilters: { ...tableRenderComprovante.serializeTableFilters() },
+				filters: {...filters},
+				subfilters: {...tableRenderComprovante.serializeTableFilters()},
 		  };
 
 	const requestPayload = {
@@ -171,11 +171,11 @@ async function onComprovantePerPageChanged(event) {
 	salesContainerComprovante
 		.get('search')
 		.get('pagination')
-		.setOptions({ perPage: event.target.value });
+		.setOptions({perPage: event.target.value});
 	salesContainerComprovante
 		.get('filtered')
 		.get('pagination')
-		.setOptions({ perPage: event.target.value });
+		.setOptions({perPage: event.target.value});
 	await buildRequestComprovante({
 		page: 1,
 		por_pagina: event.target.value,
@@ -328,7 +328,7 @@ function renderComprovanteModal(id) {
 	tableRenderComprovante.clearFilters();
 	tableRenderComprovante.clearSortFilter();
 	renderComprovanteTable(sale);
-	renderExtratoTable();
+	renderExtratoTable(sale);
 }
 
 async function renderComprovanteTable(sale) {

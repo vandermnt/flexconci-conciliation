@@ -31,7 +31,7 @@
 		>
 			<x-slot name="content">
 				<div>
-					<iframe width="560" height="315" src="https://www.youtube.com/embed/Oz1zbSC00O8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+					<iframe id="aboutGerencialVideo" width="560" height="315" src="https://www.youtube.com/embed/Oz1zbSC00O8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen allowscriptaccess="always"></iframe>
 				</div>
 			</x-slot>
 			<x-slot name="footer">
@@ -456,6 +456,7 @@
     <!-- <script src="{{ URL::asset('plugins/chartjs/roundedBar.min.js')}}"></script> -->
     <!-- <script src="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.min.js')}}"></script> -->
     <!-- <script src="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-us-aea-en.js')}}"></script> -->
+		<script type="text/javascript" src="assets/js/analytics-index.js"> </script>
 
     <script>
     $(window).on("load", function() {

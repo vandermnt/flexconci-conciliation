@@ -42,6 +42,10 @@ class ExtratoBancarioFilter extends BaseFilter
 			'dados_arquivo_conciliacao_bancaria.TRNAMT as VALOR',
 		]);
 
+		if (Arr::has($filters, 'data_pagamento')) {
+			$this->query->where('dados_arquivo_conciliacao_bancaria.DTPOSTED', $filters['data_pagamento']);
+		}
+
 		$this->buildOrderClause($sort);
 
 		return $this;
