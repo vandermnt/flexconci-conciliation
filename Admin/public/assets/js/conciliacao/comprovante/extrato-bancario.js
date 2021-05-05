@@ -76,14 +76,14 @@ function buildRequestExtrato(params) {
 		: salesContainerExtrato.filter.bind(salesContainerExtrato);
 
 	const filters = {
-		...searchForm.serialize(),
+		...extratoTableFilters,
 		...tableRenderExtrato.serializeSortFilter(),
 	};
 	const bodyPayload = isSearchActive
-		? { ...filters }
+		? {...filters}
 		: {
-				filters: { ...filters },
-				subfilters: { ...tableRenderExtrato.serializeTableFilters() },
+				filters: {...filters},
+				subfilters: {...tableRenderExtrato.serializeTableFilters()},
 		  };
 
 	const requestPayload = {
@@ -171,11 +171,11 @@ async function onExtratoPerPageChanged(event) {
 	salesContainerExtrato
 		.get('search')
 		.get('pagination')
-		.setOptions({ perPage: event.target.value });
+		.setOptions({perPage: event.target.value});
 	salesContainerExtrato
 		.get('filtered')
 		.get('pagination')
-		.setOptions({ perPage: event.target.value });
+		.setOptions({perPage: event.target.value});
 	await buildRequestExtrato({
 		page: 1,
 		por_pagina: event.target.value,
@@ -295,7 +295,8 @@ document
 	.querySelector('#js-por-pagina-extrato')
 	.addEventListener('change', onExtratoPerPageChanged);
 
-async function renderExtratoTable() {
+async function renderExtratoTable(sale) {
+	setExtratoTableFilters(sale);
 	document.querySelector(
 		'#js-extrato-table-title'
 	).innerHTML = `Lançamentos do seu Extrato Bancário <span id="js-quantidade-registros-extrato"></span>`;
@@ -305,7 +306,7 @@ async function renderExtratoTable() {
 			por_pagina: document.querySelector('#js-por-pagina-extrato').value,
 		},
 		body: {
-			filters: {},
+			...extratoTableFilters,
 		},
 	});
 
@@ -318,6 +319,14 @@ async function renderExtratoTable() {
 
 	tableRenderExtrato.clearFilters();
 	tableRenderExtrato.clearSortFilter();
+}
+
+let extratoTableFilters = {};
+
+function setExtratoTableFilters(sale) {
+	extratoTableFilters = {
+		data_pagamento: sale.DATA_PAGAMENTO,
+	};
 }
 
 function updateSelectedExtratoValue() {
