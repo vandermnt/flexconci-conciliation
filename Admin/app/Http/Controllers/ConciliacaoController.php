@@ -135,11 +135,14 @@ class ConciliacaoController extends Controller{
               $hora_envio = date('h:m:s');
               $email_responsavel = null;
 
+              // $TRNAMTsemVirgula = str_replace('.', '', $dados_arquivo_extratos->TRNAMT );
+              $TRNAMTsemVirgula = str_replace(",",".", $dados_arquivo_extratos->TRNAMT);
+
               $dados_arquivo_extrato = new DadosArquivoConciliacaoBancariaModel();
               $dados_arquivo_extrato->CODIGO_CONCILIACAO_BANCARIA = $extrato->CODIGO;
               $dados_arquivo_extrato->TRNTYPE = $dados_arquivo_extratos->TRNTYPE;
               $dados_arquivo_extrato->DTPOSTED = $dataPosted;
-              $dados_arquivo_extrato->TRNAMT = $dados_arquivo_extratos->TRNAMT;
+              $dados_arquivo_extrato->TRNAMT = $TRNAMTsemVirgula;
               $dados_arquivo_extrato->FITID = $dados_arquivo_extratos->FITID;
               $dados_arquivo_extrato->MEMO = $dados_arquivo_extratos->MEMO;
               $dados_arquivo_extrato->CODIGO_BANCO = $banco;
@@ -149,7 +152,7 @@ class ConciliacaoController extends Controller{
               $dados_arquivo_extrato->CODIGO_CLIENTE = session('codigologin');
               $dados_arquivo_extrato->CHAVE = $chave;
               $dados_arquivo_extrato->DATA_ENVIO = $data_envio;
-              $dados_arquivo_extrato->DATA_ENVIO = $hora_envio;
+              $dados_arquivo_extrato->HORA_ENVIO = $hora_envio;
               $dados_arquivo_extrato->EMAIL_RESPONSAVEL = $email_responsavel;
 
               $dados_arquivo_extrato->save();
