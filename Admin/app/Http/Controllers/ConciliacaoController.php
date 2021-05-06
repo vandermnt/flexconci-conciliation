@@ -131,6 +131,10 @@ class ConciliacaoController extends Controller{
             }
 
             if (!$existsTransacao) {
+              $data_envio = date('Y-m-d');
+              $hora_envio = date('h:m:s');
+              $email_responsavel = null;
+
               $dados_arquivo_extrato = new DadosArquivoConciliacaoBancariaModel();
               $dados_arquivo_extrato->CODIGO_CONCILIACAO_BANCARIA = $extrato->CODIGO;
               $dados_arquivo_extrato->TRNTYPE = $dados_arquivo_extratos->TRNTYPE;
@@ -144,6 +148,10 @@ class ConciliacaoController extends Controller{
               $dados_arquivo_extrato->DT_END = $date_end;
               $dados_arquivo_extrato->CODIGO_CLIENTE = session('codigologin');
               $dados_arquivo_extrato->CHAVE = $chave;
+              $dados_arquivo_extrato->DATA_ENVIO = $data_envio;
+              $dados_arquivo_extrato->DATA_ENVIO = $hora_envio;
+              $dados_arquivo_extrato->EMAIL_RESPONSAVEL = $email_responsavel;
+
               $dados_arquivo_extrato->save();
             }
           }
