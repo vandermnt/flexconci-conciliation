@@ -367,10 +367,21 @@ document
 
 document.querySelector('#js-exportar').addEventListener('click', exportar);
 
+document.querySelector('#js-redefinir-colunas').addEventListener('click', tableRender.resetTable.bind(tableRender));
+
 window.addEventListener('load', () => {
   tableConfig.init();
   tableRender.afterRender((tableInstance) => {
     tableConfig.get('sectionContainer').refreshAll();
     scrollableDragger.fixator.update();
+  });
+
+  tableRender.beforeReset((tableInstance) => {
+    tableConfig.show(tableConfig.get('hiddenSections'));
+  });
+
+  tableRender.afterReset((tableInstance) => {
+    tableConfig.hide(tableConfig.get('hiddenSections'));
+    scrollableDragger.refresh();
   });
 });

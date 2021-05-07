@@ -107,6 +107,10 @@
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras">
           </div>
           <div class="d-flex flex-fill align-items-center justify-content-end">
+            <button id="js-redefinir-colunas" class="btn button no-hover mr-1">
+              <i class="fas fa-columns"></i>
+              Redefinir colunas
+            </button>
             <x-table-config-dropdown id="js-table-config" class="mr-1" checker-group="tb-config-columns" />
             <button id="js-exportar" class="btn button no-hover">
               <div class="conciflex-icon icon-md">
