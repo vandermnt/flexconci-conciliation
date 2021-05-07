@@ -1212,6 +1212,9 @@ document
 	.querySelector('#js-tabela-operadoras tfoot td[data-column="TOTAL_TAXA"]')
 	.classList.remove('text-danger');
 
+document.querySelector('#js-redefinir-colunas-erp').addEventListener('click', tableRenderErp.resetTable.bind(tableRenderErp));
+document.querySelector('#js-redefinir-colunas-operadoras').addEventListener('click', tableRender.resetTable.bind(tableRender));
+
 window.addEventListener('load', () => {
   tableConfig.init();
   tableConfigErp.init();
@@ -1222,5 +1225,22 @@ window.addEventListener('load', () => {
   tableRenderErp.afterRender((tableInstance) => {
     tableConfigErp.get('sectionContainer').refreshAll();
     scrollableDraggerErp.fixator.update();
+  });
+
+  tableRender.beforeReset((tableInstance) => {
+    tableConfig.show(tableConfig.get('hiddenSections'));
+  });
+  tableRender.afterReset((tableInstance) => {
+    tableConfig.hide(tableConfig.get('hiddenSections'));
+    scrollableDragger.refresh();
+  });
+
+  tableRenderErp.beforeReset((tableInstance) => {
+    tableConfigErp.show(tableConfigErp.get('hiddenSections'));
+  });
+
+  tableRenderErp.afterReset((tableInstance) => {
+    tableConfigErp.hide(tableConfigErp.get('hiddenSections'));
+    scrollableDraggerErp.refresh();
   });
 });
