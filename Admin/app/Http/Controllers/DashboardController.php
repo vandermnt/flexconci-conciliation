@@ -304,6 +304,8 @@ class DashboardController extends Controller
 			->where('pagamentos_operadoras.DATA_PAGAMENTO', $data)
 			->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'))
 			->groupBy('pagamentos_operadoras.COD_BANCO')
+			->groupBy('pagamentos_operadoras.CONTA')
+			->groupBy('pagamentos_operadoras.AGENCIA')
 			->get();
 
 		$operadoras = DB::table('pagamentos_operadoras')
@@ -359,6 +361,8 @@ class DashboardController extends Controller
 			->where('vendas.DATA_PREVISTA_PAGTO', $data)
 			->where('vendas.COD_CLIENTE', '=', session('codigologin'))
 			->groupBy('vendas.BANCO')
+			->groupBy('pagamentos_operadoras.CONTA')
+			->groupBy('pagamentos_operadoras.AGENCIA')
 			->get();
 
 		$operadoras = DB::table('vendas')
