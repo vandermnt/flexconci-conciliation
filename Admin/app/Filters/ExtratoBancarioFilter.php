@@ -18,6 +18,7 @@ class ExtratoBancarioFilter extends BaseFilter
 		'agencia',
 		'adquirente',
 		'banco',
+		'numero_conta'
 	];
 
 	public static function filter($params)
@@ -44,6 +45,10 @@ class ExtratoBancarioFilter extends BaseFilter
 
 		if (Arr::has($filters, 'data_pagamento')) {
 			$this->query->where('dados_arquivo_conciliacao_bancaria.DTPOSTED', $filters['data_pagamento']);
+		}
+
+		if (Arr::has($filters, 'numero_conta')) {
+			$this->query->where('dados_arquivo_conciliacao_bancaria.NUMERO_CONTA', 'like', '' . $filters['numero_conta'] . '%');
 		}
 
 		$this->buildOrderClause($sort);

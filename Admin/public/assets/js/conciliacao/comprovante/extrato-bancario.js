@@ -316,6 +316,7 @@ async function renderExtratoTable(sale) {
 	document.querySelector(
 		'#js-quantidade-registros-extrato'
 	).innerHTML = `(${total} registros)`;
+	setExtratoTotalValue();
 
 	tableRenderExtrato.clearFilters();
 	tableRenderExtrato.clearSortFilter();
@@ -326,7 +327,20 @@ let extratoTableFilters = {};
 function setExtratoTableFilters(sale) {
 	extratoTableFilters = {
 		data_pagamento: sale.DATA_PAGAMENTO,
+		numero_conta: sale.CONTA.substring(0, 4),
 	};
+}
+
+function setExtratoTotalValue() {
+	const totalValue = parseFloat(
+		salesContainerExtrato.get('data').get('totals').TOTAL_EXTRATO
+	);
+
+	console.log(totalValue);
+
+	document.querySelector(
+		'#total-extrato'
+	).innerHTML = tableRenderExtrato.formatCell(totalValue, 'currency', 0);
 }
 
 function updateSelectedExtratoValue() {
@@ -349,32 +363,17 @@ function updateSelectedExtratoValue() {
 			format,
 			defaultCellValue
 		);
-		// document.querySelector(
-		// 	'#total-selecionado-extrato'
-		// ).innerHTML = formattedValue;
+		document.querySelector(
+			'#total-selecionado-extrato'
+		).innerHTML = formattedValue;
 	} else {
 		clearSelectedExtratoValue();
 	}
 }
 
-function setExtratoTotalValue() {
-	if (salesContainerExtrato) {
-	}
-	const totalValue = parseFloat(
-		salesContainerExtrato.get('data').get('totals').TOTAL_PREVISTO_OPERADORA
-	);
-
-	// const totalValueDOM = document.querySelector('#total-extrato');
-	// totalValueDOM.innerHTML = tableRenderExtrato.formatCell(
-	// 	totalValue,
-	// 	'currency',
-	// 	0
-	// );
-}
-
 function clearSelectedExtratoValue() {
 	selectedExtratoSales = [];
-	// document.querySelector('#total-selecionado-extrato').innerHTML = 'R$ 0,00';
+	document.querySelector('#total-selecionado-extrato').innerHTML = 'R$ 0,00';
 }
 
 function updateTotalsExtrato() {

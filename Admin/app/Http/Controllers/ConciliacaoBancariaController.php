@@ -359,10 +359,14 @@ class ConciliacaoBancariaController extends Controller
 		try {
 			$query = ExtratoBancarioFilter::filter($filters)
 				->getQuery();
+			$totals = [
+				'TOTAL_EXTRATO' => (clone $query)->sum('dados_arquivo_conciliacao_bancaria.TRNAMT'),
+			];
 			$sales = (clone $query)->paginate($perPage);
 
 			return response()->json([
 				'vendas' => $sales,
+				'totais' => $totals,
 			]);
 		} catch (Exception $e) {
 			return response()->json([
@@ -383,11 +387,11 @@ class ConciliacaoBancariaController extends Controller
 		try {
 			$query = ExtratoBancarioSubFilter::subfilter($filters, $subfilters)
 				->getQuery();
+			$totals = [
+				'TOTAL_EXTRATO' => (clone $query)->sum('VALOR'),
+			];
 
 			$sales = (clone $query)->paginate($perPage);
-			$totals = [
-				'TOTAL_PREVISTO_OPERADORA' => (clone $query)->sum('VALOR')
-			];
 
 			return response()->json([
 				'vendas' => $sales,

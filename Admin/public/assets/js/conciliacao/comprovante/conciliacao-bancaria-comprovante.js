@@ -393,8 +393,6 @@ function updateSelectedValue() {
 }
 
 function setComprovanteTotalValue() {
-	if (salesContainerComprovante) {
-	}
 	const totalValue = parseFloat(
 		salesContainerComprovante.get('data').get('totals').TOTAL_PREVISTO_OPERADORA
 	);
