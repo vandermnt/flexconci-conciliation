@@ -186,7 +186,6 @@ tableRender.shouldSelectRow((elementDOM) => {
 });
 
 tableRender.onRenderRow((row, data, tableRenderInstance) => {
-  console.log(data);
   const checkboxDOM = row.querySelector('td input[data-value-key]');
   const value = data[checkboxDOM.dataset.valueKey];
   checkboxDOM.value = value;
@@ -374,10 +373,21 @@ document.querySelector('#js-retorno-csv').addEventListener('click', retornoCsv);
 document.querySelector('#js-desjustificar')
   .addEventListener('click', confirmUnjustify);
 
+document.querySelector('#js-redefinir-colunas').addEventListener('click', tableRender.resetTable.bind(tableRender));
+
 window.addEventListener('load', () => {
   tableConfig.init();
   tableRender.afterRender((tableInstance) => {
     tableConfig.get('sectionContainer').refreshAll();
     scrollableDragger.fixator.update();
+  });
+
+  tableRender.beforeReset((tableInstance) => {
+    tableConfig.show(tableConfig.get('hiddenSections'));
+  });
+
+  tableRender.afterReset((tableInstance) => {
+    tableConfig.hide(tableConfig.get('hiddenSections'));
+    scrollableDragger.refresh();
   });
 });
