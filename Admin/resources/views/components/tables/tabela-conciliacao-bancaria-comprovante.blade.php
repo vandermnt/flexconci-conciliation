@@ -116,13 +116,11 @@
         <td></td>
 				<td class="totals">
 					<div class="d-flex flex-wrap text-center">
-						<span class="w-100">Total Selecionado</span>
 						<span class="w-100">Total</span>
 					</div>
 				</td>
 				<td class="totals">
 					<div class="d-flex flex-wrap text-center">
-						<span id="total-selecionado-comprovante" class="w-100 text-center">R$ 0,00</span>
 						<span id="total-comprovante" class="w-100 text-center" data-column="TOTAL_PREVISTO_OPERADORA" data-format="currency">R$ 0,00</span>
 					</div>
 				</td>

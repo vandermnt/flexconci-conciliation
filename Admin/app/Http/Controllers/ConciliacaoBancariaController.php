@@ -18,6 +18,8 @@ use App\ClienteOperadoraModel;
 use App\Exports\CSV\RetornoVendasOperadorasExport;
 use App\Exports\VendasOperadorasExport;
 use App\Filters\PagamentosOperadorasSubFilter;
+use App\Filters\ExtratoBancarioFilter;
+use App\Filters\ExtratoBancarioSubFilter;
 
 class ConciliacaoBancariaController extends Controller
 {
@@ -345,69 +347,56 @@ class ConciliacaoBancariaController extends Controller
 			], 500);
 		}
 	}
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
-	public function create()
+
+	public function searchExtrato(Request $request)
 	{
-		//
+		$allowedPerPage = [5, 10, 20, 50, 100, 200];
+		$perPage = $request->input('por_pagina', 10);
+		$perPage = in_array($perPage, $allowedPerPage) ? $perPage : 10;
+		$filters = $request->all();
+		$filters['cliente_id'] = session('codigologin');
+
+		try {
+			$query = ExtratoBancarioFilter::filter($filters)
+				->getQuery();
+			$sales = (clone $query)->paginate($perPage);
+
+			return response()->json([
+				'vendas' => $sales,
+			]);
+		} catch (Exception $e) {
+			return response()->json([
+				'message' => 'Não foi possível realizar a consulta em Extrato Bancário.',
+			], 500);
+		}
 	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
-	 */
-	public function store(Request $request)
+	public function filterExtrato(Request $request)
 	{
-		//
-	}
+		$allowedPerPage = [5, 10, 20, 50, 100, 200];
+		$perPage = $request->input('por_pagina', 10);
+		$perPage = in_array($perPage, $allowedPerPage) ? $perPage : 10;
+		$filters = $request->input('filters');
+		$filters['cliente_id'] = session('codigologin');
+		$subfilters = $request->input('subfilters');
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function show($id)
-	{
-		//
-	}
+		try {
+			$query = ExtratoBancarioSubFilter::subfilter($filters, $subfilters)
+				->getQuery();
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
+			$sales = (clone $query)->paginate($perPage);
+			$totals = [
+				'TOTAL_PREVISTO_OPERADORA' => (clone $query)->sum('VALOR')
+			];
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function update(Request $request, $id)
-	{
-		//
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function destroy($id)
-	{
-		//
+			return response()->json([
+				'vendas' => $sales,
+				'totais' => $totals,
+			]);
+		} catch (Exception $e) {
+			return response()->json([
+				'message' => 'Não foi possível realizar a consulta em Vendas Operadoras.',
+			], 500);
+		}
 	}
 }

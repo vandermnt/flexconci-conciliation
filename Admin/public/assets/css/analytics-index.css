@@ -1,0 +1,36 @@
+.about-gerencial img {
+	width: auto;
+	width: 36px !important;
+}
+
+.about-gerencial::before {
+	width: 128px;
+	transform: translateX(-50%);
+}
+
+.about-gerencial:hover {
+	cursor: pointer;
+}
+
+#about-gerencial-modal .modal-dialog {
+	width: 600px;
+}
+
+#about-gerencial-modal .modal-body {
+	padding-top: 0px !important;
+	display: flex;
+	justify-content: center;
+}
+
+#about-gerencial-modal footer,
+header {
+	background-color: #fff !important;
+}
+
+#about-gerencial-modal header {
+	border: none;
+}
+
+#about-gerencial-modal footer {
+	padding: 0px;
+}

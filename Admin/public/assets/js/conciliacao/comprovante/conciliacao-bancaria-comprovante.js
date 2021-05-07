@@ -81,10 +81,10 @@ function buildRequestComprovante(params) {
 		...tableRenderComprovante.serializeSortFilter(),
 	};
 	const bodyPayload = isSearchActive
-		? { ...filters }
+		? {...filters}
 		: {
-				filters: { ...filters },
-				subfilters: { ...tableRenderComprovante.serializeTableFilters() },
+				filters: {...filters},
+				subfilters: {...tableRenderComprovante.serializeTableFilters()},
 		  };
 
 	const requestPayload = {
@@ -131,7 +131,6 @@ tableRenderComprovante.onRenderRow((row, data, tableRenderInstance) => {
 	checkboxDOM.addEventListener('change', (event) => {
 		const target = event.target;
 		const value = event.target.value;
-
 		if (target.checked && !selectedComprovanteSales.includes(value)) {
 			selectedComprovanteSales.push(value);
 		} else if (!target.checked && selectedComprovanteSales.includes(value)) {
@@ -172,11 +171,11 @@ async function onComprovantePerPageChanged(event) {
 	salesContainerComprovante
 		.get('search')
 		.get('pagination')
-		.setOptions({ perPage: event.target.value });
+		.setOptions({perPage: event.target.value});
 	salesContainerComprovante
 		.get('filtered')
 		.get('pagination')
-		.setOptions({ perPage: event.target.value });
+		.setOptions({perPage: event.target.value});
 	await buildRequestComprovante({
 		page: 1,
 		por_pagina: event.target.value,
@@ -311,11 +310,14 @@ function renderComprovanteModal(id) {
 		.querySelectorAll('[data-key]');
 	headerBoxes.forEach((box) => {
 		let content;
-		if (box.dataset.type) {
-			console.log(box);
-			content = `<img src="${sale.BANCO_IMAGEM}" alt>`;
+		if (!box.dataset.format) {
+			content = `<img src="${sale[box.dataset.key]}" alt>`;
 		} else {
-			content = sale[box.dataset.key];
+			content = formatter.format(
+				box.dataset.format || 'text',
+				sale[box.dataset.key],
+				''
+			);
 		}
 		box.querySelector('.content').innerHTML = content;
 	});
@@ -326,6 +328,7 @@ function renderComprovanteModal(id) {
 	tableRenderComprovante.clearFilters();
 	tableRenderComprovante.clearSortFilter();
 	renderComprovanteTable(sale);
+	renderExtratoTable(sale);
 }
 
 async function renderComprovanteTable(sale) {
@@ -372,7 +375,6 @@ function updateSelectedValue() {
 				.find((sale) => sale.ID === id);
 			totalValue += parseFloat(sale['VALOR']);
 		});
-
 		const cellValue = totalValue;
 		const defaultCellValue = 0;
 		const format = 'currency';
@@ -384,7 +386,7 @@ function updateSelectedValue() {
 		);
 		document.querySelector(
 			'#total-selecionado-comprovante'
-		).innerHTML = formattedValue;
+		).innerHTML = `Total Selecionado ${formattedValue}`;
 	} else {
 		clearSelectedValue();
 	}
@@ -408,7 +410,7 @@ function setComprovanteTotalValue() {
 function clearSelectedValue() {
 	selectedComprovanteSales = [];
 	document.querySelector('#total-selecionado-comprovante').innerHTML =
-		'R$ 0,00';
+		'Total Selecionado R$ 0,00';
 }
 
 function updateTotals() {

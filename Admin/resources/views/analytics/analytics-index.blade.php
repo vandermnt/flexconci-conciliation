@@ -3,6 +3,7 @@
 @section('headerStyle')
 <link href="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.css')}}" rel="stylesheet"/>
 <link href="{{ URL::asset('assets/css/dashboard/dashboard.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ URL::asset('assets/css/analytics-index.css')}}" rel="stylesheet" type="text/css" />
 <script src="{{ URL::asset('assets/js/dashboard/calendario.js')}}"></script>
 <!-- <link href="{{ URL::asset('assets/css/globals/global.css')}}" rel="stylesheet" type="text/css" /> -->
 <link href='lib/main.css' rel='stylesheet' />
@@ -22,6 +23,19 @@
       @slot('item1') Dashboard @endslot
       @endcomponent
     </div>
+		<x-modal
+			id="about-gerencial-modal"
+			modal-label-id="about-gerencial-label"
+			modal-label="Conheça nossa tela gerencial"
+		>
+			<x-slot name="content">
+				<div>
+					<iframe id="aboutGerencialVideo" width="560" height="315" src="https://www.youtube.com/embed/Oz1zbSC00O8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen allowscriptaccess="always"></iframe>
+				</div>
+			</x-slot>
+			<x-slot name="footer">
+			</x-slot>
+    </x-modal>
   </div>
   <div class="row">
     <div class="col-lg-6">
@@ -391,6 +405,7 @@
     <script src="{{ URL::asset('assets/js/dashboard/graficos.js')}}"></script>
     <script src="{{ URL::asset('assets/js/dashboard/formata-valores.js')}}"></script>
     <script type="text/javascript" src="assets/js/grafico-dash-vendas.js"> </script>
+		<script type="text/javascript" src="assets/js/analytics-index.js"> </script>
 
     <script>
     $(window).on("load", function() {

@@ -85,24 +85,12 @@
           <td data-column="DESCRICAO_ERP"></td>
         @endif
 				<td data-column="DATA" data-format="date"></td>
-				<td data-column="DESCRICAO" data-format="date"></td>
+				<td data-column="DESCRICAO"></td>
         <td data-column="ADQUIRENTE"></td>
 				<td data-column="VALOR" data-format="currency"></td>
       </tr>
     </tbody>
     <tfoot>
-      <tr>
-        <td></td>
-        @isset($actions)
-          <td></td>
-        @endisset
-				@if($isColumnVisible('ID_ERP'))
-          <td></td>
-        @endif
-        <td></td>
-				<td>Total</td>
-				<td>330</td>
-      </tr>
 			<tr>
         <td></td>
         @isset($actions)
@@ -112,8 +100,16 @@
           <td></td>
         @endif
         <td></td>
-				<td>Total Selecionado</td>
-				<td></td>
+				<td class="totals">
+					<div class="d-flex flex-wrap text-center">
+						<span class="w-100">Total</span>
+					</div>
+				</td>
+				<td class="totals">
+					<div class="d-flex flex-wrap text-center">
+						<span id="total-extrato" class="w-100 text-center" data-column="TOTAL_EXTRATO" data-format="currency">R$ 0,00</span>
+					</div>
+				</td>
       </tr>
     </tfoot>
   </table>

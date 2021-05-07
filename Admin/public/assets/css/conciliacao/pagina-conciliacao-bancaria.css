@@ -126,7 +126,7 @@
 }
 
 #comprovante-modal .modal-dialog {
-	max-width: 1800px !important;
+	max-width: 100% !important;
 }
 
 .fix-width {
@@ -152,7 +152,7 @@
 }
 
 #comprovante-modal header {
-	background-color: white;
+	background-color: #edf0f5;
 	border-bottom: none;
 }
 
@@ -165,13 +165,14 @@
 }
 
 #comprovante-modal .modal-content {
+	background-color: #edf0f5;
 	height: auto;
 	min-height: 100%;
 	border-radius: 0;
 }
 
 #comprovante-modal .modal-dialog {
-	overflow-y: hidden;
+	overflow-y: auto;
 	max-width: 100%;
 	width: 100%;
 	height: 100%;
@@ -189,7 +190,6 @@
 
 #comprovante-modal .table-responsive {
 	overflow-x: auto;
-	max-height: 350px;
 }
 
 #comprovante-modal .totals span {
@@ -213,6 +213,34 @@
 	width: 75px;
 }
 
+.modal-table {
+	width: 45%;
+}
+
+.btn-conciliar {
+	background-color: #2d5275;
+	color: #fff;
+}
+
+.btn-conciliar:hover {
+	color: #fff;
+}
+
+.btn-conciliar:focus {
+	box-shadow: none;
+}
+
+.selected-total-text {
+	text-align: right;
+	font-size: 1rem;
+	color: #303e67;
+	font-weight: 600;
+}
+
+#comprovante-modal footer .form-group {
+	margin-bottom: 0px;
+}
+
 @media (max-width: 1800px) {
 	.resize {
 		max-width: 100% !important;
@@ -226,12 +254,12 @@
 		min-width: 70px !important;
 	}
 	#comprovante-modal .table-responsive {
-		max-height: 350px;
+		max-height: 370px;
 	}
 }
 
 @media (max-width: 1400px) {
 	#comprovante-modal .table-responsive {
-		max-height: 330px;
+		max-height: 355px;
 	}
 }
