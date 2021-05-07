@@ -1,6 +1,7 @@
 function TableRender(options = {}) {
 	this.proxy = new Proxy(
 		{
+      originalTable: document.querySelector(options.table).cloneNode(true),
 			table: options.table || '#js-table',
 			data: options.data || { body: [], footer: {} },
 			formatter:
@@ -20,6 +21,8 @@ function TableRender(options = {}) {
 			onRenderRow: () => {},
 			onRenderCell: () => {},
       afterRender: null,
+      afterReset: () => {},
+      beforeReset: () => {},
 			shouldSelectRow: () => true,
 			onSelectRow: () => {},
 			onFilter: () => {},
@@ -79,6 +82,14 @@ TableRender.prototype.onRenderCell = function (
 TableRender.prototype.afterRender = function (handler = (instance = this) => {}) {
 	this.set('afterRender', handler);
 };
+
+TableRender.prototype.beforeReset = function(handler = (instance = this) => {}) {
+  this.set('beforeReset', handler);
+}
+
+TableRender.prototype.afterReset = function(handler = (instance = this) => {}) {
+  this.set('afterReset', handler);
+}
 
 TableRender.prototype.shouldSelectRow = function (handler = (element) => true) {
 	this.set('shouldSelectRow', handler);
@@ -165,6 +176,53 @@ TableRender.prototype.clearSortFilter = function () {
 		order: null,
 	});
 };
+
+TableRender.prototype.refreshTableFilters = function (tableFilters = {}) {
+  const table = this.get('table');
+
+  if(!table) return false;
+
+  Object.keys(tableFilters).forEach(filterKey => {
+    const input = table.querySelector(`input[name="${filterKey}"]`);
+    input.value = tableFilters[filterKey];
+  });
+
+  return true;
+}
+
+TableRender.prototype.refreshSortFilter = function (sortFilter) {
+  const table = this.get('table');
+
+  if(!sortFilter.sort) return false;
+
+  const selector = `.table-sorter[data-tbsort-by="${sortFilter.sort.column}"] .table-sort-icon`;
+	const sortIcon = table.querySelector(selector);
+  sortIcon.dataset.sortOrder = sortFilter.sort.direction;
+
+  return true;
+}
+
+TableRender.prototype.resetTable = function () {
+  const afterResetHandler = this.get('afterReset');
+  const beforeResetHandler = this.get('beforeReset');
+
+  if(beforeResetHandler && typeof beforeResetHandler === 'function')
+    beforeResetHandler(this);
+
+  const tableFilters = this.serializeTableFilters();
+  const sortFilter = this.serializeSortFilter();
+  const resetedTable = this.get('originalTable').cloneNode(true);
+  this.get('table').replaceWith(resetedTable);
+  this.set('table', resetedTable);
+
+  this.refreshTableFilters(tableFilters);
+  this.refreshSortFilter(sortFilter);
+  this.addTableFiltersListener();
+  this.render();
+
+  if(afterResetHandler && typeof afterResetHandler === 'function')
+    afterResetHandler(this);
+}
 
 TableRender.prototype.render = function () {
 	const onRender = this.get('onRender');
