@@ -179,21 +179,23 @@ tableRender.shouldSelectRow(elementDOM => {
 });
 
 tableRender.onRenderRow((row, data, tableRenderInstance) => {
-    const checkboxDOM = row.querySelector('td input[data-value-key]');
-    const value = data[checkboxDOM.dataset.valueKey];
-    checkboxDOM.value = value;
-    checkboxDOM.checked = selectedSales.includes(value);
+  const checkboxDOM = row.querySelector('td input[data-value-key]');
+  const value = data[checkboxDOM.dataset.valueKey];
+  checkboxDOM.value = value;
+  checkboxDOM.checked = selectedSales.includes(value);
 
-    checkboxDOM.addEventListener('change', event => {
-        const target = event.target;
-        const value = event.target.value;
+  checkboxDOM.addEventListener('change', (event) => {
+    const target = event.target;
+    const value = event.target.value;
 
-        if (target.checked && !selectedSales.includes(value)) {
-            selectedSales.push(value);
-        } else if (!target.checked && selectedSales.includes(value)) {
-            selectedSales = [...selectedSales.filter(selected => selected !== value)];
-        }
-    });
+    if (target.checked && !selectedSales.includes(value)) {
+      selectedSales.push(value);
+    } else if (!target.checked && selectedSales.includes(value)) {
+      selectedSales = [
+        ...selectedSales.filter((selected) => selected !== value),
+      ];
+    }
+  });
 
     const showDetailsDOM = row.querySelector('td .js-show-details');
 
@@ -346,10 +348,21 @@ document.querySelector('#js-retorno-csv')
 document.querySelector('#js-desjustificar')
   .addEventListener('click', confirmUnjustify);
 
+document.querySelector('#js-redefinir-colunas').addEventListener('click', tableRender.resetTable.bind(tableRender));
+
 window.addEventListener('load', () => {
   tableConfig.init();
   tableRender.afterRender((tableInstance) => {
     tableConfig.get('sectionContainer').refreshAll();
     scrollableDragger.fixator.update();
+  });
+
+  tableRender.beforeReset((tableInstance) => {
+    tableConfig.show(tableConfig.get('hiddenSections'));
+  });
+
+  tableRender.afterReset((tableInstance) => {
+    tableConfig.hide(tableConfig.get('hiddenSections'));
+    scrollableDragger.refresh();
   });
 });
