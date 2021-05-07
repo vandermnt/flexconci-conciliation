@@ -36,9 +36,9 @@ class Fixator {
     this.$wrapper.append(this.$fixWrap);
     this.$fixWrap.width(this.coords.wrapper.width);
     this.$fixTable.width(this.coords.table.width);
-    $(window).on("scroll", () => this.render());
-    $(window).on("resize", () => this.update());
-    this.$wrapper.on("scroll", () => this.changePosition());
+    $(window).on("scroll.fixator", () => this.render());
+    $(window).on("resize.fixator", () => this.update());
+    this.$wrapper.on("scroll.fixator", () => this.changePosition());
   }
 
   update() {
@@ -53,13 +53,20 @@ class Fixator {
         offset: item.origin.offset().top,
         height: item.origin.height()
       };
-
     });
     this.$wrapper = $(this.options.wrapper);
     this.$table = $(this.options.table);
     this.$fixWrap.width(this.coords.wrapper.width);
     this.$fixTable.width(this.coords.table.width);
 
+  }
+
+  destroy() {
+    $(window).off('fixator');
+    this.$wrapper.off('fixator');
+    this.$fixTbody.remove();
+    this.$fixTable.remove();
+    this.$fixWrap.remove();
   }
 
   render() {
@@ -135,6 +142,7 @@ class GrabAndSlide {
       }
     }
   }
+
   end() {
     this.scroll = false;
   }
@@ -142,6 +150,7 @@ class GrabAndSlide {
 
 class DragAndDrop {
   constructor(options) {
+    this.options = options;
     this.table = options.table;
     this.dragger = tableDragger($(options.table)[0], options.draggerConfig);
   }
@@ -238,18 +247,33 @@ class DndWithScroll extends DragAndDrop {
     this.dragger.on('drag', this.onDragStart);
     this.dragger.on('drop', this.onDrop);
   }
+
+  refresh() {
+    this.fixator.destroy();
+    this.dragger = tableDragger($(this.options.table)[0], this.options.draggerConfig);
+    this.fixator = new Fixator(this.options.fixatorOptions);
+    this.sliderForTable = new GrabAndSlide(this.options.sliderOptions.selector);
+
+    this.init();
+    this.bindEvents();
+  }
 }
 
 function createScrollableTableDragger(options = {}) {
-  const fixator = new Fixator({
+  const fixatorOptions = {
     wrapper: options.wrapper || '.table',
     table: options.table || ".table > table",
     rows: options.rows || []
-  });
-  const sliderForTable = new GrabAndSlide(options.slider || options.wrapper || '.table');
+  };
+  const sliderOptions = { selector: options.slider || options.wrapper || '.table' }
+
+  const fixator = new Fixator(fixatorOptions);
+  const sliderForTable = new GrabAndSlide(sliderOptions.selector);
   const scrollableDragger = new DndWithScroll({
     fixator,
+    fixatorOptions,
     sliderForTable,
+    sliderOptions,
     tableWrap: options.wrapper || '.table',
     table: options.table || ".table > table",
     draggerConfig: options.draggerConfig || {

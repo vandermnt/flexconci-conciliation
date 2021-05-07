@@ -174,6 +174,10 @@
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas ERP">
           </div>
           <div class="actions d-flex flex-fill align-items-center justify-content-end">
+            <button id="js-redefinir-colunas" class="btn button no-hover mr-1">
+              <i class="fas fa-columns"></i>
+              Redefinir colunas
+            </button>
             <x-table-config-dropdown id="js-table-config" class="mr-1" checker-group="tb-config-columns" />
             @if(Auth::user()->USUARIO_GLOBAL === 'S')
               <button
