@@ -156,6 +156,10 @@
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas ERP">
           </div>
           <div class="acoes d-flex flex-fill align-items-center justify-content-end">
+            <button id="js-redefinir-colunas-erp" class="btn button no-hover mr-1 hidden">
+              <i class="fas fa-columns"></i>
+              Redefinir colunas
+            </button>
             <x-table-config-dropdown id="js-table-config-erp" class="mr-1" checker-group="tb-config-erp" />
             <div
               class="retorno-erp tooltip-hint font-weight-bold"
@@ -256,6 +260,10 @@
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas Operadoras">
           </div>
           <div class="d-flex flex-fill align-items-center justify-content-end">
+            <button id="js-redefinir-colunas-operadoras" class="btn button no-hover mr-1">
+              <i class="fas fa-columns"></i>
+              Redefinir colunas
+            </button>
             <x-table-config-dropdown id="js-table-config-operadoras" class="mr-1" checker-group="tb-config-operadoras" />
             <button
               id="js-justificar-operadora"
