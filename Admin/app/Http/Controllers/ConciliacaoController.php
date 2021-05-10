@@ -12,6 +12,8 @@ use Auth;
 class ConciliacaoController extends Controller{
 
   public function conciliacaoBancaria(){
+    date_default_timezone_set('America/Sao_Paulo');
+
     $dados_cliente = ClienteModel::where('CODIGO', '=', session('codigologin'))->first();
     $lines = array();
     $dados_formatados = [];
@@ -21,6 +23,8 @@ class ConciliacaoController extends Controller{
     $date_start = null;
     $date_end = null;
     $existsTransacao = false;
+
+    date_default_timezone_set('America/Sao_Paulo');
 
     $arquivos = Request::file('extratos');
     $transacoes = DadosArquivoConciliacaoBancariaModel::where('CODIGO_CLIENTE', session('codigologin'))->get();
@@ -51,7 +55,6 @@ class ConciliacaoController extends Controller{
 
         $contents = fopen(public_path("extratos-bancarios/".$nome_arquivo), "r");
 
-        date_default_timezone_set('America/Sao_Paulo');
         $date = date('Y-m-d');
         $date_historico = date('d-m-Y');
         $hora_envio = date('H:i:s');
@@ -132,7 +135,7 @@ class ConciliacaoController extends Controller{
 
             if (!$existsTransacao) {
               $data_envio = date('Y-m-d');
-              $hora_envio = date('h:m:s');
+              $hora_envio = date('h:i:s');
               $email_responsavel = null;
 
               // $TRNAMTsemVirgula = str_replace('.', '', $dados_arquivo_extratos->TRNAMT );
