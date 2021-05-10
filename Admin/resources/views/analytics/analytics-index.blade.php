@@ -310,8 +310,10 @@
                 <li class="list-group-item align-items-center d-flex justify-content-between">
                   <div class="col-12 row" style='text-align: center;align-items: center;justify-content: center'>
                     <div class="col-4 tooltip-hint" data-title="{{ $bancos->BANCO_NOME }}">
-                      <img src="{{ $bancos->IMAGEM}}" class="align-self-center img-bancos-detalhamento">
+                      <div class='img-detalhamento-operadoras' style='background-image: url("{{ $bancos->IMAGEM}} ")'/> </div>
+                      <!-- <img src="{{ $bancos->IMAGEM}}" class="align-self-center img-detalhemento-operadoras"> -->
                     </div>
+
                     <div class="col-4 media-body align-self-center">
                       <h4 class="label-banco-detalhamento">
                         AG: {{ $bancos->AGENCIA}} - C/C: {{ $bancos->CONTA }}
