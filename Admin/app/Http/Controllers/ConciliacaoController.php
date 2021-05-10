@@ -140,7 +140,6 @@ class ConciliacaoController extends Controller{
 
               // $TRNAMTsemVirgula = str_replace('.', '', $dados_arquivo_extratos->TRNAMT );
               $TRNAMTsemVirgula = str_replace(",",".", $dados_arquivo_extratos->TRNAMT);
-
               $dados_arquivo_extrato = new DadosArquivoConciliacaoBancariaModel();
               $dados_arquivo_extrato->CODIGO_CONCILIACAO_BANCARIA = $extrato->CODIGO;
               $dados_arquivo_extrato->TRNTYPE = $dados_arquivo_extratos->TRNTYPE;
@@ -156,7 +155,7 @@ class ConciliacaoController extends Controller{
               $dados_arquivo_extrato->CHAVE = $chave;
               $dados_arquivo_extrato->DATA_ENVIO = $data_envio;
               $dados_arquivo_extrato->HORA_ENVIO = $hora_envio;
-              $dados_arquivo_extrato->EMAIL_RESPONSAVEL = $email_responsavel;
+              $dados_arquivo_extrato->EMAIL_RESPONSAVEL = session('emailuserlogado');
 
               $dados_arquivo_extrato->save();
             }

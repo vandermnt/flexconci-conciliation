@@ -58,9 +58,11 @@ class LoginController extends Controller
 		$cod_cliente = $request['usuario_comercial'];
 		$cod_buscas = $request['combo_cliente'];
 
-		session()->put('codigologin', $cod_buscas);
-
 		$user = User::where('CODIGO', '=', $cod_cliente)->first();
+
+		session()->put('codigologin', $cod_buscas);
+		session()->put('emailuserlogado', $user->USUARIO);
+
 		date_default_timezone_set('America/Sao_Paulo');
 
 		$user->DATA_ULTIMO_LOGIN =  date('Y/m/d');
@@ -82,9 +84,10 @@ class LoginController extends Controller
 	{
 		$cod_empresa = $request['empresaescolhida'];
 
-		session()->put('codigologin', $cod_empresa);
-
 		$user = User::where('CODIGO', '=', $request['usuario_global'])->first();
+
+		session()->put('codigologin', $cod_empresa);
+		session()->put('emailuserlogado', $user->USUARIO);
 
 		Auth::login($user);
 
@@ -120,6 +123,7 @@ class LoginController extends Controller
 				$aux = 'user_comum';
 				Auth::login($user);
 				session()->put('codigologin', $user->COD_CLIENTE);
+				session()->put('emailuserlogado', $user->USUARIO);
 
 				$clientes = json_encode([$user, $aux]);
 
@@ -135,9 +139,10 @@ class LoginController extends Controller
 	{
 		$cod_empresa = $request['empresaescolhida'];
 
-		session()->put('codigologin', $cod_empresa);
-
 		$user = User::where('CODIGO', '=', $request['usuario_global'])->first();
+
+		session()->put('codigologin', $cod_empresa);
+		session()->put('emailuserlogado', $user->USUARIO);
 
 		Auth::login($user);
 
