@@ -66,3 +66,58 @@
 	margin: 0;
 	font-weight: 700;
 }
+
+#pagina-conciliacao-vendas .vendas {
+  --transition-speed: 0.5s;
+  --transition-delay-amount: 0.2s;
+}
+
+#pagina-conciliacao-vendas .vendas[data-table-type="erp"] button i {
+  margin: 0;
+}
+
+#pagina-conciliacao-vendas .vendas[data-table-type="erp"] .button {
+  min-width: unset;
+}
+
+#pagina-conciliacao-vendas .vendas[data-table-type="erp"] .button:not(.table-config-control) {
+  width: auto;
+}
+
+#pagina-conciliacao-vendas .vendas[data-table-type="erp"] .button:not(.table-config-control) {
+  min-width: 48px;
+  transition: min-width var(--transition-speed);
+  transition-delay: var(--transition-delay-amount);
+}
+
+#pagina-conciliacao-vendas .vendas[data-table-type="erp"] .button:not(.table-config-control):hover {
+  min-width: 200px;
+}
+
+#pagina-conciliacao-vendas .vendas[data-table-type="erp"] .button span {
+  display: none;
+}
+
+#pagina-conciliacao-vendas .vendas[data-table-type="erp"] .button:hover span {
+  display: inline-block;
+}
+
+#pagina-conciliacao-vendas .vendas[data-table-type="erp"] .table-config {
+  width: auto;
+  min-width: 48px;
+  transition: min-width var(--transition-speed), max-width var(--transition-speed);
+  transition-delay: var(--transition-delay-amount), 0s;
+}
+
+#pagina-conciliacao-vendas .vendas[data-table-type="erp"] .table-config:hover {
+  width: 100%;
+  min-width: 200px;
+}
+
+#pagina-conciliacao-vendas .vendas[data-table-type="erp"] .table-config.has-focus {
+  width: 100%;
+}
+
+#pagina-conciliacao-vendas .vendas[data-table-type="erp"] .table-config.has-focus span {
+  display: inline-block;
+}

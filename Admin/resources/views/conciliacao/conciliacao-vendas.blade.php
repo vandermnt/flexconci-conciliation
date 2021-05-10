@@ -156,9 +156,9 @@
             <img src="assets/images/widgets/arrow-down.svg" alt="Vendas ERP">
           </div>
           <div class="acoes d-flex flex-fill align-items-center justify-content-end">
-            <button id="js-redefinir-colunas-erp" class="btn button no-hover mr-1 hidden">
+            <button id="js-redefinir-colunas-erp" class="btn button no-hover mr-1">
               <i class="fas fa-columns"></i>
-              Redefinir colunas
+              <span>Redefinir colunas</span>
             </button>
             <x-table-config-dropdown id="js-table-config-erp" class="mr-1" checker-group="tb-config-erp" />
             <div
@@ -171,17 +171,17 @@
                   id="js-abrir-modal-retorno-erp"
               >
                   <i class="fas fa-undo"></i>
-                  Corrigir Venda {{ $erp->ERP ?? 'ERP' }}
+                  <span>Corrigir Venda {{ $erp->ERP ?? 'ERP' }}</span>
               </button>
 						@endif
             </div>
             <button id="js-conciliar" class="btn mr-1 button no-hover">
               <i class="far fa-handshake"></i>
-              Conciliar
+              <span>Conciliar</span>
             </button>
             <button id="js-desconciliar" class="btn mr-1 button no-hover">
               <i class="fas fa-handshake-slash"></i>
-              Desconciliar
+              <span>Desconciliar</span>
             </button>
             <button
               id="js-justificar-erp"
@@ -189,11 +189,11 @@
               data-type="erp"
             >
               <i class="far fa-flag"></i>
-              Justificar
+              <span>Justificar</span>
             </button>
             <button id="js-desjustificar-erp" class="btn mr-1 button no-hover">
               <i class="fas fa-comment-slash"></i>
-              Desfazer Justificativa
+              <span>Desfazer Justificativa</span>
             </button>
             <button
               id="js-exportar-erp"
@@ -203,7 +203,7 @@
               <div class="conciflex-icon icon-md">
                 <img src="assets/images/widgets/excel-file.svg" alt="Excel">
               </div>
-              Exportar
+              <span>Exportar</span>
             </button>
           </div>
         </div>
@@ -262,7 +262,7 @@
           <div class="d-flex flex-fill align-items-center justify-content-end">
             <button id="js-redefinir-colunas-operadoras" class="btn button no-hover mr-1">
               <i class="fas fa-columns"></i>
-              Redefinir colunas
+              <span>Redefinir colunas</span>
             </button>
             <x-table-config-dropdown id="js-table-config-operadoras" class="mr-1" checker-group="tb-config-operadoras" />
             <button
@@ -271,7 +271,7 @@
               data-type="operadoras"
             >
               <i class="far fa-flag"></i>
-              Justificar
+              <span>Justificar</span>
             </button>
             <button
               id="js-exportar-operadoras"
@@ -281,7 +281,7 @@
               <div class="conciflex-icon icon-md">
                 <img src="assets/images/widgets/excel-file.svg" alt="Excel">
               </div>
-              Exportar
+              <span>Exportar</span>
             </button>
           </div>
         </div>
