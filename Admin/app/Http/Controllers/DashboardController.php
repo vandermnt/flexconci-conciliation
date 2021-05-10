@@ -100,7 +100,7 @@ class DashboardController extends Controller
 		$dados_operadora = $dados_bancos->groupBy('vendas.ADQID')
 			->get();
 
-		$dados_bancos = $dados_bancos->groupBy('vendas.BANCO')
+		$dados_bancos = $dados_bancos->groupBy('vendas.BANCO')->groupBy('vendas.CONTA')
 			->get();
 
 		$total_banco = 0;
@@ -352,6 +352,7 @@ class DashboardController extends Controller
 
 	public function detalheCalendarioPrevisaoPagamento($data)
 	{
+
 		$bancos = DB::table('vendas')
 			->leftJoin('lista_bancos', 'vendas.BANCO', 'lista_bancos.CODIGO')
 			->select('vendas.CODIGO', 'vendas.DATA_PREVISTA_PAGTO', 'lista_bancos.IMAGEM_LINK as IMAGEM', 'lista_bancos.NOME_WEB as BANCO_NOME', 'vendas.CONTA', 'vendas.AGENCIA')
@@ -361,8 +362,8 @@ class DashboardController extends Controller
 			->where('vendas.DATA_PREVISTA_PAGTO', $data)
 			->where('vendas.COD_CLIENTE', '=', session('codigologin'))
 			->groupBy('vendas.BANCO')
-			->groupBy('pagamentos_operadoras.CONTA')
-			->groupBy('pagamentos_operadoras.AGENCIA')
+			->groupBy('vendas.CONTA')
+			->groupBy('vendas.AGENCIA')
 			->get();
 
 		$operadoras = DB::table('vendas')
