@@ -389,7 +389,44 @@ function updateSelectedValue() {
 		).innerHTML = `Total Selecionado ${formattedValue}`;
 	} else {
 		clearSelectedValue();
+		clearTotalDiff();
 	}
+	updateTotalDiff();
+}
+
+function updateTotalDiff() {
+	if (selectedComprovanteSales.length > 0 && selectedExtratoSales.length > 0) {
+		let totalComprovante = 0;
+		selectedComprovanteSales.forEach((id) => {
+			const sale = salesContainerComprovante
+				.get('data')
+				.get('sales')
+				.find((sale) => sale.ID === id);
+			totalComprovante += parseFloat(sale['VALOR']);
+		});
+		let totalExtrato = 0;
+		selectedExtratoSales.forEach((id) => {
+			const sale = salesContainerExtrato
+				.get('data')
+				.get('sales')
+				.find((sale) => sale.ID === id);
+			totalExtrato += parseFloat(sale['VALOR']);
+		});
+		const formattedValue = tableRenderComprovante.formatCell(
+			totalComprovante - totalExtrato,
+			'currency',
+			0
+		);
+		document.querySelector(
+			'#total-diferenca'
+		).innerHTML = `Diferença (Operadora - Extrato) ${formattedValue}`;
+	}
+}
+
+function clearTotalDiff() {
+	document.querySelector(
+		'#total-diferenca'
+	).innerHTML = `Diferença (Operadora - Extrato) R$ 0,00`;
 }
 
 function setComprovanteTotalValue() {

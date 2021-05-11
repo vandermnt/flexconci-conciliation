@@ -366,7 +366,9 @@ function updateSelectedExtratoValue() {
 		).innerHTML = `Total Selecionado ${formattedValue}`;
 	} else {
 		clearSelectedExtratoValue();
+		clearTotalDiff();
 	}
+	updateTotalDiff();
 }
 
 function clearSelectedExtratoValue() {
