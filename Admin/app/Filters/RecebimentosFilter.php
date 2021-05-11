@@ -142,9 +142,9 @@ class RecebimentosFilter extends BaseFilter
 		}
 		if (!is_null($recebimento_conciliado_erp) && count($recebimento_conciliado_erp) < 2) {
 			$filterValue = $recebimento_conciliado_erp[0];
-			$whereOperator = $filterValue === 'true' ? '!=' : "=";
+			$whereOperator = $filterValue === 'true' ? '=' : '!=';
 
-			$this->query->where('ID_VENDA_ERP', $whereOperator, null);
+			$this->query->where('RETORNO_BAIXA', $whereOperator, 'S');
 		}
 		if (Arr::has($filters, 'domicilios_bancarios')) {
 			$this->query->whereIn('lista_bancos.CODIGO', function ($query) use ($filters) {
