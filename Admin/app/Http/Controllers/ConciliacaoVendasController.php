@@ -107,8 +107,8 @@ class ConciliacaoVendasController extends Controller
 				'TOTAL_LIQUIDO' => (clone $sales_query)->sum('VALOR_LIQUIDO_PARCELA') ?? 0,
 				'TOTAL_LIQUIDO_OPERADORA' => (clone $sales_query)->sum('VALOR_LIQUIDO_OPERADORA') ?? 0,
 				'TOTAL_DIFERENCA_LIQUIDO' => (clone $sales_query)->sum('DIFERENCA_LIQUIDO') ?? 0,
+				'TOTAL_TAXA' => (clone $sales_query)->sum('VALOR_TAXA') ?? 0,
 			];
-			$totals['TOTAL_TAXA'] = ($totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO']) ?? 0;
 
 			foreach ($status_keys as $status => $key) {
 				$totals[$key] = (clone $query)
@@ -144,14 +144,15 @@ class ConciliacaoVendasController extends Controller
 		try {
 			$query = VendasErpSubFilter::subfilter($filters, $subfilters)->getQuery();
 
-			$sales = (clone $query)->paginate($per_page);
 			$totals = [
 				'TOTAL_BRUTO' => $query->sum('VALOR_VENDA'),
 				'TOTAL_LIQUIDO' => $query->sum('VALOR_LIQUIDO_PARCELA'),
 				'TOTAL_LIQUIDO_OPERADORA' => $query->sum('VALOR_LIQUIDO_OPERADORA') ?? 0,
 				'TOTAL_DIFERENCA_LIQUIDO' => $query->sum('DIFERENCA_LIQUIDO') ?? 0,
+				'TOTAL_TAXA' => $query->sum('VALOR_TAXA') ?? 0,
 			];
-			$totals['TOTAL_TAXA'] = $totals['TOTAL_BRUTO'] - $totals['TOTAL_LIQUIDO'];
+
+			$sales = (clone $query)->paginate($per_page);
 
 			return response()->json([
 				'vendas' => $sales,
@@ -343,7 +344,7 @@ class ConciliacaoVendasController extends Controller
 			->leftJoin('erp', 'clientes.COD_ERP', 'erp.CODIGO')
 			->where('clientes.CODIGO', session('codigologin'))
 			->first()
-      ->toArray();
+			->toArray();
 
 		$sort = [
 			'column' => $request->input('sort_column', 'DATA_VENDA'),
@@ -353,7 +354,7 @@ class ConciliacaoVendasController extends Controller
 		$filters['sort'] = $sort;
 		$subfilters = $request->except(['_token']);
 		Arr::set($filters, 'cliente_id', session('codigologin'));
-    $hiddenColumns = $request->input('hidden', []);
+		$hiddenColumns = $request->input('hidden', []);
 		return (new VendasErpConciliacaoExport($filters, $subfilters, $hiddenColumns, $headers))->download('vendas_erp_' . time() . '.xlsx');
 	}
 
@@ -377,7 +378,7 @@ class ConciliacaoVendasController extends Controller
 		$filters['status_conciliacao'] = in_array($status_nao_conciliada, $status_conciliacao) ?
 			[$status_nao_conciliada] : [null];
 
-    $hiddenColumns = $request->input('hidden', []);
+		$hiddenColumns = $request->input('hidden', []);
 		return (new VendasConciliacaoExport($filters, $subfilters, $hiddenColumns))->download('vendas_operadoras_' . time() . '.xlsx');
 	}
 

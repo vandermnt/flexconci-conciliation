@@ -336,8 +336,6 @@ function setExtratoTotalValue() {
 		salesContainerExtrato.get('data').get('totals').TOTAL_EXTRATO
 	);
 
-	console.log(totalValue);
-
 	document.querySelector(
 		'#total-extrato'
 	).innerHTML = tableRenderExtrato.formatCell(totalValue, 'currency', 0);
@@ -365,15 +363,18 @@ function updateSelectedExtratoValue() {
 		);
 		document.querySelector(
 			'#total-selecionado-extrato'
-		).innerHTML = formattedValue;
+		).innerHTML = `Total Selecionado ${formattedValue}`;
 	} else {
 		clearSelectedExtratoValue();
+		clearTotalDiff();
 	}
+	updateTotalDiff();
 }
 
 function clearSelectedExtratoValue() {
 	selectedExtratoSales = [];
-	document.querySelector('#total-selecionado-extrato').innerHTML = 'R$ 0,00';
+	document.querySelector('#total-selecionado-extrato').innerHTML =
+		'Total Selecionado R$ 0,00';
 }
 
 function updateTotalsExtrato() {
