@@ -188,7 +188,7 @@ Route::get('/cielo/credenciamento', 'EdiServices\CieloEdiController@index')->nam
 Route::get('/cielo/authenticate', 'EdiServices\CieloEdiController@authenticate')->name('cielo.authenticate');
 Route::get('/cielo/callback', 'EdiServices\CieloEdiController@callback')->name('cielo.callback');
 Route::get('/cielo/autorizacao', 'EdiServices\CieloEdiController@authorize')->name('cielo.authorize');
-Route::get('/cielo/registro-edi', 'EdiServices\CieloEdiController@ediRegister')->name('cielo.register-edi');
+Route::post('/cielo/checkout', 'EdiServices\CieloEdiController@checkout')->name('cielo.checkout');
 Route::get('/cielo/resultados', 'EdiServices\CieloEdiController@show')->name('cielo.results');
 
 Route::get('/credenciamento-cielo', function () {
