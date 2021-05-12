@@ -17,11 +17,14 @@
       <div id="js-error-alert" class="alert alert-danger w-100 hidden">
         <p class="font-weight-bold text-center m-0"></p>
       </div>
+      @csrf
       <input
         id="js-access-token"
         type="hidden"
         value="{{ $accessToken }}"
-        data-register-url="{{ route('cielo.register-edi') }}"
+        data-base-url="{{ $baseUrl }}"
+        data-checkout-url="{{ route('cielo.checkout') }}"
+        data-merchant-email="{{ $merchantEmail }}"
       >
       <div id="results">
         <div class="mb-2 hidden" id="js-estabelecimentos-registrados">
