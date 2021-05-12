@@ -372,6 +372,18 @@
             <input type="text" class="form-control" name="CLASSIFICACAO_AJUSTE">
           </div>
         </th>
+				<th class="draggable" data-tb-section="NUMERO_TERMINAL" data-th-title="Num. Máquina">
+          <div class="d-flex flex-column align-items-center">
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="NUMERO_TERMINAL"
+            >
+                <p class="m-0">Num. Máquina</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
+            <input type="text" class="form-control" name="NUMERO_TERMINAL">
+          </div>
+        </th>
         <th class="draggable" data-tb-section="BANCO" data-th-title="Banco">
           <div class="d-flex flex-column align-items-center">
             <div
@@ -580,6 +592,7 @@
 				<td data-tb-section="COD_AJUSTE" data-column="COD_AJUSTE"></td>
 				<td data-tb-section="DESC_AJUSTE" data-column="DESC_AJUSTE"></td>
 				<td data-tb-section="CLASSIFICACAO_AJUSTE" data-column="CLASSIFICACAO_AJUSTE"></td>
+				<td data-tb-section="NUMERO_TERMINAL" data-column="NUMERO_TERMINAL"></td>
         <td
           data-tb-section="BANCO"
           data-column="BANCO"
@@ -641,6 +654,7 @@
         <td data-tb-section="COD_AJUSTE"></td>
         <td data-tb-section="DESC_AJUSTE"></td>
         <td data-tb-section="CLASSIFICACAO_AJUSTE"></td>
+				<td data-tb-section="NUMERO_TERMINAL"></td>
         <td data-tb-section="BANCO"></td>
         <td data-tb-section="AGENCIA"></td>
         <td data-tb-section="CONTA"></td>

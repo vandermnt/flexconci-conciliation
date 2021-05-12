@@ -37,7 +37,9 @@ class RecebimentosSubFilter extends BaseSubFilter
 		'PARCELA',
 		'TOTAL_PARCELAS',
 		'ESTABELECIMENTO',
-		'TERMINAL',
+		'COD_AJUSTE',
+		'DESC_AJUSTE',
+		'CLASSIFICACAO_AJUSTE',
 		'NUMERO_TERMINAL',
 		'BANCO',
 		'AGENCIA',
@@ -49,7 +51,10 @@ class RecebimentosSubFilter extends BaseSubFilter
 		'DIVERGENCIA',
 		'JUSTIFICATIVA',
 		'RETORNO_ERP_BAIXA',
-		'NUMERO_OPERACAO_ANTECIPACAO'
+		'NUMERO_OPERACAO_ANTECIPACAO',
+		'COD_AJUSTE',
+		'DESC_AJUSTE',
+		'CLASSIFICACAO_AJUSTE'
 	];
 	protected $numericFilters = [
 		'VALOR_BRUTO',
