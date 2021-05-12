@@ -84,34 +84,36 @@ class CieloEdiController extends Controller
     return view('edi-services.cielo.authorize');
   }
 
-  public function ediRegister(Request $request) {
-    set_time_limit(180);
-
+  public function checkout(Request $request) {
     try {
-      $accessToken = session('cielo_access_token');
-      $results = $this->ediRegister->invoke($accessToken, []);
+      $accessToken = session('cielo_access_token', null);
+      $merchants = $request->input('merchants', []);
 
-      $this->registerMerchants($results['registeredMerchants']);
-      session()->forget('cielo_access_token');
+      if(is_null($accessToken)) {
+        return response()->json([
+          'status' => 'failed',
+          'error' => 'An access token is required.',
+        ], 401);
+      }
 
-      return response()->json($results);
-    } catch(ConnectionTimeoutException $exception) {
+      $this->registerMerchants($merchants);
+      session()->forget(['cielo_access_token', 'merchant_email']);
+      return response()->json([
+        'status' => 'success',
+      ], 201);
+    } catch(Exception $e) {
       return response()->json([
         'status' => 'failed',
-        'error' => $exception->getMessage(),
-        'retry' => true
-      ]);
-    } catch(EdiServiceException $exception) {
-      return response()->json([
-          'status' => 'failed',
-          'error' => $exception->getMessage(),
-        ]);
+        'error' => 'An error occurred.',
+      ], 500);
     }
   }
 
   public function show() {
     return view('edi-services.cielo.results')->with([
-        'accessToken' => session('cielo_access_token')
+        'accessToken' => session('cielo_access_token'),
+        'baseUrl' => $this->service->getBaseUrl().'/edi-api/v2/edi',
+        'merchantEmail' => session('merchant_email'),
       ]);
   }
 

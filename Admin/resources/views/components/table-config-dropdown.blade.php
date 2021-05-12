@@ -5,7 +5,7 @@
 >
   <button class="table-config-control btn button no-hover">
     <i class="fas fa-cog"></i>
-    Exibição de colunas
+    <span>Exibição de colunas</span>
   </button>
   <div class="table-config-body">
     <div class="table-config-list">
