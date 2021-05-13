@@ -296,10 +296,10 @@
           </div> <br>
           <ul class="nav nav-pills nav-justified" role="tablist">
             <li class="nav-item waves-effect waves-light">
-              <a class="active nav-link  py-3 font-weight-semibold" data-toggle="tab" data-target="#Wallet" role="tab" aria-selected="false"><i data-feather="credit-card" class="align-self-center icon-md mr-2"></i>Operadora</a>
+              <a class="active nav-link  py-3 font-weight-semibold" data-toggle="tab" data-target="#Wallet" role="tab" aria-selected="false"><i data-feather="credit-card" class="align-self-center icon-md mr-2"></i>Operadoras</a>
             </li>
             <li class="nav-item waves-effect waves-light">
-              <a class=" nav-link py-3 font-weight-semibold" data-toggle="tab" data-target="#Total" role="tab" aria-selected="true"><i data-feather="home" class="align-self-center icon-md mr-2"></i>Banco</a>
+              <a class=" nav-link py-3 font-weight-semibold" data-toggle="tab" data-target="#Total" role="tab" aria-selected="true"><i data-feather="home" class="align-self-center icon-md mr-2"></i>Contas</a>
             </li>
           </ul>
 
