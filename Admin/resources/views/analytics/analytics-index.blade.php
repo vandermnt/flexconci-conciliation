@@ -290,13 +290,18 @@
           </ul>
 
           <div class="tab-content">
-            <div class="tab-pane p-3" id="Total" role="tabpanel">
+            <div class="tab-pane p-3" id="Total" role="tabpanel" style="max-height: 445px;overflow-y: auto;">
               <ul class="list-group wallet-bal-crypto mt-3" id="ul_bancos">
                 @foreach($dados_bancos as $bancos)
                 <li class="list-group-item align-items-center d-flex justify-content-between">
                   <div class="col-12 row" style='text-align: center;align-items: center;justify-content: center'>
                     <div class="col-4 tooltip-hint" data-title="{{ $bancos->BANCO_NOME }}">
+<<<<<<< HEAD
                       <img src="{{ $bancos->IMAGEM}}" class="align-self-center img-bancos-detalhamento">
+=======
+                      <div class='img-tables' style='background-image: url("{{ $bancos->IMAGEM}} ")'/> </div>
+                      <!-- <img src="{{ $bancos->IMAGEM}}" class="align-self-center img-detalhemento-operadoras"> -->
+>>>>>>> 87b7d288 (fix: ajusta tamanho imagens detalhemento calendario e adiciona scroll dashboard)
                     </div>
                     <div class="col-4 media-body align-self-center">
                       <h4 class="label-banco-detalhamento">
@@ -354,10 +359,15 @@
                     @foreach($dados_operadora as $operadora)
                     <li class="list-group-item align-items-center d-flex justify-content-between">
                       <div class="col-12 row" style='text-align: center;align-items: center;justify-content: center'>
-                        <div class="col-2 tooltip-hint" data-title="{{ $operadora->NOME_AD }}">
-                          <div class="img-detalhamento-operadoras" style='background-image: url({{$operadora->IMAGEMAD}})'/> </div>
-                          <!-- <img src="{{ $operadora->IMAGEMAD}}" class="align-self-center img-operadora-detalhamento"> -->
+                        <!-- <div class="col-2 tooltip-hint" data-title="{{ $operadora->NOME_AD }}">
+                          <div class="img-tables" style='background-image: url({{$operadora->IMAGEMAD}})'/> </div>
+                        </div> -->
+
+                        <div class="col-4 tooltip-hint" data-title="{{ $operadora->NOME_AD }}">
+                          <div class='img-tables' style='background-image: url({{$operadora->IMAGEMAD}})'/> </div>
+                          <!-- <img src="{{ $bancos->IMAGEM}}" class="align-self-center img-detalhemento-operadoras"> -->
                         </div>
+
                         <div class="col-7 media-body align-self-center">
                           <h4 class="m-0 label-val-liquido">
                             R$ <?php echo number_format($operadora->val_liquido, 2, ",", ".");?>
@@ -510,7 +520,11 @@
 
                 html += "<div class='col-12 row align-self-center' style='text-align: center;align-items: center;justify-content: center'>"
                 html += "<div class='col-4' style='margin: 0'>"
+<<<<<<< HEAD
                 html += "<div class='tooltip-hint' data-title='"+ bancos.BANCO_NOME + "'><img src='" + bancos.IMAGEM + "' class='align-self-center img-bancos-detalhamento'></div>"
+=======
+                html += "<div class='tooltip-hint' data-title='"+ bancos.BANCO_NOME + "'><div class='img-tables' style='background-image: url(" + bancos.IMAGEM + ")'/> </div>"
+>>>>>>> 87b7d288 (fix: ajusta tamanho imagens detalhemento calendario e adiciona scroll dashboard)
                 html += "</div>"
                 html += "<div class='col-4 media-body align-self-center'>"
                 html += "<h4 style='font-size: 13px; margin-left: -30px'>" + "AG: " + bancos.AGENCIA + "- C/C: " + bancos.CONTA + "</h4>"
@@ -533,9 +547,10 @@
 
               response[1].forEach((bancos) => {
                 var html = "<li class='list-group-item align-items-center d-flex justify-content-between'>"
-
                 html += "<div class='col-12 row' style='text-align: center;align-items: center;justify-content: center'>"
-                html += "<div class='tooltip-hint' data-title='"+ bancos.NOME_AD + "'><div class='img-detalhamento-operadoras' style='background-image: url(" + bancos.IMAGEMAD + ")'/> </div>"
+                html += "<div class='col-4' style='margin: 0'>"
+                html += "<div class='tooltip-hint' data-title='"+ bancos.NOME_AD + "'><div class='img-tables' style='background-image: url(" + bancos.IMAGEMAD + ")'/> </div>"
+                html += "</div>"
                 html += "<div class='col-7 media-body align-self-center'>"
                 html += "<h4 class='m-0' style='font-size: 14px; text-align:right; color: #257E4A'>" + Intl.NumberFormat('pt-br', {
                   style: 'currency',
@@ -592,7 +607,11 @@
 
                 html += "<div class='col-12 row' style='text-align: center;align-items: center;justify-content: center'>"
                 html += "<div class='col-4' style='margin: 0'>"
+<<<<<<< HEAD
                 html += "<div class='tooltip-hint' data-title='"+ bancos.BANCO_NOME + "'>" + "<img src='" + bancos.IMAGEM + "' style='width: 60px; ;' class='align-self-center img-bancos-detalhamento'></div>"
+=======
+                html += "<div class='tooltip-hint' data-title='"+ bancos.BANCO_NOME + "'><div class='img-tables' style='background-image: url(" + bancos.IMAGEM + ")'/> </div>"
+>>>>>>> 87b7d288 (fix: ajusta tamanho imagens detalhemento calendario e adiciona scroll dashboard)
                 html += "</div>"
                 html += "<div class='col-4 media-body align-self-center'>"
                 html += "<h4 style='font-size: 13px; margin-left: -30px'>" + "AG: " + bancos.AGENCIA + "- C/C: " + bancos.CONTA + "</h4>"
@@ -616,7 +635,9 @@
                 var html = "<li class='list-group-item align-items-center d-flex justify-content-between'>"
 
                 html += "<div class='col-12 row' style='text-align: center;align-items: center;justify-content: center'>"
-                html += "<div class='tooltip-hint' data-title='"+ bancos.NOMEAD + "'><div class='img-detalhamento-operadoras' style='background-image: url(" + bancos.IMAGEMAD + ")'/> </div>"
+                html += "<div class='col-4' style='margin: 0'>"
+                html += "<div class='tooltip-hint' data-title='"+ bancos.NOME_AD + "'><div class='img-tables' style='background-image: url(" + bancos.IMAGEMAD + ")'/> </div>"
+                html += "</div>"
                 html += "<div class='col-7 media-body align-self-center'>"
                 html += "<h4 class='m-0' style='font-size: 14px; text-align:right; color: #257E4A'>" + formataMoeda(bancos.val_liquido) + "</h4>"
                 html += "</div>"
