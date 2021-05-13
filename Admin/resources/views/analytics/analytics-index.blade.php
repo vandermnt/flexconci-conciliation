@@ -4,6 +4,7 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <link href="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.css')}}" rel="stylesheet"/>
 <link href="{{ URL::asset('assets/css/dashboard/dashboard.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ URL::asset('assets/css/analytics-index.css')}}" rel="stylesheet" type="text/css" />
 <script src="{{ URL::asset('assets/js/dashboard/calendario.js')}}"></script>
 <!-- <link href="{{ URL::asset('assets/css/globals/global.css')}}" rel="stylesheet" type="text/css" /> -->
 <link href='lib/main.css' rel='stylesheet' />
@@ -23,6 +24,19 @@
       @slot('item1') Dashboard @endslot
       @endcomponent
     </div>
+    <x-modal
+      id="about-gerencial-modal"
+      modal-label-id="about-gerencial-label"
+      modal-label="Conheça nossa tela gerencial"
+    >
+      <x-slot name="content">
+        <div>
+          <iframe id="aboutGerencialVideo" width="560" height="315" src="https://www.youtube.com/embed/Oz1zbSC00O8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen allowscriptaccess="always"></iframe>
+        </div>
+      </x-slot>
+      <x-slot name="footer">
+      </x-slot>
+    </x-modal>
   </div>
   <div class="row">
     <div class="col-lg-6">
@@ -282,10 +296,10 @@
           </div> <br>
           <ul class="nav nav-pills nav-justified" role="tablist">
             <li class="nav-item waves-effect waves-light">
-              <a class="active nav-link  py-3 font-weight-semibold" data-toggle="tab" data-target="#Wallet" role="tab" aria-selected="false"><i data-feather="credit-card" class="align-self-center icon-md mr-2"></i>Operadora</a>
+              <a class="active nav-link  py-3 font-weight-semibold" data-toggle="tab" data-target="#Wallet" role="tab" aria-selected="false"><i data-feather="credit-card" class="align-self-center icon-md mr-2"></i>Operadoras</a>
             </li>
             <li class="nav-item waves-effect waves-light">
-              <a class=" nav-link py-3 font-weight-semibold" data-toggle="tab" data-target="#Total" role="tab" aria-selected="true"><i data-feather="home" class="align-self-center icon-md mr-2"></i>Banco</a>
+              <a class=" nav-link py-3 font-weight-semibold" data-toggle="tab" data-target="#Total" role="tab" aria-selected="true"><i data-feather="home" class="align-self-center icon-md mr-2"></i>Contas</a>
             </li>
           </ul>
 
@@ -296,16 +310,10 @@
                 <li class="list-group-item align-items-center d-flex justify-content-between">
                   <div class="col-12 row" style='text-align: center;align-items: center;justify-content: center'>
                     <div class="col-4 tooltip-hint" data-title="{{ $bancos->BANCO_NOME }}">
-<<<<<<< HEAD
-<<<<<<< HEAD
-                      <img src="{{ $bancos->IMAGEM}}" class="align-self-center img-bancos-detalhamento">
-=======
-=======
->>>>>>> 87b7d288 (fix: ajusta tamanho imagens detalhemento calendario e adiciona scroll dashboard)
                       <div class='img-tables' style='background-image: url("{{ $bancos->IMAGEM}} ")'/> </div>
                       <!-- <img src="{{ $bancos->IMAGEM}}" class="align-self-center img-detalhemento-operadoras"> -->
->>>>>>> 87b7d288 (fix: ajusta tamanho imagens detalhemento calendario e adiciona scroll dashboard)
                     </div>
+
                     <div class="col-4 media-body align-self-center">
                       <h4 class="label-banco-detalhamento">
                         AG: {{ $bancos->AGENCIA}} - C/C: {{ $bancos->CONTA }}
@@ -455,6 +463,7 @@
     <!-- <script src="{{ URL::asset('plugins/chartjs/roundedBar.min.js')}}"></script> -->
     <!-- <script src="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.min.js')}}"></script> -->
     <!-- <script src="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-us-aea-en.js')}}"></script> -->
+    <script type="text/javascript" src="assets/js/analytics-index.js"> </script>
 
     <script>
     $(window).on("load", function() {
@@ -523,15 +532,7 @@
 
                 html += "<div class='col-12 row align-self-center' style='text-align: center;align-items: center;justify-content: center'>"
                 html += "<div class='col-4' style='margin: 0'>"
-<<<<<<< HEAD
-<<<<<<< HEAD
-                html += "<div class='tooltip-hint' data-title='"+ bancos.BANCO_NOME + "'><img src='" + bancos.IMAGEM + "' class='align-self-center img-bancos-detalhamento'></div>"
-=======
                 html += "<div class='tooltip-hint' data-title='"+ bancos.BANCO_NOME + "'><div class='img-tables' style='background-image: url(" + bancos.IMAGEM + ")'/> </div>"
->>>>>>> 87b7d288 (fix: ajusta tamanho imagens detalhemento calendario e adiciona scroll dashboard)
-=======
-                html += "<div class='tooltip-hint' data-title='"+ bancos.BANCO_NOME + "'><div class='img-tables' style='background-image: url(" + bancos.IMAGEM + ")'/> </div>"
->>>>>>> 87b7d288 (fix: ajusta tamanho imagens detalhemento calendario e adiciona scroll dashboard)
                 html += "</div>"
                 html += "<div class='col-4 media-body align-self-center'>"
                 html += "<h4 style='font-size: 13px; margin-left: -30px'>" + "AG: " + bancos.AGENCIA + "- C/C: " + bancos.CONTA + "</h4>"
@@ -614,15 +615,7 @@
 
                 html += "<div class='col-12 row' style='text-align: center;align-items: center;justify-content: center'>"
                 html += "<div class='col-4' style='margin: 0'>"
-<<<<<<< HEAD
-<<<<<<< HEAD
-                html += "<div class='tooltip-hint' data-title='"+ bancos.BANCO_NOME + "'>" + "<img src='" + bancos.IMAGEM + "' style='width: 60px; ;' class='align-self-center img-bancos-detalhamento'></div>"
-=======
                 html += "<div class='tooltip-hint' data-title='"+ bancos.BANCO_NOME + "'><div class='img-tables' style='background-image: url(" + bancos.IMAGEM + ")'/> </div>"
->>>>>>> 87b7d288 (fix: ajusta tamanho imagens detalhemento calendario e adiciona scroll dashboard)
-=======
-                html += "<div class='tooltip-hint' data-title='"+ bancos.BANCO_NOME + "'><div class='img-tables' style='background-image: url(" + bancos.IMAGEM + ")'/> </div>"
->>>>>>> 87b7d288 (fix: ajusta tamanho imagens detalhemento calendario e adiciona scroll dashboard)
                 html += "</div>"
                 html += "<div class='col-4 media-body align-self-center'>"
                 html += "<h4 style='font-size: 13px; margin-left: -30px'>" + "AG: " + bancos.AGENCIA + "- C/C: " + bancos.CONTA + "</h4>"
