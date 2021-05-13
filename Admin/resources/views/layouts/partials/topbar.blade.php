@@ -60,7 +60,9 @@
 </a>
 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownUserSettings">
   <a class="dropdown-item" href="{{ url('/logout') }}"><i class="dripicons-exit mr-2"></i> Sair </a>
+  @if(Auth::user()->USUARIO_GLOBAL === 'S')
   <a class="dropdown-item" data-toggle="modal" data-target="#troca_cliente"><i class="dripicons-clockwise mr-2"></i> Trocar Empresa </a>
+  @endif
 </div>
 </li>
 </ul>
