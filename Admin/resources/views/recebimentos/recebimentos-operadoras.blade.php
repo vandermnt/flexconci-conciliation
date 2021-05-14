@@ -179,16 +179,6 @@
               Redefinir colunas
             </button>
             <x-table-config-dropdown id="js-table-config" class="mr-1" checker-group="tb-config-columns" />
-            @if(Auth::user()->USUARIO_GLOBAL === 'S')
-              <button
-                id="js-abrir-modal-retorno"
-                class="btn button no-hover mr-1 tooltip-hint"
-                data-title="Clicando aqui vamos efetuar a baixa automática no seu sistema."
-              >
-                <i class="fas fa-undo"></i>
-                Executar Baixa {{ $erp->ERP ?? 'ERP' }}
-              </button>
-            @endif
             <button id="js-retorno-csv" class="btn button no-hover mr-1 tooltip-hint" data-title="Arquivo de integração para a realização da baixa/liquidação">
                 <div class="conciflex-icon icon-md">
                     <img src="assets/images/widgets/csv-file.svg" alt="CSV">
