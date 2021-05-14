@@ -232,7 +232,7 @@
 									:options="['5', '10', '20', '50', '100', '200']"
 								/>
 								<h6 id="total-selecionado-comprovante" class="selected-total-text">Total Selecionado R$ 0,00</h6>
-								<h6 id="total-diferenca" class="selected-total-text">Diferença (Operadora - Extrato) R$ 0,00</h6>
+								<h6 id="total-diferenca" class="selected-total-text text-danger">Diferença (Operadora - Extrato) <span>R$ 0,00</span></h6>
 							</div>
 							<div>
 								<button class="btn btn-conciliar">Conciliar</button>

@@ -419,7 +419,7 @@ function updateTotalDiff() {
 		);
 		document.querySelector(
 			'#total-diferenca'
-		).innerHTML = `Diferença (Operadora - Extrato) ${formattedValue}`;
+		).innerHTML = `Diferença (Operadora - Extrato) <span>${formattedValue}</span>`;
 	}
 }
 
