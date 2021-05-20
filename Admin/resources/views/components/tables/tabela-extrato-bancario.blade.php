@@ -26,18 +26,6 @@
             </div>
           </th>
         @endiF
-				<th class="input-data">
-          <div class="d-flex flex-column align-items-center">
-            <div
-              class="d-flex align-items-center justify-content-center table-sorter mb-2"
-              data-tbsort-by="DATA"
-            >
-              <p class="m-0">Data</p>
-              <img class="table-sort-icon" alt="Arrows" data-sort-order="none">
-            </div>
-            <input type="date" class="form-control fix-width" name="DATA">
-          </div>
-        </th>
 				<th>
           <div class="d-flex flex-column align-items-center">
             <div
@@ -84,7 +72,6 @@
         @if($isColumnVisible('ID_ERP'))
           <td data-column="DESCRICAO_ERP"></td>
         @endif
-				<td data-column="DATA" data-format="date"></td>
 				<td data-column="DESCRICAO"></td>
         <td data-column="ADQUIRENTE"></td>
 				<td data-column="VALOR" data-format="currency"></td>
@@ -99,7 +86,6 @@
 				@if($isColumnVisible('ID_ERP'))
           <td></td>
         @endif
-        <td></td>
 				<td class="totals">
 					<div class="d-flex flex-wrap text-center">
 						<span class="w-100">Total</span>

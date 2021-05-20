@@ -166,7 +166,7 @@
 
           </div>
           <div class="col-sm-12">
-            <select id="departamento_chamado" onchange="listarCategorias({{Session::get('departamento_chamado')}}, {{Session::get(categoria_chamado)}})" class="form-control" name="departamento">
+            <select id="departamento_chamado" onchange="listarCategorias({{Session::get('departamento_chamado')}}, {{Session::get('categoria_chamado')}})" class="form-control" name="departamento">
               @foreach( Session::get('departamento_chamado') as $departamento)
               <option value="{{ $departamento->EMAIL_DEPARTAMENTO }}">{{ $departamento->DEPARTAMENTO_CHAMADO}}</option>
               @endforeach
