@@ -74,6 +74,18 @@
             <input type="date" class="form-control" name="DATA_PREVISAO">
           </div>
         </th>
+        <th class="draggable" data-tb-section="DATA_CANCELAMENTO" data-th-title="Cancelamento">
+          <div class="d-flex flex-column align-items-center">
+            <div
+                class="d-flex align-items-center justify-content-center table-sorter mb-2"
+                data-tbsort-by="DATA_CANCELAMENTO"
+            >
+                <p class="m-0">Cancelamento</p>
+                <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
+            </div>
+            <input type="date" class="form-control" name="DATA_CANCELAMENTO">
+          </div>
+        </th>
         <th class="draggable" data-tb-section="ADQUIRENTE" data-th-title="Operadora">
           <div class="d-flex flex-column align-items-center">
             <div
@@ -428,6 +440,7 @@
         <td data-tb-section="CNPJ" data-column="CNPJ"></td>
         <td data-tb-section="DATA_VENDA" data-column="DATA_VENDA" data-format="date"></td>
         <td data-tb-section="DATA_PREVISAO" data-column="DATA_PREVISAO" data-format="date"></td>
+        <td data-tb-section="DATA_CANCELAMENTO" data-column="DATA_CANCELAMENTO" data-format="date"></td>
         <td
           data-tb-section="ADQUIRENTE"
           data-image="ADQUIRENTE_IMAGEM"
@@ -512,6 +525,7 @@
         <td data-tb-section="CNPJ"></td>
         <td data-tb-section="DATA_VENDA"></td>
         <td data-tb-section="DATA_PREVISAO"></td>
+        <td data-tb-section="DATA_CANCELAMENTO"></td>
         <td data-tb-section="ADQUIRENTE"></td>
         <td data-tb-section="BANDEIRA"></td>
         <td data-tb-section="MODALIDADE"></td>
