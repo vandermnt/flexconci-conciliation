@@ -49,6 +49,7 @@ class RecebimentosFilter extends BaseFilter
 				'pagamentos_operadoras.DATA_VENDA',
 				'pagamentos_operadoras.DATA_PREV_PAG_ORIGINAL as DATA_PREVISAO',
 				'pagamentos_operadoras.DATA_PAGAMENTO',
+                'pagamentos_operadoras.DATA_CANCELAMENTO',
 				'adquirentes.ADQUIRENTE',
 				'adquirentes.IMAGEM as ADQUIRENTE_IMAGEM',
 				'bandeira.BANDEIRA',
