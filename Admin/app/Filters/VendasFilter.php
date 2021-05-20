@@ -49,6 +49,7 @@ class VendasFilter extends BaseFilter
 				'vendas.CNPJ',
 				'vendas.DATA_VENDA',
 				'vendas.DATA_PREVISTA_PAGTO as DATA_PREVISAO',
+                'vendas.DATA_CANCELAMENTO',
 				'adquirentes.ADQUIRENTE',
 				'adquirentes.IMAGEM as ADQUIRENTE_IMAGEM',
 				'bandeira.BANDEIRA',
