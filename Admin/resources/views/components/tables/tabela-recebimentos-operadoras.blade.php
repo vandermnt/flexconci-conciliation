@@ -336,16 +336,16 @@
             <input type="text" class="form-control" name="ESTABELECIMENTO">
           </div>
         </th>
-				<th class="draggable" data-tb-section="COD_AJUSTE" data-th-title="Cód. Ajuste">
+				<th class="draggable" data-tb-section="CODIGO_OPERADORA_AJUSTE" data-th-title="Cód. Ajuste">
           <div class="d-flex flex-column align-items-center">
             <div
                 class="d-flex align-items-center justify-content-center table-sorter mb-2"
-                data-tbsort-by="COD_AJUSTE"
+                data-tbsort-by="CODIGO_OPERADORA_AJUSTE"
             >
                 <p class="m-0">Cód. Ajuste</p>
                 <img class="ml-2 table-sort-icon" alt="Arrows" data-sort-order="none">
             </div>
-            <input type="text" class="form-control" name="COD_AJUSTE">
+            <input type="text" class="form-control" name="CCODIGO_OPERADORA_AJUSTE">
           </div>
         </th>
 				<th class="draggable" data-tb-section="DESC_AJUSTE" data-th-title="Desc. Ajuste">
@@ -589,7 +589,7 @@
         <td data-tb-section="PARCELA" data-column="PARCELA"></td>
         <td data-tb-section="TOTAL_PARCELAS" data-column="TOTAL_PARCELAS"></td>
         <td data-tb-section="ESTABELECIMENTO" data-column="ESTABELECIMENTO"></td>
-				<td data-tb-section="COD_AJUSTE" data-column="COD_AJUSTE"></td>
+				<td data-tb-section="CODIGO_OPERADORA_AJUSTE" data-column="CODIGO_OPERADORA_AJUSTE"></td>
 				<td data-tb-section="DESC_AJUSTE" data-column="DESC_AJUSTE"></td>
 				<td data-tb-section="CLASSIFICACAO_AJUSTE" data-column="CLASSIFICACAO_AJUSTE"></td>
 				<td data-tb-section="NUMERO_TERMINAL" data-column="NUMERO_TERMINAL"></td>
@@ -651,7 +651,7 @@
         <td data-tb-section="PARCELA"></td>
         <td data-tb-section="TOTAL_PARCELAS"></td>
         <td data-tb-section="ESTABELECIMENTO"></td>
-        <td data-tb-section="COD_AJUSTE"></td>
+        <td data-tb-section="CODIGO_OPERADORA_AJUSTE"></td>
         <td data-tb-section="DESC_AJUSTE"></td>
         <td data-tb-section="CLASSIFICACAO_AJUSTE"></td>
 				<td data-tb-section="NUMERO_TERMINAL"></td>
