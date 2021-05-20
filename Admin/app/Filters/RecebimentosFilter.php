@@ -70,6 +70,9 @@ class RecebimentosFilter extends BaseFilter
 				'pagamentos_operadoras.PARCELA',
 				'pagamentos_operadoras.TOTAL_PARCELAS',
 				'pagamentos_operadoras.ID_LOJA as ESTABELECIMENTO',
+                'controle_ajustes.CODIGO_OPERADORA as CODIGO_OPERADORA_AJUSTE',
+                'controle_ajustes.DESCRICAO_OPERADORA as DESC_AJUSTE', 
+                'controle_ajustes.DESCRICAO_TIPO_AJUSTE_SISTEMA as CLASSIFICACAO_AJUSTE',
 				'lista_bancos.NOME_WEB as BANCO',
 				'lista_bancos.IMAGEM_LINK as BANCO_IMAGEM',
 				'pagamentos_operadoras.AGENCIA',
@@ -99,6 +102,7 @@ class RecebimentosFilter extends BaseFilter
 			->leftJoin('lista_bancos', 'lista_bancos.CODIGO', 'pagamentos_operadoras.COD_BANCO')
 			->leftJoin('meio_captura', 'meio_captura.CODIGO', 'pagamentos_operadoras.COD_MEIO_CAPTURA')
 			->leftJoin('status_conciliacao', 'status_conciliacao.CODIGO', 'pagamentos_operadoras.COD_STATUS')
+            ->leftJoin('controle_ajustes', 'controle_ajustes.CODIGO', 'pagamentos_operadoras.COD_AJUSTE')
 			// ->leftJoin('controle_ajustes', function ($join) {
 			// 	$join->on('controle_ajustes.COD_ADQUIRENTE', '=', 'pagamentos_operadoras.COD_ADQUIRENTE');
 			// 	$join->on('controle_ajustes.CODIGO_OPERADORA', '=', 'pagamentos_operadoras.COD_AJUSTE');
