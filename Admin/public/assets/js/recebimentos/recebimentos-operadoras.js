@@ -399,12 +399,6 @@ document.querySelector('#js-exportar').addEventListener('click', exportar);
 document.querySelector('#js-retorno-csv').addEventListener('click', retornoCsv);
 
 document
-	.querySelector('#js-abrir-modal-retorno')
-	.addEventListener('click', () =>
-		$('#js-retorno-recebimento-modal').modal('show')
-	);
-
-document
 	.querySelector('#js-cancelar-retorno-recebimento')
 	.addEventListener('click', closeRetornoModal);
 
