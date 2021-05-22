@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Request;
 use DateTime;
+use DB;
 use App\ConciliacaoBancariaModel;
 use App\ClienteModel;
 use App\DadosArquivoConciliacaoBancariaModel;
+use App\PagamentoOperadoraModel;
 use Auth;
 
 class ConciliacaoController extends Controller{
@@ -14,8 +16,8 @@ class ConciliacaoController extends Controller{
   public function conciliacaoBancaria(){
     date_default_timezone_set('America/Sao_Paulo');
 
-    $dados_cliente = ClienteModel::where('CODIGO', '=', session('codigologin'))->first();
     $lines = array();
+    $movimentacoes = [];
     $dados_formatados = [];
     $array_dados = [];
     $conta = null;
@@ -24,7 +26,8 @@ class ConciliacaoController extends Controller{
     $date_end = null;
     $existsTransacao = false;
 
-    date_default_timezone_set('America/Sao_Paulo');
+    $pagamentos_operadoras = $this->buscaPagamentosOperadoras();
+    $dados_cliente = $this->getDadosCliente();
 
     $arquivos = Request::file('extratos');
     $transacoes = DadosArquivoConciliacaoBancariaModel::where('CODIGO_CLIENTE', session('codigologin'))->get();
@@ -36,7 +39,6 @@ class ConciliacaoController extends Controller{
         $dados_arquivo_extratos = new DadosArquivoConciliacaoBancariaModel();
 
         $file = $arquivos[$i];
-
 
         // lê todo o arquivo em formato de string
         $file_read = file_get_contents($file);
@@ -70,6 +72,7 @@ class ConciliacaoController extends Controller{
         $extrato->save();
 
         //salva os dados do arquivo
+
         for($i=0; $i<count($array_dados); $i++) {
           if (strpos($dados_formatados[$i], '<TRNTYPE>') !== false) {
             $trntype = explode("<TRNTYPE>", $dados_formatados[$i]);
@@ -130,6 +133,7 @@ class ConciliacaoController extends Controller{
             foreach ($transacoes as $transacao) {
               if ($transacao->CHAVE === $chave) {
                 $existsTransacao = true;
+                break;
               }
             }
 
@@ -138,7 +142,6 @@ class ConciliacaoController extends Controller{
               $hora_envio = date('h:i:s');
               $email_responsavel = null;
 
-              // $TRNAMTsemVirgula = str_replace('.', '', $dados_arquivo_extratos->TRNAMT );
               $TRNAMTsemVirgula = str_replace(",",".", $dados_arquivo_extratos->TRNAMT);
               $dados_arquivo_extrato = new DadosArquivoConciliacaoBancariaModel();
               $dados_arquivo_extrato->CODIGO_CONCILIACAO_BANCARIA = $extrato->CODIGO;
@@ -156,11 +159,15 @@ class ConciliacaoController extends Controller{
               $dados_arquivo_extrato->DATA_ENVIO = $data_envio;
               $dados_arquivo_extrato->HORA_ENVIO = $hora_envio;
               $dados_arquivo_extrato->EMAIL_RESPONSAVEL = session('emailuserlogado');
+              $existsTransacao = false;
 
               $dados_arquivo_extrato->save();
             }
           }
         }
+
+        $this->checkHistoricoBancario($pagamentos_operadoras);
+
       }
       return response()->json(200);
     } catch (\Exception $e) {
@@ -171,11 +178,163 @@ class ConciliacaoController extends Controller{
   }
 
   public function atualizarConciliacoesProcessadas(){
-
     $conciliacoes = ConciliacaoBancariaModel::where('COD_CLIENTE', '=', session('codigologin'))
     ->where('COD_STATUS_BANCARIO', '=', 1)
     ->get();
 
     return $conciliacoes;
+  }
+
+  public function buscaPagamentosOperadoras() {
+    $pagamentos_operadoras = DB::table('pagamentos_operadoras')
+    ->leftJoin('adquirentes', 'pagamentos_operadoras.COD_ADQUIRENTE', 'adquirentes.CODIGO')
+    ->select('pagamentos_operadoras.*', 'adquirentes.ADQUIRENTE')
+    ->where('COD_CLIENTE', session('codigologin'))
+    ->whereNull('CHAVE_EXTRATO_BANCARIO')
+    ->groupBy('COD_ADQUIRENTE')
+    ->get();
+
+    return $pagamentos_operadoras;
+  }
+
+  public function somaPagamentosOperadorasPorData($dataPagamento) {
+    $somaPagamentosOperadoras = DB::table('pagamentos_operadoras')
+    ->where('COD_CLIENTE', session('codigologin'))
+    ->where('DATA_PAGAMENTO', $dataPagamento)
+    ->whereNull('CHAVE_EXTRATO_BANCARIO')
+    ->sum('pagamentos_operadoras.VALOR_LIQUIDO');
+
+    return $somaPagamentosOperadoras;
+  }
+
+  public function getDadosCliente() {
+    $cliente = ClienteModel::where('CODIGO', '=', session('codigologin'))->first();
+    return $cliente;
+  }
+
+  public function checkHistoricoBancario($pagamentos_operadoras) {
+    if ($pagamentos_operadoras) {
+
+      foreach ($pagamentos_operadoras as $pagamento) {
+        $adquirente = strtoupper($pagamento->ADQUIRENTE);
+
+        $extratoBancario = DB::table('historico_banco')->where('COD_ADQUIRENTE', $pagamento->COD_ADQUIRENTE)->get();
+
+        $listaMemo = $this->mountListMemo($extratoBancario);
+
+        $movimentacoes = $this->checkExtratoBancario($listaMemo);
+
+        $this->checkPagamentosOperadoras($movimentacoes, $pagamento->COD_ADQUIRENTE);
+
+        return true;
+
+      }
+    }
+
+    return false;
+  }
+
+  public function checkExtratoBancario($listMemos) {
+    $movimentacoes =  DadosArquivoConciliacaoBancariaModel::select('dados_arquivo_conciliacao_bancaria.*')
+    ->selectRaw('sum(TRNAMT) as SUM_VALOR_LIQUIDO')
+    ->where('CODIGO_CLIENTE', session('codigologin'))
+    ->where(function($query) {
+      for ($i = 0; $i < count($listMemos); $i++){
+        $query->orwhere('MEMO', 'LIKE', "%{$listMemos[$i]}%");
+      }
+    })
+    ->where('EMAIL_RESPONSAVEL', session('emailuserlogado'))
+    ->whereNull('COD_STATUS_CONCILIACAO')
+    ->groupBy('DTPOSTED')
+    ->get();
+
+    return $movimentacoes;
+  }
+
+  public function mountListMemo($extratoBancario) {
+    $listMemo = [];
+    if ($extratoBancario) {
+      foreach ($extratoBancario as $memo) {
+        array_push($listMemo, $memo->HISTORICO_BANCO);
+      }
+      return $listMemo;
+    }
+    return;
+  }
+
+  public function checkPagamentosOperadoras($movimentacoes, $codAdquirente) {
+
+    if ($movimentacoes && $codAdquirente) {
+
+      foreach ($movimentacoes as $movimentacao) {
+
+        $sumPagamentos = $this->somaPagamentosOperadorasPorData($movimentacao->DTPOSTED);
+
+        $somaFormatadaPagamentosOperadora = round($sumPagamentos, 2);
+
+        if ($movimentacao->SUM_VALOR_LIQUIDO == $somaFormatadaPagamentosOperadora) {
+          $this->updateMovimentacoesExtrato($movimentacao->DTPOSTED, $movimentacao->CODIGO_BANCO, $movimentacao->NUMERO_CONTA);
+        }
+      }
+    }
+  }
+
+  public function updateMovimentacoesExtrato($dtposted, $codigoBanco, $numeroConta) {
+    if ($dtposted) {
+      $movimetacoesPorData = $this->getMovimentacoesPorData($dtposted);
+
+      $dataChave = date('Y-m-d');
+      $horaChave = date('h:i:s');
+
+      if ($movimetacoesPorData) {
+        foreach ($movimetacoesPorData as $movimentacaoPorData) {
+          $movimentacaoPorData->COD_STATUS_CONCILIACAO = 3;
+          $movimentacaoPorData->CONSIDERA_CONCILIACAO = 'S';
+          $movimentacaoPorData->CHAVE_CONCILIACAO = session('codigologin') . $movimentacaoPorData->CODIGO_BANCO .
+          $movimentacaoPorData->NUMERO_CONTA . $dataChave . $horaChave;
+
+          session()->put('chave_movimentacao', $movimentacaoPorData->CHAVE_CONCILIACAO);
+
+          $movimentacaoPorData->save();
+        }
+
+        $this->updatePagamentosOperadoras($dtposted, $codigoBanco, $numeroConta);
+      }
+    }
+  }
+
+  public function updatePagamentosOperadoras($dataPagamento, $banco, $conta) {
+    if ($dataPagamento) {
+      $listaPagamentosOperadoras = $this->getPagamentosOperadoraPorData($dataPagamento, $banco, $conta);
+
+      if ($listaPagamentosOperadoras) {
+        foreach ($listaPagamentosOperadoras as $pagamentoOperadora) {
+          $pagamentoOperadora->CHAVE_EXTRATO_BANCARIO = session('chave_movimentacao');
+          $pagamentoOperadora->save();
+        }
+      }
+    }
+  }
+
+  public function getMovimentacoesPorData($dtposted) {
+    $movimentacoes =  DadosArquivoConciliacaoBancariaModel::where('CODIGO_CLIENTE', session('codigologin'))
+    ->where('DTPOSTED', $dtposted)
+    ->where('EMAIL_RESPONSAVEL', session('emailuserlogado'))
+    ->whereNull('COD_STATUS_CONCILIACAO')
+    ->whereNull('CONSIDERA_CONCILIACAO')
+    ->get();
+
+    return $movimentacoes;
+  }
+
+  public function getPagamentosOperadoraPorData($dataPagamento, $banco, $conta) {
+    $pagamentosOperadoras = PagamentoOperadoraModel::where('COD_CLIENTE', session('codigologin'))
+    ->where('DATA_PAGAMENTO', $dataPagamento)
+    ->where('COD_BANCO', $banco)
+    ->where('CONTA', 'LIKE', "%{$conta}%")
+    ->whereNull('CHAVE_EXTRATO_BANCARIO')
+    ->get();
+
+    return $pagamentosOperadoras;
   }
 }
