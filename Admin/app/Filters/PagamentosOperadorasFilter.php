@@ -74,7 +74,7 @@ class PagamentosOperadorasFilter extends BaseFilter
 			->leftJoin('lista_bancos', 'lista_bancos.CODIGO', 'pagamentos_operadoras.COD_BANCO')
 			->where(
 				'pagamentos_operadoras.COD_CLIENTE',
-				$filters['cliente_id'],
+				$filters['cliente_id']
 			)
 			->where(function ($query) {
 				$query->where('tipo_pagamento.CODIGO', '!=', 3)

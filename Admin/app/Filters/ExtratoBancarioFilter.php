@@ -41,7 +41,10 @@ class ExtratoBancarioFilter extends BaseFilter
 			'dados_arquivo_conciliacao_bancaria.DTPOSTED as DATA',
 			'dados_arquivo_conciliacao_bancaria.MEMO as DESCRICAO',
 			'dados_arquivo_conciliacao_bancaria.TRNAMT as VALOR',
-		]);
+			'situacao_extrato_bancario.STATUS_EXTRATO_BANCARIO as STATUS_CONCILIACAO',
+			'situacao_extrato_bancario.IMAGEM_URL as STATUS_CONCILIACAO_IMAGEM',
+		])
+		->leftJoin('situacao_extrato_bancario', 'dados_arquivo_conciliacao_bancaria.COD_STATUS_CONCILIACAO', 'situacao_extrato_bancario.CODIGO');
 
 		if (Arr::has($filters, 'data_pagamento')) {
 			$this->query->where('dados_arquivo_conciliacao_bancaria.DTPOSTED', $filters['data_pagamento']);

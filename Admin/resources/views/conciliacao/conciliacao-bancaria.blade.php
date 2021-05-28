@@ -228,8 +228,11 @@
 														type="checkbox"
 														data-value-key="ID"
 												>
+                        <div class="tooltip-hint tooltip-left ml-2" data-title="STATUS_CONCILIACAO">
+                            <img data-image="STATUS_CONCILIACAO_IMAGEM">
 											</div>
-										</td>
+                    </div>
+                  </td>
 									</x-slot>
 								</x-tables.tabela-conciliacao-bancaria-comprovante>
 
@@ -282,7 +285,11 @@
 														type="checkbox"
 														data-value-key="ID"
 												>
+                        <div class="tooltip-hint tooltip-left ml-2" data-title="STATUS_CONCILIACAO">
+                            <img data-image="STATUS_CONCILIACAO_IMAGEM">
+                        </div>
 											</div>
+
 										</td>
 									</x-slot>
 								</x-tables.tabela-extrato-bancario>
