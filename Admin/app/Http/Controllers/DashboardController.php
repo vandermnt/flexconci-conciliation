@@ -303,6 +303,7 @@ class DashboardController extends Controller
 			->selectRaw('sum(VALOR_TAXA) as val_taxa')
 			->where('pagamentos_operadoras.DATA_PAGAMENTO', $data)
 			->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'))
+			->whereIn('COD_TIPO_PAGAMENTO', [1, 2])
 			->groupBy('pagamentos_operadoras.COD_BANCO')
 			->groupBy('pagamentos_operadoras.CONTA')
 			->groupBy('pagamentos_operadoras.AGENCIA')
@@ -316,6 +317,7 @@ class DashboardController extends Controller
 			->selectRaw('sum(VALOR_TAXA) as val_taxa')
 			->where('pagamentos_operadoras.DATA_PAGAMENTO', $data)
 			->where('pagamentos_operadoras.COD_CLIENTE', '=', session('codigologin'))
+			->whereIn('COD_TIPO_PAGAMENTO', [1, 2])
 			->groupBy('pagamentos_operadoras.COD_ADQUIRENTE')
 			->get();
 
