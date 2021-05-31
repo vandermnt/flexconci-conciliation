@@ -72,7 +72,6 @@ class ConciliacaoController extends Controller{
         $extrato->save();
 
         //salva os dados do arquivo
-
         for($i=0; $i<count($array_dados); $i++) {
           if (strpos($dados_formatados[$i], '<TRNTYPE>') !== false) {
             $trntype = explode("<TRNTYPE>", $dados_formatados[$i]);
@@ -214,7 +213,6 @@ class ConciliacaoController extends Controller{
 
   public function checkHistoricoBancario($pagamentos_operadoras) {
     if ($pagamentos_operadoras) {
-
       foreach ($pagamentos_operadoras as $pagamento) {
         $adquirente = strtoupper($pagamento->ADQUIRENTE);
 
@@ -227,7 +225,6 @@ class ConciliacaoController extends Controller{
         $this->checkPagamentosOperadoras($movimentacoes, $pagamento->COD_ADQUIRENTE);
 
         return true;
-
       }
     }
 
@@ -235,12 +232,13 @@ class ConciliacaoController extends Controller{
   }
 
   public function checkExtratoBancario($listMemos) {
+
     $movimentacoes =  DadosArquivoConciliacaoBancariaModel::select('dados_arquivo_conciliacao_bancaria.*')
     ->selectRaw('sum(TRNAMT) as SUM_VALOR_LIQUIDO')
     ->where('CODIGO_CLIENTE', session('codigologin'))
-    ->where(function($query) {
+    ->where(function($query) use($listMemos) {
       for ($i = 0; $i < count($listMemos); $i++){
-        $query->orwhere('MEMO', 'LIKE', "%{$listMemos[$i]}%");
+        $query->orWhere('MEMO', 'LIKE', "%{$listMemos[$i]}%");
       }
     })
     ->where('EMAIL_RESPONSAVEL', session('emailuserlogado'))
@@ -267,19 +265,21 @@ class ConciliacaoController extends Controller{
     if ($movimentacoes && $codAdquirente) {
 
       foreach ($movimentacoes as $movimentacao) {
-
         $sumPagamentos = $this->somaPagamentosOperadorasPorData($movimentacao->DTPOSTED);
 
-        $somaFormatadaPagamentosOperadora = round($sumPagamentos, 2);
+        $sumPagamentosOperadoras = (float)number_format(floor(($sumPagamentos*100))/100, 2, '.', '');
+        $sumExtratoBancario = (float)number_format(floor(($movimentacao->SUM_VALOR_LIQUIDO*100))/100, 2, '.', '');
 
-        if ($movimentacao->SUM_VALOR_LIQUIDO == $somaFormatadaPagamentosOperadora) {
-          $this->updateMovimentacoesExtrato($movimentacao->DTPOSTED, $movimentacao->CODIGO_BANCO, $movimentacao->NUMERO_CONTA);
+        if ((string)($sumPagamentosOperadoras + 0.01) == (string)$sumExtratoBancario || (string)$sumPagamentosOperadoras == (string)($sumExtratoBancario + 0.01)) {
+          $this->updateMovimentacoesExtrato($movimentacao->DTPOSTED, $movimentacao->CODIGO_BANCO, $movimentacao->NUMERO_CONTA, 1);
+        } elseif ((string)$sumPagamentosOperadoras == (string)$sumExtratoBancario) {
+          $this->updateMovimentacoesExtrato($movimentacao->DTPOSTED, $movimentacao->CODIGO_BANCO, $movimentacao->NUMERO_CONTA, 3);
         }
       }
     }
   }
 
-  public function updateMovimentacoesExtrato($dtposted, $codigoBanco, $numeroConta) {
+  public function updateMovimentacoesExtrato($dtposted, $codigoBanco, $numeroConta, $statusConciliacao) {
     if ($dtposted) {
       $movimetacoesPorData = $this->getMovimentacoesPorData($dtposted);
 
@@ -288,7 +288,7 @@ class ConciliacaoController extends Controller{
 
       if ($movimetacoesPorData) {
         foreach ($movimetacoesPorData as $movimentacaoPorData) {
-          $movimentacaoPorData->COD_STATUS_CONCILIACAO = 3;
+          $movimentacaoPorData->COD_STATUS_CONCILIACAO = $statusConciliacao;
           $movimentacaoPorData->CONSIDERA_CONCILIACAO = 'S';
           $movimentacaoPorData->CHAVE_CONCILIACAO = session('codigologin') . $movimentacaoPorData->CODIGO_BANCO .
           $movimentacaoPorData->NUMERO_CONTA . $dataChave . $horaChave;
