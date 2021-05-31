@@ -3,12 +3,17 @@ let grafico_vendas_operadoras;
 let grafico_vendas_bandeiras = null;
 let grafico_vendas_produtos = null;
 let grafico_vendas_modalidades = null;
+let dados_vendas_operadora;
+let dados_vendas_bandeira;
+let dados_vendas_forma_pagamento;
+let dados_vendas_produto;
 
 function preCarregarGraficoVendas(grafico_vendas_operadora) {
   let dados_grafico = [];
   let totalQtd = 0;
   let totalBruto = 0;
   let totalTx = 0;
+  let totalTxMedia = 0;
   let totalLiq = 0;
   let html;
 
@@ -27,6 +32,7 @@ function preCarregarGraficoVendas(grafico_vendas_operadora) {
         dados_dash.TOTAL_LIQUIDO
       );
 
+      totalTxMedia += (dados_dash.TOTAL_TAXA / dados_dash.TOTAL_BRUTO) * 100;
       totalQtd += parseInt(dados_dash.QUANTIDADE_REAL);
       totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
       totalTx += parseFloat(dados_dash.TOTAL_TAXA);
@@ -38,12 +44,15 @@ function preCarregarGraficoVendas(grafico_vendas_operadora) {
     }
   });
 
+  dados_vendas_operadora = dados_grafico;
+
   geraRodapeTabelaComTotais(
     "#table_vendas_operadora tfoot",
     totalQtd,
     totalBruto,
     totalTx,
-    totalLiq
+    totalLiq,
+    totalTxMedia
   );
 
   periodo = 2;
@@ -58,6 +67,7 @@ function preCarregarGraficoVendasBandeira(grafico_vendas_bandeira) {
   let totalTx = 0;
   let totalLiq = 0;
   let totalTicket = 0;
+  let totalTxMedia = 0;
   let html;
 
   grafico_vendas_bandeiras = grafico_vendas_bandeira;
@@ -80,6 +90,7 @@ function preCarregarGraficoVendasBandeira(grafico_vendas_bandeira) {
       totalTx += parseFloat(dados_dash.TOTAL_TAXA);
       totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
       totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
+      totalTxMedia += (dados_dash.TOTAL_TAXA / dados_dash.TOTAL_BRUTO) * 100;
 
       $("#table_vendas_bandeira").append(html);
       document.getElementById("dropdownMenuButtonBandeira").innerHTML =
@@ -87,12 +98,15 @@ function preCarregarGraficoVendasBandeira(grafico_vendas_bandeira) {
     }
   });
 
+  dados_vendas_bandeira = dados_grafico;
+
   geraRodapeTabelaComTotais(
     "#table_vendas_bandeira tfoot",
     totalQtd,
     totalBruto,
     totalTx,
-    totalLiq
+    totalLiq,
+    totalTxMedia
   );
 
   periodo = 2;
@@ -107,6 +121,7 @@ function preCarregarGraficoVendasProduto(grafico_vendas_produto) {
   let totalTx = 0;
   let totalLiq = 0;
   let totalTicket = 0;
+  let totalTxMedia = 0;
 
   grafico_vendas_produtos = grafico_vendas_produto;
 
@@ -127,6 +142,7 @@ function preCarregarGraficoVendasProduto(grafico_vendas_produto) {
       totalTx += parseFloat(dados_dash.TOTAL_TAXA);
       totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
       totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
+      totalTxMedia += (dados_dash.TOTAL_TAXA / dados_dash.TOTAL_BRUTO) * 100;
 
       $("#table_vendas_produto").append(html);
 
@@ -135,12 +151,15 @@ function preCarregarGraficoVendasProduto(grafico_vendas_produto) {
     }
   });
 
+  dados_vendas_produto = dados_grafico;
+
   geraRodapeTabelaComTotais(
     "#table_vendas_produto tfoot",
     totalQtd,
     totalBruto,
     totalTx,
-    totalLiq
+    totalLiq,
+    totalTxMedia
   );
 
   periodo = 2;
@@ -155,6 +174,7 @@ function preCarregarGraficoVendasModalidade(grafico_vendas_forma_pagamento) {
   let totalTx = 0;
   let totalLiq = 0;
   let totalTicket = 0;
+  let totalTxMedia = 0;
 
   grafico_vendas_forma_pagamentos = grafico_vendas_forma_pagamento;
 
@@ -177,6 +197,7 @@ function preCarregarGraficoVendasModalidade(grafico_vendas_forma_pagamento) {
       totalTx += parseFloat(dados_dash.TOTAL_TAXA);
       totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
       totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
+      totalTxMedia += (dados_dash.TOTAL_TAXA / dados_dash.TOTAL_BRUTO) * 100;
 
       dados_grafico.push(dados_dash);
       document.getElementById("dropdownMenuButtonModalidade").innerHTML =
@@ -184,12 +205,15 @@ function preCarregarGraficoVendasModalidade(grafico_vendas_forma_pagamento) {
     }
   });
 
+  dados_vendas_forma_pagamento = dados_grafico;
+
   geraRodapeTabelaComTotais(
     "#table_vendas_modalidade tfoot",
     totalQtd,
     totalBruto,
     totalTx,
-    totalLiq
+    totalLiq,
+    totalTxMedia
   );
 
   periodo = 2;
@@ -204,6 +228,7 @@ function trocaPeriodo(cod_periodo, tipo, label_button) {
   let totalTx = 0;
   let totalLiq = 0;
   let totalTicket = 0;
+  let totalTxMedia = 0;
 
   if (tipo == "operadora") {
     $("#table_vendas_operadora tbody").empty();
@@ -224,6 +249,7 @@ function trocaPeriodo(cod_periodo, tipo, label_button) {
         totalBruto += parseFloat(dados_dash.TOTAL_BRUTO);
         totalTx += parseFloat(dados_dash.TOTAL_TAXA);
         totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
+        totalTxMedia += (dados_dash.TOTAL_TAXA / dados_dash.TOTAL_BRUTO) * 100;
 
         $("#table_vendas_operadora").append(html);
         document.getElementById("dropdownMenuButton").innerHTML =
@@ -232,12 +258,15 @@ function trocaPeriodo(cod_periodo, tipo, label_button) {
       }
     });
 
+    dados_vendas_operadora = dados_grafico;
+
     geraRodapeTabelaComTotais(
       "#table_vendas_operadora tfoot",
       totalQtd,
       totalBruto,
       totalTx,
-      totalLiq
+      totalLiq,
+      totalTxMedia
     );
     document.getElementById("dropdownMenuButton").innerHTML =
       label_button + " " + '<i class="mdi mdi-chevron-down"></i>';
@@ -283,6 +312,7 @@ function trocaPeriodo(cod_periodo, tipo, label_button) {
         totalTx += parseFloat(dados_dash.TOTAL_TAXA);
         totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
         totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
+        totalTxMedia += (dados_dash.TOTAL_TAXA / dados_dash.TOTAL_BRUTO) * 100;
 
         dados_grafico.push(dados_dash);
 
@@ -291,12 +321,15 @@ function trocaPeriodo(cod_periodo, tipo, label_button) {
       }
     });
 
+    dados_vendas_bandeira = dados_grafico;
+
     geraRodapeTabelaComTotais(
       "#table_vendas_bandeira tfoot",
       totalQtd,
       totalBruto,
       totalTx,
-      totalLiq
+      totalLiq,
+      totalTxMedia
     );
     document.getElementById("dropdownMenuButtonBandeira").innerHTML =
       label_button + " " + '<i class="mdi mdi-chevron-down"></i>';
@@ -339,6 +372,7 @@ function trocaPeriodo(cod_periodo, tipo, label_button) {
         totalTx += parseFloat(dados_dash.TOTAL_TAXA);
         totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
         totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
+        totalTxMedia += (dados_dash.TOTAL_TAXA / dados_dash.TOTAL_BRUTO) * 100;
 
         dados_grafico.push(dados_dash);
         document.getElementById("dropdownMenuButtonModalidade").innerHTML =
@@ -346,12 +380,15 @@ function trocaPeriodo(cod_periodo, tipo, label_button) {
       }
     });
 
+    dados_vendas_forma_pagamento = dados_grafico;
+
     geraRodapeTabelaComTotais(
       "#table_vendas_modalidade tfoot",
       totalQtd,
       totalBruto,
       totalTx,
-      totalLiq
+      totalLiq,
+      totalTxMedia
     );
     document.getElementById("dropdownMenuButtonModalidade").innerHTML =
       label_button + " " + '<i class="mdi mdi-chevron-down"></i>';
@@ -395,6 +432,7 @@ function trocaPeriodo(cod_periodo, tipo, label_button) {
         totalTx += parseFloat(dados_dash.TOTAL_TAXA);
         totalLiq += parseFloat(dados_dash.TOTAL_LIQUIDO);
         totalTicket += parseFloat(dados_dash.TICKET_MEDIO);
+        totalTxMedia += (dados_dash.TOTAL_TAXA / dados_dash.TOTAL_BRUTO) * 100;
 
         dados_grafico.push(dados_dash);
 
@@ -403,12 +441,15 @@ function trocaPeriodo(cod_periodo, tipo, label_button) {
       }
     });
 
+    dados_vendas_produto = dados_grafico;
+
     geraRodapeTabelaComTotais(
       "#table_vendas_produto tfoot",
       totalQtd,
       totalBruto,
       totalTx,
-      totalLiq
+      totalLiq,
+      totalTxMedia
     );
     document.getElementById("dropdownMenuButtonProduto").innerHTML =
       label_button + " " + '<i class="mdi mdi-chevron-down"></i>';

@@ -76,7 +76,8 @@
                       <th>Operadora</th>
                       <th>Qtd.</th>
                       <th>Bruto</th>
-                      <th>Taxa</th>
+                      <th>Taxa </th>
+                      <th>Taxa Média</th>
                       <th>Líquido</th>
                     </tr>
                   </thead>
@@ -115,10 +116,16 @@
                   </div>
                 </div>
                 <div class="col-6">
-                  <div class="dropdown div-bt-export">
-                    <a class="dropdown-toggle pull-right bt-vendas-band" onclick="gerarPdfVendasBandeira()" type="button" id="dropdownMenuButtonAgrupamento" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <img src="{{ url('/assets/images/export.png')}}" class="img-export">
-                    </a>
+                  <div class="exports-dashboard  div-bt-export">
+                    <li class="nav-item dropdown">
+                      <a class="dropdown-toggle pull-right bt-vendas-band" onclick="gerarPdfVendasOperadora()" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="{{ url('/assets/images/export.png')}}" class="img-export">
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" onclick="gerarPdfVendasBandeira()"> PDF </a>
+                        <a class="dropdown-item" onclick="exportXls()">XLS</a>
+                      </div>
+                    </li>
                   </div>
                 </div>
               </div>
@@ -130,7 +137,8 @@
                       <th>Bandeira</th>
                       <th>Qtd.</th>
                       <th>Bruto</th>
-                      <th>Taxa</th>
+                      <th>Taxa </th>
+                      <th>Taxa Média</th>
                       <th>Líquido</th>
                     </tr>
                   </thead>
@@ -186,7 +194,8 @@
                       <th>Forma de Pagamento</th>
                       <th>Qtd.</th>
                       <th>Bruto</th>
-                      <th>Taxa</th>
+                      <th>Taxa </th>
+                      <th>Taxa Média</th>
                       <th>Líquido</th>
                     </tr>
                   </thead>
@@ -240,7 +249,8 @@
                       <th>Produto</th>
                       <th>Qtd.</th>
                       <th>Bruto</th>
-                      <th>Taxa</th>
+                      <th>Taxa </th>
+                      <th>Taxa Média</th>
                       <th>Líquido</th>
                     </tr>
                   </thead>
@@ -441,6 +451,22 @@
           </div><!--end card-->
         </div><!--end col-->
       </div><!--end row-->
+
+      <div class="table-scroll xls">
+        <table id="table-export-xls" class="table">
+          <thead>
+            <tr>
+              <th>  </th>
+              <th> Quantidade  </th>
+              <th> Bruto </th>
+              <th> Taxa  </th>
+              <th> Liquido </th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
       @component('analytics.component.modal-credenciamento-success')
       @endcomponent
       @component('analytics.component.modal-credenciamento-error')
@@ -450,6 +476,10 @@
 
     @section('footerScript')
     <!-- <script src="{{ URL::asset('plugins/apexcharts/irregular-data-series.js')}}"></script> -->
+    <script src="{{ URL::asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ URL::asset('plugins/datatables/dataTables.bootstrap4.min.js')}}"></script>
+    <!-- Buttons examples -->
+    <script src="{{ URL::asset('plugins/datatables/dataTables.buttons.min.js')}}"></script>
     <script src="{{ URL::asset('plugins/apexcharts/ohlc.js')}}"></script>
     <!-- <script src="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.min.js') }}"></script> -->
     <script src="{{ URL::asset('assets/js/dashboard/export-pdf.js')}}"></script>
@@ -458,7 +488,7 @@
     <script src="{{ URL::asset('assets/js/dashboard/formata-valores.js')}}"></script>
     <script type="text/javascript" src="assets/js/grafico-dash-vendas.js"> </script>
     <script src="{{ URL::asset('assets/pages-material/jquery.ecommerce_dashboard.init.js')}}"></script>
-
+    <script src="{{ URL::asset('assets/js/dashboard/export-xls.js') }} " charset="utf-8"></script>
     <script src="{{ URL::asset('plugins/chartjs/chart.min.js')}}"></script>
     <!-- <script src="{{ URL::asset('plugins/chartjs/roundedBar.min.js')}}"></script> -->
     <!-- <script src="{{ URL::asset('plugins/jvectormap/jquery-jvectormap-2.0.2.min.js')}}"></script> -->
