@@ -16,8 +16,8 @@ function geraTabela(tipo, nome_tipo, qdt, bruto, taxa, liq) {
   </td>`;
   html += `<td> ${qdt} </td>`;
   html += `<td> ${formataMoeda(bruto)} </td>`;
-  html += `<td> ${formataMoeda(taxa)} </td>`;
   html += `<td> ${this.toFixed(taxaMedia,2)} % </td>`;
+  html += `<td> ${formataMoeda(taxa)} </td>`;
   html += `<td> ${formataMoeda(liq)} </td>`;
   html += `</tr>`;
 
@@ -31,8 +31,8 @@ function geraTabelaSemImagem(tipo, qdt, bruto, taxa, liq) {
   html += `<td style='color: #231F20'>  ${tipo}  </td>`;
   html += `<td style='color: #231F20'>  ${qdt}  </td>`;
   html += `<td style='color: #231F20'>  ${formataMoeda(bruto)}  </td>`;
-  html += `<td style='color: red'>  ${formataMoeda(taxa)} </td>`;
   html += `<td> ${this.toFixed(taxaMedia,2)} % </td>`;
+  html += `<td style='color: red'>  ${formataMoeda(taxa)} </td>`;
   html += `<td style='color: #231F20'>  ${formataMoeda(liq)}  </td>`;
   html += `</tr>`;
 
@@ -51,8 +51,8 @@ function geraRodapeTabelaComTotais(
   htmlSubTotal += `<td>  Total  </td>`;
   htmlSubTotal += `<td> ${totalQtd}  </td>`;
   htmlSubTotal += `<td> ${formataMoeda(totalBruto)}  </td>`;
-  htmlSubTotal += `<td> ${formataMoeda(totalTx)}  </td>`;
   htmlSubTotal += `<td> ${this.toFixed(totalTxMedia,2)} % </td>`;
+  htmlSubTotal += `<td> ${formataMoeda(totalTx)}  </td>`;
   htmlSubTotal += `<td> ${formataMoeda(totalLiq)} </td>`;
   htmlSubTotal += `</tr>`;
 
