@@ -117,15 +117,18 @@
                 </div>
                 <div class="col-6">
                   <div class="exports-dashboard  div-bt-export">
-                    <li class="nav-item dropdown">
+                    <a class="dropdown-toggle pull-right bt-vendas-band" onclick="gerarPdfVendasBandeira()" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <img src="{{ url('/assets/images/export.png')}}" class="img-export">
+                    </a>
+                    <!-- <li class="nav-item dropdown">
                       <a class="dropdown-toggle pull-right bt-vendas-band" onclick="gerarPdfVendasOperadora()" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img src="{{ url('/assets/images/export.png')}}" class="img-export">
                       </a>
                       <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" onclick="gerarPdfVendasBandeira()"> PDF </a>
-                        <!-- <a class="dropdown-item" onclick="exportXls()">XLS</a> -->
+                        <a class="dropdown-item" onclick="exportXls()">XLS</a>
                       </div>
-                    </li>
+                    </li> -->
                   </div>
                 </div>
               </div>
