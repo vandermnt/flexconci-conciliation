@@ -176,13 +176,13 @@ class ConciliacaoController extends Controller{
     }
   }
 
-  public function atualizarConciliacoesProcessadas(){
-    $conciliacoes = ConciliacaoBancariaModel::where('COD_CLIENTE', '=', session('codigologin'))
-    ->where('COD_STATUS_BANCARIO', '=', 1)
-    ->get();
-
-    return $conciliacoes;
-  }
+  // public function atualizarConciliacoesProcessadas(){
+  //   $conciliacoes = ConciliacaoBancariaModel::where('COD_CLIENTE', '=', session('codigologin'))
+  //   ->where('COD_STATUS_BANCARIO', '=', 1)
+  //   ->get();
+  //
+  //   return $conciliacoes;
+  // }
 
   public function buscaPagamentosOperadoras() {
     $pagamentos_operadoras = DB::table('pagamentos_operadoras')
@@ -222,7 +222,7 @@ class ConciliacaoController extends Controller{
 
         $movimentacoes = $this->checkExtratoBancario($listaMemo);
 
-        $this->checkPagamentosOperadoras($movimentacoes, $pagamento->COD_ADQUIRENTE);
+        $this->checkPagamentosOperadoras($movimentacoes, $pagamento->COD_ADQUIRENTE, $listaMemo);
 
         return true;
       }
@@ -238,7 +238,7 @@ class ConciliacaoController extends Controller{
     ->where('CODIGO_CLIENTE', session('codigologin'))
     ->where(function($query) use($listMemos) {
       for ($i = 0; $i < count($listMemos); $i++){
-        $query->orWhere('MEMO', 'LIKE', "%{$listMemos[$i]}%");
+        $query->orWhere('MEMO', 'LIKE', '%'.$listMemos[$i].'%');
       }
     })
     ->where('EMAIL_RESPONSAVEL', session('emailuserlogado'))
@@ -260,7 +260,7 @@ class ConciliacaoController extends Controller{
     return;
   }
 
-  public function checkPagamentosOperadoras($movimentacoes, $codAdquirente) {
+  public function checkPagamentosOperadoras($movimentacoes, $codAdquirente, $listaMemo) {
 
     if ($movimentacoes && $codAdquirente) {
 
@@ -270,18 +270,23 @@ class ConciliacaoController extends Controller{
         $sumPagamentosOperadoras = (float)number_format(floor(($sumPagamentos*100))/100, 2, '.', '');
         $sumExtratoBancario = (float)number_format(floor(($movimentacao->SUM_VALOR_LIQUIDO*100))/100, 2, '.', '');
 
-        if ((string)($sumPagamentosOperadoras + 0.01) == (string)$sumExtratoBancario || (string)$sumPagamentosOperadoras == (string)($sumExtratoBancario + 0.01)) {
-          $this->updateMovimentacoesExtrato($movimentacao->DTPOSTED, $movimentacao->CODIGO_BANCO, $movimentacao->NUMERO_CONTA, 1);
+        if ((string)($sumPagamentosOperadoras + 0.01) == (string)$sumExtratoBancario ||
+            (string)$sumPagamentosOperadoras == (string)($sumExtratoBancario + 0.01) ||
+            (string)($sumPagamentosOperadoras + 0.02) == (string)$sumExtratoBancario ||
+            (string)$sumPagamentosOperadoras == (string)($sumExtratoBancario + 0.02) ||
+            (string)($sumPagamentosOperadoras + 0.03) == (string)$sumExtratoBancario ||
+            (string)$sumPagamentosOperadoras == (string)($sumExtratoBancario + 0.03)) {
+              $this->updateMovimentacoesExtrato($movimentacao->DTPOSTED, $movimentacao->CODIGO_BANCO, $movimentacao->NUMERO_CONTA, 1, $listaMemo);
         } elseif ((string)$sumPagamentosOperadoras == (string)$sumExtratoBancario) {
-          $this->updateMovimentacoesExtrato($movimentacao->DTPOSTED, $movimentacao->CODIGO_BANCO, $movimentacao->NUMERO_CONTA, 3);
+          $this->updateMovimentacoesExtrato($movimentacao->DTPOSTED, $movimentacao->CODIGO_BANCO, $movimentacao->NUMERO_CONTA, 3, $listaMemo);
         }
       }
     }
   }
 
-  public function updateMovimentacoesExtrato($dtposted, $codigoBanco, $numeroConta, $statusConciliacao) {
+  public function updateMovimentacoesExtrato($dtposted, $codigoBanco, $numeroConta, $statusConciliacao, $listaMemo) {
     if ($dtposted) {
-      $movimetacoesPorData = $this->getMovimentacoesPorData($dtposted);
+      $movimetacoesPorData = $this->getMovimentacoesPorData($dtposted, $listaMemo);
 
       $dataChave = date('Y-m-d');
       $horaChave = date('h:i:s');
@@ -316,9 +321,14 @@ class ConciliacaoController extends Controller{
     }
   }
 
-  public function getMovimentacoesPorData($dtposted) {
+  public function getMovimentacoesPorData($dtposted, $listaMemo) {
     $movimentacoes =  DadosArquivoConciliacaoBancariaModel::where('CODIGO_CLIENTE', session('codigologin'))
     ->where('DTPOSTED', $dtposted)
+    ->where(function($query) use($listaMemo) {
+      for ($i = 0; $i < count($listaMemo); $i++){
+        $query->orWhere('MEMO', 'LIKE', '%'.$listaMemo[$i].'%');
+      }
+    })
     ->where('EMAIL_RESPONSAVEL', session('emailuserlogado'))
     ->whereNull('COD_STATUS_CONCILIACAO')
     ->whereNull('CONSIDERA_CONCILIACAO')
