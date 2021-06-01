@@ -76,8 +76,8 @@
                       <th>Operadora</th>
                       <th>Qtd.</th>
                       <th>Bruto</th>
-                      <th>Taxa </th>
                       <th>Taxa Média</th>
+                      <th>Taxa R$</th>
                       <th>Líquido</th>
                     </tr>
                   </thead>
@@ -123,7 +123,7 @@
                       </a>
                       <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" onclick="gerarPdfVendasBandeira()"> PDF </a>
-                        <a class="dropdown-item" onclick="exportXls()">XLS</a>
+                        <!-- <a class="dropdown-item" onclick="exportXls()">XLS</a> -->
                       </div>
                     </li>
                   </div>
@@ -137,8 +137,8 @@
                       <th>Bandeira</th>
                       <th>Qtd.</th>
                       <th>Bruto</th>
-                      <th>Taxa </th>
                       <th>Taxa Média</th>
+                      <th>Taxa R$</th>
                       <th>Líquido</th>
                     </tr>
                   </thead>
@@ -194,8 +194,8 @@
                       <th>Forma de Pagamento</th>
                       <th>Qtd.</th>
                       <th>Bruto</th>
-                      <th>Taxa </th>
                       <th>Taxa Média</th>
+                      <th>Taxa R$</th>
                       <th>Líquido</th>
                     </tr>
                   </thead>
@@ -249,8 +249,8 @@
                       <th>Produto</th>
                       <th>Qtd.</th>
                       <th>Bruto</th>
-                      <th>Taxa </th>
                       <th>Taxa Média</th>
+                      <th>Taxa R$</th>
                       <th>Líquido</th>
                     </tr>
                   </thead>
@@ -452,7 +452,7 @@
         </div><!--end col-->
       </div><!--end row-->
 
-      <div class="table-scroll xls">
+      <div class="table-scroll xls" style="display:none">
         <table id="table-export-xls" class="table">
           <thead>
             <tr>

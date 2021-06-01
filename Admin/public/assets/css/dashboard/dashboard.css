@@ -64,11 +64,11 @@
   font-weight: bold;
 }
 
-#table_vendas_operadora tfoot .subtotal-dash td:nth-child(4) {
+#table_vendas_operadora tfoot .subtotal-dash td:nth-child(5) {
   color: red;
 }
 
-#table_vendas_operadora tbody td:nth-child(4) {
+#table_vendas_operadora tbody td:nth-child(5) {
   color: red;
 }
 
@@ -80,7 +80,7 @@
   color: #231F20;
 }
 
-#table_vendas_bandeira tbody td:nth-child(4) {
+#table_vendas_bandeira tbody td:nth-child(5) {
   color: red;
 }
 
@@ -89,7 +89,7 @@
   font-weight: bold;
 }
 
-#table_vendas_bandeira tfoot .subtotal-dash td:nth-child(4) {
+#table_vendas_bandeira tfoot .subtotal-dash td:nth-child(5) {
   color: red;
 }
 
@@ -98,7 +98,7 @@
   font-weight: bold;
 }
 
-#table_vendas_produto tfoot .subtotal-dash td:nth-child(4) {
+#table_vendas_produto tfoot .subtotal-dash td:nth-child(5) {
   color: red;
 }
 
@@ -107,7 +107,7 @@
   font-weight: bold;
 }
 
-#table_vendas_modalidade tfoot .subtotal-dash td:nth-child(4) {
+#table_vendas_modalidade tfoot .subtotal-dash td:nth-child(5) {
   color: red;
 }
 
